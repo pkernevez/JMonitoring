@@ -151,23 +151,23 @@
 
         <echo>Publish ${release.file}</echo>
         <!-- Copy du dernier fichier de release-->
-        <ftp server="ftpperso.free.fr" 
+        <!--ftp server="ftpperso.free.fr" 
             userid="jmonitoring" 
             password="${ftp.free.password}" verbose="yes" 
             remotedir="release"
             skipFailedTransfers="true">
             <fileset file="${release.file}"/>
-        </ftp>
+        </ftp-->
 
         <echo>Publish Site ${maven.build.dir}/docs</echo>
         <!-- Copy du dernier fichier de release -->
-        <ftp server="ftpperso.free.fr" 
+        <!--ftp server="ftpperso.free.fr" 
             userid="jmonitoring" 
             password="${ftp.free.password}" 
             verbose="yes" 
             skipFailedTransfers="true">
             <fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
-        </ftp>
+        </ftp-->
 
     </goal>
     
