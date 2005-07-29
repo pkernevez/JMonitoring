@@ -1,0 +1,3 @@
+src.includes = src-java/,\
+               src-aspectj/,\
+               src-unit-test/

@@ -1,0 +1,2 @@
+src.includes = src-java/,\
+               src-unit-test/

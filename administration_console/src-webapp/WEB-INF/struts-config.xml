@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+                               "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<!-- FORM -->
+	<form-beans>
+  		<!-- Logon form bean -->
+  		<form-bean name="flowsearchform" type="net.kernevez.javamonitoring.console.flow.FlowSearchForm"/>
+  		<form-bean name="floweditform" type="net.kernevez.javamonitoring.console.flow.FlowEditForm"/>
+  		<form-bean name="measurepointform" type="net.kernevez.javamonitoring.console.measurepoint.MeasurePointForm"/>
+  		<form-bean name="measurepointstatform" type="net.kernevez.javamonitoring.console.measurepoint.MeasurePointStatForm"/>
+  		<form-bean name="measurepointlistform" type="net.kernevez.javamonitoring.console.measurepoint.list.MeasurePointListForm"/>
+  		
+			<!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
+    	  	<form-property name="threadName" type="java.lang.String" />
+      		<form-property name="country" type="java.lang.String" />
+    	</form-bean-->
+  	</form-beans>
+
+	<global-exceptions>
+    	<exception key="tt" type="java.lang.Throwable" path="/Error.do"/>
+	</global-exceptions>
+	
+    <!-- Mappages d'action -->
+    <!-- @todo Gère les erreurs -->
+	<global-forwards>
+		<forward name="failure" path="/Error.do"></forward>
+		<forward name="exception" path="/Error.do"></forward>
+		<forward name="error" path="/Error.do"></forward>
+	</global-forwards>
+	
+    <action-mappings>
+	    <action path="/Error" parameter="errorpage" type="org.apache.struts.actions.ForwardAction" />
+
+	    <action path="/Index" parameter="homepage" type="org.apache.struts.actions.ForwardAction"/>
+	    
+	    <action path="/DeleteAllFlowsSuccess" parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/>
+
+	    <action path="/DeleteAllFlowsConfirm" parameter="deleteflowconfirm" type="org.apache.struts.actions.ForwardAction"/>
+
+		 <action path="/DeleteAllFlows" type="net.kernevez.javamonitoring.console.flow.FlowDeleteAction"
+                validate="false">
+                <forward name="success" path="/DeleteAllFlowsSuccess.do"/>
+		 </action>	   
+
+	    <action path="/DeleteFlowSuccess" name="floweditform" 
+	    	parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/>
+ 
+		 <action path="/DeleteFlow" type="net.kernevez.javamonitoring.console.flow.FlowDeleteAction"
+                name="floweditform" scope="request">
+                <forward name="success" path="/DeleteFlowSuccess.do"/>
+		 </action>	    
+
+	    <action path="/FlowSearch" parameter="flowsearch" type="org.apache.struts.actions.ForwardAction" 
+	    	name="flowsearchform" scope="request"/>
+
+		 <action path="/FlowSearchSubmit" type="net.kernevez.javamonitoring.console.flow.FlowSearchAction"
+                name="flowsearchform" scope="request" validate="false">
+                <forward name="success" path="/FlowSearch.do"/>
+		 </action>	    
+
+	    <action path="/FlowEditInternal" parameter="floweditinternal" type="org.apache.struts.actions.ForwardAction" 
+	    	name="floweditform" scope="request"/>
+
+	    <action path="/FlowEditRequiredInfo" parameter="floweditrequiredinfo" type="org.apache.struts.actions.ForwardAction" 
+	    	name="floweditform" scope="request"/>
+
+	    <action path="/FlowEdit" type="net.kernevez.javamonitoring.console.flow.FlowEditAction" 
+	    	name="floweditform" scope="request" validate="false">
+                <forward name="success" path="/FlowEditInternal.do"/>
+                <forward name="required_info" path="/FlowEditRequiredInfo.do"/>
+		</action>	  
+
+	    <action path="/MeasurePointEdit" parameter="measurepointedit" type="org.apache.struts.actions.ForwardAction" 
+	    	name="measurepointform" scope="request"/>
+
+	    <action path="/MeasurePointStatInternal" parameter="measurepointstat" type="org.apache.struts.actions.ForwardAction" 
+	    	name="measurepointstatform" scope="request"/>
+
+	    <action path="/MeasurePointStat" type="net.kernevez.javamonitoring.console.measurepoint.MeasureStatAction" 
+	    	name="measurepointstatform" scope="request">
+                <forward name="success" path="/MeasurePointStatInternal.do"/>
+		</action>
+		
+	    <action path="/MeasurePointListInternal" parameter="measurepointlist" type="org.apache.struts.actions.ForwardAction" 
+	    	name="measurepointlistform" scope="request"/>
+
+	    <action path="/MeasurePointList" type="net.kernevez.javamonitoring.console.measurepoint.list.MeasurePointListAction" 
+	    	name="measurepointlistform" scope="request">
+                <forward name="success" path="/MeasurePointListInternal.do"/>
+		</action>
+		
+	    <action path="/MeasureSearch" parameter="measuresearch" type="org.apache.struts.actions.ForwardAction" />
+
+
+<!-- Temp 	   
+	    <action path="/FlowEditMenuInternal" parameter="floweditmenuinternal" type="org.apache.struts.actions.ForwardAction" 
+	    	name="floweditform" scope="request"/>
+
+
+	    <action path="/FlowEditMenu" type="net.kernevez.javamonitoring.console.flow.FlowEditAction" 
+	    	name="floweditform" scope="request" validate="false">
+                <forward name="success" path="/FlowEditMenuInternal.do"/>
+                <forward name="failure" path="/Error.do"/>
+		</action>	  
+	   
+Temp -->	   
+
+    </action-mappings>
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+
+	<plug-in className="net.sf.navigator.menu.MenuPlugIn">
+  		<set-property property="menuConfig" value="/WEB-INF/menu-config.xml"/>
+	</plug-in>
+</struts-config>

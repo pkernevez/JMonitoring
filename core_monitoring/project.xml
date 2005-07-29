@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+  ************************************************************************
+  Projet Test OCTO Technology
+  
+  ************************************************************************
+-->
+     
+<project>
+    <extend>${basedir}/../MainProject/maven/project.xml</extend>
+  
+    <!-- identifiant du projet -->
+    <id>core_monitoring</id>
+  
+    <!-- libellé du projet -->
+    <name>Core framework.</name>
+    
+    <description>
+         This project provides Monitring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.
+    </description>
+  
+     <build>
+        <aspectSourceDirectory>src-aspectj</aspectSourceDirectory>
+    </build>
+
+    <!-- dépendances -->
+    <dependencies>
+    
+        <dependency>
+          <id>junit</id>
+          <version>${depends.junit.version}</version>
+          <url>http://www.junit.org/</url>
+        </dependency>
+
+        <dependency>
+          <id>concurrent</id>
+          <version>${depends.concurrent.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <id>jmock</id>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+        <dependency>
+          <groupId>jmock</groupId>
+          <artifactId>jmock-cglib</artifactId>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+        <dependency>
+          <groupId>cglib</groupId>
+          <artifactId>cglib-nodep</artifactId>
+          <version>${depends.cglib.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+        
+
+        <dependency>
+          <id>log4j</id>
+          <version>${depends.log4j.version}</version>
+          <url>http://www.log4j.org/</url>
+        </dependency>
+        
+        <dependency>
+          <id>commons-logging</id>
+          <version>${depends.commonslogging.version}</version>
+          <url>http://www.apache.org/</url>
+        </dependency>
+
+
+        <dependency>
+          <groupId>aspectj</groupId>
+          <artifactId>aspectjrt</artifactId>
+          <version>${depends.aspectj.version}</version>
+          <url>http://eclipse.org/aspectj/</url>
+        </dependency>
+
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>${depends.mysql.version}</version>
+          <url>http://www.mysql.com/</url>
+        </dependency>
+
+    </dependencies>
+    
+</project>
+

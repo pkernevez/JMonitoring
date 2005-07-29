@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+  ************************************************************************
+  MonitoringProject
+     
+  ************************************************************************
+-->
+
+<project>
+    <extend>${basedir}/common/project.xml</extend>
+    
+    <!-- identifiant du projet -->
+    <id>jmonitoring</id> 
+  
+    <!-- libellé du projet -->
+    <name>Main component of JavaMonitoring project.</name>
+    <siteAddress>jakarta.apache.org</siteAddress>
+    <!--distributionDirectory>/www/maven.apache.org/builds/</distributionDirectory-->
+    <siteDirectory/>
+    <description>
+        This project provides Monitring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.
+    </description>
+    
+    <versions>
+        <version>
+            <id>0.5dev</id>
+            <name>0.5dev</name>
+        </version>
+        <version>
+            <id>0.4</id>
+            <name>0.4</name>
+            <tag>V0.4_Release</tag>
+        </version>
+        <version>
+            <id>0.3</id>
+            <name>0.3</name>
+            <tag>V0.3_Release</tag>
+        </version>
+        <version>
+            <id>0.2</id>
+            <name>0.2</name>
+        </version>
+    </versions>
+    
+    <dependencies>
+        <dependency>
+            <groupId>net-components</groupId>
+            <artifactId>NetComponents</artifactId>
+            <version>${depends.netcomponents.version}</version>
+            <properties>
+                <classloader>root</classloader>
+            </properties>  
+        </dependency>    
+    </dependencies>
+    
+    <reports>  
+        <report>maven-dashboard-plugin</report>
+        <!--report>maven-linkcheck-plugin</report-->
+        <report>maven-multiproject-plugin</report>
+    	<report>maven-dashboard-plugin</report>
+        <report>maven-dashboard-history-plugin</report>
+        <report>maven-changes-plugin</report>
+        <report>maven-license-plugin</report>
+    </reports>
+
+</project>
+
+
+

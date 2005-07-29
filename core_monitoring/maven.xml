@@ -1,0 +1,13 @@
+<project 
+        xmlns:j="jelly:core"
+        xmlns:maven="jelly:maven"
+        xmlns:util="jelly:util"
+        xmlns:ant="jelly:ant"
+        xmlns:x="jelly:xml">
+ 
+   	   <preGoal name="jar:jar">
+   	         <attainGoal name="aspectj"/>
+       </preGoal>
+
+ </project>
+        

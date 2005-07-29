@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><templates><template context="setterbody_context" deleted="false" description="Code in created setters" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.setterbody" name="setterbody">${field} = ${param};</template></templates>

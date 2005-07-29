@@ -1,0 +1,21 @@
+<project 
+        xmlns:j="jelly:core"
+        xmlns:maven="jelly:maven"
+        xmlns:util="jelly:util"
+        xmlns:ant="jelly:ant"
+        xmlns:x="jelly:xml"
+        xmlns:define="jelly:define"
+        xmlns:monitoringAspectj="monitoringAspectj">
+        
+   	  <!--postGoal name="clover:html-report">
+            <attainGoal name="clover:xml-report"/>
+        </postGoal-->
+       	
+       	<!--goal name="octo_cvs">
+	        <attainGoal name="scm:cvs-update-project"/>
+	</goal-->  
+     
+     
+     
+</project>
+        

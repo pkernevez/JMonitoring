@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.1//EN" "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
+
+<!--
+  Checkstyle configuration that checks the RCDB V2 coding conventions
+-->
+
+<module name="Checker">  
+
+   
+    <!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
+    <!-- R-DR-001 -->
+    <module name="PackageHtml"/>
+
+    <module name="TreeWalker">
+
+
+
+        <!-- Checks for Size Violations.                    -->
+        <!-- See http://checkstyle.sf.net/config_sizes.html -->
+        <!-- R-FR-001  -->
+        <module name="FileLength">
+            <property name="max" value="2000"/>
+        </module>
+        <!-- R-FR-002 -->
+        <module name="LineLength">
+            <property name="max" value="120"/>
+        </module> 
+        <!-- R-FR-003 -->
+        <module name="MethodLength">
+            <property name="max" value="150"/>
+        </module>
+
+        <module name="Header">
+            <property name="headerFile" value="${maven.checkstyle.header.file}"/>
+            <property name="ignoreLines" value="1"/>
+        </module>
+
+
+        <!-- Checks for whitespace                               -->
+        <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+        <!-- R-FR-005 -->
+        <module name="NoWhitespaceAfter">
+          <property name="tokens" value="ARRAY_INIT, BNOT, DEC, DOT, INC, LNOT"/>
+        </module>
+        <!-- R-FR-006  -->
+        <module name="NoWhitespaceBefore"/>
+        <!-- R-FR-007 -->
+        <module name="OperatorWrap"/>
+        <!-- R-FR-008 -->
+        <module name="ParenPad"/>
+        <!-- R-FR-009  -->
+        <module name="TabCharacter"/>
+        <!-- R-FR-0010 -->
+        <module name="WhitespaceAfter"/>
+        <!-- R-FR-011 -->
+        <module name="WhitespaceAround"/>
+
+        <!-- Checks for blocks. You know, those {}'s         -->
+        <!-- See http://checkstyle.sf.net/config_blocks.html -->
+        <!-- R-FR-012 -->
+        <module name="LeftCurly">
+          <property name="option" value="nl"/>
+        </module>
+        <!-- R-FR-012 -->
+        <module name="NeedBraces"/>
+        <!-- R-FR-013 & R-BP-009 -->
+        <module name="AvoidNestedBlocks"/>
+        <!-- O-FR-014 -->
+        <module name="RightCurly">
+          <property name="option" value="same"/>
+        </module>
+        
+        <!-- Rule R-FR-16, O-FR-17 & O-FR-18, can't be checked with CheckStyle -->    
+            
+        <!-- R-FR-019 -->
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+        </module>
+        
+
+       <!-- *******************
+            *** NAMING RULE ***
+            ******************* -->
+        <!-- See http://checkstyle.sf.net/config_naming.html -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+        <!-- R-NR-001 -->
+        <module name="ConstantName"/>
+        <!-- R-NR-002 -->
+        <module name="LocalFinalVariableName"/>
+        <!-- R-NR-003 -->
+        <module name="LocalVariableName"/>
+        <!-- R-NR-004 -->
+        <module name="MemberName"/>
+        <!-- R-NR-005 -->
+        <module name="MethodName"/>
+        <!-- R-NR-006 & R-BP-037 -->
+        <module name="PackageName">
+            <!--property name="format" value="^com\.octo\.[a-z]+(\.[a-z][a-z0-9]*)*$"/-->
+        </module> 
+        <!-- R-NR-007 -->
+        <module name="ParameterName">
+          <property name="format" value="^p[A-Z][a-zA-Z0-9]*$"/>
+        </module>
+        <!-- R-NR-008 -->
+        <module name="StaticVariableName"/>
+        <!-- R-NR-009 -->
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+            <property name="tokens" value="CLASS_DEF"/>
+        </module>
+        <!-- R-NR-010 -->
+        <module name="TypeName">
+            <property name="format" value="^I[a-zA-Z0-9]*$"/>
+            <property name="tokens" value="INTERFACE_DEF"/>
+        </module>
+        <!-- R-NR-011 -->
+        <module name="HiddenField"/>
+         
+
+       <!-- **************************
+            *** CODE DOCUMENTATION ***
+            ************************** -->
+        <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+        
+        <!-- R-DR-002 Can't be checked by checkstyle -->
+
+        <!-- R-DR-003 -->
+        <module name="JavadocMethod">
+            <property name="scope" value="package"/>
+        </module>
+        <!-- R-DR-004 -->
+        <module name="JavadocType">
+            <property name="scope" value="package"/>
+        </module>
+        <!-- R-DR-005 -->
+        <module name="JavadocVariable">
+            <property name="scope" value="package"/>
+        </module>
+
+        
+       <!-- ****************************
+            *** EXCEPTION MANAGEMENT ***
+            **************************** -->
+        <!-- R-ER-001 -->
+        <module name="RedundantThrows"/>
+        
+        <!-- R-ER-002 Can't be checked by checkstyle -->
+
+        <!-- R-ER-003 -->
+        <module name="GenericIllegalRegexp">
+            <!-- . matches any character, so we need to
+                 escape it and use \. to match dots. -->
+            <property name="format" value="System\.out\.println"/>
+            <property name="message" value="Don't log directly to Sytem.out."/>
+        </module>
+        
+        
+       <!-- ****************************
+            *** BEST PRACTICE        ***
+            **************************** -->
+        <!-- See http://checkstyle.sf.net/config_import.html -->
+        <!-- R-BP-001 -->
+        <module name="AvoidStarImport"/>
+        <!-- R-BP-002 -->
+        <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+        <!-- R-BP-003, R-BP-004 & R-BP-005 -->
+        <module name="RedundantImport"/>
+        <!-- R-BP-006 -->
+        <module name="UnusedImports"/>
+        
+        <!-- See http://checkstyle.sf.net/config_modifiers.html -->
+        <!-- R-BP-007 -->
+        <module name="ModifierOrder"/>
+        <!-- R-BP-008 -->
+        <module name="RedundantModifier"/>
+        
+        <!-- R-BP-009 is checked with R-FR-013  -->
+        
+        <!-- R-BP-010 -->
+        <module name="EmptyBlock"/>
+        
+        <!-- R-BP-011 Can't be checked by checkstyle -->
+
+        <!-- R-BP-012 -->
+        <module name="SuperClone" />
+           
+        <!-- R-BP-013 Can't be checked by checkstyle -->
+
+        <!-- R-BP-014 -->
+        <module name="DoubleCheckedLocking"/>
+        <!-- R-BP-015 -->
+        <module name="EmptyStatement"/>
+        <!-- R-BP-016 -->
+        <module name="EqualsHashCode"/>
+        <!-- R-BP-017 -->
+        <module name="MagicNumber"/>
+        <!-- R-BP-018 -->
+        <module name="MissingSwitchDefault"/>
+        <!-- R-BP-019 -->
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="ReturnCount">
+            <property name="max" value="2"/>
+        </module>
+        
+        <!-- R-BP-020 -->
+        <module name="FinalClass"/>
+        <!-- R-BP-021 -->
+        <module name="InterfaceIsType"/>
+        <!-- R-BP-022 -->
+        <module name="HideUtilityClassConstructor"/>
+        <!-- O-R-BP-023, R-BP-024 & R-BP-025 Can't be checked by checkstyle -->
+         
+        <!-- R-BP-026 -->
+        <module name="ParameterAssignment"/>
+        <!-- O-R-BP-027 Can't be checked by checkstyle -->
+           
+        <!-- O-BP-028  -->
+        <module name="VisibilityModifier"/>
+        
+        <!-- R-BP-029, O-BP-030 a O-BP-031 Can't be checked by checkstyle -->
+        <!-- R-BP-032 -->
+        <module name="InnerAssignment"/>
+        <!-- O-BP-033 Can't be checked by checkstyle -->
+        <!-- R-BP-035 Can't be checked by checkstyle -->
+        <!-- Rule R-BP-036 must be definded by projects -->
+        <!-- R-BP-037 voir R-NR-006 -->
+        <!-- R-BP-038 -->
+        <module name="StringLiteralEquality"/>
+        <!-- R-BP-039 -->
+        <module name="ArrayTypeStyle"/>
+
+    </module>
+
+</module>

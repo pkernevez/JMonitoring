@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+    <properties>
+        <title>Quick Start</title>
+        <author email="pke@octo.com">Philippe Kernevez</author>
+    </properties>
+
+    <body>
+        
+        <section name="Features">
+            <p>
+                <ul>
+                    <li>Provide a simple way for tracing executions and calls of methods into a database (based on AspectJ).</li>
+                    <li>Provide a monitoring console for analyzing the measures. <a href="screenshot.html">ScreenShots</a></li>
+                </ul>
+            </p>
+        </section>
+        
+        <section name="Installation">
+            <p>
+                <ol>
+                    <li>MySql database: <a href="http://dev.mysql.com/downloads/mysql/4.1.html">Install mySql v4.1+</a> , 
+                        <a href="http://dev.mysql.com/downloads/query-browser/1.1.html">MySqlBrowser</a></li>
+                    <li>MySql Driver<a href="http://dev.mysql.com/downloads/connector/j/3.1.html">JdbcDriver</a></li>
+                    <li>Servlet Container: any Servlet container for the monitoring console. <a href="http://jakarta.apache.org/tomcat/">Tomcat</a></li>
+                </ol>
+            </p>
+        </section>
+        <section name="Configuration">
+            <p>
+                <ul>
+                    <li>Database schema creation</li>
+                    You can execute the script with MySql query browser or use the <code>mysql</code> command.
+                    The schema will be called <code>$SCHEMA</code>. You can execute <code>mysql -u $USER -p $SCHEMA</code>, where $USER
+                    is the MySql user, it will be automatically created.
+                    <li>DataBase creation</li>
+                    Execute the script <code>createMySqlDB.sql</code> provided in the distribution file. 
+                    Execute the commands: 
+                    <ol>
+                        <li><code>mysql -u $USER -p $SCHEMA</code></li>
+                        <li><code>source createMySqlDB.sql</code></li>
+                    </ol>
+                    <li>JavaMonitoring</li>
+                    You have to configure the file <code>jmonitoring.properties</code>.
+                    At least, you have to change these properties:
+                    <source>
+                    <ol>
+                        <li>jdbc.url=jdbc:mysql://localhost:3306/$SCHEMA</li>
+                        <li>jdbc.user=$USER</li>
+                        <li>jdbc.password=$PASSWORD</li>
+                    </ol>
+                    </source>
+                    One of this file is located in the <code>administration_console.war</code> file provided in the distribution. 
+                    A properties file has to be in the class path of the monitored application. <BR/>
+                    
+                    You may change the <code>sample_webapp.war</code> config file if you want to use it.
+                </ul>
+            </p>
+        </section>
+        <section name="Development">
+            <p>
+                <ul>
+                    <li>You have to implement Aspects for defining point cut (based on aspectJ).</li>
+                    The only thing to do is to extend the abstract aspect <code>PerformanceAspect.aj</code>.
+                    This is an example for tracing all the call to a Connection or Statement in you code.
+                    <source>
+package net.kernevez.sample;
+
+import net.kernevez.performance.aspects.PerformanceAspect;
+
+public aspect SampleSqlPerfomance extends PerformanceAspect
+{
+    public pointcut executionToLog() : ( call( * java.sql.Connection+.*(..) )
+                    || call( * java.sql.Statement+.*(..) ) );
+
+    public SampleSqlPerfomance()
+    {
+        mGroupName = "SQL";
+        mLogParameter = true;
+    }
+}
+                    </source>
+                    The parameter <code>mGroupName</code> aggregates statistics of different aspects.
+                    The parameter <code>mLogParameter</code> defines if the parameters and the results of the methods have to be stored into database.
+                    For more information see the AspectJ documentation.
+                </ul>
+                The code instrumentation is done at compile time. You have different solutions for doing it:
+                <ul>
+                    <li>Use the maven AspectJ <a href="http://maven.apache.org/reference/plugins/aspectj/">plugin</a>.</li>
+                    <li>Use the AspectJ <a href="http://eclipse.org/aspectj/doc/released/progguide/examples-howto.html">command tool</a>.</li>
+                    <li>Use the AspectJ ANT <a href="http://eclipse.org/aspectj/doc/released/devguide/antTasks.html">Task</a>.</li>
+                    <li>Use the Eclipse AspectJ <a href="http://www.eclipse.org/ajdt/">plugin</a>.</li>
+                </ul>
+            </p>
+        </section>
+        <section name="Documentation">
+            <p>
+                <ul>
+                    <li><a href="http://dev.mysql.com/doc/">MySql</a></li>
+                    <li>AspectJ <a href="http://eclipse.org/aspectj/doc/released/progguide/index.html">Programming guide</a>  
+                        <a href="http://eclipse.org/aspectj/doc/released/quick.pdf">QuickRef</a></li>
+                </ul>
+            </p>
+        </section>
+    </body>
+</document>

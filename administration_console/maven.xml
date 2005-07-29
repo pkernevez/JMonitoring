@@ -1,0 +1,14 @@
+<project 
+        xmlns:j="jelly:core"
+        xmlns:maven="jelly:maven"
+        xmlns:util="jelly:util"
+        xmlns:ant="jelly:ant"
+        xmlns:x="jelly:xml">
+
+    <!-- target perso pour redéployer -->
+    <goal name="copy">
+        <copy file="target/administration_console.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
+	</goal>  
+     
+</project>
+        

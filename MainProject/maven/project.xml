@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+  ************************************************************************
+  MonitoringProject
+  
+  ************************************************************************
+-->
+
+<project>
+    
+    <extend>${basedir}/../common/project.xml</extend>
+  
+    <!-- fichiers à include dans le build --> 
+    <build>
+        <sourceDirectory>${basedir}/src-java</sourceDirectory>
+        <unitTestSourceDirectory>${basedir}/src-unit-test</unitTestSourceDirectory>
+        <unitTest>
+           <includes>
+                <include>**/Test*.java</include>
+                <include>**/FTest*.java</include>
+                <include>**/*Test.java</include>
+                <include>**/*.properties</include>
+            </includes>
+            <resources>
+                <resource>
+                    <directory>${basedir}/src-unit-test</directory>
+                    <includes>
+                        <include>**/*.xml</include>
+                        <include>**/*.properties</include>
+                        <include>**/*.java</include>
+                    </includes>
+                </resource>            
+            </resources>
+        </unitTest>
+
+        <resources>
+            <resource>
+                <directory>${basedir}/src-java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.java</include>
+                </includes>
+            </resource>
+        </resources>
+    
+    </build>
+  
+    <!-- rapports à inclure par défaut -->
+    <reports>
+        <report>maven-changes-plugin</report>
+        <report>maven-changelog-plugin</report>
+        <report>maven-file-activity-plugin</report>
+        <report>maven-developer-activity-plugin</report>
+        <report>maven-checkstyle-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-jdepend-plugin</report>
+        <report>maven-junit-report-plugin</report>
+        <report>maven-jxr-plugin</report>
+        <report>maven-license-plugin</report>
+        <report>maven-tasklist-plugin</report>
+        <!--report>maven-jcoverage-plugin</report-->
+        <report>maven-clover-plugin</report>
+        <report>maven-simian-plugin</report>
+        <report>maven-findbugs-plugin</report>
+        <!--report>maven-linkcheck-plugin</report-->
+  </reports>    
+   
+  
+    <repository>
+    <!--connection>scm:svn://cvsmaison/javamonitoring/${pom.artifactId}</connection-->
+    <connection>scm:http://cvsmaison/svn/jmonitoring/${pom.artifactId}</connection>
+  </repository>
+
+</project>
+

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+ 
+<!--
+  ************************************************************************
+  MonitoringProject
+  ************************************************************************
+-->
+            
+<project   
+        xmlns:j="jelly:core"
+        xmlns:maven="jelly:maven"
+        xmlns:util="jelly:util"
+        xmlns:ant="jelly:ant"
+        xmlns:fmt="jelly:fmt"
+        xmlns:x="jelly:xml">
+                  
+    <goal name="help" >
+        <echo>"buildSite" prereqs="clean"</echo>
+        <echo>"buildAndDeploy" prereqs="clean"</echo>
+        <echo>"archiveDashboard"</echo>
+        <echo>"buildRelease" prereqs="clean,multiproject:install,announcement"</echo>
+        <echo>"deploySite" prereqs="buildSite,buildRelease"</echo>
+        <echo>"publishSite"</echo>
+    </goal>
+    
+	<goal name="build">
+	        <attainGoal name="multiproject:install"/>
+    </goal>
+
+	<goal name="buildSite" prereqs="multiproject:clean,exclude-sample">
+	        <!--echo>Clover all</echo>
+	        <j:set var="goal" value="clover:test"/>
+            <attainGoal name="multiproject:goal"/-->
+            
+        <echo>KKKK${maven.multiproject.excludes}</echo>
+	        <echo>Site all</echo>
+	        <attainGoal name="multiproject:site"/>
+            
+            <!-- Now archive dashboard -->
+	        <attainGoal name="archiveDashboard"/>
+    </goal>
+    
+	<goal name="buildAndDeploy" prereqs="multiproject:clean,clean">
+	        <echo>Build All</echo>
+	        <attainGoal name="multiproject:install"/>
+            <echo>Deploy WebApp [administration_console.war]</echo>
+            <!-- Tomcat -->
+            <copy file="../administration_console/target/administration_console.war"    todir="C:/Program Files/Apache Software Foundation/Tomcat 5.0/webapps"/>
+            <copy file="../sample_webapp/target/sample_webapp.war"                      todir="C:/Program Files/Apache Software Foundation/Tomcat 5.0/webapps"/>
+            <!-- WebLogic -->
+            <copy file="../administration_console/target/administration_console.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
+            <copy file="../sample_webapp/target/sample_webapp.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
+            <!-- JBoss -->
+            <copy file="../administration_console/target/administration_console.war" todir="D:\Developpement\jboss-3.2.5\server\default\deploy"/>
+            <copy file="../sample_webapp/target/sample_webapp.war" todir="D:\Developpement\jboss-3.2.5\server\default\deploy"/>
+            <!-- Pour éviter les effet de bord avec Eclipse -->
+            <attainGoal name="multiproject:clean"/>
+            <attainGoal name="clean"/>
+            
+    </goal>  
+   
+	
+        
+    <goal name="archiveDashboard">
+ 	        <j:new var="currentDate" className="java.util.Date"/>
+ 	        <j:set var="myYear" value="${currentDate.getYear()+1900}"/>
+ 	        <j:set var="offset" value=""/>
+ 	        <j:if test="${10>currentDate.getMonth()}">
+ 	            <j:set var="offset" value="0"/>
+ 	        </j:if>
+ 	        <j:set var="myMonth" value="${offset}${currentDate.getMonth()+1}"/>
+ 	        
+ 	        <j:set var="offset" value=""/>
+ 	        <j:if test="${10>currentDate.getDate()}">
+ 	            <j:set var="offset" value="0"/>
+ 	        </j:if>
+ 	        <j:set var="myDay" value="${offset}${currentDate.getDate()}"/>
+ 	        
+ 	        <j:set var="offset" value=""/>
+ 	        <j:if test="${9>currentDate.getHours()}">
+ 	            <j:set var="offset" value="0"/>
+ 	        </j:if>
+ 	        <j:set var="myHours" value="${offset}${currentDate.getHours()+1}"/>
+ 	        
+ 	        <j:set var="offset" value=""/>
+ 	        <j:if test="${9>currentDate.getMinutes()}">
+ 	            <j:set var="offset" value="0"/>
+ 	        </j:if>
+ 	        <j:set var="myMinutes" value="${offset}${currentDate.getMinutes()+1}"/>
+ 	        
+ 	        <j:set var="offset" value=""/>
+ 	        <j:if test="${9>currentDate.getSeconds()}">
+ 	            <j:set var="offset" value="0"/>
+ 	        </j:if>
+ 	        <j:set var="mySeconds" value="${offset}${currentDate.getSeconds()+1}"/>
+ 	        <j:set var="currentDateAsStr" value="${myYear}${myMonth}${myDay}${myHours}${myMinutes}${mySeconds}"/>
+
+            <copy todir="${maven.historical.projectresultpath}/${currentDateAsStr}" file="${maven.build.dir}/dashboard-data.xml"/>
+ 	        
+        </goal>
+
+	<goal name="buildRelease" prereqs="multiproject:clean,multiproject:install,announcement">
+	    <j:set var="release.dir" scope="parent" value="${maven.build.dir}/release"/>
+    	<j:set var="release.file" scope="parent" value="${maven.build.dir}/${pom.groupId}-${monitoring.version}.zip"/>
+
+	    <mkdir dir="${release.dir}"/>
+	    <!-- main artifacts -->
+	    <copy file="${maven.repo.local}/jmonitoring/jars/core_monitoring-${monitoring.version}.jar" todir="${release.dir}"/>
+	    <copy file="${maven.repo.local}/jmonitoring/wars/administration_console-${monitoring.version}.war" todir="${release.dir}"/>
+	
+	    <!-- sample artifacts -->
+	    <copy file="${maven.repo.local}/jmonitoring/jars/sample_core-${monitoring.version}.jar" todir="${release.dir}"/>
+	    <copy file="${maven.repo.local}/jmonitoring/wars/sample_webapp-${monitoring.version}.war" todir="${release.dir}"/>
+	    
+	    <!-- Annoucement -->
+	    <copy file="${maven.build.dir}/generated-xdocs/announcements/announcement-${monitoring.version}.txt" todir="${release.dir}"/>
+	    
+	    <!-- license -->
+	    <copy file="${basedir}/LICENSE.txt" todir="${release.dir}"/>
+	    
+	    <!-- MySql create script -->
+	    <copy file="${basedir}/../core_monitoring/sql-script/createMySqlDB.sql" todir="${release.dir}"/>
+	    
+	    <!-- MySql create script -->
+	    <copy file="${basedir}/../core_monitoring/src-unit-test/jmonitoring.properties" todir="${release.dir}"/>
+	    
+	    <!-- Now build the Zip release file -->
+	    <ant:zip destfile="${release.file}" basedir="${release.dir}/"/>
+    </goal>
+
+
+	<goal name="exclude-sample">
+	    <!-- We don't want to build the site for the sample projects...-->
+        <echo>KKKK2${maven.multiproject.excludes}</echo>
+        <j:set var="maven.multiproject.excludes" value="${maven.multiproject.excludes},sample_core/project.xml,sample_webapp/project.xml"/>
+        <echo>KKKK1${maven.multiproject.excludes}</echo>
+	</goal>
+	
+	<goal name="deploySite" prereqs="buildSite,buildRelease">
+        <attainGoal name="publishSite"/>
+	</goal>
+	
+	<goal name="publishSite">
+	<!--goal name="deploySite" -->
+        <taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
+    	<j:set var="release.file" scope="parent" value="${maven.build.dir}/${pom.groupId}-${monitoring.version}.zip"/>
+
+        <echo>Publish ${release.file}</echo>
+        <!-- Copy du dernier fichier de release-->
+        <ftp server="ftpperso.free.fr" 
+            userid="jmonitoring" 
+            password="${ftp.free.password}" verbose="yes" 
+            remotedir="release"
+            skipFailedTransfers="true">
+            <fileset file="${release.file}"/>
+        </ftp>
+
+        <echo>Publish Site ${maven.build.dir}/docs</echo>
+        <!-- Copy du dernier fichier de release -->
+        <ftp server="ftpperso.free.fr" 
+            userid="jmonitoring" 
+            password="${ftp.free.password}" 
+            verbose="yes" 
+            skipFailedTransfers="true">
+            <fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
+        </ftp>
+
+    </goal>
+    
+</project>

@@ -1,0 +1,16 @@
+<project 
+        xmlns:j="jelly:core"
+        xmlns:maven="jelly:maven"
+        xmlns:util="jelly:util"
+        xmlns:ant="jelly:ant"
+        xmlns:x="jelly:xml">
+
+    <!-- target perso pour redéployer -->
+    <goal name="copy">
+        <copy file="target/sample_webapp.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
+	</goal>  
+     <preGoal name="java:compile">
+             <attainGoal name="aspectj"/>
+       </preGoal>
+</project>
+        
