@@ -145,7 +145,7 @@
         <taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
     	<j:set var="release.file" scope="parent" value="${maven.build.dir}/${pom.groupId}-${monitoring.version}.zip"/>
 
-    	<copy todir="${octo.apache.htdocs}/${maven.project.name}">
+    	<copy todir="${forge.apache.htdocs}/jmonitoring">
 		    <fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
         </copy>
 
