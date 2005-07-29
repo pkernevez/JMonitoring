@@ -145,6 +145,10 @@
         <taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
     	<j:set var="release.file" scope="parent" value="${maven.build.dir}/${pom.groupId}-${monitoring.version}.zip"/>
 
+    	<copy todir="${octo.apache.htdocs}/${maven.project.name}">
+		    <fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
+        </copy>
+
         <echo>Publish ${release.file}</echo>
         <!-- Copy du dernier fichier de release-->
         <ftp server="ftpperso.free.fr" 
