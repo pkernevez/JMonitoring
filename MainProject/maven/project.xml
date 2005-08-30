@@ -63,6 +63,7 @@
         <report>maven-clover-plugin</report>
         <report>maven-simian-plugin</report>
         <report>maven-findbugs-plugin</report>
+        <report>maven-pmd-plugin</report>
         <!--report>maven-linkcheck-plugin</report-->
   </reports>    
    
