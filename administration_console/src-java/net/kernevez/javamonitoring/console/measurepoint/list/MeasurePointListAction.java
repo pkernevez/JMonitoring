@@ -67,27 +67,28 @@ public class MeasurePointListAction extends Action
             tDynaResultSet = new RowSetDynaClass(tRs, false);
         } finally
         {
-            if (tRs != null)
+            try
+            {
+                if (tRs != null)
+                {
+                    tRs.close();
+                }
+            } finally
             {
                 try
                 {
-                    tRs.close();
-                } finally
-                {
                     if (tStmt != null)
                     {
-                        try
-                        {
-                            tStmt.close();
-                        } finally
-                        {
-                            if (tConnection != null)
-                            {
-                                tConnection.close();
-
-                            }
-                        }
+                        tStmt.close();
                     }
+                } finally
+                {
+                    if (tConnection != null)
+                    {
+                        tConnection.close();
+
+                    }
+
                 }
             }
         }

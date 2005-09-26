@@ -19,7 +19,7 @@
     <!--distributionDirectory>/www/maven.apache.org/builds/</distributionDirectory-->
     <siteDirectory/>
     <description>
-        This project provides Monitring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.
+        This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.
     </description>
     
     <versions>
