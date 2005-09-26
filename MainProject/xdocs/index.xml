@@ -3,7 +3,7 @@
 <document>
 
   <properties>
-    <title>This project provides Monitring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.</title>
+    <title>This project provides Monitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</title>
     <author email="pke@octo.com">Philippe Kernevez</author>
     <meta name="keyword" content="java, monitoring, aspect, open source, performance"/>
   </properties>
