@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint;
+package org.jmonitoring.console.measurepoint;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -8,8 +8,8 @@ package net.kernevez.javamonitoring.console.measurepoint;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.kernevez.performance.measure.MeasureException;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 import org.apache.struts.action.ActionForm;
 

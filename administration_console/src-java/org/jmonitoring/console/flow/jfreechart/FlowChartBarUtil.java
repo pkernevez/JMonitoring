@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.flow.jfreechart;
+package org.jmonitoring.console.flow.jfreechart;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -16,8 +16,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import net.kernevez.performance.measure.MeasureException;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

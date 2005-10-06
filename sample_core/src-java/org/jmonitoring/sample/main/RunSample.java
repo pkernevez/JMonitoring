@@ -1,4 +1,4 @@
-package net.kernevez.sample;
+package org.jmonitoring.sample.main;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

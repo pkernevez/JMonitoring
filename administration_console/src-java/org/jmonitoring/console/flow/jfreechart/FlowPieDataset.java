@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.flow.jfreechart;
+package org.jmonitoring.console.flow.jfreechart;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

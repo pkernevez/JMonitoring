@@ -1,9 +1,9 @@
-package net.kernevez.javamonitoring.console.flow;
+package org.jmonitoring.console.flow;
 
 import java.text.ParseException;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.dao.FlowSearchCriterion;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.FlowSearchCriterion;
 import junit.framework.TestCase;
 
 /***************************************************************************

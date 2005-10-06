@@ -1,11 +1,11 @@
-package net.kernevez.sample;
+package org.jmonitoring.sample.aspect;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import net.kernevez.performance.aspects.PerformanceAspect;
+import org.jmonitoring.core.aspects.PerformanceAspect;
 
 /**
  * @author pke
@@ -14,7 +14,7 @@ import net.kernevez.performance.aspects.PerformanceAspect;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public aspect SamplePerformanceAspect extends PerformanceAspect {
-    public pointcut executionToLog() : execution( static * net.kernevez.sample.*.*(..) )
+    public pointcut executionToLog() : execution( static * org.jmonitoring.sample.*.*(..) )
         && !execution( static * *.main(String[]))
         //&& !within( junit.framework.TestCase+ )
         && !execution( * *.toString() )

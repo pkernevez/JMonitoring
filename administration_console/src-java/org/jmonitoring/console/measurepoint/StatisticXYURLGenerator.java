@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint;
+package org.jmonitoring.console.measurepoint;
 
 import java.io.Serializable;
 

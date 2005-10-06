@@ -1,4 +1,4 @@
-package net.kernevez.driver;
+package org.jmonitoring.sample.driver;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -25,7 +25,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import net.kernevez.performance.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * @author pke

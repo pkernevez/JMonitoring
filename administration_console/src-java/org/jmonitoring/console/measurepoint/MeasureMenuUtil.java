@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint;
+package org.jmonitoring.console.measurepoint;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.dao.ExecutionFlowMySqlDAO;
-import net.kernevez.performance.dao.MeasureExtract;
-import net.kernevez.performance.dao.StandAloneConnectionManager;
-import net.kernevez.performance.measure.MeasureException;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.MeasureExtract;
+import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * Utility for image generation of the tree of measure as a menu.

@@ -1,4 +1,4 @@
-package net.kernevez.performance.aspects;
+package org.jmonitoring.core.aspects;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

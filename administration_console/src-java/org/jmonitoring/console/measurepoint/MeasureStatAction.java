@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint;
+package org.jmonitoring.console.measurepoint;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.dao.ExecutionFlowMySqlDAO;
-import net.kernevez.performance.dao.StandAloneConnectionManager;
-import net.kernevez.performance.measure.MeasureException;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

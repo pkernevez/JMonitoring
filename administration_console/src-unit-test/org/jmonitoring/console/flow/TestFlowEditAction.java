@@ -1,7 +1,7 @@
-package net.kernevez.javamonitoring.console.flow;
+package org.jmonitoring.console.flow;
 
 import junit.framework.TestCase;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

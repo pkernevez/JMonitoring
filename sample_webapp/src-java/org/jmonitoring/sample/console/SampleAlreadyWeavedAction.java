@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console;
+package org.jmonitoring.sample.console;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -8,7 +8,7 @@ package net.kernevez.javamonitoring.console;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.kernevez.sample.RunSample;
+import org.jmonitoring.sample.main.RunSample;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;

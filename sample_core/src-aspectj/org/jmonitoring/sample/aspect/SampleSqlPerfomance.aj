@@ -5,7 +5,7 @@ package net.kernevez.sample;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import net.kernevez.performance.aspects.PerformanceAspect;
+import org.jmonitoring.core.aspects.PerformanceAspect;
 
 /**
  * @author pke

@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint;
+package org.jmonitoring.console.measurepoint;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

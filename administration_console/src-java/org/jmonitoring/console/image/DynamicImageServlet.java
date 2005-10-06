@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.image;
+package org.jmonitoring.console.image;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console;
+package org.jmonitoring.console;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

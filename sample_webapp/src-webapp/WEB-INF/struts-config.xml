@@ -17,7 +17,7 @@
 
 	    <action path="/Index" parameter="homepage" type="org.apache.struts.actions.ForwardAction"/>
 	    
-	    <action path="/AlreadyWeaved" parameter="alreadyweaved" type="net.kernevez.javamonitoring.console.SampleAlreadyWeavedAction">
+	    <action path="/AlreadyWeaved" parameter="alreadyweaved" type="org.jmonitoring.sample.console.SampleAlreadyWeavedAction">
 	      	<forward name="success" path="/Ok.do"/>
 		</action>
 

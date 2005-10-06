@@ -1,11 +1,11 @@
-package net.kernevez.sample;
+package org.jmonitoring.sample;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import net.kernevez.performance.aspects.PerformanceAspect;
+import org.jmonitoring.core.aspects.PerformanceAspect;
 
 /**
  * @author pke

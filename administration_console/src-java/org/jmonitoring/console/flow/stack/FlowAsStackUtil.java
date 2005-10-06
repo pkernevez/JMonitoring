@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.flow.stack;
+package org.jmonitoring.console.flow.stack;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -10,9 +10,9 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.measure.ExecutionFlow;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 /**
  * Util class for render a flow as an Satck in an Html page.

@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.flow.jfreechart;
+package org.jmonitoring.console.flow.jfreechart;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 /**
  * @author pke

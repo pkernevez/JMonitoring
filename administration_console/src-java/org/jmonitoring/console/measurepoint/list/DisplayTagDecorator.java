@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint.list;
+package org.jmonitoring.console.measurepoint.list;
 
 import org.apache.commons.beanutils.DynaBean;
 import org.displaytag.decorator.TableDecorator;

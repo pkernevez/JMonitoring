@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.flow.jfreechart;
+package org.jmonitoring.console.flow.jfreechart;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -10,7 +10,7 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import net.kernevez.performance.configuration.Configuration;
+import org.jmonitoring.core.configuration.Configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

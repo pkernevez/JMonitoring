@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint;
+package org.jmonitoring.console.measurepoint;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.kernevez.performance.dao.MeasureExtract;
+import org.jmonitoring.core.dao.MeasureExtract;
 
 public class TestMeasureMenuUtil extends TestCase
 {

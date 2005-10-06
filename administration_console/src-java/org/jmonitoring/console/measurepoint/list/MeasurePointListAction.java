@@ -1,4 +1,4 @@
-package net.kernevez.javamonitoring.console.measurepoint.list;
+package org.jmonitoring.console.measurepoint.list;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.StandAloneConnectionManager;
 
 import org.apache.commons.beanutils.RowSetDynaClass;
 import org.apache.struts.action.Action;

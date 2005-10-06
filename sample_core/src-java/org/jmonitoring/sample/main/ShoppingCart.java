@@ -1,4 +1,4 @@
-package net.kernevez.sample;
+package org.jmonitoring.sample.main;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
-import net.kernevez.driver.MockConnection;
+import org.jmonitoring.sample.driver.MockConnection;
 
 /**
  * 

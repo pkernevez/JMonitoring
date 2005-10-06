@@ -1,11 +1,11 @@
-package net.kernevez.javamonitoring.console.flow;
+package org.jmonitoring.console.flow;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import net.kernevez.performance.measure.ExecutionFlow;
+import org.jmonitoring.core.measure.ExecutionFlow;
 
 import org.apache.struts.action.ActionForm;
 

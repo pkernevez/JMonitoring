@@ -1,4 +1,4 @@
-package net.kernevez.driver;
+package org.jmonitoring.sample.driver;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
