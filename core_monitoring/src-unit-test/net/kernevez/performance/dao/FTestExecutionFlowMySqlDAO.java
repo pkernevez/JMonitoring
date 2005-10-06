@@ -13,9 +13,14 @@ import java.util.List;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.measure.ExecutionFlow;
-import net.kernevez.performance.measure.MeasurePoint;
+
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.FlowSearchCriterion;
+import org.jmonitoring.core.dao.MeasureExtract;
+import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 /**
  * @author pke

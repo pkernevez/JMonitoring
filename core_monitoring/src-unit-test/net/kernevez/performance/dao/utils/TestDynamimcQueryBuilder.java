@@ -11,6 +11,7 @@ import java.util.Date;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
+import org.jmonitoring.core.dao.utils.DynamicQueryBuilder;
 
 /**
  * Unit test class for DynamicQueryBuilder.
