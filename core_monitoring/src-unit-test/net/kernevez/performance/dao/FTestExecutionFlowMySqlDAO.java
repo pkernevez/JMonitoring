@@ -354,19 +354,19 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
 
             List tMeasureExtracts = tFlowDAO.getListOfMeasure();
             MeasureExtract curExtrat = (MeasureExtract) tMeasureExtracts.get(0);
-            assertEquals("net.kernevez.performance.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat
+            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat
                             .getName());
             assertEquals("GrDefault", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MeasureExtract) tMeasureExtracts.get(1);
-            assertEquals("net.kernevez.performance.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat
+            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat
                             .getName());
             assertEquals("GrChild1", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MeasureExtract) tMeasureExtracts.get(2);
-            assertEquals("net.kernevez.performance.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat
+            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat
                             .getName());
             assertEquals("GrChild2", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());

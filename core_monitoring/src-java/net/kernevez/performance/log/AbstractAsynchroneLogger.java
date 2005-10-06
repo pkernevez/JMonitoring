@@ -56,8 +56,8 @@ public abstract class AbstractAsynchroneLogger implements IMeasurePointTreeLogge
     protected abstract Runnable getAsynchroneLogTask(ExecutionFlow pFlow);
 
     /**
-     * @see net.kernevez.performance.log.IMeasurePointTreeLogger#logMeasurePointTree(
-     *      net.kernevez.performance.measure.ExecutionFlow)
+     * @see org.jmonitoring.core.log.IMeasurePointTreeLogger#logMeasurePointTree(
+     *      org.jmonitoring.core.measure.ExecutionFlow)
      */
     public void logMeasurePointTree(ExecutionFlow pExecutionFlow)
     {

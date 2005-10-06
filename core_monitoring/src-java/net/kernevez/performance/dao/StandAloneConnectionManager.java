@@ -38,7 +38,7 @@ public class StandAloneConnectionManager implements IConnectionManager
     /**
      * (non-Javadoc)
      * 
-     * @see net.kernevez.performance.dao.IConnectionManager#getConnection()
+     * @see org.jmonitoring.core.dao.IConnectionManager#getConnection()
      */
     public synchronized Connection getConnection() throws SQLException
     {

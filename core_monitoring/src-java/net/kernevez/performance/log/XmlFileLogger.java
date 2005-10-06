@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * This class allow the logging with an XMLFile. This class is not ThreadSafe when multiple file is used.
  * 
- * @see net.kernevez.performance.configuration.Configuration.SAME_FILE_FOR_ALL_THREAD
+ * @see org.jmonitoring.core.configuration.Configuration.SAME_FILE_FOR_ALL_THREAD
  * 
  * @author pke
  */

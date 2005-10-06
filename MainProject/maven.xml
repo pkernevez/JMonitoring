@@ -65,7 +65,7 @@
  	        <j:new var="currentDate" className="java.util.Date"/>
  	        <j:set var="myYear" value="${currentDate.getYear()+1900}"/>
  	        <j:set var="offset" value=""/>
- 	        <j:if test="${10>currentDate.getMonth()}">
+ 	        <j:if test="${9>currentDate.getMonth()}">
  	            <j:set var="offset" value="0"/>
  	        </j:if>
  	        <j:set var="myMonth" value="${offset}${currentDate.getMonth()+1}"/>

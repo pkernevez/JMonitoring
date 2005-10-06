@@ -41,6 +41,9 @@
                     <include>**/*.properties</include>
                     <include>**/*.java</include>
                 </includes>
+                <excludes>
+                    <exclude>**/.svn</exclude>
+                </excludes>
             </resource>
         </resources>
     
