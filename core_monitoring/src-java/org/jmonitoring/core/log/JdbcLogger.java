@@ -1,4 +1,4 @@
-package net.kernevez.performance.log;
+package org.jmonitoring.core.log;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -8,11 +8,11 @@ package net.kernevez.performance.log;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.dao.ExecutionFlowMySqlDAO;
-import net.kernevez.performance.dao.StandAloneConnectionManager;
-import net.kernevez.performance.measure.ExecutionFlow;
-import net.kernevez.performance.measure.MeasureException;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * @author pke

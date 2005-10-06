@@ -1,13 +1,13 @@
-package net.kernevez.performance.measure;
+package org.jmonitoring.core.measure;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.log.IMeasurePointTreeLogger;
-import net.kernevez.performance.log.MeasurePointTreeLoggerFactory;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.log.IMeasurePointTreeLogger;
+import org.jmonitoring.core.log.MeasurePointTreeLoggerFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

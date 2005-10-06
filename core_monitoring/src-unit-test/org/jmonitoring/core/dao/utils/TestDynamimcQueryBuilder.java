@@ -1,4 +1,4 @@
-package net.kernevez.performance.dao.utils;
+package org.jmonitoring.core.dao.utils;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

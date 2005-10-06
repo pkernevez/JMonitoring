@@ -1,4 +1,4 @@
-package net.kernevez.performance.log;
+package org.jmonitoring.core.log;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -12,10 +12,10 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.measure.ExecutionFlow;
-import net.kernevez.performance.measure.MeasureException;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

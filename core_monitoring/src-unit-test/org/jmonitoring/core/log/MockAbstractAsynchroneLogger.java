@@ -1,6 +1,6 @@
-package net.kernevez.performance.log;
+package org.jmonitoring.core.log;
 
-import net.kernevez.performance.measure.ExecutionFlow;
+import org.jmonitoring.core.measure.ExecutionFlow;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

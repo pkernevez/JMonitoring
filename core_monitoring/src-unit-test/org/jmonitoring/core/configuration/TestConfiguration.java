@@ -1,4 +1,4 @@
-package net.kernevez.performance.configuration;
+package org.jmonitoring.core.configuration;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

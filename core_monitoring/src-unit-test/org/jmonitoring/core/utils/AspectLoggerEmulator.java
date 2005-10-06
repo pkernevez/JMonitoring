@@ -1,8 +1,8 @@
-package net.kernevez.performance.utils;
+package org.jmonitoring.core.utils;
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.log.IMeasurePointTreeLogger;
-import net.kernevez.performance.measure.MeasurePointManager;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.log.IMeasurePointTreeLogger;
+import org.jmonitoring.core.measure.MeasurePointManager;
 
 import org.aspectj.lang.Signature;
 

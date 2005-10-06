@@ -1,4 +1,4 @@
-package net.kernevez.performance.configuration;
+package org.jmonitoring.core.configuration;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -12,13 +12,12 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.kernevez.performance.log.AsynchroneJdbcLogger;
-import net.kernevez.performance.measure.MeasureException;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.log.AsynchroneJdbcLogger;
+import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * @author pke

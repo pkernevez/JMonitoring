@@ -1,4 +1,4 @@
-package net.kernevez.performance.measure;
+package org.jmonitoring.core.measure;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -8,7 +8,7 @@ package net.kernevez.performance.measure;
 import java.text.ParseException;
 import java.util.Date;
 
-import net.kernevez.performance.configuration.Configuration;
+import org.jmonitoring.core.configuration.Configuration;
 
 /**
  * This instance is the entry of of a flow. It has a list of MeasurePoint and some properties.

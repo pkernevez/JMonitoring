@@ -1,4 +1,4 @@
-package net.kernevez.performance.dao;
+package org.jmonitoring.core.dao;
 
 import java.sql.Date;
 

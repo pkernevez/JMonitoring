@@ -1,9 +1,9 @@
-package net.kernevez.performance.measure;
+package org.jmonitoring.core.measure;
 
 import junit.framework.TestCase;
-import net.kernevez.performance.dao.FTestExecutionFlowMySqlDAO;
-import net.kernevez.performance.log.MockAbstractAsynchroneLogger;
-import net.kernevez.performance.utils.AspectLoggerEmulator;
+import org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO;
+import org.jmonitoring.core.log.MockAbstractAsynchroneLogger;
+import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

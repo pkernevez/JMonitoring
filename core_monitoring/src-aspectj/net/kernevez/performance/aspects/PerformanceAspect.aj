@@ -5,9 +5,9 @@ package net.kernevez.performance.aspects;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.measure.MeasureException;
-import net.kernevez.performance.measure.MeasurePointManager;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasurePointManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,8 +48,8 @@ public abstract aspect PerformanceAspect
     }
 
     pointcut executionToLogInternal() : executionToLog() 
-        && !within(net.kernevez.performance.*.*) 
-        && !within(net.kernevez.performance.measure.MeasurePointManager);
+        && !within(org.jmonitoring.core.*.*) 
+        && !within(org.jmonitoring.core.measure.MeasurePointManager);
 
     Object around() : executionToLogInternal()
     {

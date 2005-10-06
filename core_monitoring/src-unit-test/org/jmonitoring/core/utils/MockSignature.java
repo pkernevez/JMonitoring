@@ -1,4 +1,4 @@
-package net.kernevez.performance.utils;
+package org.jmonitoring.core.utils;
 
 import org.aspectj.lang.Signature;
 

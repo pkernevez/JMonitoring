@@ -1,4 +1,4 @@
-package net.kernevez.performance.measure;
+package org.jmonitoring.core.measure;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.kernevez.performance.configuration.Configuration;
+import org.jmonitoring.core.configuration.Configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

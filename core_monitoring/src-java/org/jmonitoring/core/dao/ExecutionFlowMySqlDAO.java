@@ -1,4 +1,4 @@
-package net.kernevez.performance.dao;
+package org.jmonitoring.core.dao;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -21,12 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.dao.utils.DynamicQueryBuilder;
-import net.kernevez.performance.measure.ExecutionFlow;
-import net.kernevez.performance.measure.MeasureException;
-import net.kernevez.performance.measure.MeasurePoint;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.utils.DynamicQueryBuilder;
+import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 /**
  * Manage the persistance
@@ -106,7 +105,7 @@ public class ExecutionFlowMySqlDAO
             // DURATION
             tPStatement.setLong(curIndex++, (pExecutionFlow.getEndTime() - pExecutionFlow.getBeginDate()));
             // BEGIN_TIME_AS_DATE
-            DateFormat tFormat = Configuration.getInstance().getDataBaseDateTimeFormater();
+            DateFormat tFormat = org.jmonitoring.core.configuration.Configuration.getInstance().getDataBaseDateTimeFormater();
             tPStatement.setString(curIndex++, tFormat.format(new Date(pExecutionFlow.getBeginDate())));
             // BEGIN_TIME
             tPStatement.setLong(curIndex++, pExecutionFlow.getBeginDate());

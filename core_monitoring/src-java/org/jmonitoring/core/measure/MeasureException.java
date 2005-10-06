@@ -1,4 +1,4 @@
-package net.kernevez.performance.measure;
+package org.jmonitoring.core.measure;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

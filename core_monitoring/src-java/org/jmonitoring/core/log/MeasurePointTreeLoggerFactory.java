@@ -1,4 +1,4 @@
-package net.kernevez.performance.log;
+package org.jmonitoring.core.log;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -7,7 +7,7 @@ package net.kernevez.performance.log;
 
 import java.lang.reflect.Constructor;
 
-import net.kernevez.performance.configuration.Configuration;
+import org.jmonitoring.core.configuration.Configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

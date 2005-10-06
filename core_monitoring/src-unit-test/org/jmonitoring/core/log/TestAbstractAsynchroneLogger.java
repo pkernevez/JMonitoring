@@ -1,7 +1,7 @@
-package net.kernevez.performance.log;
+package org.jmonitoring.core.log;
 
 import junit.framework.TestCase;
-import net.kernevez.performance.utils.AspectLoggerEmulator;
+import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

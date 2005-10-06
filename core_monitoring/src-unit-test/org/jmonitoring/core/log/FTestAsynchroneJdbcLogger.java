@@ -1,4 +1,4 @@
-package net.kernevez.performance.log;
+package org.jmonitoring.core.log;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import junit.framework.TestCase;
-import net.kernevez.performance.configuration.Configuration;
-import net.kernevez.performance.dao.FTestExecutionFlowMySqlDAO;
-import net.kernevez.performance.dao.StandAloneConnectionManager;
-import net.kernevez.performance.utils.AspectLoggerEmulator;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

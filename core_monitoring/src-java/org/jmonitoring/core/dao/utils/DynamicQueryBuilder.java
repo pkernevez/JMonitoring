@@ -1,4 +1,4 @@
-package net.kernevez.performance.dao.utils;
+package org.jmonitoring.core.dao.utils;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -13,7 +13,7 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.LinkedList;
 
-import net.kernevez.performance.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * @author pke
