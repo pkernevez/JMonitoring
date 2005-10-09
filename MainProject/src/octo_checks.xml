@@ -7,7 +7,9 @@
 
 <module name="Checker">  
 
-   
+    <property name="severity" value="warning"/>
+    
+
     <!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
     <!-- R-DR-001 -->
     <module name="PackageHtml"/>

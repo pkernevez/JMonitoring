@@ -45,6 +45,7 @@
                     <exclude>**/.svn</exclude>
                 </excludes>
             </resource>
+            
         </resources>
     
     </build>

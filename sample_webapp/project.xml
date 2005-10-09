@@ -23,13 +23,6 @@
          This project provides an Administration console for Monitring infrastrcture.
     </description>
   
-    <!-- informations sur le "build" -->
-    <build>
-      <resource>
-					<directory>${basedir}/src-webapp</directory>
-		</resource>
-    </build>
-    
     <!-- dépendances -->
     <dependencies>
     

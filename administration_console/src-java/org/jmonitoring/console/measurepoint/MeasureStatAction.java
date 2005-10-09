@@ -17,12 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.MeasureException;
-import org.jmonitoring.core.measure.MeasurePoint;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.Action;
@@ -40,10 +34,16 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.xy.IntervalXYDataset;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.measure.MeasurePoint;
 
 /**
  * @author pke
  * @todo refactor this class into a JFreeChart / ChartBarUtil class
+ * @todo remove FindBugs exclusion after 
  */
 public class MeasureStatAction extends Action
 {
@@ -170,7 +170,6 @@ public class MeasureStatAction extends Action
 
         ChartRenderingInfo tChartRenderingInfo = new ChartRenderingInfo(new StandardEntityCollection());
 
-        // ChartPanel chartpanel = new ChartPanel(jfreechart);
         ByteArrayOutputStream tImageStream = new ByteArrayOutputStream();
         ByteArrayOutputStream tMapStream = new ByteArrayOutputStream();
         try
@@ -185,7 +184,7 @@ public class MeasureStatAction extends Action
         {
             throw new MeasureException("Unable to write Image", e);
         }
-        pSession.setAttribute(FULL_DURATION_STAT, tImageStream.toByteArray());
+        pSession.setAttribute("SOME_STRING", tImageStream.toByteArray());
         sLog.debug("Image " + FULL_DURATION_STAT + " add to session");
     }
 

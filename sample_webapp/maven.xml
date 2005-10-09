@@ -9,8 +9,8 @@
     <goal name="copy">
         <copy file="target/sample_webapp.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
 	</goal>  
-     <preGoal name="java:compile">
+     <!--preGoal name="java:compile">
              <attainGoal name="aspectj"/>
-       </preGoal>
+       </preGoal-->
 </project>
         
