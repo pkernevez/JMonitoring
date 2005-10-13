@@ -184,7 +184,7 @@ public class MeasureStatAction extends Action
         {
             throw new MeasureException("Unable to write Image", e);
         }
-        pSession.setAttribute("SOME_STRING", tImageStream.toByteArray());
+        pSession.setAttribute(FULL_DURATION_STAT, tImageStream.toByteArray());
         sLog.debug("Image " + FULL_DURATION_STAT + " add to session");
     }
 
