@@ -147,7 +147,7 @@
         </dependency>    
         
         <dependency>
-            <groupId>jfreechart</groupId>
+            <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>${depends.jfreechart.version}</version>
             <properties>
@@ -156,7 +156,7 @@
         </dependency>    
         
         <dependency>
-            <groupId>jfreechart</groupId>
+            <groupId>jfree</groupId>
             <artifactId>jcommon</artifactId>
             <version>${depends.jfreechartcommon.version}</version>
             <properties>
