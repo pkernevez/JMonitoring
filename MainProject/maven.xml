@@ -17,7 +17,6 @@
     <goal name="help" >
         <echo>"buildSite" prereqs="clean"</echo>
         <echo>"buildAndDeploy" prereqs="clean"</echo>
-        <echo>"archiveDashboard"</echo>
         <echo>"buildRelease" prereqs="clean,multiproject:install,announcement"</echo>
         <echo>"deploySite" prereqs="buildSite,buildRelease"</echo>
         <echo>"publishSite"</echo>
@@ -36,8 +35,6 @@
 	        <echo>Site all</echo>
 	        <attainGoal name="multiproject:site"/>
             
-            <!-- Now archive dashboard -->
-	        <attainGoal name="archiveDashboard"/>
     </goal>
     
 	<goal name="buildAndDeploy" prereqs="multiproject:clean,clean">
@@ -61,44 +58,6 @@
    
 	
         
-    <goal name="archiveDashboard">
- 	        <j:new var="currentDate" className="java.util.Date"/>
- 	        <j:set var="myYear" value="${currentDate.getYear()+1900}"/>
- 	        <j:set var="offset" value=""/>
- 	        <j:if test="${9>currentDate.getMonth()}">
- 	            <j:set var="offset" value="0"/>
- 	        </j:if>
- 	        <j:set var="myMonth" value="${offset}${currentDate.getMonth()+1}"/>
- 	        
- 	        <j:set var="offset" value=""/>
- 	        <j:if test="${10>currentDate.getDate()}">
- 	            <j:set var="offset" value="0"/>
- 	        </j:if>
- 	        <j:set var="myDay" value="${offset}${currentDate.getDate()}"/>
- 	        
- 	        <j:set var="offset" value=""/>
- 	        <j:if test="${9>currentDate.getHours()}">
- 	            <j:set var="offset" value="0"/>
- 	        </j:if>
- 	        <j:set var="myHours" value="${offset}${currentDate.getHours()+1}"/>
- 	        
- 	        <j:set var="offset" value=""/>
- 	        <j:if test="${9>currentDate.getMinutes()}">
- 	            <j:set var="offset" value="0"/>
- 	        </j:if>
- 	        <j:set var="myMinutes" value="${offset}${currentDate.getMinutes()+1}"/>
- 	        
- 	        <j:set var="offset" value=""/>
- 	        <j:if test="${9>currentDate.getSeconds()}">
- 	            <j:set var="offset" value="0"/>
- 	        </j:if>
- 	        <j:set var="mySeconds" value="${offset}${currentDate.getSeconds()+1}"/>
- 	        <j:set var="currentDateAsStr" value="${myYear}${myMonth}${myDay}${myHours}${myMinutes}${mySeconds}"/>
-
-            <copy todir="${maven.historical.projectresultpath}/${currentDateAsStr}" file="${maven.build.dir}/dashboard-data.xml"/>
- 	        
-        </goal>
-
 	<goal name="buildRelease" prereqs="multiproject:clean,multiproject:install,announcement">
 	    <j:set var="release.dir" scope="parent" value="${maven.build.dir}/release"/>
     	<j:set var="release.file" scope="parent" value="${maven.build.dir}/${pom.groupId}-${monitoring.version}.zip"/>
