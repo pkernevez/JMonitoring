@@ -11,8 +11,8 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * Purchase <code>Connection</code> for database access.

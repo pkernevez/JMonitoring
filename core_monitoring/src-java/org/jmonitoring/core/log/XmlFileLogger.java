@@ -12,10 +12,10 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MeasureException;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MethodCall;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -205,7 +205,7 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
      * 
      * @param pExecutionFlow La racine courante de l'arbre à logger.
      */
-    private void fillStringBuffer(MeasurePoint pCurrentMeasurePoint)
+    private void fillStringBuffer(MethodCall pCurrentMeasurePoint)
     {
         mCurrentBuffer.append("<Execution ");
         mCurrentBuffer.append("class=\"").append(pCurrentMeasurePoint.getClassName()).append("\" ");
@@ -248,10 +248,10 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
         mCurrentBuffer.append(">\n");
 
         // On fait le recusrif sur les children
-        MeasurePoint curChild;
+        MethodCall curChild;
         for (Iterator tChildIterator = pCurrentMeasurePoint.getChildren().iterator(); tChildIterator.hasNext();)
         {
-            curChild = (MeasurePoint) tChildIterator.next();
+            curChild = (MethodCall) tChildIterator.next();
             fillStringBuffer(curChild);
         }
 

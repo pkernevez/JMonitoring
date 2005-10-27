@@ -13,7 +13,7 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.LinkedList;
 
-import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.common.MeasureException;
 
 /**
  * @author pke

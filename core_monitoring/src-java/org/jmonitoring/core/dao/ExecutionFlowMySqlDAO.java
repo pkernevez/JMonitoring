@@ -21,11 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.utils.DynamicQueryBuilder;
 import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MeasureException;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MethodCall;
 
 /**
  * Manage the persistance
@@ -105,7 +105,8 @@ public class ExecutionFlowMySqlDAO
             // DURATION
             tPStatement.setLong(curIndex++, (pExecutionFlow.getEndTime() - pExecutionFlow.getBeginDate()));
             // BEGIN_TIME_AS_DATE
-            DateFormat tFormat = org.jmonitoring.core.configuration.Configuration.getInstance().getDataBaseDateTimeFormater();
+            DateFormat tFormat = org.jmonitoring.core.configuration.Configuration.getInstance()
+                            .getDataBaseDateTimeFormater();
             tPStatement.setString(curIndex++, tFormat.format(new Date(pExecutionFlow.getBeginDate())));
             // BEGIN_TIME
             tPStatement.setLong(curIndex++, pExecutionFlow.getBeginDate());
@@ -145,7 +146,7 @@ public class ExecutionFlowMySqlDAO
      * @param pThreadId L'identifiant du Thread à utiliser pour la clé technique.
      * @throws SQLException
      */
-    private void insertMeasurePointGraph(MeasurePoint pCurrentMeasurePoint, int pThreadId) throws SQLException
+    private void insertMeasurePointGraph(MethodCall pCurrentMeasurePoint, int pThreadId) throws SQLException
     {
         PreparedStatement tPStatement = null;
         try
@@ -176,7 +177,7 @@ public class ExecutionFlowMySqlDAO
      * @return La valeur de la dernière séquence mise à jour par les appels récursifs.
      * @throws SQLException S'il n'est pas possible d'exécuter la requète sur la base.
      */
-    private int addBatchStatementWithMeasurePoint(MeasurePoint pCurrentMeasurePoint,
+    private int addBatchStatementWithMeasurePoint(MethodCall pCurrentMeasurePoint,
                     PreparedStatement pPStatement, int pThreadId, int pParentSequence, int pLastSequence)
                     throws SQLException
     {
@@ -258,13 +259,13 @@ public class ExecutionFlowMySqlDAO
         // GROUP_NAME
         pPStatement.setString(curIndex++, pCurrentMeasurePoint.getGroupName());
         // On fait le recursif sur les children
-        MeasurePoint curChild;
+        MethodCall curChild;
         int curSequence = pLastSequence;
         //        pPStatement.execute();
         pPStatement.addBatch();
         for (Iterator tChildIterator = pCurrentMeasurePoint.getChildren().iterator(); tChildIterator.hasNext();)
         {
-            curChild = (MeasurePoint) tChildIterator.next();
+            curChild = (MethodCall) tChildIterator.next();
             curSequence = addBatchStatementWithMeasurePoint(curChild, pPStatement, pThreadId, pLastSequence + 1,
                             curSequence + 1);
         }
@@ -399,9 +400,9 @@ public class ExecutionFlowMySqlDAO
             tStat.setInt(1, pResultFlow.getId());
 
             tResultSet = tStat.executeQuery();
-            sLog.debug("Execute query for MeasurePoint");
+            sLog.debug("Execute query for MethodCall");
             Map tListOfMeasurePoint = new HashMap();
-            MeasurePoint curMeasure;
+            MethodCall curMeasure;
             boolean tFirstTime = true;
             while (tResultSet.next())
             {
@@ -433,20 +434,20 @@ public class ExecutionFlowMySqlDAO
         return pResultFlow;
     }
 
-    private MeasurePoint fillMeasureWithThisResultSet(ResultSet pResultSet, Map pListOfMeasurePoint)
+    private MethodCall fillMeasureWithThisResultSet(ResultSet pResultSet, Map pListOfMeasurePoint)
                     throws SQLException
     {
         int tParentId = pResultSet.getInt("PARENT_ID");
-        MeasurePoint tParent = (MeasurePoint) pListOfMeasurePoint.get(new Integer(tParentId));
+        MethodCall tParent = (MethodCall) pListOfMeasurePoint.get(new Integer(tParentId));
         String tClassName = pResultSet.getString("FULL_CLASS_NAME");
         String tMethodName = pResultSet.getString("METHOD_NAME");
         String tParams = pResultSet.getString("PARAMETERS");
         String tGroupName = pResultSet.getString("GROUP_NAME");
 
-        MeasurePoint tMeasure = new MeasurePoint(tParent, tClassName, tMethodName, tGroupName, tParams);
+        MethodCall tMeasure = new MethodCall(tParent, tClassName, tMethodName, tGroupName, tParams);
         tMeasure.setFlowId(pResultSet.getInt("FLOW_ID"));
         tMeasure.setSequenceId(pResultSet.getInt("SEQUENCE_ID"));
-        sLog.debug("Flush MeasurePoint FlowId=[" + tMeasure.getFlowId() + "] Sequence=["
+        sLog.debug("Flush MethodCall FlowId=[" + tMeasure.getFlowId() + "] Sequence=["
                         + tMeasure.getSequenceId() + "]");
         pListOfMeasurePoint.put(new Integer(tMeasure.getSequenceId()), tMeasure);
         // DURATION
@@ -524,7 +525,7 @@ public class ExecutionFlowMySqlDAO
         String tJvm = pResultSet.getString("JVM");
         long tBeginTime = pResultSet.getLong("BEGIN_TIME");
         long tEndTime = pResultSet.getLong("END_TIME");
-        MeasurePoint tFirstMeasure = new MeasurePoint(null, pResultSet.getString("FULL_CLASS_NAME"), pResultSet
+        MethodCall tFirstMeasure = new MethodCall(null, pResultSet.getString("FULL_CLASS_NAME"), pResultSet
                         .getString("METHOD_NAME"), pResultSet.getString("GROUP_NAME"), (String) null);
         ExecutionFlow tFlow = new ExecutionFlow(tId, tThreadName, tJvm, tBeginTime, tEndTime);
         tFlow.setFirstMeasure(tFirstMeasure);
@@ -571,7 +572,7 @@ public class ExecutionFlowMySqlDAO
     }
 
     /**
-     * Delete an <code>ExcecutionFlow</code> an its nested <code>MeasurePoint</code>.
+     * Delete an <code>ExcecutionFlow</code> an its nested <code>MethodCall</code>.
      * 
      * @param pId The <code>ExecutionFlow</code> identifier.
      * @throws SQLException If an exception occures.
@@ -612,14 +613,14 @@ public class ExecutionFlowMySqlDAO
                     + " from method_execution where full_class_name = ? And method_name = ?";
 
     /**
-     * Get the list of <code>MeasurePoint</code> with the same classname and methodname.
+     * Get the list of <code>MethodCall</code> with the same classname and methodname.
      * 
      * @param pClassName The classname mask.
      * @param pMethodName The methodname mask.
      * @return The result list.
      * @throws SQLException If DataBase access fail.
      */
-    public MeasurePoint[] getListOfMeasurePoint(String pClassName, String pMethodName) throws SQLException
+    public MethodCall[] getListOfMeasurePoint(String pClassName, String pMethodName) throws SQLException
     {
         PreparedStatement tPStat = null;
         try
@@ -634,7 +635,7 @@ public class ExecutionFlowMySqlDAO
             {
                 tList.add(fillMeasureWithThisResultSet(tResultSet, new HashMap()));
             }
-            MeasurePoint[] tResult = (MeasurePoint[]) tList.toArray(new MeasurePoint[0]);
+            MethodCall[] tResult = (MethodCall[]) tList.toArray(new MethodCall[0]);
             return tResult;
         } finally
         {
@@ -649,14 +650,14 @@ public class ExecutionFlowMySqlDAO
                     + " from method_execution where flow_id = ? And sequence_id = ?";
 
     /**
-     * Read a single <code>MeasurePoint</code>.
+     * Read a single <code>MethodCall</code>.
      * 
      * @param pFlowId The flow identifier.
      * @param pSequenceId The sequence identifier.
-     * @return The <code>MeasurePoint</code>.
+     * @return The <code>MethodCall</code>.
      * @throws SQLException If DataBase access fail.
      */
-    public MeasurePoint readMeasurePoint(int pFlowId, int pSequenceId) throws SQLException
+    public MethodCall readMeasurePoint(int pFlowId, int pSequenceId) throws SQLException
     {
         PreparedStatement tPStat = null;
         try
@@ -667,7 +668,7 @@ public class ExecutionFlowMySqlDAO
             ResultSet tResultSet = tPStat.executeQuery();
             if (!tResultSet.next())
             {
-                throw new MeasureException("Unvalid parameter, MeasurePoint doesn't exist... FlowId=[" + pFlowId
+                throw new MeasureException("Unvalid parameter, MethodCall doesn't exist... FlowId=[" + pFlowId
                                 + "] & SequenceId=[" + pSequenceId + "].");
             }
             return fillMeasureWithThisResultSet(tResultSet, new HashMap());
@@ -689,14 +690,14 @@ public class ExecutionFlowMySqlDAO
                     + "And Child.PARENT_ID=?";
 
     /**
-     * Get <code>MeasurePoint</code> with its parent and chidren.
+     * Get <code>MethodCall</code> with its parent and chidren.
      * 
      * @param pFlowId The flow identifier.
      * @param pSequenceId The sequence identifier.
-     * @return The <code>MeasurePoint</code>.
+     * @return The <code>MethodCall</code>.
      * @throws SQLException If DataBase access fail.
      */
-    public MeasurePoint readFullMeasurePoint(int pFlowId, int pSequenceId) throws SQLException
+    public MethodCall readFullMeasurePoint(int pFlowId, int pSequenceId) throws SQLException
     {
         PreparedStatement tPStat = null;
         try
@@ -717,7 +718,7 @@ public class ExecutionFlowMySqlDAO
             }
 
             // The Parent has only one child
-            return (MeasurePoint) tListOfMeasure.get(new Integer(pSequenceId));
+            return (MethodCall) tListOfMeasure.get(new Integer(pSequenceId));
         } finally
         {
             if (tPStat != null)

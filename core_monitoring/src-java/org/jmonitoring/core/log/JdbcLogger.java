@@ -8,11 +8,11 @@ package org.jmonitoring.core.log;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
 import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * @author pke
