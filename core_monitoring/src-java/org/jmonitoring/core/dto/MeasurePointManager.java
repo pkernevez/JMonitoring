@@ -23,7 +23,7 @@ import org.aspectj.lang.Signature;
  */
 public class MeasurePointManager
 {
-    private MeasurePoint mCurrentLogPoint;
+    private MethodCall mCurrentLogPoint;
 
     /** <code>CommonsLog</code> instance. */
     private static Log sLog;
@@ -68,7 +68,7 @@ public class MeasurePointManager
      * 
      * @param pSignature The method signature.
      * @param pArgs The method arguments.
-     * @param pGroupName The name of the group associated with this <code>MeasurePoint</code>.
+     * @param pGroupName The name of the group associated with this <code>MethodCall</code>.
      */
     public void logBeginOfMethod(Signature pSignature, Object[] pArgs, String pGroupName)
     {
@@ -78,7 +78,7 @@ public class MeasurePointManager
             {
                 sLog.debug("logBeginOfMethod First Time" + pSignature);
             }
-            mCurrentLogPoint = new MeasurePoint(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
+            mCurrentLogPoint = new MethodCall(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
                             pGroupName, pArgs);
         } else
         {
@@ -86,8 +86,8 @@ public class MeasurePointManager
             {
                 sLog.debug("logBeginOfMethod Any Time" + pSignature);
             }
-            MeasurePoint tOldPoint = mCurrentLogPoint;
-            mCurrentLogPoint = new MeasurePoint(tOldPoint, pSignature.getDeclaringTypeName(),
+            MethodCall tOldPoint = mCurrentLogPoint;
+            mCurrentLogPoint = new MethodCall(tOldPoint, pSignature.getDeclaringTypeName(),
                             pSignature.getName(), pGroupName, pArgs);
         }
     }

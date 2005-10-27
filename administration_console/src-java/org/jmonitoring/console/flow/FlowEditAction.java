@@ -17,7 +17,7 @@ import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
 import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MethodCall;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -83,7 +83,7 @@ public class FlowEditAction extends Action
             } else
             {
                 sLog.debug("Need more information to know if we can displayed the next screen...");
-                MeasurePoint tFirstMeasure = tFlow.getFirstMeasure();
+                MethodCall tFirstMeasure = tFlow.getFirstMeasure();
                 //Creation of the associated images.
                 HttpSession tSession = pRequest.getSession();
                 sLog.debug("Write PieCharts into HttpSession");
@@ -92,7 +92,7 @@ public class FlowEditAction extends Action
                 FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure);
                 if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
                 {
-                    sLog.debug("MeasurePoint Filtering : duration>" + tForm.getDurationMin());
+                    sLog.debug("MethodCall Filtering : duration>" + tForm.getDurationMin());
                     limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
                 }
                 sLog.debug("Forward success.");
@@ -113,17 +113,17 @@ public class FlowEditAction extends Action
     }
 
     /**
-     * Filter the <code>MeasurePoint</code> tree using the duration.
+     * Filter the <code>MethodCall</code> tree using the duration.
      * 
-     * @param pDurationMin The minimum duration of the <code>MeasurePoint</code>.
-     * @param pCurrentMeasure The current <code>MeasurePoint</code> of the tree.
+     * @param pDurationMin The minimum duration of the <code>MethodCall</code>.
+     * @param pCurrentMeasure The current <code>MethodCall</code> of the tree.
      */
-    void limitMeasureWithDuration(int pDurationMin, MeasurePoint pCurrentMeasure)
+    void limitMeasureWithDuration(int pDurationMin, MethodCall pCurrentMeasure)
     {
-        MeasurePoint curChild;
+        MethodCall curChild;
         for (int i = 0; i < pCurrentMeasure.getChildren().size();)
         {
-            curChild = (MeasurePoint) pCurrentMeasure.getChildren().get(i);
+            curChild = (MethodCall) pCurrentMeasure.getChildren().get(i);
             if (curChild.getDuration() < pDurationMin)
             { // We remove this child
                 pCurrentMeasure.getChildren().remove(i);

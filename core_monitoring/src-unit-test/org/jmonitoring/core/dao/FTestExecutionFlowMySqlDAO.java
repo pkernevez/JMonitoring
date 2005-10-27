@@ -20,7 +20,7 @@ import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dao.MeasureExtract;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
 import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MethodCall;
 
 /**
  * @author pke
@@ -233,15 +233,15 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
     public static ExecutionFlow buildNewFullFlow()
     {
         ExecutionFlow tFlow;
-        MeasurePoint tPoint;
+        MethodCall tPoint;
 
-        tPoint = new MeasurePoint(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow",
+        tPoint = new MethodCall(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow",
                         "GrDefault", new Object[0]);
         //This local variable is indireclty used by its parent
-        new MeasurePoint(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2", "GrChild1",
+        new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2", "GrChild1",
                         new Object[0]);
         //This local variable is indireclty used by its parent
-        new MeasurePoint(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3", "GrChild2",
+        new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3", "GrChild2",
                         new Object[0]);
         tFlow = new ExecutionFlow("TEST-main", tPoint, "myJVM");
         return tFlow;
@@ -275,8 +275,8 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             assertEquals(tInitialFlow.getEndTime(), tReadFlow.getEndTime());
 
             // Check equality of the first measure point
-            MeasurePoint tInitialPoint = tInitialFlow.getFirstMeasure();
-            MeasurePoint tReadPoint = tReadFlow.getFirstMeasure();
+            MethodCall tInitialPoint = tInitialFlow.getFirstMeasure();
+            MethodCall tReadPoint = tReadFlow.getFirstMeasure();
             assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
             assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
             assertEquals("[]", tReadPoint.getParams());
@@ -289,8 +289,8 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
             // Check equality of the first child measure point
-            tInitialPoint = (MeasurePoint) tInitialPoint.getChildren().get(0);
-            tReadPoint = (MeasurePoint) tReadPoint.getChildren().get(0);
+            tInitialPoint = (MethodCall) tInitialPoint.getChildren().get(0);
+            tReadPoint = (MethodCall) tReadPoint.getChildren().get(0);
             assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
             assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
             assertEquals("[]", tReadPoint.getParams());
@@ -303,8 +303,8 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
             // Check equality of the second child measure point
-            tInitialPoint = (MeasurePoint) tInitialPoint.getParent().getChildren().get(1);
-            tReadPoint = (MeasurePoint) tReadPoint.getParent().getChildren().get(1);
+            tInitialPoint = (MethodCall) tInitialPoint.getParent().getChildren().get(1);
+            tReadPoint = (MethodCall) tReadPoint.getParent().getChildren().get(1);
             assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
             assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
             assertEquals("[]", tReadPoint.getParams());

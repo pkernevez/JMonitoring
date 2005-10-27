@@ -7,8 +7,6 @@ package org.jmonitoring.core.configuration;
 
 import java.awt.Color;
 
-import org.jmonitoring.core.configuration.Configuration;
-
 import junit.framework.TestCase;
 
 public class TestConfiguration extends TestCase

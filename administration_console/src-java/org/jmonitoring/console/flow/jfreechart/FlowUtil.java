@@ -18,9 +18,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.measure.MeasureException;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MethodCall;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,9 +55,9 @@ public class FlowUtil
      * The fisrt is the repartition of the number of call and the other is the repertition of 
      * the duration.
      * @param pSession The session to use for the image writing as a bytes arrays.
-     * @param pFirstMeasure The root of the <code>MeasurePoint</code> tree.
+     * @param pFirstMeasure The root of the <code>MethodCall</code> tree.
      */
-    public static void writeImageIntoSession(HttpSession pSession, MeasurePoint pFirstMeasure)
+    public static void writeImageIntoSession(HttpSession pSession, MethodCall pFirstMeasure)
     {
         FlowUtil tFlow = new FlowUtil();
         tFlow.addTimeWith(pFirstMeasure);
@@ -135,17 +135,17 @@ public class FlowUtil
     }
 
     /**
-     * Append the duration passed in this <code>MeasurePoint</code>. 
+     * Append the duration passed in this <code>MethodCall</code>. 
      * @param pMeasure The current measure.
      */
-    void addTimeWith(MeasurePoint pMeasure)
+    void addTimeWith(MethodCall pMeasure)
     {
         long tChildDuration = 0;
-        MeasurePoint curPoint;
+        MethodCall curPoint;
         // On itère sur les noeuds fils
         for (int i = 0; i < pMeasure.getChildren().size(); i++)
         {
-            curPoint = (MeasurePoint) pMeasure.getChildren().get(i);
+            curPoint = (MethodCall) pMeasure.getChildren().get(i);
             addTimeWith(curPoint);
             tChildDuration = tChildDuration + (curPoint.getEndTime() - curPoint.getBeginTime());
         }
@@ -161,10 +161,10 @@ public class FlowUtil
     }
 
     /**
-     * Append the number of calls passed in this <code>MeasurePoint</code>. 
+     * Append the number of calls passed in this <code>MethodCall</code>. 
      * @param pMeasure The current measure.
      */
-    void addNbCallWith(MeasurePoint pMeasure)
+    void addNbCallWith(MethodCall pMeasure)
     {
         String tGroupName = pMeasure.getGroupName();
         Integer tNbCall = (Integer) mListOfGroup.get(tGroupName);
@@ -178,7 +178,7 @@ public class FlowUtil
         // On itère sur les noeuds fils
         for (int i = 0; i < pMeasure.getChildren().size(); i++)
         {
-            addNbCallWith((MeasurePoint) pMeasure.getChildren().get(i));
+            addNbCallWith((MethodCall) pMeasure.getChildren().get(i));
         }
     }
 

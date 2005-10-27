@@ -34,11 +34,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.xy.IntervalXYDataset;
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.MeasureException;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MethodCall;
 
 /**
  * @author pke
@@ -69,22 +69,22 @@ public class MeasureStatAction extends Action
                     HttpServletResponse pResponse) throws Exception
     {
         MeasurePointStatForm tForm = (MeasurePointStatForm) pForm;
-        MeasurePoint[] tMeasures = readMeasure(tForm);
+        MethodCall[] tMeasures = readMeasure(tForm);
         tForm.setNbMeasures(tMeasures.length);
         writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
         computeStat(tMeasures, tForm);
         return pMapping.findForward("success");
     }
 
-    private MeasurePoint[] readMeasure(MeasurePointStatForm pForm)
+    private MethodCall[] readMeasure(MeasurePointStatForm pForm)
     {
         try
         {
             Connection tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
             ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
             if (!pForm.isParametersByName())
-            { // First retreive className and methodName from the given MeasurePoint
-                MeasurePoint tOriginalMeasure = tDao.readMeasurePoint(pForm.getFlowId(), pForm.getSequenceId());
+            { // First retreive className and methodName from the given MethodCall
+                MethodCall tOriginalMeasure = tDao.readMeasurePoint(pForm.getFlowId(), pForm.getSequenceId());
                 pForm.setClassName(tOriginalMeasure.getClassName());
                 pForm.setMethodName(tOriginalMeasure.getMethodName());
             }
@@ -95,11 +95,11 @@ public class MeasureStatAction extends Action
         }
     }
 
-    private void computeStat(MeasurePoint[] pMeasures, MeasurePointStatForm pForm)
+    private void computeStat(MethodCall[] pMeasures, MeasurePointStatForm pForm)
     {
         if (pMeasures.length != 0)
         {
-            MeasurePoint curMeasure = pMeasures[0];
+            MethodCall curMeasure = pMeasures[0];
             long tMin = curMeasure.getDuration(), tMax = tMin, tSum = tMin;
             for (int i = 1; i < pMeasures.length; i++)
             {
@@ -130,7 +130,7 @@ public class MeasureStatAction extends Action
         }
     }
 
-    private int computeIntervalValue(MeasurePoint[] pMeasures, MeasurePointStatForm pForm)
+    private int computeIntervalValue(MethodCall[] pMeasures, MeasurePointStatForm pForm)
     {
         int tIntervalValue = pForm.getInterval();
         if (tIntervalValue <= 0)
@@ -158,10 +158,10 @@ public class MeasureStatAction extends Action
      * Write the image of statistic duration image into session.
      * 
      * @param pSession The http session.
-     * @param pMeasures The list of <code>MeasurePoint</code> to use for image generation.
+     * @param pMeasures The list of <code>MethodCall</code> to use for image generation.
      * @param pForm The form associated to this Action.
      */
-    public void writeFullDurationStat(HttpSession pSession, MeasurePoint[] pMeasures, MeasurePointStatForm pForm)
+    public void writeFullDurationStat(HttpSession pSession, MethodCall[] pMeasures, MeasurePointStatForm pForm)
     {
         int tInterval = computeIntervalValue(pMeasures, pForm);
         IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
@@ -208,7 +208,7 @@ public class MeasureStatAction extends Action
         return chart;
     }
 
-    private IntervalXYDataset createFullDurationDataset(MeasurePoint[] pMeasures, int pInterval)
+    private IntervalXYDataset createFullDurationDataset(MethodCall[] pMeasures, int pInterval)
     {
         Map tMap = new HashMap();
         Integer tCurNb;

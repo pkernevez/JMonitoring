@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class MeasurePoint
+public class MethodCall
 {
 
     /** Flow Technical Id. */
@@ -31,7 +31,7 @@ public class MeasurePoint
     private int mSequenceId;
 
     /** Lien sur le père de ce point dans la hierachie d'appel. */
-    private MeasurePoint mParent;
+    private MethodCall mParent;
 
     /** Liste des points de mesure fils dans la chaîne d'appel. */
     private LinkedList mChildren = new LinkedList();
@@ -67,15 +67,15 @@ public class MeasurePoint
     /**
      * Constructor used for Database, because original types are already converted to <code>String</code>.
      * 
-     * @param pParent The <code>MeasurePoint</code> from which we made the call to the current
-     *        <code>MeasurePoint</code>.
+     * @param pParent The <code>MethodCall</code> from which we made the call to the current
+     *        <code>MethodCall</code>.
      * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-     *        <code>MeasurePoint</code>.
-     * @param pMethodName The method name of the statement associated with this <code>MeasurePoint</code>.
-     * @param pGroupName The name of the group associated to this <code>MeasurePoint</code>.
+     *        <code>MethodCall</code>.
+     * @param pMethodName The method name of the statement associated with this <code>MethodCall</code>.
+     * @param pGroupName The name of the group associated to this <code>MethodCall</code>.
      * @param pParams The parameters serialized as <code>String</code> passed to the method <code>pMethodName</code>.
      */
-    public MeasurePoint(MeasurePoint pParent, String pClassName, String pMethodName, String pGroupName,
+    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName,
                     String pParams)
     {
         if (sLog == null)
@@ -97,15 +97,15 @@ public class MeasurePoint
     /**
      * Constructor used for Database, because original types are already converted to <code>String</code>.
      * 
-     * @param pParent The <code>MeasurePoint</code> from which we made the call to the current
-     *        <code>MeasurePoint</code>.
+     * @param pParent The <code>MethodCall</code> from which we made the call to the current
+     *        <code>MethodCall</code>.
      * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-     *        <code>MeasurePoint</code>.
-     * @param pMethodName The method name of the statement associated with this <code>MeasurePoint</code>.
-     * @param pGroupName The name of the group associated to this <code>MeasurePoint</code>.
+     *        <code>MethodCall</code>.
+     * @param pMethodName The method name of the statement associated with this <code>MethodCall</code>.
+     * @param pGroupName The name of the group associated to this <code>MethodCall</code>.
      * @param pParams The <code>Object</code> array passed to the method <code>pMethodName</code>.
      */
-    public MeasurePoint(MeasurePoint pParent, String pClassName, String pMethodName, String pGroupName,
+    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName,
                     Object[] pParams)
     {
         if (pParent != null)
@@ -144,7 +144,7 @@ public class MeasurePoint
     }
 
     /**
-     * Define the return value of the method associated with this <code>MeasurePoint</code> when it didn't throw a
+     * Define the return value of the method associated with this <code>MethodCall</code> when it didn't throw a
      * <code>Throwable</code>.
      * 
      * @param pReturnValue The return value of the method.
@@ -165,7 +165,7 @@ public class MeasurePoint
     }
 
     /**
-     * Define the <code>Throwable</code> thrown by the method associated with this <code>MeasurePoint</code>.
+     * Define the <code>Throwable</code> thrown by the method associated with this <code>MethodCall</code>.
      * 
      * @param pExceptionClassName The name of the <code>Class</code> of the <code>Exception</code>.
      * @param pExceptionMessage The message of the <code>Exception</code>.
@@ -189,11 +189,11 @@ public class MeasurePoint
     }
 
     /**
-     * Accessor, add a call to a sub-method of this <code>MeasurePoint</code>.
+     * Accessor, add a call to a sub-method of this <code>MethodCall</code>.
      * 
-     * @param pChild The <code>MeasurePoint</code> associated with the sub-method call.
+     * @param pChild The <code>MethodCall</code> associated with the sub-method call.
      */
-    private void addChild(MeasurePoint pChild)
+    private void addChild(MethodCall pChild)
     {
         mChildren.add(pChild);
         pChild.mParent = this;
@@ -202,9 +202,9 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The parent <code>MeasurePoint</code> of this <code>MeasurePoint</code>.
+     * @return The parent <code>MethodCall</code> of this <code>MethodCall</code>.
      */
-    public MeasurePoint getParent()
+    public MethodCall getParent()
     {
         return mParent;
     }
@@ -212,7 +212,7 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The start time of the call to the method associated to thiis <code>MeasurePoint</code>.
+     * @return The start time of the call to the method associated to thiis <code>MethodCall</code>.
      */
     public long getBeginTime()
     {
@@ -223,7 +223,7 @@ public class MeasurePoint
      * Accessor.
      * 
      * @return The name of the <code>Class</code> on which we call the methid associated to this
-     *         <code>MeasurePoint</code>.
+     *         <code>MethodCall</code>.
      */
     public String getClassName()
     {
@@ -233,7 +233,7 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The time of the execution of the methid associated with this <code>MeasurePoint</code>.
+     * @return The time of the execution of the methid associated with this <code>MethodCall</code>.
      */
     public long getDuration()
     {
@@ -243,7 +243,7 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The end time of the method associated with this <code>MeasurePoint</code>.
+     * @return The end time of the method associated with this <code>MethodCall</code>.
      */
     public long getEndTime()
     {
@@ -253,7 +253,7 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The name of the method associated with this <code>MeasurePoint</code>.
+     * @return The name of the method associated with this <code>MethodCall</code>.
      */
     public String getMethodName()
     {
@@ -263,7 +263,7 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The parameters of the method associated with this <code>MeasurePoint</code> as <code>String</code>.
+     * @return The parameters of the method associated with this <code>MethodCall</code> as <code>String</code>.
      */
     public String getParams()
     {
@@ -273,7 +273,7 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The return value of the method associated with this <code>MeasurePoint</code>. Null if the method
+     * @return The return value of the method associated with this <code>MethodCall</code>. Null if the method
      *         ended with an <code>Exception</code>.
      */
     public String getReturnValue()
@@ -285,7 +285,7 @@ public class MeasurePoint
      * Accessor.
      * 
      * @return The name of the <code>Class</code> of the <code>Exception</code> thrown by the method associated with
-     *         this <code>MeasurePoint</code>. Null if the method ended normally.
+     *         this <code>MethodCall</code>. Null if the method ended normally.
      */
     public String getThrowableClassName()
     {
@@ -296,7 +296,7 @@ public class MeasurePoint
      * Accessor.
      * 
      * @return The message of the <code>Exception</code> thrown by the method associated with this
-     *         <code>MeasurePoint</code>. Null if the method ended normally.
+     *         <code>MethodCall</code>. Null if the method ended normally.
      */
     public String getThrowableMessage()
     {
@@ -306,7 +306,7 @@ public class MeasurePoint
     /**
      * Accessor.
      * 
-     * @return The list of the sub-method of this <code>MeasurePoint</code>.
+     * @return The list of the sub-method of this <code>MethodCall</code>.
      */
     public List getChildren()
     {
@@ -428,17 +428,17 @@ public class MeasurePoint
     }
 
     /**
-     * Count the number of sub <code>MeasurePoint</code> of this measure.
+     * Count the number of sub <code>MethodCall</code> of this measure.
      * 
      * @return The number of measure.
      */
     int getSubMeasureCount()
     {
         int tNbMeasure = 1;
-        MeasurePoint curChild;
+        MethodCall curChild;
         for (Iterator tIte = mChildren.iterator(); tIte.hasNext();)
         {
-            curChild = (MeasurePoint) tIte.next();
+            curChild = (MethodCall) tIte.next();
             tNbMeasure += curChild.getSubMeasureCount();
         }
         return tNbMeasure;

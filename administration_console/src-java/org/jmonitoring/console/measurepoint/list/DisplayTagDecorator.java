@@ -19,7 +19,7 @@ public class DisplayTagDecorator extends TableDecorator
         StringBuffer tResult = new StringBuffer();
         tResult.append("<A href=\"");
         tResult.append("MeasurePointEdit.do?flowId=").append( tBean.get("FLOW_ID")).append("&sequenceId=");
-        tResult.append( tBean.get("SEQUENCE_ID")).append("\" title=\"View this MeasurePoint\"><IMG src=\"images/edit.png\"/></A>");
+        tResult.append( tBean.get("SEQUENCE_ID")).append("\" title=\"View this MethodCall\"><IMG src=\"images/edit.png\"/></A>");
         return tResult.toString();
     }
     public String getUrlFlow()

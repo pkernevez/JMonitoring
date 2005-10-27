@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.measure.MethodCall;
 
 /**
  * Util class for render a flow as an Satck in an Html page.
@@ -46,7 +46,7 @@ public class FlowAsStackUtil
      * 
      * @param pWriter Text Writer.
      * @throws IOException
-     * @todo Make an button for deploying all the MeasurePoint or for undeploying them.
+     * @todo Make an button for deploying all the MethodCall or for undeploying them.
      * @todo Option undeply only those with exception or duration upper XXX.
      * @return The Html code of this flow.
      */
@@ -81,7 +81,7 @@ public class FlowAsStackUtil
      * @param pHtmlBuffer The Html buffer for this measure.
      * @todo Use background color with item.
      */
-    private void writeMeasureAsHtml(MeasurePoint pCurrentMeasure, StringBuffer pHtmlBuffer)
+    private void writeMeasureAsHtml(MethodCall pCurrentMeasure, StringBuffer pHtmlBuffer)
     {
         // Gestion de l'exception
         String tReturnImage;
@@ -104,7 +104,7 @@ public class FlowAsStackUtil
                         + pCurrentMeasure.getFlowId() + "&sequenceId=" + pCurrentMeasure.getSequenceId() + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
-        // Maintenant on créer le le html associé au MeasurePoint
+        // Maintenant on créer le le html associé au MethodCall
         if (pCurrentMeasure.getChildren().size() > 0)
         { // On crée un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
@@ -115,7 +115,7 @@ public class FlowAsStackUtil
             pHtmlBuffer.append("  <ul id=\"" + pCurrentMeasure.getSequenceId() + "Menu\" class=\"submenu\">\n");
             for (Iterator tIterator = pCurrentMeasure.getChildren().iterator(); tIterator.hasNext();)
             {
-                writeMeasureAsHtml((MeasurePoint) tIterator.next(), pHtmlBuffer);
+                writeMeasureAsHtml((MethodCall) tIterator.next(), pHtmlBuffer);
             }
             pHtmlBuffer.append("  </ul>\n</li>\n");
         } else
@@ -127,12 +127,12 @@ public class FlowAsStackUtil
     }
 
     /**
-     * Get the text part of <code>MeasurePoint</code> of a Flow.
+     * Get the text part of <code>MethodCall</code> of a Flow.
      * 
      * @param pMeasure The measure point to use.
      * @return the Html <code>String</code> for Html rendering.
      */
-    private String getMeasurePointText(MeasurePoint pMeasure)
+    private String getMeasurePointText(MethodCall pMeasure)
     {
         StringBuffer tBuffer = new StringBuffer();
         long tDuration = pMeasure.getEndTime() - pMeasure.getBeginTime();
@@ -143,12 +143,12 @@ public class FlowAsStackUtil
     }
 
     /**
-     * Get the title part of <code>MeasurePoint</code> of a Flow.
+     * Get the title part of <code>MethodCall</code> of a Flow.
      * 
      * @param pMeasure The measure point to use.
      * @return the Html <code>String</code> to use in the <code>title</code> Html attribute.
      */
-    private String getMeasurePointTitle(MeasurePoint pMeasure)
+    private String getMeasurePointTitle(MethodCall pMeasure)
     {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("Start Date=");

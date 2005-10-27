@@ -29,7 +29,7 @@ public class FTestAsynchroneJdbcLogger extends TestCase
     private int mInitialMaxFlowId;
 
     /**
-     * Check the number of toString() method called on the object associated to MeasurePoint. This is important because
+     * Check the number of toString() method called on the object associated to MethodCall. This is important because
      * of the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc

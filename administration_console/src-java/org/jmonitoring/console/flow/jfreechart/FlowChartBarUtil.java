@@ -16,8 +16,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.jmonitoring.core.measure.MeasureException;
-import org.jmonitoring.core.measure.MeasurePoint;
+import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.measure.MethodCall;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,15 +50,15 @@ public class FlowChartBarUtil
      * same method.
      * 
      * @param pSession The <code>Session</code> where we have to write the image.
-     * @param pFirstMeasure The root of the Tree of <code>MeasurePoint</code> to use for the image generation.
+     * @param pFirstMeasure The root of the Tree of <code>MethodCall</code> to use for the image generation.
      */
-    public static void writeImageIntoSession(HttpSession pSession, MeasurePoint pFirstMeasure)
+    public static void writeImageIntoSession(HttpSession pSession, MethodCall pFirstMeasure)
     {
         FlowChartBarUtil tUtil = new FlowChartBarUtil();
         tUtil.fillChart(pSession, pFirstMeasure);
     }
 
-    private void fillChart(HttpSession pSession, MeasurePoint pFirstMeasure)
+    private void fillChart(HttpSession pSession, MethodCall pFirstMeasure)
     {
         mListOfTask = new HashMap();
         fillListOfGroup(pFirstMeasure);
@@ -77,7 +77,7 @@ public class FlowChartBarUtil
         private Task mTask;
     }
 
-    private void fillListOfGroup(MeasurePoint pCurMeasure)
+    private void fillListOfGroup(MethodCall pCurMeasure)
     {
         String tGroupName = pCurMeasure.getGroupName();
         TaskEntry tTask = (TaskEntry) mListOfTask.get(tGroupName);
@@ -94,7 +94,7 @@ public class FlowChartBarUtil
         if (tListOfClidren.size() > 0)
         {
             long tBeginDateAsLong = pCurMeasure.getBeginTime();
-            long tEndDateAsLong = ((MeasurePoint) tListOfClidren.get(0)).getBeginTime();
+            long tEndDateAsLong = ((MethodCall) tListOfClidren.get(0)).getBeginTime();
             if (tEndDateAsLong < tBeginDateAsLong)
             { // Contournement du bug
                 tEndDateAsLong = tBeginDateAsLong;
@@ -106,8 +106,8 @@ public class FlowChartBarUtil
             {
                 if (i > 0)
                 {
-                    tBeginDateAsLong = ((MeasurePoint) tListOfClidren.get(i - 1)).getEndTime();
-                    tEndDateAsLong = ((MeasurePoint) tListOfClidren.get(i)).getBeginTime();
+                    tBeginDateAsLong = ((MethodCall) tListOfClidren.get(i - 1)).getEndTime();
+                    tEndDateAsLong = ((MethodCall) tListOfClidren.get(i)).getBeginTime();
                     if (tEndDateAsLong < tBeginDateAsLong)
                     { // Contournement du bug
                         tEndDateAsLong = tBeginDateAsLong;
@@ -116,10 +116,10 @@ public class FlowChartBarUtil
                     tEndDate = new Date(tEndDateAsLong);
                     tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(tBeginDate, tEndDate)));
                 }
-                fillListOfGroup((MeasurePoint) tListOfClidren.get(i));
+                fillListOfGroup((MethodCall) tListOfClidren.get(i));
             }
 
-            tBeginDateAsLong = ((MeasurePoint) tListOfClidren.get(tListOfClidren.size() - 1)).getEndTime();
+            tBeginDateAsLong = ((MethodCall) tListOfClidren.get(tListOfClidren.size() - 1)).getEndTime();
             tEndDateAsLong = pCurMeasure.getEndTime();
             if (tEndDateAsLong < tBeginDateAsLong)
             { // Contournement du bug

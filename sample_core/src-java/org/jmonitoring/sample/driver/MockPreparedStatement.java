@@ -25,7 +25,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.jmonitoring.core.measure.MeasureException;
+import org.jmonitoring.core.common.MeasureException;
 
 /**
  * @author pke

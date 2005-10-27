@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.MeasureExtract;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.MeasureException;
 
 /**
  * Utility for image generation of the tree of measure as a menu.
