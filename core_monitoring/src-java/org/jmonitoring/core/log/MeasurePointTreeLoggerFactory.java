@@ -7,10 +7,9 @@ package org.jmonitoring.core.log;
 
 import java.lang.reflect.Constructor;
 
-import org.jmonitoring.core.configuration.Configuration;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.configuration.Configuration;
 
 /**
  * Permet d'obtenir un IMeasurePointLogger en focntion de la configuration.
@@ -43,8 +42,8 @@ public final class MeasurePointTreeLoggerFactory
             {
                 Log tLog = LogFactory.getLog(MeasurePointTreeLoggerFactory.class);
                 tLog.error("Unable to get Constructor for the class MEASURE_POINT_LOGGER_CLASS", t);
-                throw new RuntimeException("Unable to find constructor without parameter for class ["
-                                + tStoreClass + "]", t);
+                throw new RuntimeException("Unable to find constructor without parameter for class [" + tStoreClass
+                                + "]", t);
             }
         }
         Object tResult;

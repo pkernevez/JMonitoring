@@ -1,9 +1,8 @@
 package org.jmonitoring.core.log;
 
-import org.jmonitoring.core.measure.ExecutionFlow;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -64,7 +63,7 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
 
     /**
      * Accessor.
-     * 
+     *  
      */
     public static synchronized void resetNbLog()
     {
@@ -74,7 +73,7 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
     /**
      * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlow)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlow pFlow)
+    protected Runnable getAsynchroneLogTask(ExecutionFlowDTO pFlow)
     {
         incrementNbPublish();
         return new MockRunnable();

@@ -7,11 +7,10 @@ import org.aspectj.lang.Signature;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-
 /** Mock AspectJ Signature */
 public class MockSignature implements Signature
 {
-    /** No doc for this test.*/
+    /** No doc for this test. */
     public MockSignature(String pName, Class pDeclaringType)
     {
         mName = pName;
@@ -19,50 +18,63 @@ public class MockSignature implements Signature
     }
 
     private String mName;
+
     private Class mDeclaringClass;
-    
-    /** No doc for this test.
-     * @return no doc 
+
+    /**
+     * No doc for this test.
+     * 
+     * @return no doc
      */
     public String toShortString()
     {
         return mName;
     }
 
-    /** No doc for this test.
-     * @return no doc 
+    /**
+     * No doc for this test.
+     * 
+     * @return no doc
      */
     public String toLongString()
     {
-        return mDeclaringClass.getName()+"."+mName;
+        return mDeclaringClass.getName() + "." + mName;
     }
 
-    /** No doc for this test.
-     * @return no doc 
+    /**
+     * No doc for this test.
+     * 
+     * @return no doc
      */
     public String getName()
     {
         return mName;
     }
 
-    /** No doc for this test.
-     * @return no doc 
+    /**
+     * No doc for this test.
+     * 
+     * @return no doc
      */
     public int getModifiers()
     {
-       return 0;
+        return 0;
     }
 
-    /** No doc for this test.
-     * @return no doc 
+    /**
+     * No doc for this test.
+     * 
+     * @return no doc
      */
     public Class getDeclaringType()
     {
         return mDeclaringClass;
     }
 
-    /** No doc for this test.
-     * @return no doc 
+    /**
+     * No doc for this test.
+     * 
+     * @return no doc
      */
     public String getDeclaringTypeName()
     {

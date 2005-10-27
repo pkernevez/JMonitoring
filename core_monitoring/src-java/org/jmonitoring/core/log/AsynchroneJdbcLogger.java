@@ -13,7 +13,9 @@ import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+
+;
 
 /**
  * @author pke
@@ -42,9 +44,9 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
     {
         private static ThreadLocal mConnection = new ThreadLocal();
 
-        private ExecutionFlow mExecutionFlowToLog;
+        private ExecutionFlowDTO mExecutionFlowToLog;
 
-        public AsynchroneJdbcLoggerRunnable(ExecutionFlow pExecutionFlowToLog)
+        public AsynchroneJdbcLoggerRunnable(ExecutionFlowDTO pExecutionFlowToLog)
         {
             mExecutionFlowToLog = pExecutionFlowToLog;
         }
@@ -85,7 +87,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
     /**
      * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlow)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlow pFlow)
+    protected Runnable getAsynchroneLogTask(ExecutionFlowDTO pFlow)
     {
         return new AsynchroneJdbcLoggerRunnable(pFlow);
     };

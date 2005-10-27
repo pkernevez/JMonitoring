@@ -1,4 +1,4 @@
-package org.jmonitoring.core.measure;
+package org.jmonitoring.core.dto;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -10,10 +10,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jmonitoring.core.configuration.Configuration;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.configuration.Configuration;
 
 /**
  * @author pke
@@ -67,16 +66,14 @@ public class MethodCall
     /**
      * Constructor used for Database, because original types are already converted to <code>String</code>.
      * 
-     * @param pParent The <code>MethodCall</code> from which we made the call to the current
-     *        <code>MethodCall</code>.
+     * @param pParent The <code>MethodCall</code> from which we made the call to the current <code>MethodCall</code>.
      * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
      *        <code>MethodCall</code>.
      * @param pMethodName The method name of the statement associated with this <code>MethodCall</code>.
      * @param pGroupName The name of the group associated to this <code>MethodCall</code>.
      * @param pParams The parameters serialized as <code>String</code> passed to the method <code>pMethodName</code>.
      */
-    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName,
-                    String pParams)
+    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName, String pParams)
     {
         if (sLog == null)
         {
@@ -97,16 +94,14 @@ public class MethodCall
     /**
      * Constructor used for Database, because original types are already converted to <code>String</code>.
      * 
-     * @param pParent The <code>MethodCall</code> from which we made the call to the current
-     *        <code>MethodCall</code>.
+     * @param pParent The <code>MethodCall</code> from which we made the call to the current <code>MethodCall</code>.
      * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
      *        <code>MethodCall</code>.
      * @param pMethodName The method name of the statement associated with this <code>MethodCall</code>.
      * @param pGroupName The name of the group associated to this <code>MethodCall</code>.
      * @param pParams The <code>Object</code> array passed to the method <code>pMethodName</code>.
      */
-    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName,
-                    Object[] pParams)
+    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName, Object[] pParams)
     {
         if (pParent != null)
         { // On chaine la hierachie
@@ -136,9 +131,7 @@ public class MethodCall
             }
         } catch (Throwable tT)
         {
-            sLog
-                            .error("Unable to getArguments of class=[" + pClassName + "] and method=["
-                                            + pMethodName + "]", tT);
+            sLog.error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
         }
         mParams = tBuffer.toString();
     }
@@ -273,8 +266,8 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The return value of the method associated with this <code>MethodCall</code>. Null if the method
-     *         ended with an <code>Exception</code>.
+     * @return The return value of the method associated with this <code>MethodCall</code>. Null if the method ended
+     *         with an <code>Exception</code>.
      */
     public String getReturnValue()
     {

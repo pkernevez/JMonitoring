@@ -1,4 +1,4 @@
-package org.jmonitoring.core.measure;
+package org.jmonitoring.core.dto;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -15,13 +15,13 @@ import org.jmonitoring.core.configuration.Configuration;
  * 
  * @author pke
  */
-public class ExecutionFlow
+public class ExecutionFlowDTO
 {
     /** Thread name. */
     private String mThreadName;
 
     /** First Measure. */
-    private MeasurePoint mFirstMeasure;
+    private MethodCall mFirstMeasure;
 
     /** Name of the 'JVM' or server. */
     private String mJvmIdentifier;
@@ -44,7 +44,7 @@ public class ExecutionFlow
      * @param pBeginTime L'heure de début de l'appel.
      * @param pEndTime L'heure de fin de l'appel.
      */
-    public ExecutionFlow(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    public ExecutionFlowDTO(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
     {
         super();
         mId = pId;
@@ -62,7 +62,7 @@ public class ExecutionFlow
      * @param pBeginTime L'heure de début de l'appel.
      * @param pEndTime L'heure de fin de l'appel.
      */
-    public ExecutionFlow(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    public ExecutionFlowDTO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
     {
         this(-1, pThreadName, pJVMIdentifier, pBeginTime, pEndTime);
     }
@@ -75,7 +75,7 @@ public class ExecutionFlow
      * @param pJVMIdentifier The identifier of this JVM or Server.
      *  
      */
-    public ExecutionFlow(String pThreadName, MeasurePoint pFirstMeasure, String pJVMIdentifier)
+    public ExecutionFlowDTO(String pThreadName, MethodCall pFirstMeasure, String pJVMIdentifier)
     {
         mThreadName = pThreadName;
         mFirstMeasure = pFirstMeasure;
@@ -87,7 +87,7 @@ public class ExecutionFlow
     /**
      * @return Returns the mFirstMeasure.
      */
-    public MeasurePoint getFirstMeasure()
+    public MethodCall getFirstMeasure()
     {
         return mFirstMeasure;
     }
@@ -95,7 +95,7 @@ public class ExecutionFlow
     /**
      * @param pFirstMeasure The mFirstMeasure to set.
      */
-    public void setFirstMeasure(MeasurePoint pFirstMeasure)
+    public void setFirstMeasure(MethodCall pFirstMeasure)
     {
         mFirstMeasure = pFirstMeasure;
     }
@@ -265,7 +265,7 @@ public class ExecutionFlow
     }
 
     /**
-     * Count the number of <code>MeasurePoint</code> in this flow graph.
+     * Count the number of <code>MethodCall</code> in this flow graph.
      * 
      * @return The number of measure.
      */

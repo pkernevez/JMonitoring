@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import org.jmonitoring.core.measure.MethodCall;
+
+import org.jmonitoring.core.dto.MethodCall;
 
 /**
  * @author pke

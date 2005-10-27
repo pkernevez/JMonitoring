@@ -11,8 +11,8 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MethodCall;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dto.MethodCall;
 
 /**
  * Util class for render a flow as an Satck in an Html page.
@@ -26,7 +26,7 @@ public class FlowAsStackUtil
     /**
      * The execution flow to work with.
      */
-    private ExecutionFlow mFlow;
+    private ExecutionFlowDTO mFlow;
 
     private DateFormat mFormater;
 
@@ -35,7 +35,7 @@ public class FlowAsStackUtil
      * 
      * @param pFlow The flow to use for graphique.
      */
-    public FlowAsStackUtil(ExecutionFlow pFlow)
+    public FlowAsStackUtil(ExecutionFlowDTO pFlow)
     {
         mFormater = Configuration.getInstance().getDateTimeFormater();
         mFlow = pFlow;

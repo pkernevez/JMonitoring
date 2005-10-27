@@ -1,10 +1,9 @@
 package org.jmonitoring.core.utils;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.log.IMeasurePointTreeLogger;
-import org.jmonitoring.core.measure.MeasurePointManager;
-
 import org.aspectj.lang.Signature;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dto.MeasurePointManager;
+import org.jmonitoring.core.log.IMeasurePointTreeLogger;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

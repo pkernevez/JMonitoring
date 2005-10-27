@@ -38,7 +38,7 @@ import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.MethodCall;
+import org.jmonitoring.core.dto.MethodCall;
 
 /**
  * @author pke
@@ -84,11 +84,11 @@ public class MeasureStatAction extends Action
             ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
             if (!pForm.isParametersByName())
             { // First retreive className and methodName from the given MethodCall
-                MethodCall tOriginalMeasure = tDao.readMeasurePoint(pForm.getFlowId(), pForm.getSequenceId());
+                MethodCall tOriginalMeasure = tDao.readMethodCall(pForm.getFlowId(), pForm.getSequenceId());
                 pForm.setClassName(tOriginalMeasure.getClassName());
                 pForm.setMethodName(tOriginalMeasure.getMethodName());
             }
-            return tDao.getListOfMeasurePoint(pForm.getClassName(), pForm.getMethodName());
+            return tDao.getListOfMethodCall(pForm.getClassName(), pForm.getMethodName());
         } catch (SQLException e)
         {
             throw new MeasureException("Unable to read measure", e);

@@ -12,7 +12,7 @@ import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 /**
  * @author pke
@@ -27,9 +27,9 @@ public class JdbcLogger implements IMeasurePointTreeLogger
      * (non-Javadoc)
      * 
      * @see org.jmonitoring.core.log.IMeasurePointTreeLogger#logMeasurePointTree(
-     *      org.jmonitoring.core.measure.ExecutionFlow)
+     *      org.jmonitoring.core.dto.ExecutionFlow)
      */
-    public void logMeasurePointTree(ExecutionFlow pExecutionFlow)
+    public void logMeasurePointTree(ExecutionFlowDTO pExecutionFlow)
     {
 
         Connection tConnection = null;

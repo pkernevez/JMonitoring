@@ -17,7 +17,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.measure.MethodCall;
+import org.jmonitoring.core.dto.MethodCall;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

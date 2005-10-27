@@ -272,7 +272,7 @@ public class DynamicQueryBuilder
                 pStatement.setTime(++curPos, tTime);
                 break;
             case TYPE_NO_PARAM:
-                // Nothing to do 
+                // Nothing to do
                 break;
             default:
                 throw new MeasureException("Type invalid:" + tEntry);

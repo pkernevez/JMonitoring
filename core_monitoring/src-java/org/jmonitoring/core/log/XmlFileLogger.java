@@ -12,13 +12,12 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MethodCall;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dto.MethodCall;
 
 /**
  * This class allow the logging with an XMLFile. This class is not ThreadSafe when multiple file is used.
@@ -80,8 +79,7 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
                                                 sCommonFileWriter.flush();
                                             } catch (IOException e)
                                             {
-                                                throw new MeasureException("Unable to flush stream for logging.",
-                                                                e);
+                                                throw new MeasureException("Unable to flush stream for logging.", e);
                                             }
                                         }
                                     });
@@ -121,8 +119,8 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
                                 });
             } catch (IOException e)
             {
-                throw new MeasureException("Unable to create LogFile for Thread ["
-                                + Thread.currentThread().getName() + "] [" + tFile.getAbsolutePath() + "]");
+                throw new MeasureException("Unable to create LogFile for Thread [" + Thread.currentThread().getName()
+                                + "] [" + tFile.getAbsolutePath() + "]");
             }
         } else
         {
@@ -156,8 +154,8 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
             mLogFile.flush();
         } catch (IOException e)
         {
-            throw new MeasureException("Unable to write into LogFile for Thread ["
-                            + Thread.currentThread().getName() + "]");
+            throw new MeasureException("Unable to write into LogFile for Thread [" + Thread.currentThread().getName()
+                            + "]");
         }
 
     }
@@ -169,8 +167,8 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
             sCommonFileWriter.write(pMessage);
         } catch (IOException e)
         {
-            throw new MeasureException("Unable to write into LogFile for Thread ["
-                            + Thread.currentThread().getName() + "]");
+            throw new MeasureException("Unable to write into LogFile for Thread [" + Thread.currentThread().getName()
+                            + "]");
         }
     }
 
@@ -179,16 +177,14 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
      * 
      * @see net.kernevez.log.log.IMeasurePointTreeLogger#logMeasurePointTree(net.kernevez.log.measure.ExecutionFlow)
      */
-    public void logMeasurePointTree(ExecutionFlow pExecutionFlow)
+    public void logMeasurePointTree(ExecutionFlowDTO pExecutionFlow)
     {
         mCurrentBuffer = new StringBuffer();
         mCurrentBuffer.append("<Thread name=\"").append(pExecutionFlow.getThreadName());
         mCurrentBuffer.append("\" server=\"").append(pExecutionFlow).append("\" duration=\"");
         mCurrentBuffer.append(pExecutionFlow.getEndTime() - pExecutionFlow.getBeginDate());
         mCurrentBuffer.append("\" startTime=\"");
-        mCurrentBuffer
-                        .append(sConfiguration.getDateTimeFormater().format(
-                                        new Date(pExecutionFlow.getBeginDate())));
+        mCurrentBuffer.append(sConfiguration.getDateTimeFormater().format(new Date(pExecutionFlow.getBeginDate())));
         mCurrentBuffer.append("\" >\n");
         fillStringBuffer(pExecutionFlow.getFirstMeasure());
         mCurrentBuffer.append("</Thread>");
@@ -230,10 +226,10 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
                 }
             } else
             { // On log l'exception
-                mCurrentBuffer.append("throwable=\"").append(pCurrentMeasurePoint.getThrowableClassName()).append(
-                                "\" ");
-                mCurrentBuffer.append("throwableMessage=\"").append(pCurrentMeasurePoint.getThrowableMessage())
+                mCurrentBuffer.append("throwable=\"").append(pCurrentMeasurePoint.getThrowableClassName())
                                 .append("\" ");
+                mCurrentBuffer.append("throwableMessage=\"").append(pCurrentMeasurePoint.getThrowableMessage()).append(
+                                "\" ");
             }
         } else
         { // On log que le type de retour

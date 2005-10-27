@@ -1,17 +1,16 @@
-package org.jmonitoring.core.measure;
+package org.jmonitoring.core.dto;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.log.IMeasurePointTreeLogger;
-import org.jmonitoring.core.log.MeasurePointTreeLoggerFactory;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.log.IMeasurePointTreeLogger;
+import org.jmonitoring.core.log.MeasurePointTreeLoggerFactory;
 
 /**
  * Permet de logger sous forme XML l'ensemble des appels avec les signature et les temps d'exécution dans un fichier XML
@@ -87,8 +86,8 @@ public class MeasurePointManager
                 sLog.debug("logBeginOfMethod Any Time" + pSignature);
             }
             MethodCall tOldPoint = mCurrentLogPoint;
-            mCurrentLogPoint = new MethodCall(tOldPoint, pSignature.getDeclaringTypeName(),
-                            pSignature.getName(), pGroupName, pArgs);
+            mCurrentLogPoint = new MethodCall(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
+                            pGroupName, pArgs);
         }
     }
 
@@ -112,7 +111,7 @@ public class MeasurePointManager
                     sLog.error("Unable to trace return value.", tT);
                 }
             }
-            ExecutionFlow tFlow = new ExecutionFlow(Thread.currentThread().getName(), mCurrentLogPoint,
+            ExecutionFlowDTO tFlow = new ExecutionFlowDTO(Thread.currentThread().getName(), mCurrentLogPoint,
                             mConfiguration.getServerName());
             mLogger.logMeasurePointTree(tFlow);
             mCurrentLogPoint = null;
@@ -151,7 +150,7 @@ public class MeasurePointManager
             {
                 sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
             }
-            ExecutionFlow tFlow = new ExecutionFlow(Thread.currentThread().getName(), mCurrentLogPoint,
+            ExecutionFlowDTO tFlow = new ExecutionFlowDTO(Thread.currentThread().getName(), mCurrentLogPoint,
                             mConfiguration.getServerName());
             mLogger.logMeasurePointTree(tFlow);
             mCurrentLogPoint = null;

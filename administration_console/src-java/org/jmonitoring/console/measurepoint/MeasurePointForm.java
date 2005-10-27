@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.measure.MethodCall;
+import org.jmonitoring.core.dto.MethodCall;
 
 import org.apache.struts.action.ActionForm;
 

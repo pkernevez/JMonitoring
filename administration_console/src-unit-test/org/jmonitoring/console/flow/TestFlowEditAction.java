@@ -1,7 +1,8 @@
 package org.jmonitoring.console.flow;
 
 import junit.framework.TestCase;
-import org.jmonitoring.core.measure.MethodCall;
+
+import org.jmonitoring.core.dto.MethodCall;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

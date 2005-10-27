@@ -15,12 +15,8 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.FlowSearchCriterion;
-import org.jmonitoring.core.dao.MeasureExtract;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MethodCall;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dto.MethodCall;
 
 /**
  * @author pke
@@ -38,7 +34,7 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
         {
             tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
             ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
-            ExecutionFlow[] tFlows = tFlowDAO.getListOfExecutionFlow(new FlowSearchCriterion());
+            ExecutionFlowDTO[] tFlows = tFlowDAO.getListOfExecutionFlowDTO(new FlowSearchCriterion());
 
             assertEquals(tExpectedResult, tFlows.length);
         } finally
@@ -119,7 +115,7 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             int tNbFlow = countFlows(tCon);
 
             //First instert a flow
-            ExecutionFlow tFlow = buildNewFullFlow();
+            ExecutionFlowDTO tFlow = buildNewFullFlow();
             int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
             int tNewNbFlow = countFlows(tCon);
             assertEquals(tNbFlow + 1, tNewNbFlow);
@@ -161,7 +157,7 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
     //        try
     //        {
     //            tCon = new StandAloneConnectionManager().getConnection();
-    //            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
+    //            ExecutionFlowDTOMySqlDAO tFlowDAO = new ExecutionFlowDTOMySqlDAO(tCon);
     //            tFlowDAO.deleteAllFlows();
     //
     //            int tNewResult = countFlows(tCon);
@@ -200,7 +196,7 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
             ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
 
-            ExecutionFlow tFlow = buildNewFullFlow();
+            ExecutionFlowDTO tFlow = buildNewFullFlow();
             tFlowDAO.insertFullExecutionFlow(tFlow);
 
             int tNewResult = countFlows(tCon);
@@ -230,20 +226,20 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
     /**
      * @return
      */
-    public static ExecutionFlow buildNewFullFlow()
+    public static ExecutionFlowDTO buildNewFullFlow()
     {
-        ExecutionFlow tFlow;
+        ExecutionFlowDTO tFlow;
         MethodCall tPoint;
 
-        tPoint = new MethodCall(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow",
-                        "GrDefault", new Object[0]);
+        tPoint = new MethodCall(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+                        new Object[0]);
         //This local variable is indireclty used by its parent
         new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2", "GrChild1",
                         new Object[0]);
         //This local variable is indireclty used by its parent
         new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3", "GrChild2",
                         new Object[0]);
-        tFlow = new ExecutionFlow("TEST-main", tPoint, "myJVM");
+        tFlow = new ExecutionFlowDTO("TEST-main", tPoint, "myJVM");
         return tFlow;
     }
 
@@ -258,14 +254,14 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
 
             // First insert the new Flow in DB.
-            ExecutionFlow tInitialFlow = buildNewFullFlow();
+            ExecutionFlowDTO tInitialFlow = buildNewFullFlow();
             int tId = tFlowDAO.insertFullExecutionFlow(tInitialFlow);
             // Check the insertion
             int tNewResult = countFlows(tCon);
             assertEquals(tOldResult + 1, tNewResult);
 
             // Now check the read of the full Flows
-            ExecutionFlow tReadFlow = tFlowDAO.readFullExecutionFlow(tId);
+            ExecutionFlowDTO tReadFlow = tFlowDAO.readFullExecutionFlowDTO(tId);
 
             // Check the equality of the Flow
             assertEquals(tInitialFlow.getJvmIdentifier(), tReadFlow.getJvmIdentifier());
@@ -354,25 +350,22 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             tStat.execute("Delete FROM execution_flow");
 
             //Now insert the TestFlow
-            ExecutionFlow tFlow = buildNewFullFlow();
+            ExecutionFlowDTO tFlow = buildNewFullFlow();
             int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
 
             List tMeasureExtracts = tFlowDAO.getListOfMeasure();
             MeasureExtract curExtrat = (MeasureExtract) tMeasureExtracts.get(0);
-            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat
-                            .getName());
+            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat.getName());
             assertEquals("GrDefault", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MeasureExtract) tMeasureExtracts.get(1);
-            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat
-                            .getName());
+            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat.getName());
             assertEquals("GrChild1", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MeasureExtract) tMeasureExtracts.get(2);
-            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat
-                            .getName());
+            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat.getName());
             assertEquals("GrChild2", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 

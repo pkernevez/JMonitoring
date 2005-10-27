@@ -16,8 +16,8 @@ import org.jmonitoring.console.flow.jfreechart.FlowUtil;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.ExecutionFlow;
-import org.jmonitoring.core.measure.MethodCall;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dto.MethodCall;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +72,7 @@ public class FlowEditAction extends Action
             sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
             tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
             ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
-            ExecutionFlow tFlow = tDao.readFullExecutionFlow(tForm.getId());
+            ExecutionFlowDTO tFlow = tDao.readFullExecutionFlowDTO(tForm.getId());
             sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
             int tNbMeasure = tFlow.getMeasureCount();
             tForm.setExecutionFlow(tFlow);

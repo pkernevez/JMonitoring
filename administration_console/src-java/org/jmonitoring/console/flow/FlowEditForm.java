@@ -5,7 +5,7 @@ package org.jmonitoring.console.flow;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 import org.apache.struts.action.ActionForm;
 
@@ -23,7 +23,7 @@ public class FlowEditForm extends ActionForm
      */
     private static final long serialVersionUID = 3617294527896041011L;
 
-    private ExecutionFlow mExecutionFlow;
+    private ExecutionFlowDTO mExecutionFlow;
 
     private int mId;
 
@@ -76,7 +76,7 @@ public class FlowEditForm extends ActionForm
     /**
      * @return Returns the mExecutionFlow.
      */
-    public ExecutionFlow getExecutionFlow()
+    public ExecutionFlowDTO getExecutionFlow()
     {
         return mExecutionFlow;
     }
@@ -84,7 +84,7 @@ public class FlowEditForm extends ActionForm
     /**
      * @param pExecutionFlow The mExecutionFlow to set.
      */
-    public void setExecutionFlow(ExecutionFlow pExecutionFlow)
+    public void setExecutionFlow(ExecutionFlowDTO pExecutionFlow)
     {
         mExecutionFlow = pExecutionFlow;
     }

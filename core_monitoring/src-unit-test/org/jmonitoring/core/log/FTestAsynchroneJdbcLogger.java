@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import junit.framework.TestCase;
+
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
@@ -29,8 +30,8 @@ public class FTestAsynchroneJdbcLogger extends TestCase
     private int mInitialMaxFlowId;
 
     /**
-     * Check the number of toString() method called on the object associated to MethodCall. This is important because
-     * of the cost of a toString method on complexe objects.
+     * Check the number of toString() method called on the object associated to MethodCall. This is important because of
+     * the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc
      * @throws SQLException no doc

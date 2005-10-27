@@ -1,9 +1,9 @@
 package org.jmonitoring.core.log;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.measure.ExecutionFlow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
@@ -42,8 +42,7 @@ public abstract class AbstractAsynchroneLogger implements IMeasurePointTreeLogge
         sLog = LogFactory.getLog(AbstractAsynchroneLogger.class);
         int tAsynchroneLoggerThreadPoolSize = Configuration.getInstance().getAsynchroneStoreThreadPoolSize();
         sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
-        sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize
-                        + " Threads.");
+        sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
     }
 
     /**
@@ -52,13 +51,13 @@ public abstract class AbstractAsynchroneLogger implements IMeasurePointTreeLogge
      * @param pFlow The flow to log.
      * @return The Task that will be pulled for upcoming logging.
      */
-    protected abstract Runnable getAsynchroneLogTask(ExecutionFlow pFlow);
+    protected abstract Runnable getAsynchroneLogTask(ExecutionFlowDTO pFlow);
 
     /**
      * @see org.jmonitoring.core.log.IMeasurePointTreeLogger#logMeasurePointTree(
-     *      org.jmonitoring.core.measure.ExecutionFlow)
+     *      org.jmonitoring.core.dto.ExecutionFlow)
      */
-    public void logMeasurePointTree(ExecutionFlow pExecutionFlow)
+    public void logMeasurePointTree(ExecutionFlowDTO pExecutionFlow)
     {
         //Test because of ClassLoader and hotdeploy in some container...
         if (sExecutor == null)

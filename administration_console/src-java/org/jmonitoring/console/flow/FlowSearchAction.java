@@ -18,7 +18,7 @@ import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -54,7 +54,7 @@ public class FlowSearchAction extends Action
 
             tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
             ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
-            ExecutionFlow[] tFlows = tDao.getListOfExecutionFlow(tCriterion);
+            ExecutionFlowDTO[] tFlows = tDao.getListOfExecutionFlowDTO(tCriterion);
 
             tConnection.commit();
             for (int i = 0; i < tFlows.length; i++)

@@ -111,21 +111,20 @@ public final class Configuration
             } else
             {
                 PrintStream tStream = System.out;
-                tStream.println("Error during the loading of the configuration file "
-                                + "\"jmonitoring.properties\"" + e);
+                tStream.println("Error during the loading of the configuration file " + "\"jmonitoring.properties\""
+                                + e);
             }
             throw e;
         } catch (RuntimeException e2)
         {
             if (mLog != null)
             {
-                mLog.error("Error during the loading of the configuration file "
-                                + "\"jmonitoring.properties\"", e2);
+                mLog.error("Error during the loading of the configuration file " + "\"jmonitoring.properties\"", e2);
             } else
             {
                 PrintStream tStream = System.out;
-                tStream.println("Error during the loading of the configuration file "
-                                + "\"jmonitoring.properties\"" + e2);
+                tStream.println("Error during the loading of the configuration file " + "\"jmonitoring.properties\""
+                                + e2);
             }
             throw e2;
         }
@@ -133,8 +132,7 @@ public final class Configuration
 
     private void loadStoreClass(PropertiesConfiguration pConfig)
     {
-        String tLoggerClassName = pConfig.getString("measurepoint.logger.class", AsynchroneJdbcLogger.class
-                        .getName());
+        String tLoggerClassName = pConfig.getString("measurepoint.logger.class", AsynchroneJdbcLogger.class.getName());
         Class tResultClass;
         try
         {
@@ -339,6 +337,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The default log parameter.
      */
     public boolean getLogMethodParameter()
@@ -348,6 +347,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The database URL.
      */
     public String getJdbcUrl()
@@ -357,6 +357,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The database user.
      */
     public String getJdbcUser()
@@ -366,6 +367,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The database password.
      */
     public String getJdbcPassword()
@@ -375,6 +377,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The database driver class.
      */
     public String getJdbcDriverClass()
@@ -384,6 +387,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The Asynchrone thread pool size.
      */
     public int getAsynchroneStoreThreadPoolSize()
@@ -393,6 +397,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The store class.
      */
     public Class getMeasurePointStoreClass()
@@ -402,6 +407,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The boolean that indicates if all the Tread use the same XmlStoreFile.
      */
     public boolean getSameFileForAllThread()
@@ -411,6 +417,7 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The Xml outputdir.
      */
     public String getXmlOutpuDir()
@@ -420,12 +427,12 @@ public final class Configuration
 
     /**
      * Accessor.
+     * 
      * @return The name of the server that is at the origin of the flow.
      */
     public String getServerName()
     {
         return mServerName;
     }
-
 
 }

@@ -27,7 +27,8 @@ public class MeasureException extends RuntimeException
     }
 
     /**
-     * Constructor with message. 
+     * Constructor with message.
+     * 
      * @param pMessage The message of the <code>Exception</code>.
      */
     public MeasureException(String pMessage)
@@ -36,7 +37,8 @@ public class MeasureException extends RuntimeException
     }
 
     /**
-     * Constructor with message and original <code>Exception</code>. 
+     * Constructor with message and original <code>Exception</code>.
+     * 
      * @param pMessage The message of the <code>Exception</code>.
      * @param pOriginalException The original <code>Exception</code>.
      */

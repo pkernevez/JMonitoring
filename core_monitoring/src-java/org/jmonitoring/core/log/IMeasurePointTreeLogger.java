@@ -5,7 +5,7 @@ package org.jmonitoring.core.log;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.jmonitoring.core.measure.ExecutionFlow;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 /**
  * Log a LogPointTree in an XML file. This class is not synchronized and need to be use in its own Thread or be
@@ -20,6 +20,6 @@ public interface IMeasurePointTreeLogger
      * 
      * @param pExecutionFlow The measure point to log.
      */
-    void logMeasurePointTree(ExecutionFlow pExecutionFlow);
+    void logMeasurePointTree(ExecutionFlowDTO pExecutionFlow);
 
 }

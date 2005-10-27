@@ -1,6 +1,7 @@
 package org.jmonitoring.core.log;
 
 import junit.framework.TestCase;
+
 import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
 /***************************************************************************

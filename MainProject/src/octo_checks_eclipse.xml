@@ -8,7 +8,7 @@
 <module name="Checker">  
 
     <property name="severity" value="warning"/>
-    
+    <!--property name="basedir" value="src-java"/-->
 
     <!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
     <!-- R-DR-001 -->
