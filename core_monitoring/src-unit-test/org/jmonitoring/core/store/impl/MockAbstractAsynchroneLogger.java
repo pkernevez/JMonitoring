@@ -1,4 +1,4 @@
-package org.jmonitoring.core.log;
+package org.jmonitoring.core.store.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

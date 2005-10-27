@@ -3,7 +3,7 @@ package org.jmonitoring.core.dto;
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO;
-import org.jmonitoring.core.log.MockAbstractAsynchroneLogger;
+import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
 /***************************************************************************

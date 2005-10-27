@@ -1,4 +1,4 @@
-package org.jmonitoring.core.log;
+package org.jmonitoring.core.store.impl;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -10,6 +10,7 @@ import java.lang.reflect.Constructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.store.IStoreWriter;
 
 /**
  * Permet d'obtenir un IMeasurePointLogger en focntion de la configuration.
@@ -30,7 +31,7 @@ public final class MeasurePointTreeLoggerFactory
      * 
      * @return Une instance de <code>IMeasurePointTreeLogger</code> pour les logs en fonction du paramètrage.
      */
-    public static IMeasurePointTreeLogger getNewInstance()
+    public static IStoreWriter getNewInstance()
     {
         Class tStoreClass = Configuration.getInstance().getMeasurePointStoreClass();
         if (sConstructor == null)
@@ -55,6 +56,6 @@ public final class MeasurePointTreeLoggerFactory
             throw new RuntimeException("Unable to create an instance of class [" + tStoreClass + "]", e);
         }
 
-        return (IMeasurePointTreeLogger) tResult;
+        return (IStoreWriter) tResult;
     }
 }

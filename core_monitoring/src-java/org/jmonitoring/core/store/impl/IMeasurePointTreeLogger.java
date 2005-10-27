@@ -1,4 +1,4 @@
-package org.jmonitoring.core.log;
+package org.jmonitoring.core.store.impl;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -12,6 +12,7 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
  * externaly synchronised.
  * 
  * @author pke
+ * @deprecated
  */
 public interface IMeasurePointTreeLogger
 {

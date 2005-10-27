@@ -346,7 +346,7 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
             //First delete all flow, we don't use the DeleteAll Method of the
             // Dao Object because, it doesn't support transactions.
             tStat = tCon.createStatement();
-            tStat.execute("Delete FROM method_execution");
+            tStat.execute("Delete FROM method_call");
             tStat.execute("Delete FROM execution_flow");
 
             //Now insert the TestFlow

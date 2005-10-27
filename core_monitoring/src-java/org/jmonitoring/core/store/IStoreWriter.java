@@ -1,5 +1,7 @@
 package org.jmonitoring.core.store;
 
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
@@ -13,5 +15,11 @@ package org.jmonitoring.core.store;
  */
 public interface IStoreWriter
 {
+    /**
+     * Write the current MeasurePointTree in a store.
+     * 
+     * @param pExecutionFlow The flow to insert into the store.
+     */
+    void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow);
 
 }

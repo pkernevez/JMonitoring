@@ -4,11 +4,11 @@
 # * Please look at license.txt for more license detail.                     *
 # **************************************************************************/
 
-Update `method_execution` set PARENT_ID=NULL;
-Delete from `method_execution`;
+Update `METHOD_CALL` set PARENT_ID=NULL;
+Delete from `METHOD_CALL`;
 delete FROM `execution_flow`;
 
-DROP TABLE IF EXISTS `monitoring`.`method_execution`;
+DROP TABLE IF EXISTS `monitoring`.`method_call`;
 DROP TABLE IF EXISTS `monitoring`.`execution_flow`;
 
 CREATE TABLE `execution_flow` (
@@ -23,8 +23,8 @@ CREATE TABLE `execution_flow` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Entry point of execution';
 
 
-CREATE TABLE `method_execution` (
-  `FLOW_ID` int(8) unsigned NOT NULL default '0',
+CREATE TABLE `method_call` (
+  `EXECUTION_FLOW_ID` int(8) unsigned NOT NULL default '0',
   `SEQUENCE_ID` int(8) unsigned NOT NULL default '0',
   `FULL_CLASS_NAME` varchar(120) NOT NULL default '',
   `METHOD_NAME` varchar(50) NOT NULL default '',
@@ -38,9 +38,9 @@ CREATE TABLE `method_execution` (
   `PARENT_ID` int(8) unsigned default '0',
   `RETURN_TYPE` varchar(10) NOT NULL default '',
   `GROUP_NAME` varchar(45) NOT NULL default 'Default',
-  PRIMARY KEY  (`FLOW_ID`,`SEQUENCE_ID`),
-  KEY `FK_method_execution_PARENT` (`FLOW_ID`,`PARENT_ID`),
+  PRIMARY KEY  (`EXECUTION_FLOW_ID`,`SEQUENCE_ID`),
+  KEY `FK_method_call_PARENT` (`EXECUTION_FLOW_ID`,`PARENT_ID`),
   KEY `Index_ClassMethodName` TYPE BTREE (`FULL_CLASS_NAME`,`METHOD_NAME`),
-  CONSTRAINT `FK_FLOW_REF` FOREIGN KEY (`FLOW_ID`) REFERENCES `execution_flow` (`ID`)
+  CONSTRAINT `FK_FLOW_REF` FOREIGN KEY (`EXECUTION_FLOW_ID`) REFERENCES `execution_flow` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='InnoDB free: 4096 kB';
-#  Remove constrainte for batch mode CONSTRAINT `FK_method_execution_PARENT` FOREIGN KEY (`FLOW_ID`, `PARENT_ID`) REFERENCES `method_execution` (`FLOW_ID`, `SEQUENCE_ID`)
+#  Remove constrainte for batch mode CONSTRAINT `FK_method_call_PARENT` FOREIGN KEY (`EXECUTION_FLOW_ID`, `PARENT_ID`) REFERENCES `method_call` (`FLOW_ID`, `SEQUENCE_ID`)

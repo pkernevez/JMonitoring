@@ -59,8 +59,8 @@ public class ExecutionFlowMySqlDAO
 
     private static final String SQL_LAST_ID = "SELECT LAST_INSERT_ID();";
 
-    private static final String SQL_INSERT_METHOD_EXECUTION = "INSERT INTO METHOD_EXECUTION "
-                    + "(FLOW_ID, SEQUENCE_ID, FULL_CLASS_NAME,"
+    private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL "
+                    + "(EXECUTION_FLOW_ID, SEQUENCE_ID, FULL_CLASS_NAME,"
                     + "METHOD_NAME, DURATION, BEGIN_TIME, END_TIME, PARAMETERS,"
                     + "RESULT, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, PARENT_ID, RETURN_TYPE, GROUP_NAME)"
                     + " VALUES (?, ?, ?," + " ?, ?, ?, ?, ?," + " ?, ?, ?, ?, ?, ?);";
@@ -151,7 +151,7 @@ public class ExecutionFlowMySqlDAO
         PreparedStatement tPStatement = null;
         try
         {
-            tPStatement = mConnection.prepareStatement(SQL_INSERT_METHOD_EXECUTION);
+            tPStatement = mConnection.prepareStatement(SQL_INSERT_METHOD_CALL);
             addBatchStatementWithMethodCall(pCurrentMethodCall, tPStatement, pThreadId, -1, 0);
             //tPStatement.execute();
             tPStatement.executeBatch();
@@ -273,9 +273,9 @@ public class ExecutionFlowMySqlDAO
 
     private static final String SQL_SELECT_EXEC_FLOW_SELECT = "SELECT E.ID, E.THREAD_NAME, E.JVM, E.DURATION, "
                     + "E.BEGIN_TIME, E.END_TIME, M.FULL_CLASS_NAME, M.METHOD_NAME, "
-                    + "M.GROUP_NAME FROM EXECUTION_FLOW E, METHOD_EXECUTION M ";
+                    + "M.GROUP_NAME FROM EXECUTION_FLOW E, METHOD_CALL M ";
 
-    private static final String SQL_SELECT_EXEC_MEASURE_SELECT_JOIN_CLAUSE = "M.FLOW_ID = E.ID AND M.SEQUENCE_ID = 1 ";
+    private static final String SQL_SELECT_EXEC_MEASURE_SELECT_JOIN_CLAUSE = "M.EXECUTION_FLOW_ID = E.ID AND M.SEQUENCE_ID = 1 ";
 
     private static final String SQL_SELECT_EXEC_FLOW_CLAUSE_THREAD = "E.THREAD_NAME LIKE ? ";
 
@@ -373,12 +373,12 @@ public class ExecutionFlowMySqlDAO
         return tResultFlow;
     }
 
-    private static final String SQL_SELECT_METHOD_EXECUTION = "SELECT FLOW_ID, SEQUENCE_ID, FULL_CLASS_NAME, "
-                    + "METHOD_NAME, DURATION, BEGIN_TIME, " + "END_TIME, PARAMETERS, RESULT, "
+    private static final String SQL_SELECT_METHOD_CALL = "SELECT EXECUTION_FLOW_ID, SEQUENCE_ID, FULL_CLASS_NAME, "
+                    + "METHOD_NAME, DURATION, BEGIN_TIME, END_TIME, PARAMETERS, RESULT, "
                     + "THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, PARENT_ID, "
-                    + "RETURN_TYPE, GROUP_NAME From method_execution";
+                    + "RETURN_TYPE, GROUP_NAME From method_call";
 
-    private static final String SQL_WHERE_CLAUSE_METHOD_EXECUTION = " WHERE FLOW_ID = ? " + "ORDER BY SEQUENCE_ID";
+    private static final String SQL_WHERE_CLAUSE_METHOD_CALL = " WHERE EXECUTION_FLOW_ID = ? " + "ORDER BY SEQUENCE_ID";
 
     /**
      * @param resultFlow
@@ -388,7 +388,7 @@ public class ExecutionFlowMySqlDAO
     private ExecutionFlowDTO readMethodCallOfThisFlow(ExecutionFlowDTO pResultFlow) throws SQLException
     {
 
-        String tSQL = SQL_SELECT_METHOD_EXECUTION + SQL_WHERE_CLAUSE_METHOD_EXECUTION;
+        String tSQL = SQL_SELECT_METHOD_CALL + SQL_WHERE_CLAUSE_METHOD_CALL;
 
         PreparedStatement tStat = null;
         ResultSet tResultSet = null;
@@ -443,11 +443,10 @@ public class ExecutionFlowMySqlDAO
         String tGroupName = pResultSet.getString("GROUP_NAME");
 
         MethodCall tMeasure = new MethodCall(tParent, tClassName, tMethodName, tGroupName, tParams);
-        tMeasure.setFlowId(pResultSet.getInt("FLOW_ID"));
+        tMeasure.setFlowId(pResultSet.getInt("EXECUTION_FLOW_ID"));
         tMeasure.setSequenceId(pResultSet.getInt("SEQUENCE_ID"));
-        sLog
-                        .debug("Flush MethodCall FlowId=[" + tMeasure.getFlowId() + "] Sequence=["
-                                        + tMeasure.getSequenceId() + "]");
+        sLog.debug("Flush MethodCall EXECUTION_FlowId=[" + tMeasure.getFlowId() + "] Sequence=["
+                        + tMeasure.getSequenceId() + "]");
         pListOfMethodCall.put(new Integer(tMeasure.getSequenceId()), tMeasure);
         // DURATION
         tMeasure.setBeginTime(pResultSet.getLong("BEGIN_TIME"));
@@ -461,7 +460,7 @@ public class ExecutionFlowMySqlDAO
         return tMeasure;
     }
 
-    private static final String SQL_SELECT_EXEC_WHERE_CLAUSE = " WHERE M.FLOW_ID = E.ID AND E.ID = ?";
+    private static final String SQL_SELECT_EXEC_WHERE_CLAUSE = " WHERE M.EXECUTION_FLOW_ID = E.ID AND E.ID = ?";
 
     /**
      * @param flowId
@@ -531,19 +530,19 @@ public class ExecutionFlowMySqlDAO
         return tFlow;
     }
 
-    private static final String SQL_DELETE_LINK = "Update `method_execution` set PARENT_ID=NULL";
+    private static final String SQL_DELETE_LINK = "Update `METHOD_CALL` set PARENT_ID=NULL";
 
-    private static final String SQL_DELETE_METHODE_EXECUTION = "Delete from `method_execution`";
+    private static final String SQL_DELETE_METHODE_EXECUTION = "Delete from `METHOD_CALL`";
 
-    private static final String SQL_DELETE_EXECUTION_FLOW = "delete FROM `execution_flow`";
+    private static final String SQL_DELETE_EXECUTION_FLOW = "delete FROM `EXECUTION_FLOW`";
 
-    private static final String SQL_DELETE_WHERE_FLOW = " where FLOW_ID = ?";
+    private static final String SQL_DELETE_WHERE_FLOW = " where EXECUTION_FLOW_ID = ?";
 
     private static final String SQL_DELETE_WHERE = " where ID = ?";
 
-    private static final String SQL_TRUNCATE_METHODE_EXECUTION = "TRUNCATE TABLE method_execution";
+    private static final String SQL_TRUNCATE_METHODE_EXECUTION = "TRUNCATE TABLE METHOD_CALL";
 
-    private static final String SQL_TRUNCATE_EXECUTION_FLOW = "TRUNCATE TABLE execution_flow";
+    private static final String SQL_TRUNCATE_EXECUTION_FLOW = "TRUNCATE TABLE EXECUTION_FLOW";
 
     /**
      * Delete all flows and linked objects.
@@ -609,7 +608,7 @@ public class ExecutionFlowMySqlDAO
     }
 
     private static final String SELECT_LIST_OF_MEASURE_POINT = "select *"
-                    + " from method_execution where full_class_name = ? And method_name = ?";
+                    + " from method_call where full_class_name = ? And method_name = ?";
 
     /**
      * Get the list of <code>MethodCall</code> with the same classname and methodname.
@@ -646,7 +645,7 @@ public class ExecutionFlowMySqlDAO
     }
 
     private static final String SELECT_MEASURE_POINT = "select *"
-                    + " from method_execution where flow_id = ? And sequence_id = ?";
+                    + " from method_call where execution_flow_id = ? And sequence_id = ?";
 
     /**
      * Read a single <code>MethodCall</code>.
@@ -681,11 +680,12 @@ public class ExecutionFlowMySqlDAO
     }
 
     private static final String SQL_SELECT_FULL_MEASURE_POINT = "SELECT Parent.* "
-                    + "FROM `method_execution` Parent, `method_execution` m "
-                    + "where Parent.FLOW_ID=m.FLOW_ID And m.FLOW_ID = ? " + "And Parent.SEQUENCE_ID = m.PARENT_ID "
-                    + "And m.SEQUENCE_ID=? " + "UNION ALL " + "SELECT * FROM `method_execution` m "
-                    + "where m.FLOW_ID = ? " + "And m.SEQUENCE_ID=? " + "UNION ALL "
-                    + "SELECT * FROM `method_execution` Child " + "where Child.FLOW_ID = ? " + "And Child.PARENT_ID=?";
+                    + "FROM `method_call` Parent, `method_call` m "
+                    + "where Parent.EXECUTION_FLOW_ID=m.EXECUTION_FLOW_ID And m.EXECUTION_FLOW_ID = ? "
+                    + "And Parent.SEQUENCE_ID = m.PARENT_ID " + "And m.SEQUENCE_ID=? " + "UNION ALL "
+                    + "SELECT * FROM `method_call` m " + "where m.EXECUTION_FLOW_ID = ? " + "And m.SEQUENCE_ID=? "
+                    + "UNION ALL " + "SELECT * FROM `method_call` Child " + "where Child.FLOW_ID = ? "
+                    + "And Child.PARENT_ID=?";
 
     /**
      * Get <code>MethodCall</code> with its parent and chidren.
@@ -727,7 +727,7 @@ public class ExecutionFlowMySqlDAO
     }
 
     private static final String SELECT_LIST_OF_MEASURE = "SELECT CONCAT(FULL_CLASS_NAME, '.', METHOD_NAME)"
-                    + " AS MEASURE_NAME, GROUP_NAME, COUNT(*) As NB" + " FROM `method_execution` m "
+                    + " AS MEASURE_NAME, GROUP_NAME, COUNT(*) As NB" + " FROM `method_call` m "
                     + "GROUP BY FULL_CLASS_NAME, METHOD_NAME, GROUP_NAME ORDER BY MEASURE_NAME";
 
     /**

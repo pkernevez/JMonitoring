@@ -1,9 +1,11 @@
-package org.jmonitoring.core.log;
+package org.jmonitoring.core.store.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.store.IStoreWriter;
+import org.jmonitoring.core.store.impl.IMeasurePointTreeLogger;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
@@ -17,7 +19,7 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  * 
  * @author pke
  */
-public abstract class AbstractAsynchroneLogger implements IMeasurePointTreeLogger
+public abstract class AbstractAsynchroneLogger implements IStoreWriter
 {
     private static Log sLog;
 
@@ -57,7 +59,7 @@ public abstract class AbstractAsynchroneLogger implements IMeasurePointTreeLogge
      * @see org.jmonitoring.core.log.IMeasurePointTreeLogger#logMeasurePointTree(
      *      org.jmonitoring.core.dto.ExecutionFlow)
      */
-    public void logMeasurePointTree(ExecutionFlowDTO pExecutionFlow)
+    public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)
     {
         //Test because of ClassLoader and hotdeploy in some container...
         if (sExecutor == null)

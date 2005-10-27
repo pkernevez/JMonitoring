@@ -3,7 +3,8 @@ package org.jmonitoring.core.utils;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dto.MeasurePointManager;
-import org.jmonitoring.core.log.IMeasurePointTreeLogger;
+import org.jmonitoring.core.store.IStoreWriter;
+import org.jmonitoring.core.store.impl.IMeasurePointTreeLogger;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -18,16 +19,16 @@ import org.jmonitoring.core.log.IMeasurePointTreeLogger;
  */
 public class AspectLoggerEmulator
 {
-    private IMeasurePointTreeLogger mLogger;
+    private IStoreWriter mStoreWriter;
 
     /**
      * Default Constrictor.
      * 
-     * @param pLogger The logger to use.
+     * @param pStoreWriter The logger to use.
      */
-    public AspectLoggerEmulator(IMeasurePointTreeLogger pLogger)
+    public AspectLoggerEmulator(IStoreWriter pStoreWriter)
     {
-        mLogger = pLogger;
+        mStoreWriter = pStoreWriter;
     }
 
     /**
@@ -35,7 +36,7 @@ public class AspectLoggerEmulator
      */
     public void simulateExecutionFlow()
     {
-        MeasurePointManager tManager = new MeasurePointManager(mLogger, Configuration.getInstance());
+        MeasurePointManager tManager = new MeasurePointManager(mStoreWriter, Configuration.getInstance());
         AspectLoggerEmulator.resetCounters();
 
         Signature tSignature;

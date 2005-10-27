@@ -17,7 +17,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.log.AsynchroneJdbcLogger;
+import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 
 /**
  * @author pke

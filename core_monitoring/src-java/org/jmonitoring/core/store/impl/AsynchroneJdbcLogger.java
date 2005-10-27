@@ -1,4 +1,4 @@
-package org.jmonitoring.core.log;
+package org.jmonitoring.core.store.impl;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -14,8 +14,6 @@ import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-
-;
 
 /**
  * @author pke

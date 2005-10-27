@@ -1,4 +1,4 @@
-package org.jmonitoring.core.log;
+package org.jmonitoring.core.store.impl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -133,7 +133,7 @@ public class FTestAsynchroneJdbcLogger extends TestCase
         {
             tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
             tStat = tCon.createStatement();
-            tStat.executeUpdate("DELETE From METHOD_EXECUTION where FLOW_ID>" + mInitialMaxFlowId);
+            tStat.executeUpdate("DELETE From METHOD_CALL where EXECUTION_FLOW_ID>" + mInitialMaxFlowId);
             tStat.executeUpdate("DELETE From EXECUTION_FLOW where ID>" + mInitialMaxFlowId);
             tCon.commit();
         } finally

@@ -9,8 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.log.IMeasurePointTreeLogger;
-import org.jmonitoring.core.log.MeasurePointTreeLoggerFactory;
+import org.jmonitoring.core.store.IStoreWriter;
+import org.jmonitoring.core.store.impl.MeasurePointTreeLoggerFactory;
 
 /**
  * Permet de logger sous forme XML l'ensemble des appels avec les signature et les temps d'exécution dans un fichier XML
@@ -27,7 +27,7 @@ public class MeasurePointManager
     /** <code>CommonsLog</code> instance. */
     private static Log sLog;
 
-    private IMeasurePointTreeLogger mLogger;
+    private IStoreWriter mStoreWriter;
 
     private Configuration mConfiguration;
 
@@ -43,23 +43,23 @@ public class MeasurePointManager
             sLog = LogFactory.getLog(this.getClass());
         }
         mConfiguration = pConfiguration;
-        mLogger = MeasurePointTreeLoggerFactory.getNewInstance();
+        mStoreWriter = MeasurePointTreeLoggerFactory.getNewInstance();
     }
 
     /**
      * Constructor for testing purpose.
      * 
-     * @param pLogger The <code>Looger</code> to use.
+     * @param pStoreWriter The <code>IStoreWriter</code> to use.
      * @param pConfiguration The configuration instance to use.
      */
-    public MeasurePointManager(IMeasurePointTreeLogger pLogger, Configuration pConfiguration)
+    public MeasurePointManager(IStoreWriter pStoreWriter, Configuration pConfiguration)
     {
         if (sLog == null)
         {
             sLog = LogFactory.getLog(this.getClass());
         }
         mConfiguration = pConfiguration;
-        mLogger = pLogger;
+        mStoreWriter = pStoreWriter;
     }
 
     /**
@@ -113,7 +113,7 @@ public class MeasurePointManager
             }
             ExecutionFlowDTO tFlow = new ExecutionFlowDTO(Thread.currentThread().getName(), mCurrentLogPoint,
                             mConfiguration.getServerName());
-            mLogger.logMeasurePointTree(tFlow);
+            mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
         {
@@ -152,7 +152,7 @@ public class MeasurePointManager
             }
             ExecutionFlowDTO tFlow = new ExecutionFlowDTO(Thread.currentThread().getName(), mCurrentLogPoint,
                             mConfiguration.getServerName());
-            mLogger.logMeasurePointTree(tFlow);
+            mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
         {
