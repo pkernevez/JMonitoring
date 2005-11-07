@@ -7,11 +7,11 @@
 	<!-- FORM -->
 	<form-beans>
   		<!-- Logon form bean -->
-  		<form-bean name="flowsearchform" type="net.kernevez.javamonitoring.console.flow.FlowSearchForm"/>
-  		<form-bean name="floweditform" type="net.kernevez.javamonitoring.console.flow.FlowEditForm"/>
-  		<form-bean name="measurepointform" type="net.kernevez.javamonitoring.console.measurepoint.MeasurePointForm"/>
-  		<form-bean name="measurepointstatform" type="net.kernevez.javamonitoring.console.measurepoint.MeasurePointStatForm"/>
-  		<form-bean name="measurepointlistform" type="net.kernevez.javamonitoring.console.measurepoint.list.MeasurePointListForm"/>
+  		<form-bean name="flowsearchform" 		type="org.jmonitoring.console.flow.FlowSearchForm"/>
+  		<form-bean name="floweditform" 			type="org.jmonitoring.console.flow.FlowEditForm"/>
+  		<form-bean name="measurepointform" 		type="org.jmonitoring.console.measurepoint.MeasurePointForm"/>
+  		<form-bean name="measurepointstatform" 	type="org.jmonitoring.console.measurepoint.MeasurePointStatForm"/>
+  		<form-bean name="measurepointlistform" 	type="org.jmonitoring.console.measurepoint.list.MeasurePointListForm"/>
   		
 			<!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
     	  	<form-property name="threadName" type="java.lang.String" />
@@ -40,7 +40,7 @@
 
 	    <action path="/DeleteAllFlowsConfirm" parameter="deleteflowconfirm" type="org.apache.struts.actions.ForwardAction"/>
 
-		 <action path="/DeleteAllFlows" type="net.kernevez.javamonitoring.console.flow.FlowDeleteAction"
+		 <action path="/DeleteAllFlows" type="org.jmonitoring.console.flow.FlowDeleteAction"
                 validate="false">
                 <forward name="success" path="/DeleteAllFlowsSuccess.do"/>
 		 </action>	   
@@ -48,7 +48,7 @@
 	    <action path="/DeleteFlowSuccess" name="floweditform" 
 	    	parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/>
  
-		 <action path="/DeleteFlow" type="net.kernevez.javamonitoring.console.flow.FlowDeleteAction"
+		 <action path="/DeleteFlow" type="org.jmonitoring.console.flow.FlowDeleteAction"
                 name="floweditform" scope="request">
                 <forward name="success" path="/DeleteFlowSuccess.do"/>
 		 </action>	    
@@ -56,7 +56,7 @@
 	    <action path="/FlowSearch" parameter="flowsearch" type="org.apache.struts.actions.ForwardAction" 
 	    	name="flowsearchform" scope="request"/>
 
-		 <action path="/FlowSearchSubmit" type="net.kernevez.javamonitoring.console.flow.FlowSearchAction"
+		 <action path="/FlowSearchSubmit" type="org.jmonitoring.console.flow.FlowSearchAction"
                 name="flowsearchform" scope="request" validate="false">
                 <forward name="success" path="/FlowSearch.do"/>
 		 </action>	    
@@ -67,7 +67,7 @@
 	    <action path="/FlowEditRequiredInfo" parameter="floweditrequiredinfo" type="org.apache.struts.actions.ForwardAction" 
 	    	name="floweditform" scope="request"/>
 
-	    <action path="/FlowEdit" type="net.kernevez.javamonitoring.console.flow.FlowEditAction" 
+	    <action path="/FlowEdit" type="org.jmonitoring.console.flow.FlowEditAction" 
 	    	name="floweditform" scope="request" validate="false">
                 <forward name="success" path="/FlowEditInternal.do"/>
                 <forward name="required_info" path="/FlowEditRequiredInfo.do"/>
@@ -79,7 +79,7 @@
 	    <action path="/MeasurePointStatInternal" parameter="measurepointstat" type="org.apache.struts.actions.ForwardAction" 
 	    	name="measurepointstatform" scope="request"/>
 
-	    <action path="/MeasurePointStat" type="net.kernevez.javamonitoring.console.measurepoint.MeasureStatAction" 
+	    <action path="/MeasurePointStat" type="org.jmonitoring.console.measurepoint.MeasureStatAction" 
 	    	name="measurepointstatform" scope="request">
                 <forward name="success" path="/MeasurePointStatInternal.do"/>
 		</action>
@@ -87,7 +87,7 @@
 	    <action path="/MeasurePointListInternal" parameter="measurepointlist" type="org.apache.struts.actions.ForwardAction" 
 	    	name="measurepointlistform" scope="request"/>
 
-	    <action path="/MeasurePointList" type="net.kernevez.javamonitoring.console.measurepoint.list.MeasurePointListAction" 
+	    <action path="/MeasurePointList" type="org.jmonitoring.console.measurepoint.list.MeasurePointListAction" 
 	    	name="measurepointlistform" scope="request">
                 <forward name="success" path="/MeasurePointListInternal.do"/>
 		</action>

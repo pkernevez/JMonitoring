@@ -8,7 +8,7 @@
 
 	<servlet>
 		<servlet-name>DynamicImageServlet</servlet-name>
-		<servlet-class>net.kernevez.javamonitoring.console.image.DynamicImageServlet</servlet-class>
+		<servlet-class>org.jmonitoring.console.image.DynamicImageServlet</servlet-class>
 	</servlet>
 	<servlet>
         <servlet-name>action</servlet-name>

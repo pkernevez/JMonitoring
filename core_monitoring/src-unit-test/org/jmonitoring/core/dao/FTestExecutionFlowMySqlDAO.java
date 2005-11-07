@@ -230,15 +230,19 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
     {
         ExecutionFlowDTO tFlow;
         MethodCall tPoint;
+        MethodCall tSubPoint;
 
         tPoint = new MethodCall(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
                         new Object[0]);
-        //This local variable is indireclty used by its parent
-        new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2", "GrChild1",
+        tPoint.setEndTime(System.currentTimeMillis());
+
+        tSubPoint = new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2", "GrChild1",
                         new Object[0]);
-        //This local variable is indireclty used by its parent
-        new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3", "GrChild2",
+        tSubPoint.setEndTime(System.currentTimeMillis());
+
+        tSubPoint = new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3", "GrChild2",
                         new Object[0]);
+        tSubPoint.setEndTime(System.currentTimeMillis());
         tFlow = new ExecutionFlowDTO("TEST-main", tPoint, "myJVM");
         return tFlow;
     }

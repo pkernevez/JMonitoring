@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.impl.IMeasurePointTreeLogger;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 

@@ -3,7 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="net.kernevez.javamonitoring.console.flow.FlowEditForm"%>
+<%@page import="org.jmonitoring.console.flow.FlowEditForm"%>
 
 <%
 	FlowEditForm tForm = (FlowEditForm)request.getAttribute("floweditform");

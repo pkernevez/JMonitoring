@@ -3,8 +3,8 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="net.kernevez.javamonitoring.console.flow.FlowSearchForm"%>
-<%@page import="net.kernevez.performance.configuration.Configuration"%>
+<%@page import="org.jmonitoring.console.flow.FlowSearchForm"%>
+<%@page import="org.jmonitoring.core.configuration.Configuration"%>
 
 <!-- Begin Body -->
 <h1>Flow Search</h1>

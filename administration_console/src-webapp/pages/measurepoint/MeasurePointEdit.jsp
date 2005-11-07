@@ -3,11 +3,11 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="net.kernevez.performance.measure.MeasurePoint"%>
-<%@page import="net.kernevez.javamonitoring.console.measurepoint.MeasurePointForm"%>
-<%@page import="net.kernevez.performance.configuration.Configuration"%>
-<%@page import="net.kernevez.performance.dao.StandAloneConnectionManager"%>
-<%@page import="net.kernevez.performance.dao.ExecutionFlowMySqlDAO"%>
+<%@page import="org.jmonitoring.core.measure.MeasurePoint"%>
+<%@page import="org.jmonitoring.console.measurepoint.MeasurePointForm"%>
+<%@page import="org.jmonitoring.core.configuration.Configuration"%>
+<%@page import="org.jmonitoring.core.dao.StandAloneConnectionManager"%>
+<%@page import="org.jmonitoring.core.dao.ExecutionFlowMySqlDAO"%>
 <%@page import="java.sql.Connection"%>
 
 <!-- Begin Body -->

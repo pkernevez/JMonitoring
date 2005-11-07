@@ -3,20 +3,18 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="net.kernevez.performance.measure.MeasurePoint"%>
-<%@page import="net.kernevez.javamonitoring.console.flow.FlowEditForm"%>
-<%@page import="net.kernevez.performance.measure.ExecutionFlow"%>
-<%@page import="net.kernevez.javamonitoring.console.flow.jfreechart.FlowUtil"%>
-<%@page import="net.kernevez.javamonitoring.console.flow.jfreechart.FlowChartBarUtil"%>
-<%@page import="net.kernevez.javamonitoring.console.flow.stack.FlowAsStackUtil"%>
+<%@page import="org.jmonitoring.console.flow.FlowEditForm"%>
+<%@page import="org.jmonitoring.core.dto.MethodCall"%>
+<%@page import="org.jmonitoring.core.dto.ExecutionFlowDTO"%>
+<%@page import="org.jmonitoring.console.flow.jfreechart.FlowUtil"%>
+<%@page import="org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil"%>
+<%@page import="org.jmonitoring.console.flow.stack.FlowAsStackUtil"%>
 <%@page import="java.util.Date"%>
 <%@page import="javax.servlet.jsp.JspFactory"%>
 <%@page import="javax.servlet.jsp.JspWriter"%>
 <%@page import="javax.servlet.jsp.PageContext"%>
 
-<!--jsp:useBean id="floweditform" scope="request" class="net.kernevez.javamonitoring.console.flow.FlowEditForm" /-->
 <H1>Flow Edition</H1>
-<!--html:form action="/FlowEdit" focus="ThreadName"!-->
 <html:link action="DeleteFlow" paramName="floweditform" paramProperty="id" paramId="id">Delete</html:link>
 
 <!--a href="/DeleteFlow.do?Id=< % =((FlowEditForm)request.getAttribute("floweditform").getId()% >">Delete</a-->
@@ -63,7 +61,7 @@
 	FlowEditForm tForm = (FlowEditForm)request.getAttribute("floweditform");
 	if (tForm.getKindOfAction() != FlowEditForm.ACTION_ONLY_GRAPH)
 	{
-	ExecutionFlow tFlow = tForm.getExecutionFlow();	
+	ExecutionFlowDTO tFlow = tForm.getExecutionFlow();	
 	FlowAsStackUtil tUtil = new FlowAsStackUtil( tFlow );
 	StringBuffer tBuffer = tUtil.writeFlowAsHtml();
 %>

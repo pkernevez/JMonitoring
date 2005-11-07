@@ -1,4 +1,4 @@
-package org.jmonitoring.sample;
+package org.jmonitoring.sample.aspect;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -14,7 +14,7 @@ import org.jmonitoring.core.aspects.PerformanceAspect;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public aspect SamplePerformanceAspect2 extends PerformanceAspect {
-    public pointcut executionToLog() : execution( !static * org.jmonitoring.sample.*.*(..) )
+    public pointcut executionToLog() : execution( !static * org.jmonitoring.sample.*.*.*(..) )
     && !execution( static * *.main(String[]))
     && !within( junit.framework.TestCase+ )
     && !execution( * *.toString() )

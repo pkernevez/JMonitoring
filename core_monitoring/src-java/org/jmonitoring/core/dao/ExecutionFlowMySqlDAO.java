@@ -275,7 +275,8 @@ public class ExecutionFlowMySqlDAO
                     + "E.BEGIN_TIME, E.END_TIME, M.FULL_CLASS_NAME, M.METHOD_NAME, "
                     + "M.GROUP_NAME FROM EXECUTION_FLOW E, METHOD_CALL M ";
 
-    private static final String SQL_SELECT_EXEC_MEASURE_SELECT_JOIN_CLAUSE = "M.EXECUTION_FLOW_ID = E.ID AND M.SEQUENCE_ID = 1 ";
+    private static final String SQL_SELECT_EXEC_MEASURE_SELECT_JOIN_CLAUSE = "M.EXECUTION_FLOW_ID = E.ID "
+                    + "AND M.SEQUENCE_ID = 1 ";
 
     private static final String SQL_SELECT_EXEC_FLOW_CLAUSE_THREAD = "E.THREAD_NAME LIKE ? ";
 

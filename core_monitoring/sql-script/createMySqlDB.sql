@@ -43,4 +43,5 @@ CREATE TABLE `method_call` (
   KEY `Index_ClassMethodName` TYPE BTREE (`FULL_CLASS_NAME`,`METHOD_NAME`),
   CONSTRAINT `FK_FLOW_REF` FOREIGN KEY (`EXECUTION_FLOW_ID`) REFERENCES `execution_flow` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='InnoDB free: 4096 kB';
+
 #  Remove constrainte for batch mode CONSTRAINT `FK_method_call_PARENT` FOREIGN KEY (`EXECUTION_FLOW_ID`, `PARENT_ID`) REFERENCES `method_call` (`FLOW_ID`, `SEQUENCE_ID`)
