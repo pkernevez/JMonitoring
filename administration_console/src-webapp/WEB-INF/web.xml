@@ -35,6 +35,11 @@
         <mime-type>text/css</mime-type>
     </mime-mapping>
 
+    <mime-mapping>
+        <extension>js</extension>
+        <mime-type>text/javascript</mime-type>
+    </mime-mapping>
+
     <welcome-file-list>
     	<welcome-file>/Index.do</welcome-file>
     	<welcome-file>/pages/index.html</welcome-file>

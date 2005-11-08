@@ -4,6 +4,7 @@
    <!ENTITY config                                      SYSTEM "include/config.xml">
 ]>
 <project basedir="." default="main" name="Convertor">
+<!-- ant -Dwebtest.home=D:\Developpement\ProjetCVS\CanooWebTest\webtest -buildfile=webtest/MainTest.xml  -->
 
     &init;
     
@@ -30,10 +31,23 @@
         <testSpec name="CheckOneFlow">
             &config;
             <steps>
-                <invoke stepid="Request Delete Flow Page" url="administration_console/DeleteAllFlowsConfirm.do"/>
-                <verifytitle description="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
-                <invoke stepid="CheckOneFlow" url="administration_console/FlowSearch.do"/>
-                <verifytitle stepid="CheckOneFlow" text="Console d&apos;administration de JavaMonitoring"/>
+                <invoke description="CheckOneFlow" url="administration_console/FlowSearch.do"/>
+                <verifytitle description="get criterion mask" text="Console d&apos;administration de JavaMonitoring"/>
+    
+                <setinputfield name="beginDate"             value="" description="params"/>
+                <setinputfield name="firstMeasureGroupName" value="" description="params"/>
+                <setinputfield name="threadName"            value="" description="params"/>
+                <setinputfield name="durationMin"           value="" description="params"/>
+                <setinputfield name="firstMeasureMethodName" value="" description="params"/>
+                <setinputfield name="firstMeasureClassName" value="" description="params"/>
+                <clickbutton htmlId="but_submit" x="29" y="7" description="Form submitted by POST action" />
+                <!--invoke url="administration_console/FlowSearchSubmit.do?submit.y=7&amp;beginDate=&amp;firstMeasureGroupName=&amp;threadName=&amp;durationMin=&amp;firstMeasureMethodName=&amp;submit.x=29&amp;firstMeasureClassName=" stepid=""/-->
+                <verifytitle text="Console d'administration de JavaMonitoring" description="get results"/>
+
+                <!-- Wecheck the number of rows -->
+                <verifyXPath  description="Check that we have only one line" text="1" 
+                    xpath="count(//table[@id='results']/tbody/tr)" />
+                
             </steps>
         </testSpec>
     </target>
@@ -42,13 +56,28 @@
         <testSpec name="Sample Homepage InsertOneFlow">
             &config;
             <steps>
-                <invoke stepid="Request Delete Flow Page" url="administration_console/DeleteAllFlowsConfirm.do"/>
+                <invoke description="Default page" url="sample_webapp/"/>
+                <verifytitle description="Check title" text="Sample for testing JavaMonitoringTool"/>
+                
+                <invoke description="Weaved a Flow" url="sample_webapp/AlreadyWeaved.do"/>
+                <verifytitle description="Check title of the page" text="Sample for testing JavaMonitoringTool"/>
+                <verifyText description="Check text of the page" text="ExecutionFlow creation succed"/>
+                <verifyText regex="true" description="Check date of the execution" text="at (Sun|Mon|Tue|Wed|Thu|Fri|Sat)"/>
+            </steps>
+        </testSpec>
+    </target>
+
+    <target name="DeleteAllFlow">
+        <testSpec name="Delete All Flow">           
+            &config;
+            <steps>
+                <invoke description="Request Delete Flow Page" url="administration_console/DeleteAllFlowsConfirm.do"/>
                 <verifytitle description="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
                 <verifyText description="Check confirmation message" text="Delete All Flow Confirmation"/>
                 <verifyText description="Check confirmation message" text="Are you sure that you want to delete all flows in the database ?"/>
                 
-                <clicklink label="Ok" stepid="Deletion confirmed"/>
-                <verifytitle stepid="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
+                <clicklink label="Ok" description="Deletion confirmed"/>
+                <verifytitle description="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
                 <verifyText description="Check that flow has been deleted in page" text="All Flows have been deleted."/>
             </steps>
         </testSpec>
@@ -58,11 +87,11 @@
         <testSpec name="Init Page">
             &config;
             <steps>
-                <invoke stepid="Check redirection" url="administration_console/"/>
-                <verifytitle stepid="" text="Console d&apos;administration de JavaMonitoring"/>
+                <invoke description="Check redirection" url="administration_console/"/>
+                <verifytitle description="Check redirection title" text="Console d&apos;administration de JavaMonitoring"/>
         
-                <invoke stepid="Check default page" url="administration_console/Index.do"/>
-                <verifytitle stepid="" text="Console d&apos;administration de JavaMonitoring"/>
+                <invoke description="Check default page" url="administration_console/Index.do"/>
+                <verifytitle description="Check default page title" text="Console d&apos;administration de JavaMonitoring"/>
             </steps>
         </testSpec>
     </target>

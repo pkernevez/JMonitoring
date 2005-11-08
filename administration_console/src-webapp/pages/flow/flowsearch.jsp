@@ -55,13 +55,13 @@ Calendar.setup({
 }
 );
 </script>
-	<html:image property="submit" page="/images/button/button_ok.gif" />
+	<html:image styleId="but_submit" property="submit" page="/images/button/button_ok.gif" />
 
 <% if (tForm.getListOfFlows() != null)
 {//Not the first time
 %>
 		<!-- Table des resultats -->
-		<display:table name="flowsearchform.listOfFlows" sort="list" pagesize="20" requestURI="FlowSearchSubmit.do">
+		<display:table htmlId="results" name="flowsearchform.listOfFlows" sort="list" pagesize="20" requestURI="FlowSearchSubmit.do">
 			<display:column property="id" sortable="true" title="Tech Id" href="FlowEdit.do" paramId="id"/>
 			<display:column property="threadName" title="Thread" />	
 	  		<display:column property="jvmIdentifier" title="Server" />
