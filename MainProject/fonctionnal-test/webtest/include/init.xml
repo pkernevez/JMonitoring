@@ -1,0 +1,11 @@
+<!-- Adding the ANT taskdef -->
+
+<taskdef file="${webtest.home}/webtestTaskdefs.properties">
+    <classpath>
+        <fileset dir="${webtest.home}">
+            <include name="lib/*.jar"/>
+            <include name="lib/base/*.jar"/>
+        </fileset>
+        <pathelement path="${webtest.home}/lib"/>
+    </classpath>
+</taskdef>

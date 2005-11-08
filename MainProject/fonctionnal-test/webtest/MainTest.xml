@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+   <!ENTITY init                                        SYSTEM "include/init.xml">
+   <!ENTITY config                                      SYSTEM "include/config.xml">
+]>
+<project basedir="." default="main" name="Convertor">
+
+    &init;
+    
+    <!-- ******************************************* -->
+    <!-- *** Main test                          **** -->
+    <!-- ******************************************* -->
+    <target name="main">
+        <antcall target="DefaultPage"/>
+        <antcall target="DeleteAllFlow"/>
+        <antcall target="InsertOneFlow"/>
+        <antcall target="CheckOneFlow"/>
+        <antcall target="DeleteAllFlow"/>
+    </target>
+    
+    <target name="Empty">
+        <testSpec name="">
+            &config;
+            <steps>
+            </steps>
+        </testSpec>
+    </target>
+    
+    <target name="CheckOneFlow">
+        <testSpec name="CheckOneFlow">
+            &config;
+            <steps>
+                <invoke stepid="Request Delete Flow Page" url="administration_console/DeleteAllFlowsConfirm.do"/>
+                <verifytitle description="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
+                <invoke stepid="CheckOneFlow" url="administration_console/FlowSearch.do"/>
+                <verifytitle stepid="CheckOneFlow" text="Console d&apos;administration de JavaMonitoring"/>
+            </steps>
+        </testSpec>
+    </target>
+    
+    <target name="InsertOneFlow">
+        <testSpec name="Sample Homepage InsertOneFlow">
+            &config;
+            <steps>
+                <invoke stepid="Request Delete Flow Page" url="administration_console/DeleteAllFlowsConfirm.do"/>
+                <verifytitle description="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
+                <verifyText description="Check confirmation message" text="Delete All Flow Confirmation"/>
+                <verifyText description="Check confirmation message" text="Are you sure that you want to delete all flows in the database ?"/>
+                
+                <clicklink label="Ok" stepid="Deletion confirmed"/>
+                <verifytitle stepid="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
+                <verifyText description="Check that flow has been deleted in page" text="All Flows have been deleted."/>
+            </steps>
+        </testSpec>
+    </target>
+    
+    <target name="DefaultPage">
+        <testSpec name="Init Page">
+            &config;
+            <steps>
+                <invoke stepid="Check redirection" url="administration_console/"/>
+                <verifytitle stepid="" text="Console d&apos;administration de JavaMonitoring"/>
+        
+                <invoke stepid="Check default page" url="administration_console/Index.do"/>
+                <verifytitle stepid="" text="Console d&apos;administration de JavaMonitoring"/>
+            </steps>
+        </testSpec>
+    </target>
+</project>

@@ -1,0 +1,14 @@
+<config
+        host="localhost"
+        port="7001"
+        protocol="http"
+        basepath=""
+        saveresponse="true"
+        resultpath="result"
+        resultfile="raw_file"
+        haltonfailure="true"
+        haltonerror="true"
+        showhtmlparseroutput="true"
+        autorefresh="true">
+    <header name="User-Agent" value="Mozilla/4.0"/>
+</config>
