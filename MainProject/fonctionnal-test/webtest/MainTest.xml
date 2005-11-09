@@ -44,7 +44,18 @@
         <antcall target="InsertOneFlow"/>
         <antcall target="InsertOneFlow"/>
 
+        <!-- Check search criteria -->
+        <antcall target="CheckSearchCriterion"/>
 
+        <!-- Check order -->
+        
+        <!-- Check detail page -->
+        
+        <!-- search measure with data -->
+        
+        <!-- search measure without data -->
+        
+        <!-- Check statistique -->
     </target>
 
 
@@ -59,29 +70,201 @@
         </testSpec>
     </target>
     
-    <target name="CheckNbFlow">
-        <testSpec name="CheckNbFlow">
+    <!-- Check all criterion -->
+    <target name="CheckSearchCriterion">
+        <!-- Check Date criterion Old one -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="0"/>
+            <param name="beginDate"     value="08/11/05"/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <tstamp>
+            <format property="toDay" pattern="dd/MM/yyyy" />
+        </tstamp>
+        <!-- Check Date criterion ToDay -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="3"/>
+            <param name="beginDate"     value="${toDay}"/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check good group -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="3"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value="AllExec"/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check bad group -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="0"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value="AllExed"/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check good thread -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="3"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value="ExecuteThread: "/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check bad thread -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="0"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value="ExecuteThread:Z"/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check good duration min -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="3"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value="10"/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check bad duration min -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="0"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value="500"/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check good method name -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="3"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value="ru"/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check bad method name -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="0"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value="runn"/>
+            <param name="className"     value=""/>
+        </antcall>
+        
+        <!-- Check good class name -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="3"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value="org.jmonitoring.sample.main.RunSa"/>
+        </antcall>
+        
+        <!-- Check bad class name -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="0"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value="org.jmonitoring.sample.main.RunSampleS"/>
+        </antcall>
+        
+        <!-- Check all good -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="3"/>
+            <param name="beginDate"     value="${toDay}"/>
+            <param name="groupName"     value="AllExec"/>
+            <param name="threadName"    value="ExecuteThread: "/>
+            <param name="durationMin"   value="10"/>
+            <param name="methodName"    value="run"/>
+            <param name="className"     value="org.jmonitoring.sample.main.RunSa"/>
+        </antcall>
+        
+        <!-- Check all bad -->
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="0"/>
+            <param name="beginDate"     value="08/11/2005"/>
+            <param name="groupName"     value="AllExed"/>
+            <param name="threadName"    value="ExecuteThread: Z"/>
+            <param name="durationMin"   value="1000"/>
+            <param name="methodName"    value="ran"/>
+            <param name="className"     value="org.jmonitoring.sample.main.RunSampleS"/>
+        </antcall>
+        
+    </target>
+
+    <target name="CheckNbFlowWithCriterion">
+        <testSpec name="CheckNbFlowWithCriterion">
             &config;
             <steps>
-                <invoke description="CheckOneFlow" url="administration_console/FlowSearch.do"/>
+                <invoke description="CheckNbFlowWithCriterion" url="administration_console/FlowSearch.do"/>
                 <verifytitle description="get criterion mask" text="Console d&apos;administration de JavaMonitoring"/>
-    
-                <setinputfield name="beginDate"             value="" description="params"/>
-                <setinputfield name="firstMeasureGroupName" value="" description="params"/>
-                <setinputfield name="threadName"            value="" description="params"/>
-                <setinputfield name="durationMin"           value="" description="params"/>
-                <setinputfield name="firstMeasureMethodName" value="" description="params"/>
-                <setinputfield name="firstMeasureClassName" value="" description="params"/>
+                <setinputfield name="beginDate"             value="${beginDate}" description="params"/>
+                <setinputfield name="firstMeasureGroupName" value="${groupName}" description="params"/>
+                <setinputfield name="threadName"            value="${threadName}" description="params"/>
+                <setinputfield name="durationMin"           value="${durationMin}" description="params"/>
+                <setinputfield name="firstMeasureMethodName" value="${methodName}" description="params"/>
+                <setinputfield name="firstMeasureClassName" value="${className}" description="params"/>
                 <clickbutton htmlId="but_submit" x="29" y="7" description="Form submitted by POST action" />
                 <verifytitle text="Console d'administration de JavaMonitoring" description="get results"/>
                 
                 <!-- Wecheck the number of rows -->
-                <verifyXPath  description="Check that we have only one line" text="${nb.flow}" 
+                <verifyXPath  description="Check that we have only ${nb.flow} line" text="${nb.flow}" 
                     xpath="count(//table[@id='results']/tbody/tr)" />
-                
             </steps>
         </testSpec>
     </target>
+
+
+    <target name="CheckNbFlow">
+        <antcall target="CheckNbFlowWithCriterion">
+            <param name="nb.flow"       value="${nb.flow}"/>
+            <param name="beginDate"     value=""/>
+            <param name="groupName"     value=""/>
+            <param name="threadName"    value=""/>
+            <param name="durationMin"   value=""/>
+            <param name="methodName"    value=""/>
+            <param name="className"     value=""/>
+        </antcall>
+     </target>
     
     <target name="InsertOneFlow">
         <testSpec name="Sample Homepage InsertOneFlow">
