@@ -12,13 +12,45 @@
     <!-- *** Main test                          **** -->
     <!-- ******************************************* -->
     <target name="main">
+        <!-- Check the default page -->
         <antcall target="DefaultPage"/>
+        
+        <!-- Init database context -->
         <antcall target="DeleteAllFlow"/>
+        <antcall target="CheckNbFlow">
+            <param name="nb.flow" value="0"/>
+        </antcall>
+        
+        <!-- Check the weaving of the sample & search screen -->
         <antcall target="InsertOneFlow"/>
-        <antcall target="CheckOneFlow"/>
+        <antcall target="CheckNbFlow">
+            <param name="nb.flow" value="1"/>
+        </antcall>
+        
+        <!-- Check the weaving of the sample & search screen -->
+        <antcall target="InsertOneFlow"/>
+        <antcall target="CheckNbFlow">
+            <param name="nb.flow" value="2"/>
+        </antcall>
+
+        <!-- Check deletion -->
         <antcall target="DeleteAllFlow"/>
+        <antcall target="CheckNbFlow">
+            <param name="nb.flow" value="0"/>
+        </antcall>
+
+        <!-- Create 3 flows -->
+        <antcall target="InsertOneFlow"/>
+        <antcall target="InsertOneFlow"/>
+        <antcall target="InsertOneFlow"/>
+
+
     </target>
-    
+
+
+    <!-- ******************************************* -->
+    <!-- *** tests details                      **** -->
+    <!-- ******************************************* -->
     <target name="Empty">
         <testSpec name="">
             &config;
@@ -27,8 +59,8 @@
         </testSpec>
     </target>
     
-    <target name="CheckOneFlow">
-        <testSpec name="CheckOneFlow">
+    <target name="CheckNbFlow">
+        <testSpec name="CheckNbFlow">
             &config;
             <steps>
                 <invoke description="CheckOneFlow" url="administration_console/FlowSearch.do"/>
@@ -41,11 +73,10 @@
                 <setinputfield name="firstMeasureMethodName" value="" description="params"/>
                 <setinputfield name="firstMeasureClassName" value="" description="params"/>
                 <clickbutton htmlId="but_submit" x="29" y="7" description="Form submitted by POST action" />
-                <!--invoke url="administration_console/FlowSearchSubmit.do?submit.y=7&amp;beginDate=&amp;firstMeasureGroupName=&amp;threadName=&amp;durationMin=&amp;firstMeasureMethodName=&amp;submit.x=29&amp;firstMeasureClassName=" stepid=""/-->
                 <verifytitle text="Console d'administration de JavaMonitoring" description="get results"/>
-
+                
                 <!-- Wecheck the number of rows -->
-                <verifyXPath  description="Check that we have only one line" text="1" 
+                <verifyXPath  description="Check that we have only one line" text="${nb.flow}" 
                     xpath="count(//table[@id='results']/tbody/tr)" />
                 
             </steps>
