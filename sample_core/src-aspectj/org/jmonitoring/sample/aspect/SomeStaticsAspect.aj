@@ -13,16 +13,14 @@ import org.jmonitoring.core.aspects.PerformanceAspect;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public aspect SamplePerformanceAspect extends PerformanceAspect {
+public aspect SomeStaticsAspect extends PerformanceAspect {
     public pointcut executionToLog() : execution( static * org.jmonitoring.sample.*.*.*(..) )
-        && !execution( static * *.main(String[]))
-        && !execution( * *.toString() )
-        && !execution( * *.getID() );
+        && !execution( static * *.main(String[]));
 
-    public SamplePerformanceAspect()
+    public SomeStaticsAspect()
     {
         super();
-        mGroupName = "AllExecutStatic";
+        mGroupName = "SomeStatics";
         mLogParameter = false;
     }
 

@@ -13,12 +13,12 @@ import org.jmonitoring.core.aspects.PerformanceAspect;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public aspect SampleSqlPerfomance extends PerformanceAspect
+public aspect SqlAccessAspect extends PerformanceAspect
 {
     public pointcut executionToLog() : ( call( * java.sql.Connection+.*(..) )
                     || call( * java.sql.Statement+.*(..) ) );
 
-    public SampleSqlPerfomance()
+    public SqlAccessAspect()
     {
         mGroupName = "SQL";
         mLogParameter = true;
