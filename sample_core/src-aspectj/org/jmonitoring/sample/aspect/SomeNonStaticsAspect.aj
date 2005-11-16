@@ -20,10 +20,8 @@ public aspect SomeNonStaticsAspect extends PerformanceAspect {
     && !execution( * *.toString() )
     && !execution( * *.getID() );
 
-public SomeNonStaticsAspect()
-{
-    mGroupName = "SomeNonStatics";
-}
-
-
+	public SomeNonStaticsAspect()
+	{
+	    mGroupName = "SomeNonStatics";
+	}
 }

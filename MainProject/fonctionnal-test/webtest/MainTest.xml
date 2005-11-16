@@ -12,6 +12,23 @@
     <!-- *** Main test                          **** -->
     <!-- ******************************************* -->
     <target name="main">
+        <!-- Check order -->
+        <antcall target="CheckOrderableResultTable"/>
+
+        <!-- Check detail page -->
+        
+        <!-- search measure with data -->
+        
+        <!-- search measure without data -->
+        
+        <!-- Check statistique -->
+    </target>
+
+
+    <!-- ******************************************* -->
+    <!-- *** tests details                      **** -->
+    <!-- ******************************************* -->
+    <target name="trash">
         <!-- Check the default page -->
         <antcall target="DefaultPage"/>
         
@@ -47,27 +64,69 @@
         <!-- Check search criteria -->
         <antcall target="CheckSearchCriterion"/>
 
-        <!-- Check order -->
-        
-        <!-- Check detail page -->
-        
-        <!-- search measure with data -->
-        
-        <!-- search measure without data -->
-        
-        <!-- Check statistique -->
     </target>
 
-
-    <!-- ******************************************* -->
-    <!-- *** tests details                      **** -->
-    <!-- ******************************************* -->
     <target name="Empty">
         <testSpec name="">
             &config;
             <steps>
             </steps>
         </testSpec>
+    </target>
+    
+    <target name="CheckOrderableResultTable">
+        <testSpec name="CheckOrderableResultTable">
+            &config;
+            <steps>
+                <!-- First get the results -->
+                <invoke description="CheckOrderableResultTable" url="administration_console/FlowSearch.do"/>
+                <verifytitle description="get criterion mask" text="Console d&apos;administration de JavaMonitoring"/>
+                <setinputfield name="beginDate"             value="" description="params"/>
+                <setinputfield name="firstMeasureGroupName" value="" description="params"/>
+                <setinputfield name="threadName"            value="" description="params"/>
+                <setinputfield name="durationMin"           value="" description="params"/>
+                <setinputfield name="firstMeasureMethodName" value="" description="params"/>
+                <setinputfield name="firstMeasureClassName" value="" description="params"/>
+                <clickbutton htmlId="but_submit" x="29" y="7" description="Form submitted by POST action" />
+                <verifytitle text="Console d'administration de JavaMonitoring" description="get results"/>
+                
+                <!-- We check the number of rows -->
+                <verifyXPath  description="The first line"  text="1" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
+                <verifyXPath  description="The third line"  text="3" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
+                
+                <!-- Asc for ascending order of id -->
+                <clicklink label="Tech Id" stepid="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <verifyXPath  description="The first line"  text="1" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
+                <verifyXPath  description="The third line"  text="3" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
+
+                <!-- Asc for descending order of id -->
+                <clicklink label="Tech Id" stepid="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <verifyXPath  description="The first line"  text="3" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
+                <verifyXPath  description="The third line"  text="1" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
+
+                <!-- Asc for ascending order of duration -->
+                <clicklink label="Duration" stepid="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <storeXPath  description="The first line"  property="test1.firstValue"  propertyType="dynamic"
+                    xpath="string(//table[@id='results']/tbody/tr[1]/td[4])" />
+                <storeXPath  description="The third line"  property="test1.thirdValue"  propertyType="dynamic"
+                    xpath="string(//table[@id='results']/tbody/tr[3]/td[4])" />
+
+                <!-- Asc for descending order of duration -->
+                <clicklink label="Duration" stepid="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <verifyXPath  description="The first line"  text="#{test1.thirdValue}"  
+                    xpath="string(//table[@id='results']/tbody/tr[1]/td[4])" />
+                <verifyXPath  description="The third line"  text="#{test1.firstValue}"  
+                    xpath="string(//table[@id='results']/tbody/tr[3]/td[4])" />
+
+
+
+            </steps>
+        </testSpec>
+        <!--echo>${test1.firstValue}</echo-->
     </target>
     
     <!-- Check all criterion -->
