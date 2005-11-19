@@ -12,23 +12,6 @@
     <!-- *** Main test                          **** -->
     <!-- ******************************************* -->
     <target name="main">
-        <!-- Check order -->
-        <antcall target="CheckOrderableResultTable"/>
-
-        <!-- Check detail page -->
-        
-        <!-- search measure with data -->
-        
-        <!-- search measure without data -->
-        
-        <!-- Check statistique -->
-    </target>
-
-
-    <!-- ******************************************* -->
-    <!-- *** tests details                      **** -->
-    <!-- ******************************************* -->
-    <target name="trash">
         <!-- Check the default page -->
         <antcall target="DefaultPage"/>
         
@@ -64,6 +47,24 @@
         <!-- Check search criteria -->
         <antcall target="CheckSearchCriterion"/>
 
+        <!-- Check order -->
+        <antcall target="CheckOrderableResultTable"/>
+
+        <!-- Check detail page -->
+        
+        <!-- search measure with data -->
+        
+        <!-- search measure without data -->
+        
+        <!-- Check statistique -->
+    </target>
+
+
+    <!-- ******************************************* -->
+    <!-- *** tests details                      **** -->
+    <!-- ******************************************* -->
+    <target name="trash">
+
     </target>
 
     <target name="Empty">
@@ -95,28 +96,28 @@
                 <verifyXPath  description="The third line"  text="3" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
                 
                 <!-- Asc for ascending order of id -->
-                <clicklink label="Tech Id" stepid="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <clicklink label="Tech Id" description="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
                 <verifyXPath  description="The first line"  text="1" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
                 <verifyXPath  description="The third line"  text="3" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
 
                 <!-- Asc for descending order of id -->
-                <clicklink label="Tech Id" stepid="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <clicklink label="Tech Id" description="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
                 <verifyXPath  description="The first line"  text="3" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
                 <verifyXPath  description="The third line"  text="1" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
 
                 <!-- Asc for ascending order of duration -->
-                <clicklink label="Duration" stepid="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <clicklink label="Duration" description="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
                 <storeXPath  description="The first line"  property="test1.firstValue"  propertyType="dynamic"
                     xpath="string(//table[@id='results']/tbody/tr[1]/td[4])" />
                 <storeXPath  description="The third line"  property="test1.thirdValue"  propertyType="dynamic"
                     xpath="string(//table[@id='results']/tbody/tr[3]/td[4])" />
 
                 <!-- Asc for descending order of duration -->
-                <clicklink label="Duration" stepid="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" stepid=""/>
+                <clicklink label="Duration" description="" />
+                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
                 <verifyXPath  description="The first line"  text="#{test1.thirdValue}"  
                     xpath="string(//table[@id='results']/tbody/tr[1]/td[4])" />
                 <verifyXPath  description="The third line"  text="#{test1.firstValue}"  
