@@ -42,8 +42,8 @@
 	        <attainGoal name="multiproject:install"/>
             <echo>Deploy WebApp [administration_console.war]</echo>
             <!-- Tomcat -->
-            <copy file="../administration_console/target/administration_console.war"    todir="C:/Program Files/Apache Software Foundation/Tomcat 5.0/webapps"/>
-            <copy file="../sample_webapp/target/sample_webapp.war"                      todir="C:/Program Files/Apache Software Foundation/Tomcat 5.0/webapps"/>
+            <!--copy file="../administration_console/target/administration_console.war"    todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/>
+            <copy file="../sample_webapp/target/sample_webapp.war"                      todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/-->
             <!-- WebLogic -->
             <copy file="../administration_console/target/administration_console.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
             <copy file="../sample_webapp/target/sample_webapp.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
