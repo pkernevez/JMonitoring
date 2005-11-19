@@ -64,7 +64,6 @@
     <!-- *** tests details                      **** -->
     <!-- ******************************************* -->
     <target name="trash">
-
     </target>
 
     <target name="Empty">
@@ -161,7 +160,7 @@
         <antcall target="CheckNbFlowWithCriterion">
             <param name="nb.flow"       value="3"/>
             <param name="beginDate"     value=""/>
-            <param name="groupName"     value="AllExec"/>
+            <param name="groupName"     value="SomeNonStat"/>
             <param name="threadName"    value=""/>
             <param name="durationMin"   value=""/>
             <param name="methodName"    value=""/>
@@ -172,7 +171,7 @@
         <antcall target="CheckNbFlowWithCriterion">
             <param name="nb.flow"       value="0"/>
             <param name="beginDate"     value=""/>
-            <param name="groupName"     value="AllExed"/>
+            <param name="groupName"     value="SomeNonStar"/>
             <param name="threadName"    value=""/>
             <param name="durationMin"   value=""/>
             <param name="methodName"    value=""/>
@@ -271,7 +270,7 @@
         <antcall target="CheckNbFlowWithCriterion">
             <param name="nb.flow"       value="3"/>
             <param name="beginDate"     value="${toDay}"/>
-            <param name="groupName"     value="AllExec"/>
+            <param name="groupName"     value="SomeNonStat"/>
             <param name="threadName"    value="ExecuteThread: "/>
             <param name="durationMin"   value="10"/>
             <param name="methodName"    value="run"/>
@@ -282,7 +281,7 @@
         <antcall target="CheckNbFlowWithCriterion">
             <param name="nb.flow"       value="0"/>
             <param name="beginDate"     value="08/11/2005"/>
-            <param name="groupName"     value="AllExed"/>
+            <param name="groupName"     value="SomeNonStar"/>
             <param name="threadName"    value="ExecuteThread: Z"/>
             <param name="durationMin"   value="1000"/>
             <param name="methodName"    value="ran"/>

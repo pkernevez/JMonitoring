@@ -11,10 +11,10 @@
     <extend>${basedir}/../MainProject/maven/project.xml</extend>
   
     <!-- identifiant du projet -->
-    <id>sample_core</id>
+    <id>sample_aspects</id>
   
     <!-- libellé du projet -->
-    <name>Sample.</name>
+    <name>Sample aspects.</name>
     
     <!-- racine du package (syntaxe java) -->
     <package>net.kernevez</package>
@@ -33,17 +33,6 @@
         <dependency>
           <groupId>jmonitoring</groupId>
           <artifactId>core_monitoring</artifactId>
-          <version>${monitoring.version}</version>
-          <url>http://octo.dnalias.com/maven</url>
-            <properties>
-                <aspectj.weaveWith>true</aspectj.weaveWith>
-                <eclipse.dependency>true</eclipse.dependency>
-            </properties>
-        </dependency>
-
-        <dependency>
-          <groupId>jmonitoring</groupId>
-          <artifactId>sample_aspects</artifactId>
           <version>${monitoring.version}</version>
           <url>http://octo.dnalias.com/maven</url>
             <properties>

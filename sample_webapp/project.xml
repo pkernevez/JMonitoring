@@ -44,7 +44,17 @@
           <version>${monitoring.version}</version>
           <url>http://octo.dnalias.com/maven</url>
             <properties>
-                <!--aspectj.weaveWith>true</aspectj.weaveWith-->
+                <eclipse.dependency>true</eclipse.dependency>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+          <groupId>jmonitoring</groupId>
+          <artifactId>sample_aspects</artifactId>
+          <version>${monitoring.version}</version>
+          <url>http://octo.dnalias.com/maven</url>
+            <properties>
                 <eclipse.dependency>true</eclipse.dependency>
                 <war.bundle>true</war.bundle>
             </properties>
