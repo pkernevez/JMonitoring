@@ -13,8 +13,7 @@
       <item name="ToDo" href="todo.html"/>
       <item name="Screenshots" href="screenshot.html"/>
       <item name="Schemas" href="schemas.html"/>
-      <item name="Quick start" href="http://jmonitoring.xwiki.com"/>
-      <item name="Getting Started" href="gettingstarted.html"/>
+      <item name="Quick start" href="http://forge.octo.com/confluence/display/JMO"/>
     </menu>
   </body>
 </project>
