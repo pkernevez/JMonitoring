@@ -25,7 +25,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.jmonitoring.core.common.MeasureException;
 
 /**
  * @author pke
@@ -48,7 +47,7 @@ public class MockPreparedStatement implements PreparedStatement
             Thread.sleep(TEMPO);
         } catch (InterruptedException e)
         {
-            throw new MeasureException("Can't sleep in MockConnection", e);
+            throw new RuntimeException("Can't sleep in MockConnection", e);
         }
         
         return null;
@@ -388,7 +387,7 @@ public class MockPreparedStatement implements PreparedStatement
             Thread.sleep(TEMPO2);
         } catch (InterruptedException e)
         {
-            throw new MeasureException("Can't sleep in MockConnection", e);
+            throw new RuntimeException("Can't sleep in MockConnection", e);
         }
         return null;
     }

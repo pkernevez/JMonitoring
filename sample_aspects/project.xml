@@ -42,30 +42,6 @@
         </dependency>
 
         <dependency>
-          <id>junit</id>
-          <version>${depends.junit.version}</version>
-          <url>http://www.junit.org/</url>
-        </dependency>
-
-        <dependency>
-          <id>jmock</id>
-          <version>${depends.jmock.version}</version>
-          <url>http://jmock.codehaus.org</url>
-        </dependency>
-
-        <dependency>
-          <id>log4j</id>
-          <version>${depends.log4j.version}</version>
-          <url>http://www.log4j.org/</url>
-        </dependency>
-        
-        <dependency>
-          <id>commons-logging</id>
-          <version>${depends.commonslogging.version}</version>
-          <url>http://www.apache.org/</url>
-        </dependency>
-
-        <dependency>
           <groupId>aspectj</groupId>
           <artifactId>aspectjrt</artifactId>
           <version>${depends.aspectj.version}</version>
@@ -77,13 +53,6 @@
           <artifactId>aspectj</artifactId>
           <version>${depends.aspectj.version}</version>
           <url>http://eclipse.org/aspectj/</url>
-        </dependency>
-
-        <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>${depends.mysql.version}</version>
-          <url>http://www.mysql.com/</url>
         </dependency>
 
     </dependencies>

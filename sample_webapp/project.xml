@@ -78,15 +78,6 @@
         </dependency>
 
         <dependency>
-          <id>displaytag</id>
-          <version>${depends.displaytag.version}</version>
-          <url>http://displaytag.sourceforge.net/</url>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-
-        <dependency>
           <id>log4j</id>
           <version>${depends.log4j.version}</version>
           <url>http://www.log4j.org/</url>
