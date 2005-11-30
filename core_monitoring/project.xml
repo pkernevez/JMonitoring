@@ -36,7 +36,7 @@
         <dependency>
           <groupId>springframework</groupId>
           <artifactId>spring-core</artifactId>
-          <version>${depends.spring-core.version}</version>
+          <version>${depends.spring.core.version}</version>
           <url>http://gee.cs.oswego.edu/dl//</url>
         </dependency>
 
