@@ -18,6 +18,7 @@ import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCall;
+import org.jmonitoring.core.store.IStoreWriter;
 
 /**
  * This class allow the logging with an XMLFile. This class is not ThreadSafe when multiple file is used.
@@ -26,7 +27,7 @@ import org.jmonitoring.core.dto.MethodCall;
  * 
  * @author pke
  */
-public class XmlFileLogger implements IMeasurePointTreeLogger
+public class XmlFileLogger implements IStoreWriter
 {
     private static Configuration sConfiguration;
 
@@ -175,9 +176,10 @@ public class XmlFileLogger implements IMeasurePointTreeLogger
     /**
      * (non-Javadoc)
      * 
-     * @see net.kernevez.log.log.IMeasurePointTreeLogger#logMeasurePointTree(net.kernevez.log.measure.ExecutionFlow)
+     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
+     *      org.jmonitoring.core.dto.ExecutionFlow)
      */
-    public void logMeasurePointTree(ExecutionFlowDTO pExecutionFlow)
+    public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)
     {
         mCurrentBuffer = new StringBuffer();
         mCurrentBuffer.append("<Thread name=\"").append(pExecutionFlow.getThreadName());

@@ -5,8 +5,17 @@ package org.jmonitoring.core.configuration;
  **********************************************************************************************************************/
 
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import junit.framework.TestCase;
+
+import org.jmonitoring.core.dao.IConnectionManager;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestConfiguration extends TestCase
 {
@@ -23,5 +32,23 @@ public class TestConfiguration extends TestCase
         assertEquals(124, tColor.getRed());
         assertEquals(172, tColor.getGreen());
         assertEquals(74, tColor.getBlue());
+    }
+
+    public void testSpring() throws Throwable
+    {
+        try
+        {
+//            InputStream input = new FileInputStream(
+//                            "D:/Developpement/OCTO/forge/jmonitoring/trunk/core_monitoring/bin/bean.xml");
+//            BeanFactory factory = new XmlBeanFactory(input);
+//            IConnectionManager tManager = (IConnectionManager) factory.getBean("ConnectionManager");
+            ApplicationContext tContext = new ClassPathXmlApplicationContext("bean.xml");
+            IConnectionManager tManager =  (IConnectionManager)tContext.getBean("ConnectionManager");
+            System.out.println(tManager.getClass().toString());
+        } catch (Throwable t)
+        {
+            t.printStackTrace();
+            throw t;
+        }
     }
 }

@@ -55,7 +55,7 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
     protected abstract Runnable getAsynchroneLogTask(ExecutionFlowDTO pFlow);
 
     /**
-     * @see org.jmonitoring.core.log.IMeasurePointTreeLogger#logMeasurePointTree(
+     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
      *      org.jmonitoring.core.dto.ExecutionFlow)
      */
     public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)

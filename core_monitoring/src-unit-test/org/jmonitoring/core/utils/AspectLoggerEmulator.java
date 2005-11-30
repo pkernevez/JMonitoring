@@ -4,7 +4,6 @@ import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dto.MeasurePointManager;
 import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.impl.IMeasurePointTreeLogger;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

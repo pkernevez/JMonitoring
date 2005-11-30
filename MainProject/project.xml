@@ -62,6 +62,7 @@
         <report>maven-dashboard-history-plugin</report>
         <report>maven-changes-plugin</report>
         <report>maven-license-plugin</report>
+        <!--report>maven-webtest-plugin</report-->
     </reports>
 
 </project>

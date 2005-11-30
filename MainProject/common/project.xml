@@ -35,7 +35,7 @@
     <package>net.kernevez</package>
     
     <!--issueTrackingUrl>http://jmonitoring.dnsalias.com/jira/browse/JMO</issueTrackingUrl-->
-    <issueTrackingUrl>http://lobaa/forge/jira/browse/JMO</issueTrackingUrl>
+    <issueTrackingUrl>http://forge.octo.com/jira/browse/JMO</issueTrackingUrl>
     <!--<issueTrackingUrl>http://nagoya.apache.org/scarab/servlet/scarab/</issueTrackingUrl>-->
     <!--<siteAddress>jakarta.apache.org</siteAddress>-->
     <!--distributionDirectory>/www/maven.apache.org/builds/</distributionDirectory-->

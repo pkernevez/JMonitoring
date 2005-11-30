@@ -25,6 +25,10 @@ public class StandAloneConnectionManager implements IConnectionManager
 
     private Configuration mConfiguration;
 
+    private String mURL; 
+    private String mUserName; 
+    private String mPassword; 
+    
     /**
      * Default constructor.
      * 
@@ -33,6 +37,13 @@ public class StandAloneConnectionManager implements IConnectionManager
     public StandAloneConnectionManager(Configuration pConfig)
     {
         mConfiguration = pConfig;
+    }
+
+    /**
+     * Default constructor.
+     */
+    public StandAloneConnectionManager()
+    {
     }
 
     /**
@@ -103,4 +114,25 @@ public class StandAloneConnectionManager implements IConnectionManager
         }
     }
 
+    /**
+     * @param pPassword The password to set.
+     */
+    public void setPassword(String pPassword)
+    {
+        mPassword = pPassword;
+    }
+    /**
+     * @param pUrl The uRL to set.
+     */
+    public void setURL(String pUrl)
+    {
+        mURL = pUrl;
+    }
+    /**
+     * @param pUserName The userName to set.
+     */
+    public void setUserName(String pUserName)
+    {
+        mUserName = pUserName;
+    }
 }

@@ -13,6 +13,8 @@ import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.store.IStoreReader;
+import org.jmonitoring.core.store.IStoreWriter;
 
 /**
  * @author pke
@@ -21,15 +23,15 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
  *       d'intégrité relationnelle au COMMIT soit en faisant 2 batchs: un en insert sans clé étrangère et un deuxième en
  *       UPDATE pour créer les liens Templates
  */
-public class JdbcLogger implements IMeasurePointTreeLogger
+public class JdbcLogger implements IStoreReader, IStoreWriter
 {
-    /*
+    /**
      * (non-Javadoc)
      * 
-     * @see org.jmonitoring.core.log.IMeasurePointTreeLogger#logMeasurePointTree(
+     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
      *      org.jmonitoring.core.dto.ExecutionFlow)
      */
-    public void logMeasurePointTree(ExecutionFlowDTO pExecutionFlow)
+    public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)
     {
 
         Connection tConnection = null;

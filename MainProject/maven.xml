@@ -27,14 +27,21 @@
     </goal>
 
 	<goal name="buildSite" prereqs="multiproject:clean,exclude-sample">
-	        <!--echo>Clover all</echo>
-	        <j:set var="goal" value="clover:test"/>
-            <attainGoal name="multiproject:goal"/-->
+            <!-- @todo Utiliser Cargo -->
+            <echo>Build Site</echo>
+	        <attainGoal name="buildAndDeploy"/>
             
-        <echo>KKKK${maven.multiproject.excludes}</echo>
-	        <echo>Site all</echo>
+	        <!-- Autorise the failure of the test during site generation -->
+            <j:set var="maven.webtest.config.haltonfailure" value="false"/>
+            <j:set var="maven.webtest.config.haltonerror"   value="false"/>
+	        <j:set var="maven.test.skip" value="true"/>
+            
+            <echo>Site all</echo>
 	        <attainGoal name="multiproject:site"/>
-            
+	        
+	        <echo>Webtest</echo>
+	        <attainGoal name="webtest"/>
+	        
     </goal>
     
 	<goal name="buildAndDeploy" prereqs="multiproject:clean,clean">
@@ -44,12 +51,9 @@
             <!-- Tomcat -->
             <!--copy file="../administration_console/target/administration_console.war"    todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/>
             <copy file="../sample_webapp/target/sample_webapp.war"                      todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/-->
-            <!-- WebLogic -->
-            <copy file="../administration_console/target/administration_console.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
-            <copy file="../sample_webapp/target/sample_webapp.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
-            <!-- JBoss -->
-            <copy file="../administration_console/target/administration_console.war" todir="D:\Developpement\jboss-3.2.5\server\default\deploy"/>
-            <copy file="../sample_webapp/target/sample_webapp.war" todir="D:\Developpement\jboss-3.2.5\server\default\deploy"/>
+            <!-- AppServer -->
+            <copy file="../administration_console/target/administration_console.war" todir="${application.server.deploy.dir}"/>
+            <copy file="../sample_webapp/target/sample_webapp.war" todir="${application.server.deploy.dir}"/>
             <!-- Pour éviter les effet de bord avec Eclipse -->
             <attainGoal name="multiproject:clean"/>
             <attainGoal name="clean"/>

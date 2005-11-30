@@ -223,9 +223,6 @@ public class FTestExecutionFlowMySqlDAO extends TestCase
 
     }
 
-    /**
-     * @return
-     */
     public static ExecutionFlowDTO buildNewFullFlow()
     {
         ExecutionFlowDTO tFlow;

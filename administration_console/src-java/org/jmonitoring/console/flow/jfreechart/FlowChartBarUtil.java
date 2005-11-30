@@ -39,6 +39,10 @@ import org.jfree.data.time.SimpleTimePeriod;
 
 public class FlowChartBarUtil
 {
+    private static final float LABEL_WIDTH_RATIO = 10F;
+    private static final int IMAGE_WIDTH = 930;
+    private static final int BODER_TOP = 70;
+    private static final int BORDER_DOWN = 60;
     private static Log sLog = LogFactory.getLog(FlowChartBarUtil.class);
 
     private static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
@@ -153,8 +157,8 @@ public class FlowChartBarUtil
         ByteArrayOutputStream tStream = new ByteArrayOutputStream();
         try
         {
-            int tHeight = 70 + mListOfTask.size() * 60;
-            ChartUtilities.writeChartAsPNG(tStream, pChart, 930, tHeight);
+            int tHeight = BODER_TOP + mListOfTask.size() * BORDER_DOWN;
+            ChartUtilities.writeChartAsPNG(tStream, pChart, IMAGE_WIDTH, tHeight);
         } catch (IOException e)
         {
             throw new MeasureException("Unable to write Image", e);
@@ -200,7 +204,7 @@ public class FlowChartBarUtil
     {
         JFreeChart jfreechart = createGanttChart("Flow Group Details", "Flow Groups", "Date",
                         pIntervalcategorydataset, false, false, false);
-        jfreechart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(10F);
+        jfreechart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(LABEL_WIDTH_RATIO);
         return jfreechart;
     }
 
