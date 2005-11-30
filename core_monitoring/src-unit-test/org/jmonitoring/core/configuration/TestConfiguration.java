@@ -5,15 +5,10 @@ package org.jmonitoring.core.configuration;
  **********************************************************************************************************************/
 
 import java.awt.Color;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.dao.IConnectionManager;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

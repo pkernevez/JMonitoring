@@ -41,6 +41,20 @@
         </dependency>
 
         <dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-context</artifactId>
+          <version>${depends.spring.core.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+          <version>${depends.spring.core.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
           <id>concurrent</id>
           <version>${depends.concurrent.version}</version>
           <url>http://gee.cs.oswego.edu/dl//</url>
