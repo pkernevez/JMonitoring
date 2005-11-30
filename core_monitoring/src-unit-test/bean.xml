@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="ConnectionManager" class="org.jmonitoring.core.dao.StandAloneConnectionManager">
+		<property name="userName"><value>dd</value></property>
+	</bean>
+	<!--bean id="anotherExample" class="eg.ExampleBeanTwo">
+		<property name="beanOne"><ref bean="anotherExampleBean"/></property>
+	</bean-->
+	
+</beans>
