@@ -3,7 +3,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="org.jmonitoring.core.measure.MeasurePoint"%>
 <%@page import="org.jmonitoring.console.measurepoint.MeasurePointForm"%>
 <%@page import="org.jmonitoring.core.configuration.Configuration"%>
 <%@page import="org.jmonitoring.core.dao.StandAloneConnectionManager"%>
@@ -17,7 +16,7 @@
 	MeasurePointForm tForm = (MeasurePointForm)request.getAttribute("measurepointform");
 	Connection tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
     ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
-	tForm.setMeasurePoint( tDao.readFullMeasurePoint( tForm.getFlowId(), tForm.getSequenceId() ) );
+	tForm.setMeasurePoint( tDao.readFullMethodCall( tForm.getFlowId(), tForm.getSequenceId() ) );
 %>
 
 <h2><bean:write name="measurepointform" property="measurePoint.className"/>.<bean:write name="measurepointform" property="measurePoint.methodName"/>()</h2><br>
@@ -70,7 +69,7 @@
 	<tr>
 		<td NOWRAP></td>
 		<td NOWRAP colSpan="2"></td>
-	</tr>
+	</tr></>
 	<tr>
 		<td NOWRAP>Param:</td>
 		<td colSpan="2"><b><bean:write name="measurepointform" property="measurePoint.params"/></b></td>

@@ -646,7 +646,7 @@ public class ExecutionFlowMySqlDAO
     }
 
     private static final String SELECT_MEASURE_POINT = "select *"
-                    + " from method_call where execution_flow_id = ? And sequence_id = ?";
+                    + " from method_call where EXECUTION_FLOW_ID = ? And sequence_id = ?";
 
     /**
      * Read a single <code>MethodCall</code>.
@@ -685,7 +685,7 @@ public class ExecutionFlowMySqlDAO
                     + "where Parent.EXECUTION_FLOW_ID=m.EXECUTION_FLOW_ID And m.EXECUTION_FLOW_ID = ? "
                     + "And Parent.SEQUENCE_ID = m.PARENT_ID " + "And m.SEQUENCE_ID=? " + "UNION ALL "
                     + "SELECT * FROM `method_call` m " + "where m.EXECUTION_FLOW_ID = ? " + "And m.SEQUENCE_ID=? "
-                    + "UNION ALL " + "SELECT * FROM `method_call` Child " + "where Child.FLOW_ID = ? "
+                    + "UNION ALL " + "SELECT * FROM `method_call` Child " + "where Child.EXECUTION_FLOW_ID = ? "
                     + "And Child.PARENT_ID=?";
 
     /**
