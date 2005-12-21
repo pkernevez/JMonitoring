@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   <class name="org.jmonitoring.core.persistence.ExecutionFlowPO" table="EXECUTION_FLOW">
+      <id name="id" column="ID">
+         <generator class="identity" />
+      </id>
+
+      <property name="threadName" column="THREAD_NAME" type="java.lang.String" />
+
+      <property name="jvmIdentifier" column="JVM" type="java.lang.String" />
+
+      <property name="beginDate" column="BEGIN_TIME" type="java.lang.Long" />
+
+      <property name="endTime" column="END_TIME" type="java.lang.Long" />
+
+      <property name="duration" column="DURATION" type="java.lang.Long" />
+
+   </class>
+</hibernate-mapping>
+
