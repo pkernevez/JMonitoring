@@ -40,7 +40,7 @@
 	        <attainGoal name="multiproject:site"/>
 	        
 	        <echo>Webtest</echo>
-	        <attainGoal name="webtest"/>
+	        <!--attainGoal name="webtest"/-->
 	        
     </goal>
     
