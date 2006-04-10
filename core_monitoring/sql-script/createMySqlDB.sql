@@ -4,14 +4,19 @@
 # * Please look at license.txt for more license detail.                     *
 # **************************************************************************/
 
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,INDEX 
+    on jmonitoring.* TO jmonitoring@'%' IDENTIFIED BY 'jmonitoringpw';
+flush privileges;
+create database jmonitoring;
+
 Update `METHOD_CALL` set PARENT_ID=NULL;
 Delete from `METHOD_CALL`;
 delete FROM `execution_flow`;
 
-DROP TABLE IF EXISTS `monitoring`.`method_call`;
-DROP TABLE IF EXISTS `monitoring`.`execution_flow`;
+DROP TABLE IF EXISTS `jmonitoring`.`method_call`;
+DROP TABLE IF EXISTS `jmonitoring`.`execution_flow`;
 
-CREATE TABLE `execution_flow` (
+CREATE TABLE `jmonitoring`.`execution_flow` (
   `ID` int(8) unsigned NOT NULL auto_increment,
   `THREAD_NAME` varchar(60) NOT NULL default '',
   `DURATION` bigint(20) unsigned NOT NULL default '0',
@@ -23,7 +28,7 @@ CREATE TABLE `execution_flow` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Entry point of execution';
 
 
-CREATE TABLE `method_call` (
+CREATE TABLE `jmonitoring`.`method_call` (
   `EXECUTION_FLOW_ID` int(8) unsigned NOT NULL default '0',
   `SEQUENCE_ID` int(8) unsigned NOT NULL default '0',
   `FULL_CLASS_NAME` varchar(120) NOT NULL default '',
