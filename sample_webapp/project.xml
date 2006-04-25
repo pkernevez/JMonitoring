@@ -200,8 +200,8 @@
             </properties>
         </dependency-->    
         
-    </dependencies>
-       <reports>
+   <!--  Verrue pour pouvoir builder ! -->
+  <reports>
         <report>maven-changes-plugin</report>
         <report>maven-changelog-plugin</report>
         <report>maven-file-activity-plugin</report>
@@ -214,11 +214,12 @@
         <report>maven-license-plugin</report>
         <report>maven-tasklist-plugin</report>
         <report>maven-clover-plugin</report>
+        <!--report>maven-clover-plugin</report-->
         <report>maven-simian-plugin</report>
-        <report>maven-findbugs-plugin</report>
-        <report>maven-pmd-plugin</report>
+        <!--report>maven-findbugs-plugin</report-->
+        <!--report>maven-pmd-plugin</report-->
         <report>maven-strutsdoc-plugin</report>
- </reports>
+  </reports>    
  
     
 </project>
