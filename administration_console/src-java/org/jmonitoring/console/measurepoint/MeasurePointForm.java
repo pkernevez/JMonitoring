@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.dto.MethodCall;
+import org.jmonitoring.core.dto.MethodCallDTO;
 
 import org.apache.struts.action.ActionForm;
 
 /**
- * Form associated with <code>MethodCall</code>.
+ * Form associated with <code>MethodCallDTO</code>.
  * 
  * @author pke
  */
@@ -35,7 +35,7 @@ public class MeasurePointForm extends ActionForm
     private String mClassName;
 
     /** The measure point assoiciate to this request. */
-    private MethodCall mMeasurePoint;
+    private MethodCallDTO mMeasurePoint;
 
     /**
      * Allow to know if the parameters passed by the query was by name or by identifier.
@@ -139,7 +139,7 @@ public class MeasurePointForm extends ActionForm
      * Accessor.
      * @return The measure point associated with this parameters.
      */
-    public MethodCall getMeasurePoint()
+    public MethodCallDTO getMeasurePoint()
     {
         return mMeasurePoint;
     }
@@ -148,13 +148,13 @@ public class MeasurePointForm extends ActionForm
      * Accessor.
      * @param pMeasurePoint The measure associated with this parameters.
      */
-    public void setMeasurePoint(MethodCall pMeasurePoint)
+    public void setMeasurePoint(MethodCallDTO pMeasurePoint)
     {
         mMeasurePoint = pMeasurePoint;
     }
 
     /**
-     * Return the ids of the parent <code>MethodCall</code>.
+     * Return the ids of the parent <code>MethodCallDTO</code>.
      * This <code>Map</code> is used for the link generation by Struts.
      * @return The list of attributes to use for the link.
      */
@@ -170,7 +170,7 @@ public class MeasurePointForm extends ActionForm
     }
 
     /**
-     * Return the ids of the current <code>MethodCall</code>.
+     * Return the ids of the current <code>MethodCallDTO</code>.
      * This <code>Map</code> is used for the link generation by Struts.
      * @return The list of attributes to use for the link.
      */
@@ -183,15 +183,15 @@ public class MeasurePointForm extends ActionForm
     }
 
     /**
-     * Return the ids of a chid of the <code>MethodCall</code>.
+     * Return the ids of a chid of the <code>MethodCallDTO</code>.
      * This <code>Map</code> is used for the link generation by Struts.
-     * @param pPosition The index of the <code>MethodCall</code>.
+     * @param pPosition The index of the <code>MethodCallDTO</code>.
      * @return The list of attributes to use for the link.
      */
     public Map getChildMeasureIdsMap(int pPosition)
     {
         Map tHashMap = new HashMap();
-        MethodCall tMeasure = (MethodCall) mMeasurePoint.getChildren().get(pPosition);
+        MethodCallDTO tMeasure = (MethodCallDTO) mMeasurePoint.getChildren().get(pPosition);
         tHashMap.put("flowId", new Integer(tMeasure.getFlowId()));
         tHashMap.put("sequenceId", new Integer(tMeasure.getSequenceId()));
         return tHashMap;

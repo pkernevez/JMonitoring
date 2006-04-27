@@ -22,7 +22,7 @@ import org.jmonitoring.core.store.impl.MeasurePointTreeLoggerFactory;
  */
 public class MeasurePointManager
 {
-    private MethodCall mCurrentLogPoint;
+    private MethodCallDTO mCurrentLogPoint;
 
     /** <code>CommonsLog</code> instance. */
     private static Log sLog;
@@ -67,7 +67,7 @@ public class MeasurePointManager
      * 
      * @param pSignature The method signature.
      * @param pArgs The method arguments.
-     * @param pGroupName The name of the group associated with this <code>MethodCall</code>.
+     * @param pGroupName The name of the group associated with this <code>MethodCallDTO</code>.
      */
     public void logBeginOfMethod(Signature pSignature, Object[] pArgs, String pGroupName)
     {
@@ -77,7 +77,7 @@ public class MeasurePointManager
             {
                 sLog.debug("logBeginOfMethod First Time" + pSignature);
             }
-            mCurrentLogPoint = new MethodCall(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
+            mCurrentLogPoint = new MethodCallDTO(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
                             pGroupName, pArgs);
         } else
         {
@@ -85,8 +85,8 @@ public class MeasurePointManager
             {
                 sLog.debug("logBeginOfMethod Any Time" + pSignature);
             }
-            MethodCall tOldPoint = mCurrentLogPoint;
-            mCurrentLogPoint = new MethodCall(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
+            MethodCallDTO tOldPoint = mCurrentLogPoint;
+            mCurrentLogPoint = new MethodCallDTO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
                             pGroupName, pArgs);
         }
     }

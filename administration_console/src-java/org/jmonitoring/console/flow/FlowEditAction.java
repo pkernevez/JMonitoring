@@ -17,7 +17,7 @@ import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCall;
+import org.jmonitoring.core.dto.MethodCallDTO;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -83,7 +83,7 @@ public class FlowEditAction extends Action
             } else
             {
                 sLog.debug("Need more information to know if we can displayed the next screen...");
-                MethodCall tFirstMeasure = tFlow.getFirstMeasure();
+                MethodCallDTO tFirstMeasure = tFlow.getFirstMeasure();
                 //Creation of the associated images.
                 HttpSession tSession = pRequest.getSession();
                 sLog.debug("Write PieCharts into HttpSession");
@@ -92,7 +92,7 @@ public class FlowEditAction extends Action
                 FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure);
                 if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
                 {
-                    sLog.debug("MethodCall Filtering : duration>" + tForm.getDurationMin());
+                    sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());
                     limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
                 }
                 sLog.debug("Forward success.");
@@ -113,17 +113,17 @@ public class FlowEditAction extends Action
     }
 
     /**
-     * Filter the <code>MethodCall</code> tree using the duration.
+     * Filter the <code>MethodCallDTO</code> tree using the duration.
      * 
-     * @param pDurationMin The minimum duration of the <code>MethodCall</code>.
-     * @param pCurrentMeasure The current <code>MethodCall</code> of the tree.
+     * @param pDurationMin The minimum duration of the <code>MethodCallDTO</code>.
+     * @param pCurrentMeasure The current <code>MethodCallDTO</code> of the tree.
      */
-    void limitMeasureWithDuration(int pDurationMin, MethodCall pCurrentMeasure)
+    void limitMeasureWithDuration(int pDurationMin, MethodCallDTO pCurrentMeasure)
     {
-        MethodCall curChild;
+        MethodCallDTO curChild;
         for (int i = 0; i < pCurrentMeasure.getChildren().size();)
         {
-            curChild = (MethodCall) pCurrentMeasure.getChildren().get(i);
+            curChild = (MethodCallDTO) pCurrentMeasure.getChildren().get(i);
             if (curChild.getDuration() < pDurationMin)
             { // We remove this child
                 pCurrentMeasure.getChildren().remove(i);

@@ -6,22 +6,42 @@
 <hibernate-configuration>
 
     <!-- a SessionFactory instance listed as /jndi/name -->
-    <session-factory
-        >
+    <session-factory>
 
         <!-- properties -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
         <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
-        <property name="show_sql">false</property>
-        <property name="connection.url">jdbc:hsqldb:mem:&#163;sadta</property>
+        <!-- property name="connection.url">jdbc:hsqldb:mem:&#163;sadta</property-->
+        <property name="connection.url">jdbc:hsqldb:hsql://localhost/jmonitoring/</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>
-	    <property name="connection.autocommit">true</property>
-	    <property name="hibernate.show_sql">true</property>
+	    <!-- property name="connection.autocommit">true</property-->
+
+		<!-- Disable the second-level cache -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<property name="current_session_context_class">thread</property>
+        
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
 		
-        <!-- mapping files -->
+		<!-- Drop and re-create the database schema on startup -->
+		<!-- property name="hbm2ddl.auto">create</property-->	
 		
+		<!--  J2EE Integration -->
+		<!-- property name="session_factory_name">java:hibernate/SessionFactory</property>
+		<property name="jndi.url"></property>
+		<property name="jndi.class"></property-->
+
+        <!-- property name="transaction.factory_class">
+            org.hibernate.transaction.JTATransactionFactory
+        </property-->
+        <!-- property name="jta.UserTransaction">java:comp/UserTransaction</property-->
+
+		<!-- mapping files -->
 		<mapping resource="org/jmonitoring/core/persistence/ExecutionFlowPO.hbm.xml"/>
+        <mapping resource="org/jmonitoring/core/persistence/MethodCallPO.hbm.xml"/>
 		
     </session-factory>
 

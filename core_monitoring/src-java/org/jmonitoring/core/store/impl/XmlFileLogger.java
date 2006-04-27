@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCall;
+import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.store.IStoreWriter;
 
 /**
@@ -203,7 +203,7 @@ public class XmlFileLogger implements IStoreWriter
      * 
      * @param pExecutionFlow La racine courante de l'arbre à logger.
      */
-    private void fillStringBuffer(MethodCall pCurrentMeasurePoint)
+    private void fillStringBuffer(MethodCallDTO pCurrentMeasurePoint)
     {
         mCurrentBuffer.append("<Execution ");
         mCurrentBuffer.append("class=\"").append(pCurrentMeasurePoint.getClassName()).append("\" ");
@@ -246,10 +246,10 @@ public class XmlFileLogger implements IStoreWriter
         mCurrentBuffer.append(">\n");
 
         // On fait le recusrif sur les children
-        MethodCall curChild;
+        MethodCallDTO curChild;
         for (Iterator tChildIterator = pCurrentMeasurePoint.getChildren().iterator(); tChildIterator.hasNext();)
         {
-            curChild = (MethodCall) tChildIterator.next();
+            curChild = (MethodCallDTO) tChildIterator.next();
             fillStringBuffer(curChild);
         }
 

@@ -104,6 +104,39 @@
             </properties>
         </dependency>
 
+        <dependency>
+          <id>hibernate</id>
+          <version>${depends.hibernate.version}</version>
+          <url>http://www.hibernate.org</url>
+        </dependency>
+
+        <dependency>
+          <id>antlr</id>
+          <version>${depends.antlr.version}</version>
+          <url>http://www.ant.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${depends.hsqldb.version}</version>
+            <type>jar</type>
+            <url>http://www.hsqldb.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${depends.dom4j.version}</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${depends.ehcache.version}</version>
+            <type>jar</type>
+        </dependency>
        
         <dependency>
           <groupId>mysql</groupId>

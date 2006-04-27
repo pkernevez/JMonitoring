@@ -34,30 +34,30 @@ public class JdbcLogger implements IStoreReader, IStoreWriter
     public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)
     {
 
-        Connection tConnection = null;
-        try
-        {
-
-            tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            new ExecutionFlowMySqlDAO(tConnection).insertFullExecutionFlow(pExecutionFlow);
-            tConnection.commit();
-
-        } catch (SQLException e)
-        {
-            throw new MeasureException("Unable to getConnection.", e);
-        } finally
-        {
-            if (tConnection != null)
-            {
-                try
-                {
-                    tConnection.close();
-                } catch (SQLException e2)
-                {
-                    throw new MeasureException("Connection to DataBase lost.", e2);
-                }
-            }
-        }
+//        Connection tConnection = null;
+//        try
+//        {
+//
+//            tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
+//            new ExecutionFlowMySqlDAO(tConnection).insertFullExecutionFlow(pExecutionFlow);
+//            tConnection.commit();
+//
+//        } catch (SQLException e)
+//        {
+//            throw new MeasureException("Unable to getConnection.", e);
+//        } finally
+//        {
+//            if (tConnection != null)
+//            {
+//                try
+//                {
+//                    tConnection.close();
+//                } catch (SQLException e2)
+//                {
+//                    throw new MeasureException("Connection to DataBase lost.", e2);
+//                }
+//            }
+//        }
     }
 
 }

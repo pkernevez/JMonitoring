@@ -20,8 +20,8 @@ public class FlowSearchCriterion
     /** Begin date/time. */
     private Date mBeginDate;
 
-    /** End date/time. */
-    private Date mBeginTimeMin;
+    /** @todo menage End date/time. */
+//    private Date mBeginTimeMin;
 
     /** Duration. */
     private Long mDurationMin;
@@ -49,7 +49,7 @@ public class FlowSearchCriterion
     /**
      * @param pFirstMeasureClassName The firstMeasureClassName to set.
      */
-    public void setFirstMeasureClassName(String pFirstMeasureClassName)
+    public void setClassName(String pFirstMeasureClassName)
     {
         mFirstMeasureClassName = pFirstMeasureClassName;
     }
@@ -65,7 +65,7 @@ public class FlowSearchCriterion
     /**
      * @param pFirstMeasureGroupName The firstMeasureGroupName to set.
      */
-    public void setFirstMeasureGroupName(String pFirstMeasureGroupName)
+    public void setGroupName(String pFirstMeasureGroupName)
     {
         mFirstMeasureGroupName = pFirstMeasureGroupName;
     }
@@ -81,7 +81,7 @@ public class FlowSearchCriterion
     /**
      * @param pFirstMeasureMethodName The firstMeasureMethodName to set.
      */
-    public void setFirstMeasureMethodName(String pFirstMeasureMethodName)
+    public void setMethodName(String pFirstMeasureMethodName)
     {
         mFirstMeasureMethodName = pFirstMeasureMethodName;
     }
@@ -135,20 +135,22 @@ public class FlowSearchCriterion
     }
 
     /**
+     * @todo menage
      * @return Returns the beginTime.
      */
-    public Date getBeginTimeMin()
-    {
-        return mBeginTimeMin;
-    }
+//    public Date getBeginTimeMin()
+//    {
+//        return mBeginTimeMin;
+//    }
 
     /**
+     * @todo menage
      * @param pBeginTimeMin The beginTime to set.
      */
-    public void setBeginTimeMin(java.util.Date pBeginTimeMin)
-    {
-        mBeginTimeMin = new Date(pBeginTimeMin.getTime());
-    }
+//    public void setBeginTimeMin(java.util.Date pBeginTimeMin)
+//    {
+//        mBeginTimeMin = new Date(pBeginTimeMin.getTime());
+//    }
 
     /**
      * @return Returns the duration.
@@ -161,8 +163,8 @@ public class FlowSearchCriterion
     /**
      * @param pDuration The duration to set.
      */
-    public void setDurationMin(Long pDuration)
+    public void setDurationMin(long pDuration)
     {
-        mDurationMin = pDuration;
+        mDurationMin = new Long(pDuration);
     }
 }

@@ -1,13 +1,19 @@
 package org.jmonitoring.core.dao;
 
-import java.util.List;
+import java.sql.SQLException;
 
-import org.dbunit.DatabaseTestCase;
+import junit.framework.TestCase;
+
+import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.XmlDataSet;
+import org.dbunit.operation.DatabaseOperation;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.persistence.HibernateManager;
 
@@ -15,52 +21,76 @@ import org.jmonitoring.core.persistence.HibernateManager;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public abstract class  PersistanceTestCase extends DatabaseTestCase
+public abstract class PersistanceTestCase extends TestCase
 {
-
-    protected Session mManagerForDbUnit;
 
     protected Session mPersistenceManager;
 
+    protected Transaction mTransaction;
+
     protected void setUp() throws Exception
     {
-        createSchema();
-        mManagerForDbUnit = HibernateManager.getNewSession();
-
         super.setUp();
-        mPersistenceManager = HibernateManager.getNewSession();
+
+        mPersistenceManager = HibernateManager.getSession();
+        mTransaction = mPersistenceManager.beginTransaction();
+
+        Configuration tConfig = HibernateManager.getConfig();
+        SchemaExport tDdlexport = new SchemaExport(tConfig);
+
+        tDdlexport.create(true, true);
+
+    }
+
+    protected void createDataSet(String pDataSetFileName)
+    {
+        Session tSession = HibernateManager.getSession();
+        // try
+        // {
+        // Transaction tTans = tSession.beginTransaction();
+        if (pDataSetFileName != null)
+        {
+            IDataSet tDataSet;
+            try
+            {
+                tDataSet = new XmlDataSet(getClass().getResourceAsStream(pDataSetFileName));
+                DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(tSession.connection()), tDataSet);
+                mPersistenceManager.flush();
+            } catch (DataSetException e)
+            {
+                throw new RuntimeException(e);
+            } catch (Exception e)
+            {
+                // @todo Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        // Transaction.;
+        // } catch (Exception e)
+        // {
+        // tSession.clear();
+        // throw new RuntimeException(e);
+        // } catch (Error e1)
+        // {
+        // tSession.clear();
+        // throw e1;
+        // }
     }
 
     protected void tearDown() throws Exception
     {
         super.tearDown();
-        org.hibernate.cfg.Configuration config = HibernateManager.getConfig();
+        Configuration tConfig = HibernateManager.getConfig();
+        SchemaExport tDdlexport = new SchemaExport(tConfig);
 
-        SchemaExport ddlexport = new SchemaExport(config);
-
-        ddlexport.drop(true, true);
+        tDdlexport.drop(true, true);
+        mTransaction.rollback();
+        mPersistenceManager.close();
     }
 
-    public void createSchema()
-    {
-
-        org.hibernate.cfg.Configuration config = HibernateManager.getConfig();
-
-        SchemaExport ddlexport = new SchemaExport(config);
-
-        ddlexport.create(true, true);
-    }
-
-    protected IDatabaseConnection getConnection() throws Exception
-    {
-        return new DatabaseConnection(mManagerForDbUnit.connection());
-    }
-
-    protected IDataSet getDataSet() throws Exception
-    {
-        XmlDataSet tData =new XmlDataSet(getClass().getResourceAsStream("/dataset.xml"));
-        System.out.println(tData.toString());
-        return tData;
-    }
+    // protected String getDataSetFileName() throws Exception
+    // {
+    // return null;
+    // }
 
 }

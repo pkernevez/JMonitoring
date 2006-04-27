@@ -286,7 +286,7 @@ public class DynamicQueryBuilder
      * 
      * @return The SqlQuery.
      */
-    protected String getSqlQuery()
+    public String getSqlQuery()
     {
         return mSqlQuery.toString();
     }

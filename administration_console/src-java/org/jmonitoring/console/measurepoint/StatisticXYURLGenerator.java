@@ -24,10 +24,10 @@ public class StatisticXYURLGenerator implements XYURLGenerator, Serializable
     /** The URL of the Html link. */
     private String mBaseURL;
 
-    /** ClassName of the MethodCall. */
+    /** ClassName of the MethodCallDTO. */
     private String mClassName;
 
-    /** Name of the MethodCall method. */
+    /** Name of the MethodCallDTO method. */
     private String mMethodName;
 
     /**
@@ -35,8 +35,8 @@ public class StatisticXYURLGenerator implements XYURLGenerator, Serializable
      * 
      * @param pBaseURL The URL of the Html link.
      * @param pInterval The interval duration used for the char bar generation.
-     * @param pClassName ClassName of the MethodCall.
-     * @param pMethodName Name of the MethodCall method.
+     * @param pClassName ClassName of the MethodCallDTO.
+     * @param pMethodName Name of the MethodCallDTO method.
      */
     public StatisticXYURLGenerator(String pBaseURL, int pInterval, String pClassName, String pMethodname)
     {

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.MethodCall;
+import org.jmonitoring.core.dto.MethodCallDTO;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,9 +55,9 @@ public class FlowUtil
      * The fisrt is the repartition of the number of call and the other is the repertition of 
      * the duration.
      * @param pSession The session to use for the image writing as a bytes arrays.
-     * @param pFirstMeasure The root of the <code>MethodCall</code> tree.
+     * @param pFirstMeasure The root of the <code>MethodCallDTO</code> tree.
      */
-    public static void writeImageIntoSession(HttpSession pSession, MethodCall pFirstMeasure)
+    public static void writeImageIntoSession(HttpSession pSession, MethodCallDTO pFirstMeasure)
     {
         FlowUtil tFlow = new FlowUtil();
         tFlow.addTimeWith(pFirstMeasure);
@@ -135,17 +135,17 @@ public class FlowUtil
     }
 
     /**
-     * Append the duration passed in this <code>MethodCall</code>. 
+     * Append the duration passed in this <code>MethodCallDTO</code>. 
      * @param pMeasure The current measure.
      */
-    void addTimeWith(MethodCall pMeasure)
+    void addTimeWith(MethodCallDTO pMeasure)
     {
         long tChildDuration = 0;
-        MethodCall curPoint;
+        MethodCallDTO curPoint;
         // On itère sur les noeuds fils
         for (int i = 0; i < pMeasure.getChildren().size(); i++)
         {
-            curPoint = (MethodCall) pMeasure.getChildren().get(i);
+            curPoint = (MethodCallDTO) pMeasure.getChildren().get(i);
             addTimeWith(curPoint);
             tChildDuration = tChildDuration + (curPoint.getEndTime() - curPoint.getBeginTime());
         }
@@ -161,10 +161,10 @@ public class FlowUtil
     }
 
     /**
-     * Append the number of calls passed in this <code>MethodCall</code>. 
+     * Append the number of calls passed in this <code>MethodCallDTO</code>. 
      * @param pMeasure The current measure.
      */
-    void addNbCallWith(MethodCall pMeasure)
+    void addNbCallWith(MethodCallDTO pMeasure)
     {
         String tGroupName = pMeasure.getGroupName();
         Integer tNbCall = (Integer) mListOfGroup.get(tGroupName);
@@ -178,7 +178,7 @@ public class FlowUtil
         // On itère sur les noeuds fils
         for (int i = 0; i < pMeasure.getChildren().size(); i++)
         {
-            addNbCallWith((MethodCall) pMeasure.getChildren().get(i));
+            addNbCallWith((MethodCallDTO) pMeasure.getChildren().get(i));
         }
     }
 

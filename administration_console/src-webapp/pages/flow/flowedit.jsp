@@ -4,7 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.flow.FlowEditForm"%>
-<%@page import="org.jmonitoring.core.dto.MethodCall"%>
+<%@page import="org.jmonitoring.core.dto.MethodCallDTO"%>
 <%@page import="org.jmonitoring.core.dto.ExecutionFlowDTO"%>
 <%@page import="org.jmonitoring.console.flow.jfreechart.FlowUtil"%>
 <%@page import="org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil"%>

@@ -6,17 +6,20 @@ package org.jmonitoring.core.dao;
  **************************************************************************/
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
-import org.jmonitoring.core.configuration.Configuration;
+import org.hibernate.Hibernate;
+import org.hibernate.SQLQuery;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCall;
+import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.persistence.MethodCallPO;
 
 /**
  * @author pke
@@ -24,355 +27,444 @@ import org.jmonitoring.core.dto.MethodCall;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FTestExecutionFlowMySqlDAO extends TestCase
+public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
 {
-    public void testGetListOfExecutionFlow() throws SQLException
+    public void testGetListOfExecutionFlowWithoutCriteria()
     {
-        int tExpectedResult = countFlows(null);
-        Connection tCon = null;
-        try
-        {
-            tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
-            ExecutionFlowDTO[] tFlows = tFlowDAO.getListOfExecutionFlowDTO(new FlowSearchCriterion());
+        int tExpectedResult = countFlows();
 
-            assertEquals(tExpectedResult, tFlows.length);
-        } finally
-        {
-            if (tCon != null)
-            {
-                tCon.close();
-            }
-        }
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
+        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
+        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
 
+        List tFlows = tFlowDAO.getListOfExecutionFlowDTO(new FlowSearchCriterion());
+        assertEquals(tExpectedResult + 3, tFlows.size());
+
+    }
+
+    /**
+     * @todo Add test with criteria.
+     * @throws SQLException
+     */
+    public void testGetListOfExecutionFlowWithThreadName()
+    {
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
+
+        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
+        tCriterion.setThreadName("rr");
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setThreadName("TEST-main");
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setThreadName("TEST");
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+    }
+
+    public void testGetListOfExecutionFlowWithDurationMin()
+    {
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
+
+        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
+        tCriterion.setDurationMin(10);
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setDurationMin(25);
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+    }
+
+    public void testGetListOfExecutionFlowWithBeginDate()
+    {
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        tFlowDAO.insertFullExecutionFlow(tFlow);
+        Date tToday = new Date(tFlow.getBeginTime());
+        tToday.setSeconds(0);
+        tToday.setMinutes(0);
+        tToday.setHours(0);
+
+        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
+        // Today
+        tCriterion.setBeginDate(tToday);
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        // Yesterday
+        tCriterion.setBeginDate(new Date(tToday.getTime() - ExecutionFlowMySqlDAO.ONE_DAY));
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        // Tomorrow
+        tCriterion.setBeginDate(new Date(tToday.getTime() + ExecutionFlowMySqlDAO.ONE_DAY));
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+    }
+
+    public void testGetListOfExecutionFlowWithGroupName()
+    {
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        tFlowDAO.insertFullExecutionFlow(tFlow);
+
+        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
+        tCriterion.setGroupName("GrDefault");
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setGroupName("GrDefa");
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setGroupName("toto");
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        // Todo : groupName, className et methodName
+    }
+
+    public void testGetListOfExecutionFlowWithClassName()
+    {
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        tFlowDAO.insertFullExecutionFlow(tFlow);
+        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
+        String tClassName = FTestExecutionFlowMySqlDAO.class.getName();
+        tCriterion.setClassName(tClassName);
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setClassName(tClassName.substring(0, 3));
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setClassName("toto");
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        // Todo : groupName, className et methodName
+    }
+
+    public void testGetListOfExecutionFlowWithMethodName()
+    {
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        tFlowDAO.insertFullExecutionFlow(tFlow);
+        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
+
+        tCriterion.setMethodName("builNewFullFlow");
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setMethodName("builNewFull");
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+
+        tCriterion.setMethodName("toto");
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+    }
+
+    public void testCountOk() throws SQLException
+    {
+        assertEquals(0, countFlows());
     }
 
     /**
      * Get the list of Flows.
      * 
-     * @param pConnection Allow to use a Connection transaction context. This allow to see new created instance or not.
      * @return The number of flows in database.
      * @throws SQLException If an error occures during DB access.
      */
-    public int countFlows(Connection pConnection) throws SQLException
+    public int countFlows()
     {
-        Connection tCon = pConnection;
-        Statement tStat = null;
-        ResultSet tResultSet = null;
-        try
-        {
-
-            if (tCon == null)
-            {
-                tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            }
-
-            tStat = tCon.createStatement();
-
-            tResultSet = tStat.executeQuery("Select count(*) From EXECUTION_FLOW");
-
-            tResultSet.next();
-            return tResultSet.getInt(1);
-        } finally
-        {
-            try
-            {
-                if (tResultSet != null)
-                {
-                    tResultSet.close();
-                }
-            } finally
-            {
-                try
-                {
-                    if (tStat != null)
-                    {
-                        tStat.close();
-                    }
-                } finally
-                {
-                    if (pConnection == null && tCon != null)
-                    { // The connection has been created in this method, we only
-                        // must close it in this case
-                        tCon.close();
-                    }
-                }
-            }
-
-        }
-
+        SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+        Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
+        return ((Integer) tResult).intValue();
     }
 
     public void testDeleteOneFlows() throws SQLException
     {
-        int tOldResult = countFlows(null);
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+        int tNbFlow = countFlows();
 
-        Connection tCon = null;
-        try
-        {
-            tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
-            int tNbFlow = countFlows(tCon);
+        // First instert a flow
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        int tNewNbFlow = countFlows();
+        assertEquals(tNbFlow + 1, tNewNbFlow);
 
-            //First instert a flow
-            ExecutionFlowDTO tFlow = buildNewFullFlow();
-            int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
-            int tNewNbFlow = countFlows(tCon);
-            assertEquals(tNbFlow + 1, tNewNbFlow);
+        tFlowDAO.deleteFlow(tFlowId);
+        mPersistenceManager.flush();
+        tNewNbFlow = countFlows();
+        assertEquals(tNbFlow, tNewNbFlow);
 
-            tFlowDAO.deleteFlow(tFlowId);
-            tNewNbFlow = countFlows(tCon);
-            assertEquals(tNbFlow, tNewNbFlow);
-
-            //Now we restore the DB
-            tCon.rollback();
-            tNewNbFlow = countFlows(null);
-            assertEquals(tNbFlow, tNewNbFlow);
-
-        } catch (AssertionFailedError e)
-        {
-            throw e;
-        } catch (Throwable e)
-        {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } finally
-        {
-            if (tCon != null)
-            {
-                tCon.close();
-            }
-        }
+        // Now we restore the DB
+        tNewNbFlow = countFlows();
+        assertEquals(tNbFlow, tNewNbFlow);
 
     }
 
     // Supprimé car il n'y a pas de transaction sur les TRUNCATE ==> impossible
     // de laisser la base
-    //    dans l'état initial
-    //    public void testDeleteAllFlows() throws SQLException
-    //    {
-    //        int tOldResult = countFlows(null);
+    // dans l'état initial
+    // public void testDeleteAllFlows() throws SQLException
+    // {
+    // int tOldResult = countFlows();
     //
-    //        Connection tCon = null;
-    //        try
-    //        {
-    //            tCon = new StandAloneConnectionManager().getConnection();
-    //            ExecutionFlowDTOMySqlDAO tFlowDAO = new ExecutionFlowDTOMySqlDAO(tCon);
-    //            tFlowDAO.deleteAllFlows();
+    // Connection tCon = null;
+    // try
+    // {
+    // tCon = new StandAloneConnectionManager().getConnection();
+    // ExecutionFlowDTOMySqlDAO tFlowDAO = new ExecutionFlowDTOMySqlDAO(tCon);
+    // tFlowDAO.deleteAllFlows();
     //
-    //            int tNewResult = countFlows(tCon);
-    //            assertEquals(0, tNewResult);
+    // int tNewResult = countFlows();
+    // assertEquals(0, tNewResult);
     //
-    //            tCon.rollback();
-    //            tNewResult = countFlows(null);
-    //            // Plus de test sur le rollback car les opérations Truncate sont en
-    //            // dehors des transactions
-    //            // assertEquals(tOldResult, tNewResult);
+    // tCon.rollback();
+    // tNewResult = countFlows();
+    // // Plus de test sur le rollback car les opérations Truncate sont en
+    // // dehors des transactions
+    // // assertEquals(tOldResult, tNewResult);
     //
-    //        } catch (AssertionFailedError e)
-    //        {
-    //            throw e;
-    //        } catch (Throwable e)
-    //        {
-    //            e.printStackTrace();
-    //            fail(e.getMessage());
-    //        } finally
-    //        {
-    //            if (tCon != null)
-    //            {
-    //                tCon.close();
-    //            }
-    //        }
+    // } catch (AssertionFailedError e)
+    // {
+    // throw e;
+    // } catch (Throwable e)
+    // {
+    // e.printStackTrace();
+    // fail(e.getMessage());
+    // } finally
+    // {
+    // if (tCon != null)
+    // {
+    // tCon.close();
+    // }
+    // }
     //
-    //    }
+    // }
 
     public void testInsertNewFlows() throws SQLException
     {
-        int tOldResult = countFlows(null);
+        int tOldResult = countFlows();
 
-        Connection tCon = null;
-        try
-        {
-            tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
 
-            ExecutionFlowDTO tFlow = buildNewFullFlow();
-            tFlowDAO.insertFullExecutionFlow(tFlow);
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        tFlowDAO.insertFullExecutionFlow(tFlow);
 
-            int tNewResult = countFlows(tCon);
-            assertEquals(tOldResult + 1, tNewResult);
-
-            tCon.rollback();
-            tNewResult = countFlows(null);
-            assertEquals(tOldResult, tNewResult);
-
-        } catch (AssertionFailedError e1)
-        {
-            throw e1;
-        } catch (Throwable e)
-        {
-            fail(e.getMessage());
-            e.printStackTrace();
-        } finally
-        {
-            if (tCon != null)
-            {
-                tCon.close();
-            }
-        }
-
+        int tNewResult = countFlows();
+        assertEquals(tOldResult + 1, tNewResult);
     }
 
-    public static ExecutionFlowDTO buildNewFullFlow()
+    public void testInsertMethodCall() throws SQLException
     {
-        ExecutionFlowDTO tFlow;
-        MethodCall tPoint;
-        MethodCall tSubPoint;
+        int tOldResult = countMethods();
 
-        tPoint = new MethodCall(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+        MethodCallPO tMethodCall = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
                         new Object[0]);
-        tPoint.setEndTime(System.currentTimeMillis());
+        mPersistenceManager.save(tMethodCall);
+    
+        int tNewResult = countMethods();
+        assertEquals(tOldResult + 1, tNewResult);
+    }
 
-        tSubPoint = new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2", "GrChild1",
+    public void testInsertMethodCalls() throws SQLException
+    {
+        int tOldResult = countMethods();
+
+        MethodCallPO tMethodCall1 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
                         new Object[0]);
+        MethodCallPO tMethodCall2 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+                        new Object[0]);
+        MethodCallPO tMethodCall3 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+                        new Object[0]);
+        tMethodCall1.addChildren(tMethodCall2);
+        tMethodCall1.addChildren(tMethodCall3);
+        
+        mPersistenceManager.save(tMethodCall1);
+        mPersistenceManager.flush();
+        int tNewResult = countMethods();
+        assertEquals(tOldResult + 3, tNewResult);
+        assertEquals(1, tMethodCall1.getId());
+        assertEquals(2, tMethodCall2.getId());
+        assertEquals(3, tMethodCall3.getId());
+        
+    }
+
+    public void testLinkedMethodCalls() throws SQLException
+    {
+        int tOldResult = countMethods();
+
+        MethodCallPO tMethodCall1 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+                        new Object[0]);
+        assertEquals(-1, tMethodCall1.getId());
+        mPersistenceManager.save(tMethodCall1);
+        mPersistenceManager.flush();
+        assertEquals(1, tMethodCall1.getId());
+        
+        MethodCallPO tMethodCall2 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+                        new Object[0]);
+        assertEquals(-1, tMethodCall2.getId());
+        mPersistenceManager.save(tMethodCall2);
+        mPersistenceManager.flush();
+        assertEquals(1, tMethodCall1.getId());
+        assertEquals(2, tMethodCall2.getId());
+        
+        assertEquals(0, countMethodsWithParent());
+        tMethodCall1.addChildren(tMethodCall2);
+        mPersistenceManager.save(tMethodCall1);
+        mPersistenceManager.flush();
+        assertEquals(1, tMethodCall1.getId());
+        assertEquals(2, tMethodCall2.getId());
+        
+        assertEquals(1, countMethodsWithParent());
+
+        
+    }
+
+    private int countMethods()
+    {
+        SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From METHOD_CALL");
+        Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
+        return ((Integer) tResult).intValue();
+    }
+
+    private int countMethodsWithParent()
+    {
+        SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From METHOD_CALL Where PARENT_ID IS NOT NULL");
+        Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
+        return ((Integer) tResult).intValue();
+    }
+
+    public static ExecutionFlowPO buildNewFullFlow()
+    {
+        ExecutionFlowPO tFlow;
+        MethodCallPO tPoint;
+        MethodCallPO tSubPoint;
+        long tStartTime = System.currentTimeMillis();
+
+        tPoint = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+                        new Object[0]);
+        tPoint.setBeginTime(tStartTime);
+
+        tSubPoint = new MethodCallPO(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2",
+                        "GrChild1", new Object[0]);
         tSubPoint.setEndTime(System.currentTimeMillis());
 
-        tSubPoint = new MethodCall(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3", "GrChild2",
-                        new Object[0]);
-        tSubPoint.setEndTime(System.currentTimeMillis());
-        tFlow = new ExecutionFlowDTO("TEST-main", tPoint, "myJVM");
+        tSubPoint = new MethodCallPO(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3",
+                        "GrChild2", new Object[0]);
+        tPoint.setEndTime(tStartTime + 20);
+        tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
         return tFlow;
     }
-
-    public void testGetListOfMeasurePoint() throws SQLException
+/**
+ * @todo S'assurer qu'une méthode VOID est bien loguée comme une méthode void.
+ */
+    public void testGetListOfMethodCall()
     {
-        int tOldResult = countFlows(null);
+        int tOldResult = countFlows();
+        int tOldResultM = countMethods();
 
-        Connection tCon = null;
-        try
-        {
-            tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
 
-            // First insert the new Flow in DB.
-            ExecutionFlowDTO tInitialFlow = buildNewFullFlow();
-            int tId = tFlowDAO.insertFullExecutionFlow(tInitialFlow);
-            // Check the insertion
-            int tNewResult = countFlows(tCon);
-            assertEquals(tOldResult + 1, tNewResult);
+        // First insert the new Flow in DB.
+        ExecutionFlowPO tInitialFlow = buildNewFullFlow();
+        int tId = tFlowDAO.insertFullExecutionFlow(tInitialFlow);
+        // Check the insertion
+        int tNewResult = countFlows();
+        assertEquals(tOldResult + 1, tNewResult);
 
-            // Now check the read of the full Flows
-            ExecutionFlowDTO tReadFlow = tFlowDAO.readFullExecutionFlowDTO(tId);
+        mPersistenceManager.flush();
+        mPersistenceManager.clear();
+        
+        assertEquals(tOldResultM+3, countMethods());
+        
+        ExecutionFlowPO tReadFlow = tFlowDAO.readFullExecutionFlow(tId);
+        assertNotSame(tInitialFlow, tReadFlow);
+        
+        // Check the equality of the Flow
+        assertEquals(tInitialFlow.getJvmIdentifier(), tReadFlow.getJvmIdentifier());
+        assertEquals(tInitialFlow.getThreadName(), tReadFlow.getThreadName());
+        assertEquals(tInitialFlow.getBeginTime(), tReadFlow.getBeginTime());
+        assertEquals(tInitialFlow.getDuration(), tReadFlow.getDuration());
+        assertEquals(tInitialFlow.getEndTime(), tReadFlow.getEndTime());
 
-            // Check the equality of the Flow
-            assertEquals(tInitialFlow.getJvmIdentifier(), tReadFlow.getJvmIdentifier());
-            assertEquals(tInitialFlow.getThreadName(), tReadFlow.getThreadName());
-            assertEquals(tInitialFlow.getBeginDate(), tReadFlow.getBeginDate());
-            assertEquals(tInitialFlow.getDuration(), tReadFlow.getDuration());
-            assertEquals(tInitialFlow.getEndTime(), tReadFlow.getEndTime());
+        // Check equality of the first measure point
+        MethodCallPO tInitialPoint = tInitialFlow.getFirstMethodCall();
+        MethodCallPO tReadPoint = tReadFlow.getFirstMethodCall();
+        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
+        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
+        assertEquals("[]", tReadPoint.getParams());
+        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
+        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
+        assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
+        assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
+        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
-            // Check equality of the first measure point
-            MethodCall tInitialPoint = tInitialFlow.getFirstMeasure();
-            MethodCall tReadPoint = tReadFlow.getFirstMeasure();
-            assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
-            assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
-            assertEquals("[]", tReadPoint.getParams());
-            assertEquals(null, tInitialPoint.getReturnValue());
-            assertEquals("void", tReadPoint.getReturnValue());
-            assertEquals(tInitialPoint.getThrowableClassName(), tReadPoint.getThrowableClassName());
-            assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-            assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
-            assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
-            assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+        // Check equality of the first child measure point
+        assertEquals(2, tInitialPoint.getChildren().size());
+        assertEquals(2, tReadPoint.getChildren().size());
+        tInitialPoint = (MethodCallPO) tInitialPoint.getChildren().get(0);
+        tReadPoint = (MethodCallPO) tReadPoint.getChildren().get(0);
+        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
+        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
+        assertEquals("[]", tReadPoint.getParams());
+        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
+        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
+        assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
+        assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
+        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
-            // Check equality of the first child measure point
-            tInitialPoint = (MethodCall) tInitialPoint.getChildren().get(0);
-            tReadPoint = (MethodCall) tReadPoint.getChildren().get(0);
-            assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
-            assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
-            assertEquals("[]", tReadPoint.getParams());
-            assertEquals(null, tInitialPoint.getReturnValue());
-            assertEquals("void", tReadPoint.getReturnValue());
-            assertEquals(tInitialPoint.getThrowableClassName(), tReadPoint.getThrowableClassName());
-            assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-            assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
-            assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
-            assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+        // Check equality of the second child measure point
+        tInitialPoint = (MethodCallPO) tInitialPoint.getParentMethodCall().getChildren().get(1);
+        tReadPoint = (MethodCallPO) tReadPoint.getParentMethodCall().getChildren().get(1);
+        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
+        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
+        assertEquals("[]", tReadPoint.getParams());
+        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
+        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
+        assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
+        assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
+        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
-            // Check equality of the second child measure point
-            tInitialPoint = (MethodCall) tInitialPoint.getParent().getChildren().get(1);
-            tReadPoint = (MethodCall) tReadPoint.getParent().getChildren().get(1);
-            assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
-            assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
-            assertEquals("[]", tReadPoint.getParams());
-            assertEquals(null, tInitialPoint.getReturnValue());
-            assertEquals("void", tReadPoint.getReturnValue());
-            assertEquals(tInitialPoint.getThrowableClassName(), tReadPoint.getThrowableClassName());
-            assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-            assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
-            assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
-            assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
-
-            tNewResult = countFlows(null);
-            assertEquals(tOldResult, tNewResult);
-
-            // } catch (Throwable e)
-            // {
-            // e.printStackTrace();
-            // fail(e.getMessage());
-        } finally
-        {
-            if (tCon != null)
-            {
-                // Don't update database with this flow
-                tCon.rollback();
-                tCon.close();
-            }
-        }
+        tNewResult = countFlows();
+        assertEquals(tOldResult, tNewResult);
 
     }
 
-    public void testGetListOfMeasure() throws SQLException
+    public void testGetListOfMethodCallBis() throws SQLException
     {
-        int tOldResult = countFlows(null);
+        int tOldResult = countFlows();
 
         Connection tCon = null;
         Statement tStat = null;
         try
         {
-            tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(tCon);
-            int tNbFlow = countFlows(tCon);
+            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
+            int tNbFlow = countFlows();
 
-            //First delete all flow, we don't use the DeleteAll Method of the
+            // First delete all flow, we don't use the DeleteAll Method of the
             // Dao Object because, it doesn't support transactions.
             tStat = tCon.createStatement();
             tStat.execute("Delete FROM method_call");
             tStat.execute("Delete FROM execution_flow");
 
-            //Now insert the TestFlow
-            ExecutionFlowDTO tFlow = buildNewFullFlow();
+            // Now insert the TestFlow
+            ExecutionFlowPO tFlow = buildNewFullFlow();
             int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
 
             List tMeasureExtracts = tFlowDAO.getListOfMeasure();
             MeasureExtract curExtrat = (MeasureExtract) tMeasureExtracts.get(0);
-            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat.getName());
+            assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat.getName());
             assertEquals("GrDefault", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MeasureExtract) tMeasureExtracts.get(1);
-            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat.getName());
+            assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat.getName());
             assertEquals("GrChild1", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MeasureExtract) tMeasureExtracts.get(2);
-            assertEquals("org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat.getName());
+            assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat.getName());
             assertEquals("GrChild2", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
-            //Now we restore the DB
+            // Now we restore the DB
             tCon.rollback();
-            int tNewNbFlow = countFlows(null);
+            int tNewNbFlow = countFlows();
             assertEquals(tNbFlow, tNewNbFlow);
 
         } catch (AssertionFailedError e)

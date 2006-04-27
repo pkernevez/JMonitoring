@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   	<class name="org.jmonitoring.core.persistence.MethodCallPO" table="METHOD_CALL">
+      	<!--composite-id>
+			<key-property name="flowId" column="EXECUTION_FLOW_ID"/>
+			<key-property name="sequenceId" column="SEQUENCE_ID"/>
+		</composite-id-->
+		<id name="id" column="ID" unsaved-value="-1">
+        	<generator class="native" />
+      	</id>
+
+      <property name="params" column="PARAMETERS" type="java.lang.String" />
+      <property name="beginTime" column="BEGIN_TIME" type="java.lang.Long" />
+      <property name="endTime" column="END_TIME" type="java.lang.Long" />
+      <property name="className" column="FULL_CLASS_NAME" type="java.lang.String" length="120"/>
+      <property name="methodName" column="METHOD_NAME" type="java.lang.String" length="50"/>
+      <property name="throwableClass" column="THROWABLE_CLASS_NAME" type="java.lang.String" length="120" />
+      <property name="throwableMessage" column="THROWABLE_MESSAGE" type="java.lang.String" />
+      <property name="returnValue" column="RESULT" type="java.lang.String" />
+      <property name="groupName" column="GROUP_NAME" type="java.lang.String" length="145"/>
+		
+		<many-to-one name="parent" column="PARENT_ID" 
+			not-null="false" cascade="all"/>
+			
+			<!-- insert="false"
+			update="false"/-->
+		<!--set name="children" >
+			<key column="parentId"/>
+			<one-to-many class="org.jmonitoring.core.persistence.MethodCallPO"/>
+		</set-->
+		<list name="children" inverse="true" cascade="all">
+			<key column="PARENT_ID" not-null="false"/>
+			<list-index column="CHILDREN_INDEX"/>
+			<one-to-many class="org.jmonitoring.core.persistence.MethodCallPO"/>
+		</list>
+		
+   </class>
+</hibernate-mapping>
+

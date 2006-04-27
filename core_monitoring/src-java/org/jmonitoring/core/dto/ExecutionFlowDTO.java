@@ -21,7 +21,7 @@ public class ExecutionFlowDTO
     private String mThreadName;
 
     /** First Measure. */
-    private MethodCall mFirstMeasure;
+    private MethodCallDTO mFirstMeasure;
 
     /** Name of the 'JVM' or server. */
     private String mJvmIdentifier;
@@ -75,7 +75,7 @@ public class ExecutionFlowDTO
      * @param pJVMIdentifier The identifier of this JVM or Server.
      *  
      */
-    public ExecutionFlowDTO(String pThreadName, MethodCall pFirstMeasure, String pJVMIdentifier)
+    public ExecutionFlowDTO(String pThreadName, MethodCallDTO pFirstMeasure, String pJVMIdentifier)
     {
         mThreadName = pThreadName;
         mFirstMeasure = pFirstMeasure;
@@ -87,7 +87,7 @@ public class ExecutionFlowDTO
     /**
      * @return Returns the mFirstMeasure.
      */
-    public MethodCall getFirstMeasure()
+    public MethodCallDTO getFirstMeasure()
     {
         return mFirstMeasure;
     }
@@ -95,7 +95,7 @@ public class ExecutionFlowDTO
     /**
      * @param pFirstMeasure The mFirstMeasure to set.
      */
-    public void setFirstMeasure(MethodCall pFirstMeasure)
+    public void setFirstMeasure(MethodCallDTO pFirstMeasure)
     {
         mFirstMeasure = pFirstMeasure;
     }
@@ -265,7 +265,7 @@ public class ExecutionFlowDTO
     }
 
     /**
-     * Count the number of <code>MethodCall</code> in this flow graph.
+     * Count the number of <code>MethodCallDTO</code> in this flow graph.
      * 
      * @return The number of measure.
      */

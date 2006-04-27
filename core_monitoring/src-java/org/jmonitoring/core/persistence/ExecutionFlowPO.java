@@ -9,10 +9,16 @@ import java.text.ParseException;
 import java.util.Date;
 
 import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dto.MethodCallDTO;
+import org.springframework.beans.BeanUtils;
+
+import sun.print.PSPrinterJob;
 
 /**
- * This instance is the entry of of a flow. It has a list of MeasurePoint and some properties.
+ * This instance is the entry of a flow. It has a list of MethodCallDTO and some properties.
  * 
+ * @todo Coder les méthodes equals et hashcode
  * @author pke
  */
 public class ExecutionFlowPO
@@ -24,13 +30,93 @@ public class ExecutionFlowPO
     private String mJvmIdentifier;
 
     /** Begin datetime. */
-    private long mBeginDate;
+    private long mBeginTime;
 
     /** End datetime. */
     private long mEndTime;
 
     /** Technical identifier. */
-    private int mId;
+    private int mId = -1;
+
+    /** First method call of this flow. */
+    private MethodCallPO mFirstMethodCall;
+    
+    /**
+     * Default constructor for Hibernate.
+     */
+    public ExecutionFlowPO()
+    {
+    }
+
+//    public ExecutionFlowPO( ExecutionFlowDTO pDto)
+//    {
+//        BeanUtils.copyProperties(pDto, this);
+//    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param pId L'identifiant technique de ce flux.
+     * @param pThreadName The name of the Thread of this flow.
+     * @param pJVMIdentifier The identifier of this JVM or Server.
+     * @param pBeginTime L'heure de début de l'appel.
+     * @param pEndTime L'heure de fin de l'appel.
+     */
+    public ExecutionFlowPO(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    {
+        super();
+        mId = pId;
+        mThreadName = pThreadName;
+        mJvmIdentifier = pJVMIdentifier;
+        mBeginTime = pBeginTime;
+        mEndTime = pEndTime;
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param pThreadName The name of the Thread of this flow.
+     * @param pJVMIdentifier The identifier of this JVM or Server.
+     * @param pBeginTime L'heure de début de l'appel.
+     * @param pEndTime L'heure de fin de l'appel.
+     */
+    public ExecutionFlowPO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    {
+        this(-1, pThreadName, pJVMIdentifier, pBeginTime, pEndTime);
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param pThreadName The name of the Thread of this flow.
+     * @param pFirstMeasure First <code>MeasurePoint</code> of this flow.
+     * @param pJVMIdentifier The identifier of this JVM or Server.
+     * @todo remove mBeginTime
+     */
+    public ExecutionFlowPO(String pThreadName, MethodCallPO pFirstMeasure, String pJVMIdentifier)
+    {
+        mThreadName = pThreadName;
+        mFirstMethodCall = pFirstMeasure;
+        mJvmIdentifier = pJVMIdentifier;
+        mBeginTime = mFirstMethodCall.getBeginTime();
+        mEndTime = mFirstMethodCall.getEndTime();
+    }
+
+    /**
+     * @return Returns the firstMeasure.
+     */
+    public MethodCallPO getFirstMethodCall()
+    {
+        return mFirstMethodCall;
+    }
+
+    /**
+     * @param pFirstMeasure The firstMeasure to set.
+     */
+    public void setFirstMethodCall(MethodCallPO pFirstMeasure)
+    {
+        mFirstMethodCall = pFirstMeasure;
+    }
 
     /**
      * @return Returns the mJVMIdentifier.
@@ -69,9 +155,9 @@ public class ExecutionFlowPO
      * 
      * @return The begin time of the firts measure.
      */
-    public long getBeginDate()
+    public long getBeginTime()
     {
-        return mBeginDate;
+        return mBeginTime;
     }
 
     /**
@@ -79,9 +165,9 @@ public class ExecutionFlowPO
      * 
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginDate(long pBeginTime)
+    public void setBeginTime(long pBeginTime)
     {
-        mBeginDate = pBeginTime;
+        mBeginTime = pBeginTime;
     }
 
     /**
@@ -89,9 +175,9 @@ public class ExecutionFlowPO
      * 
      * @return The begin time of the firts measure.
      */
-    public String getBeginDateAsString()
+    public Date getBeginTimeAsDate()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(new Date(mBeginDate));
+        return new Date(mBeginTime);
     }
 
     /**
@@ -100,9 +186,9 @@ public class ExecutionFlowPO
      * @param pBeginTime The BeginTime to set.
      * @throws ParseException If the the time is not valid.
      */
-    public void setBeginDateAsString(String pBeginTime) throws ParseException
+    public void setBeginTimeAsDate(Date pBeginTime) throws ParseException
     {
-        mBeginDate = Configuration.getInstance().getDateTimeFormater().parse(pBeginTime).getTime();
+        // Nothing to do, this field is only for information purpose into DBase
     }
 
     /**
@@ -149,7 +235,7 @@ public class ExecutionFlowPO
      */
     public long getDuration()
     {
-        return mEndTime - mBeginDate;
+        return mEndTime - mBeginTime;
     }
 
     /**
@@ -158,7 +244,7 @@ public class ExecutionFlowPO
      */
     public void setDuration(long pDuration)
     {
-        
+
     }
 
     /**
@@ -166,7 +252,7 @@ public class ExecutionFlowPO
      */
     public String getDurationAsString()
     {
-        return "" + (mEndTime - mBeginDate);
+        return "" + (mEndTime - mBeginTime);
     }
 
     /**

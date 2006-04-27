@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src-java"/>
+	<classpathentry output="target/test-classes" kind="src" path="src-unit-test"/>
+	<classpathentry kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="MAVEN_REPO/jmock/jars/jmock-1.0.1.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/log4j/jars/log4j-1.2.8.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/aspectj/jars/aspectjrt-1.2.1.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/aspectj/jars/aspectj-1.2.1.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/mysql/jars/mysql-connector-java-3.1.11-bin.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-configuration/jars/commons-configuration-1.1.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-lang/jars/commons-lang-2.0.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar"/>
+	<classpathentry kind="src" path="/core_monitoring"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

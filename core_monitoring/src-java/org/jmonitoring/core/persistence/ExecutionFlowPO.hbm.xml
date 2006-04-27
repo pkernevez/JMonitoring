@@ -3,20 +3,25 @@
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
    <class name="org.jmonitoring.core.persistence.ExecutionFlowPO" table="EXECUTION_FLOW">
-      <id name="id" column="ID">
-         <generator class="identity" />
+      <id name="id" column="ID" unsaved-value="-1">
+         <generator class="native" />
       </id>
 
       <property name="threadName" column="THREAD_NAME" type="java.lang.String" />
 
       <property name="jvmIdentifier" column="JVM" type="java.lang.String" />
 
-      <property name="beginDate" column="BEGIN_TIME" type="java.lang.Long" />
+      <property name="beginTime" column="BEGIN_TIME" type="java.lang.Long" />
 
       <property name="endTime" column="END_TIME" type="java.lang.Long" />
 
+      <property name="beginTimeAsDate" column="BEGIN_TIME_AS_DATE" type="java.util.Date" />
+
       <property name="duration" column="DURATION" type="java.lang.Long" />
 
+	<many-to-one name="firstMethodCall" column="FIRST_METHOD_CALL_ID" 
+		unique="true" not-null="false" cascade="all"/>
+		<!--one-to-one name="firstMethodCall" cascade="all,delete-orphan"/--> 
    </class>
 </hibernate-mapping>
 

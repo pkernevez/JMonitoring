@@ -30,7 +30,7 @@ public class FTestAsynchroneJdbcLogger extends TestCase
     private int mInitialMaxFlowId;
 
     /**
-     * Check the number of toString() method called on the object associated to MethodCall. This is important because of
+     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because of
      * the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc
@@ -46,7 +46,7 @@ public class FTestAsynchroneJdbcLogger extends TestCase
         {
             tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
             FTestExecutionFlowMySqlDAO tFTestDao = new FTestExecutionFlowMySqlDAO();
-            tInitialFlowCount = tFTestDao.countFlows(tCon);
+            tInitialFlowCount = tFTestDao.countFlows();
             tCon.commit();
 
             MockAbstractAsynchroneLogger.resetNbLog();
@@ -61,7 +61,7 @@ public class FTestAsynchroneJdbcLogger extends TestCase
             assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
             assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
 
-            tFinalFlowCount = tFTestDao.countFlows(tCon);
+            tFinalFlowCount = tFTestDao.countFlows();
             tCon.commit();
         } finally
         {

@@ -54,10 +54,12 @@ public class HibernateManager
      * Get a new Hibernate Session
      * 
      * @return The new session.
+     * @todo s'appuyer sur SessionFactory.getCurrentSession() et JTA
      */
-    public static Session getNewSession()
+    public static Session getSession()
     {
         Session tSession = getSessionFactory().openSession();
+        //getSessionFactory().getCurrentSession();
         logger.info("Hibernate Session Opened");
         return tSession;
 

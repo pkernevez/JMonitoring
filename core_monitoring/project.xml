@@ -53,6 +53,12 @@
         </dependency>
 
         <dependency>
+          <id>antlr</id>
+          <version>${depends.antlr.version}</version>
+          <url>http://www.ant.org</url>
+        </dependency>
+
+        <dependency>
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>${depends.hsqldb.version}</version>

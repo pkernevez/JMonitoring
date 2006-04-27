@@ -2,7 +2,6 @@ package org.jmonitoring.core.dto;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
@@ -24,11 +23,11 @@ public class TestMeasurePointManager extends TestCase
      */
     public void testMeasureCount()
     {
-        ExecutionFlowDTO tFlow = FTestExecutionFlowMySqlDAO.buildNewFullFlow();
+        ExecutionFlowDTO tFlow = null;//TestExecutionFlowMySqlDAO.buildNewFullFlow();
         assertEquals(2 + 1, tFlow.getMeasureCount());
-        MethodCall curMeasure = tFlow.getFirstMeasure();
+        MethodCallDTO curMeasure = tFlow.getFirstMeasure();
         assertEquals(2 + 1, curMeasure.getSubMeasureCount());
-        curMeasure = (MethodCall) curMeasure.getChildren().get(1);
+        curMeasure = (MethodCallDTO) curMeasure.getChildren().get(1);
         assertEquals(1, curMeasure.getSubMeasureCount());
     }
 
@@ -47,7 +46,7 @@ public class TestMeasurePointManager extends TestCase
     }
 
     /**
-     * Check the number of toString() method called on the object associated to MethodCall. This is important because of
+     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because of
      * the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc

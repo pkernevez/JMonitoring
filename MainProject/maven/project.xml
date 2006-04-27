@@ -40,6 +40,7 @@
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
                     <include>**/*.java</include>
+                    <include>**/*.aj</include>
                 </includes>
                 <excludes>
                     <exclude>**/.svn</exclude>

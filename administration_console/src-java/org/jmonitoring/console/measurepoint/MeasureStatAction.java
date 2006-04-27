@@ -38,7 +38,7 @@ import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.dto.MethodCall;
+import org.jmonitoring.core.dto.MethodCallDTO;
 
 /**
  * @author pke
@@ -69,22 +69,23 @@ public class MeasureStatAction extends Action
                     HttpServletResponse pResponse) throws Exception
     {
         MeasurePointStatForm tForm = (MeasurePointStatForm) pForm;
-        MethodCall[] tMeasures = readMeasure(tForm);
+        MethodCallDTO[] tMeasures = readMeasure(tForm);
         tForm.setNbMeasures(tMeasures.length);
         writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
         computeStat(tMeasures, tForm);
         return pMapping.findForward("success");
     }
 
-    private MethodCall[] readMeasure(MeasurePointStatForm pForm)
+/** @todo Refactorer cette couche avec des DTO propre... */
+    private MethodCallDTO[] readMeasure(MeasurePointStatForm pForm)
     {
         try
         {
             Connection tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
+            ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(null);
             if (!pForm.isParametersByName())
-            { // First retreive className and methodName from the given MethodCall
-                MethodCall tOriginalMeasure = tDao.readMethodCall(pForm.getFlowId(), pForm.getSequenceId());
+            { // First retreive className and methodName from the given MethodCallDTO
+                MethodCallDTO tOriginalMeasure = tDao.readMethodCall(pForm.getFlowId(), pForm.getSequenceId());
                 pForm.setClassName(tOriginalMeasure.getClassName());
                 pForm.setMethodName(tOriginalMeasure.getMethodName());
             }
@@ -95,11 +96,11 @@ public class MeasureStatAction extends Action
         }
     }
 
-    private void computeStat(MethodCall[] pMeasures, MeasurePointStatForm pForm)
+    private void computeStat(MethodCallDTO[] pMeasures, MeasurePointStatForm pForm)
     {
         if (pMeasures.length != 0)
         {
-            MethodCall curMeasure = pMeasures[0];
+            MethodCallDTO curMeasure = pMeasures[0];
             long tMin = curMeasure.getDuration(), tMax = tMin, tSum = tMin;
             for (int i = 1; i < pMeasures.length; i++)
             {
@@ -130,7 +131,7 @@ public class MeasureStatAction extends Action
         }
     }
 
-    private int computeIntervalValue(MethodCall[] pMeasures, MeasurePointStatForm pForm)
+    private int computeIntervalValue(MethodCallDTO[] pMeasures, MeasurePointStatForm pForm)
     {
         int tIntervalValue = pForm.getInterval();
         if (tIntervalValue <= 0)
@@ -158,10 +159,10 @@ public class MeasureStatAction extends Action
      * Write the image of statistic duration image into session.
      * 
      * @param pSession The http session.
-     * @param pMeasures The list of <code>MethodCall</code> to use for image generation.
+     * @param pMeasures The list of <code>MethodCallDTO</code> to use for image generation.
      * @param pForm The form associated to this Action.
      */
-    public void writeFullDurationStat(HttpSession pSession, MethodCall[] pMeasures, MeasurePointStatForm pForm)
+    public void writeFullDurationStat(HttpSession pSession, MethodCallDTO[] pMeasures, MeasurePointStatForm pForm)
     {
         int tInterval = computeIntervalValue(pMeasures, pForm);
         IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
@@ -208,7 +209,7 @@ public class MeasureStatAction extends Action
         return chart;
     }
 
-    private IntervalXYDataset createFullDurationDataset(MethodCall[] pMeasures, int pInterval)
+    private IntervalXYDataset createFullDurationDataset(MethodCallDTO[] pMeasures, int pInterval)
     {
         Map tMap = new HashMap();
         Integer tCurNb;

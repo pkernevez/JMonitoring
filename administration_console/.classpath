@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<classpath>
+  <classpathentry excluding="" kind="src" path="src-java">
+  </classpathentry>
+  <classpathentry output="target/test-classes" kind="src" path="src-unit-test">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar">
+  </classpathentry>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+  </classpathentry>
+  <classpathentry kind="src" path="/core_monitoring">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/displaytag/jars/displaytag-1.0.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/log4j/jars/log4j-1.2.8.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.4.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-digester/jars/commons-digester-1.6.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-beanutils/jars/commons-beanutils-1.7.0.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-fileupload/jars/commons-fileupload-1.0.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-validator/jars/commons-validator-1.1.4.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/hibernate/jars/hibernate-3.0.5.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/antlr/jars/antlr-2.7.2.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/hsqldb/jars/hsqldb-1.8.0.1.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/dom4j/jars/dom4j-1.4.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/ehcache/jars/ehcache-1.1.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/mysql/jars/mysql-connector-java-3.1.11-bin.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/servletapi/jars/servletapi-2.3.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/struts/jars/struts-1.2.4.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/struts-menu/jars/struts-menu-2.3.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/taglibs/jars/standard-1.0.6.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jfree/jars/jfreechart-0.9.21.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jfree/jars/jcommon-0.9.6.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-configuration/jars/commons-configuration-1.1.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-lang/jars/commons-lang-2.0.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar">
+  </classpathentry>
+  <classpathentry kind="output" path="bin">
+  </classpathentry>
+</classpath>

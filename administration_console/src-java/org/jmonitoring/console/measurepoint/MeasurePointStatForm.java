@@ -6,7 +6,7 @@ package org.jmonitoring.console.measurepoint;
  **************************************************************************/
 
 /**
- * Struts form associated with the generation of the statistics of the MethodCall.
+ * Struts form associated with the generation of the statistics of the MethodCallDTO.
  * 
  * @author pke
  */

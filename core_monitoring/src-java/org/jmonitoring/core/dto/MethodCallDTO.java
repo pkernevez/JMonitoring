@@ -20,7 +20,7 @@ import org.jmonitoring.core.configuration.Configuration;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class MethodCall
+public class MethodCallDTO
 {
 
     /** Flow Technical Id. */
@@ -30,7 +30,7 @@ public class MethodCall
     private int mSequenceId;
 
     /** Lien sur le père de ce point dans la hierachie d'appel. */
-    private MethodCall mParent;
+    private MethodCallDTO mParent;
 
     /** Liste des points de mesure fils dans la chaîne d'appel. */
     private LinkedList mChildren = new LinkedList();
@@ -66,14 +66,14 @@ public class MethodCall
     /**
      * Constructor used for Database, because original types are already converted to <code>String</code>.
      * 
-     * @param pParent The <code>MethodCall</code> from which we made the call to the current <code>MethodCall</code>.
+     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current <code>MethodCallDTO</code>.
      * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-     *        <code>MethodCall</code>.
-     * @param pMethodName The method name of the statement associated with this <code>MethodCall</code>.
-     * @param pGroupName The name of the group associated to this <code>MethodCall</code>.
+     *        <code>MethodCallDTO</code>.
+     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
+     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
      * @param pParams The parameters serialized as <code>String</code> passed to the method <code>pMethodName</code>.
      */
-    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName, String pParams)
+    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName, String pParams)
     {
         if (sLog == null)
         {
@@ -94,14 +94,14 @@ public class MethodCall
     /**
      * Constructor used for Database, because original types are already converted to <code>String</code>.
      * 
-     * @param pParent The <code>MethodCall</code> from which we made the call to the current <code>MethodCall</code>.
+     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current <code>MethodCallDTO</code>.
      * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-     *        <code>MethodCall</code>.
-     * @param pMethodName The method name of the statement associated with this <code>MethodCall</code>.
-     * @param pGroupName The name of the group associated to this <code>MethodCall</code>.
+     *        <code>MethodCallDTO</code>.
+     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
+     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
      * @param pParams The <code>Object</code> array passed to the method <code>pMethodName</code>.
      */
-    public MethodCall(MethodCall pParent, String pClassName, String pMethodName, String pGroupName, Object[] pParams)
+    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName, Object[] pParams)
     {
         if (pParent != null)
         { // On chaine la hierachie
@@ -137,7 +137,7 @@ public class MethodCall
     }
 
     /**
-     * Define the return value of the method associated with this <code>MethodCall</code> when it didn't throw a
+     * Define the return value of the method associated with this <code>MethodCallDTO</code> when it didn't throw a
      * <code>Throwable</code>.
      * 
      * @param pReturnValue The return value of the method.
@@ -158,7 +158,7 @@ public class MethodCall
     }
 
     /**
-     * Define the <code>Throwable</code> thrown by the method associated with this <code>MethodCall</code>.
+     * Define the <code>Throwable</code> thrown by the method associated with this <code>MethodCallDTO</code>.
      * 
      * @param pExceptionClassName The name of the <code>Class</code> of the <code>Exception</code>.
      * @param pExceptionMessage The message of the <code>Exception</code>.
@@ -182,11 +182,11 @@ public class MethodCall
     }
 
     /**
-     * Accessor, add a call to a sub-method of this <code>MethodCall</code>.
+     * Accessor, add a call to a sub-method of this <code>MethodCallDTO</code>.
      * 
-     * @param pChild The <code>MethodCall</code> associated with the sub-method call.
+     * @param pChild The <code>MethodCallDTO</code> associated with the sub-method call.
      */
-    private void addChild(MethodCall pChild)
+    private void addChild(MethodCallDTO pChild)
     {
         mChildren.add(pChild);
         pChild.mParent = this;
@@ -195,9 +195,9 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The parent <code>MethodCall</code> of this <code>MethodCall</code>.
+     * @return The parent <code>MethodCallDTO</code> of this <code>MethodCallDTO</code>.
      */
-    public MethodCall getParent()
+    public MethodCallDTO getParent()
     {
         return mParent;
     }
@@ -205,7 +205,7 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The start time of the call to the method associated to thiis <code>MethodCall</code>.
+     * @return The start time of the call to the method associated to thiis <code>MethodCallDTO</code>.
      */
     public long getBeginTime()
     {
@@ -215,8 +215,8 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The name of the <code>Class</code> on which we call the methid associated to this
-     *         <code>MethodCall</code>.
+     * @return The name of the <code>Class</code> on which we call the method associated to this
+     *         <code>MethodCallDTO</code>.
      */
     public String getClassName()
     {
@@ -226,7 +226,7 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The time of the execution of the methid associated with this <code>MethodCall</code>.
+     * @return The time of the execution of the methid associated with this <code>MethodCallDTO</code>.
      */
     public long getDuration()
     {
@@ -236,7 +236,7 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The end time of the method associated with this <code>MethodCall</code>.
+     * @return The end time of the method associated with this <code>MethodCallDTO</code>.
      */
     public long getEndTime()
     {
@@ -246,7 +246,7 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The name of the method associated with this <code>MethodCall</code>.
+     * @return The name of the method associated with this <code>MethodCallDTO</code>.
      */
     public String getMethodName()
     {
@@ -256,7 +256,7 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The parameters of the method associated with this <code>MethodCall</code> as <code>String</code>.
+     * @return The parameters of the method associated with this <code>MethodCallDTO</code> as <code>String</code>.
      */
     public String getParams()
     {
@@ -266,7 +266,7 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The return value of the method associated with this <code>MethodCall</code>. Null if the method ended
+     * @return The return value of the method associated with this <code>MethodCallDTO</code>. Null if the method ended
      *         with an <code>Exception</code>.
      */
     public String getReturnValue()
@@ -278,7 +278,7 @@ public class MethodCall
      * Accessor.
      * 
      * @return The name of the <code>Class</code> of the <code>Exception</code> thrown by the method associated with
-     *         this <code>MethodCall</code>. Null if the method ended normally.
+     *         this <code>MethodCallDTO</code>. Null if the method ended normally.
      */
     public String getThrowableClassName()
     {
@@ -289,7 +289,7 @@ public class MethodCall
      * Accessor.
      * 
      * @return The message of the <code>Exception</code> thrown by the method associated with this
-     *         <code>MethodCall</code>. Null if the method ended normally.
+     *         <code>MethodCallDTO</code>. Null if the method ended normally.
      */
     public String getThrowableMessage()
     {
@@ -299,7 +299,7 @@ public class MethodCall
     /**
      * Accessor.
      * 
-     * @return The list of the sub-method of this <code>MethodCall</code>.
+     * @return The list of the sub-method of this <code>MethodCallDTO</code>.
      */
     public List getChildren()
     {
@@ -421,17 +421,17 @@ public class MethodCall
     }
 
     /**
-     * Count the number of sub <code>MethodCall</code> of this measure.
+     * Count the number of sub <code>MethodCallDTO</code> of this measure.
      * 
      * @return The number of measure.
      */
     int getSubMeasureCount()
     {
         int tNbMeasure = 1;
-        MethodCall curChild;
+        MethodCallDTO curChild;
         for (Iterator tIte = mChildren.iterator(); tIte.hasNext();)
         {
-            curChild = (MethodCall) tIte.next();
+            curChild = (MethodCallDTO) tIte.next();
             tNbMeasure += curChild.getSubMeasureCount();
         }
         return tNbMeasure;
