@@ -19,6 +19,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.jmonitoring.core.common.MeasureException;
@@ -468,9 +469,15 @@ public class ExecutionFlowMySqlDAO
         return null;
     }
 
-    private static final String SELECT_LIST_OF_MEASURE = "SELECT CONCAT(FULL_CLASS_NAME, '.', METHOD_NAME)" + " AS MEASURE_NAME, GROUP_NAME, COUNT(*) As NB"
-                    + " FROM `method_call` m "
-                    + "GROUP BY FULL_CLASS_NAME, METHOD_NAME, GROUP_NAME ORDER BY MEASURE_NAME";
+//    private static final String SELECT_LIST_OF_MEASURE = "SELECT CONCAT(FULL_CLASS_NAME, '.', METHOD_NAME)" + " AS MEASURE_NAME, GROUP_NAME, COUNT(*) As NB"
+//    + " FROM `method_call` m "
+//    + "GROUP BY FULL_CLASS_NAME, METHOD_NAME, GROUP_NAME ORDER BY MEASURE_NAME";
+
+    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className  || '.' || MethodCallPO.methodName ,"+
+    " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
+    + " FROM MethodCallPO MethodCallPO "
+    + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "+
+    "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
 
     /**
      * Find the <code>List</code> of Measure from the database.
@@ -480,25 +487,35 @@ public class ExecutionFlowMySqlDAO
      */
     public List getListOfMeasure() throws SQLException
     {
+        //List tResult = new ArrayList();
+        Query tQuery = mPersistenceManager.createQuery(SELECT_LIST_OF_MEASURE);
         List tResult = new ArrayList();
-        PreparedStatement tPStat = null;
-        try
+        MeasureExtract curMeasure;
+        Object[] tExtract;
+        for (Iterator tIt = tQuery.list().iterator();tIt.hasNext();)
         {
-            tPStat = mConnection.prepareStatement(SELECT_LIST_OF_MEASURE);
-            ResultSet tRSet = tPStat.executeQuery();
-            while (tRSet.next())
-            {
-                tResult.add(new MeasureExtract(tRSet.getString("MEASURE_NAME"), tRSet.getString("GROUP_NAME"), tRSet
-                                .getInt("NB")));
-            }
-            return tResult;
-        } finally
-        {
-            if (tPStat != null)
-            {
-                tPStat.close();
-            }
+            tExtract = (Object[]) tIt.next();
+            tResult.add( new MeasureExtract((String)tExtract[0], (String)tExtract[1], (Integer)tExtract[2]));
         }
+        return tResult;        
+//        PreparedStatement tPStat = null;
+//        try
+//        {
+//            tPStat = mConnection.prepareStatement(SELECT_LIST_OF_MEASURE);
+//            ResultSet tRSet = tPStat.executeQuery();
+//            while (tRSet.next())
+//            {
+//                tResult.add(new MeasureExtract(tRSet.getString("MEASURE_NAME"), tRSet.getString("GROUP_NAME"), tRSet
+//                                .getInt("NB")));
+//            }
+//            return tResult;
+//        } finally
+//        {
+//            if (tPStat != null)
+//            {
+//                tPStat.close();
+//            }
+//        }
     }
 
 }

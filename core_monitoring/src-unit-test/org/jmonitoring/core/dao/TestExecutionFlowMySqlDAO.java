@@ -27,7 +27,7 @@ import org.jmonitoring.core.persistence.MethodCallPO;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
+public class TestExecutionFlowMySqlDAO extends PersistanceTestCase
 {
     public void testGetListOfExecutionFlowWithoutCriteria()
     {
@@ -124,7 +124,7 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-        String tClassName = FTestExecutionFlowMySqlDAO.class.getName();
+        String tClassName = TestExecutionFlowMySqlDAO.class.getName();
         tCriterion.setClassName(tClassName);
         assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
 
@@ -250,10 +250,10 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
     {
         int tOldResult = countMethods();
 
-        MethodCallPO tMethodCall = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
+        MethodCallPO tMethodCall = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow",
+                        "GrDefault", new Object[0]);
         mPersistenceManager.save(tMethodCall);
-    
+
         int tNewResult = countMethods();
         assertEquals(tOldResult + 1, tNewResult);
     }
@@ -262,15 +262,15 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
     {
         int tOldResult = countMethods();
 
-        MethodCallPO tMethodCall1 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
-        MethodCallPO tMethodCall2 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
-        MethodCallPO tMethodCall3 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
+        MethodCallPO tMethodCall1 = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(),
+                        "builNewFullFlow", "GrDefault", new Object[0]);
+        MethodCallPO tMethodCall2 = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(),
+                        "builNewFullFlow", "GrDefault", new Object[0]);
+        MethodCallPO tMethodCall3 = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(),
+                        "builNewFullFlow", "GrDefault", new Object[0]);
         tMethodCall1.addChildren(tMethodCall2);
         tMethodCall1.addChildren(tMethodCall3);
-        
+
         mPersistenceManager.save(tMethodCall1);
         mPersistenceManager.flush();
         int tNewResult = countMethods();
@@ -278,38 +278,37 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
         assertEquals(1, tMethodCall1.getId());
         assertEquals(2, tMethodCall2.getId());
         assertEquals(3, tMethodCall3.getId());
-        
+
     }
 
     public void testLinkedMethodCalls() throws SQLException
     {
         int tOldResult = countMethods();
 
-        MethodCallPO tMethodCall1 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
+        MethodCallPO tMethodCall1 = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(),
+                        "builNewFullFlow", "GrDefault", new Object[0]);
         assertEquals(-1, tMethodCall1.getId());
         mPersistenceManager.save(tMethodCall1);
         mPersistenceManager.flush();
         assertEquals(1, tMethodCall1.getId());
-        
-        MethodCallPO tMethodCall2 = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
+
+        MethodCallPO tMethodCall2 = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(),
+                        "builNewFullFlow", "GrDefault", new Object[0]);
         assertEquals(-1, tMethodCall2.getId());
         mPersistenceManager.save(tMethodCall2);
         mPersistenceManager.flush();
         assertEquals(1, tMethodCall1.getId());
         assertEquals(2, tMethodCall2.getId());
-        
+
         assertEquals(0, countMethodsWithParent());
         tMethodCall1.addChildren(tMethodCall2);
         mPersistenceManager.save(tMethodCall1);
         mPersistenceManager.flush();
         assertEquals(1, tMethodCall1.getId());
         assertEquals(2, tMethodCall2.getId());
-        
+
         assertEquals(1, countMethodsWithParent());
 
-        
     }
 
     private int countMethods()
@@ -321,7 +320,8 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
 
     private int countMethodsWithParent()
     {
-        SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From METHOD_CALL Where PARENT_ID IS NOT NULL");
+        SQLQuery tQuery = mPersistenceManager
+                        .createSQLQuery("Select Count(*) as myCount From METHOD_CALL Where PARENT_ID IS NOT NULL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();
     }
@@ -333,23 +333,24 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
         MethodCallPO tSubPoint;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+        tPoint = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
                         new Object[0]);
         tPoint.setBeginTime(tStartTime);
 
-        tSubPoint = new MethodCallPO(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2",
-                        "GrChild1", new Object[0]);
+        tSubPoint = new MethodCallPO(tPoint, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2", "GrChild1",
+                        new Object[0]);
         tSubPoint.setEndTime(System.currentTimeMillis());
 
-        tSubPoint = new MethodCallPO(tPoint, FTestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3",
-                        "GrChild2", new Object[0]);
+        tSubPoint = new MethodCallPO(tPoint, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow3", "GrChild2",
+                        new Object[0]);
         tPoint.setEndTime(tStartTime + 20);
         tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
         return tFlow;
     }
-/**
- * @todo S'assurer qu'une méthode VOID est bien loguée comme une méthode void.
- */
+
+    /**
+     * @todo S'assurer qu'une méthode VOID est bien loguée comme une méthode void.
+     */
     public void testGetListOfMethodCall()
     {
         int tOldResult = countFlows();
@@ -366,12 +367,12 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
 
         mPersistenceManager.flush();
         mPersistenceManager.clear();
-        
-        assertEquals(tOldResultM+3, countMethods());
-        
+
+        assertEquals(tOldResultM + 3, countMethods());
+
         ExecutionFlowPO tReadFlow = tFlowDAO.readFullExecutionFlow(tId);
         assertNotSame(tInitialFlow, tReadFlow);
-        
+
         // Check the equality of the Flow
         assertEquals(tInitialFlow.getJvmIdentifier(), tReadFlow.getJvmIdentifier());
         assertEquals(tInitialFlow.getThreadName(), tReadFlow.getThreadName());
@@ -420,77 +421,36 @@ public class FTestExecutionFlowMySqlDAO extends PersistanceTestCase
         assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
-        tNewResult = countFlows();
-        assertEquals(tOldResult, tNewResult);
-
     }
 
     public void testGetListOfMethodCallBis() throws SQLException
     {
-        int tOldResult = countFlows();
+        ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
 
-        Connection tCon = null;
-        Statement tStat = null;
-        try
-        {
-            ExecutionFlowMySqlDAO tFlowDAO = new ExecutionFlowMySqlDAO(mPersistenceManager);
-            int tNbFlow = countFlows();
+        // First delete all flow, we don't use the DeleteAll Method of the
+        // Dao Object because, it doesn't support transactions.
+        mPersistenceManager.createQuery("Delete FROM MethodCallPO").executeUpdate();
+        mPersistenceManager.createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
 
-            // First delete all flow, we don't use the DeleteAll Method of the
-            // Dao Object because, it doesn't support transactions.
-            tStat = tCon.createStatement();
-            tStat.execute("Delete FROM method_call");
-            tStat.execute("Delete FROM execution_flow");
+        // Now insert the TestFlow
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
 
-            // Now insert the TestFlow
-            ExecutionFlowPO tFlow = buildNewFullFlow();
-            int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        List tMeasureExtracts = tFlowDAO.getListOfMeasure();
+        MeasureExtract curExtrat = (MeasureExtract) tMeasureExtracts.get(0);
+        assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat.getName());
+        assertEquals("GrDefault", curExtrat.getGroupName());
+        assertEquals(1, curExtrat.getOccurenceNumber());
 
-            List tMeasureExtracts = tFlowDAO.getListOfMeasure();
-            MeasureExtract curExtrat = (MeasureExtract) tMeasureExtracts.get(0);
-            assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow", curExtrat.getName());
-            assertEquals("GrDefault", curExtrat.getGroupName());
-            assertEquals(1, curExtrat.getOccurenceNumber());
+        curExtrat = (MeasureExtract) tMeasureExtracts.get(1);
+        assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat.getName());
+        assertEquals("GrChild1", curExtrat.getGroupName());
+        assertEquals(1, curExtrat.getOccurenceNumber());
 
-            curExtrat = (MeasureExtract) tMeasureExtracts.get(1);
-            assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow2", curExtrat.getName());
-            assertEquals("GrChild1", curExtrat.getGroupName());
-            assertEquals(1, curExtrat.getOccurenceNumber());
-
-            curExtrat = (MeasureExtract) tMeasureExtracts.get(2);
-            assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat.getName());
-            assertEquals("GrChild2", curExtrat.getGroupName());
-            assertEquals(1, curExtrat.getOccurenceNumber());
-
-            // Now we restore the DB
-            tCon.rollback();
-            int tNewNbFlow = countFlows();
-            assertEquals(tNbFlow, tNewNbFlow);
-
-        } catch (AssertionFailedError e)
-        {
-            throw e;
-        } catch (Throwable e)
-        {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (tStat != null)
-
-                {
-                    tStat.close();
-                }
-            } finally
-            {
-                if (tCon != null)
-                {
-                    tCon.close();
-                }
-            }
-        }
+        curExtrat = (MeasureExtract) tMeasureExtracts.get(2);
+        assertEquals("org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO.builNewFullFlow3", curExtrat.getName());
+        assertEquals("GrChild2", curExtrat.getGroupName());
+        assertEquals(1, curExtrat.getOccurenceNumber());
 
     }
 

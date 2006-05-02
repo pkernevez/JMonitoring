@@ -136,6 +136,10 @@ public class MethodCallDTO
         mParams = tBuffer.toString();
     }
 
+    protected MethodCallDTO()
+    {
+    }
+
     /**
      * Define the return value of the method associated with this <code>MethodCallDTO</code> when it didn't throw a
      * <code>Throwable</code>.

@@ -8,7 +8,7 @@ import java.sql.Statement;
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.FTestExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO;
 import org.jmonitoring.core.dao.StandAloneConnectionManager;
 import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
@@ -45,7 +45,7 @@ public class FTestAsynchroneJdbcLogger extends TestCase
         try
         {
             tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            FTestExecutionFlowMySqlDAO tFTestDao = new FTestExecutionFlowMySqlDAO();
+            TestExecutionFlowMySqlDAO tFTestDao = new TestExecutionFlowMySqlDAO();
             tInitialFlowCount = tFTestDao.countFlows();
             tCon.commit();
 

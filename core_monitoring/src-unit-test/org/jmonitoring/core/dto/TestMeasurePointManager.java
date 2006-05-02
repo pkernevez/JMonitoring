@@ -2,6 +2,8 @@ package org.jmonitoring.core.dto;
 
 import junit.framework.TestCase;
 
+import org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.utils.AspectLoggerEmulator;
 
@@ -23,7 +25,7 @@ public class TestMeasurePointManager extends TestCase
      */
     public void testMeasureCount()
     {
-        ExecutionFlowDTO tFlow = null;//TestExecutionFlowMySqlDAO.buildNewFullFlow();
+        ExecutionFlowDTO tFlow = DtoHelper.getExecutionFlowDto(TestExecutionFlowMySqlDAO.buildNewFullFlow());
         assertEquals(2 + 1, tFlow.getMeasureCount());
         MethodCallDTO curMeasure = tFlow.getFirstMeasure();
         assertEquals(2 + 1, curMeasure.getSubMeasureCount());

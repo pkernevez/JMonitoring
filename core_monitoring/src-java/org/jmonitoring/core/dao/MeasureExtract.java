@@ -24,11 +24,11 @@ public class MeasureExtract
      * @param pGroupName The name of the group associated with this measure extract.
      * @param pNb The number of occurrence of this kind of measure.
      */
-    public MeasureExtract(String pName, String pGroupName, int pNb)
+    public MeasureExtract(String pName, String pGroupName, Integer pNb)
     {
         mName = pName;
         mGroupName = pGroupName;
-        mOccurenceNumber = pNb;
+        mOccurenceNumber = pNb.intValue();
     }
 
     /**

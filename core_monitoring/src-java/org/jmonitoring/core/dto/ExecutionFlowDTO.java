@@ -27,13 +27,20 @@ public class ExecutionFlowDTO
     private String mJvmIdentifier;
 
     /** Begin datetime. */
-    private long mBeginDate;
+    private long mBeginTime;
 
     /** End datetime. */
     private long mEndTime;
 
     /** Technical identifier. */
     private int mId;
+
+    /**
+     * Constructor.
+     */
+    protected ExecutionFlowDTO()
+    {
+    }
 
     /**
      * Constructor.
@@ -50,7 +57,7 @@ public class ExecutionFlowDTO
         mId = pId;
         mThreadName = pThreadName;
         mJvmIdentifier = pJVMIdentifier;
-        mBeginDate = pBeginTime;
+        mBeginTime = pBeginTime;
         mEndTime = pEndTime;
     }
 
@@ -80,7 +87,7 @@ public class ExecutionFlowDTO
         mThreadName = pThreadName;
         mFirstMeasure = pFirstMeasure;
         mJvmIdentifier = pJVMIdentifier;
-        mBeginDate = mFirstMeasure.getBeginTime();
+        mBeginTime = mFirstMeasure.getBeginTime();
         mEndTime = mFirstMeasure.getEndTime();
     }
 
@@ -139,7 +146,7 @@ public class ExecutionFlowDTO
      */
     public long getBeginDate()
     {
-        return mBeginDate;
+        return mBeginTime;
     }
 
     /**
@@ -149,7 +156,7 @@ public class ExecutionFlowDTO
      */
     public void setBeginDate(long pBeginTime)
     {
-        mBeginDate = pBeginTime;
+        mBeginTime = pBeginTime;
     }
 
     /**
@@ -159,7 +166,7 @@ public class ExecutionFlowDTO
      */
     public String getBeginDateAsString()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(new Date(mBeginDate));
+        return Configuration.getInstance().getDateTimeFormater().format(new Date(mBeginTime));
     }
 
     /**
@@ -170,7 +177,7 @@ public class ExecutionFlowDTO
      */
     public void setBeginDateAsString(String pBeginTime) throws ParseException
     {
-        mBeginDate = Configuration.getInstance().getDateTimeFormater().parse(pBeginTime).getTime();
+        mBeginTime = Configuration.getInstance().getDateTimeFormater().parse(pBeginTime).getTime();
     }
 
     /**
@@ -217,7 +224,7 @@ public class ExecutionFlowDTO
      */
     public long getDuration()
     {
-        return mEndTime - mBeginDate;
+        return mEndTime - mBeginTime;
     }
 
     /**
@@ -225,7 +232,7 @@ public class ExecutionFlowDTO
      */
     public String getDurationAsString()
     {
-        return "" + (mEndTime - mBeginDate);
+        return "" + (mEndTime - mBeginTime);
     }
 
     /**

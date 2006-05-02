@@ -22,17 +22,16 @@
       <property name="groupName" column="GROUP_NAME" type="java.lang.String" length="145"/>
 		
 		<many-to-one name="parent" column="PARENT_ID" 
-			not-null="false" cascade="all"/>
-			
+			not-null="false" cascade="all" />
 			<!-- insert="false"
 			update="false"/-->
 		<!--set name="children" >
 			<key column="parentId"/>
 			<one-to-many class="org.jmonitoring.core.persistence.MethodCallPO"/>
 		</set-->
-		<list name="children" inverse="true" cascade="all">
+		<list name="children" lazy="true" cascade="all">
 			<key column="PARENT_ID" not-null="false"/>
-			<list-index column="CHILDREN_INDEX"/>
+			<index column="CHILDREN_INDEX" type="java.lang.Integer"/>
 			<one-to-many class="org.jmonitoring.core.persistence.MethodCallPO"/>
 		</list>
 		
