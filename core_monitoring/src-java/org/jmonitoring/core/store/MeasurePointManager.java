@@ -1,4 +1,4 @@
-package org.jmonitoring.core.dto;
+package org.jmonitoring.core.store;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -9,7 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.store.IStoreWriter;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.MethodCallPO;
 import org.jmonitoring.core.store.impl.MeasurePointTreeLoggerFactory;
 
 /**
@@ -22,7 +23,7 @@ import org.jmonitoring.core.store.impl.MeasurePointTreeLoggerFactory;
  */
 public class MeasurePointManager
 {
-    private MethodCallDTO mCurrentLogPoint;
+    private MethodCallPO mCurrentLogPoint;
 
     /** <code>CommonsLog</code> instance. */
     private static Log sLog;
@@ -77,7 +78,7 @@ public class MeasurePointManager
             {
                 sLog.debug("logBeginOfMethod First Time" + pSignature);
             }
-            mCurrentLogPoint = new MethodCallDTO(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
+            mCurrentLogPoint = new MethodCallPO(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
                             pGroupName, pArgs);
         } else
         {
@@ -85,8 +86,8 @@ public class MeasurePointManager
             {
                 sLog.debug("logBeginOfMethod Any Time" + pSignature);
             }
-            MethodCallDTO tOldPoint = mCurrentLogPoint;
-            mCurrentLogPoint = new MethodCallDTO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
+            MethodCallPO tOldPoint = mCurrentLogPoint;
+            mCurrentLogPoint = new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
                             pGroupName, pArgs);
         }
     }
@@ -98,8 +99,8 @@ public class MeasurePointManager
      */
     public void logEndOfMethodNormal(Object pResult)
     {
-        mCurrentLogPoint.endMethod(pResult);
-        if (mCurrentLogPoint.getParent() == null)
+        endMethod(mCurrentLogPoint, pResult);
+        if (mCurrentLogPoint.getParentMethodCall() == null)
         { // Dernier appel du Thread
             if (sLog.isDebugEnabled())
             {
@@ -111,7 +112,7 @@ public class MeasurePointManager
                     sLog.error("Unable to trace return value.", tT);
                 }
             }
-            ExecutionFlowDTO tFlow = new ExecutionFlowDTO(Thread.currentThread().getName(), mCurrentLogPoint,
+            ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
                             mConfiguration.getServerName());
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
@@ -121,7 +122,7 @@ public class MeasurePointManager
             {
                 sLog.debug("logEndOfMethodNormal Any Time" + pResult);
             }
-            mCurrentLogPoint = mCurrentLogPoint.getParent();
+            mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
         }
     }
 
@@ -138,19 +139,19 @@ public class MeasurePointManager
         }
         if (pException == null)
         { // On ne logue pas le détail
-            mCurrentLogPoint.endMethodWithException(null, null);
+            endMethodWithException(mCurrentLogPoint, null, null);
         } else
         {
-            mCurrentLogPoint.endMethodWithException(pException.getClass().getName(), pException.getMessage());
+            endMethodWithException(mCurrentLogPoint, pException.getClass().getName(), pException.getMessage());
         }
 
-        if (mCurrentLogPoint.getParent() == null)
+        if (mCurrentLogPoint.getParentMethodCall() == null)
         { // Dernier appel du Thread
             if (sLog.isDebugEnabled())
             {
                 sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
             }
-            ExecutionFlowDTO tFlow = new ExecutionFlowDTO(Thread.currentThread().getName(), mCurrentLogPoint,
+            ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
                             mConfiguration.getServerName());
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
@@ -160,9 +161,45 @@ public class MeasurePointManager
             {
                 sLog.debug("logEndOfMethodWithException Any Time" + pException.getMessage());
             }
-            mCurrentLogPoint = mCurrentLogPoint.getParent();
+            mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
         }
 
+    }
+
+    /**
+     * Define the return value of the method associated with this <code>MethodCallDTO</code> when it didn't throw a
+     * <code>Throwable</code>.
+     * 
+     * @param pMethodCall the current methodcall to manage.
+     * @param pReturnValue The return value of the method.
+     */
+    public void endMethod(MethodCallPO pMethodCall, Object pReturnValue)
+    {
+        pMethodCall.setEndTime(System.currentTimeMillis());
+        if (pReturnValue != null)
+        {
+            try
+            {
+                pMethodCall.setReturnValue(pReturnValue.toString());
+            } catch (Throwable tT)
+            {
+                sLog.error("Unable to trace return value.", tT);
+            }
+        }
+    }
+
+    /**
+     * Define the <code>Throwable</code> thrown by the method associated with this <code>MethodCallDTO</code>.
+     * 
+     * @param pMethodCall the current methodcall to manage.
+     * @param pExceptionClassName The name of the <code>Class</code> of the <code>Exception</code>.
+     * @param pExceptionMessage The message of the <code>Exception</code>.
+     */
+    private void endMethodWithException(MethodCallPO pMethodCall, String pExceptionClassName, String pExceptionMessage)
+    {
+        pMethodCall.setEndTime(System.currentTimeMillis());
+        pMethodCall.setThrowableClass(pExceptionClassName);
+        pMethodCall.setThrowableMessage(pExceptionMessage);
     }
 
 }

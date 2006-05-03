@@ -1,13 +1,15 @@
 package org.jmonitoring.core.dto;
 
+import java.util.Date;
+import java.util.Iterator;
+
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.MethodCallPO;
 import org.springframework.beans.BeanUtils;
 
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
+/***********************************************************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
+ **********************************************************************************************************************/
 
 public final class DtoHelper
 {
@@ -19,16 +21,23 @@ public final class DtoHelper
     public static ExecutionFlowDTO getExecutionFlowDto(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = new ExecutionFlowDTO();
-        BeanUtils.copyProperties(pFlowPO, tResult);
-        tResult.setFirstMeasure( getMethodCallDto(pFlowPO.getFirstMethodCall()));
+        BeanUtils.copyProperties(pFlowPO, tResult, new String[] {"firstMeasure" });
+        tResult.setFirstMethodCall(getMethodCallDto(pFlowPO.getFirstMethodCall()));
         return tResult;
     }
 
-    private static MethodCallDTO getMethodCallDto(MethodCallPO pCallPO)
+    static MethodCallDTO getMethodCallDto(MethodCallPO pCallPO)
     {
         MethodCallDTO tResult = new MethodCallDTO();
-        BeanUtils.copyProperties(pCallPO, tResult);
-        
+        BeanUtils.copyProperties(pCallPO, tResult, new String[]{"beginTime", "endTime"} );
+        tResult.setBeginTime(new Date(pCallPO.getBeginTime()));
+        tResult.setEndTime(new Date(pCallPO.getEndTime()));
+        MethodCallPO curMethod;
+        for (Iterator tIt = pCallPO.getChildren().iterator(); tIt.hasNext(); )
+        {
+            curMethod = (MethodCallPO) tIt.next();
+            tResult.addChild(getMethodCallDto(curMethod));
+        }
         return tResult;
     }
 

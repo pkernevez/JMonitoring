@@ -1,6 +1,6 @@
 package org.jmonitoring.core.store;
 
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -20,6 +20,6 @@ public interface IStoreWriter
      * 
      * @param pExecutionFlow The flow to insert into the store.
      */
-    void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow);
+    void writeExecutionFlow(ExecutionFlowPO pExecutionFlow);
 
 }

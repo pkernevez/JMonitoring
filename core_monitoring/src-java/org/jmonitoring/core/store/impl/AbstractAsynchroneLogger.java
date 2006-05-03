@@ -3,7 +3,7 @@ package org.jmonitoring.core.store.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.IStoreWriter;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
@@ -52,13 +52,13 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
      * @param pFlow The flow to log.
      * @return The Task that will be pulled for upcoming logging.
      */
-    protected abstract Runnable getAsynchroneLogTask(ExecutionFlowDTO pFlow);
+    protected abstract Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow);
 
     /**
      * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
-     *      org.jmonitoring.core.dto.ExecutionFlow)
+     *      ExecutionFlowPO)
      */
-    public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)
+    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
         //Test because of ClassLoader and hotdeploy in some container...
         if (sExecutor == null)

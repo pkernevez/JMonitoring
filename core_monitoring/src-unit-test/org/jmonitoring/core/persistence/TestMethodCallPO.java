@@ -3,7 +3,7 @@ package org.jmonitoring.core.persistence;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
 
 /***************************************************************************
@@ -15,10 +15,10 @@ public class TestMethodCallPO extends PersistanceTestCase
 {
     public void testUpdateChildrenWhenCreateWithParent()
     {
-        MethodCallPO tParent = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+        MethodCallPO tParent = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault",
                         new Object[0]);
 
-        MethodCallPO tChild = new MethodCallPO(tParent, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2",
+        MethodCallPO tChild = new MethodCallPO(tParent, TestExecutionFlowDAO.class.getName(), "builNewFullFlow2",
                         "GrChild1", new Object[0]);    
         assertNull(tParent.getParentMethodCall());
         assertEquals(1, tParent.getChildren().size());
@@ -34,10 +34,10 @@ public class TestMethodCallPO extends PersistanceTestCase
     
     public void testUpdateChildrenWhenAddParent()
     {
-        MethodCallPO tParent = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow", "GrDefault",
+        MethodCallPO tParent = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault",
                         new Object[0]);
 
-        MethodCallPO tChild = new MethodCallPO(null, TestExecutionFlowMySqlDAO.class.getName(), "builNewFullFlow2",
+        MethodCallPO tChild = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow2",
                         "GrChild1", new Object[0]);    
 
         assertNull(tParent.getParentMethodCall());
@@ -62,12 +62,4 @@ public class TestMethodCallPO extends PersistanceTestCase
         
 
     }
-    
-//    public void testGetListOfExecutionFlow() throws SQLException 
-//    {
-//
-//        createDataSet("/dataset.xml");
-//        List tResult = HibernateManager.getSession().createQuery("from ExecutionFlowPO").list();
-//        assertEquals(3, tResult.size());
-//   }
 }

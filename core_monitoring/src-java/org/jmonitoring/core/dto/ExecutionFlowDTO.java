@@ -21,7 +21,7 @@ public class ExecutionFlowDTO
     private String mThreadName;
 
     /** First Measure. */
-    private MethodCallDTO mFirstMeasure;
+    private MethodCallDTO mFirstMethodCall;
 
     /** Name of the 'JVM' or server. */
     private String mJvmIdentifier;
@@ -61,50 +61,50 @@ public class ExecutionFlowDTO
         mEndTime = pEndTime;
     }
 
+//    /**
+//     * Constructor.
+//     * 
+//     * @param pThreadName The name of the Thread of this flow.
+//     * @param pJVMIdentifier The identifier of this JVM or Server.
+//     * @param pBeginTime L'heure de début de l'appel.
+//     * @param pEndTime L'heure de fin de l'appel.
+//     */
+//    public ExecutionFlowDTO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+//    {
+//        this(-1, pThreadName, pJVMIdentifier, pBeginTime, pEndTime);
+//    }
+
+//    /**
+//     * Constructor.
+//     * 
+//     * @param pThreadName The name of the Thread of this flow.
+//     * @param pFirstMeasure First <code>MeasurePoint</code> of this flow.
+//     * @param pJVMIdentifier The identifier of this JVM or Server.
+//     *  
+//     */
+//    public ExecutionFlowDTO(String pThreadName, MethodCallDTO pFirstMeasure, String pJVMIdentifier)
+//    {
+//        mThreadName = pThreadName;
+//        mFirstMethodCall = pFirstMeasure;
+//        mJvmIdentifier = pJVMIdentifier;
+//        mBeginTime = mFirstMethodCall.getBeginTime();
+//        mEndTime = mFirstMethodCall.getEndTime();
+//    }
+//
     /**
-     * Constructor.
-     * 
-     * @param pThreadName The name of the Thread of this flow.
-     * @param pJVMIdentifier The identifier of this JVM or Server.
-     * @param pBeginTime L'heure de début de l'appel.
-     * @param pEndTime L'heure de fin de l'appel.
+     * @return Returns the mFirstMethodCall.
      */
-    public ExecutionFlowDTO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    public MethodCallDTO getFirstMethodCall()
     {
-        this(-1, pThreadName, pJVMIdentifier, pBeginTime, pEndTime);
+        return mFirstMethodCall;
     }
 
     /**
-     * Constructor.
-     * 
-     * @param pThreadName The name of the Thread of this flow.
-     * @param pFirstMeasure First <code>MeasurePoint</code> of this flow.
-     * @param pJVMIdentifier The identifier of this JVM or Server.
-     *  
+     * @param pFirstMethodCall The mFirstMethodCall to set.
      */
-    public ExecutionFlowDTO(String pThreadName, MethodCallDTO pFirstMeasure, String pJVMIdentifier)
+    public void setFirstMethodCall(MethodCallDTO pFirstMethodCall)
     {
-        mThreadName = pThreadName;
-        mFirstMeasure = pFirstMeasure;
-        mJvmIdentifier = pJVMIdentifier;
-        mBeginTime = mFirstMeasure.getBeginTime();
-        mEndTime = mFirstMeasure.getEndTime();
-    }
-
-    /**
-     * @return Returns the mFirstMeasure.
-     */
-    public MethodCallDTO getFirstMeasure()
-    {
-        return mFirstMeasure;
-    }
-
-    /**
-     * @param pFirstMeasure The mFirstMeasure to set.
-     */
-    public void setFirstMeasure(MethodCallDTO pFirstMeasure)
-    {
-        mFirstMeasure = pFirstMeasure;
+        mFirstMethodCall = pFirstMethodCall;
     }
 
     /**
@@ -144,7 +144,7 @@ public class ExecutionFlowDTO
      * 
      * @return The begin time of the firts measure.
      */
-    public long getBeginDate()
+    public long getBeginTime()
     {
         return mBeginTime;
     }
@@ -154,7 +154,7 @@ public class ExecutionFlowDTO
      * 
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginDate(long pBeginTime)
+    public void setBeginTime(long pBeginTime)
     {
         mBeginTime = pBeginTime;
     }
@@ -258,12 +258,12 @@ public class ExecutionFlowDTO
     {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("FlowId=[").append(mId).append("] ");
-        if (mFirstMeasure != null)
+        if (mFirstMethodCall != null)
         {
-            tBuffer.append("SequenceId=[").append(mFirstMeasure.getSequenceId()).append("] ");
-            tBuffer.append("GroupName=[").append(mFirstMeasure.getGroupName()).append("] ");
-            tBuffer.append("ClassName=[").append(mFirstMeasure.getClassName()).append("] ");
-            tBuffer.append("MethodName=[").append(mFirstMeasure.getMethodName()).append("] ");
+            tBuffer.append("SequenceId=[").append(mFirstMethodCall.getSequenceId()).append("] ");
+            tBuffer.append("GroupName=[").append(mFirstMethodCall.getGroupName()).append("] ");
+            tBuffer.append("ClassName=[").append(mFirstMethodCall.getClassName()).append("] ");
+            tBuffer.append("MethodName=[").append(mFirstMethodCall.getMethodName()).append("] ");
         } else
         {
             tBuffer.append("SequenceId=[NULL] ");
@@ -278,6 +278,6 @@ public class ExecutionFlowDTO
      */
     public int getMeasureCount()
     {
-        return mFirstMeasure.getSubMeasureCount();
+        return mFirstMethodCall.getSubMeasureCount();
     }
 }

@@ -6,15 +6,11 @@ package org.jmonitoring.core.dao;
  **************************************************************************/
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,9 +18,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 
@@ -33,7 +26,7 @@ import org.jmonitoring.core.persistence.ExecutionFlowPO;
  * 
  * @author pke
  */
-public class ExecutionFlowMySqlDAO
+public class ExecutionFlowDAO
 {
 
     private static Log sLog;
@@ -43,7 +36,7 @@ public class ExecutionFlowMySqlDAO
      * 
      * @param pPersistenceManager
      */
-    public ExecutionFlowMySqlDAO(Session pPersistenceManager)
+    public ExecutionFlowDAO(Session pPersistenceManager)
     {
         mPersistenceManager = pPersistenceManager;
         if (sLog == null)
@@ -64,7 +57,7 @@ public class ExecutionFlowMySqlDAO
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        int tThreadId = insertExecutionFlowDTO(pExecutionFlow);
+        int tThreadId = insertExecutionFlow(pExecutionFlow);
 
         // insertMethodCallGraph(pExecutionFlowDTO.getFirstMeasure(), tThreadId);
 
@@ -78,7 +71,7 @@ public class ExecutionFlowMySqlDAO
      * @return La clé technique associée au flux que l'on vient d'insérer.
      * @todo menage
      */
-    private int insertExecutionFlowDTO(ExecutionFlowPO pExecutionFlow)
+    private int insertExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
         // ExecutionFlowPO tPo = new ExecutionFlowPO(pExecutionFlowDTO);
         mPersistenceManager.save(pExecutionFlow);

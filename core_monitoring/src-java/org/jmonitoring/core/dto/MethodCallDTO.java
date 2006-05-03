@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.configuration.Configuration;
 
 /**
@@ -39,10 +38,10 @@ public class MethodCallDTO
     private String mParams;
 
     /** Date/Heure de début d'appel de la méthode. */
-    private long mBeginTime;
+    private Date mBeginTime;
 
     /** Date/Heure de fin d'appel de la méthode. */
-    private long mEndTime;
+    private Date mEndTime;
 
     /** Nom de la classe sur laquelle est fait l'appel de la méthode. */
     private String mClassName;
@@ -63,115 +62,84 @@ public class MethodCallDTO
 
     private static Log sLog;
 
-    /**
-     * Constructor used for Database, because original types are already converted to <code>String</code>.
-     * 
-     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current <code>MethodCallDTO</code>.
-     * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-     *        <code>MethodCallDTO</code>.
-     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
-     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
-     * @param pParams The parameters serialized as <code>String</code> passed to the method <code>pMethodName</code>.
-     */
-    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName, String pParams)
-    {
-        if (sLog == null)
-        {
-            sLog = LogFactory.getLog(this.getClass());
-        }
-        if (pParent != null)
-        { // On chaine la hierachie
-            pParent.addChild(this);
-        }
-        mClassName = pClassName;
-        mMethodName = pMethodName;
-        mBeginTime = System.currentTimeMillis();
-        mParams = pParams;
-        mGroupName = pGroupName;
+//    /**
+//     * Constructor used for Database, because original types are already converted to <code>String</code>.
+//     * 
+//     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current
+//     *        <code>MethodCallDTO</code>.
+//     * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
+//     *        <code>MethodCallDTO</code>.
+//     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
+//     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
+//     * @param pParams The parameters serialized as <code>String</code> passed to the method <code>pMethodName</code>.
+//     */
+//    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName, String pParams)
+//    {
+//        if (sLog == null)
+//        {
+//            sLog = LogFactory.getLog(this.getClass());
+//        }
+//        if (pParent != null)
+//        { // On chaine la hierachie
+//            pParent.addChild(this);
+//        }
+//        mClassName = pClassName;
+//        mMethodName = pMethodName;
+//        mBeginTime = System.currentTimeMillis();
+//        mParams = pParams;
+//        mGroupName = pGroupName;
+//
+//    }
 
-    }
-
-    /**
-     * Constructor used for Database, because original types are already converted to <code>String</code>.
-     * 
-     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current <code>MethodCallDTO</code>.
-     * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-     *        <code>MethodCallDTO</code>.
-     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
-     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
-     * @param pParams The <code>Object</code> array passed to the method <code>pMethodName</code>.
-     */
-    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName, Object[] pParams)
-    {
-        if (pParent != null)
-        { // On chaine la hierachie
-            pParent.addChild(this);
-        }
-        mClassName = pClassName;
-        mMethodName = pMethodName;
-        mBeginTime = System.currentTimeMillis();
-        mGroupName = pGroupName;
-        StringBuffer tBuffer = new StringBuffer();
-        try
-        {
-            if (pParams != null)
-            {
-                boolean tFistTime = true;
-                tBuffer.append("[");
-                for (int i = 0; i < pParams.length; i++)
-                {
-                    if (!tFistTime)
-                    {
-                        tBuffer.append(", ");
-                    }
-                    tBuffer.append("" + pParams[i]);
-                    tFistTime = false;
-                }
-                tBuffer.append("]");
-            }
-        } catch (Throwable tT)
-        {
-            sLog.error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
-        }
-        mParams = tBuffer.toString();
-    }
+//    /**
+//     * Constructor used for Database, because original types are already converted to <code>String</code>.
+//     * 
+//     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current
+//     *        <code>MethodCallDTO</code>.
+//     * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
+//     *        <code>MethodCallDTO</code>.
+//     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
+//     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
+//     * @param pParams The <code>Object</code> array passed to the method <code>pMethodName</code>.
+//     */
+//    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName,
+//                    Object[] pParams)
+//    {
+//        if (pParent != null)
+//        { // On chaine la hierachie
+//            pParent.addChild(this);
+//        }
+//        mClassName = pClassName;
+//        mMethodName = pMethodName;
+//        mBeginTime = System.currentTimeMillis();
+//        mGroupName = pGroupName;
+//        StringBuffer tBuffer = new StringBuffer();
+//        try
+//        {
+//            if (pParams != null)
+//            {
+//                boolean tFistTime = true;
+//                tBuffer.append("[");
+//                for (int i = 0; i < pParams.length; i++)
+//                {
+//                    if (!tFistTime)
+//                    {
+//                        tBuffer.append(", ");
+//                    }
+//                    tBuffer.append("" + pParams[i]);
+//                    tFistTime = false;
+//                }
+//                tBuffer.append("]");
+//            }
+//        } catch (Throwable tT)
+//        {
+//            sLog.error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
+//        }
+//        mParams = tBuffer.toString();
+//    }
 
     protected MethodCallDTO()
     {
-    }
-
-    /**
-     * Define the return value of the method associated with this <code>MethodCallDTO</code> when it didn't throw a
-     * <code>Throwable</code>.
-     * 
-     * @param pReturnValue The return value of the method.
-     */
-    public void endMethod(Object pReturnValue)
-    {
-        mEndTime = System.currentTimeMillis();
-        if (pReturnValue != null)
-        {
-            try
-            {
-                mReturnValue = pReturnValue.toString();
-            } catch (Throwable tT)
-            {
-                sLog.error("Unable to trace return value.", tT);
-            }
-        }
-    }
-
-    /**
-     * Define the <code>Throwable</code> thrown by the method associated with this <code>MethodCallDTO</code>.
-     * 
-     * @param pExceptionClassName The name of the <code>Class</code> of the <code>Exception</code>.
-     * @param pExceptionMessage The message of the <code>Exception</code>.
-     */
-    public void endMethodWithException(String pExceptionClassName, String pExceptionMessage)
-    {
-        mEndTime = System.currentTimeMillis();
-        mThrowableClass = pExceptionClassName;
-        mThrowableMessage = pExceptionMessage;
     }
 
     /**
@@ -190,7 +158,7 @@ public class MethodCallDTO
      * 
      * @param pChild The <code>MethodCallDTO</code> associated with the sub-method call.
      */
-    private void addChild(MethodCallDTO pChild)
+    void addChild(MethodCallDTO pChild)
     {
         mChildren.add(pChild);
         pChild.mParent = this;
@@ -211,7 +179,7 @@ public class MethodCallDTO
      * 
      * @return The start time of the call to the method associated to thiis <code>MethodCallDTO</code>.
      */
-    public long getBeginTime()
+    public Date getBeginTime()
     {
         return mBeginTime;
     }
@@ -234,7 +202,7 @@ public class MethodCallDTO
      */
     public long getDuration()
     {
-        return mEndTime - mBeginTime;
+        return mEndTime.getTime() - mBeginTime.getTime();
     }
 
     /**
@@ -242,7 +210,7 @@ public class MethodCallDTO
      * 
      * @return The end time of the method associated with this <code>MethodCallDTO</code>.
      */
-    public long getEndTime()
+    public Date getEndTime()
     {
         return mEndTime;
     }
@@ -270,8 +238,8 @@ public class MethodCallDTO
     /**
      * Accessor.
      * 
-     * @return The return value of the method associated with this <code>MethodCallDTO</code>. Null if the method ended
-     *         with an <code>Exception</code>.
+     * @return The return value of the method associated with this <code>MethodCallDTO</code>. Null if the method
+     *         ended with an <code>Exception</code>.
      */
     public String getReturnValue()
     {
@@ -331,7 +299,7 @@ public class MethodCallDTO
     /**
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginTime(long pBeginTime)
+    public void setBeginTime(Date pBeginTime)
     {
         mBeginTime = pBeginTime;
     }
@@ -339,7 +307,7 @@ public class MethodCallDTO
     /**
      * @param pEndTime The mEndTime to set.
      */
-    public void setEndTime(long pEndTime)
+    public void setEndTime(Date pEndTime)
     {
         mEndTime = pEndTime;
     }
@@ -411,7 +379,7 @@ public class MethodCallDTO
      */
     public String getBeginTimeAsString()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(new Date(mBeginTime));
+        return Configuration.getInstance().getDateTimeFormater().format(mBeginTime);
     }
 
     /**
@@ -421,7 +389,7 @@ public class MethodCallDTO
      */
     public String getEndTimeAsString()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(new Date(mEndTime));
+        return Configuration.getInstance().getDateTimeFormater().format(mEndTime);
     }
 
     /**
@@ -439,6 +407,54 @@ public class MethodCallDTO
             tNbMeasure += curChild.getSubMeasureCount();
         }
         return tNbMeasure;
+    }
+
+    /**
+     * @param pClassName The className to set.
+     */
+    public void setClassName(String pClassName)
+    {
+        mClassName = pClassName;
+    }
+
+    /**
+     * @param pMethodName The methodName to set.
+     */
+    public void setMethodName(String pMethodName)
+    {
+        mMethodName = pMethodName;
+    }
+
+    /**
+     * @return Returns the throwableClass.
+     */
+    protected String getThrowableClass()
+    {
+        return mThrowableClass;
+    }
+
+    /**
+     * @param pChildren The children to set.
+     */
+    protected void setChildren(LinkedList pChildren)
+    {
+        mChildren = pChildren;
+    }
+
+    /**
+     * @param pParams The params to set.
+     */
+    public void setParams(String pParams)
+    {
+        mParams = pParams;
+    }
+
+    /**
+     * @param pParent The parent to set.
+     */
+    protected void setParent(MethodCallDTO pParent)
+    {
+        mParent = pParent;
     }
 
 }

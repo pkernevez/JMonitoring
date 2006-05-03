@@ -6,7 +6,7 @@ package org.jmonitoring.core.aspects;
  **************************************************************************/
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.MeasurePointManager;
+import org.jmonitoring.core.store.MeasurePointManager;
 import org.jmonitoring.core.common.MeasureException; 
 
 import org.apache.commons.logging.Log;
@@ -49,7 +49,7 @@ public abstract aspect PerformanceAspect
 
     pointcut executionToLogInternal() : executionToLog() 
         && !within(org.jmonitoring.core.*.*) 
-        && !within(org.jmonitoring.core.dto.MeasurePointManager);
+        && !within(org.jmonitoring.core.store.MeasurePointManager);
 
     Object around() : executionToLogInternal()
     {

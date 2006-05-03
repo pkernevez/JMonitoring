@@ -1,12 +1,10 @@
 package org.jmonitoring.core.persistence;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.dto.MethodCallDTO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

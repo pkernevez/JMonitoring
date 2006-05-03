@@ -5,16 +5,12 @@ package org.jmonitoring.core.store.impl;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.HibernateManager;
 
 /**
  * @author pke
@@ -28,6 +24,8 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
 
     private static Log sLog;
 
+    private static boolean mAutoflush = false;
+
     /**
      * Default constructor.
      */
@@ -39,53 +37,46 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
         }
     }
 
+    /**
+     * Default constructor.
+     * 
+     * @param pAutoFlush
+     */
+    public AsynchroneJdbcLogger(boolean pAutoFlush)
+    {
+        mAutoflush = pAutoFlush;
+        if (sLog == null)
+        {
+            sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);
+        }
+    }
+
     private static class AsynchroneJdbcLoggerRunnable implements Runnable
     {
-        private static ThreadLocal mPersistanceManager = new ThreadLocal();
+        private ExecutionFlowPO mExecutionFlowToLog;
 
-        private ExecutionFlowDTO mExecutionFlowToLog;
-
-        public AsynchroneJdbcLoggerRunnable(ExecutionFlowDTO pExecutionFlowToLog)
+        public AsynchroneJdbcLoggerRunnable(ExecutionFlowPO pExecutionFlowToLog)
         {
             mExecutionFlowToLog = pExecutionFlowToLog;
         }
 
         public void run()
         {
-            Session tPManager = (Session) mPersistanceManager.get();
-//try
-//{
-//            if (tPManager == null)
-//                {
-//                    tPManager =new StandAloneConnectionManager(Configuration.getInstance());
-//                }
-//                mPersistanceManager.set(tPManager);
-//                ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tPManager);
-//                int tId = tDao.insertFullExecutionFlow(mExecutionFlowToLog);
-//                //mPersistanceManager.;
-//                sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog);
-//            } catch (Exception e)
-//            {
-//                sLog.error("Exception receive during JobProcessing. Exception ignored.", e);
-//                if (tCon != null)
-//                {
-//                    try
-//                    {
-//                        tCon.rollback();
-//                    } catch (SQLException e2)
-//                    {
-//                        sLog.error("Unable to rollback the failed log of ExecutionFlow.", e);
-//                    }
-//                }
-//            }
+            Session tPManager = (Session) HibernateManager.getSession();
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tPManager);
+            int tId = tDao.insertFullExecutionFlow(mExecutionFlowToLog);
+            if (mAutoflush)
+            {
+                tPManager.flush();
+            }
+            sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog);
         }
-
     }
 
     /**
-     * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlow)
+     * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlowPO)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlowDTO pFlow)
+    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
     {
         return new AsynchroneJdbcLoggerRunnable(pFlow);
     };

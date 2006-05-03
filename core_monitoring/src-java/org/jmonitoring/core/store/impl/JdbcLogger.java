@@ -5,14 +5,7 @@ package org.jmonitoring.core.store.impl;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.IStoreReader;
 import org.jmonitoring.core.store.IStoreWriter;
 
@@ -29,9 +22,9 @@ public class JdbcLogger implements IStoreReader, IStoreWriter
      * (non-Javadoc)
      * 
      * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
-     *      org.jmonitoring.core.dto.ExecutionFlow)
+     *      ExecutionFlowPO)
      */
-    public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)
+    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
 
 //        Connection tConnection = null;
@@ -39,7 +32,7 @@ public class JdbcLogger implements IStoreReader, IStoreWriter
 //        {
 //
 //            tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-//            new ExecutionFlowMySqlDAO(tConnection).insertFullExecutionFlow(pExecutionFlow);
+//            new ExecutionFlowDAO(tConnection).insertFullExecutionFlow(pExecutionFlow);
 //            tConnection.commit();
 //
 //        } catch (SQLException e)

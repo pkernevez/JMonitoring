@@ -62,18 +62,6 @@ public final class Configuration
 
     private ThreadLocal mDateBaseFormater = new ThreadLocal();
 
-    /** Database driver class name. */
-    private String mJdbcDriverClass;
-
-    /** Database URL. */
-    private String mJdbcUrl;
-
-    /** Used only with StandAlone Logger. */
-    private String mJdbcUser;
-
-    /** Used only with StandAlone Logger. */
-    private String mJdbcPassword;
-
     /** List of group's colors. */
     private Map mGroupColor;
 
@@ -95,10 +83,6 @@ public final class Configuration
             mDateFormat = tConfig.getString("format.ihm.date", "dd/MM/yy");
             mTimeFormat = tConfig.getString("format.ihm.time", "HH:mm:ss.SSS");
             mDateTimeFormat = mDateFormat + " " + mTimeFormat;
-            mJdbcDriverClass = tConfig.getString("jdbc.driver.class", "com.mysql.jdbc.Driver");
-            mJdbcUrl = tConfig.getString("jdbc.url", "jdbc:mysql://localhost:3306/monitoring");
-            mJdbcUser = tConfig.getString("jdbc.user", "root");
-            mJdbcPassword = tConfig.getString("jdbc.password", "mysql");
 
             mAsynchroneStoreThreadPoolSize = tConfig.getInt("asynchronelogger.threadpool.size", 1);
 
@@ -343,46 +327,6 @@ public final class Configuration
     public boolean getLogMethodParameter()
     {
         return mLogMethodParameter;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @return The database URL.
-     */
-    public String getJdbcUrl()
-    {
-        return mJdbcUrl;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @return The database user.
-     */
-    public String getJdbcUser()
-    {
-        return mJdbcUser;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @return The database password.
-     */
-    public String getJdbcPassword()
-    {
-        return mJdbcPassword;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @return The database driver class.
-     */
-    public String getJdbcDriverClass()
-    {
-        return mJdbcDriverClass;
     }
 
     /**

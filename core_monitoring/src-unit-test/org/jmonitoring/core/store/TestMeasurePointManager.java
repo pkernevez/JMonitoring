@@ -1,8 +1,8 @@
-package org.jmonitoring.core.dto;
+package org.jmonitoring.core.store;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.dao.TestExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.utils.AspectLoggerEmulator;
@@ -20,18 +20,6 @@ public class TestMeasurePointManager extends TestCase
 
     private static final int TIME_TO_WAIT = 1000;
 
-    /**
-     * Test MeasureCount.
-     */
-    public void testMeasureCount()
-    {
-        ExecutionFlowDTO tFlow = DtoHelper.getExecutionFlowDto(TestExecutionFlowMySqlDAO.buildNewFullFlow());
-        assertEquals(2 + 1, tFlow.getMeasureCount());
-        MethodCallDTO curMeasure = tFlow.getFirstMeasure();
-        assertEquals(2 + 1, curMeasure.getSubMeasureCount());
-        curMeasure = (MethodCallDTO) curMeasure.getChildren().get(1);
-        assertEquals(1, curMeasure.getSubMeasureCount());
-    }
 
     private void callOneExecutionFlow() throws InterruptedException
     {

@@ -16,8 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.MethodCallPO;
 import org.jmonitoring.core.store.IStoreWriter;
 
 /**
@@ -179,16 +179,16 @@ public class XmlFileLogger implements IStoreWriter
      * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
      *      org.jmonitoring.core.dto.ExecutionFlow)
      */
-    public void writeExecutionFlow(ExecutionFlowDTO pExecutionFlow)
+    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
         mCurrentBuffer = new StringBuffer();
         mCurrentBuffer.append("<Thread name=\"").append(pExecutionFlow.getThreadName());
         mCurrentBuffer.append("\" server=\"").append(pExecutionFlow).append("\" duration=\"");
-        mCurrentBuffer.append(pExecutionFlow.getEndTime() - pExecutionFlow.getBeginDate());
+        mCurrentBuffer.append(pExecutionFlow.getEndTime() - pExecutionFlow.getBeginTime());
         mCurrentBuffer.append("\" startTime=\"");
-        mCurrentBuffer.append(sConfiguration.getDateTimeFormater().format(new Date(pExecutionFlow.getBeginDate())));
+        mCurrentBuffer.append(sConfiguration.getDateTimeFormater().format(new Date(pExecutionFlow.getBeginTime())));
         mCurrentBuffer.append("\" >\n");
-        fillStringBuffer(pExecutionFlow.getFirstMeasure());
+        fillStringBuffer(pExecutionFlow.getFirstMethodCall());
         mCurrentBuffer.append("</Thread>");
         writeToFile(mCurrentBuffer.toString());
         // On libère la mémoire
@@ -203,39 +203,39 @@ public class XmlFileLogger implements IStoreWriter
      * 
      * @param pExecutionFlow La racine courante de l'arbre à logger.
      */
-    private void fillStringBuffer(MethodCallDTO pCurrentMeasurePoint)
+    private void fillStringBuffer(MethodCallPO pCurrentMethodCall)
     {
         mCurrentBuffer.append("<Execution ");
-        mCurrentBuffer.append("class=\"").append(pCurrentMeasurePoint.getClassName()).append("\" ");
-        mCurrentBuffer.append("method=\"").append(pCurrentMeasurePoint.getMethodName()).append("\" ");
+        mCurrentBuffer.append("class=\"").append(pCurrentMethodCall.getClassName()).append("\" ");
+        mCurrentBuffer.append("method=\"").append(pCurrentMethodCall.getMethodName()).append("\" ");
         mCurrentBuffer.append("duration=\"");
-        mCurrentBuffer.append(pCurrentMeasurePoint.getEndTime() - pCurrentMeasurePoint.getBeginTime());
+        mCurrentBuffer.append(pCurrentMethodCall.getEndTime() - pCurrentMethodCall.getBeginTime());
         mCurrentBuffer.append("\" ").append("startTime=\"");
         DateFormat tFormat = sConfiguration.getDateTimeFormater();
-        mCurrentBuffer.append(tFormat.format(new Date(pCurrentMeasurePoint.getBeginTime())));
+        mCurrentBuffer.append(tFormat.format(new Date(pCurrentMethodCall.getBeginTime())));
         mCurrentBuffer.append("\" ");
         if (sConfiguration.getLogMethodParameter())
         { // On log tous les paramètres
-            mCurrentBuffer.append("parameter=\"").append(pCurrentMeasurePoint.getParams()).append("\" ");
-            if (pCurrentMeasurePoint.getThrowableClassName() == null)
+            mCurrentBuffer.append("parameter=\"").append(pCurrentMethodCall.getParams()).append("\" ");
+            if (pCurrentMethodCall.getThrowableClass() == null)
             { // Le retour de cette méthode s'est bien passé
-                if (pCurrentMeasurePoint.getReturnValue() == null)
+                if (pCurrentMethodCall.getReturnValue() == null)
                 { // Méthode de type 'void'
                     mCurrentBuffer.append("result=\"void\" ");
                 } else
                 { // On log le retour
-                    mCurrentBuffer.append("result=\"").append(pCurrentMeasurePoint.getReturnValue()).append("\" ");
+                    mCurrentBuffer.append("result=\"").append(pCurrentMethodCall.getReturnValue()).append("\" ");
                 }
             } else
             { // On log l'exception
-                mCurrentBuffer.append("throwable=\"").append(pCurrentMeasurePoint.getThrowableClassName())
+                mCurrentBuffer.append("throwable=\"").append(pCurrentMethodCall.getThrowableClass())
                                 .append("\" ");
-                mCurrentBuffer.append("throwableMessage=\"").append(pCurrentMeasurePoint.getThrowableMessage()).append(
+                mCurrentBuffer.append("throwableMessage=\"").append(pCurrentMethodCall.getThrowableMessage()).append(
                                 "\" ");
             }
         } else
         { // On log que le type de retour
-            if (pCurrentMeasurePoint.getThrowableClassName() == null)
+            if (pCurrentMethodCall.getThrowableClass() == null)
             { // Le retour de cette méthode s'est bien passé
                 mCurrentBuffer.append("returnType=\"Ok\"");
             } else
@@ -246,10 +246,10 @@ public class XmlFileLogger implements IStoreWriter
         mCurrentBuffer.append(">\n");
 
         // On fait le recusrif sur les children
-        MethodCallDTO curChild;
-        for (Iterator tChildIterator = pCurrentMeasurePoint.getChildren().iterator(); tChildIterator.hasNext();)
+        MethodCallPO curChild;
+        for (Iterator tChildIterator = pCurrentMethodCall.getChildren().iterator(); tChildIterator.hasNext();)
         {
-            curChild = (MethodCallDTO) tChildIterator.next();
+            curChild = (MethodCallPO) tChildIterator.next();
             fillStringBuffer(curChild);
         }
 

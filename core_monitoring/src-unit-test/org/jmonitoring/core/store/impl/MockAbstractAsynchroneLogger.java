@@ -2,7 +2,7 @@ package org.jmonitoring.core.store.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -71,9 +71,9 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
     }
 
     /**
-     * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlow)
+     * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlowPO)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlowDTO pFlow)
+    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
     {
         incrementNbPublish();
         return new MockRunnable();

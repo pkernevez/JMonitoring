@@ -9,11 +9,6 @@ import java.text.ParseException;
 import java.util.Date;
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCallDTO;
-import org.springframework.beans.BeanUtils;
-
-import sun.print.PSPrinterJob;
 
 /**
  * This instance is the entry of a flow. It has a list of MethodCallDTO and some properties.

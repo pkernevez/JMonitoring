@@ -2,8 +2,8 @@ package org.jmonitoring.core.utils;
 
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.MeasurePointManager;
 import org.jmonitoring.core.store.IStoreWriter;
+import org.jmonitoring.core.store.MeasurePointManager;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
