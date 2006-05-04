@@ -38,7 +38,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
 
-        List tFlows = tFlowDAO.getListOfExecutionFlowDTO(new FlowSearchCriterion());
+        List tFlows = tFlowDAO.getListOfExecutionFlowPO(new FlowSearchCriterion());
         assertEquals(tExpectedResult + 3, tFlows.size());
 
     }
@@ -54,13 +54,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         tCriterion.setThreadName("rr");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setThreadName("TEST-main");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setThreadName("TEST");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
     }
 
     public void testGetListOfExecutionFlowWithDurationMin()
@@ -69,11 +69,11 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
 
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-        tCriterion.setDurationMin(10);
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        tCriterion.setDurationMin(new Long(10));
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
-        tCriterion.setDurationMin(25);
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        tCriterion.setDurationMin(new Long(25));
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
     }
 
     public void testGetListOfExecutionFlowWithBeginDate()
@@ -89,15 +89,15 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         // Today
         tCriterion.setBeginDate(tToday);
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         // Yesterday
         tCriterion.setBeginDate(new Date(tToday.getTime() - ExecutionFlowDAO.ONE_DAY));
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         // Tomorrow
         tCriterion.setBeginDate(new Date(tToday.getTime() + ExecutionFlowDAO.ONE_DAY));
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
     }
 
     public void testGetListOfExecutionFlowWithGroupName()
@@ -108,13 +108,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         tCriterion.setGroupName("GrDefault");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setGroupName("GrDefa");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setGroupName("toto");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
         // Todo : groupName, className et methodName
     }
 
@@ -126,13 +126,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         String tClassName = TestExecutionFlowDAO.class.getName();
         tCriterion.setClassName(tClassName);
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setClassName(tClassName.substring(0, 3));
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setClassName("toto");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
         // Todo : groupName, className et methodName
     }
 
@@ -144,13 +144,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
 
         tCriterion.setMethodName("builNewFullFlow");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setMethodName("builNewFull");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
 
         tCriterion.setMethodName("toto");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowDTO(tCriterion).size());
+        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
     }
 
     public void testCountOk() throws SQLException

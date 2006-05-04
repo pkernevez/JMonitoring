@@ -5,7 +5,6 @@ package org.jmonitoring.console.flow;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,16 +13,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.FlowSearchCriterion;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
-
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.FlowSearchCriterion;
+import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * @author pke
@@ -44,33 +41,14 @@ public class FlowSearchAction extends Action
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse) throws Exception
     {
-        Connection tConnection = null;
-        try
-        {
-            List tList = new ArrayList();
-            FlowSearchForm tForm = (FlowSearchForm) pForm;
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        List tList = new ArrayList();
+        FlowSearchForm tForm = (FlowSearchForm) pForm;
 
-            FlowSearchCriterion tCriterion = copyBeanFormToCriterion(tForm);
+        FlowSearchCriterion tCriterion = copyBeanFormToCriterion(tForm);
 
-            tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
-            ExecutionFlowDTO[] tFlows = tDao.getListOfExecutionFlowDTO(tCriterion);
-
-            tConnection.commit();
-            for (int i = 0; i < tFlows.length; i++)
-            {
-                tList.add(tFlows[i]);
-            }
-
-            ((FlowSearchForm) pForm).setListOfFlows(tList);
-            return pMapping.findForward("success");
-        } finally
-        {
-            if (tConnection != null)
-            {
-                tConnection.close();
-            }
-        }
+        ((FlowSearchForm) pForm).setListOfFlows(tProcess.getListOfDto(tCriterion));
+        return pMapping.findForward("success");
     }
 
     static FlowSearchCriterion copyBeanFormToCriterion(FlowSearchForm pForm) throws ParseException
@@ -80,8 +58,7 @@ public class FlowSearchAction extends Action
         Date tBeginDate = null;
         if (pForm.getBeginDate() != null && pForm.getBeginDate().length() != 0)
         {
-            tBeginDate = new Date(Configuration.getInstance().getDateFormater().parse(pForm.getBeginDate())
-                            .getTime());
+            tBeginDate = new Date(Configuration.getInstance().getDateFormater().parse(pForm.getBeginDate()).getTime());
             tResult.setBeginDate(tBeginDate);
         }
         Date tBeginTime = null;
@@ -96,9 +73,9 @@ public class FlowSearchAction extends Action
             tResult.setDurationMin(new Long(pForm.getDurationMin()));
         }
         tResult.setJVM(pForm.getJVM());
-        tResult.setFirstMeasureClassName(pForm.getFirstMeasureClassName());
-        tResult.setFirstMeasureMethodName(pForm.getFirstMeasureMethodName());
-        tResult.setFirstMeasureGroupName(pForm.getFirstMeasureGroupName());
+        tResult.setClassName(pForm.getFirstMeasureClassName());
+        tResult.setMethodName(pForm.getFirstMeasureMethodName());
+        tResult.setGroupName(pForm.getFirstMeasureGroupName());
         return tResult;
     }
 }

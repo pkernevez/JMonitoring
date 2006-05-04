@@ -5,9 +5,10 @@
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.measurepoint.MeasurePointForm"%>
 <%@page import="org.jmonitoring.core.configuration.Configuration"%>
-<%@page import="org.jmonitoring.core.dao.StandAloneConnectionManager"%>
-<%@page import="org.jmonitoring.core.dao.ExecutionFlowMySqlDAO"%>
+<%@page import="org.jmonitoring.core.dao.ExecutionFlowDAO"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="org.jmonitoring.core.persistence.HibernateManager"%>
+
 
 <!-- Begin Body -->
 <h1>MeasurePoint Details</h1>
@@ -15,7 +16,7 @@
 <%
 	MeasurePointForm tForm = (MeasurePointForm)request.getAttribute("measurepointform");
 	Connection tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-    ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
+    ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession().connection());
 	tForm.setMeasurePoint( tDao.readFullMethodCall( tForm.getFlowId(), tForm.getSequenceId() ) );
 %>
 

@@ -11,8 +11,8 @@
         <!-- properties -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
         <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
-        <!-- property name="connection.url">jdbc:hsqldb:mem:&#163;sadta</property-->
-        <property name="connection.url">jdbc:hsqldb:hsql://localhost/jmonitoring/</property>
+        <property name="connection.url">jdbc:hsqldb:mem:&#163;sadta</property>
+        <!-- property name="connection.url">jdbc:hsqldb:hsql://localhost/jmonitoring/</property-->
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>
 	    <!-- property name="connection.autocommit">true</property-->
@@ -42,7 +42,6 @@
 		<!-- mapping files -->
 		<mapping resource="org/jmonitoring/core/persistence/ExecutionFlowPO.hbm.xml"/>
         <mapping resource="org/jmonitoring/core/persistence/MethodCallPO.hbm.xml"/>
-        <mapping resource="org/jmonitoring/core/persistence/Category.hbm.xml"/>
 		
     </session-factory>
 

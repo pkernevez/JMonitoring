@@ -147,11 +147,11 @@ public class FlowUtil
         {
             curPoint = (MethodCallDTO) pMeasure.getChildren().get(i);
             addTimeWith(curPoint);
-            tChildDuration = tChildDuration + (curPoint.getEndTime() - curPoint.getBeginTime());
+            tChildDuration = tChildDuration + (curPoint.getEndTime().getTime() - curPoint.getBeginTime().getTime());
         }
         String tGroupName = pMeasure.getGroupName();
         Long tDuration = (Long) mListOfGroup.get(tGroupName);
-        long tLocalDuration = pMeasure.getEndTime() - pMeasure.getBeginTime() - tChildDuration;
+        long tLocalDuration = pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime() - tChildDuration;
         if (tDuration != null)
         { // On ajoute la durée en cours
             long tLong = tDuration.longValue();

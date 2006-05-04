@@ -18,10 +18,18 @@ public final class DtoHelper
     {
     }
 
-    public static ExecutionFlowDTO getExecutionFlowDto(ExecutionFlowPO pFlowPO)
+    public static ExecutionFlowDTO getSimpleCopy(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = new ExecutionFlowDTO();
-        BeanUtils.copyProperties(pFlowPO, tResult, new String[] {"firstMeasure" });
+        BeanUtils.copyProperties(pFlowPO, tResult, new String[] {"firstMethodCall","beginTime", "endTime" });
+        tResult.setBeginTime(new Date(pFlowPO.getBeginTime()));
+        tResult.setEndTime(new Date(pFlowPO.getEndTime()));
+        return tResult;
+    }
+
+    public static ExecutionFlowDTO getDeepCopy(ExecutionFlowPO pFlowPO)
+    {
+        ExecutionFlowDTO tResult = getSimpleCopy(pFlowPO);
         tResult.setFirstMethodCall(getMethodCallDto(pFlowPO.getFirstMethodCall()));
         return tResult;
     }

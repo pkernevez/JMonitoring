@@ -8,14 +8,12 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
-
 import org.apache.commons.beanutils.RowSetDynaClass;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmonitoring.core.persistence.HibernateManager;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -44,6 +42,9 @@ public class MeasurePointListAction extends Action
         return pMapping.findForward("success");
     }
 
+    /**
+     * @todo refactore this code.
+     */
     private RowSetDynaClass getMeasure(MeasurePointListForm pForm) throws SQLException
     {
         Connection tConnection = null;
@@ -52,7 +53,7 @@ public class MeasurePointListAction extends Action
         RowSetDynaClass tDynaResultSet;
         try
         {
-            tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
+            tConnection = HibernateManager.getSession().connection();
             //tStmt = tConnection.createStatement();
             tStmt = tConnection.prepareStatement("SELECT M.FLOW_ID, E.THREAD_NAME, E.DURATION"
                             + " AS FLOW_DURATION, E.BEGIN_TIME_AS_DATE, E.JVM, M.SEQUENCE_ID,"

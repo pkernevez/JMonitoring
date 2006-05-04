@@ -17,7 +17,7 @@ public class TestExecutionFlowDTO extends TestCase
      */
     public void testMeasureCount()
     {
-        ExecutionFlowDTO tFlow = DtoHelper.getExecutionFlowDto(TestExecutionFlowDAO.buildNewFullFlow());
+        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
         assertEquals(2 + 1, tFlow.getMeasureCount());
         MethodCallDTO curMeasure = tFlow.getFirstMethodCall();
         assertEquals(2 + 1, curMeasure.getSubMeasureCount());

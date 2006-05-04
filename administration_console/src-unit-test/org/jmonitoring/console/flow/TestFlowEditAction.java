@@ -1,5 +1,7 @@
 package org.jmonitoring.console.flow;
 
+import java.sql.Date;
+
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.dto.MethodCallDTO;
@@ -22,25 +24,49 @@ public class TestFlowEditAction extends TestCase
     {
         MethodCallDTO tPoint, curPoint;
         long tCurrentTime = System.currentTimeMillis();
-        tPoint = new MethodCallDTO(null, TestFlowEditAction.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
-        tPoint.setBeginTime(tCurrentTime);
-        tPoint.setEndTime(tCurrentTime + 2 + 2 + 1); //Duration=5
+        tPoint = new MethodCallDTO();
+        tPoint.setParent(null);
+        tPoint.setClassName( TestFlowEditAction.class.getName());
+        tPoint.setMethodName( "builNewFullFlow");
+        tPoint.setGroupName( "GrDefault");
+        tPoint.setParams("[]");
+        tPoint.setBeginTime(new Date(tCurrentTime));
+        tPoint.setEndTime(new Date(tCurrentTime + 2 + 2 + 1)); //Duration=5
+        
         //This local variable is indireclty used by its parent
-        curPoint = new MethodCallDTO(tPoint, TestFlowEditAction.class.getName(), "builNewFullFlow2", "GrChild1",
-                        new Object[0]);
-        curPoint.setBeginTime(tCurrentTime);
-        curPoint.setEndTime(tCurrentTime + 2); //Duration=2
+        curPoint = new MethodCallDTO();
+        curPoint.setParent(tPoint);
+        tPoint.addChildren(curPoint);
+        curPoint.setClassName( TestFlowEditAction.class.getName());
+        curPoint.setMethodName( "builNewFullFlow2");
+        curPoint.setGroupName( "GrChild1");
+        curPoint.setParams("[]");
+        curPoint.setBeginTime(new Date(tCurrentTime));
+        curPoint.setEndTime(new Date(tCurrentTime + 2)); //Duration=2
+        
         //This local variable is indireclty used by its parent
-        curPoint = new MethodCallDTO(tPoint, TestFlowEditAction.class.getName(), "builNewFullFlow2", "GrChild2",
-                        new Object[0]);
-        curPoint.setBeginTime(tCurrentTime);
-        curPoint.setEndTime(tCurrentTime + 2 + 1); //Duration=3
+        curPoint = new MethodCallDTO();
+        curPoint.setParent(tPoint);
+        tPoint.addChildren(curPoint);
+        curPoint.setClassName( TestFlowEditAction.class.getName());
+        curPoint.setMethodName( "builNewFullFlow2");
+        curPoint.setGroupName( "GrChild2");
+        curPoint.setParams("[]");
+        curPoint.setBeginTime(new Date(tCurrentTime));
+        curPoint.setEndTime(new Date(tCurrentTime + 2 + 1)); //Duration=3
+        
         //This local variable is indireclty used by its parent
-        curPoint = new MethodCallDTO(curPoint, TestFlowEditAction.class.getName(), "builNewFullFlow3",
-                        "GrChild2_1", new Object[0]);
-        curPoint.setBeginTime(tCurrentTime);
-        curPoint.setEndTime(tCurrentTime + 1); //Duration=1
+        MethodCallDTO tOldPoint = curPoint;
+        curPoint = new MethodCallDTO();
+        curPoint.setParent(tOldPoint);
+        tOldPoint.addChildren(curPoint);
+        curPoint.setClassName( TestFlowEditAction.class.getName());
+        curPoint.setMethodName( "builNewFullFlow3");
+        curPoint.setGroupName( "GrChild2_1");
+        curPoint.setParams("[]");
+        curPoint.setBeginTime(new Date(tCurrentTime));
+        curPoint.setEndTime(new Date(tCurrentTime + 1)); //Duration=1
+        
         return tPoint;
     }
 

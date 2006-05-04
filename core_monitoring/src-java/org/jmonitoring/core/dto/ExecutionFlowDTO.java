@@ -27,10 +27,10 @@ public class ExecutionFlowDTO
     private String mJvmIdentifier;
 
     /** Begin datetime. */
-    private long mBeginTime;
+    private Date mBeginTime;
 
     /** End datetime. */
-    private long mEndTime;
+    private Date mEndTime;
 
     /** Technical identifier. */
     private int mId;
@@ -57,8 +57,8 @@ public class ExecutionFlowDTO
         mId = pId;
         mThreadName = pThreadName;
         mJvmIdentifier = pJVMIdentifier;
-        mBeginTime = pBeginTime;
-        mEndTime = pEndTime;
+        mBeginTime = new Date(pBeginTime);
+        mEndTime = new Date(pEndTime);
     }
 
 //    /**
@@ -144,7 +144,7 @@ public class ExecutionFlowDTO
      * 
      * @return The begin time of the firts measure.
      */
-    public long getBeginTime()
+    public Date getBeginTime()
     {
         return mBeginTime;
     }
@@ -154,7 +154,7 @@ public class ExecutionFlowDTO
      * 
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginTime(long pBeginTime)
+    public void setBeginTime(Date pBeginTime)
     {
         mBeginTime = pBeginTime;
     }
@@ -166,7 +166,7 @@ public class ExecutionFlowDTO
      */
     public String getBeginDateAsString()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(new Date(mBeginTime));
+        return Configuration.getInstance().getDateTimeFormater().format(mBeginTime);
     }
 
     /**
@@ -177,7 +177,7 @@ public class ExecutionFlowDTO
      */
     public void setBeginDateAsString(String pBeginTime) throws ParseException
     {
-        mBeginTime = Configuration.getInstance().getDateTimeFormater().parse(pBeginTime).getTime();
+        mBeginTime = Configuration.getInstance().getDateTimeFormater().parse(pBeginTime);
     }
 
     /**
@@ -185,7 +185,7 @@ public class ExecutionFlowDTO
      * 
      * @return The end time of the first measure.
      */
-    public long getEndTime()
+    public Date getEndTime()
     {
         return mEndTime;
     }
@@ -195,7 +195,7 @@ public class ExecutionFlowDTO
      * 
      * @param pEndTime The mEndTime to set.
      */
-    public void setEndTime(long pEndTime)
+    public void setEndTime(Date pEndTime)
     {
         mEndTime = pEndTime;
     }
@@ -207,7 +207,7 @@ public class ExecutionFlowDTO
      */
     public String getEndTimeAsString()
     {
-        return Configuration.getInstance().getTimeFormater().format(new Date(mEndTime));
+        return Configuration.getInstance().getTimeFormater().format(mEndTime);
     }
 
     /**
@@ -216,7 +216,7 @@ public class ExecutionFlowDTO
      */
     public void setEndTimeAsString(String pEndTime) throws ParseException
     {
-        mEndTime = Configuration.getInstance().getTimeFormater().parse(pEndTime).getTime();
+        mEndTime = Configuration.getInstance().getTimeFormater().parse(pEndTime);
     }
 
     /**
@@ -224,7 +224,7 @@ public class ExecutionFlowDTO
      */
     public long getDuration()
     {
-        return mEndTime - mBeginTime;
+        return mEndTime.getTime() - mBeginTime.getTime();
     }
 
     /**
@@ -232,7 +232,7 @@ public class ExecutionFlowDTO
      */
     public String getDurationAsString()
     {
-        return "" + (mEndTime - mBeginTime);
+        return "" + (mEndTime.getTime() - mBeginTime.getTime());
     }
 
     /**

@@ -207,25 +207,6 @@ public class ExecutionFlowPO
     }
 
     /**
-     * Delegator.
-     * 
-     * @return The end time of the first measure.
-     */
-    public String getEndTimeAsString()
-    {
-        return Configuration.getInstance().getTimeFormater().format(new Date(mEndTime));
-    }
-
-    /**
-     * @param pEndTime The mEndTime to set.
-     * @throws ParseException If the time is not valid.
-     */
-    public void setEndTimeAsString(String pEndTime) throws ParseException
-    {
-        mEndTime = Configuration.getInstance().getTimeFormater().parse(pEndTime).getTime();
-    }
-
-    /**
      * @return The duration of the first measure execution in milliseconds.
      */
     public long getDuration()
@@ -240,14 +221,6 @@ public class ExecutionFlowPO
     public void setDuration(long pDuration)
     {
 
-    }
-
-    /**
-     * @return The duration of the first measure execution in milliseconds.
-     */
-    public String getDurationAsString()
-    {
-        return "" + (mEndTime - mBeginTime);
     }
 
     /**

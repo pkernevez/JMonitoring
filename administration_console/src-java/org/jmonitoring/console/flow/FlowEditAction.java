@@ -11,20 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil;
-import org.jmonitoring.console.flow.jfreechart.FlowUtil;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCallDTO;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil;
+import org.jmonitoring.console.flow.jfreechart.FlowUtil;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * @author pke
@@ -34,17 +37,13 @@ import org.apache.struts.action.ActionMapping;
  */
 public class FlowEditAction extends Action
 {
-    private static Log sLog;
+    private static Log sLog = LogFactory.getLog(FlowEditAction.class);
 
     /**
      * Default constructor.
      */
     public FlowEditAction()
     {
-        if (sLog == null)
-        {
-            sLog = LogFactory.getLog(this.getClass());
-        }
     }
 
     /**
@@ -63,51 +62,36 @@ public class FlowEditAction extends Action
                     HttpServletResponse pResponse) throws Exception
     {
 
-        Connection tConnection = null;
         ActionForward tForward;
-        try
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        // List tList = new ArrayList();
+        FlowEditForm tForm = (FlowEditForm) pForm;
+        sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
+        ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tForm.getId());
+        sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
+        int tNbMeasure = tFlow.getMeasureCount();
+        tForm.setExecutionFlow(tFlow);
+        if ((tNbMeasure > MAX_FLOW_TO_SHOW) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
         {
-            // List tList = new ArrayList();
-            FlowEditForm tForm = (FlowEditForm) pForm;
-            sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
-            tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
-            ExecutionFlowDTO tFlow = tDao.readFullExecutionFlowDTO(tForm.getId());
-            sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
-            int tNbMeasure = tFlow.getMeasureCount();
-            tForm.setExecutionFlow(tFlow);
-            if ((tNbMeasure > MAX_FLOW_TO_SHOW) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
+            sLog.debug("Need more information to know if we can displayed the next screen...");
+            tForward = pMapping.findForward("required_info");
+        } else
+        {
+            sLog.debug("Need more information to know if we can displayed the next screen...");
+            MethodCallDTO tFirstMeasure = tFlow.getFirstMethodCall();
+            // Creation of the associated images.
+            HttpSession tSession = pRequest.getSession();
+            sLog.debug("Write PieCharts into HttpSession");
+            FlowUtil.writeImageIntoSession(tSession, tFirstMeasure);
+            sLog.debug("Write GantBarChart into HttpSession");
+            FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure);
+            if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
             {
-                sLog.debug("Need more information to know if we can displayed the next screen...");
-                tForward = pMapping.findForward("required_info");
-            } else
-            {
-                sLog.debug("Need more information to know if we can displayed the next screen...");
-                MethodCallDTO tFirstMeasure = tFlow.getFirstMeasure();
-                //Creation of the associated images.
-                HttpSession tSession = pRequest.getSession();
-                sLog.debug("Write PieCharts into HttpSession");
-                FlowUtil.writeImageIntoSession(tSession, tFirstMeasure);
-                sLog.debug("Write GantBarChart into HttpSession");
-                FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure);
-                if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
-                {
-                    sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());
-                    limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
-                }
-                sLog.debug("Forward success.");
-                tForward = pMapping.findForward("success");
+                sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());
+                limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
             }
-        } catch (Throwable t)
-        {
-            LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
-            tForward = pMapping.findForward("failure");
-        } finally
-        {
-            if (tConnection != null)
-            {
-                tConnection.close();
-            }
+            sLog.debug("Forward success.");
+            tForward = pMapping.findForward("success");
         }
         return tForward;
     }

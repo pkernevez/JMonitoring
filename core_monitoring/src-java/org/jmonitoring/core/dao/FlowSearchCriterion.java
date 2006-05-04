@@ -1,6 +1,7 @@
 package org.jmonitoring.core.dao;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -21,7 +22,7 @@ public class FlowSearchCriterion
     private Date mBeginDate;
 
     /** @todo menage End date/time. */
-//    private Date mBeginTimeMin;
+    private Date mBeginTimeMin;
 
     /** Duration. */
     private Long mDurationMin;
@@ -41,7 +42,7 @@ public class FlowSearchCriterion
     /**
      * @return Returns the firstMeasureClassName.
      */
-    public String getFirstMeasureClassName()
+    public String getClassName()
     {
         return mFirstMeasureClassName;
     }
@@ -57,7 +58,7 @@ public class FlowSearchCriterion
     /**
      * @return Returns the firstMeasureGroupName.
      */
-    public String getFirstMeasureGroupName()
+    public String getGroupName()
     {
         return mFirstMeasureGroupName;
     }
@@ -73,7 +74,7 @@ public class FlowSearchCriterion
     /**
      * @return Returns the firstMeasureMethodName.
      */
-    public String getFirstMeasureMethodName()
+    public String getMethodName()
     {
         return mFirstMeasureMethodName;
     }
@@ -129,7 +130,7 @@ public class FlowSearchCriterion
     /**
      * @param pBeginDate The beginDate to set.
      */
-    public void setBeginDate(java.util.Date pBeginDate)
+    public void setBeginDate(Date pBeginDate)
     {
         mBeginDate = new Date(pBeginDate.getTime());
     }
@@ -138,19 +139,19 @@ public class FlowSearchCriterion
      * @todo menage
      * @return Returns the beginTime.
      */
-//    public Date getBeginTimeMin()
-//    {
-//        return mBeginTimeMin;
-//    }
+    public Date getBeginTimeMin()
+    {
+        return mBeginTimeMin;
+    }
 
     /**
      * @todo menage
      * @param pBeginTimeMin The beginTime to set.
      */
-//    public void setBeginTimeMin(java.util.Date pBeginTimeMin)
-//    {
-//        mBeginTimeMin = new Date(pBeginTimeMin.getTime());
-//    }
+    public void setBeginTimeMin(java.util.Date pBeginTimeMin)
+    {
+        mBeginTimeMin = new Date(pBeginTimeMin.getTime());
+    }
 
     /**
      * @return Returns the duration.
@@ -163,8 +164,8 @@ public class FlowSearchCriterion
     /**
      * @param pDuration The duration to set.
      */
-    public void setDurationMin(long pDuration)
+    public void setDurationMin(Long pDuration)
     {
-        mDurationMin = new Long(pDuration);
+        mDurationMin = pDuration;
     }
 }

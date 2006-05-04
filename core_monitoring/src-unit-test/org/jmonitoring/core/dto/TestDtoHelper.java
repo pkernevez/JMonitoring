@@ -14,7 +14,7 @@ public class TestDtoHelper extends TestCase
 {
     public void testGetExecutionFlowDto()
     {
-        ExecutionFlowDTO tFlow = DtoHelper.getExecutionFlowDto(TestExecutionFlowDAO.buildNewFullFlow());
+        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
         assertEquals("TEST-main", tFlow.getThreadName());
         assertEquals(-1, tFlow.getId());
         assertEquals("myJVM", tFlow.getJvmIdentifier());

@@ -37,9 +37,9 @@ public class TestFlowSearchAction extends TestCase
         assertEquals("27/09/05", Configuration.getInstance().getDateFormater().format(tCrit.getBeginDate()));
         assertEquals("11:30:34", Configuration.getInstance().getTimeFormater().format(tCrit.getBeginTimeMin()));
         assertEquals(new Long(2 + 1), tCrit.getDurationMin());
-        assertEquals(tForm.getFirstMeasureClassName(), tCrit.getFirstMeasureClassName());
-        assertEquals(tForm.getFirstMeasureGroupName(), tCrit.getFirstMeasureGroupName());
-        assertEquals(tForm.getFirstMeasureMethodName(), tCrit.getFirstMeasureMethodName());
+        assertEquals(tForm.getFirstMeasureClassName(), tCrit.getClassName());
+        assertEquals(tForm.getFirstMeasureGroupName(), tCrit.getGroupName());
+        assertEquals(tForm.getFirstMeasureMethodName(), tCrit.getMethodName());
         assertEquals(tForm.getJVM(), tCrit.getJVM());
         assertEquals(tForm.getThreadName(), tCrit.getThreadName());
 
@@ -47,13 +47,13 @@ public class TestFlowSearchAction extends TestCase
         tForm.setBeginTimeMin("");
         tCrit = FlowSearchAction.copyBeanFormToCriterion(tForm);
         assertNull(tCrit.getBeginDate());
-        assertNull(tCrit.getBeginTimeMin());
+        assertNull(tCrit.getBeginDate());
 
         tForm.setBeginDate(null);
         tForm.setBeginTimeMin(null);
         tCrit = FlowSearchAction.copyBeanFormToCriterion(tForm);
         assertNull(tCrit.getBeginDate());
-        assertNull(tCrit.getBeginTimeMin());
+        assertNull(tCrit.getBeginDate());
 
     }
 }

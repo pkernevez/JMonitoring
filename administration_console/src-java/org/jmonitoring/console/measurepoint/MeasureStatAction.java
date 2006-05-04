@@ -8,7 +8,6 @@ package org.jmonitoring.console.measurepoint;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +34,9 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.persistence.HibernateManager;
 
 /**
  * @author pke
@@ -81,8 +79,7 @@ public class MeasureStatAction extends Action
     {
         try
         {
-            Connection tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(null);
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession());
             if (!pForm.isParametersByName())
             { // First retreive className and methodName from the given MethodCallDTO
                 MethodCallDTO tOriginalMeasure = tDao.readMethodCall(pForm.getFlowId(), pForm.getSequenceId());
@@ -140,7 +137,7 @@ public class MeasureStatAction extends Action
             // Get duration max
             for (int i = 0; i < pMeasures.length; i++)
             {
-                curDuration = pMeasures[i].getEndTime() - pMeasures[i].getBeginTime();
+                curDuration = pMeasures[i].getEndTime().getTime() - pMeasures[i].getBeginTime().getTime();
                 if (curDuration > tDurationMax)
                 {
                     tDurationMax = curDuration;
@@ -218,7 +215,7 @@ public class MeasureStatAction extends Action
         long tDurationMax = 0;
         for (int i = 0; i < pMeasures.length; i++)
         {
-            tCurDuration = pMeasures[i].getEndTime() - pMeasures[i].getBeginTime();
+            tCurDuration = pMeasures[i].getEndTime().getTime() - pMeasures[i].getBeginTime().getTime();
             if (tCurDuration > tDurationMax)
             {
                 tDurationMax = tCurDuration;

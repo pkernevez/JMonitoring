@@ -79,34 +79,6 @@ public class ExecutionFlowDAO
         return pExecutionFlow.getId();
     }
 
-    // /**
-    // * Insert la liste des points de mesure en base.
-    // *
-    // * @param pCurrentMethodCall La racine courante de l'arbre à logger.
-    // * @param pThreadId L'identifiant du Thread à utiliser pour la clé technique.
-    // * @throws SQLException
-    // * @todo menage
-    // */
-    // private void insertMethodCallGraph(MethodCallPO pCurrentMethodCall, int pThreadId) throws SQLException
-    // {
-    // PreparedStatement tPStatement = null;
-    // try
-    // {
-    // pCurrentMethodCall
-    // //tPStatement = mConnection.prepareStatement(SQL_INSERT_METHOD_CALL);
-    // //addBatchStatementWithMethodCall(pCurrentMethodCall, tPStatement, pThreadId, -1, 0);
-    // // tPStatement.execute();
-    // //tPStatement.executeBatch();
-    // } finally
-    // {
-    // if (tPStatement != null)
-    // {
-    // tPStatement.close();
-    // }
-    // }
-    //
-    // }
-
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
 
     /**
@@ -116,22 +88,9 @@ public class ExecutionFlowDAO
      * @return The <code>ExecutionFlowDTO</code> list matching the criterion.
      * @throws SQLException If an exception occures.
      */
-    public List getListOfExecutionFlowDTO(FlowSearchCriterion pCriterion)
+    public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
     { // On construit la requête
 
-        // Statement tStat = mConnection.prepareStatement();
-
-        //
-        // Date tBeginTimeMin = pCriterion.getBeginTimeMin();
-        // if (tBeginTimeMin != null)
-        // {
-        // tBuilder.addTimeParam(SQL_SELECT_EXEC_FLOW_CLAUSE_BEGIN_TIME_MIN, tBeginTimeMin);
-        // }
-        // String tSql = tBuilder.getSqlQuery();
-        // SQLQuery tQuery = mPersistenceManager.createSQLQuery(tSql);
-        // //tQuery.
-        // List tList = tQuery.addEntity().list();
-        // return (ExecutionFlowDTO[]) tList.toArray(new ExecutionFlowDTO[tList.size()]);
 
         Criteria tCriteria = mPersistenceManager.createCriteria(ExecutionFlowPO.class);
         if (pCriterion.getThreadName() != null)
@@ -150,26 +109,26 @@ public class ExecutionFlowDAO
         }
 
         // Search with join on METHOD_CALL if class_name, group_name or method_name of the first method_call
-        String curString = pCriterion.getFirstMeasureClassName();
+        String curString = pCriterion.getClassName();
         boolean tNeedJoinOnMeasure = ((curString != null) && (curString.length() != 0));
-        curString = pCriterion.getFirstMeasureGroupName();
+        curString = pCriterion.getGroupName();
         tNeedJoinOnMeasure = (tNeedJoinOnMeasure || ((curString != null) && (curString.length() != 0)));
-        curString = pCriterion.getFirstMeasureMethodName();
+        curString = pCriterion.getMethodName();
         tNeedJoinOnMeasure = (tNeedJoinOnMeasure || ((curString != null) && (curString.length() != 0)));
         if (tNeedJoinOnMeasure)
         {
             Criteria tMethodCallCriteria = tCriteria.createCriteria("firstMethodCall");
-            String curCriteriaValue = pCriterion.getFirstMeasureClassName();
+            String curCriteriaValue = pCriterion.getClassName();
             if (curCriteriaValue != null)
             {
                 tMethodCallCriteria = tMethodCallCriteria.add(Restrictions.like("className", curCriteriaValue + "%"));
             }
-            curCriteriaValue = pCriterion.getFirstMeasureMethodName();
+            curCriteriaValue = pCriterion.getMethodName();
             if (curCriteriaValue != null)
             {
                 tMethodCallCriteria = tMethodCallCriteria.add(Restrictions.like("methodName", curCriteriaValue + "%"));
             }
-            curCriteriaValue = pCriterion.getFirstMeasureGroupName();
+            curCriteriaValue = pCriterion.getGroupName();
             if (curCriteriaValue != null)
             {
                 tMethodCallCriteria = tMethodCallCriteria.add(Restrictions.like("groupName", curCriteriaValue + "%"));

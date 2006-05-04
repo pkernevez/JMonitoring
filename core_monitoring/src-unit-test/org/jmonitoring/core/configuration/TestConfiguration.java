@@ -37,9 +37,9 @@ public class TestConfiguration extends TestCase
 //                            "D:/Developpement/OCTO/forge/jmonitoring/trunk/core_monitoring/bin/bean.xml");
 //            BeanFactory factory = new XmlBeanFactory(input);
 //            IConnectionManager tManager = (IConnectionManager) factory.getBean("ConnectionManager");
-            ApplicationContext tContext = new ClassPathXmlApplicationContext("bean.xml");
-            IConnectionManager tManager =  (IConnectionManager)tContext.getBean("ConnectionManager");
-            System.out.println(tManager.getClass().toString());
+//            ApplicationContext tContext = new ClassPathXmlApplicationContext("bean.xml");
+//            IConnectionManager tManager =  (IConnectionManager)tContext.getBean("ConnectionManager");
+//            System.out.println(tManager.getClass().toString());
         } catch (Throwable t)
         {
             t.printStackTrace();

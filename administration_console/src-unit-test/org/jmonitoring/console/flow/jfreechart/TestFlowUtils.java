@@ -24,26 +24,55 @@ public class TestFlowUtils extends TestCase
     private MethodCallDTO getSampleMeasurePoint()
     {
         MethodCallDTO tPoint;
-        long tRefDate = new Date().getTime();
-        tPoint = new MethodCallDTO(null, this.getClass().getName(), "builNewFullFlow", "GrDefault", new Object[0]);
+        Date tRefDate = new Date();
+        tPoint = new MethodCallDTO();
+        tPoint.setParent(null);
+        tPoint.setClassName(this.getClass().getName());
+        tPoint.setMethodName("builNewFullFlow");
+        tPoint.setGroupName("GrDefault");
+        tPoint.setParams("[]");
         tPoint.setBeginTime(tRefDate);
-        tPoint.setEndTime(tRefDate + 106);
-        MethodCallDTO tChild1 = new MethodCallDTO(tPoint, this.getClass().getName(), "builNewFullFlow2", "GrChild1",
-                        new Object[0]);
-        tChild1.setBeginTime(tRefDate + 2);
-        tChild1.setEndTime(tRefDate + 45);
-        MethodCallDTO tChild2 = new MethodCallDTO(tPoint, this.getClass().getName(), "builNewFullFlow3", "GrChild2",
-                        new Object[0]);
-        tChild2.setBeginTime(tRefDate + 48);
-        tChild2.setEndTime(tRefDate + 75);
-        MethodCallDTO tChild3 = new MethodCallDTO(tChild1, this.getClass().getName(), "builNewFullFlow4", "GrChild1",
-                        new Object[0]);
-        tChild3.setBeginTime(tRefDate + 5);
-        tChild3.setEndTime(tRefDate + 17);
-        MethodCallDTO tChild4 = new MethodCallDTO(tChild1, this.getClass().getName(), "builNewFullFlow4", "GrDefault",
-                        new Object[0]);
-        tChild4.setBeginTime(tRefDate + 23);
-        tChild4.setEndTime(tRefDate + 27);
+        tPoint.setEndTime(new Date(tRefDate.getTime() + 106));
+
+        MethodCallDTO tChild1 = new MethodCallDTO();
+        tChild1.setParent(tPoint);
+        tPoint.addChildren(tChild1);
+        tChild1.setClassName(this.getClass().getName());
+        tChild1.setMethodName("builNewFullFlow2");
+        tChild1.setGroupName("GrChild1");
+        tChild1.setParams("[]");
+        tChild1.setBeginTime(new Date(tRefDate.getTime() + 2));
+        tChild1.setEndTime(new Date(tRefDate.getTime() + 45));
+
+        MethodCallDTO tChild2 = new MethodCallDTO();
+        tChild2.setParent(tPoint);
+        tPoint.addChildren(tChild2);
+        tChild2.setClassName(this.getClass().getName());
+        tChild2.setMethodName("builNewFullFlow3");
+        tChild2.setGroupName("GrChild2");
+        tChild2.setParams("[]");
+        tChild2.setBeginTime(new Date(tRefDate.getTime() + 48));
+        tChild2.setEndTime(new Date(tRefDate.getTime() + 75));
+
+        MethodCallDTO tChild3 = new MethodCallDTO();
+        tChild3.setParent(tChild1);
+        tChild1.addChildren(tChild3);
+        tChild3.setClassName(this.getClass().getName());
+        tChild3.setMethodName("builNewFullFlow4");
+        tChild3.setGroupName("GrChild1");
+        tChild3.setParams("[]");
+        tChild3.setBeginTime(new Date(tRefDate.getTime() + 5));
+        tChild3.setEndTime(new Date(tRefDate.getTime() + 17));
+
+        MethodCallDTO tChild4 = new MethodCallDTO();
+        tChild4.setParent(tChild1);
+        tChild1.addChildren(tChild4);
+        tChild4.setClassName(this.getClass().getName());
+        tChild4.setMethodName("builNewFullFlow4");
+        tChild4.setGroupName("GrDefault");
+        tChild4.setParams("[]");
+        tChild4.setBeginTime(new Date(tRefDate.getTime() + 23));
+        tChild4.setEndTime(new Date(tRefDate.getTime() + 27));
         return tPoint;
     }
 

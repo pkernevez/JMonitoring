@@ -16,9 +16,9 @@ import java.util.StringTokenizer;
 
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.MeasureExtract;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
+import org.jmonitoring.core.persistence.HibernateManager;
 
 /**
  * Utility for image generation of the tree of measure as a menu.
@@ -43,6 +43,9 @@ public class MeasureMenuUtil
         mWriter = pWriter;
     }
 
+    /**
+     * @todo refactore this code; 
+     */
     private Map getTreeOfMeasure()
     {
         Connection tCon = null;
@@ -50,8 +53,7 @@ public class MeasureMenuUtil
         {
             try
             {
-                tCon = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-                ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tCon);
+                ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession());
                 List tListOfMeasure = tDao.getListOfMeasure();
                 return convertListAsTree(tListOfMeasure);
             } finally

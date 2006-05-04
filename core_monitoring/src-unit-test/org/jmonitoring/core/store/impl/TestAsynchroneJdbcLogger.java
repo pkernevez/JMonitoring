@@ -17,7 +17,7 @@ import org.jmonitoring.core.utils.AspectLoggerEmulator;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class FTestAsynchroneJdbcLogger extends PersistanceTestCase
+public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 {
     private static final int TIME_TO_WAIT = 1000;
 

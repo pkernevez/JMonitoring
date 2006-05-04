@@ -62,83 +62,7 @@ public class MethodCallDTO
 
     private static Log sLog;
 
-//    /**
-//     * Constructor used for Database, because original types are already converted to <code>String</code>.
-//     * 
-//     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current
-//     *        <code>MethodCallDTO</code>.
-//     * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-//     *        <code>MethodCallDTO</code>.
-//     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
-//     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
-//     * @param pParams The parameters serialized as <code>String</code> passed to the method <code>pMethodName</code>.
-//     */
-//    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName, String pParams)
-//    {
-//        if (sLog == null)
-//        {
-//            sLog = LogFactory.getLog(this.getClass());
-//        }
-//        if (pParent != null)
-//        { // On chaine la hierachie
-//            pParent.addChild(this);
-//        }
-//        mClassName = pClassName;
-//        mMethodName = pMethodName;
-//        mBeginTime = System.currentTimeMillis();
-//        mParams = pParams;
-//        mGroupName = pGroupName;
-//
-//    }
-
-//    /**
-//     * Constructor used for Database, because original types are already converted to <code>String</code>.
-//     * 
-//     * @param pParent The <code>MethodCallDTO</code> from which we made the call to the current
-//     *        <code>MethodCallDTO</code>.
-//     * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
-//     *        <code>MethodCallDTO</code>.
-//     * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
-//     * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
-//     * @param pParams The <code>Object</code> array passed to the method <code>pMethodName</code>.
-//     */
-//    public MethodCallDTO(MethodCallDTO pParent, String pClassName, String pMethodName, String pGroupName,
-//                    Object[] pParams)
-//    {
-//        if (pParent != null)
-//        { // On chaine la hierachie
-//            pParent.addChild(this);
-//        }
-//        mClassName = pClassName;
-//        mMethodName = pMethodName;
-//        mBeginTime = System.currentTimeMillis();
-//        mGroupName = pGroupName;
-//        StringBuffer tBuffer = new StringBuffer();
-//        try
-//        {
-//            if (pParams != null)
-//            {
-//                boolean tFistTime = true;
-//                tBuffer.append("[");
-//                for (int i = 0; i < pParams.length; i++)
-//                {
-//                    if (!tFistTime)
-//                    {
-//                        tBuffer.append(", ");
-//                    }
-//                    tBuffer.append("" + pParams[i]);
-//                    tFistTime = false;
-//                }
-//                tBuffer.append("]");
-//            }
-//        } catch (Throwable tT)
-//        {
-//            sLog.error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
-//        }
-//        mParams = tBuffer.toString();
-//    }
-
-    protected MethodCallDTO()
+    public MethodCallDTO()
     {
     }
 
@@ -442,6 +366,14 @@ public class MethodCallDTO
     }
 
     /**
+     * @param pChildren The children to set.
+     */
+    public void addChildren(MethodCallDTO pChildren)
+    {
+        mChildren.add(pChildren);
+    }
+
+    /**
      * @param pParams The params to set.
      */
     public void setParams(String pParams)
@@ -452,7 +384,7 @@ public class MethodCallDTO
     /**
      * @param pParent The parent to set.
      */
-    protected void setParent(MethodCallDTO pParent)
+    public void setParent(MethodCallDTO pParent)
     {
         mParent = pParent;
     }

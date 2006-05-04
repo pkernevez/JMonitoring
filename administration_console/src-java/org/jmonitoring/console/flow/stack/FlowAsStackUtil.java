@@ -57,16 +57,16 @@ public class FlowAsStackUtil
         tBuffer.append("<ul id=\"menuList\">");
         tBuffer.append("<li class=\"menubar\">");
         tBuffer.append("<a href=\"#\" id=\"0Actuator\" class=\"actuator\">");
-        long tDuration = mFlow.getEndTime() - mFlow.getBeginDate();
+        long tDuration = mFlow.getEndTime().getTime() - mFlow.getBeginTime().getTime();
         tBuffer.append("[").append(tDuration).append("] ");
         tBuffer.append(mFlow.getJvmIdentifier()).append("/").append(mFlow.getThreadName());
-        tBuffer.append(" : ").append(mFlow.getFirstMeasure().getGroupName()).append(" -> ");
-        tBuffer.append(mFlow.getFirstMeasure().getClassName()).append(".");
-        tBuffer.append(mFlow.getFirstMeasure().getMethodName()).append("()");
+        tBuffer.append(" : ").append(mFlow.getFirstMethodCall().getGroupName()).append(" -> ");
+        tBuffer.append(mFlow.getFirstMethodCall().getClassName()).append(".");
+        tBuffer.append(mFlow.getFirstMethodCall().getMethodName()).append("()");
         tBuffer.append("</a>\n");
 
         tBuffer.append("<ul id=\"0Menu\" class=\"menu\">");
-        writeMeasureAsHtml(mFlow.getFirstMeasure(), tBuffer);
+        writeMeasureAsHtml(mFlow.getFirstMethodCall(), tBuffer);
         tBuffer.append("</ul>\n");
         tBuffer.append("</li>");
         tBuffer.append("</ul>");
@@ -142,7 +142,7 @@ public class FlowAsStackUtil
     private String getMeasurePointText(MethodCallDTO pMeasure)
     {
         StringBuffer tBuffer = new StringBuffer();
-        long tDuration = pMeasure.getEndTime() - pMeasure.getBeginTime();
+        long tDuration = pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime();
         tBuffer.append("[").append(tDuration).append("] ");
         tBuffer.append(pMeasure.getGroupName()).append(" -> ").append(pMeasure.getClassName()).append(".").append(
                         pMeasure.getMethodName());
@@ -159,7 +159,7 @@ public class FlowAsStackUtil
     {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("Start Date=");
-        tBuffer.append(mFormater.format(new Date(pMeasure.getBeginTime())));
+        tBuffer.append(mFormater.format(pMeasure.getBeginTime()));
         if (pMeasure.getParams() != null)
         {
             tBuffer.append("\n PARAM=[").append(pMeasure.getParams()).append("]");

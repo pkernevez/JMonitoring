@@ -40,9 +40,13 @@ import org.jfree.data.time.SimpleTimePeriod;
 public class FlowChartBarUtil
 {
     private static final float LABEL_WIDTH_RATIO = 10F;
+
     private static final int IMAGE_WIDTH = 930;
+
     private static final int BODER_TOP = 70;
+
     private static final int BORDER_DOWN = 60;
+
     private static Log sLog = LogFactory.getLog(FlowChartBarUtil.class);
 
     private static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
@@ -89,54 +93,47 @@ public class FlowChartBarUtil
         { // We create a new entry
             tTask = new TaskEntry();
             tTask.mPos = mListOfTask.size() + 1;
-            tTask.mTask = new Task(tGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginTime()),
-                            new Date(pCurMeasure.getEndTime())));
+            tTask.mTask = new Task(tGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(), pCurMeasure
+                            .getEndTime()));
             tTask.mGroupName = tGroupName;
             mListOfTask.put(tGroupName, tTask);
         }
         List tListOfClidren = pCurMeasure.getChildren();
         if (tListOfClidren.size() > 0)
         {
-            long tBeginDateAsLong = pCurMeasure.getBeginTime();
-            long tEndDateAsLong = ((MethodCallDTO) tListOfClidren.get(0)).getBeginTime();
-            if (tEndDateAsLong < tBeginDateAsLong)
+            Date tBeginDate = pCurMeasure.getBeginTime();
+            Date tEndDate = ((MethodCallDTO) tListOfClidren.get(0)).getBeginTime();
+            if (tEndDate.before(tBeginDate))
             { // Contournement du bug
-                tEndDateAsLong = tBeginDateAsLong;
+                tEndDate = tBeginDate;
             }
-            Date tBeginDate = new Date(tBeginDateAsLong);
-            Date tEndDate = new Date(tEndDateAsLong);
             tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(tBeginDate, tEndDate)));
             for (int i = 0; i < tListOfClidren.size(); i++)
             {
                 if (i > 0)
                 {
-                    tBeginDateAsLong = ((MethodCallDTO) tListOfClidren.get(i - 1)).getEndTime();
-                    tEndDateAsLong = ((MethodCallDTO) tListOfClidren.get(i)).getBeginTime();
-                    if (tEndDateAsLong < tBeginDateAsLong)
+                    tBeginDate = ((MethodCallDTO) tListOfClidren.get(i - 1)).getBeginTime();
+                    tEndDate = ((MethodCallDTO) tListOfClidren.get(i)).getEndTime();
+                    if (tEndDate.before(tBeginDate))
                     { // Contournement du bug
-                        tEndDateAsLong = tBeginDateAsLong;
+                        tEndDate = tBeginDate;
                     }
-                    tBeginDate = new Date(tBeginDateAsLong);
-                    tEndDate = new Date(tEndDateAsLong);
                     tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(tBeginDate, tEndDate)));
                 }
                 fillListOfGroup((MethodCallDTO) tListOfClidren.get(i));
             }
 
-            tBeginDateAsLong = ((MethodCallDTO) tListOfClidren.get(tListOfClidren.size() - 1)).getEndTime();
-            tEndDateAsLong = pCurMeasure.getEndTime();
-            if (tEndDateAsLong < tBeginDateAsLong)
+            tBeginDate = ((MethodCallDTO) tListOfClidren.get(tListOfClidren.size() - 1)).getEndTime();
+            tEndDate = pCurMeasure.getEndTime();
+            if (tEndDate.before(tBeginDate))
             { // Contournement du bug
-                tEndDateAsLong = tBeginDateAsLong;
+                tEndDate = tBeginDate;
             }
-            tBeginDate = new Date(tBeginDateAsLong);
-            tEndDate = new Date(tEndDateAsLong);
             tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(tBeginDate, tEndDate)));
-
         } else
         {
-            tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginTime()),
-                            new Date(pCurMeasure.getEndTime()))));
+            tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(), pCurMeasure
+                            .getEndTime())));
         }
     }
 
@@ -180,7 +177,10 @@ public class FlowChartBarUtil
         for (int i = 0; i < tList.length; i++)
         { // ForEach GroupName
             curTaskEntry = tList[i];
-            sLog.debug("add Task n°" + i + " for GroupName=" + curTaskEntry.mGroupName + " in position of ="
+            sLog.debug("add Task n°" + i
+                            + " for GroupName="
+                            + curTaskEntry.mGroupName
+                            + " in position of ="
                             + curTaskEntry.mPos);
             curTaskSeries.add(curTaskEntry.mTask);
         }
@@ -202,8 +202,8 @@ public class FlowChartBarUtil
 
     private static JFreeChart createChart(IntervalCategoryDataset pIntervalcategorydataset)
     {
-        JFreeChart jfreechart = createGanttChart("Flow Group Details", "Flow Groups", "Date",
-                        pIntervalcategorydataset, false, false, false);
+        JFreeChart jfreechart = createGanttChart("Flow Group Details", "Flow Groups", "Date", pIntervalcategorydataset,
+                        false, false, false);
         jfreechart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(LABEL_WIDTH_RATIO);
         return jfreechart;
     }
@@ -234,8 +234,9 @@ public class FlowChartBarUtil
         CategoryItemRenderer renderer = new FlowRenderer();
         if (pTooltips)
         {
-            renderer.setToolTipGenerator(new IntervalCategoryToolTipGenerator("{3} - {4}", DateFormat
-                            .getDateInstance()));
+            renderer
+                            .setToolTipGenerator(new IntervalCategoryToolTipGenerator("{3} - {4}", DateFormat
+                                            .getDateInstance()));
         }
         if (pUrls)
         {

@@ -171,6 +171,28 @@
         </dependency>    
         
         <dependency>
+            <groupId>strutstestcase</groupId>
+            <artifactId>strutstest</artifactId>
+            <version>${depends.strutstest.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>    
+        
+        <dependency>
+          <id>jmock</id>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+        <dependency>
+          <groupId>jmock</groupId>
+          <artifactId>jmock-cglib</artifactId>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+    
+        <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
             <version>${depends.taglibstd.version}</version>

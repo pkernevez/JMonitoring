@@ -5,20 +5,20 @@ package org.jmonitoring.console.flow;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowMySqlDAO;
-import org.jmonitoring.core.dao.StandAloneConnectionManager;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * @author pke
@@ -40,31 +40,14 @@ public class FlowDeleteAction extends Action
                     HttpServletResponse pResponse) throws Exception
     {
         FlowEditForm tForm = (FlowEditForm) pForm;
-        Connection tConnection = null;
-        try
-        {
-            tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-            ExecutionFlowMySqlDAO tDao = new ExecutionFlowMySqlDAO(tConnection);
-            if (tForm != null && tForm.getId() != -1)
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        if (tForm != null && tForm.getId() != -1)
             {
-                tDao.deleteFlow(tForm.getId());
+                tProcess.deleteFlow(tForm.getId());
             } else
             {
-                tDao.deleteAllFlows();
+                tProcess.deleteAllFlows();
             }
-            tConnection.commit();
             return pMapping.findForward("success");
-
-        } catch (Throwable t)
-        {
-            LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
-            return pMapping.findForward("failure");
-        } finally
-        {
-            if (tConnection != null)
-            {
-                tConnection.close();
-            }
-        }
     }
 }
