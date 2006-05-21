@@ -13,19 +13,19 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.dao.MeasureExtract;
+import org.jmonitoring.core.dao.MethodCallExtract;
 
 public class TestMeasureMenuUtil extends TestCase
 {
     public void testConvertListAsTree()
     {
         List tList = new ArrayList();
-        tList.add(new MeasureExtract("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
-        tList.add(new MeasureExtract("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
-        tList.add(new MeasureExtract("org.monitoring.toto.TotoBis.getToto", "Grp1", new Integer(3)));
-        tList.add(new MeasureExtract("org.monitoring.tata.Tata.getTata", "Grp1", new Integer(4)));
-        tList.add(new MeasureExtract("org.monitoring.tata.Toto.getToto", "Grp1", new Integer(5)));
-        tList.add(new MeasureExtract("com.monitoring.Titi.getTiti", "Grp2", new Integer(6)));
+        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
+        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
+        tList.add(new MethodCallExtract("org.monitoring.toto.TotoBis.getToto", "Grp1", new Integer(3)));
+        tList.add(new MethodCallExtract("org.monitoring.tata.Tata.getTata", "Grp1", new Integer(4)));
+        tList.add(new MethodCallExtract("org.monitoring.tata.Toto.getToto", "Grp1", new Integer(5)));
+        tList.add(new MethodCallExtract("com.monitoring.Titi.getTiti", "Grp2", new Integer(6)));
 
         Map tMap = new MeasureMenuUtil(null).convertListAsTree(tList);
         assertEquals(2, tMap.size());
@@ -69,7 +69,7 @@ public class TestMeasureMenuUtil extends TestCase
     public void testWriteMeasuresAsMenuEmpty() throws IOException
     {
         List tList = new ArrayList();
-        tList.add(new MeasureExtract("Toto.getToto", "Grp1", new Integer(2)));
+        tList.add(new MethodCallExtract("Toto.getToto", "Grp1", new Integer(2)));
         StringBuffer tWriter = new StringBuffer();
         MeasureMenuUtil tUtil = new MeasureMenuUtil(tWriter);
         tUtil.convertListAsTree(tList);
@@ -85,8 +85,8 @@ public class TestMeasureMenuUtil extends TestCase
     public void testWriteMeasuresAsMenuNotEmpty() throws IOException
     {
         List tList = new ArrayList();
-        tList.add(new MeasureExtract("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
-        tList.add(new MeasureExtract("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
+        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
+        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
         StringBuffer tWriter = new StringBuffer();
         MeasureMenuUtil tUtil = new MeasureMenuUtil(tWriter);
         Map tMap = tUtil.convertListAsTree(tList);

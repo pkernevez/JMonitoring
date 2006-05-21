@@ -1,5 +1,8 @@
 package org.jmonitoring.core.persistence;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
@@ -15,10 +18,12 @@ public class HibernateManager
 
     private static final String HIBERNATE_CFG_XML = "hibernate.cfg.xml";
 
+    private static final String HIBERNATE_CFG_PROPERTIES = "hibernate.cfg.properties";
+
     /**
      * Logger of the class
      */
-    private static Log logger = LogFactory.getLog(HibernateManager.class);
+    private static Log sLogger = LogFactory.getLog(HibernateManager.class);
 
     private static SessionFactory sSessionFactory;
 
@@ -29,9 +34,18 @@ public class HibernateManager
         if (sSessionFactory == null)
         {
             sHConfig = new Configuration();
+            Properties properties = new Properties();
+            try
+            {
+                properties.load(HibernateManager.class.getClassLoader().getResourceAsStream(HIBERNATE_CFG_PROPERTIES));
+            } catch (IOException e)
+            {
+                sLogger.error("Le fichier " + HIBERNATE_CFG_PROPERTIES + " n'existe pas.");
+            }
+            sHConfig.setProperties(properties);
             sHConfig.configure(HIBERNATE_CFG_XML);
             sSessionFactory = sHConfig.buildSessionFactory();
-            logger.info("Hibernate SessionFactory loaded with configuration");
+            sLogger.info("Hibernate SessionFactory loaded with configuration");
         }
         return sSessionFactory;
     }
@@ -59,8 +73,8 @@ public class HibernateManager
     public static Session getSession()
     {
         Session tSession = getSessionFactory().openSession();
-        //getSessionFactory().getCurrentSession();
-        logger.info("Hibernate Session Opened");
+        // getSessionFactory().getCurrentSession();
+        sLogger.info("Hibernate Session Opened");
         return tSession;
 
     }

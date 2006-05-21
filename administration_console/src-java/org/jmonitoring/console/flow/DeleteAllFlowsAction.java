@@ -8,15 +8,10 @@ package org.jmonitoring.console.flow;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
-import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
 
@@ -26,7 +21,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FlowDeleteAction extends Action
+public class DeleteAllFlowsAction extends Action
 {
 
     /*
@@ -39,15 +34,8 @@ public class FlowDeleteAction extends Action
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse) throws Exception
     {
-        FlowEditForm tForm = (FlowEditForm) pForm;
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        if (tForm != null && tForm.getId() != -1)
-            {
-                tProcess.deleteFlow(tForm.getId());
-            } else
-            {
-                tProcess.deleteAllFlows();
-            }
-            return pMapping.findForward("success");
+        tProcess.deleteAllFlows();
+        return pMapping.findForward("success");
     }
 }

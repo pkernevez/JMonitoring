@@ -7,8 +7,34 @@
 
     <!-- target perso pour redéployer -->
     <goal name="copy">
-        <copy file="target/administration_console.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
+        <copy file="target/administration_console.war" todir="D:/apps/jboss-3.2.7/server/default/deploy"/>
 	</goal>  
-     
+
+   	   <postGoal name="war:install">
+   	         <delete dir="${maven.build.dir}/classes"/>
+   	         <delete dir="${maven.build.dir}/test-classes"/>
+       </postGoal>
+
+   	   <postGoal name="site">
+   	         <delete dir="${maven.build.dir}/classes"/>
+   	         <delete dir="${maven.build.dir}/test-classes"/>
+       </postGoal>
+
+     	<preGoal name="java:compile">
+		<!--j:if test="${context.getVariable('maven.multiproject.type') == 'war'}"-->
+				<attainGoal name="copyweb"/>
+		<!--/j:if-->
+	</preGoal>
+
+	<goal name="copyweb">
+		<echo>*** Project type = war => copy content of WEB-INF into bin-test and target/test-classes ***</echo>
+		<copy todir="${basedir}/bin/WEB-INF" >
+			<fileset dir="${basedir}/src-webapp/WEB-INF" />
+		</copy>
+		<copy todir="${basedir}/target/test-classes/WEB-INF" >
+			<fileset dir="${basedir}/src-webapp/WEB-INF" />
+		</copy>
+	</goal>
+
 </project>
         

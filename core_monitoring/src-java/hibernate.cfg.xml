@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <!-- a SessionFactory instance listed as /jndi/name -->
+    <session-factory>
+
+
+		<!-- mapping files -->
+		<mapping resource="org/jmonitoring/core/persistence/ExecutionFlowPO.hbm.xml"/>
+        <mapping resource="org/jmonitoring/core/persistence/MethodCallPO.hbm.xml"/>
+		
+    </session-factory>
+
+	<!--
+	<show_sql>false</show_sql>
+	<max_fetch_depth>3</max_fetch_depth>
+	<connection.datasource>java:comp/env/JDBC/DB2AS400</connection.datasource>
+	<property name="hibernate.jndi.class">com.ibm.websphere.naming.WsnInitialContextFactory</property>
+	<property name="hibernate.jndi.url">iiop://localhost:900/</property>
+
+	-->
+	
+</hibernate-configuration>
+

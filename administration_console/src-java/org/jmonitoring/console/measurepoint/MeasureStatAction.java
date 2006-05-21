@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +38,13 @@ import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * @author pke
  * @todo refactor this class into a JFreeChart / ChartBarUtil class
- * @todo remove FindBugs exclusion after 
+ * @todo remove FindBugs exclusion after
  */
 public class MeasureStatAction extends Action
 {
@@ -67,41 +70,35 @@ public class MeasureStatAction extends Action
                     HttpServletResponse pResponse) throws Exception
     {
         MeasurePointStatForm tForm = (MeasurePointStatForm) pForm;
-        MethodCallDTO[] tMeasures = readMeasure(tForm);
-        tForm.setNbMeasures(tMeasures.length);
+        List tMeasures = readMeasure(tForm);
+        tForm.setNbMeasures(tMeasures.size());
         writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
         computeStat(tMeasures, tForm);
         return pMapping.findForward("success");
     }
 
-/** @todo Refactorer cette couche avec des DTO propre... */
-    private MethodCallDTO[] readMeasure(MeasurePointStatForm pForm)
+    /** @todo Refactorer cette couche avec des DTO propre... */
+    private List readMeasure(MeasurePointStatForm pForm)
     {
-        try
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        if (!pForm.isParametersByName())
+        { // First retreive className and methodName from the given MethodCallDTO
+            return tProcess.getListOfMethodCallFromFlowId(pForm.getFlowId());
+        } else
         {
-            ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession());
-            if (!pForm.isParametersByName())
-            { // First retreive className and methodName from the given MethodCallDTO
-                MethodCallDTO tOriginalMeasure = tDao.readMethodCall(pForm.getFlowId(), pForm.getSequenceId());
-                pForm.setClassName(tOriginalMeasure.getClassName());
-                pForm.setMethodName(tOriginalMeasure.getMethodName());
-            }
-            return tDao.getListOfMethodCall(pForm.getClassName(), pForm.getMethodName());
-        } catch (SQLException e)
-        {
-            throw new MeasureException("Unable to read measure", e);
+            return tProcess.getListOfMethodCallFromClassAndMethodName(pForm.getClassName(), pForm.getMethodName());
         }
     }
 
-    private void computeStat(MethodCallDTO[] pMeasures, MeasurePointStatForm pForm)
+    private void computeStat(List pMeasures, MeasurePointStatForm pForm)
     {
-        if (pMeasures.length != 0)
+        if (pMeasures.size() != 0)
         {
-            MethodCallDTO curMeasure = pMeasures[0];
+            MethodCallDTO curMeasure = (MethodCallDTO)pMeasures.get(0);
             long tMin = curMeasure.getDuration(), tMax = tMin, tSum = tMin;
-            for (int i = 1; i < pMeasures.length; i++)
+            for (int i = 1; i < pMeasures.size(); i++)
             {
-                curMeasure = pMeasures[i];
+                curMeasure = (MethodCallDTO) pMeasures.get(i);
                 tSum += curMeasure.getDuration();
                 if (curMeasure.getDuration() > tMax)
                 {
@@ -112,32 +109,32 @@ public class MeasureStatAction extends Action
                 }
             }
             double tAvg = 0;
-            tAvg = (double) tSum / (double) pMeasures.length;
+            tAvg = (double) tSum / (double) pMeasures.size();
             // Standard Deviation
             double tDelta, tVar = 0;
-            for (int i = 0; i < pMeasures.length; i++)
+            for (int i = 0; i < pMeasures.size(); i++)
             {
-                curMeasure = pMeasures[i];
+                curMeasure = (MethodCallDTO) pMeasures.get(i);
                 tDelta = tAvg - curMeasure.getDuration();
                 tVar += tDelta * tDelta;
             }
             pForm.setDurationAvg(tAvg);
             pForm.setDurationMin(tMin);
             pForm.setDurationMax(tMax);
-            pForm.setDurationDev(Math.sqrt(tVar / pMeasures.length));
+            pForm.setDurationDev(Math.sqrt(tVar / pMeasures.size()));
         }
     }
 
-    private int computeIntervalValue(MethodCallDTO[] pMeasures, MeasurePointStatForm pForm)
+    private int computeIntervalValue(List pMeasures, MeasurePointStatForm pForm)
     {
         int tIntervalValue = pForm.getInterval();
         if (tIntervalValue <= 0)
-        { //The Interval has not be specified explicitly
+        { // The Interval has not be specified explicitly
             long tDurationMax = 0, curDuration;
             // Get duration max
-            for (int i = 0; i < pMeasures.length; i++)
+            for (int i = 0; i < pMeasures.size(); i++)
             {
-                curDuration = pMeasures[i].getEndTime().getTime() - pMeasures[i].getBeginTime().getTime();
+                curDuration = ((MethodCallDTO)pMeasures.get(i)).getDuration();
                 if (curDuration > tDurationMax)
                 {
                     tDurationMax = curDuration;
@@ -159,7 +156,7 @@ public class MeasureStatAction extends Action
      * @param pMeasures The list of <code>MethodCallDTO</code> to use for image generation.
      * @param pForm The form associated to this Action.
      */
-    public void writeFullDurationStat(HttpSession pSession, MethodCallDTO[] pMeasures, MeasurePointStatForm pForm)
+    public void writeFullDurationStat(HttpSession pSession, List pMeasures, MeasurePointStatForm pForm)
     {
         int tInterval = computeIntervalValue(pMeasures, pForm);
         IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
@@ -173,7 +170,7 @@ public class MeasureStatAction extends Action
         try
         {
             ChartUtilities.writeChartAsPNG(tImageStream, tJFreeChart, 800, 450, tChartRenderingInfo);
-            //todo regarder l'API avec FragmentURLGenerator...
+            // todo regarder l'API avec FragmentURLGenerator...
             PrintWriter tWriter = new PrintWriter(tMapStream);
             ChartUtilities.writeImageMap(tWriter, "chart", tChartRenderingInfo);
             tWriter.flush();
@@ -206,16 +203,16 @@ public class MeasureStatAction extends Action
         return chart;
     }
 
-    private IntervalXYDataset createFullDurationDataset(MethodCallDTO[] pMeasures, int pInterval)
+    private IntervalXYDataset createFullDurationDataset(List pMeasures, int pInterval)
     {
         Map tMap = new HashMap();
         Integer tCurNb;
         Long tCurDurationAsLong;
         long tCurDuration;
         long tDurationMax = 0;
-        for (int i = 0; i < pMeasures.length; i++)
+        for (int i = 0; i < pMeasures.size(); i++)
         {
-            tCurDuration = pMeasures[i].getEndTime().getTime() - pMeasures[i].getBeginTime().getTime();
+            tCurDuration = ((MethodCallDTO)pMeasures.get(i)).getDuration();
             if (tCurDuration > tDurationMax)
             {
                 tDurationMax = tCurDuration;

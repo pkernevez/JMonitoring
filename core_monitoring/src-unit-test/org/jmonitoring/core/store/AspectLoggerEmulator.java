@@ -1,9 +1,14 @@
-package org.jmonitoring.core.utils;
+package org.jmonitoring.core.store;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.MeasurePointManager;
+import org.jmonitoring.core.store.StoreManager;
+import org.jmonitoring.core.utils.MockSignature;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -14,11 +19,16 @@ import org.jmonitoring.core.store.MeasurePointManager;
  * Emulate the <code>PerformanceAspect</code> functionnality for test classes.
  * 
  * @author pke
- *  
+ * 
  */
 public class AspectLoggerEmulator
 {
     private IStoreWriter mStoreWriter;
+
+    public static void clear()
+    {
+        sReturnValueToString = 0;
+    }
 
     /**
      * Default Constrictor.
@@ -33,24 +43,164 @@ public class AspectLoggerEmulator
     /**
      * Simulate the Aspect interception and use the Logger mecanism.
      */
-    public void simulateExecutionFlow()
+    public void simulateExecutionFlow(boolean pWithLog)
     {
-        MeasurePointManager tManager = new MeasurePointManager(mStoreWriter, Configuration.getInstance());
+        StoreManager tManager = new StoreManager(mStoreWriter, Configuration.getInstance());
+        tManager.sLog = new ErrorLogTracer(pWithLog);
         AspectLoggerEmulator.resetCounters();
 
         Signature tSignature;
         tSignature = new MockSignature("mainMethod", Parent.class);
         tManager.logBeginOfMethod(tSignature, new Object[] {new Param() }, "Parent");
         tSignature = new MockSignature("child1", Child1.class);
-        tManager.logBeginOfMethod(tSignature, new Object[] {new Param() }, "Child1");
+        tManager.logBeginOfMethod(tSignature, null, "Child1");
         tSignature = new MockSignature("child2", Child1.class);
         tManager.logBeginOfMethod(tSignature, new Object[] {new Param() }, "Child1");
-        tManager.logEndOfMethodNormal(null); //child1_1
-        tManager.logEndOfMethodNormal(null); //child1_2
+        tManager.logEndOfMethodNormal(new NormalResult()); // child1_1
+        tManager.logEndOfMethodNormal(null); // child1_2
         tSignature = new MockSignature("child1", Child2.class);
-        tManager.logBeginOfMethod(tSignature, new Object[] {new Param() }, "Child2"); //child2_1
+        tManager.logBeginOfMethod(tSignature, new Object[] {new Param() }, "Child2"); // child2_1
         tManager.logEndOfMethodWithException(new Exception("Funny Exception"));
-        tManager.logEndOfMethodNormal(null); //mainMethod
+        tManager.logEndOfMethodNormal(new ExceptionResult("Main")); // mainMethod
+    }
+
+    public void simulateExecutionFlowWithExceptioninMain(boolean pWithLog)
+    {
+        StoreManager tManager = new StoreManager(mStoreWriter, Configuration.getInstance());
+        tManager.sLog = new ErrorLogTracer(pWithLog);
+        AspectLoggerEmulator.resetCounters();
+
+        Signature tSignature;
+        tSignature = new MockSignature("mainMethod", Parent.class);
+        tManager.logBeginOfMethod(tSignature, new Object[] {new Param(), new Param(), new Param() }, "Parent");
+        tSignature = new MockSignature("child1", Child1.class);
+        tManager.logBeginOfMethod(tSignature, null, "Child1");
+        tSignature = new MockSignature("child2", Child1.class);
+        tManager.logBeginOfMethod(tSignature, new Object[] {new Param() }, "Child1");
+        tManager.logEndOfMethodNormal(null); // child1_1
+        tManager.logEndOfMethodNormal(new NormalResult()); // child1_2
+        tSignature = new MockSignature("child1", Child2.class);
+        tManager.logBeginOfMethod(tSignature, new Object[] {new Param() }, "Child2"); // child2_1
+        tManager.logEndOfMethodWithException(null);
+        tManager.logEndOfMethodWithException(new Exception("Funny Exception2")); // mainMethod
+    }
+
+    private static class NormalResult
+    {
+        public String toString()
+        {
+            nbReturnValueToStringIncrement();
+            return "uyuy";
+        }
+    }
+
+    private static class ExceptionResult
+    {
+        private String mMsg;
+
+        public ExceptionResult(String pMsg)
+        {
+            mMsg = pMsg;
+        }
+
+        public String toString()
+        {
+            nbReturnValueToStringIncrement();
+            throw new RuntimeException("Pour faire planter un appel" + mMsg);
+        }
+    }
+
+    public static class ErrorLogTracer implements Log
+    {
+        public List mErrors = new ArrayList();
+
+        private boolean mLogDebugEnabled;
+
+        public ErrorLogTracer(boolean pLogDebugEnabled)
+        {
+            mLogDebugEnabled = pLogDebugEnabled;
+        }
+
+        public boolean isDebugEnabled()
+        {
+            return mLogDebugEnabled;
+        }
+
+        public boolean isErrorEnabled()
+        {
+            return true;
+        }
+
+        public boolean isFatalEnabled()
+        {
+            return true;
+        }
+
+        public boolean isInfoEnabled()
+        {
+            return true;
+        }
+
+        public boolean isTraceEnabled()
+        {
+            return true;
+        }
+
+        public boolean isWarnEnabled()
+        {
+            return true;
+        }
+
+        public void trace(Object pArg0)
+        {
+        }
+
+        public void trace(Object pArg0, Throwable pArg1)
+        {
+        }
+
+        public void debug(Object pArg0)
+        {
+        }
+
+        public void debug(Object pArg0, Throwable pArg1)
+        {
+        }
+
+        public void info(Object pArg0)
+        {
+        }
+
+        public void info(Object pArg0, Throwable pArg1)
+        {
+        }
+
+        public void warn(Object pArg0)
+        {
+        }
+
+        public void warn(Object pArg0, Throwable pArg1)
+        {
+        }
+
+        public void error(Object pArg0)
+        {
+            mErrors.add("" + pArg0);
+        }
+
+        public void error(Object pArg0, Throwable pArg1)
+        {
+            mErrors.add("" + pArg0 + pArg1.getMessage());
+        }
+
+        public void fatal(Object pArg0)
+        {
+        }
+
+        public void fatal(Object pArg0, Throwable pArg1)
+        {
+        }
+
     }
 
     /**
@@ -249,5 +399,17 @@ public class AspectLoggerEmulator
         Child1.resetToString();
         Child2.resetToString();
 
+    }
+
+    private static int sReturnValueToString;
+
+    public static int getNbReturnValueToString()
+    {
+        return sReturnValueToString;
+    }
+
+    public static void nbReturnValueToStringIncrement()
+    {
+        sReturnValueToString++;
     }
 }

@@ -11,7 +11,7 @@ import org.jmonitoring.core.persistence.ExecutionFlowPO;
 
 /**
  * @author pke
- *  
+ * 
  */
 public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
 {
@@ -21,6 +21,12 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
     private static int sNbPublish;
 
     private static int sNbLog;
+
+    public static void clear()
+    {
+        sNbLog = 0;
+        sNbPublish = 0;
+    }
 
     private static synchronized void incrementNbPublish()
     {
@@ -39,7 +45,7 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
 
     /**
      * Accessor.
-     *  
+     * 
      */
     public static synchronized void resetNbPublish()
     {
@@ -63,7 +69,7 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
 
     /**
      * Accessor.
-     *  
+     * 
      */
     public static synchronized void resetNbLog()
     {

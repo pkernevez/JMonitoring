@@ -9,6 +9,7 @@
   		<!-- Logon form bean -->
   		<form-bean name="flowsearchform" 		type="org.jmonitoring.console.flow.FlowSearchForm"/>
   		<form-bean name="floweditform" 			type="org.jmonitoring.console.flow.FlowEditForm"/>
+        <form-bean name="flowidform"            type="org.jmonitoring.console.flow.FlowIdForm"/>
   		<form-bean name="measurepointform" 		type="org.jmonitoring.console.measurepoint.MeasurePointForm"/>
   		<form-bean name="measurepointstatform" 	type="org.jmonitoring.console.measurepoint.MeasurePointStatForm"/>
   		<form-bean name="measurepointlistform" 	type="org.jmonitoring.console.measurepoint.list.MeasurePointListForm"/>
@@ -20,11 +21,11 @@
   	</form-beans>
 
 	<global-exceptions>
-    	<exception key="tt" type="java.lang.Throwable" path="/Error.do"/>
+    	<exception key="All" type="java.lang.Throwable" path="/Error.do"/>
 	</global-exceptions>
 	
     <!-- Mappages d'action -->
-    <!-- @todo Gère les erreurs -->
+    <!-- @todo GÃ¨re les erreurs -->
 	<global-forwards>
 		<forward name="failure" path="/Error.do"></forward>
 		<forward name="exception" path="/Error.do"></forward>
@@ -36,14 +37,23 @@
 
 	    <action path="/Index" parameter="homepage" type="org.apache.struts.actions.ForwardAction"/>
 	    
-	    <action path="/DeleteAllFlowsSuccess" parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/>
+        <action path="/DeleteAllFlowsConfirmIn" forward="deleteflowconfirm" />
 
-	    <action path="/DeleteAllFlowsConfirm" parameter="deleteflowconfirm" type="org.apache.struts.actions.ForwardAction"/>
-
-		 <action path="/DeleteAllFlows" type="org.jmonitoring.console.flow.FlowDeleteAction"
+         <action path="/DeleteAllFlowsIn" type="org.jmonitoring.console.flow.DeleteAllFlowsAction"
                 validate="false">
-                <forward name="success" path="/DeleteAllFlowsSuccess.do"/>
-		 </action>	   
+                <forward name="success" path="deleteflowsuccess"/>
+         </action>     
+
+         <action path="/DeleteOneFlowIn" type="org.jmonitoring.console.flow.DeleteOneFlowAction"
+                validate="false" name="flowidform" scope="request">
+                <forward name="success" path="deleteflowsuccess"/>
+                <forward name="invalid" path="funcerror"/>
+         </action>     
+
+
+
+
+	    <!-- action path="/DeleteAllFlowsSuccess" parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/-->
 
 	    <action path="/DeleteFlowSuccess" name="floweditform" 
 	    	parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/>

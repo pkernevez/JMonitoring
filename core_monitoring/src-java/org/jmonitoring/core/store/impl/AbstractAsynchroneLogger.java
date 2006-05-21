@@ -20,31 +20,37 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  */
 public abstract class AbstractAsynchroneLogger implements IStoreWriter
 {
-    private static Log sLog;
+    private static Log sLog = LogFactory.getLog(AbstractAsynchroneLogger.class);
 
     private static PooledExecutor sExecutor;
+
+    {
+        int tAsynchroneLoggerThreadPoolSize = Configuration.getInstance().getAsynchroneStoreThreadPoolSize();
+        sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
+        sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
+    }
 
     /**
      * Defautl constructor.
      */
     public AbstractAsynchroneLogger()
     {
-        if (sLog == null)
-        {
-            initStatic();
-        }
+        // if (sLog == null)
+        // {
+        // initStatic();
+        // }
     }
 
-    /**
-     * Initialisation of all threads shared ressources.
-     */
-    private static synchronized void initStatic()
-    {
-        sLog = LogFactory.getLog(AbstractAsynchroneLogger.class);
-        int tAsynchroneLoggerThreadPoolSize = Configuration.getInstance().getAsynchroneStoreThreadPoolSize();
-        sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
-        sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
-    }
+    // /**
+    // * Initialisation of all threads shared ressources.
+    // */
+    // private static synchronized void initStatic()
+    // {
+    // int tAsynchroneLoggerThreadPoolSize = Configuration.getInstance().getAsynchroneStoreThreadPoolSize();
+    // sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
+    // sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
+    // sLog =
+    // }
 
     /**
      * Get the log Task that will be executed by the asynchrone logger with the ThreadPool.
@@ -55,17 +61,16 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
     protected abstract Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow);
 
     /**
-     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
-     *      ExecutionFlowPO)
+     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow( ExecutionFlowPO)
      */
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        //Test because of ClassLoader and hotdeploy in some container...
-        if (sExecutor == null)
-        {
-            sLog.error("No more actif thread for this logger, restart another one...");
-            initStatic();
-        }
+        // Test because of ClassLoader and hotdeploy in some container...
+        // if (sExecutor == null)
+        // {
+        // sLog.error("No more actif thread for this logger, restart another one...");
+        // initStatic();
+        // }
         try
         {
             sExecutor.execute(getAsynchroneLogTask(pExecutionFlow));

@@ -7,7 +7,7 @@
 <%@page import="org.jmonitoring.core.configuration.Configuration"%>
 
 <!-- Begin Body -->
-<h1>Flow Search</h1>
+<h1>Flow Search new</h1>
 <%
 	FlowSearchForm tForm = (FlowSearchForm)request.getAttribute("flowsearchform");
 %>  

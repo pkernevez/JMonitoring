@@ -22,7 +22,7 @@ import org.jmonitoring.core.persistence.HibernateManager;
 public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
 {
 
-    private static Log sLog;
+    private static Log sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);;
 
     private static boolean mAutoflush = false;
 
@@ -31,24 +31,17 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
      */
     public AsynchroneJdbcLogger()
     {
-        if (sLog == null)
-        {
-            sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);
-        }
+        this(false);
     }
 
     /**
      * Default constructor.
      * 
-     * @param pAutoFlush
+     * @param pAutoFlush Flush all the jdbc access after the inserts.
      */
     public AsynchroneJdbcLogger(boolean pAutoFlush)
     {
         mAutoflush = pAutoFlush;
-        if (sLog == null)
-        {
-            sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);
-        }
     }
 
     private static class AsynchroneJdbcLoggerRunnable implements Runnable
@@ -79,6 +72,5 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
     protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
     {
         return new AsynchroneJdbcLoggerRunnable(pFlow);
-    };
-
+    }
 }

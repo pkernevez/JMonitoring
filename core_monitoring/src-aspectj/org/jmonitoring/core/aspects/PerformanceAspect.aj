@@ -6,7 +6,7 @@ package org.jmonitoring.core.aspects;
  **************************************************************************/
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.store.MeasurePointManager;
+import org.jmonitoring.core.store.StoreManager;
 import org.jmonitoring.core.common.MeasureException; 
 
 import org.apache.commons.logging.Log;
@@ -54,7 +54,7 @@ public abstract aspect PerformanceAspect
     Object around() : executionToLogInternal()
     {
         Object tResult = null;
-        MeasurePointManager tManager = getManager();
+        StoreManager tManager = getManager();
         Signature tSig = thisJoinPointStaticPart.getSignature();
         Object [] tArgs = null;
         if (mLogParameter)
@@ -101,7 +101,7 @@ public abstract aspect PerformanceAspect
     after() throwing (Throwable t): executionToLogInternal() {
         try
         {
-            MeasurePointManager tManager = getManager();
+            StoreManager tManager = getManager();
             tManager.logEndOfMethodWithException(t);
         } catch (Throwable tT)
         {
@@ -115,15 +115,15 @@ public abstract aspect PerformanceAspect
      * @return Une instance de la classe de logger parametrée par mLoggerClass. <code>numm</code> si un erreur se
      *         produit pendant l'initalisation.
      */
-    private MeasurePointManager getManager()
+    private StoreManager getManager()
     {
-        MeasurePointManager tResult = (MeasurePointManager) sManager.get();
+        StoreManager tResult = (StoreManager) sManager.get();
         if (tResult == null)
         {
             try
             {
                 // tResult = (Log4jMethodCaller) mLoggerClass.getConstructor(new Class[0]).newInstance(new Object[0]);
-                tResult = new MeasurePointManager(Configuration.getInstance());
+                tResult = new StoreManager();
                 sManager.set(tResult);
             } catch (Exception e)
             {

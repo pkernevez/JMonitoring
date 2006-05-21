@@ -1,18 +1,21 @@
-package org.jmonitoring.console.flow;
-
-import junit.framework.TestCase;
-import servletunit.struts.MockStrutsTestCase;
+package org.jmonitoring.core.common;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-public class TestFlowDeleteAction extends TestCase //extends MockStrutsTestCase
+public class UnknownFlowException extends Exception
 {
-    public void testT()
+    private static final long serialVersionUID = -3016354090452894479L;
+
+    public UnknownFlowException()
     {
-        assertTrue(true);
+    }
+
+    public UnknownFlowException( String pMsg)
+    {
+        super(pMsg);
     }
     
 }

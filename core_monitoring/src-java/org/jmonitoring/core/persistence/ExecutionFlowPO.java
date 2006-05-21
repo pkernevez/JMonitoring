@@ -43,42 +43,6 @@ public class ExecutionFlowPO
     {
     }
 
-//    public ExecutionFlowPO( ExecutionFlowDTO pDto)
-//    {
-//        BeanUtils.copyProperties(pDto, this);
-//    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param pId L'identifiant technique de ce flux.
-     * @param pThreadName The name of the Thread of this flow.
-     * @param pJVMIdentifier The identifier of this JVM or Server.
-     * @param pBeginTime L'heure de début de l'appel.
-     * @param pEndTime L'heure de fin de l'appel.
-     */
-    public ExecutionFlowPO(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
-    {
-        super();
-        mId = pId;
-        mThreadName = pThreadName;
-        mJvmIdentifier = pJVMIdentifier;
-        mBeginTime = pBeginTime;
-        mEndTime = pEndTime;
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param pThreadName The name of the Thread of this flow.
-     * @param pJVMIdentifier The identifier of this JVM or Server.
-     * @param pBeginTime L'heure de début de l'appel.
-     * @param pEndTime L'heure de fin de l'appel.
-     */
-    public ExecutionFlowPO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
-    {
-        this(-1, pThreadName, pJVMIdentifier, pBeginTime, pEndTime);
-    }
 
     /**
      * Constructor.

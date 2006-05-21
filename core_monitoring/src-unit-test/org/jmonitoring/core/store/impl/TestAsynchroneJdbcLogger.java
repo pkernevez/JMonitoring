@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.PersitanceHelper;
-import org.jmonitoring.core.utils.AspectLoggerEmulator;
+import org.jmonitoring.core.store.AspectLoggerEmulator;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -40,11 +40,11 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
         MockAbstractAsynchroneLogger.resetNbLog();
         MockAbstractAsynchroneLogger.resetNbPublish();
         AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new AsynchroneJdbcLogger(true));
-        tEmulator.simulateExecutionFlow();
+        tEmulator.simulateExecutionFlow(true);
         Thread.sleep(TIME_TO_WAIT);
 
         // Now check the number of toString called
-        assertEquals(4, AspectLoggerEmulator.Param.getNbToString());
+        assertEquals(3, AspectLoggerEmulator.Param.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());

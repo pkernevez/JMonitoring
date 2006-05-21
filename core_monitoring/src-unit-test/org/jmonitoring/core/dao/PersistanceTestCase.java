@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.DataSetException;
@@ -28,6 +30,8 @@ public abstract class PersistanceTestCase extends TestCase
 
     protected Transaction mTransaction;
 
+    private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
+    
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -45,37 +49,28 @@ public abstract class PersistanceTestCase extends TestCase
     protected void createDataSet(String pDataSetFileName)
     {
         Session tSession = HibernateManager.getSession();
-        // try
-        // {
-        // Transaction tTans = tSession.beginTransaction();
+
+        
         if (pDataSetFileName != null)
         {
             IDataSet tDataSet;
             try
             {
+                sLog.debug("Before CLEAN INSERT");
                 tDataSet = new XmlDataSet(getClass().getResourceAsStream(pDataSetFileName));
                 DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(tSession.connection()), tDataSet);
+                sLog.debug("Now flush data");
                 mPersistenceManager.flush();
             } catch (DataSetException e)
             {
                 throw new RuntimeException(e);
             } catch (Exception e)
             {
-                // @todo Auto-generated catch block
                 e.printStackTrace();
             }
         }
-        // Transaction.;
-        // } catch (Exception e)
-        // {
-        // tSession.clear();
-        // throw new RuntimeException(e);
-        // } catch (Error e1)
-        // {
-        // tSession.clear();
-        // throw e1;
-        // }
-    }
+        sLog.debug("end createDataSet");
+}
 
     protected void tearDown() throws Exception
     {

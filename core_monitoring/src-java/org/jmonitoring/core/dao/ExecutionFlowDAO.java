@@ -7,7 +7,6 @@ package org.jmonitoring.core.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,9 +16,13 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
-import org.jmonitoring.core.dto.MethodCallDTO;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.persistence.MethodCallPO;
 
 /**
  * Manage the persistance
@@ -59,8 +62,6 @@ public class ExecutionFlowDAO
     {
         int tThreadId = insertExecutionFlow(pExecutionFlow);
 
-        // insertMethodCallGraph(pExecutionFlowDTO.getFirstMeasure(), tThreadId);
-
         return tThreadId;
     }
 
@@ -90,7 +91,6 @@ public class ExecutionFlowDAO
      */
     public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
     { // On construit la requête
-
 
         Criteria tCriteria = mPersistenceManager.createCriteria(ExecutionFlowPO.class);
         if (pCriterion.getThreadName() != null)
@@ -138,196 +138,74 @@ public class ExecutionFlowDAO
     }
 
     /**
-     * Get the list of measure points for the specified <code>ExecutionFlowDTO</code>.
-     * 
      * @param pFlowId The execution flow identifier to read.
      * @return The corresponding ExecutionFlowDTO.
      * @todo Be sure that all MethodCall are already loaded after this call...
      */
-    public ExecutionFlowPO readFullExecutionFlow(int pFlowId)
-    {
-        sLog.debug("Read Flow");
-        ExecutionFlowPO tResultFlow = readExecutionFlow(pFlowId);
-        sLog.debug("Read MethodCalls of the Flow");
-        // tResultFlow = readMethodCallOfThisFlow(tResultFlow);
-        return tResultFlow;
-    }
-
-    private static final String SQL_SELECT_METHOD_CALL = "SELECT EXECUTION_FLOW_ID, SEQUENCE_ID, FULL_CLASS_NAME, " + "METHOD_NAME, DURATION, BEGIN_TIME, END_TIME, PARAMETERS, RESULT, "
-                    + "THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, PARENT_ID, "
-                    + "RETURN_TYPE, GROUP_NAME From method_call";
-
-    private static final String SQL_WHERE_CLAUSE_METHOD_CALL = " WHERE EXECUTION_FLOW_ID = ? " + "ORDER BY SEQUENCE_ID";
-
-    // /**
-    // * @param resultFlow
-    // * @return
-    // * @throws SQLException
-    // */
-    // private ExecutionFlowDTO readMethodCallOfThisFlow(ExecutionFlowDTO pResultFlow) throws SQLException
-    // {
-    //
-    // String tSQL = SQL_SELECT_METHOD_CALL + SQL_WHERE_CLAUSE_METHOD_CALL;
-    //
-    // PreparedStatement tStat = null;
-    // ResultSet tResultSet = null;
-    //
-    // try
-    // {
-    // tStat = mConnection.prepareStatement(tSQL);
-    // tStat.setInt(1, pResultFlow.getId());
-    //
-    // tResultSet = tStat.executeQuery();
-    // sLog.debug("Execute query for MethodCallDTO");
-    // Map tListOfMethodCall = new HashMap();
-    // MethodCallDTO curMeasure;
-    // boolean tFirstTime = true;
-    // while (tResultSet.next())
-    // {
-    // curMeasure = fillMeasureWithThisResultSet(tResultSet, tListOfMethodCall);
-    // if (tFirstTime)
-    // {
-    // pResultFlow.setFirstMeasure(curMeasure);
-    // tFirstTime = false;
-    // }
-    // }
-    //
-    // } finally
-    // {
-    // try
-    // {
-    // if (tResultSet != null)
-    // {
-    // tResultSet.close();
-    // }
-    // } finally
-    // {
-    // if (tStat != null)
-    // {
-    // tStat.close();
-    // }
-    // }
-    // }
-    //
-    // return pResultFlow;
-    // }
-
-    /**
-     * @param flowId
-     * @return
-     * @throws SQLException
-     */
-    private ExecutionFlowPO readExecutionFlow(int pFlowId)
+    public ExecutionFlowPO readExecutionFlow(int pFlowId)
     {
         return (ExecutionFlowPO) mPersistenceManager.load(ExecutionFlowPO.class, new Integer(pFlowId));
     }
 
-    private static final String SQL_TRUNCATE_METHODE_EXECUTION = "TRUNCATE TABLE METHOD_CALL";
-
-    private static final String SQL_TRUNCATE_EXECUTION_FLOW = "TRUNCATE TABLE EXECUTION_FLOW";
+    // /**
+    // * @param flowId
+    // * @return
+    // * @throws SQLException
+    // */
+    // private ExecutionFlowPO readExecutionFlow(int pFlowId)
+    // {
+    // return (ExecutionFlowPO) mPersistenceManager.load(ExecutionFlowPO.class, new Integer(pFlowId));
+    // }
 
     /**
-     * Delete all flows and linked objects.
+     * Delete all flows and linked objects. This method, drop and recreate the schema that is faster than the deletion
+     * of all instances.
      * 
      * @throws SQLException If an exception occures.
      */
     public void deleteAllFlows() throws SQLException
     {
-        Statement tStat = null;
-        try
-        {
-            tStat = mConnection.createStatement();
+        Configuration tConfig = HibernateManager.getConfig();
+        SchemaExport tDdlexport = new SchemaExport(tConfig);
 
-            tStat.execute(SQL_TRUNCATE_METHODE_EXECUTION);
-            tStat.execute(SQL_TRUNCATE_EXECUTION_FLOW);
-        } finally
-        {
-            if (tStat != null)
-
-            {
-                tStat.close();
-            }
-        }
-
+        tDdlexport.drop(true, true);
+        tDdlexport.create(true, true);
     }
 
     /**
      * Delete an <code>ExcecutionFlow</code> an its nested <code>MethodCallDTO</code>.
      * 
      * @param pId The <code>ExecutionFlowDTO</code> identifier.
-     * @throws SQLException If an exception occures.
+     * @throws UnknownFlowException If the flow can't be find in db. 
      * @todo menage
      */
-    public void deleteFlow(int pId) throws SQLException
+    public void deleteFlow(int pId) throws UnknownFlowException
     {
         ExecutionFlowPO tFlow = (ExecutionFlowPO) mPersistenceManager.get(ExecutionFlowPO.class, new Integer(pId));
-        mPersistenceManager.delete(tFlow);
-
-        // PreparedStatement tPStat = null;
-        // try
-        // {
-        //
-        // tPStat = mConnection.prepareStatement(SQL_DELETE_LINK + SQL_DELETE_WHERE_FLOW);
-        // tPStat.setInt(1, pId);
-        // tPStat.execute();
-        // tPStat.close();
-        //
-        // tPStat = mConnection.prepareStatement(SQL_DELETE_METHODE_EXECUTION + SQL_DELETE_WHERE_FLOW);
-        // tPStat.setInt(1, pId);
-        // tPStat.execute();
-        // tPStat.close();
-        //
-        // tPStat = mConnection.prepareStatement(SQL_DELETE_EXECUTION_FLOW + SQL_DELETE_WHERE);
-        // tPStat.setInt(1, pId);
-        // tPStat.execute();
-        // tPStat.close();
-        //
-        // } finally
-        // {
-        // if (tPStat != null)
-        //
-        // {
-        // tPStat.close();
-        // }
-        // }
-        //
+        if (tFlow == null)
+        {
+            throw new UnknownFlowException("Flow with Id=" + pId
+                            + " could not be retreive from database, and can't be delete");
+        } else
+        {
+            mPersistenceManager.delete(tFlow);
+        }
     }
-
-    private static final String SELECT_LIST_OF_MEASURE_POINT = "select *" + " from method_call where full_class_name = ? And method_name = ?";
 
     /**
      * Get the list of <code>MethodCallDTO</code> with the same classname and methodname.
      * 
      * @param pClassName The classname mask.
      * @param pMethodName The methodname mask.
-     * @return The result list.
+     * @return The list of <code>MethodCallPO</code> that math the criteria.
      * @throws SQLException If DataBase access fail.
      */
-    public MethodCallDTO[] getListOfMethodCall(String pClassName, String pMethodName) throws SQLException
+    public List getListOfMethodCall(String pClassName, String pMethodName)
     {
-        // PreparedStatement tPStat = null;
-        // try
-        // {
-        // tPStat = mConnection.prepareStatement(SELECT_LIST_OF_MEASURE_POINT);
-        //
-        // tPStat.setString(1, pClassName);
-        // tPStat.setString(2, pMethodName);
-        // ResultSet tResultSet = tPStat.executeQuery();
-        // List tList = new ArrayList();
-        // while (tResultSet.next())
-        // {
-        // tList.add(fillMeasureWithThisResultSet(tResultSet, new HashMap()));
-        // }
-        // MethodCallDTO[] tResult = (MethodCallDTO[]) tList.toArray(new MethodCallDTO[0]);
-        // return tResult;
-        // } finally
-        // {
-        // if (tPStat != null)
-        // {
-        // tPStat.close();
-        // }
-        // }
-        return null;
+        Criteria tCriteria = mPersistenceManager.createCriteria(MethodCallPO.class);
+        tCriteria.add(Restrictions.like("className", pClassName + "%"));
+        tCriteria.add(Restrictions.like("methodName", pMethodName + "%"));
+        return tCriteria.list();
     }
 
     private static final String SELECT_MEASURE_POINT = "select *" + " from method_call where EXECUTION_FLOW_ID = ? And sequence_id = ?";
@@ -335,101 +213,21 @@ public class ExecutionFlowDAO
     /**
      * Read a single <code>MethodCallDTO</code>.
      * 
-     * @param pFlowId The flow identifier.
-     * @param pSequenceId The sequence identifier.
+     * @param pMethodId The flow identifier.
      * @return The <code>MethodCallDTO</code>.
      * @throws SQLException If DataBase access fail.
      */
-    public MethodCallDTO readMethodCall(int pFlowId, int pSequenceId) throws SQLException
+    public MethodCallPO readMethodCall(int pMethodId)
     {
-        // PreparedStatement tPStat = null;
-        // try
-        // {
-        // tPStat = mConnection.prepareStatement(SELECT_MEASURE_POINT);
-        // tPStat.setInt(1, pFlowId);
-        // tPStat.setInt(2, pSequenceId);
-        // ResultSet tResultSet = tPStat.executeQuery();
-        // if (!tResultSet.next())
-        // {
-        // throw new MeasureException("Unvalid parameter, MethodCallDTO doesn't exist... FlowId=[" + pFlowId
-        // + "] & SequenceId=["
-        // + pSequenceId
-        // + "].");
-        // }
-        // return fillMeasureWithThisResultSet(tResultSet, new HashMap());
-        // } finally
-        // {
-        // if (tPStat != null)
-        // {
-        // tPStat.close();
-        // }
-        // }
-        return null;
+        Query tQuery = mPersistenceManager.createQuery("from MethodCallPO where id=:id");
+        tQuery.setInteger("id", pMethodId);
+        return (MethodCallPO) tQuery.uniqueResult();
     }
 
-    // private static final String SQL_SELECT_FULL_MEASURE_POINT = "SELECT Parent.* " + "FROM `method_call` Parent,
-    // `method_call` m "
-    // + "where Parent.EXECUTION_FLOW_ID=m.EXECUTION_FLOW_ID And m.EXECUTION_FLOW_ID = ? "
-    // + "And Parent.SEQUENCE_ID = m.PARENT_ID "
-    // + "And m.SEQUENCE_ID=? "
-    // + "UNION ALL "
-    // + "SELECT * FROM `method_call` m "
-    // + "where m.EXECUTION_FLOW_ID = ? "
-    // + "And m.SEQUENCE_ID=? "
-    // + "UNION ALL "
-    // + "SELECT * FROM `method_call` Child "
-    // + "where Child.EXECUTION_FLOW_ID = ? "
-    // + "And Child.PARENT_ID=?";
-
-    /**
-     * Get <code>MethodCallDTO</code> with its parent and chidren.
-     * 
-     * @param pFlowId The flow identifier.
-     * @param pSequenceId The sequence identifier.
-     * @return The <code>MethodCallDTO</code>.
-     * @throws SQLException If DataBase access fail.
-     */
-    public MethodCallDTO readFullMethodCall(int pFlowId, int pSequenceId) throws SQLException
-    {
-        // PreparedStatement tPStat = null;
-        // try
-        // {
-        // tPStat = mConnection.prepareStatement(SQL_SELECT_FULL_MEASURE_POINT);
-        // int curIndex = 1;
-        // tPStat.setInt(curIndex++, pFlowId);
-        // tPStat.setInt(curIndex++, pSequenceId);
-        // tPStat.setInt(curIndex++, pFlowId);
-        // tPStat.setInt(curIndex++, pSequenceId);
-        // tPStat.setInt(curIndex++, pFlowId);
-        // tPStat.setInt(curIndex++, pSequenceId);
-        // ResultSet tResultSet = tPStat.executeQuery();
-        // Map tListOfMeasure = new HashMap();
-        // while (tResultSet.next())
-        // {
-        // fillMeasureWithThisResultSet(tResultSet, tListOfMeasure);
-        // }
-        //
-        // // The Parent has only one child
-        // return (MethodCallDTO) tListOfMeasure.get(new Integer(pSequenceId));
-        // } finally
-        // {
-        // if (tPStat != null)
-        // {
-        // tPStat.close();
-        // }
-        // }
-        return null;
-    }
-
-//    private static final String SELECT_LIST_OF_MEASURE = "SELECT CONCAT(FULL_CLASS_NAME, '.', METHOD_NAME)" + " AS MEASURE_NAME, GROUP_NAME, COUNT(*) As NB"
-//    + " FROM `method_call` m "
-//    + "GROUP BY FULL_CLASS_NAME, METHOD_NAME, GROUP_NAME ORDER BY MEASURE_NAME";
-
-    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className  || '.' || MethodCallPO.methodName ,"+
-    " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
-    + " FROM MethodCallPO MethodCallPO "
-    + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "+
-    "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
+    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className  || '.' || MethodCallPO.methodName ," + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
+                    + " FROM MethodCallPO MethodCallPO "
+                    + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
+                    + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
 
     /**
      * Find the <code>List</code> of Measure from the database.
@@ -437,37 +235,18 @@ public class ExecutionFlowDAO
      * @return The <code>List</code> of all Measure.
      * @throws SQLException If the database is not available.
      */
-    public List getListOfMeasure() throws SQLException
+    public List getListOfMethodCallExtract() throws SQLException
     {
-        //List tResult = new ArrayList();
+        // List tResult = new ArrayList();
         Query tQuery = mPersistenceManager.createQuery(SELECT_LIST_OF_MEASURE);
         List tResult = new ArrayList();
-        MeasureExtract curMeasure;
         Object[] tExtract;
-        for (Iterator tIt = tQuery.list().iterator();tIt.hasNext();)
+        for (Iterator tIt = tQuery.list().iterator(); tIt.hasNext();)
         {
             tExtract = (Object[]) tIt.next();
-            tResult.add( new MeasureExtract((String)tExtract[0], (String)tExtract[1], (Integer)tExtract[2]));
+            tResult.add(new MethodCallExtract((String) tExtract[0], (String) tExtract[1], (Integer) tExtract[2]));
         }
-        return tResult;        
-//        PreparedStatement tPStat = null;
-//        try
-//        {
-//            tPStat = mConnection.prepareStatement(SELECT_LIST_OF_MEASURE);
-//            ResultSet tRSet = tPStat.executeQuery();
-//            while (tRSet.next())
-//            {
-//                tResult.add(new MeasureExtract(tRSet.getString("MEASURE_NAME"), tRSet.getString("GROUP_NAME"), tRSet
-//                                .getInt("NB")));
-//            }
-//            return tResult;
-//        } finally
-//        {
-//            if (tPStat != null)
-//            {
-//                tPStat.close();
-//            }
-//        }
+        return tResult;
     }
 
 }

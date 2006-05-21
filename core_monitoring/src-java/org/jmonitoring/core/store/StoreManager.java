@@ -11,7 +11,7 @@ import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.MethodCallPO;
-import org.jmonitoring.core.store.impl.MeasurePointTreeLoggerFactory;
+import org.jmonitoring.core.store.impl.StoreFactory;
 
 /**
  * Permet de logger sous forme XML l'ensemble des appels avec les signature et les temps d'exécution dans un fichier XML
@@ -21,12 +21,12 @@ import org.jmonitoring.core.store.impl.MeasurePointTreeLoggerFactory;
  * 
  * @author PKE
  */
-public class MeasurePointManager
+public class StoreManager
 {
     private MethodCallPO mCurrentLogPoint;
 
     /** <code>CommonsLog</code> instance. */
-    private static Log sLog;
+    static Log sLog;
 
     private IStoreWriter mStoreWriter;
 
@@ -37,14 +37,9 @@ public class MeasurePointManager
      * 
      * @param pConfiguration The configuration instance to use.
      */
-    public MeasurePointManager(Configuration pConfiguration)
+    public StoreManager()
     {
-        if (sLog == null)
-        {
-            sLog = LogFactory.getLog(this.getClass());
-        }
-        mConfiguration = pConfiguration;
-        mStoreWriter = MeasurePointTreeLoggerFactory.getNewInstance();
+        this(StoreFactory.getWriter(), Configuration.getInstance());
     }
 
     /**
@@ -53,7 +48,7 @@ public class MeasurePointManager
      * @param pStoreWriter The <code>IStoreWriter</code> to use.
      * @param pConfiguration The configuration instance to use.
      */
-    public MeasurePointManager(IStoreWriter pStoreWriter, Configuration pConfiguration)
+    public StoreManager(IStoreWriter pStoreWriter, Configuration pConfiguration)
     {
         if (sLog == null)
         {
@@ -99,18 +94,13 @@ public class MeasurePointManager
      */
     public void logEndOfMethodNormal(Object pResult)
     {
-        endMethod(mCurrentLogPoint, pResult);
+        // To limit call to toString on business object, that could be expensive
+        String tResultAsString = endMethod(mCurrentLogPoint, pResult);
         if (mCurrentLogPoint.getParentMethodCall() == null)
         { // Dernier appel du Thread
             if (sLog.isDebugEnabled())
             {
-                try
-                {
-                    sLog.debug("logEndOfMethodNormal Last Time" + pResult);
-                } catch (Throwable tT)
-                {
-                    sLog.error("Unable to trace return value.", tT);
-                }
+                sLog.debug("logEndOfMethodNormal Last Time" + tResultAsString);
             }
             ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
                             mConfiguration.getServerName());
@@ -120,7 +110,7 @@ public class MeasurePointManager
         {
             if (sLog.isDebugEnabled())
             {
-                sLog.debug("logEndOfMethodNormal Any Time" + pResult);
+                sLog.debug("logEndOfMethodNormal Any Time" + tResultAsString);
             }
             mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
         }
@@ -135,7 +125,7 @@ public class MeasurePointManager
     {
         if (sLog.isDebugEnabled())
         {
-            sLog.debug("logEndOfMethodWithException " + pException.getMessage());
+            sLog.debug("logEndOfMethodWithException " + (pException == null ? "" : pException.getMessage()));
         }
         if (pException == null)
         { // On ne logue pas le détail
@@ -159,7 +149,7 @@ public class MeasurePointManager
         {
             if (sLog.isDebugEnabled())
             {
-                sLog.debug("logEndOfMethodWithException Any Time" + pException.getMessage());
+                sLog.debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.getMessage()));
             }
             mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
         }
@@ -173,19 +163,22 @@ public class MeasurePointManager
      * @param pMethodCall the current methodcall to manage.
      * @param pReturnValue The return value of the method.
      */
-    public void endMethod(MethodCallPO pMethodCall, Object pReturnValue)
+    public String endMethod(MethodCallPO pMethodCall, Object pReturnValue)
     {
+        String tReturnValueAsString = null;
         pMethodCall.setEndTime(System.currentTimeMillis());
         if (pReturnValue != null)
         {
             try
             {
-                pMethodCall.setReturnValue(pReturnValue.toString());
+                tReturnValueAsString = pReturnValue.toString();
+                pMethodCall.setReturnValue(tReturnValueAsString);
             } catch (Throwable tT)
             {
-                sLog.error("Unable to trace return value.", tT);
+                sLog.error("Unable to trace return value of call.", tT);
             }
         }
+        return tReturnValueAsString;
     }
 
     /**

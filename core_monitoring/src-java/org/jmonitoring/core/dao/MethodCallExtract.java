@@ -9,7 +9,7 @@ package org.jmonitoring.core.dao;
  * Extract of a king of measure.
  *  
  */
-public class MeasureExtract
+public class MethodCallExtract
 {
     private String mName;
 
@@ -24,7 +24,7 @@ public class MeasureExtract
      * @param pGroupName The name of the group associated with this measure extract.
      * @param pNb The number of occurrence of this kind of measure.
      */
-    public MeasureExtract(String pName, String pGroupName, Integer pNb)
+    public MethodCallExtract(String pName, String pGroupName, Integer pNb)
     {
         mName = pName;
         mGroupName = pGroupName;
@@ -54,16 +54,6 @@ public class MeasureExtract
     /**
      * Accessor.
      * 
-     * @param pName The name of the measure.
-     */
-    public void setName(String pName)
-    {
-        mName = pName;
-    }
-
-    /**
-     * Accessor.
-     * 
      * @return The number of occurrence of this kind of measure.
      */
     public int getOccurenceNumber()
@@ -74,31 +64,11 @@ public class MeasureExtract
     /**
      * Accessor.
      * 
-     * @param pOccurenceNumber The number of occurrence of this kind of measure.
-     */
-    public void setOccurenceNumber(int pOccurenceNumber)
-    {
-        mOccurenceNumber = pOccurenceNumber;
-    }
-
-    /**
-     * Accessor.
-     * 
      * @return The group name assiociated with this kind of measure.
      */
     public String getGroupName()
     {
         return mGroupName;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @param pGroupName The group name assiociated with this kind of measure.
-     */
-    public void setGroupName(String pGroupName)
-    {
-        mGroupName = pGroupName;
     }
 
 }

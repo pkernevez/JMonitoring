@@ -7,19 +7,20 @@ package org.jmonitoring.core.process;
 public class ProcessFactory
 {
 
-    /**
-     * Use for test.
-     */
-    private static JMonitoringProcess sMockProcess;
-
-    static void setMockProcess(JMonitoringProcess pProcess)
-    {
-        sMockProcess = pProcess;
-    }
+//    /**
+//     * Use for test.
+//     */
+//    private static JMonitoringProcess sMockProcess;
+//
+//    static void setMockProcess(JMonitoringProcess pProcess)
+//    {
+//        sMockProcess = pProcess;
+//    }
     
     public static JMonitoringProcess getInstance()
     {
-        return (sMockProcess == null ? new JMonitoringProcess() : sMockProcess);
+//        return (sMockProcess == null ? new JMonitoringProcess() : sMockProcess);
+        return new JMonitoringProcess(); 
     }
     
 }

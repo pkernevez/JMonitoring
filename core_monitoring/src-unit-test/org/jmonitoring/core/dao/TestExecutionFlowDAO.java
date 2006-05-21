@@ -29,196 +29,11 @@ import org.jmonitoring.core.persistence.MethodCallPO;
  */
 public class TestExecutionFlowDAO extends PersistanceTestCase
 {
-    public void testGetListOfExecutionFlowWithoutCriteria()
-    {
-        int tExpectedResult = PersitanceHelper.countFlows(mPersistenceManager);
-
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
-        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
-        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
-
-        List tFlows = tFlowDAO.getListOfExecutionFlowPO(new FlowSearchCriterion());
-        assertEquals(tExpectedResult + 3, tFlows.size());
-
-    }
-
-    /**
-     * @todo Add test with criteria.
-     * @throws SQLException
-     */
-    public void testGetListOfExecutionFlowWithThreadName()
-    {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
-
-        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-        tCriterion.setThreadName("rr");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setThreadName("TEST-main");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setThreadName("TEST");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-    }
-
-    public void testGetListOfExecutionFlowWithDurationMin()
-    {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        tFlowDAO.insertFullExecutionFlow(buildNewFullFlow());
-
-        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-        tCriterion.setDurationMin(new Long(10));
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setDurationMin(new Long(25));
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-    }
-
-    public void testGetListOfExecutionFlowWithBeginDate()
-    {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
-        Date tToday = new Date(tFlow.getBeginTime());
-        tToday.setSeconds(0);
-        tToday.setMinutes(0);
-        tToday.setHours(0);
-
-        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-        // Today
-        tCriterion.setBeginDate(tToday);
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        // Yesterday
-        tCriterion.setBeginDate(new Date(tToday.getTime() - ExecutionFlowDAO.ONE_DAY));
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        // Tomorrow
-        tCriterion.setBeginDate(new Date(tToday.getTime() + ExecutionFlowDAO.ONE_DAY));
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-    }
-
-    public void testGetListOfExecutionFlowWithGroupName()
-    {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
-
-        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-        tCriterion.setGroupName("GrDefault");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setGroupName("GrDefa");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setGroupName("toto");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-        // Todo : groupName, className et methodName
-    }
-
-    public void testGetListOfExecutionFlowWithClassName()
-    {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
-        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-        String tClassName = TestExecutionFlowDAO.class.getName();
-        tCriterion.setClassName(tClassName);
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setClassName(tClassName.substring(0, 3));
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setClassName("toto");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-        // Todo : groupName, className et methodName
-    }
-
-    public void testGetListOfExecutionFlowWithMethodName()
-    {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
-        FlowSearchCriterion tCriterion = new FlowSearchCriterion();
-
-        tCriterion.setMethodName("builNewFullFlow");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setMethodName("builNewFull");
-        assertEquals(1, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-
-        tCriterion.setMethodName("toto");
-        assertEquals(0, tFlowDAO.getListOfExecutionFlowPO(tCriterion).size());
-    }
 
     public void testCountOk() throws SQLException
     {
         assertEquals(0, PersitanceHelper.countFlows(mPersistenceManager));
     }
-
-    public void testDeleteOneFlows() throws SQLException
-    {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        int tNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
-
-        // First instert a flow
-        ExecutionFlowPO tFlow = buildNewFullFlow();
-        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
-        int tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
-        assertEquals(tNbFlow + 1, tNewNbFlow);
-
-        tFlowDAO.deleteFlow(tFlowId);
-        mPersistenceManager.flush();
-        tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
-        assertEquals(tNbFlow, tNewNbFlow);
-
-        // Now we restore the DB
-        tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
-        assertEquals(tNbFlow, tNewNbFlow);
-
-    }
-
-    // Supprimé car il n'y a pas de transaction sur les TRUNCATE ==> impossible
-    // de laisser la base
-    // dans l'état initial
-    // public void testDeleteAllFlows() throws SQLException
-    // {
-    // int tOldResult = PersitanceHelper.countFlows(mPersistenceManager);
-    //
-    // Connection tCon = null;
-    // try
-    // {
-    // tCon = new StandAloneConnectionManager().getConnection();
-    // ExecutionFlowDTOMySqlDAO tFlowDAO = new ExecutionFlowDTOMySqlDAO(tCon);
-    // tFlowDAO.deleteAllFlows();
-    //
-    // int tNewResult = PersitanceHelper.countFlows(mPersistenceManager);
-    // assertEquals(0, tNewResult);
-    //
-    // tCon.rollback();
-    // tNewResult = PersitanceHelper.countFlows(mPersistenceManager);
-    // // Plus de test sur le rollback car les opérations Truncate sont en
-    // // dehors des transactions
-    // // assertEquals(tOldResult, tNewResult);
-    //
-    // } catch (AssertionFailedError e)
-    // {
-    // throw e;
-    // } catch (Throwable e)
-    // {
-    // e.printStackTrace();
-    // fail(e.getMessage());
-    // } finally
-    // {
-    // if (tCon != null)
-    // {
-    // tCon.close();
-    // }
-    // }
-    //
-    // }
 
     public void testInsertNewFlows() throws SQLException
     {
@@ -338,7 +153,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
     /**
      * @todo S'assurer qu'une méthode VOID est bien loguée comme une méthode void.
      */
-    public void testGetListOfMethodCall()
+    public void testGetMethodCallOfTheFlow()
     {
         int tOldResult = PersitanceHelper.countFlows(mPersistenceManager);
         int tOldResultM = countMethods();
@@ -357,7 +172,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
         assertEquals(tOldResultM + 3, countMethods());
 
-        ExecutionFlowPO tReadFlow = tFlowDAO.readFullExecutionFlow(tId);
+        ExecutionFlowPO tReadFlow = tFlowDAO.readExecutionFlow(tId);
         assertNotSame(tInitialFlow, tReadFlow);
 
         // Check the equality of the Flow
@@ -410,7 +225,30 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     }
 
-    public void testGetListOfMethodCallBis() throws SQLException
+    public void testReadMethodCall()
+    {
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        tFlowDAO.insertFullExecutionFlow(tFlow);
+        mPersistenceManager.flush();
+        mPersistenceManager.clear();
+        
+        MethodCallPO tInitialPoint =(MethodCallPO)tFlow.getFirstMethodCall().getChildren().get(0); 
+        MethodCallPO tReadPoint = tFlowDAO.readMethodCall(tInitialPoint.getId());
+        assertNotSame(tInitialPoint, tReadPoint);
+        
+        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
+        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
+        assertEquals("[]", tReadPoint.getParams());
+        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
+        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
+        assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
+        assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
+        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+    }
+    
+    public void testGetListOfMethodCallExtract() throws SQLException
     {
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
 
@@ -423,18 +261,18 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         ExecutionFlowPO tFlow = buildNewFullFlow();
         int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
 
-        List tMeasureExtracts = tFlowDAO.getListOfMeasure();
-        MeasureExtract curExtrat = (MeasureExtract) tMeasureExtracts.get(0);
+        List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
+        MethodCallExtract curExtrat = (MethodCallExtract) tMeasureExtracts.get(0);
         assertEquals("org.jmonitoring.core.dao.TestExecutionFlowDAO.builNewFullFlow", curExtrat.getName());
         assertEquals("GrDefault", curExtrat.getGroupName());
         assertEquals(1, curExtrat.getOccurenceNumber());
 
-        curExtrat = (MeasureExtract) tMeasureExtracts.get(1);
+        curExtrat = (MethodCallExtract) tMeasureExtracts.get(1);
         assertEquals("org.jmonitoring.core.dao.TestExecutionFlowDAO.builNewFullFlow2", curExtrat.getName());
         assertEquals("GrChild1", curExtrat.getGroupName());
         assertEquals(1, curExtrat.getOccurenceNumber());
 
-        curExtrat = (MeasureExtract) tMeasureExtracts.get(2);
+        curExtrat = (MethodCallExtract) tMeasureExtracts.get(2);
         assertEquals("org.jmonitoring.core.dao.TestExecutionFlowDAO.builNewFullFlow3", curExtrat.getName());
         assertEquals("GrChild2", curExtrat.getGroupName());
         assertEquals(1, curExtrat.getOccurenceNumber());

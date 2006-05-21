@@ -47,7 +47,7 @@ public class FlowSearchAction extends Action
 
         FlowSearchCriterion tCriterion = copyBeanFormToCriterion(tForm);
 
-        ((FlowSearchForm) pForm).setListOfFlows(tProcess.getListOfDto(tCriterion));
+        ((FlowSearchForm) pForm).setListOfFlows(tProcess.getListOfExecutionFlowDto(tCriterion));
         return pMapping.findForward("success");
     }
 

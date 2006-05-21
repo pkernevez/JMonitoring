@@ -9,5 +9,15 @@
    	         <attainGoal name="aspectj"/>
        </preGoal>
 
+   	   <postGoal name="jar:install">
+   	         <delete dir="${maven.build.dir}/classes"/>
+   	         <delete dir="${maven.build.dir}/test-classes"/>
+       </postGoal>
+
+   	   <postGoal name="site">
+   	         <delete dir="${maven.build.dir}/classes"/>
+   	         <delete dir="${maven.build.dir}/test-classes"/>
+       </postGoal>
+
  </project>
         

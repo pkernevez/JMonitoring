@@ -2,7 +2,7 @@ package org.jmonitoring.core.store.impl;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.utils.AspectLoggerEmulator;
+import org.jmonitoring.core.store.AspectLoggerEmulator;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -41,7 +41,7 @@ public class TestAbstractAsynchroneLogger extends TestCase
         //Log NB_FLOW_TO_LOG
         for (int i = 0; i < NB_FLOW_TO_LOG; i++)
         {
-            tEmulator.simulateExecutionFlow();
+            tEmulator.simulateExecutionFlow(true);
         }
         assertEquals(NB_FLOW_TO_LOG, MockAbstractAsynchroneLogger.getNbPublish());
         Thread.sleep(TIME_TO_WAIT);

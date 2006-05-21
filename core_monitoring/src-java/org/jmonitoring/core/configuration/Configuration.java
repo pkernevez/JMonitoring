@@ -28,9 +28,9 @@ public final class Configuration
 {
     private static Configuration sConfiguration;
 
-    private Log mLog;
+    private static Log sLog = LogFactory.getLog(Configuration.class);
 
-    /** Class de Log a utiliser. */
+    /** Class de Stockage a utiliser. */
     private Class mMeasurePointStoreClass;
 
     /** Repertoire de log pour les fichiers. */
@@ -72,7 +72,6 @@ public final class Configuration
     {
         try
         {
-            mLog = LogFactory.getLog(Configuration.class);
             PropertiesConfiguration tConfig = loadConfig();
 
             loadStoreClass(tConfig);
@@ -89,27 +88,11 @@ public final class Configuration
             initColor(tConfig);
         } catch (Error e)
         {
-            if (mLog != null)
-            {
-                mLog.error("Error during the loading of the configuration file \"jmonitoring.properties\"", e);
-            } else
-            {
-                PrintStream tStream = System.out;
-                tStream.println("Error during the loading of the configuration file " + "\"jmonitoring.properties\""
-                                + e);
-            }
+                sLog.error("Error during the loading of the configuration file \"jmonitoring.properties\"", e);
             throw e;
         } catch (RuntimeException e2)
         {
-            if (mLog != null)
-            {
-                mLog.error("Error during the loading of the configuration file " + "\"jmonitoring.properties\"", e2);
-            } else
-            {
-                PrintStream tStream = System.out;
-                tStream.println("Error during the loading of the configuration file " + "\"jmonitoring.properties\""
-                                + e2);
-            }
+                sLog.error("Error during the loading of the configuration file " + "\"jmonitoring.properties\"", e2);
             throw e2;
         }
     }
@@ -123,7 +106,7 @@ public final class Configuration
             tResultClass = Class.forName(tLoggerClassName);
         } catch (ClassNotFoundException e1)
         {
-            mLog.error("Unable to create LogClass, using default class : AsynchroneJdbcLogger");
+            sLog.error("Unable to create LogClass, using default class : AsynchroneJdbcLogger");
             tResultClass = AsynchroneJdbcLogger.class;
         }
         mMeasurePointStoreClass = tResultClass;
@@ -162,7 +145,7 @@ public final class Configuration
                 mGroupColor.put(tGroupName, new Color(tRed, tGreen, tBlue));
             } catch (Throwable t)
             { //Nothing to do we'll use the calculateColorMethod
-                mLog.error("Unable to initialise ColorGroup name for Key=[" + curKey + "]");
+                sLog.warn("Unable to initialise ColorGroup name for Key=[" + curKey + "]");
             }
 
         }
@@ -377,6 +360,19 @@ public final class Configuration
     public String getServerName()
     {
         return mServerName;
+    }
+
+    public void setLogMethodParameter(boolean pLogParameter)
+    {
+        mLogMethodParameter = pLogParameter;
+    }
+
+    /**
+     * @param pMeasurePointStoreClass The measurePointStoreClass to set.
+     */
+    public void setMeasurePointStoreClass(Class pMeasurePointStoreClass)
+    {
+        mMeasurePointStoreClass = pMeasurePointStoreClass;
     }
 
 }

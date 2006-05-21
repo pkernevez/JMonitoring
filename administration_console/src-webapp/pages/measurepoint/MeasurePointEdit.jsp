@@ -16,7 +16,7 @@
 <%
 	MeasurePointForm tForm = (MeasurePointForm)request.getAttribute("measurepointform");
 	Connection tConnection = new StandAloneConnectionManager(Configuration.getInstance()).getConnection();
-    ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession().connection());
+    ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession());
 	tForm.setMeasurePoint( tDao.readFullMethodCall( tForm.getFlowId(), tForm.getSequenceId() ) );
 %>
 

@@ -17,7 +17,7 @@ public class TestMeasureExtract extends TestCase
 {
     public void testGetMethodName()
     {
-        MeasureExtract tExtract = new MeasureExtract("org.kernevez.Test.getTest", "Grp1", new Integer(3));
+        MethodCallExtract tExtract = new MethodCallExtract("org.kernevez.Test.getTest", "Grp1", new Integer(3));
         assertEquals("getTest", tExtract.getMethodName());
         assertEquals("org.kernevez.Test.getTest", tExtract.getName());
         assertEquals("Grp1", tExtract.getGroupName());

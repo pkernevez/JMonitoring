@@ -1,11 +1,15 @@
 package org.jmonitoring.core.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.MethodCallPO;
 import org.springframework.beans.BeanUtils;
+
+import sun.awt.print.resources.printcontrol;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -45,6 +49,16 @@ public final class DtoHelper
         {
             curMethod = (MethodCallPO) tIt.next();
             tResult.addChild(getMethodCallDto(curMethod));
+        }
+        return tResult;
+    }
+
+    public static List copyListOfMethodPO(List pResult)
+    {
+        List tResult = new ArrayList(pResult.size());
+        for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
+        {
+            tResult.add(getMethodCallDto((MethodCallPO) tIt.next()));
         }
         return tResult;
     }
