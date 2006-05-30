@@ -61,7 +61,7 @@ Calendar.setup({
 {//Not the first time
 %>
 		<!-- Table des resultats -->
-		<display:table htmlId="results" name="flowsearchform.listOfFlows" sort="list" pagesize="20" requestURI="FlowSearchSubmit.do">
+		<display:table htmlId="results" name="flowsearchform.listOfFlows" sort="list" pagesize="20" requestURI="FlowSearchOut.do">
 			<display:column property="id" sortable="true" title="Tech Id" href="FlowEditIn.do" paramId="id"/>
 			<display:column property="threadName" title="Thread" />	
 	  		<display:column property="jvmIdentifier" title="Server" />

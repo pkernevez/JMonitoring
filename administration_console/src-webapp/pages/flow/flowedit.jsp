@@ -35,12 +35,12 @@
 		<td>Duration</td>
 		<td><bean:write name="floweditform" property="executionFlow.durationAsString"/></td>
 		<td>Group Name</td>
-		<td><bean:write name="floweditform" property="executionFlow.firstMeasure.groupName"/></td>
+		<td><bean:write name="floweditform" property="executionFlow.firstMethodCall.groupName"/></td>
 	</tr>
 	<tr>
 		<td>Appel</td>
-		<td colSpan="3"><bean:write name="floweditform" property="executionFlow.firstMeasure.className"/>
-			.<bean:write name="floweditform" property="executionFlow.firstMeasure.methodName"/>()</td>
+		<td colSpan="3"><bean:write name="floweditform" property="executionFlow.className"/>
+			.<bean:write name="floweditform" property="executionFlow.methodName"/>()</td>
 	</tr>
 </table>
 
@@ -68,23 +68,6 @@
 	<%=tBuffer.toString()%>
 <%	
 	}
-//We flush with smaller buffer
-//	char[] tCharBuffer = new char[1000];
-//	int tSize = tBuffer.length();
-//	int tBegin, tEnd;
-//	for (int i=0; i<(tSize/1000); i++)
-//	{
-//		tBegin = i*1000;
-//		tEnd = (i+1)*1000;
-//		tBuffer.getChars(tBegin, tEnd, tCharBuffer, 0);	
-//		==tCharBuffer
-//		
-//	}
-//	tBegin = (tSize/1000)*1000;
-//    tEnd = tBegin + tSize%1000;
-//	tCharBuffer = new char[tSize%1000];
-//	tBuffer.getChars(tBegin, tEnd, tCharBuffer, 0);
-//=tCharBuffer
 %>
 </div>
 

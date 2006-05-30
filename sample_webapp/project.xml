@@ -353,7 +353,7 @@
         <report>maven-simian-plugin</report>
         <!--report>maven-findbugs-plugin</report-->
         <!--report>maven-pmd-plugin</report-->
-        <report>maven-strutsdoc-plugin</report>
+        <!--report>maven-strutsdoc-plugin</report-->
   </reports>    
  
     
