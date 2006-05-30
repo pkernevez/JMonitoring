@@ -127,8 +127,6 @@
           <version>${depends.cglib.version}</version>
           <url>http://jmock.codehaus.org</url>
         </dependency>
-        
-        
 
         <dependency>
           <id>log4j</id>
@@ -141,7 +139,6 @@
           <version>${depends.commonslogging.version}</version>
           <url>http://www.apache.org/</url>
         </dependency>
-
 
         <dependency>
           <groupId>aspectj</groupId>

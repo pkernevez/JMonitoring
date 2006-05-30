@@ -1,7 +1,5 @@
 package org.jmonitoring.core.dao;
 
-import java.sql.SQLException;
-
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;

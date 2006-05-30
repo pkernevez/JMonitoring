@@ -5,8 +5,8 @@ package org.jmonitoring.console.flow.stack;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.io.IOException;
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.taglibs.standard.lang.jpath.encoding.HtmlEncoder;

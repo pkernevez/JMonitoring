@@ -8,7 +8,6 @@ package org.jmonitoring.console.measurepoint;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +34,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
 

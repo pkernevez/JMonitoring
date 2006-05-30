@@ -5,9 +5,7 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.Date;
 import java.util.List;
 
@@ -30,25 +28,25 @@ import org.jmonitoring.core.persistence.MethodCallPO;
 public class TestExecutionFlowDAO extends PersistanceTestCase
 {
 
-    public void testCountOk() throws SQLException
+    public void testCountOk() 
     {
-        assertEquals(0, PersitanceHelper.countFlows(mPersistenceManager));
+        assertEquals(0, new ExecutionFlowDAO(mPersistenceManager).countFlows());
     }
 
-    public void testInsertNewFlows() throws SQLException
+    public void testInsertNewFlows() 
     {
-        int tOldResult = PersitanceHelper.countFlows(mPersistenceManager);
+                ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+                int tOldResult = tFlowDAO.countFlows();
 
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
 
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
 
-        int tNewResult = PersitanceHelper.countFlows(mPersistenceManager);
+        int tNewResult = tFlowDAO.countFlows();
         assertEquals(tOldResult + 1, tNewResult);
     }
 
-    public void testInsertMethodCall() throws SQLException
+    public void testInsertMethodCall() 
     {
         int tOldResult = countMethods();
 
@@ -60,7 +58,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         assertEquals(tOldResult + 1, tNewResult);
     }
 
-    public void testInsertMethodCalls() throws SQLException
+    public void testInsertMethodCalls() 
     {
         int tOldResult = countMethods();
 
@@ -83,7 +81,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     }
 
-    public void testLinkedMethodCalls() throws SQLException
+    public void testLinkedMethodCalls() 
     {
         int tOldResult = countMethods();
 
@@ -155,16 +153,16 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
      */
     public void testGetMethodCallOfTheFlow()
     {
-        int tOldResult = PersitanceHelper.countFlows(mPersistenceManager);
-        int tOldResultM = countMethods();
-
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+
+        int tOldResult = tFlowDAO.countFlows();
+        int tOldResultM = countMethods();
 
         // First insert the new Flow in DB.
         ExecutionFlowPO tInitialFlow = buildNewFullFlow();
         int tId = tFlowDAO.insertFullExecutionFlow(tInitialFlow);
         // Check the insertion
-        int tNewResult = PersitanceHelper.countFlows(mPersistenceManager);
+        int tNewResult = tFlowDAO.countFlows();
         assertEquals(tOldResult + 1, tNewResult);
 
         mPersistenceManager.flush();
@@ -248,7 +246,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
     }
     
-    public void testGetListOfMethodCallExtract() throws SQLException
+    public void testGetListOfMethodCallExtract() 
     {
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
 

@@ -5,8 +5,6 @@ package org.jmonitoring.console.measurepoint;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,7 +13,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.MethodCallExtract;
 import org.jmonitoring.core.persistence.HibernateManager;
@@ -48,25 +45,9 @@ public class MeasureMenuUtil
      */
     private Map getTreeOfMeasure()
     {
-        Connection tCon = null;
-        try
-        {
-            try
-            {
                 ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession());
                 List tListOfMeasure = tDao.getListOfMethodCallExtract();
                 return convertListAsTree(tListOfMeasure);
-            } finally
-            {
-                if (tCon != null)
-                {
-                    tCon.close();
-                }
-            }
-        } catch (SQLException e)
-        {
-            throw new MeasureException("Unable to get List of Measure.", e);
-        }
     }
 
     /**

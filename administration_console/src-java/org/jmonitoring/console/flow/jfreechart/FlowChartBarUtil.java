@@ -16,9 +16,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.dto.MethodCallDTO;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.ChartUtilities;
@@ -30,12 +27,15 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.GanttRenderer;
 import org.jfree.chart.urls.StandardCategoryURLGenerator;
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
+import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.dto.MethodCallDTO;
 
 public class FlowChartBarUtil
 {

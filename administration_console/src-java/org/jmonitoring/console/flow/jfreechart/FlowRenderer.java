@@ -10,8 +10,6 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import org.jmonitoring.core.configuration.Configuration;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.axis.CategoryAxis;
@@ -26,6 +24,7 @@ import org.jfree.chart.renderer.category.GanttRenderer;
 import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
+import org.jmonitoring.core.configuration.Configuration;
 
 /**
  * Custom Rendere for Flows.

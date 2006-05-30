@@ -1,7 +1,5 @@
 package org.jmonitoring.core.persistence;
 
-import java.sql.SQLException;
-import java.util.List;
 
 import org.jmonitoring.core.dao.PersistanceTestCase;
 
@@ -12,7 +10,7 @@ import org.jmonitoring.core.dao.PersistanceTestCase;
 
 public class TestExecutionFlowPO extends PersistanceTestCase
 {
-    public void testGetListOfExecutionFlow() throws SQLException 
+    public void testGetListOfExecutionFlow()  
     {
 //        mPersistenceManager.clear();
 //        mPersistenceManager.flush();

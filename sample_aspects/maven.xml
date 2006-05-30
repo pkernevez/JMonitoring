@@ -5,7 +5,7 @@
         xmlns:ant="jelly:ant"
         xmlns:x="jelly:xml">
 
-   	   <preGoal name="java:compile">
+   	   <preGoal name="jar:jar">
              <attainGoal name="aspectj"/>
        </preGoal>
      

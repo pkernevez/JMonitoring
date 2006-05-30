@@ -20,7 +20,7 @@
     <package>net.kernevez</package>
     
     <description>
-         This project provides an Administration console for Monitring infrastrcture.
+         This project provides an a sample for JMonitring.
     </description>
   
     <!-- dépendances -->
@@ -61,21 +61,133 @@
         </dependency>
 
         <dependency>
-          <id>concurrent</id>
-          <version>${depends.concurrent.version}</version>
-          <url>http://gee.cs.oswego.edu/dl//</url>
-            <properties>
-                <eclipse.dependency>true</eclipse.dependency>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-
-        <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
           <version>${depends.junit.version}</version>
           <url>http://www.junit.org/</url>
         </dependency>
+
+        <dependency>
+          <id>displaytag</id>
+          <version>${depends.displaytag.version}</version>
+          <url>http://displaytag.sourceforge.net/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+
+
+        <dependency>
+          <id>dbunit</id>
+          <version>${depends.dbunit.version}</version>
+          <url>http://www.dbunit.org/</url>
+        </dependency>
+
+        <dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-core</artifactId>
+          <version>${depends.spring.core.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <id>hibernate</id>
+          <version>${depends.hibernate.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+          <url>http://www.hibernate.org</url>
+        </dependency>
+
+        <dependency>
+          <id>antlr</id>
+          <version>${depends.antlr.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+          <url>http://www.ant.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${depends.hsqldb.version}</version>
+            <type>jar</type>
+            <url>http://www.hsqldb.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+            <version>${depends.dom4j.version}</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+            <version>${depends.ehcache.version}</version>
+            <type>jar</type>
+        </dependency>
+       
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>${depends.mysql.version}</version>
+          <url>http://www.mysql.com/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+        
+        <dependency>
+            <groupId>j2ee</groupId>
+            <artifactId>j2ee</artifactId>
+            <version>${depends.j2ee.version}</version>
+            <type>jar</type>
+            <url>http://java.sun.com</url>
+        </dependency>
+        
+        <!--dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-context</artifactId>
+          <version>${depends.spring.core.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency-->
+
+        <dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+          <version>${depends.spring.core.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <groupId>cglib</groupId>
+          <artifactId>cglib-nodep</artifactId>
+          <version>${depends.cglib.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+
+
+
 
         <dependency>
           <id>log4j</id>
@@ -132,26 +244,6 @@
         </dependency>
 
         <dependency>
-          <groupId>aspectj</groupId>
-          <artifactId>aspectjrt</artifactId>
-          <version>${depends.aspectj.version}</version>
-          <url>http://eclipse.org/aspectj/</url>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-
-        <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>${depends.mysql.version}</version>
-          <url>http://www.mysql.com/</url>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-        
-        <dependency>
           <id>servletapi</id>
           <version>${depends.servletapi.version}</version>
           <url>http://www.sun.com/</url>
@@ -174,6 +266,28 @@
         </dependency>    
         
         <dependency>
+            <groupId>strutstestcase</groupId>
+            <artifactId>strutstest</artifactId>
+            <version>${depends.strutstest.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>    
+        
+        <dependency>
+          <id>jmock</id>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+        <dependency>
+          <groupId>jmock</groupId>
+          <artifactId>jmock-cglib</artifactId>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+    
+        <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
             <version>${depends.taglibstd.version}</version>
@@ -182,7 +296,7 @@
             </properties>
         </dependency>    
         
-        <!--dependency>
+        <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>${depends.jfreechart.version}</version>
@@ -198,7 +312,28 @@
             <properties>
                 <war.bundle>true</war.bundle>
             </properties>
-        </dependency-->    
+        </dependency>    
+        
+        <dependency>
+          <groupId>aspectj</groupId>
+          <artifactId>aspectjrt</artifactId>
+          <version>${depends.aspectj.version}</version>
+          <url>http://eclipse.org/aspectj/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+          <id>concurrent</id>
+          <version>${depends.concurrent.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+       
     </dependencies>         
    <!--  Verrue pour pouvoir builder ! -->
   <reports>

@@ -6,7 +6,6 @@
 <%@page import="org.jmonitoring.console.measurepoint.MeasurePointForm"%>
 <%@page import="org.jmonitoring.core.configuration.Configuration"%>
 <%@page import="org.jmonitoring.core.dao.ExecutionFlowDAO"%>
-<%@page import="java.sql.Connection"%>
 <%@page import="org.jmonitoring.core.persistence.HibernateManager"%>
 
 

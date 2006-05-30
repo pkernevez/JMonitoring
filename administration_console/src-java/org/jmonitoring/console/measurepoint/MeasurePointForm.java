@@ -8,10 +8,9 @@ package org.jmonitoring.console.measurepoint;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.struts.action.ActionForm;
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
-
-import org.apache.struts.action.ActionForm;
 
 /**
  * Form associated with <code>MethodCallDTO</code>.

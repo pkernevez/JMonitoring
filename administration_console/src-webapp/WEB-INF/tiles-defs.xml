@@ -71,5 +71,6 @@
     
 
     <definition name="errorpage" path="/pages/error.jsp"/>
+    <definition name="functionalerror" path="/pages/functionalError.jsp"/>
     
 </tiles-definitions>

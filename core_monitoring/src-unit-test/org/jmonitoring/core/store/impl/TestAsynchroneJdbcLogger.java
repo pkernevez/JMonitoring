@@ -1,9 +1,7 @@
 package org.jmonitoring.core.store.impl;
 
-import java.sql.SQLException;
-
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.dao.PersitanceHelper;
 import org.jmonitoring.core.store.AspectLoggerEmulator;
 
 /***************************************************************************
@@ -35,7 +33,8 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
         int tInitialFlowCount;
         // We check the result into DB
         int tFinalFlowCount;
-        tInitialFlowCount = PersitanceHelper.countFlows(mPersistenceManager);
+        ExecutionFlowDAO tFlowDao = new ExecutionFlowDAO(mPersistenceManager);
+        tInitialFlowCount = tFlowDao.countFlows();
 
         MockAbstractAsynchroneLogger.resetNbLog();
         MockAbstractAsynchroneLogger.resetNbPublish();
@@ -49,7 +48,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
 
-        tFinalFlowCount = PersitanceHelper.countFlows(mPersistenceManager);
+        tFinalFlowCount = tFlowDao.countFlows();
         
         mPersistenceManager.flush();
         assertEquals(tInitialFlowCount + 1, tFinalFlowCount);

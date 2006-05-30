@@ -35,6 +35,12 @@ public class ExecutionFlowDTO
     /** Technical identifier. */
     private int mId;
 
+    /** Nom de la classe sur laquelle est fait l'appel de la méthode. */
+    private String mClassName;
+
+    /** Nom de la méthode associée à ce point de mesure. */
+    private String mMethodName;
+
     /**
      * Constructor.
      */
@@ -61,36 +67,36 @@ public class ExecutionFlowDTO
         mEndTime = new Date(pEndTime);
     }
 
-//    /**
-//     * Constructor.
-//     * 
-//     * @param pThreadName The name of the Thread of this flow.
-//     * @param pJVMIdentifier The identifier of this JVM or Server.
-//     * @param pBeginTime L'heure de début de l'appel.
-//     * @param pEndTime L'heure de fin de l'appel.
-//     */
-//    public ExecutionFlowDTO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
-//    {
-//        this(-1, pThreadName, pJVMIdentifier, pBeginTime, pEndTime);
-//    }
+    // /**
+    // * Constructor.
+    // *
+    // * @param pThreadName The name of the Thread of this flow.
+    // * @param pJVMIdentifier The identifier of this JVM or Server.
+    // * @param pBeginTime L'heure de début de l'appel.
+    // * @param pEndTime L'heure de fin de l'appel.
+    // */
+    // public ExecutionFlowDTO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    // {
+    // this(-1, pThreadName, pJVMIdentifier, pBeginTime, pEndTime);
+    // }
 
-//    /**
-//     * Constructor.
-//     * 
-//     * @param pThreadName The name of the Thread of this flow.
-//     * @param pFirstMeasure First <code>MeasurePoint</code> of this flow.
-//     * @param pJVMIdentifier The identifier of this JVM or Server.
-//     *  
-//     */
-//    public ExecutionFlowDTO(String pThreadName, MethodCallDTO pFirstMeasure, String pJVMIdentifier)
-//    {
-//        mThreadName = pThreadName;
-//        mFirstMethodCall = pFirstMeasure;
-//        mJvmIdentifier = pJVMIdentifier;
-//        mBeginTime = mFirstMethodCall.getBeginTime();
-//        mEndTime = mFirstMethodCall.getEndTime();
-//    }
-//
+    // /**
+    // * Constructor.
+    // *
+    // * @param pThreadName The name of the Thread of this flow.
+    // * @param pFirstMeasure First <code>MeasurePoint</code> of this flow.
+    // * @param pJVMIdentifier The identifier of this JVM or Server.
+    // *
+    // */
+    // public ExecutionFlowDTO(String pThreadName, MethodCallDTO pFirstMeasure, String pJVMIdentifier)
+    // {
+    // mThreadName = pThreadName;
+    // mFirstMethodCall = pFirstMeasure;
+    // mJvmIdentifier = pJVMIdentifier;
+    // mBeginTime = mFirstMethodCall.getBeginTime();
+    // mEndTime = mFirstMethodCall.getEndTime();
+    // }
+    //
     /**
      * @return Returns the mFirstMethodCall.
      */
@@ -280,4 +286,37 @@ public class ExecutionFlowDTO
     {
         return mFirstMethodCall.getSubMeasureCount();
     }
+
+    /**
+     * @return Returns the className.
+     */
+    public String getClassName()
+    {
+        return mClassName;
+    }
+
+    /**
+     * @param pClassName The className to set.
+     */
+    public void setClassName(String pClassName)
+    {
+        mClassName = pClassName;
+    }
+
+    /**
+     * @return Returns the methodName.
+     */
+    public String getMethodName()
+    {
+        return mMethodName;
+    }
+
+    /**
+     * @param pMethodName The methodName to set.
+     */
+    public void setMethodName(String pMethodName)
+    {
+        mMethodName = pMethodName;
+    }
+
 }

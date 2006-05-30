@@ -4,7 +4,9 @@ import java.text.ParseException;
 
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
-import junit.framework.TestCase;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
+
+import servletunit.struts.MockStrutsTestCase;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -13,12 +15,13 @@ import junit.framework.TestCase;
 
 /**
  * @author pke
- *  
+ * 
  */
-public class TestFlowSearchAction extends TestCase
+public class TestFlowSearchAction extends MockStrutsTestCase
 {
     /**
      * Test class.
+     * 
      * @throws ParseException Exception.
      */
     public void testCopyBeanFormToCriterion() throws ParseException
@@ -33,7 +36,7 @@ public class TestFlowSearchAction extends TestCase
         tForm.setJVM("my server n°2");
         tForm.setThreadName("MainThread");
 
-        FlowSearchCriterion tCrit = FlowSearchAction.copyBeanFormToCriterion(tForm);
+        FlowSearchCriterion tCrit = FlowSearchActionOut.copyBeanFormToCriterion(tForm);
         assertEquals("27/09/05", Configuration.getInstance().getDateFormater().format(tCrit.getBeginDate()));
         assertEquals("11:30:34", Configuration.getInstance().getTimeFormater().format(tCrit.getBeginTimeMin()));
         assertEquals(new Long(2 + 1), tCrit.getDurationMin());
@@ -45,15 +48,57 @@ public class TestFlowSearchAction extends TestCase
 
         tForm.setBeginDate("");
         tForm.setBeginTimeMin("");
-        tCrit = FlowSearchAction.copyBeanFormToCriterion(tForm);
+        tCrit = FlowSearchActionOut.copyBeanFormToCriterion(tForm);
         assertNull(tCrit.getBeginDate());
         assertNull(tCrit.getBeginDate());
 
         tForm.setBeginDate(null);
         tForm.setBeginTimeMin(null);
-        tCrit = FlowSearchAction.copyBeanFormToCriterion(tForm);
+        tCrit = FlowSearchActionOut.copyBeanFormToCriterion(tForm);
         assertNull(tCrit.getBeginDate());
         assertNull(tCrit.getBeginDate());
 
     }
+
+    public void testActionSearchOutWithCriteria()
+    {
+        FlowBuilderUtil tUtil = new FlowBuilderUtil();
+        tUtil.createSchema();
+        tUtil.buildAndSaveNewDto(3);
+
+        assertEquals(1, tUtil.countFlows());
+        tUtil.clear();
+
+        FlowSearchForm tForm = new FlowSearchForm();
+        tForm.setDurationMin("5");
+
+        assertNull(tForm.getListOfFlows());
+
+        setRequestPathInfo("/FlowSearchOut");
+        setActionForm(tForm);
+        actionPerform();
+        verifyForwardPath("/pages/layout/layout.jsp");
+
+        verifyTilesForward("success", "flowsearch");
+
+        assertNotNull(tForm.getListOfFlows());
+        assertEquals(1, tForm.getListOfFlows().size());
+        ExecutionFlowDTO tFlow = (ExecutionFlowDTO) tForm.getListOfFlows().get(0);
+
+        //On ne ramène pas les grappes d'objets, mais seulement les ExecutionFlowDto
+        assertNull(tFlow.getFirstMethodCall());
+//        assertEquals(3, tFlow.getFirstMethodCall().getChildren().size());
+    }
+
+    public void testActionSearchIn()
+    {
+        setRequestPathInfo("/FlowSearchIn");
+        actionPerform();
+        verifyForwardPath("/pages/layout/layout.jsp");
+
+//        verifyTilesForward("success", "flowsearch");
+
+        assertNotNull(getActionForm());
+    }
+
 }

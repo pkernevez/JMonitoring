@@ -21,7 +21,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class DeleteAllFlowsAction extends Action
+public class DeleteAllFlowsActionIn extends Action
 {
 
     /*

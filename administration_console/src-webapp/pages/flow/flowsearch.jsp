@@ -11,7 +11,7 @@
 <%
 	FlowSearchForm tForm = (FlowSearchForm)request.getAttribute("flowsearchform");
 %>  
-<html:form action="/FlowSearchSubmit" focus="threadName">
+<html:form action="/FlowSearchOut" focus="threadName">
 
 	<!--IMG src="<html:rewrite page="/images/button/button_ok.gif"/>" width="10" height="20"/-->
 	
@@ -62,14 +62,14 @@ Calendar.setup({
 %>
 		<!-- Table des resultats -->
 		<display:table htmlId="results" name="flowsearchform.listOfFlows" sort="list" pagesize="20" requestURI="FlowSearchSubmit.do">
-			<display:column property="id" sortable="true" title="Tech Id" href="FlowEdit.do" paramId="id"/>
+			<display:column property="id" sortable="true" title="Tech Id" href="FlowEditIn.do" paramId="id"/>
 			<display:column property="threadName" title="Thread" />	
 	  		<display:column property="jvmIdentifier" title="Server" />
 	  		<display:column property="duration" sortable="true" title="Duration" />
 	  		<display:column property="beginDateAsString" sortable="true" title="Begin" />
 	  		<display:column property="endTimeAsString" title="End"/>
-	  		<display:column property="firstMeasure.className" sortable="true" title="Class"/>
-	  		<display:column property="firstMeasure.methodName" sortable="true" title="Method"/>
+	  		<display:column property="className" sortable="true" title="Class"/>
+	  		<display:column property="methodName" sortable="true" title="Method"/>
 		</display:table>
 <% } %>
 </html:form>

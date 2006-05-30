@@ -5,9 +5,8 @@ package org.jmonitoring.console.flow;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
-
 import org.apache.struts.action.ActionForm;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 /**
  * @author pke
@@ -30,6 +29,20 @@ public class FlowEditForm extends ActionForm
     private int mDurationMin;
     
     /**
+     * Allow to know what to do when there is a lot of <code>MeasuePoint</code>
+     * and that the tree could be very slow to show.
+     */
+    private int mKindOfAction = ACTION_DEFAULT;
+    
+    public static final int ACTION_DEFAULT = 0;
+    
+    public static final int ACTION_ONLY_GRAPH = 1;
+    
+    public static final int ACTION_FORCE = 2;
+    
+    public static final int ACTION_DURATION_FILTER = 3;
+    
+    /**
      * @return Returns the mDurationMin.
      */
     public int getDurationMin()
@@ -43,20 +56,7 @@ public class FlowEditForm extends ActionForm
     {
         mDurationMin = pDurationMin;
     }
-    /**
-     * Allow to know what to do when there is a lot of <code>MeasuePoint</code>
-     * and that the tree could be very slow to show.
-     */
-    private int mKindOfAction;
-    
-    public static final int ACTION_DEFAULT = 0;
-    
-    public static final int ACTION_ONLY_GRAPH = 1;
-    
-    public static final int ACTION_FORCE = 2;
-    
-    public static final int ACTION_DURATION_FILTER = 3;
-    
+
     /**
      * @return Returns the mId.
      */

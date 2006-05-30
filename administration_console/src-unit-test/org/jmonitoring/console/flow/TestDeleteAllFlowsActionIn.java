@@ -1,7 +1,5 @@
 package org.jmonitoring.console.flow;
 
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
-
 import servletunit.struts.MockStrutsTestCase;
 
 /***************************************************************************
@@ -9,7 +7,7 @@ import servletunit.struts.MockStrutsTestCase;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-public class TestDeleteAllFlowsAction extends MockStrutsTestCase
+public class TestDeleteAllFlowsActionIn extends MockStrutsTestCase
 {
     public void testDeleteAllFlowsConfirmIn()
     {
@@ -25,8 +23,8 @@ public class TestDeleteAllFlowsAction extends MockStrutsTestCase
         
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        tUtil.buildAndSaveNewDto();
-        tUtil.buildAndSaveNewDto();
+        tUtil.buildAndSaveNewDto(2);
+        tUtil.buildAndSaveNewDto(2);
         
         assertEquals(2, tUtil.countFlows());
         

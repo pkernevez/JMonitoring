@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint;
+package org.jmonitoring.console.measurepoint; 
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -11,12 +11,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.MethodCallExtract;
+import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.MethodCallPO;
 
-public class TestMeasureMenuUtil extends TestCase
+public class TestMeasureMenuUtil extends PersistanceTestCase
 {
+    public void testGetListAsTree() 
+    {
+            ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+
+            // First delete all flow, we don't use the DeleteAll Method of the
+            // Dao Object because, it doesn't support transactions.
+            mPersistenceManager.createQuery("Delete FROM MethodCallPO").executeUpdate();
+            mPersistenceManager.createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
+
+            // Now insert the TestFlow
+            ExecutionFlowPO tFlow = buildNewFullFlow();
+            int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+
+            List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
+            MethodCallExtract curExtrat = (MethodCallExtract) tMeasureExtracts.get(0);
+            assertEquals("org.jmonitoring.console.measurepoint.TestMeasureMenuUtil.builNewFullFlow", curExtrat.getName());
+            assertEquals("GrDefault", curExtrat.getGroupName());
+            assertEquals(1, curExtrat.getOccurenceNumber());
+
+            curExtrat = (MethodCallExtract) tMeasureExtracts.get(1);
+            assertEquals("org.jmonitoring.console.measurepoint.TestMeasureMenuUtil.builNewFullFlow2", curExtrat.getName());
+            assertEquals("GrChild1", curExtrat.getGroupName());
+            assertEquals(1, curExtrat.getOccurenceNumber());
+
+            curExtrat = (MethodCallExtract) tMeasureExtracts.get(2);
+            assertEquals("org.jmonitoring.console.measurepoint.TestMeasureMenuUtil.builNewFullFlow3", curExtrat.getName());
+            assertEquals("GrChild2", curExtrat.getGroupName());
+            assertEquals(1, curExtrat.getOccurenceNumber());
+    }
+    
     public void testConvertListAsTree()
     {
         List tList = new ArrayList();
@@ -93,4 +125,28 @@ public class TestMeasureMenuUtil extends TestCase
         tUtil.writeMeasuresAsMenu(new ArrayList(), (Map) tMap.get("org"), "org", true, 0);
         assertTrue(tWriter.toString().length() > 20);
     }
+
+    public static ExecutionFlowPO buildNewFullFlow()
+    {
+        ExecutionFlowPO tFlow;
+        MethodCallPO tPoint;
+        MethodCallPO tSubPoint;
+        long tStartTime = System.currentTimeMillis();
+
+        tPoint = new MethodCallPO(null, TestMeasureMenuUtil.class.getName(), "builNewFullFlow", "GrDefault",
+                        new Object[0]);
+        tPoint.setBeginTime(tStartTime);
+
+        tSubPoint = new MethodCallPO(tPoint, TestMeasureMenuUtil.class.getName(), "builNewFullFlow2", "GrChild1",
+                        new Object[0]);
+        tSubPoint.setEndTime(System.currentTimeMillis());
+
+        tSubPoint = new MethodCallPO(tPoint, TestMeasureMenuUtil.class.getName(), "builNewFullFlow3", "GrChild2",
+                        new Object[0]);
+        tPoint.setEndTime(tStartTime + 20);
+        tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
+        return tFlow;
+    }
+
+
 }

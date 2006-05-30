@@ -5,8 +5,6 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +12,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
@@ -49,8 +49,6 @@ public class ExecutionFlowDAO
     }
 
     private Session mPersistenceManager;
-
-    private Connection mConnection;
 
     /**
      * Insert la totalité d'un flux en base.
@@ -163,7 +161,7 @@ public class ExecutionFlowDAO
      * 
      * @throws SQLException If an exception occures.
      */
-    public void deleteAllFlows() throws SQLException
+    public void deleteAllFlows() 
     {
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
@@ -235,7 +233,7 @@ public class ExecutionFlowDAO
      * @return The <code>List</code> of all Measure.
      * @throws SQLException If the database is not available.
      */
-    public List getListOfMethodCallExtract() throws SQLException
+    public List getListOfMethodCallExtract() 
     {
         // List tResult = new ArrayList();
         Query tQuery = mPersistenceManager.createQuery(SELECT_LIST_OF_MEASURE);
@@ -247,6 +245,29 @@ public class ExecutionFlowDAO
             tResult.add(new MethodCallExtract((String) tExtract[0], (String) tExtract[1], (Integer) tExtract[2]));
         }
         return tResult;
+    }
+
+    public int countFlows()
+    {
+            SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+            Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
+            if (tResult != null)
+            {
+                return ((Integer) tResult).intValue();
+            } else
+            {
+                return 0;
+            }
+
+    }
+
+    public void createDataBase()
+    {
+        sLog.info("Creating new Schema for the DataBase");
+        Configuration tConfig = HibernateManager.getConfig();
+        SchemaExport tDdlexport = new SchemaExport(tConfig);
+        tDdlexport.create(true, true);
+        sLog.info("End of the Schema creation for the DataBase");
     }
 
 }

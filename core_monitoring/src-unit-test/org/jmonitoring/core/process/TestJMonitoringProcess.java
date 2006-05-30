@@ -1,24 +1,21 @@
 package org.jmonitoring.core.process;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.ObjectNotFoundException;
-import org.jmonitoring.core.common.MeasureException;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
-import org.jmonitoring.core.dao.MethodCallExtract;
 import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.dao.PersitanceHelper;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.persistence.MethodCallPO;
-
-import junit.framework.TestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -26,28 +23,44 @@ import junit.framework.TestCase;
 
 public class TestJMonitoringProcess extends PersistanceTestCase
 {
+    public void testDoDatabaseExist()
+    {
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        assertTrue(tProcess.doDatabaseExist());
+        
+        Configuration tConfig = HibernateManager.getConfig();
+        SchemaExport tDdlexport = new SchemaExport(tConfig);
+        tDdlexport.drop(true, true);
+
+        assertFalse(tProcess.doDatabaseExist());
+
+        tProcess.createDataBase();
+        
+        assertTrue(tProcess.doDatabaseExist());
+           
+    }
 
     public void testDeleteFlow() throws UnknownFlowException
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        int tNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
+        int tNbFlow = tFlowDAO.countFlows();
 
         // First instert a flow
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
         mPersistenceManager.flush();
-        int tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
+        int tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow + 1, tNewNbFlow);
 
         tProcess.deleteFlow(tFlowId);
         mPersistenceManager.flush();
-        tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
+        tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow, tNewNbFlow);
 
         try
         {
-        tProcess.deleteFlow(3456);
+            tProcess.deleteFlow(3456);
         } catch (UnknownFlowException e)
         {
             assertEquals("Flow with Id=3456 could not be retreive from database, and can't be delete", e.getMessage());
@@ -57,20 +70,20 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     public void testDeleteAllFlows()
     {
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        int tNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
+        int tNbFlow = tFlowDAO.countFlows();
 
         // First instert 2 flows
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         mPersistenceManager.flush();
 
-        int tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
+        int tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow + 2, tNewNbFlow);
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         tProcess.deleteAllFlows();
         mPersistenceManager.flush();
-        tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
+        tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow, tNewNbFlow);
     }
 
@@ -81,7 +94,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         int tId = tFlowDAO.insertFullExecutionFlow(tFlowPO);
         mPersistenceManager.flush();
 
-        int tNewNbFlow = PersitanceHelper.countFlows(mPersistenceManager);
+        int tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(1, tNewNbFlow);
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         mPersistenceManager.flush();
@@ -141,9 +154,9 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithoutCriteria()
     {
-        int tExpectedResult = PersitanceHelper.countFlows(mPersistenceManager);
-
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+
+        int tExpectedResult = tFlowDAO.countFlows();
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
@@ -314,24 +327,27 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     }
 
-public void testGetListOfMethodCallFromFlowId()
+    public void testGetListOfMethodCallFromFlowId()
     {
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
         int tFlowId = tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         mPersistenceManager.flush();
         mPersistenceManager.clear();
-        
+
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
         List tMethodsDto = tProcess.getListOfMethodCallFromFlowId(tFlowId);
         assertEquals(3, tMethodsDto.size());
-        
+
         try
         {
-        tMethodsDto = tProcess.getListOfMethodCallFromFlowId(17);
-        fail("On ne doit pas trouver de FlowId avec comme clé 17.");
+            tMethodsDto = tProcess.getListOfMethodCallFromFlowId(17);
+            fail("On ne doit pas trouver de FlowId avec comme clé 17.");
         } catch (ObjectNotFoundException e)
         {
-            assertEquals("No row with the given identifier exists: [org.jmonitoring.core.persistence.ExecutionFlowPO#17]", e.getMessage());
+            assertEquals(
+                            "No row with the given identifier exists: [org.jmonitoring.core.persistence.ExecutionFlowPO#17]",
+                            e.getMessage());
         }
-    }}
+    }
+}

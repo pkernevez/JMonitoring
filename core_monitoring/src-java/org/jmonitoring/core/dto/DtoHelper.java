@@ -9,8 +9,6 @@ import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.MethodCallPO;
 import org.springframework.beans.BeanUtils;
 
-import sun.awt.print.resources.printcontrol;
-
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
@@ -28,6 +26,8 @@ public final class DtoHelper
         BeanUtils.copyProperties(pFlowPO, tResult, new String[] {"firstMethodCall","beginTime", "endTime" });
         tResult.setBeginTime(new Date(pFlowPO.getBeginTime()));
         tResult.setEndTime(new Date(pFlowPO.getEndTime()));
+        tResult.setClassName(pFlowPO.getFirstMethodCall().getClassName());
+        tResult.setMethodName(pFlowPO.getFirstMethodCall().getMethodName());
         return tResult;
     }
 

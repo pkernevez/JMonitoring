@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
+<!--
+  ************************************************************************
+  MonitoringProject
+     
+  ************************************************************************
+-->
+
 <project>
     <extend>${basedir}/common/project.xml</extend>
     
     <!-- identifiant du projet -->
-    <id>PagesJaunes</id> 
+    <id>jmonitoring</id> 
   
     <!-- libellé du projet -->
-    <name>Projet de gestion des inscriptions de PagesJaunes.</name>
+    <name>Main component of JavaMonitoring project.</name>
     <siteAddress>jakarta.apache.org</siteAddress>
     <!--distributionDirectory>/www/maven.apache.org/builds/</distributionDirectory-->
     <siteDirectory/>
     <description>
-        Projet de gestion des inscriptions de PagesJaunes.
+        This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.
     </description>
+    
+    <versions>
+        <version>
+            <id>0.5dev</id>
+            <name>0.5dev</name>
+        </version>
+        <version>
+            <id>0.4</id>
+            <name>0.4</name>
+            <tag>V0.4_Release</tag>
+        </version>
+        <version>
+            <id>0.3</id>
+            <name>0.3</name>
+            <tag>V0.3_Release</tag>
+        </version>
+        <version>
+            <id>0.2</id>
+            <name>0.2</name>
+        </version>
+    </versions>
     
     <dependencies>
         <dependency>

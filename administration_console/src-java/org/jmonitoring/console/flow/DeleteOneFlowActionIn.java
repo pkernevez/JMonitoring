@@ -12,6 +12,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
@@ -22,7 +24,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class DeleteOneFlowAction extends Action
+public class DeleteOneFlowActionIn extends Action
 {
 
     /*
@@ -33,22 +35,20 @@ public class DeleteOneFlowAction extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) 
+                    HttpServletResponse pResponse)
     {
         FlowIdForm tForm = (FlowIdForm) pForm;
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        if (tForm != null && tForm.getId() != -1)
+        try
         {
-            try
-            {
-                tProcess.deleteFlow(tForm.getId());
-                return pMapping.findForward("success");
-            } catch (UnknownFlowException e)
-            {
-                return pMapping.findForward("invalid");
-            }
-        } else
+            tProcess.deleteFlow(tForm.getId());
+            return pMapping.findForward("success");
+        } catch (UnknownFlowException e)
         {
+            ActionMessages errors = new ActionMessages();
+            ActionMessage error = new ActionMessage("errors.executionflow.notfound", new Integer(tForm.getId()));
+            errors.add("msg1", error);
+            saveErrors(pRequest, errors);
             return pMapping.findForward("invalid");
         }
     }

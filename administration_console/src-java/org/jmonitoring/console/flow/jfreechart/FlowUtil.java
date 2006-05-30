@@ -18,10 +18,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dto.MethodCallDTO;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.ChartUtilities;
@@ -33,6 +29,9 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dto.MethodCallDTO;
 
 /**
  * @author pke

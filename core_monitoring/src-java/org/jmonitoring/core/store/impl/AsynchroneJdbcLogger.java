@@ -8,6 +8,7 @@ package org.jmonitoring.core.store.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
@@ -55,14 +56,26 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
 
         public void run()
         {
-            Session tPManager = (Session) HibernateManager.getSession();
-            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tPManager);
-            int tId = tDao.insertFullExecutionFlow(mExecutionFlowToLog);
-            if (mAutoflush)
+            try
             {
-                tPManager.flush();
+                Session tPManager = (Session) HibernateManager.getSession();
+                Transaction tTransaction = tPManager.getTransaction();
+                tTransaction.begin();
+                ExecutionFlowDAO tDao = new ExecutionFlowDAO(tPManager);
+                int tId = tDao.insertFullExecutionFlow(mExecutionFlowToLog);
+                if (mAutoflush)
+                {
+                    tPManager.flush();
+                } else
+                {
+                    tTransaction.commit();
+                    tPManager.close();
+                }
+                sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog);
+            } catch (RuntimeException e)
+            {
+                sLog.error("Unable to insert ExecutionFlow into database", e);
             }
-            sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog);
         }
     }
 

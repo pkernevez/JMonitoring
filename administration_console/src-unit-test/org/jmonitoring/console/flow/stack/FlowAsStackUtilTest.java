@@ -1,8 +1,8 @@
 package org.jmonitoring.console.flow.stack;
 
-import org.apache.taglibs.standard.lang.jpath.encoding.HtmlEncoder;
-
 import junit.framework.TestCase;
+
+import org.apache.taglibs.standard.lang.jpath.encoding.HtmlEncoder;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *

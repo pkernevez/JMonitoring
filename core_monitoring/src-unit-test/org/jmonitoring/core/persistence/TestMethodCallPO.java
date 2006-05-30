@@ -1,10 +1,7 @@
 package org.jmonitoring.core.persistence;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

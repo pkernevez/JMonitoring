@@ -3,14 +3,14 @@ package org.jmonitoring.console;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import junit.framework.TestCase;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-
-import junit.framework.TestCase;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

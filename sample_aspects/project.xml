@@ -48,13 +48,6 @@
           <url>http://eclipse.org/aspectj/</url>
         </dependency>
 
-        <dependency>
-          <groupId>aspectj</groupId>
-          <artifactId>aspectj</artifactId>
-          <version>${depends.aspectj.version}</version>
-          <url>http://eclipse.org/aspectj/</url>
-        </dependency>
-
     </dependencies>
     
     

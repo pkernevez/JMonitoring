@@ -1,6 +1,5 @@
 package org.jmonitoring.core.process;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,12 +8,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.SQLGrammarException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.persistence.MethodCallPO;
@@ -29,6 +28,24 @@ public class JMonitoringProcess
 
     JMonitoringProcess()
     {
+    }
+
+    public boolean doDatabaseExist()
+    {
+        Session tSession = HibernateManager.getSession();
+        try
+        {
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
+            tDao.countFlows();
+            return true;
+        } catch (SQLGrammarException t)
+        {
+            return false;
+        } finally
+        {
+            tSession.close();
+        }
+
     }
 
     public void deleteFlow(int pId) throws UnknownFlowException
@@ -112,8 +129,8 @@ public class JMonitoringProcess
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             ExecutionFlowPO tFlow = tDao.readExecutionFlow(pFlowId);
             MethodCallPO tMethod = tFlow.getFirstMethodCall();
-            List tResult = tDao.getListOfMethodCall( tMethod.getClassName(), tMethod.getMethodName() );
-            return DtoHelper.copyListOfMethodPO( tResult );
+            List tResult = tDao.getListOfMethodCall(tMethod.getClassName(), tMethod.getMethodName());
+            return DtoHelper.copyListOfMethodPO(tResult);
         } finally
         {
             tSession.close();
@@ -126,8 +143,21 @@ public class JMonitoringProcess
         try
         {
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
-            List tResult = tDao.getListOfMethodCall( pClassName, pMethodName);
-            return DtoHelper.copyListOfMethodPO( tResult );
+            List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
+            return DtoHelper.copyListOfMethodPO(tResult);
+        } finally
+        {
+            tSession.close();
+        }
+    }
+
+    public void createDataBase()
+    {
+        Session tSession = HibernateManager.getSession();
+        try
+        {
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
+            tDao.createDataBase();
         } finally
         {
             tSession.close();

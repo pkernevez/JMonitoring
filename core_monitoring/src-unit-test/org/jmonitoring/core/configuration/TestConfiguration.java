@@ -8,7 +8,6 @@ import java.awt.Color;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.dao.IConnectionManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -5,8 +5,6 @@ package org.jmonitoring.console.flow;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,15 +15,10 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil;
 import org.jmonitoring.console.flow.jfreechart.FlowUtil;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
 
@@ -35,21 +28,21 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FlowEditAction extends Action
+public class FlowEditActionIn extends Action
 {
-    private static Log sLog = LogFactory.getLog(FlowEditAction.class);
+    private static Log sLog = LogFactory.getLog(FlowEditActionIn.class);
 
     /**
      * Default constructor.
      */
-    public FlowEditAction()
+    public FlowEditActionIn()
     {
     }
 
     /**
      * Max number of measure to show in one flow. If this number is exceed, then the user is asked to choose an action.
      */
-    private static final int MAX_FLOW_TO_SHOW = 2000;
+    public static int MAX_FLOW_TO_SHOW = 2000;
 
     /*
      * (non-Javadoc)
@@ -59,7 +52,7 @@ public class FlowEditAction extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
+                    HttpServletResponse pResponse) 
     {
 
         ActionForward tForward;
@@ -77,7 +70,6 @@ public class FlowEditAction extends Action
             tForward = pMapping.findForward("required_info");
         } else
         {
-            sLog.debug("Need more information to know if we can displayed the next screen...");
             MethodCallDTO tFirstMeasure = tFlow.getFirstMethodCall();
             // Creation of the associated images.
             HttpSession tSession = pRequest.getSession();

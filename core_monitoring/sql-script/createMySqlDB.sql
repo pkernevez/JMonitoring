@@ -16,37 +16,36 @@ delete FROM `execution_flow`;
 DROP TABLE IF EXISTS `jmonitoring`.`method_call`;
 DROP TABLE IF EXISTS `jmonitoring`.`execution_flow`;
 
-CREATE TABLE `jmonitoring`.`execution_flow` (
-  `ID` int(8) unsigned NOT NULL auto_increment,
-  `THREAD_NAME` varchar(60) NOT NULL default '',
-  `DURATION` bigint(20) unsigned NOT NULL default '0',
-  `BEGIN_TIME_AS_DATE` datetime NOT NULL default '0000-00-00 00:00:00',
-  `END_TIME` bigint(20) unsigned NOT NULL default '0',
-  `JVM` varchar(45) NOT NULL default 'Kerny''s Babasse',
-  `BEGIN_TIME` bigint(20) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Entry point of execution';
+create table `jmonitoring`.EXECUTION_FLOW (ID integer not null auto_increment, 
+	THREAD_NAME varchar(255), 
+	JVM varchar(255), 
+	BEGIN_TIME bigint, 
+	END_TIME bigint, 
+	BEGIN_TIME_AS_DATE datetime, 
+	DURATION bigint, 
+	FIRST_METHOD_CALL_ID integer unique, 
+	primary key (ID)) 
+	type=InnoDB
 
+create table `jmonitoring`.METHOD_CALL (ID integer not null auto_increment, 
+	PARAMETERS varchar(255), 
+	BEGIN_TIME bigint, 
+	END_TIME bigint, 
+	FULL_CLASS_NAME varchar(120), 
+	METHOD_NAME varchar(50), 
+	THROWABLE_CLASS_NAME varchar(120), 
+	THROWABLE_MESSAGE varchar(255), 
+	RESULT varchar(255), 
+	GROUP_NAME varchar(145), 
+	PARENT_ID integer, 
+	CHILDREN_INDEX integer, 
+	primary key (ID)) 
+type=InnoDB
 
-CREATE TABLE `jmonitoring`.`method_call` (
-  `EXECUTION_FLOW_ID` int(8) unsigned NOT NULL default '0',
-  `SEQUENCE_ID` int(8) unsigned NOT NULL default '0',
-  `FULL_CLASS_NAME` varchar(120) NOT NULL default '',
-  `METHOD_NAME` varchar(50) NOT NULL default '',
-  `DURATION` bigint(20) unsigned NOT NULL default '0',
-  `BEGIN_TIME` bigint(20) unsigned NOT NULL default '0',
-  `END_TIME` bigint(20) unsigned NOT NULL default '0',
-  `PARAMETERS` text,
-  `RESULT` text default NULL,
-  `THROWABLE_CLASS_NAME` varchar(120) default NULL,
-  `THROWABLE_MESSAGE` text default NULL,
-  `PARENT_ID` int(8) unsigned default '0',
-  `RETURN_TYPE` varchar(10) NOT NULL default '',
-  `GROUP_NAME` varchar(45) NOT NULL default 'Default',
-  PRIMARY KEY  (`EXECUTION_FLOW_ID`,`SEQUENCE_ID`),
-  KEY `FK_method_call_PARENT` (`EXECUTION_FLOW_ID`,`PARENT_ID`),
-  KEY `Index_ClassMethodName` TYPE BTREE (`FULL_CLASS_NAME`,`METHOD_NAME`),
-  CONSTRAINT `FK_FLOW_REF` FOREIGN KEY (`EXECUTION_FLOW_ID`) REFERENCES `execution_flow` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='InnoDB free: 4096 kB';
+alter table `jmonitoring`.EXECUTION_FLOW 
+	add index FK281CB2153BDDEB03 (FIRST_METHOD_CALL_ID), 
+	add constraint FK281CB2153BDDEB03 foreign key (FIRST_METHOD_CALL_ID) references METHOD_CALL (ID)
 
-#  Remove constrainte for batch mode CONSTRAINT `FK_method_call_PARENT` FOREIGN KEY (`EXECUTION_FLOW_ID`, `PARENT_ID`) REFERENCES `method_call` (`FLOW_ID`, `SEQUENCE_ID`)
+alter table `jmonitoring`.METHOD_CALL 
+	add index FK4ACE4AFCFBBE3D26 (PARENT_ID), 
+	add constraint FK4ACE4AFCFBBE3D26 foreign key (PARENT_ID) references METHOD_CALL (ID)

@@ -17,8 +17,8 @@
             --> 
             <Item name="Home" title="Home" toolTip="Main page of this application" page="/Index.do" /> 
             <Item name="DeleteAll" title="Delete Flows" toolTip="Delete all execution flow in database." page="/DeleteAllFlowsConfirmIn.do" /> 
-            <Item name="FlowSearch" title="Search Flows" toolTip="Search all flows in database." page="/FlowSearch.do" /> 
-            <Item name="MeasureSearch" title="Search Method" toolTip="Search all Methods in database." page="/MeasureSearch.do" /> 
+            <Item name="FlowSearch" title="Search Flows" toolTip="Search all flows in database." page="/FlowSearchIn.do" /> 
+            <Item name="MeasureSearch" title="Search Method" toolTip="Search all Methods in database." page="/MeasureSearchIn.do" /> 
 		</Menu>
 
         <Menu name="indexMenu" title="Examples">
