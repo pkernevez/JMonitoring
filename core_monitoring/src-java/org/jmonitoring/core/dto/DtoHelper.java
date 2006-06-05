@@ -16,14 +16,16 @@ import org.springframework.beans.BeanUtils;
 public final class DtoHelper
 {
 
-    private DtoHelper()
+    private int mSequence = 1;
+
+    DtoHelper()
     {
     }
 
     public static ExecutionFlowDTO getSimpleCopy(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = new ExecutionFlowDTO();
-        BeanUtils.copyProperties(pFlowPO, tResult, new String[] {"firstMethodCall","beginTime", "endTime" });
+        BeanUtils.copyProperties(pFlowPO, tResult, new String[] {"firstMethodCall", "beginTime", "endTime" });
         tResult.setBeginTime(new Date(pFlowPO.getBeginTime()));
         tResult.setEndTime(new Date(pFlowPO.getEndTime()));
         tResult.setClassName(pFlowPO.getFirstMethodCall().getClassName());
@@ -34,18 +36,35 @@ public final class DtoHelper
     public static ExecutionFlowDTO getDeepCopy(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = getSimpleCopy(pFlowPO);
-        tResult.setFirstMethodCall(getMethodCallDto(pFlowPO.getFirstMethodCall()));
+        DtoHelper tHelper = new DtoHelper();
+        tResult.setFirstMethodCall(tHelper.getMethodCallDto(pFlowPO.getFirstMethodCall()));
         return tResult;
     }
 
-    static MethodCallDTO getMethodCallDto(MethodCallPO pCallPO)
+    /**
+     * Copy a methodCall and its direct children to a DTO structure.
+     * 
+     * @param pCallPO The methodCall to copy.
+     * @return The DTO structure.
+     */
+    public static MethodCallDTO getFullMethodCallDto(MethodCallPO pCallPO)
     {
-        MethodCallDTO tResult = new MethodCallDTO();
-        BeanUtils.copyProperties(pCallPO, tResult, new String[]{"beginTime", "endTime"} );
-        tResult.setBeginTime(new Date(pCallPO.getBeginTime()));
-        tResult.setEndTime(new Date(pCallPO.getEndTime()));
+        DtoHelper tHelper = new DtoHelper();
+        MethodCallDTO tResult = tHelper.getSimpleCopy(pCallPO);
+        MethodCallPO curChild;
+        for (int i=0; i<pCallPO.getChildren().size();i++)
+        {
+            curChild = (MethodCallPO) pCallPO.getChildren().get(i); 
+            tResult.addChild( tHelper.getSimpleCopy( curChild) );
+        }
+        return tResult;
+    }
+
+    MethodCallDTO getMethodCallDto(MethodCallPO pCallPO)
+    {
+        MethodCallDTO tResult = getSimpleCopy(pCallPO);
         MethodCallPO curMethod;
-        for (Iterator tIt = pCallPO.getChildren().iterator(); tIt.hasNext(); )
+        for (Iterator tIt = pCallPO.getChildren().iterator(); tIt.hasNext();)
         {
             curMethod = (MethodCallPO) tIt.next();
             tResult.addChild(getMethodCallDto(curMethod));
@@ -53,12 +72,24 @@ public final class DtoHelper
         return tResult;
     }
 
+    private MethodCallDTO getSimpleCopy(MethodCallPO pCallPO)
+    {
+        MethodCallDTO tResult = new MethodCallDTO();
+        BeanUtils.copyProperties(pCallPO, tResult, new String[] {"beginTime", "endTime" });
+        tResult.setBeginTime(new Date(pCallPO.getBeginTime()));
+        tResult.setEndTime(new Date(pCallPO.getEndTime()));
+        tResult.setFlowId(pCallPO.getFlowId());
+        tResult.setSequenceId(mSequence++);
+        return tResult;
+    }
+
     public static List copyListOfMethodPO(List pResult)
     {
         List tResult = new ArrayList(pResult.size());
+        DtoHelper tHelper = new DtoHelper();
         for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
         {
-            tResult.add(getMethodCallDto((MethodCallPO) tIt.next()));
+            tResult.add(tHelper.getMethodCallDto((MethodCallPO) tIt.next()));
         }
         return tResult;
     }

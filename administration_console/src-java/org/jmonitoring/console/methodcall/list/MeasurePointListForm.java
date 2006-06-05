@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint.list;
+package org.jmonitoring.console.methodcall.list;
 
 import org.apache.struts.action.ActionForm;
 

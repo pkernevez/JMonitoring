@@ -91,7 +91,7 @@ public class ExecutionFlowDAO
     { // On construit la requête
 
         Criteria tCriteria = mPersistenceManager.createCriteria(ExecutionFlowPO.class);
-        if (pCriterion.getThreadName() != null)
+        if (pCriterion.getThreadName() != null && pCriterion.getThreadName().length()>0)
         {
             tCriteria = tCriteria.add(Restrictions.like("threadName", pCriterion.getThreadName() + "%"));
         }
@@ -206,8 +206,6 @@ public class ExecutionFlowDAO
         return tCriteria.list();
     }
 
-    private static final String SELECT_MEASURE_POINT = "select *" + " from method_call where EXECUTION_FLOW_ID = ? And sequence_id = ?";
-
     /**
      * Read a single <code>MethodCallDTO</code>.
      * 
@@ -217,8 +215,8 @@ public class ExecutionFlowDAO
      */
     public MethodCallPO readMethodCall(int pMethodId)
     {
-        Query tQuery = mPersistenceManager.createQuery("from MethodCallPO where id=:id");
-        tQuery.setInteger("id", pMethodId);
+        Query tQuery = mPersistenceManager.createQuery("from MethodCallPO m where m.id=:pid");
+        tQuery.setInteger("pid", pMethodId);
         return (MethodCallPO) tQuery.uniqueResult();
     }
 

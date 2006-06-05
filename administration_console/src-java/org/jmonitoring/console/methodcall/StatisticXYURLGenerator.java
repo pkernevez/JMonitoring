@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint;
+package org.jmonitoring.console.methodcall;
 
 import java.io.Serializable;
 

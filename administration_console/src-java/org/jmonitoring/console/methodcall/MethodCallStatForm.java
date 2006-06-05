@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint;
+package org.jmonitoring.console.methodcall;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -10,7 +10,7 @@ package org.jmonitoring.console.measurepoint;
  * 
  * @author pke
  */
-public class MeasurePointStatForm extends MeasurePointForm
+public class MethodCallStatForm extends MethodCallForm
 {
     private long mDurationMin;
 

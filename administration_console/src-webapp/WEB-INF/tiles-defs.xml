@@ -51,21 +51,21 @@
         <put name="js3" value="scripts/calendar-setup.js"/>
     </definition>
     
-    <definition name="measuresearch" extends="staticlayout">
+    <definition name="methodcallsearch" extends="staticlayout">
         <put name="body" value="/pages/measurepoint/MeasureSearch.jsp"/>
         <put name="css1" value="css/menuExpandable.css"/>
         <put name="js1" value="scripts/menuExpandable.js"/>
     </definition>
     
-    <definition name="measurepointstat" extends="staticlayout">
+    <definition name="methodcallstat" extends="staticlayout">
         <put name="body" value="/pages/measurepoint/MeasurePointStatistic.jsp"/>
     </definition>
     
-    <definition name="measurepointlist" extends="staticlayout">
+    <definition name="methodcalllist" extends="staticlayout">
         <put name="body" value="/pages/measurepoint/list/MeasurePointListByDuration.jsp"/>
     </definition>
     
-    <definition name="measurepointedit" extends="staticlayout">
+    <definition name="methodcalledit" extends="staticlayout">
         <put name="body" value="/pages/measurepoint/MeasurePointEdit.jsp"/>
     </definition>
     

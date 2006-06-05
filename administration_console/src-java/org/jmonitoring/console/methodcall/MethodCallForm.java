@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint;
+package org.jmonitoring.console.methodcall;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -17,7 +17,7 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * 
  * @author pke
  */
-public class MeasurePointForm extends ActionForm
+public class MethodCallForm extends ActionForm
 {
     private static final long serialVersionUID = 3618705218511058994L;
 
@@ -34,7 +34,7 @@ public class MeasurePointForm extends ActionForm
     private String mClassName;
 
     /** The measure point assoiciate to this request. */
-    private MethodCallDTO mMeasurePoint;
+    private MethodCallDTO mMethodCall;
 
     /**
      * Allow to know if the parameters passed by the query was by name or by identifier.
@@ -83,7 +83,7 @@ public class MeasurePointForm extends ActionForm
      * 
      * @return The sequence identifier.
      */
-    public int getSequenceId()
+    public int getId()
     {
         return mSequenceId;
     }
@@ -93,7 +93,7 @@ public class MeasurePointForm extends ActionForm
      * 
      * @param pSequenceId The sequence identifier.
      */
-    public void setSequenceId(int pSequenceId)
+    public void setId(int pSequenceId)
     {
         mSequenceId = pSequenceId;
     }
@@ -138,18 +138,18 @@ public class MeasurePointForm extends ActionForm
      * Accessor.
      * @return The measure point associated with this parameters.
      */
-    public MethodCallDTO getMeasurePoint()
+    public MethodCallDTO getMethodCall()
     {
-        return mMeasurePoint;
+        return mMethodCall;
     }
 
     /**
      * Accessor.
      * @param pMeasurePoint The measure associated with this parameters.
      */
-    public void setMeasurePoint(MethodCallDTO pMeasurePoint)
+    public void setMethodCall(MethodCallDTO pMeasurePoint)
     {
-        mMeasurePoint = pMeasurePoint;
+        mMethodCall = pMeasurePoint;
     }
 
     /**
@@ -160,10 +160,10 @@ public class MeasurePointForm extends ActionForm
     public Map getParentIdsMap()
     {
         Map tHashMap = new HashMap();
-        if (mMeasurePoint.getParent() != null)
+        if (mMethodCall.getParent() != null)
         {
-            tHashMap.put("flowId", new Integer(mMeasurePoint.getParent().getFlowId()));
-            tHashMap.put("sequenceId", new Integer(mMeasurePoint.getParent().getSequenceId()));
+            tHashMap.put("flowId", new Integer(mMethodCall.getParent().getFlowId()));
+            tHashMap.put("sequenceId", new Integer(mMethodCall.getParent().getSequenceId()));
         }
         return tHashMap;
     }
@@ -176,8 +176,8 @@ public class MeasurePointForm extends ActionForm
     public Map getMeasureIdsMap()
     {
         Map tHashMap = new HashMap();
-        tHashMap.put("flowId", new Integer(mMeasurePoint.getFlowId()));
-        tHashMap.put("sequenceId", new Integer(mMeasurePoint.getSequenceId()));
+        tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
+        tHashMap.put("sequenceId", new Integer(mMethodCall.getSequenceId()));
         return tHashMap;
     }
 
@@ -190,7 +190,7 @@ public class MeasurePointForm extends ActionForm
     public Map getChildMeasureIdsMap(int pPosition)
     {
         Map tHashMap = new HashMap();
-        MethodCallDTO tMeasure = (MethodCallDTO) mMeasurePoint.getChildren().get(pPosition);
+        MethodCallDTO tMeasure = (MethodCallDTO) mMethodCall.getChildren().get(pPosition);
         tHashMap.put("flowId", new Integer(tMeasure.getFlowId()));
         tHashMap.put("sequenceId", new Integer(tMeasure.getSequenceId()));
         return tHashMap;

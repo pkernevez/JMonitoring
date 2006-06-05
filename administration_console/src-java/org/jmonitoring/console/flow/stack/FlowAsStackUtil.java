@@ -66,7 +66,7 @@ public class FlowAsStackUtil
         tBuffer.append("</a>\n");
 
         tBuffer.append("<ul id=\"0Menu\" class=\"menu\">");
-        writeMeasureAsHtml(mFlow.getFirstMethodCall(), tBuffer);
+        writeMethodCallAsHtml(mFlow.getFirstMethodCall(), tBuffer);
         tBuffer.append("</ul>\n");
         tBuffer.append("</li>");
         tBuffer.append("</ul>");
@@ -76,15 +76,15 @@ public class FlowAsStackUtil
     /**
      * Write the <code>Measure</code> into writer using Html format.
      * 
-     * @param pCurrentMeasure The Measure to write.
+     * @param pCurrentMethod The Measure to write.
      * @param pHtmlBuffer The Html buffer for this measure.
      * @todo Use background color with item.
      */
-    private void writeMeasureAsHtml(MethodCallDTO pCurrentMeasure, StringBuffer pHtmlBuffer)
+    private void writeMethodCallAsHtml(MethodCallDTO pCurrentMethod, StringBuffer pHtmlBuffer)
     {
         // Gestion de l'exception
         String tReturnImage;
-        if (pCurrentMeasure.isReturnCallException())
+        if (pCurrentMethod.isReturnCallException())
         {
             tReturnImage = "<IMG title=\"Throwable thrown\" src=\"images/warn.png\"/>";
         } else
@@ -94,40 +94,40 @@ public class FlowAsStackUtil
         // String tBgColor = getColorAsString(Configuration.getColor(pCurrentMeasure.getGroupName()));
         // Génération du lien vers les statistiques
         StringBuffer tLinkStat = new StringBuffer();
-        tLinkStat.append("<A title=\"View stats...\" href=\"MeasurePointStat.do?flowId=" + pCurrentMeasure.getFlowId()
-                        + "&sequenceId="
-                        + pCurrentMeasure.getSequenceId()
+        tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=" + pCurrentMethod.getFlowId()
+                        + "&id="
+                        + pCurrentMethod.getSequenceId()
                         + "\">");
         tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
 
         StringBuffer tLinkDetail = new StringBuffer();
-        tLinkDetail.append("<A title=\"View details...\" href=\"MeasurePointEdit.do?flowId=" + pCurrentMeasure
+        tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId=" + pCurrentMethod
                         .getFlowId()
-                        + "&sequenceId="
-                        + pCurrentMeasure.getSequenceId()
+                        + "&id="
+                        + pCurrentMethod.getSequenceId()
                         + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
         // Maintenant on créer le le html associé au MethodCallDTO
-        if (pCurrentMeasure.getChildren().size() > 0)
+        if (pCurrentMethod.getChildren().size() > 0)
         { // On crée un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
-            pHtmlBuffer.append("<li>\n<a href=\"#\" id=\"" + pCurrentMeasure.getSequenceId() + "Actuator\"");
-            pHtmlBuffer.append(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMeasure) + "\">");
-            pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMeasure) + "</a>");
+            pHtmlBuffer.append("<li>\n<a href=\"#\" id=\"" + pCurrentMethod.getSequenceId() + "Actuator\"");
+            pHtmlBuffer.append(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">");
+            pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMethod) + "</a>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "\n");
-            pHtmlBuffer.append("  <ul id=\"" + pCurrentMeasure.getSequenceId() + "Menu\" class=\"submenu\">\n");
-            for (Iterator tIterator = pCurrentMeasure.getChildren().iterator(); tIterator.hasNext();)
+            pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getSequenceId() + "Menu\" class=\"submenu\">\n");
+            for (Iterator tIterator = pCurrentMethod.getChildren().iterator(); tIterator.hasNext();)
             {
-                writeMeasureAsHtml((MethodCallDTO) tIterator.next(), pHtmlBuffer);
+                writeMethodCallAsHtml((MethodCallDTO) tIterator.next(), pHtmlBuffer);
             }
             pHtmlBuffer.append("  </ul>\n</li>\n");
         } else
         {
-            pHtmlBuffer.append("<li><span title=\"" + getMeasurePointTitle(pCurrentMeasure)
+            pHtmlBuffer.append("<li><span title=\"" + getMeasurePointTitle(pCurrentMethod)
                             + "\">"
                             + tReturnImage
-                            + getMeasurePointText(pCurrentMeasure)
+                            + getMeasurePointText(pCurrentMethod)
                             + "</span>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "</li>\n");
         }

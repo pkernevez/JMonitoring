@@ -24,6 +24,10 @@
     
     <versions>
         <version>
+            <id>0.6-SNAPSHOT</id>
+            <name>0.6-SNAPSHOT</name>
+        </version>
+        <version>
             <id>0.5dev</id>
             <name>0.5dev</name>
         </version>

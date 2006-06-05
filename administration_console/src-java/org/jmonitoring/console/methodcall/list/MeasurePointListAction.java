@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint.list;
+package org.jmonitoring.console.methodcall.list;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

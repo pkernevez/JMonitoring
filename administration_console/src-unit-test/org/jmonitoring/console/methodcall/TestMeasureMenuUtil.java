@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint; 
+package org.jmonitoring.console.methodcall; 
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jmonitoring.console.methodcall.MethodCallUtil;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.MethodCallExtract;
 import org.jmonitoring.core.dao.PersistanceTestCase;
@@ -34,17 +35,17 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
 
             List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
             MethodCallExtract curExtrat = (MethodCallExtract) tMeasureExtracts.get(0);
-            assertEquals("org.jmonitoring.console.measurepoint.TestMeasureMenuUtil.builNewFullFlow", curExtrat.getName());
+            assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow", curExtrat.getName());
             assertEquals("GrDefault", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MethodCallExtract) tMeasureExtracts.get(1);
-            assertEquals("org.jmonitoring.console.measurepoint.TestMeasureMenuUtil.builNewFullFlow2", curExtrat.getName());
+            assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow2", curExtrat.getName());
             assertEquals("GrChild1", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
 
             curExtrat = (MethodCallExtract) tMeasureExtracts.get(2);
-            assertEquals("org.jmonitoring.console.measurepoint.TestMeasureMenuUtil.builNewFullFlow3", curExtrat.getName());
+            assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow3", curExtrat.getName());
             assertEquals("GrChild2", curExtrat.getGroupName());
             assertEquals(1, curExtrat.getOccurenceNumber());
     }
@@ -59,7 +60,7 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
         tList.add(new MethodCallExtract("org.monitoring.tata.Toto.getToto", "Grp1", new Integer(5)));
         tList.add(new MethodCallExtract("com.monitoring.Titi.getTiti", "Grp2", new Integer(6)));
 
-        Map tMap = new MeasureMenuUtil(null).convertListAsTree(tList);
+        Map tMap = new MethodCallUtil(null).convertListAsTree(tList);
         assertEquals(2, tMap.size());
         HashMap curMap = (HashMap) tMap.get("org");
         assertEquals(1, curMap.size());
@@ -103,7 +104,7 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
         List tList = new ArrayList();
         tList.add(new MethodCallExtract("Toto.getToto", "Grp1", new Integer(2)));
         StringBuffer tWriter = new StringBuffer();
-        MeasureMenuUtil tUtil = new MeasureMenuUtil(tWriter);
+        MethodCallUtil tUtil = new MethodCallUtil(tWriter);
         tUtil.convertListAsTree(tList);
         tList = new ArrayList();
         tList.add("Toto");
@@ -120,7 +121,7 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
         tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
         tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
         StringBuffer tWriter = new StringBuffer();
-        MeasureMenuUtil tUtil = new MeasureMenuUtil(tWriter);
+        MethodCallUtil tUtil = new MethodCallUtil(tWriter);
         Map tMap = tUtil.convertListAsTree(tList);
         tUtil.writeMeasuresAsMenu(new ArrayList(), (Map) tMap.get("org"), "org", true, 0);
         assertTrue(tWriter.toString().length() > 20);

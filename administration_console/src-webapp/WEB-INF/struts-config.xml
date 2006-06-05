@@ -10,9 +10,9 @@
   		<form-bean name="flowsearchform" 		type="org.jmonitoring.console.flow.FlowSearchForm"/>
   		<form-bean name="floweditform" 			type="org.jmonitoring.console.flow.FlowEditForm"/>
         <form-bean name="flowidform"            type="org.jmonitoring.console.flow.FlowIdForm"/>
-  		<form-bean name="measurepointform" 		type="org.jmonitoring.console.measurepoint.MeasurePointForm"/>
-  		<form-bean name="measurepointstatform" 	type="org.jmonitoring.console.measurepoint.MeasurePointStatForm"/>
-  		<form-bean name="measurepointlistform" 	type="org.jmonitoring.console.measurepoint.list.MeasurePointListForm"/>
+  		<form-bean name="methodcallform" 		type="org.jmonitoring.console.methodcall.MethodCallForm"/>
+  		<form-bean name="methodcallstatform" 	type="org.jmonitoring.console.methodcall.MethodCallStatForm"/>
+  		<form-bean name="methodcalllistform" 	type="org.jmonitoring.console.methodcall.list.MethodCallListForm"/>
   		
 			<!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
     	  	<form-property name="threadName" type="java.lang.String" />
@@ -65,8 +65,12 @@
                 <forward name="success" path="flowsearch"/>
 		 </action>	    
 
-        <action path="/MeasureSearchIn" forward="measuresearch"  />
+        <action path="/MethodCallSearchIn" forward="methodcallsearch"  />
 
+        <action path="/MethodCallEditIn" type="org.jmonitoring.console.methodcall.MethodCallEditActionIn"
+            name="methodcallform" scope="request">
+            <forward name="success" path="methodcalledit" />
+        </action>
 
 
 	    <!-- action path="/DeleteAllFlowsSuccess" parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/-->
@@ -92,9 +96,6 @@
                 <forward name="success" path="/FlowEditInternal.do"/>
                 <forward name="required_info" path="/FlowEditRequiredInfo.do"/>
 		</action>	  
-
-	    <action path="/MeasurePointEdit" parameter="measurepointedit" type="org.apache.struts.actions.ForwardAction" 
-	    	name="measurepointform" scope="request"/>
 
 	    <action path="/MeasurePointStatInternal" parameter="measurepointstat" type="org.apache.struts.actions.ForwardAction" 
 	    	name="measurepointstatform" scope="request"/>

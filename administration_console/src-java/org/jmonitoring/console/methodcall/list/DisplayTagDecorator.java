@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint.list;
+package org.jmonitoring.console.methodcall.list;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

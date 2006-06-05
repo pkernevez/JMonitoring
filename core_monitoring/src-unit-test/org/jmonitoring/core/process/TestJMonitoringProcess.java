@@ -27,7 +27,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         assertTrue(tProcess.doDatabaseExist());
-        
+
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
         tDdlexport.drop(true, true);
@@ -35,9 +35,9 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertFalse(tProcess.doDatabaseExist());
 
         tProcess.createDataBase();
-        
+
         assertTrue(tProcess.doDatabaseExist());
-           
+
     }
 
     public void testDeleteFlow() throws UnknownFlowException
@@ -175,6 +175,9 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     {
         ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
+        ExecutionFlowPO tExecPo = TestExecutionFlowDAO.buildNewFullFlow();
+        tExecPo.setThreadName("TEST-13main");
+        tFlowDAO.insertFullExecutionFlow(tExecPo);
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         mPersistenceManager.flush();
@@ -183,11 +186,21 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         tCriterion.setThreadName("rr");
         assertEquals(0, tProcess.getListOfExecutionFlowDto(tCriterion).size());
 
+        tCriterion.setThreadName("");
+        assertEquals(2, tProcess.getListOfExecutionFlowDto(tCriterion).size());
+
         tCriterion.setThreadName("TEST-main");
         assertEquals(1, tProcess.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setThreadName("TEST");
-        assertEquals(1, tProcess.getListOfExecutionFlowDto(tCriterion).size());
+        assertEquals(2, tProcess.getListOfExecutionFlowDto(tCriterion).size());
+
+        tExecPo = TestExecutionFlowDAO.buildNewFullFlow();
+        tExecPo.setThreadName("TEST-13main");
+        tFlowDAO.insertFullExecutionFlow(tExecPo);
+        mPersistenceManager.flush();
+        tCriterion.setThreadName("TEST");
+        assertEquals(3, tProcess.getListOfExecutionFlowDto(tCriterion).size());
     }
 
     public void testGetListOfExecutionFlowWithDurationMin()

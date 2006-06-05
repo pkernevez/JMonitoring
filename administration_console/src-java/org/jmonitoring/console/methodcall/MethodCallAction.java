@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint;
+package org.jmonitoring.console.methodcall;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -43,7 +43,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo refactor this class into a JFreeChart / ChartBarUtil class
  * @todo remove FindBugs exclusion after
  */
-public class MeasureStatAction extends Action
+public class MethodCallAction extends Action
 {
 
     private static final int NB_DEFAULT_INTERVAL_VALUE = 50;
@@ -54,7 +54,7 @@ public class MeasureStatAction extends Action
     public static final String FULL_DURATION_STAT = "FULL_DURATION_STAT";
 
     /** Logger. */
-    private static Log sLog = LogFactory.getLog(MeasureStatAction.class);
+    private static Log sLog = LogFactory.getLog(MethodCallAction.class);
 
     /**
      * (non-Javadoc)
@@ -66,7 +66,7 @@ public class MeasureStatAction extends Action
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse) throws Exception
     {
-        MeasurePointStatForm tForm = (MeasurePointStatForm) pForm;
+        MethodCallStatForm tForm = (MethodCallStatForm) pForm;
         List tMeasures = readMeasure(tForm);
         tForm.setNbMeasures(tMeasures.size());
         writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
@@ -75,7 +75,7 @@ public class MeasureStatAction extends Action
     }
 
     /** @todo Refactorer cette couche avec des DTO propre... */
-    private List readMeasure(MeasurePointStatForm pForm)
+    private List readMeasure(MethodCallStatForm pForm)
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         if (!pForm.isParametersByName())
@@ -87,7 +87,7 @@ public class MeasureStatAction extends Action
         }
     }
 
-    private void computeStat(List pMeasures, MeasurePointStatForm pForm)
+    private void computeStat(List pMeasures, MethodCallStatForm pForm)
     {
         if (pMeasures.size() != 0)
         {
@@ -122,7 +122,7 @@ public class MeasureStatAction extends Action
         }
     }
 
-    private int computeIntervalValue(List pMeasures, MeasurePointStatForm pForm)
+    private int computeIntervalValue(List pMeasures, MethodCallStatForm pForm)
     {
         int tIntervalValue = pForm.getInterval();
         if (tIntervalValue <= 0)
@@ -153,7 +153,7 @@ public class MeasureStatAction extends Action
      * @param pMeasures The list of <code>MethodCallDTO</code> to use for image generation.
      * @param pForm The form associated to this Action.
      */
-    public void writeFullDurationStat(HttpSession pSession, List pMeasures, MeasurePointStatForm pForm)
+    public void writeFullDurationStat(HttpSession pSession, List pMeasures, MethodCallStatForm pForm)
     {
         int tInterval = computeIntervalValue(pMeasures, pForm);
         IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
@@ -180,7 +180,7 @@ public class MeasureStatAction extends Action
         sLog.debug("Image " + FULL_DURATION_STAT + " add to session");
     }
 
-    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, MeasurePointStatForm pForm)
+    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, MethodCallStatForm pForm)
     {
         NumberAxis tAxis = new NumberAxis("duration (ms)");
         tAxis.setAutoRangeIncludesZero(false);

@@ -51,7 +51,7 @@ public class FlowChartBarUtil
 
     private static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
 
-    private Map mListOfTask;
+    private Map mListOfGroup = new HashMap();
 
     /**
      * Write a PNG image into the Session. The image is the chartbar representing the statistics of the execution of the
@@ -68,7 +68,6 @@ public class FlowChartBarUtil
 
     private void fillChart(HttpSession pSession, MethodCallDTO pFirstMeasure)
     {
-        mListOfTask = new HashMap();
         fillListOfGroup(pFirstMeasure);
         IntervalCategoryDataset intervalcategorydataset = createDataset();
         JFreeChart jfreechart = createChart(intervalcategorydataset);
@@ -76,65 +75,110 @@ public class FlowChartBarUtil
 
     }
 
-    private static class TaskEntry
+    static class TaskEntry
     {
         private int mPos;
 
         private String mGroupName;
 
         private Task mTask;
+
+        /**
+         * @return Returns the groupName.
+         */
+        String getGroupName()
+        {
+            return mGroupName;
+        }
+
+        /**
+         * @param pGroupName The groupName to set.
+         */
+        void setGroupName(String pGroupName)
+        {
+            mGroupName = pGroupName;
+        }
+
+        /**
+         * @return Returns the pos.
+         */
+        int getPos()
+        {
+            return mPos;
+        }
+
+        /**
+         * @param pPos The pos to set.
+         */
+        void setPos(int pPos)
+        {
+            mPos = pPos;
+        }
+
+        /**
+         * @return Returns the task.
+         */
+        Task getTask()
+        {
+            return mTask;
+        }
+
+        /**
+         * @param pTask The task to set.
+         */
+        void setTask(Task pTask)
+        {
+            mTask = pTask;
+        }
+
     }
 
-    private void fillListOfGroup(MethodCallDTO pCurMeasure)
+    void fillListOfGroup(MethodCallDTO pCurMeasure)
     {
         String tGroupName = pCurMeasure.getGroupName();
-        TaskEntry tTask = (TaskEntry) mListOfTask.get(tGroupName);
+        TaskEntry tTask = getTaskEntry(pCurMeasure, tGroupName);
+
+        List tListOfClidren = pCurMeasure.getChildren();
+        Date tBeginDate;
+        Date tEndDate = pCurMeasure.getBeginTime();
+        MethodCallDTO curChild;
+        for (int i = 0; i < tListOfClidren.size(); i++)
+        {
+            curChild = ((MethodCallDTO) tListOfClidren.get(i));
+            tBeginDate = tEndDate;
+            tEndDate = curChild.getBeginTime();
+            addSubTask(tGroupName, tTask, tBeginDate, tEndDate);
+            fillListOfGroup(curChild);
+            tEndDate = curChild.getEndTime();
+        }
+
+        tBeginDate = tEndDate;
+        tEndDate = pCurMeasure.getEndTime();
+        addSubTask(tGroupName, tTask, tBeginDate, tEndDate);
+    }
+
+    private void addSubTask(String pGroupName, TaskEntry pTask, Date pBeginDate, Date pEndDate)
+    {
+        if (pEndDate.before(pBeginDate))
+        { // Contournement du bug
+            pEndDate = pBeginDate;
+        }
+        pTask.mTask.addSubtask(new Task(pGroupName, new SimpleTimePeriod(pBeginDate, pEndDate)));
+    }
+
+    private TaskEntry getTaskEntry(MethodCallDTO pCurMeasure, String tGroupName)
+    {
+        TaskEntry tTask = (TaskEntry) mListOfGroup.get(tGroupName);
         if (tTask == null)
         { // We create a new entry
             tTask = new TaskEntry();
-            tTask.mPos = mListOfTask.size() + 1;
+            tTask.mPos = mListOfGroup.size() + 1;
             tTask.mTask = new Task(tGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(), pCurMeasure
                             .getEndTime()));
             tTask.mGroupName = tGroupName;
-            mListOfTask.put(tGroupName, tTask);
+            mListOfGroup.put(tGroupName, tTask);
         }
-        List tListOfClidren = pCurMeasure.getChildren();
-        if (tListOfClidren.size() > 0)
-        {
-            Date tBeginDate = pCurMeasure.getBeginTime();
-            Date tEndDate = ((MethodCallDTO) tListOfClidren.get(0)).getBeginTime();
-            if (tEndDate.before(tBeginDate))
-            { // Contournement du bug
-                tEndDate = tBeginDate;
-            }
-            tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(tBeginDate, tEndDate)));
-            for (int i = 0; i < tListOfClidren.size(); i++)
-            {
-                if (i > 0)
-                {
-                    tBeginDate = ((MethodCallDTO) tListOfClidren.get(i - 1)).getBeginTime();
-                    tEndDate = ((MethodCallDTO) tListOfClidren.get(i)).getEndTime();
-                    if (tEndDate.before(tBeginDate))
-                    { // Contournement du bug
-                        tEndDate = tBeginDate;
-                    }
-                    tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(tBeginDate, tEndDate)));
-                }
-                fillListOfGroup((MethodCallDTO) tListOfClidren.get(i));
-            }
-
-            tBeginDate = ((MethodCallDTO) tListOfClidren.get(tListOfClidren.size() - 1)).getEndTime();
-            tEndDate = pCurMeasure.getEndTime();
-            if (tEndDate.before(tBeginDate))
-            { // Contournement du bug
-                tEndDate = tBeginDate;
-            }
-            tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(tBeginDate, tEndDate)));
-        } else
-        {
-            tTask.mTask.addSubtask(new Task(tGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(), pCurMeasure
-                            .getEndTime())));
-        }
+        return tTask;
     }
 
     /**
@@ -154,7 +198,7 @@ public class FlowChartBarUtil
         ByteArrayOutputStream tStream = new ByteArrayOutputStream();
         try
         {
-            int tHeight = BODER_TOP + mListOfTask.size() * BORDER_DOWN;
+            int tHeight = BODER_TOP + mListOfGroup.size() * BORDER_DOWN;
             ChartUtilities.writeChartAsPNG(tStream, pChart, IMAGE_WIDTH, tHeight);
         } catch (IOException e)
         {
@@ -190,9 +234,9 @@ public class FlowChartBarUtil
 
     private TaskEntry[] orderListOfTask()
     {
-        TaskEntry[] tTaskEntries = new TaskEntry[mListOfTask.size()];
+        TaskEntry[] tTaskEntries = new TaskEntry[mListOfGroup.size()];
         TaskEntry curTask;
-        for (Iterator tIt = mListOfTask.values().iterator(); tIt.hasNext();)
+        for (Iterator tIt = mListOfGroup.values().iterator(); tIt.hasNext();)
         {
             curTask = (TaskEntry) tIt.next();
             tTaskEntries[curTask.mPos - 1] = curTask;
@@ -200,7 +244,7 @@ public class FlowChartBarUtil
         return tTaskEntries;
     }
 
-    private static JFreeChart createChart(IntervalCategoryDataset pIntervalcategorydataset)
+    static JFreeChart createChart(IntervalCategoryDataset pIntervalcategorydataset)
     {
         JFreeChart jfreechart = createGanttChart("Flow Group Details", "Flow Groups", "Date", pIntervalcategorydataset,
                         false, false, false);
@@ -249,6 +293,22 @@ public class FlowChartBarUtil
 
         return chart;
 
+    }
+
+    /**
+     * @return Returns the listOfGroup.
+     */
+    protected Map getListOfGroup()
+    {
+        return mListOfGroup;
+    }
+
+    /**
+     * @param pListOfGroup The listOfGroup to set.
+     */
+    protected void setListOfGroup(Map pListOfGroup)
+    {
+        mListOfGroup = pListOfGroup;
     }
 
 }

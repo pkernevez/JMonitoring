@@ -3,7 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="org.jmonitoring.console.measurepoint.MeasurePointForm"%>
+<%@page import="org.jmonitoring.console.methodcall.MeasurePointForm"%>
 <%@page import="org.jmonitoring.core.dto.MethodCallDTO"%>
 <%@page import="java.util.Date"%>
 

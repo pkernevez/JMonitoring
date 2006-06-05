@@ -18,12 +18,16 @@ public class TestDtoHelper extends TestCase
         assertEquals("TEST-main", tFlow.getThreadName());
         assertEquals(-1, tFlow.getId());
         assertEquals("myJVM", tFlow.getJvmIdentifier());
+        assertEquals(1, tFlow.getFirstMethodCall().getSequenceId());
+        MethodCallDTO tMethod = (MethodCallDTO) tFlow.getFirstMethodCall().getChildren().get(0);
+        assertEquals(2, tMethod.getSequenceId());
     }
 
     public void testGetMethodCallDto()
     {
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
-        MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
+        DtoHelper tHelper = new DtoHelper();
+        MethodCallDTO tMeth = tHelper.getMethodCallDto(tFlow.getFirstMethodCall());
         assertNull(tMeth.getParent());
         assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getClassName());
         assertEquals("builNewFullFlow", tMeth.getMethodName());
@@ -31,6 +35,15 @@ public class TestDtoHelper extends TestCase
         assertEquals("[]", tMeth.getParams());
         assertEquals(2, tMeth.getChildren().size());
         assertEquals(MethodCallDTO.class.getName(), tMeth.getChildren().get(0).getClass().getName());
-        assertEquals(tMeth, ((MethodCallDTO)tMeth.getChildren().get(0)).getParent());
+        assertEquals(tMeth, ((MethodCallDTO) tMeth.getChildren().get(0)).getParent());
+    }
+
+    public void testGetFullMethodCallDto()
+    {
+        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        DtoHelper tHelper = new DtoHelper();
+        MethodCallDTO tMeth = tHelper.getFullMethodCallDto(tFlow.getFirstMethodCall());
+        assertNotNull(tMeth);
+        assertEquals(2, tMeth.getChildren().size());
     }
 }

@@ -6,6 +6,8 @@
   </properties>
   <body>
 
+    <release version="0.6-SNAPSHOT" date="2006-05-31" description="Hibernate migration">
+    </release>
     <release version="0.5dev" date="2005-06-16" description="Performance and stability">
         <action dev="pkernevez" type="add">New page for searching list of <code>MeasurePoint</code> on same class and method.</action>
         <action dev="pkernevez" type="update">Information add to <code>MeasurePoint</code> statistics.</action>

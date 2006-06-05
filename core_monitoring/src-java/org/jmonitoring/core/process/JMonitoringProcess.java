@@ -14,6 +14,7 @@ import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.persistence.MethodCallPO;
@@ -82,6 +83,21 @@ public class JMonitoringProcess
         {
             LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
             tTransaction.rollback();
+        } finally
+        {
+            tSession.close();
+        }
+    }
+
+    public MethodCallDTO readFullMethodCall(int pId)
+    {
+        Session tSession = HibernateManager.getSession();
+        try
+        {
+            sLog.debug("Read method call from database, Id=[" + pId + "]");
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
+            MethodCallPO tMethodCallPo = tDao.readMethodCall(pId);
+            return DtoHelper.getFullMethodCallDto(tMethodCallPo);
         } finally
         {
             tSession.close();

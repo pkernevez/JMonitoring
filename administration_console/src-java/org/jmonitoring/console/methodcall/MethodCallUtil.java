@@ -1,4 +1,4 @@
-package org.jmonitoring.console.measurepoint;
+package org.jmonitoring.console.methodcall;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -23,7 +23,7 @@ import org.jmonitoring.core.persistence.HibernateManager;
  * @author pke
  *  
  */
-public class MeasureMenuUtil
+public class MethodCallUtil
 {
 
     private StringBuffer mWriter;
@@ -35,7 +35,7 @@ public class MeasureMenuUtil
      * 
      * @param pWriter The JSP writer.
      */
-    public MeasureMenuUtil(StringBuffer pWriter)
+    public MethodCallUtil(StringBuffer pWriter)
     {
         mWriter = pWriter;
     }
