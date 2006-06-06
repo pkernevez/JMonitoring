@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
 import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
 /**
@@ -52,8 +53,8 @@ public class MethodCallForm extends ActionForm
             tResult = false;
         } else
         { // Invalid parameters
-            throw new MeasureException("Invalid parameter expected flowId and sequenceId OR "
-                            + "methodName and className.");
+            throw new MeasureException(
+                            "Invalid parameter expected flowId and sequenceId OR " + "methodName and className.");
         }
         return tResult;
     }
@@ -100,15 +101,22 @@ public class MethodCallForm extends ActionForm
 
     /**
      * Accessor.
+     * 
      * @return The name of the <code>Class</code>.
      */
     public String getClassName()
     {
+        if (mMethodName != null)
+        {
         return mClassName;
+        } else {
+            return mMethodCall.getClassName();
+        }
     }
 
     /**
      * Accessor.
+     * 
      * @param pClassName The name of the <code>Class</code>.
      */
     public void setClassName(String pClassName)
@@ -118,15 +126,23 @@ public class MethodCallForm extends ActionForm
 
     /**
      * Accessor.
+     * 
      * @return The name of the method.
      */
     public String getMethodName()
     {
-        return mMethodName;
+        if (mMethodName != null)
+        {
+            return mMethodName;
+        } else
+        {
+            return mMethodCall.getMethodName();
+        }
     }
 
     /**
      * Accessor.
+     * 
      * @param pMethodName The name of the method.
      */
     public void setMethodName(String pMethodName)
@@ -136,6 +152,7 @@ public class MethodCallForm extends ActionForm
 
     /**
      * Accessor.
+     * 
      * @return The measure point associated with this parameters.
      */
     public MethodCallDTO getMethodCall()
@@ -145,6 +162,7 @@ public class MethodCallForm extends ActionForm
 
     /**
      * Accessor.
+     * 
      * @param pMeasurePoint The measure associated with this parameters.
      */
     public void setMethodCall(MethodCallDTO pMeasurePoint)
@@ -153,8 +171,9 @@ public class MethodCallForm extends ActionForm
     }
 
     /**
-     * Return the ids of the parent <code>MethodCallDTO</code>.
-     * This <code>Map</code> is used for the link generation by Struts.
+     * Return the ids of the parent <code>MethodCallDTO</code>. This <code>Map</code> is used for the link
+     * generation by Struts.
+     * 
      * @return The list of attributes to use for the link.
      */
     public Map getParentIdsMap()
@@ -169,31 +188,37 @@ public class MethodCallForm extends ActionForm
     }
 
     /**
-     * Return the ids of the current <code>MethodCallDTO</code>.
-     * This <code>Map</code> is used for the link generation by Struts.
+     * Return the ids of the current <code>MethodCallDTO</code>. This <code>Map</code> is used for the link
+     * generation by Struts.
+     * 
      * @return The list of attributes to use for the link.
      */
-    public Map getMeasureIdsMap()
+    public Map getMethodCallIdsMap()
     {
         Map tHashMap = new HashMap();
         tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
-        tHashMap.put("sequenceId", new Integer(mMethodCall.getSequenceId()));
+        tHashMap.put("id", new Integer(mMethodCall.getSequenceId()));
         return tHashMap;
     }
 
     /**
-     * Return the ids of a chid of the <code>MethodCallDTO</code>.
-     * This <code>Map</code> is used for the link generation by Struts.
+     * Return the ids of a chid of the <code>MethodCallDTO</code>. This <code>Map</code> is used for the link
+     * generation by Struts.
+     * 
      * @param pPosition The index of the <code>MethodCallDTO</code>.
      * @return The list of attributes to use for the link.
      */
-    public Map getChildMeasureIdsMap(int pPosition)
+    public Map getChildMethodCallIdsMap(int pPosition)
     {
         Map tHashMap = new HashMap();
         MethodCallDTO tMeasure = (MethodCallDTO) mMethodCall.getChildren().get(pPosition);
         tHashMap.put("flowId", new Integer(tMeasure.getFlowId()));
-        tHashMap.put("sequenceId", new Integer(tMeasure.getSequenceId()));
+        tHashMap.put("id", new Integer(tMeasure.getSequenceId()));
         return tHashMap;
     }
 
+    public String getGroupColor()
+    {
+        return Configuration.getInstance().getGroupAsColorString(mMethodCall.getGroupName());
+    }
 }

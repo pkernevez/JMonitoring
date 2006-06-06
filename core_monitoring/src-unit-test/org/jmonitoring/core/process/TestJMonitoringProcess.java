@@ -349,17 +349,17 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
-        List tMethodsDto = tProcess.getListOfMethodCallFromFlowId(tFlowId);
+        List tMethodsDto = tProcess.getListOfMethodCallFromId(tFlowId, 1);
         assertEquals(3, tMethodsDto.size());
 
         try
         {
-            tMethodsDto = tProcess.getListOfMethodCallFromFlowId(17);
+            tMethodsDto = tProcess.getListOfMethodCallFromId(17, 1323);
             fail("On ne doit pas trouver de FlowId avec comme clé 17.");
         } catch (ObjectNotFoundException e)
         {
             assertEquals(
-                            "No row with the given identifier exists: [org.jmonitoring.core.persistence.ExecutionFlowPO#17]",
+                            "No row with the given identifier exists: [org.jmonitoring.core.persistence.MethodCallPO#1323]",
                             e.getMessage());
         }
     }

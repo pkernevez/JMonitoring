@@ -10,7 +10,7 @@
 
   <body>
 
-    <section name="JavaMonitoring tool">
+    <section name="JMonitoring tool">
     <p>
     This framework provides a simple way for tracing and monitoring JavaApplication. 
     The console uses a Servlet Container but the framework does't required anything else than a JVM (1.3+) and AspectJ into your application.<BR/>

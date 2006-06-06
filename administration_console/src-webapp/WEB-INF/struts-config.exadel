@@ -41,12 +41,11 @@
    NAME="forward0" PATH="deleteflowsuccess" TARGET="page0"
    TITLE="success" TYPE="forward"/>
  </PROCESS-ITEM>
- <PROCESS-ITEM ENTITY="StrutsProcessItem" ID="#MeasurePointStat"
-  NAME="action7" PATH="/MeasurePointStat" SHAPE="32,1025,0,0"
-  TITLE="measurepointstatform" TYPE="action">
+ <PROCESS-ITEM ENTITY="StrutsProcessItem" ID="#MethodCallStatIn"
+  NAME="action7" PATH="/MethodCallStatIn" SHAPE="32,1025,0,0"
+  TITLE="methodcallstatform" TYPE="action">
   <PROCESS-ITEM-OUTPUT ENTITY="StrutsProcessItemOutput" ID="success"
-   NAME="forward0" PATH="/MeasurePointStatInternal.do" TARGET="action13"
-   TITLE="success" TYPE="forward"/>
+   NAME="forward0" PATH="methodcallstat" TARGET="page3" TITLE="success" TYPE="forward"/>
  </PROCESS-ITEM>
  <PROCESS-ITEM ENTITY="StrutsProcessItem" ID="#DeleteFlow"
   NAME="action8" PATH="/DeleteFlow" SHAPE="32,689,0,0"
@@ -79,12 +78,6 @@
   <PROCESS-ITEM-OUTPUT ENTITY="StrutsProcessItemOutput" ID="success"
    NAME="forward1" PATH="/FlowEditInternal.do" TARGET="action18"
    TITLE="success" TYPE="forward"/>
- </PROCESS-ITEM>
- <PROCESS-ITEM ENTITY="StrutsProcessItem" ID="#MeasurePointStatInternal"
-  NAME="action13" PATH="/MeasurePointStatInternal" SHAPE="240,1041,0,0"
-  SUBTYPE="parameter" TITLE="measurepointstatform" TYPE="action">
-  <PROCESS-ITEM-OUTPUT ENTITY="StrutsProcessItemOutput" NAME="action13"
-   PATH="measurepointstat" TARGET="page7" TITLE="parameter" TYPE="forward"/>
  </PROCESS-ITEM>
  <PROCESS-ITEM ENTITY="StrutsProcessItem" ID="#MethodCallSearchIn"
   NAME="action14" PATH="/MethodCallSearchIn" SHAPE="32,1393,0,0"
@@ -119,9 +112,6 @@
  <PROCESS-ITEM ENTITY="StrutsProcessItem" NAME="page6"
   PATH="measurepointlist" SHAPE="448,466,0,0" SUBTYPE="tile"
   TITLE="measurepointlist" TYPE="page"/>
- <PROCESS-ITEM ENTITY="StrutsProcessItem" NAME="page7"
-  PATH="measurepointstat" SHAPE="448,1026,0,0" SUBTYPE="tile"
-  TITLE="measurepointstat" TYPE="page"/>
  <PROCESS-ITEM ENTITY="StrutsProcessItem" NAME="page9"
   PATH="deleteflowconfirm" SHAPE="240,1522,0,0" SUBTYPE="tile"
   TITLE="deleteflowconfirm" TYPE="page"/>
@@ -158,4 +148,7 @@
  <PROCESS-ITEM ENTITY="StrutsProcessItem" NAME="page13"
   PATH="methodcalledit" SHAPE="656,913,0,0" SUBTYPE="tile"
   TITLE="methodcalledit" TYPE="page"/>
+ <PROCESS-ITEM ENTITY="StrutsProcessItem" NAME="page3"
+  PATH="methodcallstat" SHAPE="240,1025,0,0" SUBTYPE="tile"
+  TITLE="methodcallstat" TYPE="page"/>
 </PROCESS>

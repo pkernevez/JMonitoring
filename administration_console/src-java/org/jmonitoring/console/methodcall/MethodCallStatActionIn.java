@@ -43,7 +43,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo refactor this class into a JFreeChart / ChartBarUtil class
  * @todo remove FindBugs exclusion after
  */
-public class MethodCallAction extends Action
+public class MethodCallStatActionIn extends Action
 {
 
     private static final int NB_DEFAULT_INTERVAL_VALUE = 50;
@@ -54,7 +54,7 @@ public class MethodCallAction extends Action
     public static final String FULL_DURATION_STAT = "FULL_DURATION_STAT";
 
     /** Logger. */
-    private static Log sLog = LogFactory.getLog(MethodCallAction.class);
+    private static Log sLog = LogFactory.getLog(MethodCallStatActionIn.class);
 
     /**
      * (non-Javadoc)
@@ -80,7 +80,7 @@ public class MethodCallAction extends Action
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         if (!pForm.isParametersByName())
         { // First retreive className and methodName from the given MethodCallDTO
-            return tProcess.getListOfMethodCallFromFlowId(pForm.getFlowId());
+            return tProcess.getListOfMethodCallFromId(pForm.getFlowId(), pForm.getId());
         } else
         {
             return tProcess.getListOfMethodCallFromClassAndMethodName(pForm.getClassName(), pForm.getMethodName());

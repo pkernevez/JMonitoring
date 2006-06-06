@@ -91,7 +91,7 @@ public class ExecutionFlowDAO
     { // On construit la requête
 
         Criteria tCriteria = mPersistenceManager.createCriteria(ExecutionFlowPO.class);
-        if (pCriterion.getThreadName() != null && pCriterion.getThreadName().length()>0)
+        if (pCriterion.getThreadName() != null && pCriterion.getThreadName().length() > 0)
         {
             tCriteria = tCriteria.add(Restrictions.like("threadName", pCriterion.getThreadName() + "%"));
         }
@@ -161,7 +161,7 @@ public class ExecutionFlowDAO
      * 
      * @throws SQLException If an exception occures.
      */
-    public void deleteAllFlows() 
+    public void deleteAllFlows()
     {
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
@@ -174,7 +174,7 @@ public class ExecutionFlowDAO
      * Delete an <code>ExcecutionFlow</code> an its nested <code>MethodCallDTO</code>.
      * 
      * @param pId The <code>ExecutionFlowDTO</code> identifier.
-     * @throws UnknownFlowException If the flow can't be find in db. 
+     * @throws UnknownFlowException If the flow can't be find in db.
      * @todo menage
      */
     public void deleteFlow(int pId) throws UnknownFlowException
@@ -215,9 +215,10 @@ public class ExecutionFlowDAO
      */
     public MethodCallPO readMethodCall(int pMethodId)
     {
-        Query tQuery = mPersistenceManager.createQuery("from MethodCallPO m where m.id=:pid");
-        tQuery.setInteger("pid", pMethodId);
-        return (MethodCallPO) tQuery.uniqueResult();
+        // Query tQuery = mPersistenceManager.createQuery("from MethodCallPO m where m.id=:pid");
+        // tQuery.setInteger("pid", pMethodId);
+        // return (MethodCallPO) tQuery.uniqueResult();
+        return (MethodCallPO) mPersistenceManager.load(MethodCallPO.class, new Integer(pMethodId));
     }
 
     private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className  || '.' || MethodCallPO.methodName ," + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
@@ -231,7 +232,7 @@ public class ExecutionFlowDAO
      * @return The <code>List</code> of all Measure.
      * @throws SQLException If the database is not available.
      */
-    public List getListOfMethodCallExtract() 
+    public List getListOfMethodCallExtract()
     {
         // List tResult = new ArrayList();
         Query tQuery = mPersistenceManager.createQuery(SELECT_LIST_OF_MEASURE);
@@ -247,15 +248,15 @@ public class ExecutionFlowDAO
 
     public int countFlows()
     {
-            SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
-            Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
-            if (tResult != null)
-            {
-                return ((Integer) tResult).intValue();
-            } else
-            {
-                return 0;
-            }
+        SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+        Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
+        if (tResult != null)
+        {
+            return ((Integer) tResult).intValue();
+        } else
+        {
+            return 0;
+        }
 
     }
 

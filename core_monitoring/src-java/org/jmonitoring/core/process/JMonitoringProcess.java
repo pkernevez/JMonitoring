@@ -137,14 +137,14 @@ public class JMonitoringProcess
         }
     }
 
-    public List getListOfMethodCallFromFlowId(int pFlowId)
+    public List getListOfMethodCallFromId(int pFlowId, int pMethodCallId)
     {
         Session tSession = HibernateManager.getSession();
         try
         {
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
-            ExecutionFlowPO tFlow = tDao.readExecutionFlow(pFlowId);
-            MethodCallPO tMethod = tFlow.getFirstMethodCall();
+//            ExecutionFlowPO tFlow = tDao.readExecutionFlow(pFlowId);
+            MethodCallPO tMethod = tDao.readMethodCall(pMethodCallId);
             List tResult = tDao.getListOfMethodCall(tMethod.getClassName(), tMethod.getMethodName());
             return DtoHelper.copyListOfMethodPO(tResult);
         } finally

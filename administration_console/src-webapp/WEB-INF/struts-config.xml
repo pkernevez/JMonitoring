@@ -4,134 +4,128 @@
 
 <struts-config>
 
-	<!-- FORM -->
-	<form-beans>
-  		<!-- Logon form bean -->
-  		<form-bean name="flowsearchform" 		type="org.jmonitoring.console.flow.FlowSearchForm"/>
-  		<form-bean name="floweditform" 			type="org.jmonitoring.console.flow.FlowEditForm"/>
-        <form-bean name="flowidform"            type="org.jmonitoring.console.flow.FlowIdForm"/>
-  		<form-bean name="methodcallform" 		type="org.jmonitoring.console.methodcall.MethodCallForm"/>
-  		<form-bean name="methodcallstatform" 	type="org.jmonitoring.console.methodcall.MethodCallStatForm"/>
-  		<form-bean name="methodcalllistform" 	type="org.jmonitoring.console.methodcall.list.MethodCallListForm"/>
-  		
-			<!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
-    	  	<form-property name="threadName" type="java.lang.String" />
-      		<form-property name="country" type="java.lang.String" />
-    	</form-bean-->
-  	</form-beans>
+    <!-- FORM -->
+    <form-beans>
+        <!-- Logon form bean -->
+        <form-bean name="flowsearchform" type="org.jmonitoring.console.flow.FlowSearchForm" />
+        <form-bean name="floweditform" type="org.jmonitoring.console.flow.FlowEditForm" />
+        <form-bean name="flowidform" type="org.jmonitoring.console.flow.FlowIdForm" />
+        <form-bean name="methodcallform" type="org.jmonitoring.console.methodcall.MethodCallForm" />
+        <form-bean name="methodcallstatform" type="org.jmonitoring.console.methodcall.MethodCallStatForm" />
+        <form-bean name="methodcalllistform" type="org.jmonitoring.console.methodcall.list.MethodCallListForm" />
 
-	<global-exceptions>
-    	<exception key="All" type="java.lang.Throwable" path="/Error.do"/>
-	</global-exceptions>
-	
+        <!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="threadName" type="java.lang.String" />
+            <form-property name="country" type="java.lang.String" />
+            </form-bean-->
+    </form-beans>
+
+    <global-exceptions>
+        <exception key="All" type="java.lang.Throwable" path="/Error.do" />
+    </global-exceptions>
+
     <!-- Mappages d'action -->
     <!-- @todo Gerer les erreurs -->
-	<global-forwards>
-		<forward name="error" path="/Error.do"></forward>
-	</global-forwards>
-	
-    <action-mappings>
-	    <action path="/Error" forward="errorpage" />
+    <global-forwards>
+        <forward name="error" path="/Error.do"></forward>
+    </global-forwards>
 
-         <action path="/Index" type="org.jmonitoring.console.action.InitActionIn"
-                validate="false">
-                <forward name="success" path="homepage"/>
-         </action>     
+    <action-mappings>
+        <action path="/Error" forward="errorpage" />
+
+        <action path="/Index" type="org.jmonitoring.console.action.InitActionIn" validate="false">
+            <forward name="success" path="homepage" />
+        </action>
 
         <action path="/DeleteAllFlowsConfirmIn" forward="deleteflowconfirm" />
 
-         <action path="/DeleteAllFlowsIn" type="org.jmonitoring.console.flow.DeleteAllFlowsActionIn"
-                validate="false">
-                <forward name="success" path="deleteflowsuccess"/>
-         </action>     
-
-         <action path="/DeleteOneFlowIn" type="org.jmonitoring.console.flow.DeleteOneFlowActionIn"
-                validate="false" name="flowidform" scope="request">
-                <forward name="success" path="deleteflowsuccess"/>
-                <forward name="invalid" path="functionalerror"/>
-         </action>     
-
-        <action path="/FlowEditIn" type="org.jmonitoring.console.flow.FlowEditActionIn" 
-            name="floweditform" scope="request">
-                <forward name="success" path="floweditinternal"/>
-                <forward name="required_info" path="floweditrequiredinfo"/>
+        <action path="/DeleteAllFlowsIn" type="org.jmonitoring.console.flow.DeleteAllFlowsActionIn" validate="false">
+            <forward name="success" path="deleteflowsuccess" />
         </action>
 
-        <action path="/FlowSearchIn" forward="flowsearch" 
-            name="flowsearchform" scope="request"/>
+        <action path="/DeleteOneFlowIn" type="org.jmonitoring.console.flow.DeleteOneFlowActionIn" validate="false"
+            name="flowidform" scope="request">
+            <forward name="success" path="deleteflowsuccess" />
+            <forward name="invalid" path="functionalerror" />
+        </action>
 
-        <action path="/FlowSearchOut" type="org.jmonitoring.console.flow.FlowSearchActionOut"
-                name="flowsearchform" scope="request" validate="false">
-                <forward name="success" path="flowsearch"/>
-		 </action>	    
+        <action path="/FlowEditIn" type="org.jmonitoring.console.flow.FlowEditActionIn" name="floweditform"
+            scope="request">
+            <forward name="success" path="floweditinternal" />
+            <forward name="required_info" path="floweditrequiredinfo" />
+        </action>
 
-        <action path="/MethodCallSearchIn" forward="methodcallsearch"  />
+        <action path="/FlowSearchIn" forward="flowsearch" name="flowsearchform" scope="request" />
+
+        <action path="/FlowSearchOut" type="org.jmonitoring.console.flow.FlowSearchActionOut" name="flowsearchform"
+            scope="request" validate="false">
+            <forward name="success" path="flowsearch" />
+        </action>
+
+        <action path="/MethodCallSearchIn" forward="methodcallsearch" />
 
         <action path="/MethodCallEditIn" type="org.jmonitoring.console.methodcall.MethodCallEditActionIn"
             name="methodcallform" scope="request">
             <forward name="success" path="methodcalledit" />
         </action>
 
-
-	    <!-- action path="/DeleteAllFlowsSuccess" parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/-->
-
-	    <action path="/DeleteFlowSuccess" name="floweditform" 
-	    	parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/>
- 
-		 <action path="/DeleteFlow" type="org.jmonitoring.console.flow.FlowDeleteAction"
-                name="floweditform" scope="request">
-                <forward name="success" path="/DeleteFlowSuccess.do"/>
-		 </action>	    
-
-		 <!--  action path="/FlowSearchSubmit" type="org.jmonitoring.console.flow.FlowSearchAction"
-                name="flowsearchform" scope="request" validate="false">
-                <forward name="success" path="/FlowSearch.do"/>
-		 </action-->	    
-
-	    <!-- action path="/FlowEditRequiredInfo" parameter="floweditrequiredinfo" type="org.apache.struts.actions.ForwardAction" 
-	    	name="floweditform" scope="request"/-->
-
-	    <action path="/FlowEdit" type="org.jmonitoring.console.flow.FlowEditAction" 
-	    	name="floweditform" scope="request" validate="false">
-                <forward name="success" path="/FlowEditInternal.do"/>
-                <forward name="required_info" path="/FlowEditRequiredInfo.do"/>
-		</action>	  
-
-	    <action path="/MeasurePointStatInternal" parameter="measurepointstat" type="org.apache.struts.actions.ForwardAction" 
-	    	name="measurepointstatform" scope="request"/>
-
-	    <action path="/MeasurePointStat" type="org.jmonitoring.console.measurepoint.MeasureStatAction" 
-	    	name="measurepointstatform" scope="request">
-                <forward name="success" path="/MeasurePointStatInternal.do"/>
-		</action>
-		
-	    <action path="/MeasurePointListInternal" parameter="measurepointlist" type="org.apache.struts.actions.ForwardAction" 
-	    	name="measurepointlistform" scope="request"/>
-
-	    <action path="/MeasurePointList" type="org.jmonitoring.console.measurepoint.list.MeasurePointListAction" 
-	    	name="measurepointlistform" scope="request">
-                <forward name="success" path="/MeasurePointListInternal.do"/>
-		</action>
-		
+        <action path="/MethodCallStatIn" type="org.jmonitoring.console.methodcall.MethodCallStatActionIn"
+            name="methodcallstatform" scope="request">
+            <forward name="success" path="methodcallstat" />
+        </action>
 
 
-<!-- Temp 	   
-	    <action path="/FlowEditMenuInternal" parameter="floweditmenuinternal" type="org.apache.struts.actions.ForwardAction" 
-	    	name="floweditform" scope="request"/>
+        <!-- action path="/DeleteAllFlowsSuccess" parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/-->
+
+        <action path="/DeleteFlowSuccess" name="floweditform" parameter="deleteflowsuccess"
+            type="org.apache.struts.actions.ForwardAction" />
+
+        <action path="/DeleteFlow" type="org.jmonitoring.console.flow.FlowDeleteAction" name="floweditform"
+            scope="request">
+            <forward name="success" path="/DeleteFlowSuccess.do" />
+        </action>
+
+        <!--  action path="/FlowSearchSubmit" type="org.jmonitoring.console.flow.FlowSearchAction"
+            name="flowsearchform" scope="request" validate="false">
+            <forward name="success" path="/FlowSearch.do"/>
+            </action-->
+
+        <!-- action path="/FlowEditRequiredInfo" parameter="floweditrequiredinfo" type="org.apache.struts.actions.ForwardAction" 
+            name="floweditform" scope="request"/-->
+
+        <action path="/FlowEdit" type="org.jmonitoring.console.flow.FlowEditAction" name="floweditform" scope="request"
+            validate="false">
+            <forward name="success" path="/FlowEditInternal.do" />
+            <forward name="required_info" path="/FlowEditRequiredInfo.do" />
+        </action>
+
+        <action path="/MeasurePointListInternal" parameter="measurepointlist"
+            type="org.apache.struts.actions.ForwardAction" name="measurepointlistform" scope="request" />
+
+        <action path="/MeasurePointList" type="org.jmonitoring.console.measurepoint.list.MeasurePointListAction"
+            name="measurepointlistform" scope="request">
+            <forward name="success" path="/MeasurePointListInternal.do" />
+        </action>
 
 
-	    <action path="/FlowEditMenu" type="net.kernevez.javamonitoring.console.flow.FlowEditAction" 
-	    	name="floweditform" scope="request" validate="false">
-                <forward name="success" path="/FlowEditMenuInternal.do"/>
-                <forward name="failure" path="/Error.do"/>
-		</action>	  
-	   
-Temp -->	   
+
+        <!-- Temp 	   
+            <action path="/FlowEditMenuInternal" parameter="floweditmenuinternal" type="org.apache.struts.actions.ForwardAction" 
+            name="floweditform" scope="request"/>
+            
+            
+            <action path="/FlowEditMenu" type="net.kernevez.javamonitoring.console.flow.FlowEditAction" 
+            name="floweditform" scope="request" validate="false">
+            <forward name="success" path="/FlowEditMenuInternal.do"/>
+            <forward name="failure" path="/Error.do"/>
+            </action>	  
+            
+            Temp -->
 
     </action-mappings>
 
-	<plug-in className="org.apache.struts.tiles.TilesPlugin">
-        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
     </plug-in>
 
 	<plug-in className="net.sf.navigator.menu.MenuPlugIn">

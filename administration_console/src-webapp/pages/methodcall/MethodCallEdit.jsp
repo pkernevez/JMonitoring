@@ -8,7 +8,7 @@
 
 
 <!-- Begin Body -->
-<h1>MeasurePoint Details</h1>
+<h1>Method Call Details</h1>
 
 <h2><bean:write name="methodcallform" property="methodCall.className"/>.<bean:write name="methodcallform" property="methodCall.methodName"/>()</h2><br>
 
@@ -20,7 +20,7 @@
 	</tr>
 	<tr>
 		<td NOWRAP>Group name:</td>
-		<td NOWRAP class="group" bgcolor="<%=Configuration.getInstance().getGroupAsColorString(tForm.getMeasurePoint().getGroupName())%>">&nbsp;&nbsp;&nbsp;</td>
+		<td NOWRAP class="group" bgcolor="<bean:write name="methodcallform" property="groupColor"/>">&nbsp;&nbsp;&nbsp;</td>
 		<td NOWRAP><b><bean:write name="methodcallform" property="methodCall.groupName"/></b></td>
 	</tr>
 	<tr>
@@ -33,26 +33,26 @@
 	</tr>
 	<tr>
 		<td NOWRAP>Sequence Id:</td>
-		<td NOWRAP colSpan="2"><b><bean:write format="####" name="methodcallform" property="measurePoint.sequenceId"/></b>
-			<html:link action="MeasurePointStat" name="methodcallform" property="measureIdsMap" title="View stats...">
+		<td NOWRAP colSpan="2"><b><bean:write format="####" name="methodcallform" property="methodCall.sequenceId"/></b>
+			<html:link action="MethodCallStat" name="methodcallform" property="methodCallIdsMap" title="View stats...">
 				<IMG src="images/graphique.png"/>
 			</html:link>
 		</td>
 	</tr>
 	<tr>
 		<td NOWRAP>Begin date:</td>
-		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="measurePoint.beginTimeAsString"/></b></td>
+		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.beginTimeAsString"/></b></td>
 	</tr>
 	<tr>
 		<td NOWRAP>End date:</td>
-		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="measurePoint.endTimeAsString"/></b></td>
+		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.endTimeAsString"/></b></td>
 	</tr>
-<logic:notEmpty name="methodcallform" property="measurePoint.parent">
+<logic:notEmpty name="methodcallform" property="methodCall.parent">
 	<tr>
 		<td NOWRAP>Parent SequenceId:</td>
 		<td NOWRAP colSpan="2">
-			<b><html:link action="MeasurePointEdit" name="methodcallform" property="parentIdsMap">
-				<bean:write format="####" name="methodcallform" property="measurePoint.parent.sequenceId"/>
+			<b><html:link action="MethodCallEdit" name="methodcallform" property="parentIdsMap">
+				<bean:write format="####" name="methodcallform" property="methodCall.parent.sequenceId"/>
 			</html:link></b>
 		</td>
 	</tr>
@@ -63,11 +63,11 @@
 	</tr></>
 	<tr>
 		<td NOWRAP>Param:</td>
-		<td colSpan="2"><b><bean:write name="methodcallform" property="measurePoint.params"/></b></td>
+		<td colSpan="2"><b><bean:write name="methodcallform" property="methodCall.params"/></b></td>
 	</tr>
 
 	<!-- End of method Normal -->
-	<logic:notEmpty name="methodcallform" property="measurePoint.returnValue">
+	<logic:notEmpty name="methodcallform" property="methodCall.returnValue">
 		<tr>
 			<td NOWRAP>Result:</td>
 			<td colSpan="2"><b><bean:write name="methodcallform" property="methodCall.returnValue"/></b></td>
@@ -92,12 +92,12 @@
 			<ul>
 				<logic:iterate id="child" name="methodcallform" property="methodCall.children" indexId="ctr">
 					<li>
-						<html:link action="MethodCallEdit" name="methodcallform" property='<%="childMeasureIdsMap["+ctr+"]"%>' title="View details...">
+						<html:link action="MethodCallEditIn" name="methodcallform" property='<%="childMethodCallIdsMap["+ctr+"]"%>' title="View details...">
 							[<bean:write format="" name="child" property="duration"/>] &nbsp;
 							<bean:write name="child" property="groupName"/> &nbsp;-->&nbsp;
 							<bean:write name="child" property="className"/>.<bean:write name="child" property="methodName"/>()
 						</html:link>
-						<html:link action="MethodCallStat" name="methodcallform" property='<%="childMeasureIdsMap["+ctr+"]"%>' title="View stats...">
+						<html:link action="MethodCallStatIn" name="methodcallform" property='<%="childMethodCallIdsMap["+ctr+"]"%>' title="View stats...">
 							<IMG src="images/graphique.png"/>
 						</html:link>
 					</li>
