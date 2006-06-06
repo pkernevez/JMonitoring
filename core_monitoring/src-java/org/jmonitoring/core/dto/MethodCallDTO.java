@@ -205,6 +205,16 @@ public class MethodCallDTO
     /**
      * Accessor.
      * 
+     * @return The list of the sub-method of this <code>MethodCallDTO</code>.
+     */
+    public MethodCallDTO getChild(int pPos)
+    {
+        return (MethodCallDTO) mChildren.get(pPos);
+    }
+
+    /**
+     * Accessor.
+     * 
      * @return Returns the sequence identifier.
      */
     public int getSequenceId()

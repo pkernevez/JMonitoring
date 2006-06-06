@@ -85,7 +85,6 @@ public class MethodCallPO
         mBeginTime = System.currentTimeMillis();
         mParams = getParamsAsString(pParams, pClassName, pMethodName);
         mGroupName = pGroupName;
-
     }
 
     private String getParamsAsString(Object[] pParams, String pClassName, String pMethodName)

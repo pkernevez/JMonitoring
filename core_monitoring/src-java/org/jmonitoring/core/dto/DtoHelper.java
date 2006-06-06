@@ -42,7 +42,7 @@ public final class DtoHelper
     }
 
     /**
-     * Copy a methodCall and its direct children to a DTO structure.
+     * Copy a methodCall, its direct children and its parent to a DTO structure.
      * 
      * @param pCallPO The methodCall to copy.
      * @return The DTO structure.
@@ -52,10 +52,17 @@ public final class DtoHelper
         DtoHelper tHelper = new DtoHelper();
         MethodCallDTO tResult = tHelper.getSimpleCopy(pCallPO);
         MethodCallPO curChild;
-        for (int i=0; i<pCallPO.getChildren().size();i++)
+        MethodCallDTO curChildDto;
+        for (int i = 0; i < pCallPO.getChildren().size(); i++)
         {
-            curChild = (MethodCallPO) pCallPO.getChildren().get(i); 
-            tResult.addChild( tHelper.getSimpleCopy( curChild) );
+            curChild = (MethodCallPO) pCallPO.getChildren().get(i);
+            curChildDto = tHelper.getSimpleCopy(curChild);
+            tResult.addChild(curChildDto);
+            curChildDto.setParent(tResult);
+        }
+        if (pCallPO.getParentMethodCall() != null)
+        {
+            tResult.setParent(tHelper.getSimpleCopy(pCallPO.getParentMethodCall()));
         }
         return tResult;
     }
@@ -64,10 +71,13 @@ public final class DtoHelper
     {
         MethodCallDTO tResult = getSimpleCopy(pCallPO);
         MethodCallPO curMethod;
+        MethodCallDTO curChildDto;
         for (Iterator tIt = pCallPO.getChildren().iterator(); tIt.hasNext();)
         {
             curMethod = (MethodCallPO) tIt.next();
-            tResult.addChild(getMethodCallDto(curMethod));
+            curChildDto = getMethodCallDto(curMethod);
+            tResult.addChild(curChildDto);
+            curChildDto.setParent(tResult);
         }
         return tResult;
     }

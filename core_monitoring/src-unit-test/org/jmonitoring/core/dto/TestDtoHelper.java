@@ -45,5 +45,7 @@ public class TestDtoHelper extends TestCase
         MethodCallDTO tMeth = tHelper.getFullMethodCallDto(tFlow.getFirstMethodCall());
         assertNotNull(tMeth);
         assertEquals(2, tMeth.getChildren().size());
+        MethodCallDTO tChild1 = (MethodCallDTO) tMeth.getChildren().get(0);
+        assertNotNull(tChild1.getParent());
     }
 }

@@ -181,8 +181,8 @@ public class MethodCallForm extends ActionForm
         Map tHashMap = new HashMap();
         if (mMethodCall.getParent() != null)
         {
-            tHashMap.put("flowId", new Integer(mMethodCall.getParent().getFlowId()));
-            tHashMap.put("sequenceId", new Integer(mMethodCall.getParent().getSequenceId()));
+            tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
+            tHashMap.put("id", new Integer(mMethodCall.getParent().getSequenceId()));
         }
         return tHashMap;
     }

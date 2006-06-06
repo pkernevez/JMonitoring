@@ -26,7 +26,7 @@
 	<tr>
 		<td NOWRAP>Flow Id:</td>
 		<td NOWRAP colSpan="2">
-			<html:link action="FlowEdit" paramId="id" paramName="methodcallform" paramProperty="methodCall.flowId" title="View full flow...">
+			<html:link action="FlowEditIn" paramId="id" paramName="methodcallform" paramProperty="methodCall.flowId" title="View full flow...">
 				<b><bean:write format="####" name="methodcallform" property="methodCall.flowId"/></b></td>
 			</html:link>
 		
@@ -34,7 +34,7 @@
 	<tr>
 		<td NOWRAP>Sequence Id:</td>
 		<td NOWRAP colSpan="2"><b><bean:write format="####" name="methodcallform" property="methodCall.sequenceId"/></b>
-			<html:link action="MethodCallStat" name="methodcallform" property="methodCallIdsMap" title="View stats...">
+			<html:link action="MethodCallStatIn" name="methodcallform" property="methodCallIdsMap" title="View stats...">
 				<IMG src="images/graphique.png"/>
 			</html:link>
 		</td>
@@ -51,7 +51,7 @@
 	<tr>
 		<td NOWRAP>Parent SequenceId:</td>
 		<td NOWRAP colSpan="2">
-			<b><html:link action="MethodCallEdit" name="methodcallform" property="parentIdsMap">
+			<b><html:link action="MethodCallEditIn" name="methodcallform" property="parentIdsMap">
 				<bean:write format="####" name="methodcallform" property="methodCall.parent.sequenceId"/>
 			</html:link></b>
 		</td>
