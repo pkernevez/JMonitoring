@@ -27,21 +27,21 @@ public class FlowEditForm extends ActionForm
     private int mId;
 
     private int mDurationMin;
-    
+
     /**
-     * Allow to know what to do when there is a lot of <code>MeasuePoint</code>
-     * and that the tree could be very slow to show.
+     * Allow to know what to do when there is a lot of <code>MeasuePoint</code> and that the tree could be very slow
+     * to show.
      */
     private int mKindOfAction = ACTION_DEFAULT;
-    
+
     public static final int ACTION_DEFAULT = 0;
-    
+
     public static final int ACTION_ONLY_GRAPH = 1;
-    
+
     public static final int ACTION_FORCE = 2;
-    
+
     public static final int ACTION_DURATION_FILTER = 3;
-    
+
     /**
      * @return Returns the mDurationMin.
      */
@@ -49,6 +49,7 @@ public class FlowEditForm extends ActionForm
     {
         return mDurationMin;
     }
+
     /**
      * @param pDurationMin The mDurationMin to set.
      */
@@ -88,17 +89,20 @@ public class FlowEditForm extends ActionForm
     {
         mExecutionFlow = pExecutionFlow;
     }
-    
+
     /**
      * Accessor
+     * 
      * @return The kind of action.
      */
     public int getKindOfAction()
     {
         return mKindOfAction;
     }
+
     /**
      * Accessor.
+     * 
      * @param pKindOfAction The Kind of action.
      */
     public void setKindOfAction(int pKindOfAction)

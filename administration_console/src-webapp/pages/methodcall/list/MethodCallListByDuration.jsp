@@ -2,15 +2,15 @@
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 
-<html:form action="/MeasurePointList">
+<html:form action="/MethodCallListIn">
 	<table>
 		<tr>	
 			<td>Method name:</td>
 			<td colSpan="3">
-				<bean:write name="measurepointlistform" property="className"
-				/>.<bean:write name="measurepointlistform" property="methodName"/>()
-				<a href="MeasurePointStat.do?className=<bean:write name="measurepointlistform" property="className"
-				/>&methodName=<bean:write name="measurepointlistform" property="methodName"/>">
+				<bean:write name="methodcalllistform" property="className"
+				/>.<bean:write name="methodcalllistform" property="methodName"/>()
+				<a href="MeasurePointStat.do?className=<bean:write name="methodcalllistform" property="className"
+				/>&methodName=<bean:write name="methodcalllistform" property="methodName"/>">
 				<html:img page="/images/graphique.png"/></a>
 			</td>
 		</tr>
@@ -27,14 +27,14 @@
 	
 </html:form>
 <!-- Table des resultats -->
-<display:table name="results.rows" sort="list" pagesize="20" requestURI="MeasurePointList.do" 
-	decorator="net.kernevez.javamonitoring.console.measurepoint.list.DisplayTagDecorator">
+<display:table name="methodcalllistform.searchResult" sort="list" pagesize="20" requestURI="MethodCallListIn.do" 
+	decorator="org.jmonitoring.console.methodcall.list.DisplayTagDecorator">
   		<display:column property="urlFlow" title="View Flow" />
   		<display:column property="urlMeasurePoint" title="View MeasurePoint"/>
-  		<display:column property="FLOW_ID" sortable="true" title="FlowId" />
-  		<display:column property="THREAD_NAME" sortable="true" title="Thread name"/>
-  		<display:column property="FLOW_DURATION" sortable="true" title="Flow Duration"/>
-  		<display:column property="BEGIN_TIME_AS_DATE" sortable="true" title="Date"/>
-  		<display:column property="DURATION" sortable="true" title="Method duration"/>
-  		<display:column property="JVM" sortable="true" title="Server"/>
+  		<display:column property="flowId" sortable="true" title="FlowId" />
+  		<display:column property="threadName" sortable="true" title="Thread name"/>
+  		<display:column property="flowDuration" sortable="true" title="Flow Duration"/>
+  		<display:column property="beginDate" sortable="true" title="Date"/>
+  		<display:column property="duration" sortable="true" title="Method duration"/>
+  		<display:column property="jvmName" sortable="true" title="Server"/>
 </display:table>

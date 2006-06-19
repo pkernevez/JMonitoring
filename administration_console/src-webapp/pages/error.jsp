@@ -13,8 +13,8 @@
 </head>
 
 <h3>An unexpected error has occured</h3>
-<logic:present name="<%=Globals.EXCEPTION_KEY%>">
-<p><bean:write name="<%=Globals.EXCEPTION_KEY%>" property="message" /></p>
+<logic:present name="<%=Globals.EXCEPTION_KEY%>"> 
+<p><bean:write name="<%=Globals.EXCEPTION_KEY%>" /></p>
 </logic:present>
 <%
 	Exception tException = (Exception)request.getAttribute(Globals.EXCEPTION_KEY);
@@ -23,7 +23,8 @@
 		ByteArrayOutputStream tOut = new ByteArrayOutputStream();
 		PrintWriter tWriter = new PrintWriter(tOut);
 		tException.printStackTrace(tWriter); 
+		tWriter.flush();
 %>Stack:<BR/><%=tOut.toString()%>
-<%   }%>
+<%   } %>
 </body>
 </html:html>

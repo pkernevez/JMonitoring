@@ -1,4 +1,4 @@
-package org.jmonitoring.core.dao;
+package org.jmonitoring.core.dto;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -9,7 +9,7 @@ package org.jmonitoring.core.dao;
  * Extract of a king of measure.
  *  
  */
-public class MethodCallExtract
+public class MethodCallExtractDTO
 {
     private String mName;
 
@@ -24,7 +24,7 @@ public class MethodCallExtract
      * @param pGroupName The name of the group associated with this measure extract.
      * @param pNb The number of occurrence of this kind of measure.
      */
-    public MethodCallExtract(String pName, String pGroupName, Integer pNb)
+    public MethodCallExtractDTO(String pName, String pGroupName, Integer pNb)
     {
         mName = pName;
         mGroupName = pGroupName;

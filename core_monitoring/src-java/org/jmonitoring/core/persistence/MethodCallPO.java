@@ -1,5 +1,6 @@
 package org.jmonitoring.core.persistence;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class MethodCallPO
     private static Log sLog = LogFactory.getLog(MethodCallPO.class);
 
     /** Flow Technical Id. */
-    private int mFlowId;
+    private ExecutionFlowPO mFlow;
 
     /** Technical Id. */
     private int mId = -1;
@@ -133,6 +134,11 @@ public class MethodCallPO
         return mChildren;
     }
 
+    public MethodCallPO getChild(int pPos)
+    {
+        return (MethodCallPO) mChildren.get(pPos);
+    }
+
     public void setChildren(List pChildren)
     {
         mChildren = pChildren;
@@ -154,26 +160,6 @@ public class MethodCallPO
     public void setId(int pId)
     {
         mId = pId;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @return The flow identifier.
-     */
-    public int getFlowId()
-    {
-        return mFlowId;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @param pFlowId The flow identifier.
-     */
-    public void setFlowId(int pFlowId)
-    {
-        mFlowId = pFlowId;
     }
 
     /**
@@ -411,6 +397,34 @@ public class MethodCallPO
             pParent.mChildren.add(this);
         }
         mParent = pParent;
+    }
+
+    /**
+     * @return Returns the flow.
+     */
+    public ExecutionFlowPO getFlow()
+    {
+        return mFlow;
+    }
+
+    /**
+     * @param pFlow The flow to set.
+     */
+    public void setFlow(ExecutionFlowPO pFlow)
+    {
+        mFlow = pFlow;
+    }
+
+    public void setFlowRecusivly(ExecutionFlowPO pFlowPO)
+    {
+        mFlow=pFlowPO;
+        MethodCallPO curMeth;
+        for (Iterator tIt = mChildren.iterator();tIt.hasNext();)
+        {
+            curMeth = (MethodCallPO) tIt.next();
+            curMeth.setFlowRecusivly(pFlowPO);
+        }
+        
     }
 
 }

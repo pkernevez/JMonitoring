@@ -1,4 +1,4 @@
-package org.jmonitoring.console.methodcall; 
+package org.jmonitoring.console.methodcall;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -11,54 +11,53 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jmonitoring.console.methodcall.MethodCallUtil;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
-import org.jmonitoring.core.dao.MethodCallExtract;
 import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.MethodCallPO;
 
 public class TestMeasureMenuUtil extends PersistanceTestCase
 {
-    public void testGetListAsTree() 
+    public void testGetListAsTree()
     {
-            ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
 
-            // First delete all flow, we don't use the DeleteAll Method of the
-            // Dao Object because, it doesn't support transactions.
-            mPersistenceManager.createQuery("Delete FROM MethodCallPO").executeUpdate();
-            mPersistenceManager.createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
+        // First delete all flow, we don't use the DeleteAll Method of the
+        // Dao Object because, it doesn't support transactions.
+        mSession.createQuery("Delete FROM MethodCallPO").executeUpdate();
+        mSession.createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
 
-            // Now insert the TestFlow
-            ExecutionFlowPO tFlow = buildNewFullFlow();
-            int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        // Now insert the TestFlow
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
 
-            List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
-            MethodCallExtract curExtrat = (MethodCallExtract) tMeasureExtracts.get(0);
-            assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow", curExtrat.getName());
-            assertEquals("GrDefault", curExtrat.getGroupName());
-            assertEquals(1, curExtrat.getOccurenceNumber());
+        List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
+        MethodCallExtractDTO curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(0);
+        assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow", curExtrat.getName());
+        assertEquals("GrDefault", curExtrat.getGroupName());
+        assertEquals(1, curExtrat.getOccurenceNumber());
 
-            curExtrat = (MethodCallExtract) tMeasureExtracts.get(1);
-            assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow2", curExtrat.getName());
-            assertEquals("GrChild1", curExtrat.getGroupName());
-            assertEquals(1, curExtrat.getOccurenceNumber());
+        curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(1);
+        assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow2", curExtrat.getName());
+        assertEquals("GrChild1", curExtrat.getGroupName());
+        assertEquals(1, curExtrat.getOccurenceNumber());
 
-            curExtrat = (MethodCallExtract) tMeasureExtracts.get(2);
-            assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow3", curExtrat.getName());
-            assertEquals("GrChild2", curExtrat.getGroupName());
-            assertEquals(1, curExtrat.getOccurenceNumber());
+        curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(2);
+        assertEquals("org.jmonitoring.console.methodcall.TestMeasureMenuUtil.builNewFullFlow3", curExtrat.getName());
+        assertEquals("GrChild2", curExtrat.getGroupName());
+        assertEquals(1, curExtrat.getOccurenceNumber());
     }
-    
+
     public void testConvertListAsTree()
     {
         List tList = new ArrayList();
-        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
-        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
-        tList.add(new MethodCallExtract("org.monitoring.toto.TotoBis.getToto", "Grp1", new Integer(3)));
-        tList.add(new MethodCallExtract("org.monitoring.tata.Tata.getTata", "Grp1", new Integer(4)));
-        tList.add(new MethodCallExtract("org.monitoring.tata.Toto.getToto", "Grp1", new Integer(5)));
-        tList.add(new MethodCallExtract("com.monitoring.Titi.getTiti", "Grp2", new Integer(6)));
+        tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
+        tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
+        tList.add(new MethodCallExtractDTO("org.monitoring.toto.TotoBis.getToto", "Grp1", new Integer(3)));
+        tList.add(new MethodCallExtractDTO("org.monitoring.tata.Tata.getTata", "Grp1", new Integer(4)));
+        tList.add(new MethodCallExtractDTO("org.monitoring.tata.Toto.getToto", "Grp1", new Integer(5)));
+        tList.add(new MethodCallExtractDTO("com.monitoring.Titi.getTiti", "Grp2", new Integer(6)));
 
         Map tMap = new MethodCallUtil(null).convertListAsTree(tList);
         assertEquals(2, tMap.size());
@@ -102,15 +101,14 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
     public void testWriteMeasuresAsMenuEmpty() throws IOException
     {
         List tList = new ArrayList();
-        tList.add(new MethodCallExtract("Toto.getToto", "Grp1", new Integer(2)));
+        tList.add(new MethodCallExtractDTO("Toto.getToto", "Grp1", new Integer(2)));
         StringBuffer tWriter = new StringBuffer();
         MethodCallUtil tUtil = new MethodCallUtil(tWriter);
         tUtil.convertListAsTree(tList);
         tList = new ArrayList();
         tList.add("Toto");
         tUtil.writeMeasuresAsMenu(tList, new HashMap(), "getTotoGrp1", true, 0);
-        assertEquals("<li><span title=\"GroupName=[Grp1]\">getToto()</span> "
-                        + "<span title=\"occurrence\">(2)</span>"
+        assertEquals("<li><span title=\"GroupName=[Grp1]\">getToto()</span> " + "<span title=\"occurrence\">(2)</span>"
                         + "<A title=\"View stats...\" href=\"MeasurePointStat.do?className=Toto&methodName=getToto\">"
                         + "<IMG src=\"images/graphique.png\"/></A></li>\n", tWriter.toString());
     }
@@ -118,8 +116,8 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
     public void testWriteMeasuresAsMenuNotEmpty() throws IOException
     {
         List tList = new ArrayList();
-        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
-        tList.add(new MethodCallExtract("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
+        tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto.getToto", "Grp1", new Integer(1)));
+        tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto.getTotoBis", "Grp1", new Integer(2)));
         StringBuffer tWriter = new StringBuffer();
         MethodCallUtil tUtil = new MethodCallUtil(tWriter);
         Map tMap = tUtil.convertListAsTree(tList);
@@ -148,6 +146,5 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
         tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
         return tFlow;
     }
-
 
 }

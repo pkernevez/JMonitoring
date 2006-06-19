@@ -1,5 +1,7 @@
 package org.jmonitoring.console.methodcall.list;
 
+import java.util.List;
+
 import org.apache.struts.action.ActionForm;
 
 /***************************************************************************
@@ -10,16 +12,18 @@ import org.apache.struts.action.ActionForm;
 /**
  * @author pke
  */
-public class MeasurePointListForm extends ActionForm
+public class MethodCallListForm extends ActionForm
 {
     private String mClassName;
-    
+
     private String mMethodName;
-    
+
     private int mDurationMin;
-    
+
     private int mDurationMax;
     
+    private List mSearchResult;
+
     /**
      * @return Returns the className.
      */
@@ -27,6 +31,7 @@ public class MeasurePointListForm extends ActionForm
     {
         return mClassName;
     }
+
     /**
      * @param pClassName The className to set.
      */
@@ -34,6 +39,7 @@ public class MeasurePointListForm extends ActionForm
     {
         mClassName = pClassName;
     }
+
     /**
      * @return Returns the durationMax.
      */
@@ -41,6 +47,7 @@ public class MeasurePointListForm extends ActionForm
     {
         return mDurationMax;
     }
+
     /**
      * @param pDurationMax The durationMax to set.
      */
@@ -48,6 +55,7 @@ public class MeasurePointListForm extends ActionForm
     {
         mDurationMax = pDurationMax;
     }
+
     /**
      * @return Returns the durationMin.
      */
@@ -55,6 +63,7 @@ public class MeasurePointListForm extends ActionForm
     {
         return mDurationMin;
     }
+
     /**
      * @param pDurationMin The durationMin to set.
      */
@@ -62,6 +71,7 @@ public class MeasurePointListForm extends ActionForm
     {
         mDurationMin = pDurationMin;
     }
+
     /**
      * @return Returns the methodName.
      */
@@ -69,11 +79,28 @@ public class MeasurePointListForm extends ActionForm
     {
         return mMethodName;
     }
+
     /**
      * @param pMethodName The methodName to set.
      */
     public void setMethodName(String pMethodName)
     {
         mMethodName = pMethodName;
+    }
+
+    /**
+     * @return Returns the searchResult.
+     */
+    public List getSearchResult()
+    {
+        return mSearchResult;
+    }
+
+    /**
+     * @param pSearchResult The searchResult to set.
+     */
+    public void setSearchResult(List pSearchResult)
+    {
+        mSearchResult = pSearchResult;
     }
 }

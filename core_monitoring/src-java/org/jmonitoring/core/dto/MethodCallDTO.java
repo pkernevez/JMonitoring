@@ -26,7 +26,7 @@ public class MethodCallDTO
     private int mFlowId;
 
     /** Technical Id. */
-    private int mSequenceId;
+    private int mId;
 
     /** Lien sur le père de ce point dans la hierachie d'appel. */
     private MethodCallDTO mParent;
@@ -217,17 +217,17 @@ public class MethodCallDTO
      * 
      * @return Returns the sequence identifier.
      */
-    public int getSequenceId()
+    public int getId()
     {
-        return mSequenceId;
+        return mId;
     }
 
     /**
-     * @param pSequenceId The mId to set.
+     * @param pId The mId to set.
      */
-    public void setSequenceId(int pSequenceId)
+    public void setId(int pId)
     {
-        mSequenceId = pSequenceId;
+        mId = pId;
     }
 
     /**

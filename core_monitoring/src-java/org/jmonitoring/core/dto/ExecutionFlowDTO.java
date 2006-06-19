@@ -266,7 +266,7 @@ public class ExecutionFlowDTO
         tBuffer.append("FlowId=[").append(mId).append("] ");
         if (mFirstMethodCall != null)
         {
-            tBuffer.append("SequenceId=[").append(mFirstMethodCall.getSequenceId()).append("] ");
+            tBuffer.append("SequenceId=[").append(mFirstMethodCall.getId()).append("] ");
             tBuffer.append("GroupName=[").append(mFirstMethodCall.getGroupName()).append("] ");
             tBuffer.append("ClassName=[").append(mFirstMethodCall.getClassName()).append("] ");
             tBuffer.append("MethodName=[").append(mFirstMethodCall.getMethodName()).append("] ");

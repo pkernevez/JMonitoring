@@ -38,11 +38,11 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  */
 public class FlowUtil
 {
-    
-    /** Constant used for the URL generation of the PieChart representing the number of calls.*/
+
+    /** Constant used for the URL generation of the PieChart representing the number of calls. */
     public static final String NB_CALL_TO_GROUP = "NB_CALL_TO_GROUP";
 
-    /** Constant used for the URL generation of the PieChart representing the duration of calls.*/
+    /** Constant used for the URL generation of the PieChart representing the duration of calls. */
     public static final String DURATION_IN_GROUP = "DURATION_IN_GROUP";
 
     private static Log sLog = LogFactory.getLog(FlowUtil.class);
@@ -50,9 +50,9 @@ public class FlowUtil
     private Map mListOfGroup = new HashMap();
 
     /**
-     * Generate 2 Pie Charts for the statistics of the flow and write them in the session.
-     * The fisrt is the repartition of the number of call and the other is the repertition of 
-     * the duration.
+     * Generate 2 Pie Charts for the statistics of the flow and write them in the session. The fisrt is the repartition
+     * of the number of call and the other is the repertition of the duration.
+     * 
      * @param pSession The session to use for the image writing as a bytes arrays.
      * @param pFirstMeasure The root of the <code>MethodCallDTO</code> tree.
      */
@@ -100,6 +100,7 @@ public class FlowUtil
 
     /**
      * Return the while list of group managed by this Util class.
+     * 
      * @return The list of the group name (<code>Map</code> of <code>String</code>.
      */
     Map getListOfGroup()
@@ -107,12 +108,13 @@ public class FlowUtil
         return mListOfGroup;
     }
 
-     /**
-      * Write a chart into a session with a name.
-      * @param pChart The chart to write in the session.
-      * @param pSession The user Session. 
-      * @param pName The name of the attributes to use for the image.
-      */
+    /**
+     * Write a chart into a session with a name.
+     * 
+     * @param pChart The chart to write in the session.
+     * @param pSession The user Session.
+     * @param pName The name of the attributes to use for the image.
+     */
     private static void addChart(JFreeChart pChart, HttpSession pSession, String pName)
     {
         PiePlot tPlot = (PiePlot) pChart.getPlot();
@@ -134,7 +136,8 @@ public class FlowUtil
     }
 
     /**
-     * Append the duration passed in this <code>MethodCallDTO</code>. 
+     * Append the duration passed in this <code>MethodCallDTO</code>.
+     * 
      * @param pMeasure The current measure.
      */
     void addTimeWith(MethodCallDTO pMeasure)
@@ -160,7 +163,8 @@ public class FlowUtil
     }
 
     /**
-     * Append the number of calls passed in this <code>MethodCallDTO</code>. 
+     * Append the number of calls passed in this <code>MethodCallDTO</code>.
+     * 
      * @param pMeasure The current measure.
      */
     void addNbCallWith(MethodCallDTO pMeasure)

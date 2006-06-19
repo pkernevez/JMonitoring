@@ -56,8 +56,8 @@ public class StatisticXYURLGenerator implements XYURLGenerator, Serializable
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append(mBaseURL).append("?className=").append(mClassName);
         tBuffer.append("&methodName=").append(mMethodName);
-        tBuffer.append("&durationMin=").append(mInterval*pBarChartNumber);
-        tBuffer.append("&durationMax=").append(mInterval*(pBarChartNumber+1));
+        tBuffer.append("&durationMin=").append(mInterval * pBarChartNumber);
+        tBuffer.append("&durationMax=").append(mInterval * (pBarChartNumber + 1));
         return tBuffer.toString();
     }
 

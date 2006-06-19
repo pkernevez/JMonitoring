@@ -3,9 +3,6 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="org.jmonitoring.console.methodcall.MethodCallForm"%>
-<%@page import="org.jmonitoring.core.dto.MethodCallDTO"%>
-<%@page import="java.util.Date"%>
 
 <!-- Begin Body -->
 <h1>MeasurePoint statistics</h1>
@@ -39,7 +36,7 @@
 	</tr>
 </table>
 <br>
-<html:form action="/MethodCallStat" >
+<html:form action="/MethodCallStatIn" >
 Value to use for grouping duration value:&nbsp;<html:text property="interval" size="7" maxlength="7"/>ms
 <html:image property="submit" page="/images/button/button_refresh.png" />
 <html:hidden property="className"/>

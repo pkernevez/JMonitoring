@@ -33,7 +33,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
         int tInitialFlowCount;
         // We check the result into DB
         int tFinalFlowCount;
-        ExecutionFlowDAO tFlowDao = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDao = new ExecutionFlowDAO(mSession);
         tInitialFlowCount = tFlowDao.countFlows();
 
         MockAbstractAsynchroneLogger.resetNbLog();
@@ -50,7 +50,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 
         tFinalFlowCount = tFlowDao.countFlows();
         
-        mPersistenceManager.flush();
+        mSession.flush();
         assertEquals(tInitialFlowCount + 1, tFinalFlowCount);
     }
 
@@ -62,7 +62,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 //    protected void setUp() throws Exception
 //    {
 //        super.setUp();
-//        SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Max(id) As MyMax from EXECUTION_FLOW");
+//        SQLQuery tQuery = mSession.createSQLQuery("Select Max(id) As MyMax from EXECUTION_FLOW");
 //        Object tResult = tQuery.addScalar("MyMax", Hibernate.INTEGER).list().get(0);
 //        mInitialMaxFlowId = ((Integer) tResult).intValue();
 //    }
@@ -79,7 +79,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 //        Statement tStat = null;
 //        try
 //        {
-//            tCon = mPersistenceManager.connection();
+//            tCon = mSession.connection();
 //            tStat = tCon.createStatement();
 //            tStat.executeUpdate("DELETE From METHOD_CALL where EXECUTION_FLOW_ID>" + mInitialMaxFlowId);
 //            tStat.executeUpdate("DELETE From EXECUTION_FLOW where ID>" + mInitialMaxFlowId);

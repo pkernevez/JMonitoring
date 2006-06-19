@@ -5,6 +5,7 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.common.UnknownFlowException;
+import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.persistence.MethodCallPO;
@@ -32,50 +34,46 @@ import org.jmonitoring.core.persistence.MethodCallPO;
 public class ExecutionFlowDAO
 {
 
-    private static Log sLog;
+    private static Log sLog = LogFactory.getLog(ExecutionFlowDAO.class);
 
     /**
      * Default constructor.
      * 
-     * @param pPersistenceManager
+     * @param pSession
      */
-    public ExecutionFlowDAO(Session pPersistenceManager)
+    public ExecutionFlowDAO(Session pSession)
     {
-        mPersistenceManager = pPersistenceManager;
-        if (sLog == null)
-        {
-            sLog = LogFactory.getLog(this.getClass());
-        }
+        mSession = pSession;
     }
 
-    private Session mPersistenceManager;
+    private Session mSession;
 
     /**
      * Insert la totalité d'un flux en base.
      * 
      * @param pExecutionFlow The <code>ExecutionFlow</code> to write into the database.
      * @return The primary key of the inserted <code>ExecutionFlow</code>.
+     * @todo Revoir les étapes de l'enregistrement
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        int tThreadId = insertExecutionFlow(pExecutionFlow);
-
-        return tThreadId;
+        MethodCallPO tFirstMeth = pExecutionFlow.getFirstMethodCall();
+        pExecutionFlow.setFirstMethodCall(null);
+        mSession.save(pExecutionFlow);
+        // updateFlowId(pExecutionFlow, tFirstMeth);
+        pExecutionFlow.setFirstMethodCall(tFirstMeth);
+        return pExecutionFlow.getId();
     }
 
-    /**
-     * Permet d'insérer en base un nouveau flux d'exécution.
-     * 
-     * @param pExecutionFlow Le flux d'exécution associé à loguer.
-     * @return La clé technique associée au flux que l'on vient d'insérer.
-     * @todo menage
-     */
-    private int insertExecutionFlow(ExecutionFlowPO pExecutionFlow)
+    private void updateFlowId(int pId, MethodCallPO pFirstMeth)
     {
-        // ExecutionFlowPO tPo = new ExecutionFlowPO(pExecutionFlowDTO);
-        mPersistenceManager.save(pExecutionFlow);
-        // pExecutionFlowDTO.setId( tPo.getId() );
-        return pExecutionFlow.getId();
+        // pFirstMeth.setFlowId(pId);
+        MethodCallPO curChildMeth;
+        for (Iterator tIt = pFirstMeth.getChildren().iterator(); tIt.hasNext();)
+        {
+            curChildMeth = (MethodCallPO) tIt.next();
+            updateFlowId(pId, curChildMeth);
+        }
     }
 
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
@@ -90,7 +88,7 @@ public class ExecutionFlowDAO
     public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
     { // On construit la requête
 
-        Criteria tCriteria = mPersistenceManager.createCriteria(ExecutionFlowPO.class);
+        Criteria tCriteria = mSession.createCriteria(ExecutionFlowPO.class);
         if (pCriterion.getThreadName() != null && pCriterion.getThreadName().length() > 0)
         {
             tCriteria = tCriteria.add(Restrictions.like("threadName", pCriterion.getThreadName() + "%"));
@@ -142,7 +140,7 @@ public class ExecutionFlowDAO
      */
     public ExecutionFlowPO readExecutionFlow(int pFlowId)
     {
-        return (ExecutionFlowPO) mPersistenceManager.load(ExecutionFlowPO.class, new Integer(pFlowId));
+        return (ExecutionFlowPO) mSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
     }
 
     // /**
@@ -152,7 +150,7 @@ public class ExecutionFlowDAO
     // */
     // private ExecutionFlowPO readExecutionFlow(int pFlowId)
     // {
-    // return (ExecutionFlowPO) mPersistenceManager.load(ExecutionFlowPO.class, new Integer(pFlowId));
+    // return (ExecutionFlowPO) mSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
     // }
 
     /**
@@ -179,14 +177,14 @@ public class ExecutionFlowDAO
      */
     public void deleteFlow(int pId) throws UnknownFlowException
     {
-        ExecutionFlowPO tFlow = (ExecutionFlowPO) mPersistenceManager.get(ExecutionFlowPO.class, new Integer(pId));
+        ExecutionFlowPO tFlow = (ExecutionFlowPO) mSession.get(ExecutionFlowPO.class, new Integer(pId));
         if (tFlow == null)
         {
             throw new UnknownFlowException("Flow with Id=" + pId
                             + " could not be retreive from database, and can't be delete");
         } else
         {
-            mPersistenceManager.delete(tFlow);
+            mSession.delete(tFlow);
         }
     }
 
@@ -200,7 +198,7 @@ public class ExecutionFlowDAO
      */
     public List getListOfMethodCall(String pClassName, String pMethodName)
     {
-        Criteria tCriteria = mPersistenceManager.createCriteria(MethodCallPO.class);
+        Criteria tCriteria = mSession.createCriteria(MethodCallPO.class);
         tCriteria.add(Restrictions.like("className", pClassName + "%"));
         tCriteria.add(Restrictions.like("methodName", pMethodName + "%"));
         return tCriteria.list();
@@ -215,10 +213,10 @@ public class ExecutionFlowDAO
      */
     public MethodCallPO readMethodCall(int pMethodId)
     {
-        // Query tQuery = mPersistenceManager.createQuery("from MethodCallPO m where m.id=:pid");
+        // Query tQuery = mSession.createQuery("from MethodCallPO m where m.id=:pid");
         // tQuery.setInteger("pid", pMethodId);
         // return (MethodCallPO) tQuery.uniqueResult();
-        return (MethodCallPO) mPersistenceManager.load(MethodCallPO.class, new Integer(pMethodId));
+        return (MethodCallPO) mSession.load(MethodCallPO.class, new Integer(pMethodId));
     }
 
     private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className  || '.' || MethodCallPO.methodName ," + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
@@ -235,20 +233,20 @@ public class ExecutionFlowDAO
     public List getListOfMethodCallExtract()
     {
         // List tResult = new ArrayList();
-        Query tQuery = mPersistenceManager.createQuery(SELECT_LIST_OF_MEASURE);
+        Query tQuery = mSession.createQuery(SELECT_LIST_OF_MEASURE);
         List tResult = new ArrayList();
         Object[] tExtract;
         for (Iterator tIt = tQuery.list().iterator(); tIt.hasNext();)
         {
             tExtract = (Object[]) tIt.next();
-            tResult.add(new MethodCallExtract((String) tExtract[0], (String) tExtract[1], (Integer) tExtract[2]));
+            tResult.add(new MethodCallExtractDTO((String) tExtract[0], (String) tExtract[1], (Integer) tExtract[2]));
         }
         return tResult;
     }
 
     public int countFlows()
     {
-        SQLQuery tQuery = mPersistenceManager.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+        SQLQuery tQuery = mSession.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         if (tResult != null)
         {
@@ -267,6 +265,24 @@ public class ExecutionFlowDAO
         SchemaExport tDdlexport = new SchemaExport(tConfig);
         tDdlexport.create(true, true);
         sLog.info("End of the Schema creation for the DataBase");
+    }
+
+    /**
+     * 
+     * @param pClassName
+     * @param pMethodName
+     * @param pDurationMin
+     * @param pDurationMax
+     * @return La liste d'objet <code>MethodCallFullExtractPO</code> correspondant aux critères.
+     */
+    public List getMethodCallList(String pClassName, String pMethodName, long pDurationMin, long pDurationMax)
+    {
+        Query tQuery = mSession.getNamedQuery("GetMethodCallList");
+        tQuery.setString("className", pClassName);
+        tQuery.setString("methodName", pMethodName);
+        tQuery.setLong("durationMin", pDurationMin);
+        tQuery.setLong("durationMax", pDurationMax);
+        return tQuery.list();
     }
 
 }

@@ -16,8 +16,6 @@ import org.jmonitoring.core.persistence.HibernateManager;
 /**
  * @author pke
  * 
- * @todo refactoring pour avoir une clase abstraite avec Asynchronisme
- * @todo Utiliser une datasource pour la connection à la base
  * @todo implémenter un maxfail si la base n'est pas dispo
  */
 public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
@@ -58,6 +56,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
         {
             try
             {
+                long tStartTime = System.currentTimeMillis();
                 Session tPManager = (Session) HibernateManager.getSession();
                 Transaction tTransaction = tPManager.getTransaction();
                 tTransaction.begin();
@@ -71,7 +70,8 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
                     tTransaction.commit();
                     tPManager.close();
                 }
-                sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog);
+                long tEndTime = System.currentTimeMillis();
+                sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog+" in "+(tEndTime-tStartTime)+" ms.");
             } catch (RuntimeException e)
             {
                 sLog.error("Unable to insert ExecutionFlow into database", e);

@@ -8,13 +8,13 @@
     <!-- a SessionFactory instance listed as /jndi/name -->
     <session-factory>
 
-
-		<!-- mapping files -->
+    	<!-- mapping files -->
 		<mapping resource="org/jmonitoring/core/persistence/ExecutionFlowPO.hbm.xml"/>
         <mapping resource="org/jmonitoring/core/persistence/MethodCallPO.hbm.xml"/>
-		
+	
+    	
     </session-factory>
-
+    
 	<!--
 	<show_sql>false</show_sql>
 	<max_fetch_depth>3</max_fetch_depth>

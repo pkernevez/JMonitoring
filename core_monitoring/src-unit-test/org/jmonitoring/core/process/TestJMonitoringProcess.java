@@ -43,18 +43,18 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     public void testDeleteFlow() throws UnknownFlowException
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         int tNbFlow = tFlowDAO.countFlows();
 
         // First instert a flow
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
-        mPersistenceManager.flush();
+        mSession.flush();
         int tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow + 1, tNewNbFlow);
 
         tProcess.deleteFlow(tFlowId);
-        mPersistenceManager.flush();
+        mSession.flush();
         tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow, tNewNbFlow);
 
@@ -69,36 +69,36 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testDeleteAllFlows()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         int tNbFlow = tFlowDAO.countFlows();
 
         // First instert 2 flows
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
-        mPersistenceManager.flush();
+        mSession.flush();
 
         int tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow + 2, tNewNbFlow);
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         tProcess.deleteAllFlows();
-        mPersistenceManager.flush();
+        mSession.flush();
         tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(tNbFlow, tNewNbFlow);
     }
 
     public void testReadFullExecutionFlow()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         ExecutionFlowPO tFlowPO = TestExecutionFlowDAO.buildNewFullFlow();
         int tId = tFlowDAO.insertFullExecutionFlow(tFlowPO);
-        mPersistenceManager.flush();
+        mSession.flush();
 
         int tNewNbFlow = tFlowDAO.countFlows();
         assertEquals(1, tNewNbFlow);
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        mPersistenceManager.flush();
-        mPersistenceManager.clear();
+        mSession.flush();
+        mSession.clear();
 
         ExecutionFlowDTO tReadFlow = tProcess.readFullExecutionFlow(tId);
 
@@ -154,12 +154,13 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithoutCriteria()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
 
         int tExpectedResult = tFlowDAO.countFlows();
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
+        mSession.flush();
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         List tFlows = tProcess.getListOfExecutionFlowDto(new FlowSearchCriterion());
@@ -173,14 +174,14 @@ public class TestJMonitoringProcess extends PersistanceTestCase
      */
     public void testGetListOfExecutionFlowWithThreadName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         ExecutionFlowPO tExecPo = TestExecutionFlowDAO.buildNewFullFlow();
         tExecPo.setThreadName("TEST-13main");
         tFlowDAO.insertFullExecutionFlow(tExecPo);
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        mPersistenceManager.flush();
+        mSession.flush();
 
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         tCriterion.setThreadName("rr");
@@ -198,15 +199,16 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         tExecPo = TestExecutionFlowDAO.buildNewFullFlow();
         tExecPo.setThreadName("TEST-13main");
         tFlowDAO.insertFullExecutionFlow(tExecPo);
-        mPersistenceManager.flush();
+        mSession.flush();
         tCriterion.setThreadName("TEST");
         assertEquals(3, tProcess.getListOfExecutionFlowDto(tCriterion).size());
     }
 
     public void testGetListOfExecutionFlowWithDurationMin()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
+        mSession.flush();
 
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         tCriterion.setDurationMin(new Long(10));
@@ -220,9 +222,11 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithBeginDate()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
+        mSession.flush();
+
         Date tToday = new Date(tFlow.getBeginTime());
         tToday.setSeconds(0);
         tToday.setMinutes(0);
@@ -245,9 +249,10 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithGroupName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
+        mSession.flush();
 
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
@@ -264,9 +269,11 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithClassName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
+        mSession.flush();
+
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
@@ -284,9 +291,11 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithMethodName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
+        mSession.flush();
+
         FlowSearchCriterion tCriterion = new FlowSearchCriterion();
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
@@ -302,9 +311,9 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfMethodCallFromClassAndMethodName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
-        mPersistenceManager.flush();
+        mSession.flush();
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
@@ -340,27 +349,30 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     }
 
-    public void testGetListOfMethodCallFromFlowId()
+    public void testGetMethodCallFullExtract()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mPersistenceManager);
-        int tFlowId = tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
-        mPersistenceManager.flush();
-        mPersistenceManager.clear();
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
+        tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
+        mSession.flush();
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        String tClassName = TestExecutionFlowDAO.class.getName();
+        
+        List tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 5L);
+        assertEquals(0, tResult.size());
+        
+        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 21L, 21L);
+        assertEquals(0, tResult.size());
 
-        List tMethodsDto = tProcess.getListOfMethodCallFromId(tFlowId, 1);
-        assertEquals(3, tMethodsDto.size());
+        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 21L);
+        assertEquals(1, tResult.size());
 
-        try
-        {
-            tMethodsDto = tProcess.getListOfMethodCallFromId(17, 1323);
-            fail("On ne doit pas trouver de FlowId avec comme clé 17.");
-        } catch (ObjectNotFoundException e)
-        {
-            assertEquals(
-                            "No row with the given identifier exists: [org.jmonitoring.core.persistence.MethodCallPO#1323]",
-                            e.getMessage());
-        }
+        tResult = tProcess.getListOfMethodCallFullExtract("kj", "builNewFullFlow", 5L, 21L);
+        assertEquals(0, tResult.size());
+
+        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow2", 5L, 21L);
+        assertEquals(0, tResult.size());
+
+
     }
 }

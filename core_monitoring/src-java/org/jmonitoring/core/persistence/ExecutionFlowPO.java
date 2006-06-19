@@ -59,6 +59,7 @@ public class ExecutionFlowPO
         mJvmIdentifier = pJVMIdentifier;
         mBeginTime = mFirstMethodCall.getBeginTime();
         mEndTime = mFirstMethodCall.getEndTime();
+        mFirstMethodCall.setFlowRecusivly(this);
     }
 
     /**

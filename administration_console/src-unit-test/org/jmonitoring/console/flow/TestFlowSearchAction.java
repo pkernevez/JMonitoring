@@ -85,9 +85,9 @@ public class TestFlowSearchAction extends MockStrutsTestCase
         assertEquals(1, tForm.getListOfFlows().size());
         ExecutionFlowDTO tFlow = (ExecutionFlowDTO) tForm.getListOfFlows().get(0);
 
-        //On ne ramène pas les grappes d'objets, mais seulement les ExecutionFlowDto
+        // On ne ramène pas les grappes d'objets, mais seulement les ExecutionFlowDto
         assertNull(tFlow.getFirstMethodCall());
-//        assertEquals(3, tFlow.getFirstMethodCall().getChildren().size());
+        // assertEquals(3, tFlow.getFirstMethodCall().getChildren().size());
     }
 
     public void testActionSearchIn()
@@ -96,7 +96,7 @@ public class TestFlowSearchAction extends MockStrutsTestCase
         actionPerform();
         verifyForwardPath("/pages/layout/layout.jsp");
 
-//        verifyTilesForward("success", "flowsearch");
+        // verifyTilesForward("success", "flowsearch");
 
         assertNotNull(getActionForm());
     }

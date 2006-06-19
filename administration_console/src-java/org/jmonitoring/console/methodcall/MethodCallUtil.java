@@ -12,16 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
-import org.jmonitoring.core.dao.MethodCallExtract;
-import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.dto.MethodCallExtractDTO;
+import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * Utility for image generation of the tree of measure as a menu.
  * 
  * @author pke
- *  
+ * 
  */
 public class MethodCallUtil
 {
@@ -41,13 +40,12 @@ public class MethodCallUtil
     }
 
     /**
-     * @todo refactore this code; 
+     * @todo refactore this code;
      */
     private Map getTreeOfMeasure()
     {
-                ExecutionFlowDAO tDao = new ExecutionFlowDAO(HibernateManager.getSession());
-                List tListOfMeasure = tDao.getListOfMethodCallExtract();
-                return convertListAsTree(tListOfMeasure);
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        return convertListAsTree(tProcess.getListOfMethodCallExtract());
     }
 
     /**
@@ -68,8 +66,8 @@ public class MethodCallUtil
             {
                 curEntry = (Map.Entry) tIt.next();
                 mWriter.append("<li class=\"menubar\">");
-                tLastId = writeMeasuresAsMenu(new ArrayList(), (Map) curEntry.getValue(), (String)curEntry.getKey(), true,
-                                tLastId + 1);
+                tLastId = writeMeasuresAsMenu(new ArrayList(), (Map) curEntry.getValue(), (String) curEntry.getKey(),
+                                true, tLastId + 1);
                 mWriter.append("</li>");
             }
             mWriter.append("</ul>");
@@ -89,14 +87,14 @@ public class MethodCallUtil
         mMeasureExtracts = new HashMap();
         String curString;
         Map curMap;
-        MethodCallExtract tExtract;
+        MethodCallExtractDTO tExtract;
         for (Iterator tIt = pListOfMeasure.iterator(); tIt.hasNext();)
         {
             curMap = tTree;
-            tExtract = (MethodCallExtract) tIt.next();
+            tExtract = (MethodCallExtractDTO) tIt.next();
             mMeasureExtracts.put(tExtract.getName() + tExtract.getGroupName(), tExtract);
-            for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(),
-                            "."); tTokenizer.hasMoreElements();)
+            for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(), "."); tTokenizer
+                            .hasMoreElements();)
             {
                 curString = (String) tTokenizer.nextElement();
                 if (curMap.get(curString) == null)
@@ -148,8 +146,8 @@ public class MethodCallUtil
             for (Iterator tIterator = pTreeOfMeasure.entrySet().iterator(); tIterator.hasNext();)
             {
                 curEntry = (Map.Entry) tIterator.next();
-                tLastId = writeMeasuresAsMenu(pCurrentClassName, (Map) curEntry.getValue(), (String)curEntry.getKey(), false,
-                                ++tLastId);
+                tLastId = writeMeasuresAsMenu(pCurrentClassName, (Map) curEntry.getValue(), (String) curEntry.getKey(),
+                                false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
             if (pFirstLevel)
@@ -162,12 +160,11 @@ public class MethodCallUtil
         {
             // Génération du lien vers les statistiques
             StringBuffer tLinkStat = new StringBuffer();
-            MethodCallExtract tExtract = getExtractForThisNode(pCurrentClassName, pCurNodeName);
+            MethodCallExtractDTO tExtract = getExtractForThisNode(pCurrentClassName, pCurNodeName);
             tLinkStat.append("<li><span title=\"GroupName=[").append(tExtract.getGroupName());
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
-            tLinkStat.append("<span title=\"occurrence\">(").append(tExtract.getOccurenceNumber()).append(
-                            ")</span>");
+            tLinkStat.append("<span title=\"occurrence\">(").append(tExtract.getOccurenceNumber()).append(")</span>");
             tLinkStat.append("<A title=\"View stats...\" href=\"MeasurePointStat.do?className=");
             tLinkStat.append(getListAsString(pCurrentClassName)).append("&methodName=");
             tLinkStat.append(tExtract.getMethodName()).append("\">");
@@ -178,17 +175,17 @@ public class MethodCallUtil
         return tLastId++;
     }
 
-    private MethodCallExtract getExtractForThisNode(List pClassNameAsString, String pCurrentNodeName)
+    private MethodCallExtractDTO getExtractForThisNode(List pClassNameAsString, String pCurrentNodeName)
     {
-        //Calculation of the full name
+        // Calculation of the full name
         StringBuffer tBuffer = new StringBuffer();
         for (Iterator tIt = pClassNameAsString.iterator(); tIt.hasNext();)
         {
             tBuffer.append(tIt.next());
         }
         tBuffer.append(".").append(pCurrentNodeName);
-        //Now return the extract for this name
-        return (MethodCallExtract) mMeasureExtracts.get(tBuffer.toString());
+        // Now return the extract for this name
+        return (MethodCallExtractDTO) mMeasureExtracts.get(tBuffer.toString());
     }
 
     private String getListAsString(List pList)

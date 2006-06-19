@@ -72,11 +72,11 @@ public class TestPNGMapGeneration extends TestCase
         {
             FileOutputStream tStream = new FileOutputStream("d:/temp/PNG.png");
             ChartRenderingInfo tInfo = new ChartRenderingInfo();
-            
+
             ChartUtilities.writeChartAsPNG(tStream, chart, 400, 300, tInfo);
-            
+
             String tMap = ChartUtilities.getImageMap("MyMap", tInfo);
-        
+
         } catch (IOException e)
         {
             // TODO Auto-generated catch block

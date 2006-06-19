@@ -52,8 +52,7 @@ public class DynamicImageServlet extends HttpServlet
     /**
      * @see HttpServlet.doPost(HttpServletRequest, HttpServletResponse)
      */
-    public void doPost(HttpServletRequest pRequest, HttpServletResponse pResponse) throws ServletException,
-                    IOException
+    public void doPost(HttpServletRequest pRequest, HttpServletResponse pResponse) throws ServletException, IOException
     {
         doGet(pRequest, pResponse);
     }

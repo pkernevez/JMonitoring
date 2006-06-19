@@ -3,7 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="org.jmonitoring.console.methodcall.MethodCallForm"%>
+<%@page import="org.jmonitoring.console.methodcall.MethodCallEditForm"%>
 <%@page import="org.jmonitoring.core.configuration.Configuration"%>
 
 
@@ -32,8 +32,8 @@
 		
 	</tr>
 	<tr>
-		<td NOWRAP>Sequence Id:</td>
-		<td NOWRAP colSpan="2"><b><bean:write format="####" name="methodcallform" property="methodCall.sequenceId"/></b>
+		<td NOWRAP>Id:</td>
+		<td NOWRAP colSpan="2"><b><bean:write format="####" name="methodcallform" property="methodCall.id"/></b>
 			<html:link action="MethodCallStatIn" name="methodcallform" property="methodCallIdsMap" title="View stats...">
 				<IMG src="images/graphique.png"/>
 			</html:link>
@@ -49,10 +49,10 @@
 	</tr>
 <logic:notEmpty name="methodcallform" property="methodCall.parent">
 	<tr>
-		<td NOWRAP>Parent SequenceId:</td>
+		<td NOWRAP>Parent id:</td>
 		<td NOWRAP colSpan="2">
 			<b><html:link action="MethodCallEditIn" name="methodcallform" property="parentIdsMap">
-				<bean:write format="####" name="methodcallform" property="methodCall.parent.sequenceId"/>
+				<bean:write format="####" name="methodcallform" property="methodCall.parent.id"/>
 			</html:link></b>
 		</td>
 	</tr>

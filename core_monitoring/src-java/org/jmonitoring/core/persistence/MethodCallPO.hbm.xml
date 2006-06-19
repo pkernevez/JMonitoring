@@ -12,6 +12,7 @@
       	</id>
 
       <property name="params" column="PARAMETERS" type="java.lang.String" />
+      <!--property name="flowId" column="FLOW_ID" type="java.lang.Integer" /-->
       <property name="beginTime" column="BEGIN_TIME" type="java.lang.Long" />
       <property name="endTime" column="END_TIME" type="java.lang.Long" />
       <property name="className" column="FULL_CLASS_NAME" type="java.lang.String" length="120"/>
@@ -23,18 +24,19 @@
 		
 		<many-to-one name="parent" column="PARENT_ID" 
 			not-null="false" cascade="all" />
-			<!-- insert="false"
-			update="false"/-->
-		<!--set name="children" >
-			<key column="parentId"/>
-			<one-to-many class="org.jmonitoring.core.persistence.MethodCallPO"/>
-		</set-->
+		<many-to-one name="flow" column="FLOW_ID" 
+			unique="false" not-null="false" cascade="all" />
 		<list name="children" lazy="true" cascade="all">
 			<key column="PARENT_ID" not-null="false"/>
-			<index column="CHILDREN_INDEX" type="java.lang.Integer"/>
+			<index column="SUB_METH_INDEX" type="java.lang.Integer"/>
 			<one-to-many class="org.jmonitoring.core.persistence.MethodCallPO"/>
 		</list>
 		
-   </class>
+	</class>
+	<query name="GetMethodCallList"><![CDATA[from MethodCallPO meth where :className = meth.className
+		and :methodName = meth.methodName
+		and :durationMin <= (meth.endTime-meth.beginTime)
+		and :durationMax >= (meth.endTime-meth.beginTime)]]></query>
+	
 </hibernate-mapping>
 

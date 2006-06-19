@@ -20,22 +20,22 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
         MethodCallDTO tFirstMeth = tFlow.getFirstMethodCall();
         MethodCallDTO tFirstChild = tFirstMeth.getChild(0);
-        int tId = tFirstChild.getSequenceId();
+        int tId = tFirstChild.getId();
 
         setRequestPathInfo("/MethodCallEditIn");
-        MethodCallForm tForm = new MethodCallForm();
+        MethodCallEditForm tForm = new MethodCallEditForm();
         tForm.setId(tId);
         setActionForm(tForm);
         assertNull(tForm.getMethodCall());
+
         actionPerform();
-        // ok this.verifyForward("success");
-        // ko verifyForwardPath("changerMotPasse");
-        verifyForwardPath("/pages/layout/layout.jsp");
-        MethodCallDTO tNewFirstChild = ((MethodCallForm) getActionForm()).getMethodCall();
+        verifyForward("success");
+
+        MethodCallDTO tNewFirstChild = ((MethodCallEditForm) getActionForm()).getMethodCall();
         assertNotNull(tNewFirstChild);
         assertEquals(tFlow.getId(), tNewFirstChild.getFlowId());
         assertNotNull(tNewFirstChild.getParent());
-        assertEquals(tFirstChild.getSequenceId(), tNewFirstChild.getSequenceId());
+        assertEquals(tFirstChild.getId(), tNewFirstChild.getId());
 
     }
 
@@ -45,7 +45,7 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
         tUtil.createSchema();
 
         setRequestPathInfo("/MethodCallEditIn");
-        MethodCallForm tForm = new MethodCallForm();
+        MethodCallEditForm tForm = new MethodCallEditForm();
         tForm.setId(567749375);
         setActionForm(tForm);
         assertNull(tForm.getMethodCall());
@@ -53,7 +53,7 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
         // ok this.verifyForward("success");
         // ko verifyForwardPath("changerMotPasse");
         verifyForwardPath("/Error.do");
-        assertNull(((MethodCallForm) getActionForm()).getMethodCall());
+        assertNull(((MethodCallEditForm) getActionForm()).getMethodCall());
     }
 
 }

@@ -30,7 +30,7 @@ import org.jmonitoring.core.configuration.Configuration;
  * Custom Rendere for Flows.
  * 
  * @author pke
- *  
+ * 
  */
 public class FlowRenderer extends GanttRenderer
 {
@@ -44,8 +44,8 @@ public class FlowRenderer extends GanttRenderer
     private static final long serialVersionUID = 3258413911081431864L;
 
     protected void drawTasks(Graphics2D pGraph2D, CategoryItemRendererState pCatState, Rectangle2D pDataArea,
-                    CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis,
-                    GanttCategoryDataset pDataset, int pRow, int pColumn)
+                    CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset,
+                    int pRow, int pColumn)
     {
         int count = pDataset.getSubIntervalCount(pRow, pColumn);
         if (count == 0)
@@ -73,8 +73,8 @@ public class FlowRenderer extends GanttRenderer
                 translatedValue1 = translatedValue0;
                 translatedValue0 = temp;
             }
-            double rectStart = calculateBarW0(pPlot, pPlot.getOrientation(), pDataArea, pDomainAxis, pCatState,
-                            pRow, pColumn);
+            double rectStart = calculateBarW0(pPlot, pPlot.getOrientation(), pDataArea, pDomainAxis, pCatState, pRow,
+                            pColumn);
             double rectLength = Math.abs(translatedValue1 - translatedValue0);
             double rectBreadth = pCatState.getBarWidth();
             Rectangle2D bar = null;
@@ -98,8 +98,8 @@ public class FlowRenderer extends GanttRenderer
                     completeBar = new java.awt.geom.Rectangle2D.Double(translatedValue0, rectStart + start
                                     * rectBreadth, rectLength * p, rectBreadth * (end - start));
                     incompleteBar = new java.awt.geom.Rectangle2D.Double(translatedValue0 + rectLength * p,
-                                    rectStart + start * rectBreadth, rectLength * (1.0D - p), rectBreadth
-                                                    * (end - start));
+                                    rectStart + start * rectBreadth, rectLength * (1.0D - p),
+                                    rectBreadth * (end - start));
                 } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
                 {
                     completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
@@ -144,8 +144,8 @@ public class FlowRenderer extends GanttRenderer
     }
 
     protected void drawTask(Graphics2D pGraph2D, CategoryItemRendererState pCatState, Rectangle2D pDataArea,
-                    CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis,
-                    GanttCategoryDataset pDataset, int pRow, int pColumn)
+                    CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset,
+                    int pRow, int pColumn)
     {
         PlotOrientation orientation = pPlot.getOrientation();
         org.jfree.ui.RectangleEdge rangeAxisLocation = pPlot.getRangeAxisEdge();
@@ -167,8 +167,8 @@ public class FlowRenderer extends GanttRenderer
             java2dValue1 = java2dValue0;
             java2dValue0 = temp;
             Number tempNum = value1;
-            //            value1 = value0;
-            //            value0 = tempNum;
+            // value1 = value0;
+            // value0 = tempNum;
         }
         double rectStart = calculateBarW0(pPlot, orientation, pDataArea, pDomainAxis, pCatState, pRow, pColumn);
         double rectBreadth = pCatState.getBarWidth();
@@ -193,14 +193,14 @@ public class FlowRenderer extends GanttRenderer
             {
                 completeBar = new java.awt.geom.Rectangle2D.Double(java2dValue0, rectStart + start * rectBreadth,
                                 rectLength * p, rectBreadth * (end - start));
-                incompleteBar = new java.awt.geom.Rectangle2D.Double(java2dValue0 + rectLength * p, rectStart
-                                + start * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
+                incompleteBar = new java.awt.geom.Rectangle2D.Double(java2dValue0 + rectLength * p, rectStart + start
+                                * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
             } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
             {
-                completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1
-                                + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
-                incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                java2dValue1, rectBreadth * (end - start), rectLength * (1.0D - p));
+                completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
+                                java2dValue1 + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
+                incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1,
+                                rectBreadth * (end - start), rectLength * (1.0D - p));
             }
         }
 

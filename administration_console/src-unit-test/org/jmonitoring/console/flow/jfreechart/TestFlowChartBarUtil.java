@@ -1,11 +1,12 @@
 package org.jmonitoring.console.flow.jfreechart;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -16,8 +17,6 @@ import org.jfree.data.time.TimePeriod;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil.TaskEntry;
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
-
-import junit.framework.TestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -32,8 +31,8 @@ public class TestFlowChartBarUtil extends TestCase
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil();
         tUtil.fillListOfGroup(tFirstMethod);
-//        writeChart("c:/temp/toto.gif", tUtil);
-        
+        // writeChart("c:/temp/toto.gif", tUtil);
+
         Map tGroups = tUtil.getListOfGroup();
         assertEquals(2, tGroups.size());
 
@@ -50,12 +49,12 @@ public class TestFlowChartBarUtil extends TestCase
         curDuration = curSubTask.getDuration();
         assertEquals(45, curDuration.getStart().getTime() - START_TIME);
         assertEquals(48, curDuration.getEnd().getTime() - START_TIME);
-        
+
         curSubTask = curTask.getSubtask(2);
         curDuration = curSubTask.getDuration();
         assertEquals(54, curDuration.getStart().getTime() - START_TIME);
         assertEquals(106, curDuration.getEnd().getTime() - START_TIME);
-        
+
         tTaskEntry = (TaskEntry) tGroups.get("GrChild1");
         assertNotNull(tTaskEntry);
         curTask = tTaskEntry.getTask();
@@ -71,7 +70,6 @@ public class TestFlowChartBarUtil extends TestCase
         assertEquals(48, curDuration.getStart().getTime() - START_TIME);
         assertEquals(54, curDuration.getEnd().getTime() - START_TIME);
 
-        
     }
 
     private void writeChart(String pString, FlowChartBarUtil pUtil)
@@ -98,7 +96,7 @@ public class TestFlowChartBarUtil extends TestCase
         FlowChartBarUtil tUtil = new FlowChartBarUtil();
         tUtil.fillListOfGroup(tFirstMethod);
 
-//        writeChart("c:/temp/toto2.gif", tUtil);
+        // writeChart("c:/temp/toto2.gif", tUtil);
         Map tGroups = tUtil.getListOfGroup();
         assertEquals(3, tGroups.size());
 
@@ -116,10 +114,10 @@ public class TestFlowChartBarUtil extends TestCase
         assertEquals(23, curDuration.getStart().getTime() - START_TIME);
         assertEquals(27, curDuration.getEnd().getTime() - START_TIME);
 
-         curSubTask = curTask.getSubtask(2);
-         curDuration = curSubTask.getDuration();
-         assertEquals(45, curDuration.getStart().getTime()-TestFlowUtils.START_TIME);
-         assertEquals(48, curDuration.getEnd().getTime()-TestFlowUtils.START_TIME);
+        curSubTask = curTask.getSubtask(2);
+        curDuration = curSubTask.getDuration();
+        assertEquals(45, curDuration.getStart().getTime() - TestFlowUtils.START_TIME);
+        assertEquals(48, curDuration.getEnd().getTime() - TestFlowUtils.START_TIME);
 
         curSubTask = curTask.getSubtask(3);
         curDuration = curSubTask.getDuration();
@@ -143,8 +141,8 @@ public class TestFlowChartBarUtil extends TestCase
 
         curSubTask = curTask.getSubtask(2);
         curDuration = curSubTask.getDuration();
-         assertEquals(27, curDuration.getStart().getTime()-TestFlowUtils.START_TIME);
-         assertEquals(45, curDuration.getEnd().getTime()-TestFlowUtils.START_TIME);
+        assertEquals(27, curDuration.getStart().getTime() - TestFlowUtils.START_TIME);
+        assertEquals(45, curDuration.getEnd().getTime() - TestFlowUtils.START_TIME);
 
         tTaskEntry = (TaskEntry) tGroups.get("GrChild2");
         assertNotNull(tTaskEntry);
@@ -199,7 +197,7 @@ public class TestFlowChartBarUtil extends TestCase
         tChild2.setParams("[]");
         tChild2.setBeginTime(new Date(tRefDate.getTime() + 48));
         tChild2.setEndTime(new Date(tRefDate.getTime() + 54));
-return tPoint;
+        return tPoint;
     }
 
 }

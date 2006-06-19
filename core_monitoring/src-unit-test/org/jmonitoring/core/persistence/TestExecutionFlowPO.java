@@ -12,8 +12,8 @@ public class TestExecutionFlowPO extends PersistanceTestCase
 {
     public void testGetListOfExecutionFlow()  
     {
-//        mPersistenceManager.clear();
-//        mPersistenceManager.flush();
+//        mSession.clear();
+//        mSession.flush();
 //        List tResult = HibernateManager.getSession().createQuery("from ExecutionFlowPO").list();
 //        assertEquals(0, tResult.size());
         createDataSet("/dataset.xml");

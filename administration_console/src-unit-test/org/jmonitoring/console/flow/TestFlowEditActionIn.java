@@ -15,33 +15,35 @@ import servletunit.struts.MockStrutsTestCase;
 
 /**
  * @author pke
- *  
+ * 
  */
 public class TestFlowEditActionIn extends MockStrutsTestCase
 {
-    
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see servletunit.struts.MockStrutsTestCase#setUp()
      */
     protected void setUp() throws Exception
     {
         super.setUp();
-        FlowEditActionIn.MAX_FLOW_TO_SHOW=5;
+        FlowEditActionIn.MAX_FLOW_TO_SHOW = 5;
     }
 
-    public void testActionWithSmallExecutionFlow(){
+    public void testActionWithSmallExecutionFlow()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW-1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW-1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW - 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW - 1);
 
         assertNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
         assertNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
 
         assertEquals(2, tUtil.countFlows());
         tUtil.clear();
-        
+
         FlowEditForm tForm = new FlowEditForm();
         tForm.setId(tFirstDto.getId());
 
@@ -55,16 +57,17 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         assertNotNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
         assertNotNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
     }
-     
-    public void testActionWithLongExecutionFlow(){
+
+    public void testActionWithLongExecutionFlow()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW+1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW+1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
 
         assertEquals(2, tUtil.countFlows());
         tUtil.clear();
-        
+
         FlowEditForm tForm = new FlowEditForm();
         tForm.setId(tFirstDto.getId());
 
@@ -79,16 +82,17 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         assertNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
 
     }
-     
-    public void testActionWithLongExecutionFlowAndGraphOnly(){
+
+    public void testActionWithLongExecutionFlowAndGraphOnly()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW+1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW+1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
 
         assertEquals(2, tUtil.countFlows());
         tUtil.clear();
-        
+
         FlowEditForm tForm = new FlowEditForm();
         tForm.setKindOfAction(FlowEditForm.ACTION_ONLY_GRAPH);
         tForm.setId(tFirstDto.getId());
@@ -100,21 +104,22 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         verifyForwardPath("/pages/layout/layout.jsp");
 
         verifyTilesForward("success", "floweditinternal");
-        
+
         assertNotNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
         assertNotNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
 
     }
-     
-    public void testActionWithLongExecutionFlowAndForce(){
+
+    public void testActionWithLongExecutionFlowAndForce()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW+1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW+1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
 
         assertEquals(2, tUtil.countFlows());
         tUtil.clear();
-        
+
         FlowEditForm tForm = new FlowEditForm();
         tForm.setKindOfAction(FlowEditForm.ACTION_FORCE);
         tForm.setId(tFirstDto.getId());
@@ -126,12 +131,12 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         verifyForwardPath("/pages/layout/layout.jsp");
 
         verifyTilesForward("success", "floweditinternal");
-        
+
         assertNotNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
         assertNotNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
 
     }
-     
+
     /**
      * @return MethodCallDTO.
      */
@@ -141,47 +146,47 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         long tCurrentTime = System.currentTimeMillis();
         tPoint = new MethodCallDTO();
         tPoint.setParent(null);
-        tPoint.setClassName( TestFlowEditActionIn.class.getName());
-        tPoint.setMethodName( "builNewFullFlow");
-        tPoint.setGroupName( "GrDefault");
+        tPoint.setClassName(TestFlowEditActionIn.class.getName());
+        tPoint.setMethodName("builNewFullFlow");
+        tPoint.setGroupName("GrDefault");
         tPoint.setParams("[]");
         tPoint.setBeginTime(new Date(tCurrentTime));
-        tPoint.setEndTime(new Date(tCurrentTime + 2 + 2 + 1)); //Duration=5
-        
-        //This local variable is indireclty used by its parent
+        tPoint.setEndTime(new Date(tCurrentTime + 2 + 2 + 1)); // Duration=5
+
+        // This local variable is indireclty used by its parent
         curPoint = new MethodCallDTO();
         curPoint.setParent(tPoint);
         tPoint.addChildren(curPoint);
-        curPoint.setClassName( TestFlowEditActionIn.class.getName());
-        curPoint.setMethodName( "builNewFullFlow2");
-        curPoint.setGroupName( "GrChild1");
+        curPoint.setClassName(TestFlowEditActionIn.class.getName());
+        curPoint.setMethodName("builNewFullFlow2");
+        curPoint.setGroupName("GrChild1");
         curPoint.setParams("[]");
         curPoint.setBeginTime(new Date(tCurrentTime));
-        curPoint.setEndTime(new Date(tCurrentTime + 2)); //Duration=2
-        
-        //This local variable is indireclty used by its parent
+        curPoint.setEndTime(new Date(tCurrentTime + 2)); // Duration=2
+
+        // This local variable is indireclty used by its parent
         curPoint = new MethodCallDTO();
         curPoint.setParent(tPoint);
         tPoint.addChildren(curPoint);
-        curPoint.setClassName( TestFlowEditActionIn.class.getName());
-        curPoint.setMethodName( "builNewFullFlow2");
-        curPoint.setGroupName( "GrChild2");
+        curPoint.setClassName(TestFlowEditActionIn.class.getName());
+        curPoint.setMethodName("builNewFullFlow2");
+        curPoint.setGroupName("GrChild2");
         curPoint.setParams("[]");
         curPoint.setBeginTime(new Date(tCurrentTime));
-        curPoint.setEndTime(new Date(tCurrentTime + 2 + 1)); //Duration=3
-        
-        //This local variable is indireclty used by its parent
+        curPoint.setEndTime(new Date(tCurrentTime + 2 + 1)); // Duration=3
+
+        // This local variable is indireclty used by its parent
         MethodCallDTO tOldPoint = curPoint;
         curPoint = new MethodCallDTO();
         curPoint.setParent(tOldPoint);
         tOldPoint.addChildren(curPoint);
-        curPoint.setClassName( TestFlowEditActionIn.class.getName());
-        curPoint.setMethodName( "builNewFullFlow3");
-        curPoint.setGroupName( "GrChild2_1");
+        curPoint.setClassName(TestFlowEditActionIn.class.getName());
+        curPoint.setMethodName("builNewFullFlow3");
+        curPoint.setGroupName("GrChild2_1");
         curPoint.setParams("[]");
         curPoint.setBeginTime(new Date(tCurrentTime));
-        curPoint.setEndTime(new Date(tCurrentTime + 1)); //Duration=1
-        
+        curPoint.setEndTime(new Date(tCurrentTime + 1)); // Duration=1
+
         return tPoint;
     }
 
@@ -193,7 +198,7 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         assertEquals(2, tMeasure.getChildren().size());
         MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChildren().get(0); // Child1
         assertEquals(0, curMeasure.getChildren().size());
-        curMeasure = (MethodCallDTO) tMeasure.getChildren().get(1); //Child2
+        curMeasure = (MethodCallDTO) tMeasure.getChildren().get(1); // Child2
         assertEquals(1, curMeasure.getChildren().size());
         curMeasure = (MethodCallDTO) curMeasure.getChildren().get(0); // Child2_2
         assertEquals(0, curMeasure.getChildren().size());
@@ -207,7 +212,7 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         assertEquals(2, tMeasure.getChildren().size());
         MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChildren().get(0); // Child1
         assertEquals(0, curMeasure.getChildren().size());
-        curMeasure = (MethodCallDTO) tMeasure.getChildren().get(1); //Child2
+        curMeasure = (MethodCallDTO) tMeasure.getChildren().get(1); // Child2
         assertEquals(0, curMeasure.getChildren().size());
     }
 

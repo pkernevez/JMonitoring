@@ -5,8 +5,8 @@ package org.jmonitoring.console.methodcall.list;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.apache.commons.beanutils.DynaBean;
 import org.displaytag.decorator.TableDecorator;
+import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 
 /**
  * @author pke Decorator for the column of the list of MEasurePoint.
@@ -15,21 +15,21 @@ public class DisplayTagDecorator extends TableDecorator
 {
     public String getUrlMeasurePoint()
     {
-        DynaBean tBean = (DynaBean) getCurrentRowObject();
+        MethodCallFullExtractDTO tMeth = (MethodCallFullExtractDTO) getCurrentRowObject();
         StringBuffer tResult = new StringBuffer();
         tResult.append("<A href=\"");
-        tResult.append("MeasurePointEdit.do?flowId=").append(tBean.get("FLOW_ID")).append("&sequenceId=");
-        tResult.append(tBean.get("SEQUENCE_ID")).append(
-                        "\" title=\"View this MethodCallDTO\"><IMG src=\"images/edit.png\"/></A>");
+        tResult.append("MethodCallEditIn.do?flowId=").append(tMeth.getFlowId()).append("&id=");
+        tResult.append(tMeth.getId()).append(
+                        "\" title=\"View this method call\"><IMG src=\"images/edit.png\"/></A>");
         return tResult.toString();
     }
 
     public String getUrlFlow()
     {
-        DynaBean tBean = (DynaBean) getCurrentRowObject();
+        MethodCallFullExtractDTO tMeth = (MethodCallFullExtractDTO) getCurrentRowObject();
         StringBuffer tResult = new StringBuffer();
         tResult.append("<A href=\"");
-        tResult.append("FlowEdit.do?id=").append(tBean.get("FLOW_ID")).append(
+        tResult.append("FlowEditIn.do?id=").append(tMeth.getFlowId()).append(
                         "\" title=\"View this Flow\"><IMG src=\"images/edit.png\"/></A>");
         return tResult.toString();
     }

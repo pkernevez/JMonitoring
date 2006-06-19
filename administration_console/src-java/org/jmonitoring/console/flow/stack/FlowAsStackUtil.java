@@ -96,7 +96,7 @@ public class FlowAsStackUtil
         StringBuffer tLinkStat = new StringBuffer();
         tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=" + pCurrentMethod.getFlowId()
                         + "&id="
-                        + pCurrentMethod.getSequenceId()
+                        + pCurrentMethod.getId()
                         + "\">");
         tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
 
@@ -104,7 +104,7 @@ public class FlowAsStackUtil
         tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId=" + pCurrentMethod
                         .getFlowId()
                         + "&id="
-                        + pCurrentMethod.getSequenceId()
+                        + pCurrentMethod.getId()
                         + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
@@ -112,11 +112,11 @@ public class FlowAsStackUtil
         if (pCurrentMethod.getChildren().size() > 0)
         { // On crée un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
-            pHtmlBuffer.append("<li>\n<a href=\"#\" id=\"" + pCurrentMethod.getSequenceId() + "Actuator\"");
+            pHtmlBuffer.append("<li>\n<a href=\"#\" id=\"" + pCurrentMethod.getId() + "Actuator\"");
             pHtmlBuffer.append(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">");
             pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMethod) + "</a>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "\n");
-            pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getSequenceId() + "Menu\" class=\"submenu\">\n");
+            pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getId() + "Menu\" class=\"submenu\">\n");
             for (Iterator tIterator = pCurrentMethod.getChildren().iterator(); tIterator.hasNext();)
             {
                 writeMethodCallAsHtml((MethodCallDTO) tIterator.next(), pHtmlBuffer);

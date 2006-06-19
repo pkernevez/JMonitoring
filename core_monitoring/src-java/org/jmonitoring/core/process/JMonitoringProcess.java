@@ -33,9 +33,10 @@ public class JMonitoringProcess
 
     public boolean doDatabaseExist()
     {
-        Session tSession = HibernateManager.getSession();
+        Session tSession = null;
         try
         {
+            tSession = HibernateManager.getSession();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             tDao.countFlows();
             return true;
@@ -44,17 +45,22 @@ public class JMonitoringProcess
             return false;
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
 
     }
 
     public void deleteFlow(int pId) throws UnknownFlowException
     {
-        Session tSession = HibernateManager.getSession();
-        Transaction tTransaction = tSession.beginTransaction();
+        Session tSession = null;
+        Transaction tTransaction = null;
         try
         {
+            tSession = HibernateManager.getSession();
+            tTransaction = tSession.beginTransaction();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             tDao.deleteFlow(pId);
             tTransaction.commit();
@@ -62,19 +68,27 @@ public class JMonitoringProcess
         } catch (RuntimeException t)
         {
             LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
-            tTransaction.rollback();
+            if (tTransaction != null)
+            {
+                tTransaction.rollback();
+            }
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
     }
 
     public void deleteAllFlows()
     {
-        Session tSession = HibernateManager.getSession();
-        Transaction tTransaction = tSession.beginTransaction();
+        Session tSession = null;
+        Transaction tTransaction = null;
         try
         {
+            tSession = HibernateManager.getSession();
+            tTransaction = tSession.beginTransaction();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             tDao.deleteAllFlows();
             tTransaction.commit();
@@ -82,48 +96,63 @@ public class JMonitoringProcess
         } catch (Throwable t)
         {
             LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
-            tTransaction.rollback();
+            if (tTransaction != null)
+            {
+                tTransaction.rollback();
+            }
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
     }
 
     public MethodCallDTO readFullMethodCall(int pId)
     {
-        Session tSession = HibernateManager.getSession();
+        Session tSession = null;
         try
         {
+            tSession = HibernateManager.getSession();
             sLog.debug("Read method call from database, Id=[" + pId + "]");
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             MethodCallPO tMethodCallPo = tDao.readMethodCall(pId);
             return DtoHelper.getFullMethodCallDto(tMethodCallPo);
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
     }
 
     public ExecutionFlowDTO readFullExecutionFlow(int pId)
     {
-        Session tSession = HibernateManager.getSession();
+        Session tSession = null;
         try
         {
+            tSession = HibernateManager.getSession();
             sLog.debug("Read flow from database, Id=[" + pId + "]");
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             ExecutionFlowPO tFlowPo = tDao.readExecutionFlow(pId);
             return DtoHelper.getDeepCopy(tFlowPo);
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
     }
 
     public List getListOfExecutionFlowDto(FlowSearchCriterion pCriterion)
     {
-        Session tSession = HibernateManager.getSession();
+        Session tSession = null;
         try
         {
+            tSession = HibernateManager.getSession();
             List tList = new ArrayList();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             for (Iterator tIt = tDao.getListOfExecutionFlowPO(pCriterion).iterator(); tIt.hasNext();)
@@ -133,50 +162,100 @@ public class JMonitoringProcess
             return tList;
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
     }
 
-    public List getListOfMethodCallFromId(int pFlowId, int pMethodCallId)
+    public MethodCallDTO readMethodCall(int pFlowId, int pMethodCallId)
     {
-        Session tSession = HibernateManager.getSession();
+        Session tSession = null;
         try
         {
+            tSession = HibernateManager.getSession();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
-//            ExecutionFlowPO tFlow = tDao.readExecutionFlow(pFlowId);
+            // ExecutionFlowPO tFlow = tDao.readExecutionFlow(pFlowId);
             MethodCallPO tMethod = tDao.readMethodCall(pMethodCallId);
-            List tResult = tDao.getListOfMethodCall(tMethod.getClassName(), tMethod.getMethodName());
-            return DtoHelper.copyListOfMethodPO(tResult);
+            return DtoHelper.simpleCopy(tMethod);
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
+
     }
 
     public List getListOfMethodCallFromClassAndMethodName(String pClassName, String pMethodName)
     {
-        Session tSession = HibernateManager.getSession();
+        Session tSession = null;
         try
         {
+            tSession = HibernateManager.getSession();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
             return DtoHelper.copyListOfMethodPO(tResult);
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
+        }
+    }
+
+    public List getListOfMethodCallExtract()
+    {
+        Session tSession = null;
+        try
+        {
+            tSession = HibernateManager.getSession();
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
+            return tDao.getListOfMethodCallExtract();
+        } finally
+        {
+            if (tSession != null)
+            {
+                tSession.close();
+            }
+        }
+    }
+
+    public List getListOfMethodCallFullExtract(String pClassName, String pMethodName, long pDurationMin, long pDurationMax)
+    {
+        Session tSession = null;
+        try
+        {
+            tSession = HibernateManager.getSession();
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
+            List tListOfMethodCall = tDao.getMethodCallList(pClassName, pMethodName, pDurationMin, pDurationMax);
+            return DtoHelper.copyListMethodCallFullExtract(tListOfMethodCall);
+        } finally
+        {
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
     }
 
     public void createDataBase()
     {
-        Session tSession = HibernateManager.getSession();
+        Session tSession = null;
         try
         {
+            tSession = HibernateManager.getSession();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             tDao.createDataBase();
         } finally
         {
-            tSession.close();
+            if (tSession != null)
+            {
+                tSession.close();
+            }
         }
     }
 }

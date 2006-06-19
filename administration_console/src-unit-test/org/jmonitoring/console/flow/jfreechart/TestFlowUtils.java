@@ -21,7 +21,7 @@ import org.jmonitoring.core.dto.MethodCallDTO;
 public class TestFlowUtils extends TestCase
 {
     public static final long START_TIME = 1149282668046L;
-    
+
     static MethodCallDTO getSampleMeasurePoint()
     {
         MethodCallDTO tPoint;
@@ -87,7 +87,7 @@ public class TestFlowUtils extends TestCase
         assertEquals(new Long(40), tMap.get("GrDefault"));
         assertEquals(new Long(27), tMap.get("GrChild1"));
         assertEquals(new Long(39), tMap.get("GrChild2"));
-        assertEquals(106, 40+27+39);
+        assertEquals(106, 40 + 27 + 39);
     }
 
     public void testAddNbCallWith()

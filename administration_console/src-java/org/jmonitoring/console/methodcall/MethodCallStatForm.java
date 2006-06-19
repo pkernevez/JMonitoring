@@ -10,7 +10,7 @@ package org.jmonitoring.console.methodcall;
  * 
  * @author pke
  */
-public class MethodCallStatForm extends MethodCallForm
+public class MethodCallStatForm extends AbstractMethodCallForm
 {
     private long mDurationMin;
 
@@ -19,7 +19,7 @@ public class MethodCallStatForm extends MethodCallForm
     private double mDurationAvg;
 
     private double mDurationDev;
-    
+
     private String mImageMap;
 
     /** The value to use to group duration values for statistics. */
@@ -134,6 +134,7 @@ public class MethodCallStatForm extends MethodCallForm
     {
         return mImageMap;
     }
+
     /**
      * @param pImageMap The imageMap to set.
      */

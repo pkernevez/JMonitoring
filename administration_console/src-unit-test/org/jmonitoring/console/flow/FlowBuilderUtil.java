@@ -5,6 +5,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
@@ -37,7 +38,8 @@ public class FlowBuilderUtil
     public ExecutionFlowDTO buildAndSaveNewDto(int pNbMethods)
     {
         ExecutionFlowPO tExecPO = buildNewFullFlow(pNbMethods);
-        mSession.save(tExecPO);
+        ExecutionFlowDAO tDao = new ExecutionFlowDAO(mSession);
+        tDao.insertFullExecutionFlow(tExecPO);
         mSession.flush();
         return DtoHelper.getDeepCopy(tExecPO);
     }

@@ -24,18 +24,18 @@ import org.jmonitoring.core.persistence.HibernateManager;
 public abstract class PersistanceTestCase extends TestCase
 {
 
-    protected Session mPersistenceManager;
+    protected Session mSession;
 
     protected Transaction mTransaction;
 
     private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
-    
+
     protected void setUp() throws Exception
     {
         super.setUp();
 
-        mPersistenceManager = HibernateManager.getSession();
-        mTransaction = mPersistenceManager.beginTransaction();
+        mSession = HibernateManager.getSession();
+        mTransaction = mSession.beginTransaction();
 
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
@@ -48,7 +48,6 @@ public abstract class PersistanceTestCase extends TestCase
     {
         Session tSession = HibernateManager.getSession();
 
-        
         if (pDataSetFileName != null)
         {
             IDataSet tDataSet;
@@ -58,7 +57,7 @@ public abstract class PersistanceTestCase extends TestCase
                 tDataSet = new XmlDataSet(getClass().getResourceAsStream(pDataSetFileName));
                 DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(tSession.connection()), tDataSet);
                 sLog.debug("Now flush data");
-                mPersistenceManager.flush();
+                mSession.flush();
             } catch (DataSetException e)
             {
                 throw new RuntimeException(e);
@@ -68,17 +67,23 @@ public abstract class PersistanceTestCase extends TestCase
             }
         }
         sLog.debug("end createDataSet");
-}
+    }
 
     protected void tearDown() throws Exception
     {
-        super.tearDown();
-        Configuration tConfig = HibernateManager.getConfig();
-        SchemaExport tDdlexport = new SchemaExport(tConfig);
+        try
+        {
+            super.tearDown();
+            Configuration tConfig = HibernateManager.getConfig();
+            SchemaExport tDdlexport = new SchemaExport(tConfig);
 
-        tDdlexport.drop(true, true);
-        mTransaction.rollback();
-        mPersistenceManager.close();
+            tDdlexport.drop(true, true);
+            mTransaction.rollback();
+        } finally
+        {
+            mSession.close();
+            sLog.info("Hibernate Session Closed");
+        }
     }
 
     // protected String getDataSetFileName() throws Exception

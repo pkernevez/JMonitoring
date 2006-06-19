@@ -79,19 +79,19 @@ public class MethodCallStatActionIn extends Action
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         if (!pForm.isParametersByName())
-        { // First retreive className and methodName from the given MethodCallDTO
-            return tProcess.getListOfMethodCallFromId(pForm.getFlowId(), pForm.getId());
-        } else
         {
-            return tProcess.getListOfMethodCallFromClassAndMethodName(pForm.getClassName(), pForm.getMethodName());
+            MethodCallDTO tMeth = tProcess.readMethodCall(pForm.getFlowId(), pForm.getId());
+            pForm.setClassName(tMeth.getClassName());
+            pForm.setMethodName(tMeth.getMethodName());
         }
+        return tProcess.getListOfMethodCallFromClassAndMethodName(pForm.getClassName(), pForm.getMethodName());
     }
 
     private void computeStat(List pMeasures, MethodCallStatForm pForm)
     {
         if (pMeasures.size() != 0)
         {
-            MethodCallDTO curMeasure = (MethodCallDTO)pMeasures.get(0);
+            MethodCallDTO curMeasure = (MethodCallDTO) pMeasures.get(0);
             long tMin = curMeasure.getDuration(), tMax = tMin, tSum = tMin;
             for (int i = 1; i < pMeasures.size(); i++)
             {
@@ -131,7 +131,7 @@ public class MethodCallStatActionIn extends Action
             // Get duration max
             for (int i = 0; i < pMeasures.size(); i++)
             {
-                curDuration = ((MethodCallDTO)pMeasures.get(i)).getDuration();
+                curDuration = ((MethodCallDTO) pMeasures.get(i)).getDuration();
                 if (curDuration > tDurationMax)
                 {
                     tDurationMax = curDuration;
@@ -189,7 +189,7 @@ public class MethodCallStatActionIn extends Action
         XYBarRenderer renderer = new XYBarRenderer();
         renderer.setToolTipGenerator(new StandardXYToolTipGenerator());
 
-        renderer.setURLGenerator(new StatisticXYURLGenerator("MeasurePointList.do", pForm.getInterval(), pForm
+        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(), pForm
                         .getClassName(), pForm.getMethodName()));
 
         XYPlot plot = new XYPlot(dataset, tAxis, tValueAxis, renderer);
@@ -209,7 +209,7 @@ public class MethodCallStatActionIn extends Action
         long tDurationMax = 0;
         for (int i = 0; i < pMeasures.size(); i++)
         {
-            tCurDuration = ((MethodCallDTO)pMeasures.get(i)).getDuration();
+            tCurDuration = ((MethodCallDTO) pMeasures.get(i)).getDuration();
             if (tCurDuration > tDurationMax)
             {
                 tDurationMax = tCurDuration;

@@ -10,7 +10,7 @@
         <form-bean name="flowsearchform" type="org.jmonitoring.console.flow.FlowSearchForm" />
         <form-bean name="floweditform" type="org.jmonitoring.console.flow.FlowEditForm" />
         <form-bean name="flowidform" type="org.jmonitoring.console.flow.FlowIdForm" />
-        <form-bean name="methodcallform" type="org.jmonitoring.console.methodcall.MethodCallForm" />
+        <form-bean name="methodcallform" type="org.jmonitoring.console.methodcall.MethodCallEditForm" />
         <form-bean name="methodcallstatform" type="org.jmonitoring.console.methodcall.MethodCallStatForm" />
         <form-bean name="methodcalllistform" type="org.jmonitoring.console.methodcall.list.MethodCallListForm" />
 
@@ -37,11 +37,13 @@
             <forward name="success" path="homepage" />
         </action>
 
-        <action path="/DeleteAllFlowsConfirmIn" forward="deleteflowconfirm" />
+        <!-- *** FLOWS *** -->
 
         <action path="/DeleteAllFlowsIn" type="org.jmonitoring.console.flow.DeleteAllFlowsActionIn" validate="false">
             <forward name="success" path="deleteflowsuccess" />
         </action>
+
+        <action path="/DeleteAllFlowsConfirmIn" forward="deleteflowconfirm" />
 
         <action path="/DeleteOneFlowIn" type="org.jmonitoring.console.flow.DeleteOneFlowActionIn" validate="false"
             name="flowidform" scope="request">
@@ -62,6 +64,8 @@
             <forward name="success" path="flowsearch" />
         </action>
 
+        <!-- *** METHOD *** -->
+
         <action path="/MethodCallSearchIn" forward="methodcallsearch" />
 
         <action path="/MethodCallEditIn" type="org.jmonitoring.console.methodcall.MethodCallEditActionIn"
@@ -74,16 +78,24 @@
             <forward name="success" path="methodcallstat" />
         </action>
 
+        <action path="/MethodCallListIn" type="org.jmonitoring.console.methodcall.list.MethodCallListActionIn"
+            name="methodcalllistform" scope="request">
+            <forward name="success" path="methodcalllist" />
+        </action>
+
+        <!-- action path="/MethodCallSearchIn" name="methodcalllistform" scope="request"
+            forward="measurepointlist" /-->
+
 
         <!-- action path="/DeleteAllFlowsSuccess" parameter="deleteflowsuccess" type="org.apache.struts.actions.ForwardAction"/-->
 
-        <action path="/DeleteFlowSuccess" name="floweditform" parameter="deleteflowsuccess"
+        <!--  action path="/DeleteFlowSuccess" name="floweditform" parameter="deleteflowsuccess"
             type="org.apache.struts.actions.ForwardAction" />
 
         <action path="/DeleteFlow" type="org.jmonitoring.console.flow.FlowDeleteAction" name="floweditform"
             scope="request">
             <forward name="success" path="/DeleteFlowSuccess.do" />
-        </action>
+        </action-->
 
         <!--  action path="/FlowSearchSubmit" type="org.jmonitoring.console.flow.FlowSearchAction"
             name="flowsearchform" scope="request" validate="false">
@@ -93,19 +105,19 @@
         <!-- action path="/FlowEditRequiredInfo" parameter="floweditrequiredinfo" type="org.apache.struts.actions.ForwardAction" 
             name="floweditform" scope="request"/-->
 
-        <action path="/FlowEdit" type="org.jmonitoring.console.flow.FlowEditAction" name="floweditform" scope="request"
+        <!-- action path="/FlowEdit" type="org.jmonitoring.console.flow.FlowEditAction" name="floweditform" scope="request"
             validate="false">
             <forward name="success" path="/FlowEditInternal.do" />
             <forward name="required_info" path="/FlowEditRequiredInfo.do" />
-        </action>
+        </action -->
 
-        <action path="/MeasurePointListInternal" parameter="measurepointlist"
+        <!--  action path="/MeasurePointListInternal" parameter="measurepointlist"
             type="org.apache.struts.actions.ForwardAction" name="measurepointlistform" scope="request" />
 
         <action path="/MeasurePointList" type="org.jmonitoring.console.measurepoint.list.MeasurePointListAction"
             name="measurepointlistform" scope="request">
-            <forward name="success" path="/MeasurePointListInternal.do" />
-        </action>
+            <forward name="success" path="measurepointlist" />
+        </action -->
 
 
 
