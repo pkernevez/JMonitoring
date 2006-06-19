@@ -12,18 +12,6 @@
  the version number 2.1.]
 
                             Preamble
-                            
-                            flkdslkflf
-                            dsfs
-                            
-                            fsd
-                            fds
-                            f
-                            dsf
-                            ds
-                            fd
-                            sf
-                            s
 
   The licenses for most software are designed to take away your
 freedom to share and change it.  By contrast, the GNU General Public
