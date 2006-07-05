@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 
-namespace org.nmonitoring.core.persistence
+namespace Org.NMonitoring.Core.Persistence
 {
     public class MethodCallPO
     {
@@ -124,7 +124,7 @@ namespace org.nmonitoring.core.persistence
             }
             mClassName = pClassName;
             mMethodName = pMethodName;
-            mBeginTime = (long)DateTime.Now.TimeOfDay.TotalMilliseconds;
+            mBeginTime = Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
             mParams = getParamsAsString(pParams, pClassName, pMethodName);
             mGroupName = pGroupName;
         }

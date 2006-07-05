@@ -2,9 +2,9 @@ using System;
 using System.Text;
 using NUnit.Framework;
 
-using org.nmonitoring.core.persistence;
+using Org.NMonitoring.Core.Persistence;
 
-namespace org.nmonitoring.core.persistence.tests
+namespace Org.NMonitoring.Core.Persistence.Tests
 {
     [TestFixture]
     public class TestMethodCallPO

@@ -7,7 +7,7 @@
     <ProjectGuid>{1DB34765-CBF8-4FD9-A59A-F02B975371D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>core_monitoring_tests</RootNamespace>
+    <RootNamespace>Org.Nmonitoring.Core.Tests</RootNamespace>
     <AssemblyName>core_monitoring_tests</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,7 +37,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Dao\TestExecutionFlowDAO.cs" />
     <Compile Include="Persistence\TestExecutionFlowPO.cs" />
     <Compile Include="Persistence\TestMethodCallPO.cs" />
