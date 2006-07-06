@@ -4,11 +4,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1DB34765-CBF8-4FD9-A59A-F02B975371D2}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{59E8BF6B-24D0-49A3-BFE5-A860727D3F62}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Org.NMonitoring.Core.Tests</RootNamespace>
-    <AssemblyName>core_monitoring_tests</AssemblyName>
+    <RootNamespace>Org.NMonitoring.SampleTarget</RootNamespace>
+    <AssemblyName>sample_target</AssemblyName>
+    <StartupObject>Org.NMonitoring.SampleTarget.SampleTarget</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,26 +29,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\NUnit-Net-2.0 2.2.8\bin\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\TestUtil.cs" />
-    <Compile Include="Dao\TestExecutionFlowDAO.cs" />
-    <Compile Include="Persistence\TestExecutionFlowPO.cs" />
-    <Compile Include="Persistence\TestMethodCallPO.cs" />
+    <Compile Include="Inventory.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="SampleTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\core_monitoring\core_monitoring.csproj">
-      <Project>{3F7787AC-53B7-41CE-8A2A-9F8AC24B435A}</Project>
-      <Name>core_monitoring</Name>
-    </ProjectReference>
+    <Compile Include="ShoppingCart.cs" />
+    <Compile Include="ShoppingCartOperator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

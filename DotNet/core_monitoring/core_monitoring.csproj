@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Common\Util.cs" />
     <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Dao\ExecutionFlowDAO.cs" />
     <Compile Include="Persitence\ExecutionFlowPO.cs" />
     <Compile Include="Persitence\MethodCallPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

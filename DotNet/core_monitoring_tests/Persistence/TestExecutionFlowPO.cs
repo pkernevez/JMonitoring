@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Org.NMonitoring.Core.Pesistence.Tests
 {
 
-    [TestFixture]
+    //[TestFixture]
     public class TestExecutionFlowPO
     {
         /*
