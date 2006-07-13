@@ -2,7 +2,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\NUnit-Net-2.0 2.2.8\bin\nunit-gui.exe</StartProgram>
-    <StartArguments>D:\JMonitoring\DotNet\core_monitoring_tests\core_monitoring_tests.nunit /run</StartArguments>
+    <StartArguments>D:\JMonitoring\DotNet\core_monitoring_tests\core_monitoring_tests.nunit</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
 </Project>

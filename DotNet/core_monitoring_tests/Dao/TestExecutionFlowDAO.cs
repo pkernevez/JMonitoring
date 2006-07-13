@@ -12,6 +12,8 @@ namespace Org.NMonitoring.Core.Dao.Tests
     [TestFixture]
     public class TestExecutionFlowDAO
     {
+        private const int SLEEP_DURATION_FOR_ASYNC_WRITE = 1000;
+
         [TestFixtureSetUp]
         public void initialize()
         {
@@ -28,6 +30,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
              ExecutionFlowDAO dao = new ExecutionFlowDAO();
              int nbMethodsCallBeforeDao = UtilTest.CountMethods();
              dao.insertFullExecutionFlow(flow);
+             System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
              int nbMethodsCallAfterDao = UtilTest.CountMethods();
              UtilTest.DeleteAllData();
              Assert.AreEqual(nbMethodsCallAfterDao, nbMethodsCallBeforeDao);
@@ -49,6 +52,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
 
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.insertFullExecutionFlow(flow);
+            System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 1;
             UtilTest.DeleteAllData();
@@ -63,8 +67,25 @@ namespace Org.NMonitoring.Core.Dao.Tests
             ExecutionFlowDAO dao = new ExecutionFlowDAO();
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.insertFullExecutionFlow(flow);
+            System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 3;
+            UtilTest.DeleteAllData();
+            Assert.AreEqual(nbExpextedMethodsCall, nbMethodsCallAfterDao - nbMethodsCallBeforeDao);
+        }
+
+        [Test]
+        public void insertTwoExecutionFlowWithRecursiveMethodCallPO()
+        {
+            ExecutionFlowPO flow  = UtilTest.buildNewFullFlow();
+            ExecutionFlowPO flow2 = UtilTest.buildNewFullFlow();
+            ExecutionFlowDAO dao  = new ExecutionFlowDAO();
+            int nbMethodsCallBeforeDao = UtilTest.CountMethods();
+            dao.insertFullExecutionFlow(flow);
+            dao.insertFullExecutionFlow(flow2);
+            System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
+            int nbMethodsCallAfterDao = UtilTest.CountMethods();
+            int nbExpextedMethodsCall = 6;
             UtilTest.DeleteAllData();
             Assert.AreEqual(nbExpextedMethodsCall, nbMethodsCallAfterDao - nbMethodsCallBeforeDao);
         }

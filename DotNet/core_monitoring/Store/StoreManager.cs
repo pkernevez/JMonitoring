@@ -40,7 +40,7 @@ namespace Org.NMonitoring.Core.Store
          */
         public StoreManager()  : this(StoreFactory.getWriter(), Configuration.Configuration.getInstance())
         {
-            
+            Console.WriteLine("StoreManager::StoreManager(Vide)");
         }
 
         /**
@@ -53,6 +53,7 @@ namespace Org.NMonitoring.Core.Store
         {
             mConfiguration = pConfiguration;
             mStoreWriter = pStoreWriter;
+            Console.WriteLine("StoreManager::StoreManager(IStoreWriter,Configuration )");
         }
 
         /**
@@ -65,6 +66,7 @@ namespace Org.NMonitoring.Core.Store
 
         public void logBeginOfMethod(OperationJoinPoint opJoinPoint, System.Reflection.ParameterInfo [] pArgs, String pGroupName)
         {
+            Console.WriteLine("StoreManager::logBeginOfMethod()");
             string operationName = opJoinPoint.TargetOperationName;
             string classeName = opJoinPoint.TargetOperation.ReflectedType.Name; //FullName ??
 
@@ -94,6 +96,8 @@ namespace Org.NMonitoring.Core.Store
          */
         public void logEndOfMethodNormal(Object pResult)
         {
+            Console.WriteLine("StoreManager::logEndOfMethodNormal()");
+
             // To limit call to toString on business object, that could be expensive
             String tResultAsString = endMethod(mCurrentLogPoint, pResult);
             if (mCurrentLogPoint.getParentMethodCall() == null)
@@ -106,8 +110,17 @@ namespace Org.NMonitoring.Core.Store
                 if (System.Threading.Thread.CurrentThread.Name != null)
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 
+                Console.WriteLine("StoreManager::logEndOfMethodNormal(Dernier Appel)");
                 ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, mCurrentLogPoint, mConfiguration.getServerName());
-                mStoreWriter.writeExecutionFlow(tFlow);
+                try
+                {
+                    Console.WriteLine("StoreManager::mStoreWriter.writeExecutionFlow(Dernier Appel)");
+                    mStoreWriter.writeExecutionFlow(tFlow);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("StoreManager::logEndOfMethodNormal Exception : " + e.Message);
+                }
                 mCurrentLogPoint = null;
             }
             else

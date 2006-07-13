@@ -63,6 +63,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Store\Impl\AsynchroneDbWriter.cs" />
     <Compile Include="Store\Impl\SynchroneDbWriter.cs" />
     <Compile Include="Store\Impl\StoreFactory.cs" />
     <Compile Include="Store\IStoreWriter.cs" />

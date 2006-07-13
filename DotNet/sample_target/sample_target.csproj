@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Org.NMonitoring.SampleTarget</RootNamespace>
     <AssemblyName>sample_target</AssemblyName>
-    <StartupObject>Org.NMonitoring.SampleTarget.SampleTarget</StartupObject>
+    <StartupObject>Org.NMonitoring.SampleTarget.MultiThreadSampleTarget</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Inventory.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="MultiThreadSampleTarget.cs" />
     <Compile Include="SampleTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCart.cs" />

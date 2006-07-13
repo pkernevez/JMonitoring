@@ -16,10 +16,11 @@ namespace Org.NMonitoring.SampleTarget
 
         static void Main(string[] args)
         {
-            MyMain();
+            MyMain(null);
+            Thread.Sleep(1000); //Wait for log to be dumped
          }
 
-        static private void MyMain()
+        public static void MyMain(Object data)
         {
             new SampleTarget().Run();
             // On attend pour être sur de l'insertion

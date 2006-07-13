@@ -19,20 +19,9 @@ namespace Org.NMonitoring.Core.Common
             return (long)ellapsedTIme.TotalMilliseconds;
         }
 
-
-        //static public long DateToTimeMillis(DateTime date)
-        //{
-            
-        //    DateTime 
-        //    TimeSpan.n
-        //    ts.TotalMilliseconds;
-
-
-        //    long millis = (date.Year - 1970)*
-        //    return (long)date.TimeOfDay.TotalMilliseconds;
-
-            
-        //}
-        
+        static public DateTime TimeMillisToDate(long milliseconds)
+        {
+            return premierJanvier1970.AddMilliseconds(milliseconds); 
+        }
     }
 }

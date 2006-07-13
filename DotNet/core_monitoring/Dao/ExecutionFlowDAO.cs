@@ -109,7 +109,9 @@ SELECT ID, THREAD_NAME, JVM, BEGIN_TIME, END_TIME, BEGIN_TIME_AS_DATE, DURATION,
                 try
                 {
                     //TODO FCH : Faire le test qui casse si on enleve cette ligne
-                    executionFlow.Id = (int)cmd.ExecuteScalar(); 
+                    executionFlow.Id = (int)cmd.ExecuteScalar();
+                    System.Console.WriteLine("ExecutionFlowDAO:saveExecutionFlow");
+
                 }
                 finally
                 {

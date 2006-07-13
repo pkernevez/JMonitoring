@@ -8,6 +8,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core_monitoring_tests", "core_monitoring_tests\core_monitoring_tests.csproj", "{1DB34765-CBF8-4FD9-A59A-F02B975371D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_target", "sample_target\sample_target.csproj", "{59E8BF6B-24D0-49A3-BFE5-A860727D3F62}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E6D9A12D-4403-4FA2-89B3-99249E2949CD} = {E6D9A12D-4403-4FA2-89B3-99249E2949CD}
+		{1DB34765-CBF8-4FD9-A59A-F02B975371D2} = {1DB34765-CBF8-4FD9-A59A-F02B975371D2}
+		{3F7787AC-53B7-41CE-8A2A-9F8AC24B435A} = {3F7787AC-53B7-41CE-8A2A-9F8AC24B435A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_target_library", "sample_target_library\sample_target_library.csproj", "{1676A77C-41D5-4323-99C9-F150F522FADB}"
 EndProject

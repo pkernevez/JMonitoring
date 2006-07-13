@@ -40,6 +40,7 @@
     <Compile Include="Persistence\TestExecutionFlowPO.cs" />
     <Compile Include="Persistence\TestMethodCallPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Store\TestAsynchroneDbWriter.cs" />
     <Compile Include="Store\TestSynchroneDbWriter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +50,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="aspectdng.xml" />
     <Content Include="NUnitLibraries\nunit.core.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

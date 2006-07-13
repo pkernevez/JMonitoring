@@ -14,7 +14,9 @@ namespace Org.NMonitoring.Core.Store.Impl
             ExecutionFlowDAO dao = new ExecutionFlowDAO();
 
             dao.insertFullExecutionFlow(executionFlow);
+            System.Console.WriteLine("SynchroneDbWriter:writeExecutionFlow Added new ExecutionFlow to List " + executionFlow);
             sLog.Info("Added new ExecutionFlow to List " + executionFlow);
+
         }
     }
 }

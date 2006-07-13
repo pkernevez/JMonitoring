@@ -46,5 +46,30 @@ namespace Org.NMonitoring.Core.Common.Tests
             expected = 1136077323000;
             Assert.AreEqual(0, expected - Util.DateToTimeMillis(date), "Ellapsed Time in millisecond to a day in 01.2006 is " + expected.ToString());
         }
+
+
+        [Test]
+        public void ConvertTimeMillisToDate()
+        {
+            //Ellapsed Time in millisecond to a day in 01.2006
+            DateTime expectedDate = new DateTime(2006, 01, 01, 01, 02, 03);
+            long duration = 1136077323000;
+            Assert.AreEqual(expectedDate, Util.TimeMillisToDate(duration), "Day in corresponding to 1136077323000 ms should be " + expectedDate.ToString());
+
+        }
+
+
+        [Test]
+        public void ConvertDateToMillisToDate()
+        {
+            //Ellapsed Time in millisecond to a day in 01.2006
+            DateTime originalDate = DateTime.Now;
+            long milliseconds = Util.DateToTimeMillis(originalDate);
+            DateTime resultDate = Util.TimeMillisToDate(milliseconds);
+            TimeSpan ts = resultDate - originalDate;
+            TimeSpan tsEpsilon = new TimeSpan(0, 0, 0, 0, 1);
+            Assert.Less(tsEpsilon, ts );
+
+        }
     }
 }
