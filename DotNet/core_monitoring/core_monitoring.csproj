@@ -7,7 +7,7 @@
     <ProjectGuid>{3F7787AC-53B7-41CE-8A2A-9F8AC24B435A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Org.Nmonitoring.Core</RootNamespace>
+    <RootNamespace>Org.NMonitoring.Core</RootNamespace>
     <AssemblyName>core_monitoring</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -38,19 +38,54 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aspect\PerformanceAspect.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Dao\DaoHelper.cs" />
     <Compile Include="Dao\ExecutionFlowDAO.cs" />
+    <Compile Include="Dao\NMonitoringDataSet.cs">
+      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\NMonitoringDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Persitence\ExecutionFlowPO.cs" />
     <Compile Include="Persitence\MethodCallPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Store\Impl\SynchroneDbWriter.cs" />
     <Compile Include="Store\Impl\StoreFactory.cs" />
     <Compile Include="Store\IStoreWriter.cs" />
     <Compile Include="Store\StoreManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+    </None>
+    <None Include="Dao\NMonitoringDataSet.xsc">
+      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Dao\NMonitoringDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>NMonitoringDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Dao\NMonitoringDataSet.xss">
+      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

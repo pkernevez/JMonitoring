@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using NUnit.Framework;
 
-namespace Org.NMonitoring.Core.Pesistence.Tests
+namespace Org.NMonitoring.Core.Persistence.Tests
 {
 
     //[TestFixture]

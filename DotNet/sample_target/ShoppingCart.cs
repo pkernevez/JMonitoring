@@ -22,6 +22,8 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void addItem(Item pItem)
         {
+            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("ShoppingCart:addItem");
+
             try
             {
                 Thread.Sleep(TEMPO);
@@ -37,6 +39,7 @@ namespace Org.NMonitoring.SampleTarget
             }
             //*
             mItems.Add(pItem);
+
 
 /***********************************
             Connection tCon = new MockConnection();
@@ -104,6 +107,8 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void removeItem(Item pItem)
         {
+            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("ShoppingCart:removeItem");
+
             try
             {
                 Thread.Sleep(TEMPO3);

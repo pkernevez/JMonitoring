@@ -9,14 +9,19 @@ namespace Org.NMonitoring.SampleTarget
     class SampleTarget
     {
 
-        private const int SLEEP_TEST_TIME = 5000;
+        private const int SLEEP_TEST_TIME = 200;
         private const int NB3 = 32;
         private const int NB2 = 31;
         private const int NB1 = 30;
 
         static void Main(string[] args)
         {
-            new SampleTarget().run();
+            MyMain();
+         }
+
+        static private void MyMain()
+        {
+            new SampleTarget().Run();
             // On attend pour être sur de l'insertion
             try
             {
@@ -30,8 +35,7 @@ namespace Org.NMonitoring.SampleTarget
         }
 
 
-
-        public void run()
+        public void Run()
         {
             Console.WriteLine("Start");
             Inventory inventory = new Inventory();

@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Text;
+using log4net;
 
 namespace Org.NMonitoring.Core.Persistence
 {
     public class MethodCallPO
     {
 
-        //private static Log sLog = LogFactory.getLog(MethodCallPO.class);
+        private static ILog sLog = LogManager.GetLogger("MethodCallPO");
 
         /** Flow Technical Id. */
         private ExecutionFlowPO mFlow;
@@ -78,20 +79,20 @@ namespace Org.NMonitoring.Core.Persistence
             set { mMethodName = value; }
         }
         /** Exception qui est stockée si l'exécution associée à ce point est levée durant son exécution. */
-        private String mThrowableClass;
+        private String mThrowableClass = null;
         public String ThrowableClass
         {
             get { return mThrowableClass; }
             set { mThrowableClass = value; }
         }
-        private String mThrowableMessage;
+        private String mThrowableMessage = null;
         public String ThrowableMessage
         {
             get { return mThrowableMessage; }
             set { mThrowableMessage = value; }
         }
         /** Valeur de retour si la méthode associée à ce point est autre que 'void' . */
-        private String mReturnValue;
+        private String mReturnValue = null;
         public String ReturnValue
         {
             get { return mReturnValue; }
@@ -116,7 +117,7 @@ namespace Org.NMonitoring.Core.Persistence
          * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
          * @param pParams The parameters passed to the method <code>pMethodName</code>.
          */
-        public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName, Object[] pParams)
+        public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName, System.Reflection.ParameterInfo[] pParams)
         {
             if (pParent != null)
             { // On chaine la hierachie
@@ -129,7 +130,7 @@ namespace Org.NMonitoring.Core.Persistence
             mGroupName = pGroupName;
         }
 
-        private String getParamsAsString(Object[] pParams, String pClassName, String pMethodName)
+        private String getParamsAsString(System.Reflection.ParameterInfo [] pParams, String pClassName, String pMethodName)
         {
             StringBuilder buffer = new StringBuilder();
             try
@@ -152,9 +153,7 @@ namespace Org.NMonitoring.Core.Persistence
             }
             catch (Exception tT)
             {
-                //todo FCH
-                //sLog.error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
-                Console.WriteLine("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
+                sLog.Error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
             }
             return buffer.ToString();
 

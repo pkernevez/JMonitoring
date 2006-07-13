@@ -63,10 +63,10 @@ namespace Org.NMonitoring.Core.Store
          * @param pGroupName The name of the group associated with this <code>MethodCallDTO</code>.
          */
 
-        public void logBeginOfMethod(OperationJoinPoint opJoinPoint, Object[] pArgs, String pGroupName)
+        public void logBeginOfMethod(OperationJoinPoint opJoinPoint, System.Reflection.ParameterInfo [] pArgs, String pGroupName)
         {
             string operationName = opJoinPoint.TargetOperationName;
-            string classeName = opJoinPoint.TargetOperation.Module.Name;
+            string classeName = opJoinPoint.TargetOperation.ReflectedType.Name; //FullName ??
 
             if (mCurrentLogPoint == null)
             { // Premier appel du Thread
@@ -102,8 +102,11 @@ namespace Org.NMonitoring.Core.Store
                 {
                     sLog.Debug("logEndOfMethodNormal Last Time" + tResultAsString);
                 }
-                ExecutionFlowPO tFlow = new ExecutionFlowPO(System.Threading.Thread.CurrentThread.Name, mCurrentLogPoint,
-                                mConfiguration.getServerName());
+                String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
+                if (System.Threading.Thread.CurrentThread.Name != null)
+                    threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
+
+                ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, mCurrentLogPoint, mConfiguration.getServerName());
                 mStoreWriter.writeExecutionFlow(tFlow);
                 mCurrentLogPoint = null;
             }
@@ -143,8 +146,11 @@ namespace Org.NMonitoring.Core.Store
                 {
                     sLog.Debug("logEndOfMethodWithException Last Time" + pException.Message);
                 }
-                ExecutionFlowPO tFlow = new ExecutionFlowPO(System.Threading.Thread.CurrentThread.Name, mCurrentLogPoint,
-                                mConfiguration.getServerName());
+                String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
+                if (System.Threading.Thread.CurrentThread.Name != null)
+                    threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
+
+                ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, mCurrentLogPoint, mConfiguration.getServerName());
                 mStoreWriter.writeExecutionFlow(tFlow);
                 mCurrentLogPoint = null;
             }

@@ -51,7 +51,7 @@ namespace Org.NMonitoring.Core.Persistence
         public MethodCallPO FirstMethodCall
         {
             get { return mFirstMethodCall; }
-            set { mFirstMethodCall = value; }
+            //set { mFirstMethodCall = value; }
         }
         
         //The duration of the first measure execution in milliseconds.
@@ -69,11 +69,14 @@ namespace Org.NMonitoring.Core.Persistence
         public ExecutionFlowPO(String pThreadName, MethodCallPO pFirstMeasure, String pServerIdentifier)
         {
             mThreadName = pThreadName;
-            mFirstMethodCall = pFirstMeasure;
             mServerIdentifier = pServerIdentifier;
-            mBeginTime = mFirstMethodCall.getBeginTime();
-            mEndTime = mFirstMethodCall.getEndTime();
-            mFirstMethodCall.setFlowRecusivly(this);
+            mFirstMethodCall = pFirstMeasure;
+            if (mFirstMethodCall != null)
+            {
+                mBeginTime = mFirstMethodCall.getBeginTime();
+                mEndTime = mFirstMethodCall.getEndTime();
+                mFirstMethodCall.setFlowRecusivly(this);
+            }
         }
 
 

@@ -1,6 +1,7 @@
 using System;
 using log4net;
 using Org.NMonitoring.Core.Persistence;
+using Org.NMonitoring.Core.Dao;
 
 namespace Org.NMonitoring.Core.Store.Impl
 {
@@ -8,12 +9,12 @@ namespace Org.NMonitoring.Core.Store.Impl
     {
         private static ILog sLog = LogManager.GetLogger("SynchroneDbWriter");
 
-        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+        public void writeExecutionFlow(ExecutionFlowPO executionFlow)
         {
-            //TODO FCH
-            //            sExecutor.execute(getAsynchroneLogTask(pExecutionFlow));
+            ExecutionFlowDAO dao = new ExecutionFlowDAO();
 
-            sLog.Info("Added new ExecutionFlow to List " + pExecutionFlow);
+            dao.insertFullExecutionFlow(executionFlow);
+            sLog.Info("Added new ExecutionFlow to List " + executionFlow);
         }
     }
 }

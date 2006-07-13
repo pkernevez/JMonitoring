@@ -1,0 +1,25 @@
+<AspectDngConfig 
+	warnings="$(path)/Warnings.log" 
+	weaving="$(path)/Weaving-log.xml" 
+	debug="true">
+
+	<Variables>
+		<Variable name="path" value="D:\aspectdng-0.9.96-bin\sample-2.0"/>
+	</Variables>
+	
+    <TargetAssembly>$(path)\bin\Debug\Sample.exe</TargetAssembly>
+    <AspectsAssembly>$(path)\AspectLibrary\bin\Debug\aspectlibrary.dll</AspectsAssembly>
+    <WeavedAssembly>$(path)\bin\Debug\weaved.exe</WeavedAssembly>
+    
+    <PrivateLocations>
+        <PrivatePath>$(path)</PrivatePath>
+    </PrivateLocations>
+
+    <Advice>
+	<AroundCall aspectRegExp="* AspectsSample::YourMethodCallInterceptor(*)" 	targetRegExp="* Sample::Test(*)"/> 
+	<AroundCall aspectRegExp="* AspectsSample::YourConstructorCallInterceptor(*)" 	targetRegExp="* Sample::.ctor(*)"/> 
+	<AroundBody aspectRegExp="* AspectsSample::YourMethodBodyInterceptor(*)" 	targetRegExp="* Sample::Test(*)"/> 
+	<AroundBody aspectRegExp="* AspectsSample::Interceptor(*)" 			targetRegExp="*"/> 
+	<AroundCall aspectRegExp="* AspectsSample::Interceptor(*)" 			targetRegExp="*"/> 
+    </Advice>
+</AspectDngConfig>

@@ -16,6 +16,8 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void addItem(Item pItem)
         {
+            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("Inventory:addItem");
+
             try
             {
                 Thread.Sleep(TEMPO);
@@ -34,6 +36,7 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void removeItem(Item pItem)
         {
+            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("Inventory:RemoveItem");
             try
             {
                 Thread.Sleep(TEMPO);

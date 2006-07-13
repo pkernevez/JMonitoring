@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1DB34765-CBF8-4FD9-A59A-F02B975371D2}</ProjectGuid>
+    <ProjectGuid>{E6D9A12D-4403-4FA2-89B3-99249E2949CD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Org.NMonitoring.Core.Tests</RootNamespace>
-    <AssemblyName>core_monitoring_tests</AssemblyName>
+    <RootNamespace>sample_aspects</RootNamespace>
+    <AssemblyName>sample_aspects</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,34 +28,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="aspectdng, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\core_monitoring\lib\aspectdng.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\TestUtil.cs" />
-    <Compile Include="Common\UtilTest.cs" />
-    <Compile Include="Dao\TestExecutionFlowDAO.cs" />
-    <Compile Include="Persistence\TestExecutionFlowPO.cs" />
-    <Compile Include="Persistence\TestMethodCallPO.cs" />
+    <Compile Include="SampleAspect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Store\TestSynchroneDbWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\core_monitoring\core_monitoring.csproj">
       <Project>{3F7787AC-53B7-41CE-8A2A-9F8AC24B435A}</Project>
       <Name>core_monitoring</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="aspectdng.xml" />
-    <Content Include="NUnitLibraries\nunit.core.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="NUnitLibraries\nunit.framework.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

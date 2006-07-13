@@ -14,10 +14,10 @@ namespace Org.NMonitoring.Core.Persistence.Tests
         public void testUpdateChildrenWhenCreateWithParent()
         {
             MethodCallPO tParent = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow", "GrDefault",
-                            new Object[0]);
+                            new System.Reflection.ParameterInfo[0]);
 
             MethodCallPO tChild = new MethodCallPO(tParent, this.GetType().FullName, "builNewFullFlow2",
-                            "GrChild1", new Object[0]);
+                            "GrChild1", new System.Reflection.ParameterInfo[0]);
 
             Assert.IsNull(tParent.getParentMethodCall());
             Assert.AreEqual(1, tParent.getChildren().Count);
@@ -33,10 +33,10 @@ namespace Org.NMonitoring.Core.Persistence.Tests
         public void testUpdateChildrenWhenAddParent()
         {
             MethodCallPO tParent = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow", "GrDefault",
-                            new Object[0]);
+                            new System.Reflection.ParameterInfo[0]);
 
             MethodCallPO tChild = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow2",
-                            "GrChild1", new Object[0]);
+                            "GrChild1", new System.Reflection.ParameterInfo[0]);
 
             Assert.IsNull(tParent.getParentMethodCall());
             Assert.AreEqual(0, tParent.getChildren().Count);

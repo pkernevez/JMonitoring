@@ -30,6 +30,7 @@ namespace Org.NMonitoring.SampleTarget
             pInventory.removeItem(pItem);
 
             pSc.addItem(pItem);
+            
 
         }
 
