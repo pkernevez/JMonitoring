@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <html>
     <head>
-        <title>Sample for testing JavaMonitoringTool</title>
+        <title>JMonitoring sample</title>
     	<link href="css/screen.css" rel="stylesheet" type="text/css">    
     	<link href="css/global.css" rel="stylesheet" type="text/css" media="screen"/>
  

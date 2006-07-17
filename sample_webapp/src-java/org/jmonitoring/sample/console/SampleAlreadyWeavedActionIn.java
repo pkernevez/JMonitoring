@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionMapping;
  * @todo To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class SampleAlreadyWeavedAction extends Action
+public class SampleAlreadyWeavedActionIn extends Action
 {
     /*
      * (non-Javadoc)
