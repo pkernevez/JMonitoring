@@ -70,9 +70,10 @@ public class FlowChartBarUtil
     {
         fillListOfGroup(pFirstMeasure);
         IntervalCategoryDataset intervalcategorydataset = createDataset();
-        JFreeChart jfreechart = createChart(intervalcategorydataset);
+        JFreeChart jfreechart = createGanttChart("Flow Group Details", "Flow Groups", "Date", intervalcategorydataset,
+                        false, false, false);
+        jfreechart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(LABEL_WIDTH_RATIO);
         addChart(jfreechart, pSession, CHART_BAR_FLOWS);
-
     }
 
     static class TaskEntry
@@ -133,7 +134,7 @@ public class FlowChartBarUtil
 
     }
 
-    void fillListOfGroup(MethodCallDTO pCurMeasure)
+    public void fillListOfGroup(MethodCallDTO pCurMeasure)
     {
         String tGroupName = pCurMeasure.getGroupName();
         TaskEntry tTask = getTaskEntry(pCurMeasure, tGroupName);
@@ -221,10 +222,7 @@ public class FlowChartBarUtil
         for (int i = 0; i < tList.length; i++)
         { // ForEach GroupName
             curTaskEntry = tList[i];
-            sLog.debug("add Task n°" + i
-                            + " for GroupName="
-                            + curTaskEntry.mGroupName
-                            + " in position of ="
+            sLog.debug("add Task n°" + i + " for GroupName=" + curTaskEntry.mGroupName + " in position of ="
                             + curTaskEntry.mPos);
             curTaskSeries.add(curTaskEntry.mTask);
         }
@@ -242,14 +240,6 @@ public class FlowChartBarUtil
             tTaskEntries[curTask.mPos - 1] = curTask;
         }
         return tTaskEntries;
-    }
-
-    static JFreeChart createChart(IntervalCategoryDataset pIntervalcategorydataset)
-    {
-        JFreeChart jfreechart = createGanttChart("Flow Group Details", "Flow Groups", "Date", pIntervalcategorydataset,
-                        false, false, false);
-        jfreechart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(LABEL_WIDTH_RATIO);
-        return jfreechart;
     }
 
     /**

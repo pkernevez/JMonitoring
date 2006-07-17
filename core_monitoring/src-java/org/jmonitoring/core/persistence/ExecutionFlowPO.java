@@ -210,8 +210,8 @@ public class ExecutionFlowPO
     public String toString()
     {
         StringBuffer tBuffer = new StringBuffer();
-        tBuffer.append("ExecutionFlowPO FlowId=[").append(mId).append("] ");
-        return super.toString();
+        tBuffer.append("ExecutionFlowPO FlowId=[").append(mId).append("]");
+        return tBuffer.toString();
     }
 
 }

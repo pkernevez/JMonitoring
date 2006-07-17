@@ -21,7 +21,7 @@ public class MethodCallListForm extends ActionForm
     private int mDurationMin;
 
     private int mDurationMax;
-    
+
     private List mSearchResult;
 
     /**

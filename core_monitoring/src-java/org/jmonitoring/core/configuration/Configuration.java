@@ -6,7 +6,6 @@ package org.jmonitoring.core.configuration;
  **************************************************************************/
 
 import java.awt.Color;
-import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -99,12 +98,16 @@ public final class Configuration
 
     private void loadStoreClass(PropertiesConfiguration pConfig)
     {
-        String tLoggerClassName = pConfig.getString("measurepoint.logger.class", AsynchroneJdbcLogger.class.getName());
         Class tResultClass;
         try
         {
+            String tLoggerClassName = pConfig.getString("measurepoint.logger.class", AsynchroneJdbcLogger.class.getName());
             tResultClass = Class.forName(tLoggerClassName);
         } catch (ClassNotFoundException e1)
+        {
+            sLog.error("Unable to create LogClass, using default class : AsynchroneJdbcLogger");
+            tResultClass = AsynchroneJdbcLogger.class;
+        } catch (NoClassDefFoundError e2)
         {
             sLog.error("Unable to create LogClass, using default class : AsynchroneJdbcLogger");
             tResultClass = AsynchroneJdbcLogger.class;

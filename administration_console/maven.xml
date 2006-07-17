@@ -7,8 +7,7 @@
 
     <!-- target perso pour redéployer -->
     <goal name="copy">
-        <!--copy file="target/administration_console.war" todir="D:/apps/jboss-3.2.7/server/default/deploy"/-->
-        <copy file="target/administration_console.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
+        <copy file="target/administration_console.war" todir="${application.server.deploy.dir}"/>
 	</goal>  
 
    	   <postGoal name="war:install">

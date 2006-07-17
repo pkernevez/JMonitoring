@@ -58,22 +58,8 @@ public class ExecutionFlowDAO
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
         MethodCallPO tFirstMeth = pExecutionFlow.getFirstMethodCall();
-        pExecutionFlow.setFirstMethodCall(null);
         mSession.save(pExecutionFlow);
-        // updateFlowId(pExecutionFlow, tFirstMeth);
-        pExecutionFlow.setFirstMethodCall(tFirstMeth);
         return pExecutionFlow.getId();
-    }
-
-    private void updateFlowId(int pId, MethodCallPO pFirstMeth)
-    {
-        // pFirstMeth.setFlowId(pId);
-        MethodCallPO curChildMeth;
-        for (Iterator tIt = pFirstMeth.getChildren().iterator(); tIt.hasNext();)
-        {
-            curChildMeth = (MethodCallPO) tIt.next();
-            updateFlowId(pId, curChildMeth);
-        }
     }
 
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;

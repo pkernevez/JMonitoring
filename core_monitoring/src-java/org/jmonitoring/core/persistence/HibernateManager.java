@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.stat.Statistics;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -62,6 +63,11 @@ public class HibernateManager
             getSessionFactory();
         }
         return sHConfig;
+    }
+
+    public static Statistics getStats()
+    {
+        return getSessionFactory().getStatistics();
     }
 
     /**

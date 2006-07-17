@@ -95,17 +95,12 @@ public class FlowAsStackUtil
         // Génération du lien vers les statistiques
         StringBuffer tLinkStat = new StringBuffer();
         tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=" + pCurrentMethod.getFlowId()
-                        + "&id="
-                        + pCurrentMethod.getId()
-                        + "\">");
+                        + "&id=" + pCurrentMethod.getId() + "\">");
         tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
 
         StringBuffer tLinkDetail = new StringBuffer();
-        tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId=" + pCurrentMethod
-                        .getFlowId()
-                        + "&id="
-                        + pCurrentMethod.getId()
-                        + "\">");
+        tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId="
+                        + pCurrentMethod.getFlowId() + "&id=" + pCurrentMethod.getId() + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
         // Maintenant on créer le le html associé au MethodCallDTO
@@ -124,11 +119,8 @@ public class FlowAsStackUtil
             pHtmlBuffer.append("  </ul>\n</li>\n");
         } else
         {
-            pHtmlBuffer.append("<li><span title=\"" + getMeasurePointTitle(pCurrentMethod)
-                            + "\">"
-                            + tReturnImage
-                            + getMeasurePointText(pCurrentMethod)
-                            + "</span>");
+            pHtmlBuffer.append("<li><span title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">" + tReturnImage
+                            + getMeasurePointText(pCurrentMethod) + "</span>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "</li>\n");
         }
     }

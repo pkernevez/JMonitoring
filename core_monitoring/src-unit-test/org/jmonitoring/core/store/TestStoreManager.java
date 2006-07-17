@@ -1,5 +1,6 @@
 package org.jmonitoring.core.store;
 
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -22,7 +23,6 @@ public class TestStoreManager extends TestCase
 {
 
     private static final int TIME_TO_WAIT = 1000;
-
 
     private void callOneExecutionFlow(boolean pLogDebugEnabled) throws InterruptedException
     {

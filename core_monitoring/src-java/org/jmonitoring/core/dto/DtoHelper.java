@@ -49,20 +49,19 @@ public final class DtoHelper
      */
     public static MethodCallDTO getFullMethodCallDto(MethodCallPO pCallPO)
     {
-        DtoHelper tHelper = new DtoHelper();
-        MethodCallDTO tResult = tHelper.simpleCopy(pCallPO);
+        MethodCallDTO tResult = simpleCopy(pCallPO);
         MethodCallPO curChild;
         MethodCallDTO curChildDto;
         for (int i = 0; i < pCallPO.getChildren().size(); i++)
         {
             curChild = (MethodCallPO) pCallPO.getChildren().get(i);
-            curChildDto = tHelper.simpleCopy(curChild);
+            curChildDto = simpleCopy(curChild);
             tResult.addChild(curChildDto);
             curChildDto.setParent(tResult);
         }
         if (pCallPO.getParentMethodCall() != null)
         {
-            tResult.setParent(tHelper.simpleCopy(pCallPO.getParentMethodCall()));
+            tResult.setParent(simpleCopy(pCallPO.getParentMethodCall()));
         }
         return tResult;
     }
@@ -99,6 +98,16 @@ public final class DtoHelper
         for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
         {
             tResult.add(tHelper.getMethodCallDto((MethodCallPO) tIt.next()));
+        }
+        return tResult;
+    }
+
+    public static List simpleCopyListOfMethodPO(List pResult)
+    {
+        List tResult = new ArrayList(pResult.size());
+        for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
+        {
+            tResult.add(simpleCopy((MethodCallPO) tIt.next()));
         }
         return tResult;
     }

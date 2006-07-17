@@ -48,8 +48,8 @@ public abstract aspect PerformanceAspect
     }
 
     pointcut executionToLogInternal() : executionToLog() 
-        && !within(org.jmonitoring.core.*.*) 
-        && !within(org.jmonitoring.core.store.MeasurePointManager);
+        && !within(org.jmonitoring.core.*.*); 
+//        && !within(org.jmonitoring.core.store.MeasurePointManager);
 
     Object around() : executionToLogInternal()
     {

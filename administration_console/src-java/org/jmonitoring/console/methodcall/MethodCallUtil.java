@@ -165,7 +165,7 @@ public class MethodCallUtil
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
             tLinkStat.append("<span title=\"occurrence\">(").append(tExtract.getOccurenceNumber()).append(")</span>");
-            tLinkStat.append("<A title=\"View stats...\" href=\"MeasurePointStat.do?className=");
+            tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?className=");
             tLinkStat.append(getListAsString(pCurrentClassName)).append("&methodName=");
             tLinkStat.append(tExtract.getMethodName()).append("\">");
             tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");

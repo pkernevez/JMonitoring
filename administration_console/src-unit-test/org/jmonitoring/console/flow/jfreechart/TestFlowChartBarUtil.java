@@ -1,21 +1,13 @@
 package org.jmonitoring.console.flow.jfreechart;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.Plot;
-import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.time.TimePeriod;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil.TaskEntry;
-import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
 /***********************************************************************************************************************
@@ -72,23 +64,23 @@ public class TestFlowChartBarUtil extends TestCase
 
     }
 
-    private void writeChart(String pString, FlowChartBarUtil pUtil)
-    {
-        IntervalCategoryDataset intervalcategorydataset = pUtil.createDataset();
-        JFreeChart jfreechart = pUtil.createChart(intervalcategorydataset);
-        Plot tPlot = jfreechart.getPlot();
-        tPlot.setNoDataMessage("No data available");
-        try
-        {
-            OutputStream tStream = new FileOutputStream(pString);
-            ChartUtilities.writeChartAsPNG(tStream, jfreechart, 600, 400);
-            tStream.close();
-        } catch (IOException e)
-        {
-            throw new MeasureException("Unable to write Image", e);
-        }
-    }
-
+    // private void writeChart(String pString, FlowChartBarUtil pUtil)
+    // {
+    // IntervalCategoryDataset intervalcategorydataset = pUtil.createDataset();
+    // JFreeChart jfreechart = pUtil.createChart(intervalcategorydataset);
+    // Plot tPlot = jfreechart.getPlot();
+    // tPlot.setNoDataMessage("No data available");
+    // try
+    // {
+    // OutputStream tStream = new FileOutputStream(pString);
+    // ChartUtilities.writeChartAsPNG(tStream, jfreechart, 600, 400);
+    // tStream.close();
+    // } catch (IOException e)
+    // {
+    // throw new MeasureException("Unable to write Image", e);
+    // }
+    // }
+    //
     public void testFillListOfGroup()
     {
         MethodCallDTO tFirstMethod = TestFlowUtils.getSampleMeasurePoint();
@@ -165,7 +157,6 @@ public class TestFlowChartBarUtil extends TestCase
 
     static MethodCallDTO getVerySimpleMeasurePoint()
     {
-        long tStart = START_TIME;
         MethodCallDTO tPoint;
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);

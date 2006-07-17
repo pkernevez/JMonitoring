@@ -153,7 +153,33 @@
           <version>${depends.mysql.version}</version>
           <url>http://www.mysql.com/</url>
         </dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${depends.commonsconfiguration.version}</version>
+            <url>http://www.apache.org/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
 
+        <dependency>
+          <id>commons-lang</id>
+          <version>${depends.commonslang.version}</version>
+          <url>http://www.apache.org/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+          <id>commons-collections</id>
+          <version>${depends.commonscollections.version}</version>
+          <url>http://www.apache.org/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
     </dependencies>
     
 </project>

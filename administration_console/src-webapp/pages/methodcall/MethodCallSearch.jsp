@@ -10,7 +10,7 @@
 <div id="menuDiv">
 <%
 	StringBuffer tBuffer = new StringBuffer();
-	MeasureMenuUtil tUtil = new MeasureMenuUtil( tBuffer );
+	MethodCallUtil tUtil = new MethodCallUtil( tBuffer );
 	tUtil.writeMeasureListAsMenu();
 
 %>

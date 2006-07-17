@@ -26,7 +26,7 @@ public class StoreManager
     private MethodCallPO mCurrentLogPoint;
 
     /** <code>CommonsLog</code> instance. */
-    static Log sLog;
+    static Log sLog = LogFactory.getLog(StoreManager.class);
 
     private IStoreWriter mStoreWriter;
 
@@ -50,10 +50,6 @@ public class StoreManager
      */
     public StoreManager(IStoreWriter pStoreWriter, Configuration pConfiguration)
     {
-        if (sLog == null)
-        {
-            sLog = LogFactory.getLog(this.getClass());
-        }
         mConfiguration = pConfiguration;
         mStoreWriter = pStoreWriter;
     }
@@ -149,7 +145,9 @@ public class StoreManager
         {
             if (sLog.isDebugEnabled())
             {
-                sLog.debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.getMessage()));
+                sLog
+                                .debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException
+                                                .getMessage()));
             }
             mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
         }

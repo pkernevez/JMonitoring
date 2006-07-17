@@ -97,14 +97,13 @@ public class FlowRenderer extends GanttRenderer
                 {
                     completeBar = new java.awt.geom.Rectangle2D.Double(translatedValue0, rectStart + start
                                     * rectBreadth, rectLength * p, rectBreadth * (end - start));
-                    incompleteBar = new java.awt.geom.Rectangle2D.Double(translatedValue0 + rectLength * p,
-                                    rectStart + start * rectBreadth, rectLength * (1.0D - p),
-                                    rectBreadth * (end - start));
+                    incompleteBar = new java.awt.geom.Rectangle2D.Double(translatedValue0 + rectLength * p, rectStart
+                                    + start * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
                 } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
                 {
                     completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                    translatedValue0 + rectLength * (1.0D - p), rectBreadth * (end - start),
-                                    rectLength * p);
+                                    translatedValue0 + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength
+                                                    * p);
                     incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
                                     translatedValue0, rectBreadth * (end - start), rectLength * (1.0D - p));
                 }
@@ -197,8 +196,8 @@ public class FlowRenderer extends GanttRenderer
                                 * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
             } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
             {
-                completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                java2dValue1 + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
+                completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1
+                                + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
                 incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1,
                                 rectBreadth * (end - start), rectLength * (1.0D - p));
             }

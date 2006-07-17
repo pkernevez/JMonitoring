@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <projectDescription>
-  <name>administration_console</name>
-  <comment>This project provides an Administration console for Monitring infrastrcture.</comment>
-  <projects>
-    <project>core_monitoring</project>
-  </projects>
-  <buildSpec>
-    <buildCommand>
-      <name>org.eclipse.jdt.core.javabuilder</name>
-      <arguments>
-      </arguments>
-    </buildCommand>
-  </buildSpec>
-  <natures>
-    <nature>org.eclipse.jdt.core.javanature</nature>
-  </natures>
+	<name>administration_console</name>
+	<comment>This project provides an Administration console for Monitring infrastrcture.</comment>
+	<projects>
+		<project>core_monitoring</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.jboss.ide.eclipse.xdoclet.run.XDocletRunBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
 </projectDescription>

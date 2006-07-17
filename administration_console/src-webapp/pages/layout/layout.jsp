@@ -3,7 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <html>
     <head>
-        <title>Console d'administration de JavaMonitoring</title>
+        <title>JMonitoring administration</title>
 		<link href="css/global.css" rel="stylesheet" type="text/css" media="screen"/>
 
     	<!-- Optionnal Style sheet -->
@@ -33,28 +33,34 @@
 		<logic:present name="js3">
 		    <script type="text/javascript" src="<bean:write name="js3"/>"></script>
 		</logic:present>
-	 
+	     
+	<style type="text/css">
+  	.smd-menu-top {0}font-family:verdana,arial;font-size:12px;font-weight:bold{1}
+  	.smd-menu-item {0}font-family:verdana,arial;font-size:12px;{1}
+  	img.smd-menu {0}border: 0{1}
+  	a.smd-menu {0}text-decoration:none{1}
+	</style>
     </head>
     <body>
-        <table class="bidon"  border="2" width="100%" height="100%">
-            <tr height="40" bgcolor="#FFFF55">
-                <td colSpan="2">
+    	<table class="layout" border="0" height="100%" width="100%">
+      	<tbody>
+            	<tr height="40">
                     <tiles:insert attribute="head"/>
-                </td>
-            </tr>
-            <tr>
-                <td width="130" valign="top">
+            	</tr>
+            	<tr>
+                <td class="Leftmenu" width="130" valign="top">
                     <tiles:insert attribute="menu"/>
                 </td>
-                <td  valign="top">
+                <td class="header"  valign="top">
                     <tiles:insert attribute="body"/>                
                 </td>
             </tr>
-            <tr height="20" bgcolor="#FFFF55">
-                <td align="center" colSpan="2">
+            <tr height="20">
+                <td class="footer" colspan="2" align="center">
                     <tiles:insert attribute="footer"/>
                 </td>
             </tr>
+          </tbody>
         </table>
     </body>
 </html>

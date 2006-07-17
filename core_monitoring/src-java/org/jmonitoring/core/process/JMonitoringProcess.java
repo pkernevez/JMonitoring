@@ -197,7 +197,7 @@ public class JMonitoringProcess
             tSession = HibernateManager.getSession();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
-            return DtoHelper.copyListOfMethodPO(tResult);
+            return DtoHelper.simpleCopyListOfMethodPO(tResult);
         } finally
         {
             if (tSession != null)

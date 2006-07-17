@@ -109,7 +109,7 @@ public class TestMeasureMenuUtil extends PersistanceTestCase
         tList.add("Toto");
         tUtil.writeMeasuresAsMenu(tList, new HashMap(), "getTotoGrp1", true, 0);
         assertEquals("<li><span title=\"GroupName=[Grp1]\">getToto()</span> " + "<span title=\"occurrence\">(2)</span>"
-                        + "<A title=\"View stats...\" href=\"MeasurePointStat.do?className=Toto&methodName=getToto\">"
+                        + "<A title=\"View stats...\" href=\"MethodCallStatIn.do?className=Toto&methodName=getToto\">"
                         + "<IMG src=\"images/graphique.png\"/></A></li>\n", tWriter.toString());
     }
 

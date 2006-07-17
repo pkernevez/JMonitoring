@@ -20,7 +20,7 @@
       <property name="duration" column="DURATION" type="java.lang.Long" />
 
 	<many-to-one name="firstMethodCall" column="FIRST_METHOD_CALL_ID" 
-		unique="true" not-null="false" cascade="all"/>
+		unique="false" not-null="false" cascade="all"/>
 		<!--one-to-one name="firstMethodCall" cascade="all,delete-orphan"/--> 
    </class>
 </hibernate-mapping>

@@ -2,6 +2,7 @@ package org.jmonitoring.core.persistence;
 
 
 import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -20,5 +21,10 @@ public class TestExecutionFlowPO extends PersistanceTestCase
 //        tResult = HibernateManager.getSession().createQuery("from ExecutionFlowPO").list();
 //        assertEquals(3, tResult.size());
    }
+
+    public void testToString() {
+        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        assertEquals("ExecutionFlowPO FlowId=[-1]", tFlow.toString());
+    }
 
 }

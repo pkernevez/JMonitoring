@@ -11,7 +11,7 @@
     	<!-- mapping files -->
 		<mapping resource="org/jmonitoring/core/persistence/ExecutionFlowPO.hbm.xml"/>
         <mapping resource="org/jmonitoring/core/persistence/MethodCallPO.hbm.xml"/>
-	
+	  
     	
     </session-factory>
     

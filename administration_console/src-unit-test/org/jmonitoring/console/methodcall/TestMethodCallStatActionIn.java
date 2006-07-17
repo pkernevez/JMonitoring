@@ -1,8 +1,10 @@
 package org.jmonitoring.console.methodcall;
 
+import org.hibernate.stat.Statistics;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.persistence.HibernateManager;
 
 import servletunit.struts.MockStrutsTestCase;
 
@@ -16,10 +18,12 @@ public class TestMethodCallStatActionIn extends MockStrutsTestCase
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
+        ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(5);
         MethodCallDTO tFirstMeth = tFlow.getFirstMethodCall();
         MethodCallDTO tFirstChild = tFirstMeth.getChild(0);
         int tId = tFirstChild.getId();
+        Statistics tStats = HibernateManager.getStats();
+        tStats.clear();
 
         setRequestPathInfo("/MethodCallStatIn.do");
         MethodCallStatForm tForm = new MethodCallStatForm();
@@ -40,10 +44,24 @@ public class TestMethodCallStatActionIn extends MockStrutsTestCase
         assertEquals("org.jmonitoring.console.flow.FlowBuilderUtil", tForm.getClassName());
         assertEquals("builNewFullFlow3", tForm.getMethodName());
         assertNotNull(tForm.getImageMap());
-        assertEquals(2, tForm.getNbMeasures());
+        assertEquals(5, tForm.getNbMeasures());
         byte[] tByte = (byte[]) getSession().getAttribute(MethodCallStatActionIn.FULL_DURATION_STAT);
         assertNotNull(tByte);
         assertTrue(tByte.length > 10);
+
+        // On vérifie les accès en base.
+        // System.out.println("Statistiques:");
+        // for (StringTokenizer tToken = new StringTokenizer(tStats.toString(), ","); tToken.hasMoreTokens();)
+        // {
+        // System.out.println(tToken.nextElement());
+        // }
+        assertEquals(0, tStats.getCollectionFetchCount());
+        assertEquals(0, tStats.getCollectionLoadCount());
+        assertEquals(1, tStats.getEntityFetchCount());
+        assertEquals(6, tStats.getEntityLoadCount());
+        assertEquals(1, tStats.getQueryExecutionCount());
+        assertEquals(2, tStats.getPrepareStatementCount());
+
     }
 
 }
