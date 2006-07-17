@@ -68,7 +68,7 @@ namespace Org.NMonitoring.Core.Common.Tests
             DateTime resultDate = Util.TimeMillisToDate(milliseconds);
             TimeSpan ts = resultDate - originalDate;
             TimeSpan tsEpsilon = new TimeSpan(0, 0, 0, 0, 1);
-            Assert.Less(tsEpsilon, ts );
+            Assert.Less(ts, tsEpsilon);
 
         }
     }

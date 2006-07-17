@@ -43,13 +43,18 @@
     <Compile Include="ShoppingCartOperator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="aspectdng.xml" />
+    <Content Include="aspectdng-target.xml" />
+    <Content Include="aspectdng-targetlib.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\sample_target_library\sample_target_library.csproj">
       <Project>{1676A77C-41D5-4323-99C9-F150F522FADB}</Project>
       <Name>sample_target_library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CmdCopyLib.cmd" />
+    <None Include="CmdWeave.cmd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -60,10 +65,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>aspectdng.dll -debug ..\..\aspectdng.xml</PostBuildEvent>
-    <PreBuildEvent>xcopy /Y ..\..\..\sample_aspects\bin\Debug\core_monitoring.*  .
-xcopy /Y ..\..\..\sample_aspects\bin\Debug\sample_aspects.*  .
-xcopy /Y C:\Progra~1\log4net-1.2.10\bin\net\2.0\release\log4net.dll .
-xcopy /Y D:\JMonitoring\DotNet\core_monitoring\lib\aspectdng.dll .</PreBuildEvent>
+    <PostBuildEvent>../../CmdWeave.cmd</PostBuildEvent>
+    <PreBuildEvent>../../CmdCopyLib.cmd</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -19,14 +19,14 @@ namespace Org.NMonitoring.Core.Persistence.Tests
             MethodCallPO tChild = new MethodCallPO(tParent, this.GetType().FullName, "builNewFullFlow2",
                             "GrChild1", new System.Reflection.ParameterInfo[0]);
 
-            Assert.IsNull(tParent.getParentMethodCall());
-            Assert.AreEqual(1, tParent.getChildren().Count);
-            Assert.AreSame(tParent, tChild.getParentMethodCall());
+            Assert.IsNull(tParent.Parent);
+            Assert.AreEqual(1, tParent.Children.Count);
+            Assert.AreSame(tParent, tChild.Parent);
 
             tParent.removeChildren(tChild);
-            Assert.IsNull(tParent.getParentMethodCall());
-            Assert.AreEqual(0, tParent.getChildren().Count);
-            Assert.IsNull(tChild.getParentMethodCall());
+            Assert.IsNull(tParent.Parent);
+            Assert.AreEqual(0, tParent.Children.Count);
+            Assert.IsNull(tChild.Parent);
         }
 
         [Test]
@@ -38,25 +38,25 @@ namespace Org.NMonitoring.Core.Persistence.Tests
             MethodCallPO tChild = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow2",
                             "GrChild1", new System.Reflection.ParameterInfo[0]);
 
-            Assert.IsNull(tParent.getParentMethodCall());
-            Assert.AreEqual(0, tParent.getChildren().Count);
-            Assert.IsNull(tChild.getParentMethodCall());
+            Assert.IsNull(tParent.Parent);
+            Assert.AreEqual(0, tParent.Children.Count);
+            Assert.IsNull(tChild.Parent);
 
-            tChild.setParentMethodCall(tParent);
-            Assert.IsNull(tParent.getParentMethodCall());
-            Assert.AreEqual(1, tParent.getChildren().Count);
-            Assert.AreSame(tParent, tChild.getParentMethodCall());
+            tChild.Parent=tParent;
+            Assert.IsNull(tParent.Parent);
+            Assert.AreEqual(1, tParent.Children.Count);
+            Assert.AreSame(tParent, tChild.Parent);
 
-            tChild.setParentMethodCall(null);
-            tChild.setParentMethodCall(null); // On teste avec null 2 fois...
-            Assert.IsNull(tParent.getParentMethodCall());
-            Assert.AreEqual(0, tParent.getChildren().Count);
-            Assert.IsNull(tChild.getParentMethodCall());
+            tChild.Parent=null;
+            tChild.Parent=null; // On teste avec null 2 fois...
+            Assert.IsNull(tParent.Parent);
+            Assert.AreEqual(0, tParent.Children.Count);
+            Assert.IsNull(tChild.Parent);
 
-            tChild.setParentMethodCall(tParent);
-            Assert.IsNull(tParent.getParentMethodCall());
-            Assert.AreEqual(1, tParent.getChildren().Count);
-            Assert.AreSame(tParent, tChild.getParentMethodCall());
+            tChild.Parent=tParent;
+            Assert.IsNull(tParent.Parent);
+            Assert.AreEqual(1, tParent.Children.Count);
+            Assert.AreSame(tParent, tChild.Parent);
         }
     }
 }

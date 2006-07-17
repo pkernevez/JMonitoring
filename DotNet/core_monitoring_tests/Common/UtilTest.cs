@@ -56,17 +56,17 @@ namespace Org.NMonitoring.Core.Common.Tests
             long tStartTime = Common.Util.CurrentTimeMillis();
 
             tPoint = new MethodCallPO(null, "TestExecutionFlowDAO", "builNewFullFlow", "GrDefault", new System.Reflection.ParameterInfo[0]);
-            tPoint.setBeginTime(tStartTime);
+            tPoint.BeginTime = tStartTime;
 
             tSubPoint = new MethodCallPO(tPoint, "TestExecutionFlowDAO", "builNewFullFlow2", "GrChild1", new System.Reflection.ParameterInfo[0]);
-            tSubPoint.setBeginTime(tStartTime + 2);
-            tSubPoint.setEndTime(tStartTime + 5);
+            tSubPoint.BeginTime = (tStartTime + 2);
+            tSubPoint.EndTime = (tStartTime + 5);
 
             tSubPoint = new MethodCallPO(tPoint, "TestExecutionFlowDAO", "builNewFullFlow3", "GrChild2", new System.Reflection.ParameterInfo[0]);
-            tSubPoint.setBeginTime(tStartTime + 8);
-            tSubPoint.setEndTime(tStartTime + 13);
+            tSubPoint.BeginTime = (tStartTime + 8);
+            tSubPoint.EndTime = (tStartTime + 13);
 
-            tPoint.setEndTime(tStartTime + 20);
+            tPoint.EndTime = (tStartTime + 20);
             tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myCLR");
             return tFlow;
         }

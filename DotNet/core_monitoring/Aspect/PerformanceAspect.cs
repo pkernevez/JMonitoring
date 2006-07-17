@@ -21,7 +21,7 @@ namespace Org.NMonitoring.Core.Aspect
         private static ILog sLog = LogManager.GetLogger("SynchroneDbWriter");
 
         /** Allow the parameter log. */
-        static protected bool mLogParameter;
+        protected static bool mLogParameter = false;
 
         /** Nom du group associé au pointcut. */
         protected static String mGroupName = "Default";
@@ -33,12 +33,13 @@ namespace Org.NMonitoring.Core.Aspect
             object tResult = null;
             StoreManager tManager = getManager();
 
-            System.Reflection.ParameterInfo[] tArgs = null;
+            Object[] tArgs = null;
             if (mLogParameter)
             {
                 // On log les paramètres d'appel, de retour et les exceptions
-                tArgs = jp.TargetOperation.GetParameters();
+                tArgs = jp.Arguments;
             }
+
             try
             {
                 if (tManager != null)
@@ -54,6 +55,7 @@ namespace Org.NMonitoring.Core.Aspect
             {
                 sLog.Error("Unable to log", e);
             }
+
 
 
             // En cas d'exception le code est dans le trigger "after()throwing..."
@@ -97,6 +99,7 @@ namespace Org.NMonitoring.Core.Aspect
                 }
                 throw (e);
             }
+
 
             return tResult;
         }

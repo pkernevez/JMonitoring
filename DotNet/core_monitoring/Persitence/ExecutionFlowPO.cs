@@ -73,8 +73,8 @@ namespace Org.NMonitoring.Core.Persistence
             mFirstMethodCall = pFirstMeasure;
             if (mFirstMethodCall != null)
             {
-                mBeginTime = mFirstMethodCall.getBeginTime();
-                mEndTime = mFirstMethodCall.getEndTime();
+                mBeginTime = mFirstMethodCall.BeginTime;
+                mEndTime = mFirstMethodCall.EndTime;
                 mFirstMethodCall.setFlowRecusivly(this);
             }
         }

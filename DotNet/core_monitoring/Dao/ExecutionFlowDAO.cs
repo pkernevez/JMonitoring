@@ -1,6 +1,6 @@
 using System;
 using System.Data;
-
+using System.Text;
 
 using  Org.NMonitoring.Core.Persistence;
 using  Org.NMonitoring.Core.Dao.NMonitoringDataSetTableAdapters;
@@ -53,7 +53,6 @@ namespace Org.NMonitoring.Core.Dao
             String sCommandText = @"INSERT INTO [jmonitoring].[METHOD_CALL] ([PARAMETERS], [BEGIN_TIME], [END_TIME], [FULL_CLASS_NAME], [METHOD_NAME], [THROWABLE_CLASS_NAME], [THROWABLE_MESSAGE], [RESULT], [GROUP_NAME], [PARENT_ID], [FLOW_ID], [SUB_METH_INDEX]) VALUES (@PARAMETERS, @BEGIN_TIME, @END_TIME, @FULL_CLASS_NAME, @METHOD_NAME, @THROWABLE_CLASS_NAME, @THROWABLE_MESSAGE, @RESULT, @GROUP_NAME, @PARENT_ID, @FLOW_ID, @SUB_METH_INDEX); SELECT ID, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, RESULT, GROUP_NAME, PARENT_ID, FLOW_ID, SUB_METH_INDEX FROM METHOD_CALL WHERE (ID = SCOPE_IDENTITY())";
 
             IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
-
             cmd.Parameters.Add(dao.CreateParameter("@PARAMETERS", currentMethodCall.Params.ToString()));
             cmd.Parameters.Add(dao.CreateParameter("@BEGIN_TIME", currentMethodCall.BeginTime));
             cmd.Parameters.Add(dao.CreateParameter("@END_TIME", currentMethodCall.EndTime));

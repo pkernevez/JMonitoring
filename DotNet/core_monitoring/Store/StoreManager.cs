@@ -64,7 +64,7 @@ namespace Org.NMonitoring.Core.Store
          * @param pGroupName The name of the group associated with this <code>MethodCallDTO</code>.
          */
 
-        public void logBeginOfMethod(OperationJoinPoint opJoinPoint, System.Reflection.ParameterInfo [] pArgs, String pGroupName)
+        public void logBeginOfMethod(OperationJoinPoint opJoinPoint, Object [] pArgs, String pGroupName)
         {
             Console.WriteLine("StoreManager::logBeginOfMethod()");
             string operationName = opJoinPoint.TargetOperationName;
@@ -100,7 +100,7 @@ namespace Org.NMonitoring.Core.Store
 
             // To limit call to toString on business object, that could be expensive
             String tResultAsString = endMethod(mCurrentLogPoint, pResult);
-            if (mCurrentLogPoint.getParentMethodCall() == null)
+            if (mCurrentLogPoint.Parent == null)
             { // Dernier appel du Thread
                 if (sLog.IsDebugEnabled)
                 {
@@ -129,7 +129,7 @@ namespace Org.NMonitoring.Core.Store
                 {
                     sLog.Debug("logEndOfMethodNormal Any Time" + tResultAsString);
                 }
-                mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
+                mCurrentLogPoint = mCurrentLogPoint.Parent;
             }
         }
 
@@ -153,7 +153,7 @@ namespace Org.NMonitoring.Core.Store
                 endMethodWithException(mCurrentLogPoint, pException.GetType().FullName, pException.Message);
             }
 
-            if (mCurrentLogPoint.getParentMethodCall() == null)
+            if (mCurrentLogPoint.Parent == null)
             { // Dernier appel du Thread
                 if (sLog.IsDebugEnabled)
                 {
@@ -173,7 +173,7 @@ namespace Org.NMonitoring.Core.Store
                 {
                     sLog.Debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.Message));
                 }
-                mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
+                mCurrentLogPoint = mCurrentLogPoint.Parent;
             }
 
         }
@@ -195,7 +195,7 @@ namespace Org.NMonitoring.Core.Store
                 try
                 {
                     tReturnValueAsString = pReturnValue.ToString();
-                    pMethodCall.setReturnValue(tReturnValueAsString);
+                    pMethodCall.ReturnValue = tReturnValueAsString;
                 }
                 catch (Exception tT)
                 {
@@ -214,9 +214,9 @@ namespace Org.NMonitoring.Core.Store
          */
         private void endMethodWithException(MethodCallPO pMethodCall, String pExceptionClassName, String pExceptionMessage)
         {
-            pMethodCall.setEndTime(Org.NMonitoring.Core.Common.Util.CurrentTimeMillis());
-            pMethodCall.setThrowableClass(pExceptionClassName);
-            pMethodCall.setThrowableMessage(pExceptionMessage);
+            pMethodCall.EndTime =  Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
+            pMethodCall.ThrowableClass =  pExceptionClassName;
+            pMethodCall.ThrowableMessage =  pExceptionMessage;
         }
     }
 }
