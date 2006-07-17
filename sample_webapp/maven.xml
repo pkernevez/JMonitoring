@@ -7,7 +7,7 @@
 
     <!-- target perso pour redéployer -->
     <goal name="copy">
-        <copy file="target/sample_webapp.war" todir="C:/bea/user_projects/domains/mydomain/applications"/>
+        <copy file="target/sample_webapp.war" todir="${application.server.deploy.dir}"/>
 	</goal>  
      <!--preGoal name="java:compile">
              <attainGoal name="aspectj"/>
