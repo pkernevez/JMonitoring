@@ -79,8 +79,8 @@
             &config;
             <steps>
                 <!-- First get the results -->
-                <invoke description="CheckOrderableResultTable" url="administration_console/FlowSearch.do"/>
-                <verifytitle description="get criterion mask" text="Console d&apos;administration de JavaMonitoring"/>
+                <invoke description="CheckOrderableResultTable" url="administration_console/FlowSearchIn.do"/>
+                <verifytitle description="get criterion mask" text="JMonitoring administration"/>
                 <setinputfield name="beginDate"             value="" description="params"/>
                 <setinputfield name="firstMeasureGroupName" value="" description="params"/>
                 <setinputfield name="threadName"            value="" description="params"/>
@@ -88,7 +88,7 @@
                 <setinputfield name="firstMeasureMethodName" value="" description="params"/>
                 <setinputfield name="firstMeasureClassName" value="" description="params"/>
                 <clickbutton htmlId="but_submit" x="29" y="7" description="Form submitted by POST action" />
-                <verifytitle text="Console d'administration de JavaMonitoring" description="get results"/>
+                <verifytitle text="JMonitoring administration" description="get results"/>
                 
                 <!-- We check the number of rows -->
                 <verifyXPath  description="The first line"  text="1" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
@@ -96,19 +96,19 @@
                 
                 <!-- Asc for ascending order of id -->
                 <clicklink label="Tech Id" description="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
+                <verifytitle text="JMonitoring administration" description=""/>
                 <verifyXPath  description="The first line"  text="1" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
                 <verifyXPath  description="The third line"  text="3" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
 
                 <!-- Asc for descending order of id -->
                 <clicklink label="Tech Id" description="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
+                <verifytitle text="JMonitoring administration" description=""/>
                 <verifyXPath  description="The first line"  text="3" xpath="string(//table[@id='results']/tbody/tr[1]/td[1]/a)" />
                 <verifyXPath  description="The third line"  text="1" xpath="string(//table[@id='results']/tbody/tr[3]/td[1]/a)" />
 
                 <!-- Asc for ascending order of duration -->
                 <clicklink label="Duration" description="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
+                <verifytitle text="JMonitoring administration" description=""/>
                 <storeXPath  description="The first line"  property="test1.firstValue"  propertyType="dynamic"
                     xpath="string(//table[@id='results']/tbody/tr[1]/td[4])" />
                 <storeXPath  description="The third line"  property="test1.thirdValue"  propertyType="dynamic"
@@ -116,7 +116,7 @@
 
                 <!-- Asc for descending order of duration -->
                 <clicklink label="Duration" description="" />
-                <verifytitle text="Console d'administration de JavaMonitoring" description=""/>
+                <verifytitle text="JMonitoring administration" description=""/>
                 <verifyXPath  description="The first line"  text="#{test1.thirdValue}"  
                     xpath="string(//table[@id='results']/tbody/tr[1]/td[4])" />
                 <verifyXPath  description="The third line"  text="#{test1.firstValue}"  
@@ -294,8 +294,8 @@
         <testSpec name="CheckNbFlowWithCriterion">
             &config;
             <steps>
-                <invoke description="CheckNbFlowWithCriterion" url="administration_console/FlowSearch.do"/>
-                <verifytitle description="get criterion mask" text="Console d&apos;administration de JavaMonitoring"/>
+                <invoke description="CheckNbFlowWithCriterion" url="administration_console/FlowSearchIn.do"/>
+                <verifytitle description="get criterion mask" text="JMonitoring administration"/>
                 <setinputfield name="beginDate"             value="${beginDate}" description="params"/>
                 <setinputfield name="firstMeasureGroupName" value="${groupName}" description="params"/>
                 <setinputfield name="threadName"            value="${threadName}" description="params"/>
@@ -303,7 +303,7 @@
                 <setinputfield name="firstMeasureMethodName" value="${methodName}" description="params"/>
                 <setinputfield name="firstMeasureClassName" value="${className}" description="params"/>
                 <clickbutton htmlId="but_submit" x="29" y="7" description="Form submitted by POST action" />
-                <verifytitle text="Console d'administration de JavaMonitoring" description="get results"/>
+                <verifytitle text="JMonitoring administration" description="get results"/>
                 
                 <!-- Wecheck the number of rows -->
                 <verifyXPath  description="Check that we have only ${nb.flow} line" text="${nb.flow}" 
@@ -330,10 +330,10 @@
             &config;
             <steps>
                 <invoke description="Default page" url="sample_webapp/"/>
-                <verifytitle description="Check title" text="Sample for testing JavaMonitoringTool"/>
+                <verifytitle description="Check title" text="JMonitoring sample"/>
                 
-                <invoke description="Weaved a Flow" url="sample_webapp/AlreadyWeaved.do"/>
-                <verifytitle description="Check title of the page" text="Sample for testing JavaMonitoringTool"/>
+                <invoke description="Weaved a Flow" url="sample_webapp/AlreadyWeavedIn.do"/>
+                <verifytitle description="Check title of the page" text="JMonitoring sample"/>
                 <verifyText description="Check text of the page" text="ExecutionFlow creation succed"/>
                 <verifyText regex="true" description="Check date of the execution" text="at (Sun|Mon|Tue|Wed|Thu|Fri|Sat)"/>
             </steps>
@@ -344,13 +344,13 @@
         <testSpec name="Delete All Flow">           
             &config;
             <steps>
-                <invoke description="Request Delete Flow Page" url="administration_console/DeleteAllFlowsConfirm.do"/>
-                <verifytitle description="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
+                <invoke description="Request Delete Flow Page" url="administration_console/DeleteAllFlowsConfirmIn.do"/>
+                <verifytitle description="Check Title" text="JMonitoring administration"/>
                 <verifyText description="Check confirmation message" text="Delete All Flow Confirmation"/>
                 <verifyText description="Check confirmation message" text="Are you sure that you want to delete all flows in the database ?"/>
                 
                 <clicklink label="Ok" description="Deletion confirmed"/>
-                <verifytitle description="Check Title" text="Console d&apos;administration de JavaMonitoring"/>
+                <verifytitle description="Check Title" text="JMonitoring administration"/>
                 <verifyText description="Check that flow has been deleted in page" text="All Flows have been deleted."/>
             </steps>
         </testSpec>
@@ -361,10 +361,10 @@
             &config;
             <steps>
                 <invoke description="Check redirection" url="administration_console/"/>
-                <verifytitle description="Check redirection title" text="Console d&apos;administration de JavaMonitoring"/>
+                <verifytitle description="Check redirection title" text="JMonitoring administration"/>
         
                 <invoke description="Check default page" url="administration_console/Index.do"/>
-                <verifytitle description="Check default page title" text="Console d&apos;administration de JavaMonitoring"/>
+                <verifytitle description="Check default page title" text="JMonitoring administration"/>
             </steps>
         </testSpec>
     </target>
