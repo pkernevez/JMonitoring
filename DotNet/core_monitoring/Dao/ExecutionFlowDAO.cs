@@ -3,7 +3,6 @@ using System.Data;
 using System.Text;
 
 using  Org.NMonitoring.Core.Persistence;
-using  Org.NMonitoring.Core.Dao.NMonitoringDataSetTableAdapters;
 
 namespace Org.NMonitoring.Core.Dao
 {

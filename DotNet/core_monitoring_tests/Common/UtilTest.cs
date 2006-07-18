@@ -2,7 +2,6 @@ using System;
 using System.Data;
 using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Dao;
-using Org.NMonitoring.Core.Dao.NMonitoringDataSetTableAdapters;
 
 namespace Org.NMonitoring.Core.Common.Tests
 {
@@ -30,16 +29,44 @@ namespace Org.NMonitoring.Core.Common.Tests
 
         public static int CountMethods()
         {
-            METHOD_CALLTableAdapter mcAdapter = new METHOD_CALLTableAdapter();
-            NMonitoringDataSet.METHOD_CALLDataTable methodCalls = mcAdapter.GetData();
-            return methodCalls.Rows.Count;
+            DaoHelper dao = DaoHelper.Instance;
+            String sCommandText = @"SELECT COUNT(*) FROM [jmonitoring].[METHOD_CALL];";
+            IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
+
+            dao.Connection.Open();
+
+            int count = 0;
+            try
+            {
+                count = (int)cmd.ExecuteScalar();
+            }
+            finally
+            {
+                dao.Connection.Close();
+            }
+
+            return count;
         }
 
         public static int CountFlows()
         {
-            EXECUTION_FLOWTableAdapter flowAdapter = new EXECUTION_FLOWTableAdapter();
-            NMonitoringDataSet.EXECUTION_FLOWDataTable flows = flowAdapter.GetData();
-            return flows.Rows.Count;
+            DaoHelper dao = DaoHelper.Instance;
+            String sCommandText = @"SELECT COUNT(*) FROM [jmonitoring].[EXECUTION_FLOW];";
+            IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
+
+            dao.Connection.Open();
+
+            int count = 0;
+            try
+            {
+                count = (int)cmd.ExecuteScalar();
+            }
+            finally
+            {
+                dao.Connection.Close();
+            }
+
+            return count;
         }
 
         public static ExecutionFlowPO buildNewEmptyFlow()

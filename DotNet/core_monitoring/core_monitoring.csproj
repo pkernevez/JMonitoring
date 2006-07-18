@@ -47,14 +47,6 @@
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Dao\DaoHelper.cs" />
     <Compile Include="Dao\ExecutionFlowDAO.cs" />
-    <Compile Include="Dao\NMonitoringDataSet.cs">
-      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Dao\NMonitoringDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Persitence\ExecutionFlowPO.cs" />
     <Compile Include="Persitence\MethodCallPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,17 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
-    </None>
-    <None Include="Dao\NMonitoringDataSet.xsc">
-      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="Dao\NMonitoringDataSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>NMonitoringDataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Dao\NMonitoringDataSet.xss">
-      <DependentUpon>NMonitoringDataSet.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
