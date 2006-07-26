@@ -32,6 +32,9 @@ public final class Configuration
     /** Class de Stockage a utiliser. */
     private Class mMeasurePointStoreClass;
 
+    /** Max number of execution for displaying an ExecutionFlow. */
+    private int mMaxExecutionDuringFlowEdition;
+
     /** Repertoire de log pour les fichiers. */
     private String mXmlOutputDir;
 
@@ -81,7 +84,8 @@ public final class Configuration
             mDateFormat = tConfig.getString("format.ihm.date", "dd/MM/yy");
             mTimeFormat = tConfig.getString("format.ihm.time", "HH:mm:ss.SSS");
             mDateTimeFormat = mDateFormat + " " + mTimeFormat;
-
+            mMaxExecutionDuringFlowEdition = tConfig.getInt("maxExecutionDuringFlowEdition");
+            
             mAsynchroneStoreThreadPoolSize = tConfig.getInt("asynchronelogger.threadpool.size", 1);
 
             initColor(tConfig);
@@ -376,6 +380,11 @@ public final class Configuration
     public void setMeasurePointStoreClass(Class pMeasurePointStoreClass)
     {
         mMeasurePointStoreClass = pMeasurePointStoreClass;
+    }
+
+    public int getMaxExecutionDuringFlowEdition()
+    {
+        return mMaxExecutionDuringFlowEdition;
     }
 
 }
