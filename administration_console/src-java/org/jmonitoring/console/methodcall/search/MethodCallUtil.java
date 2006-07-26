@@ -1,4 +1,4 @@
-package org.jmonitoring.console.methodcall;
+package org.jmonitoring.console.methodcall.search;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -6,15 +6,13 @@ package org.jmonitoring.console.methodcall;
  **************************************************************************/
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
-import org.jmonitoring.core.process.JMonitoringProcess;
-import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * Utility for image generation of the tree of measure as a menu.
@@ -27,34 +25,29 @@ public class MethodCallUtil
 
     private StringBuffer mWriter;
 
-    private Map mMeasureExtracts;
-
+    private static Log sLog = LogFactory.getLog(MethodCallUtil.class);
+    
     /**
      * Contructor for test.
      * 
      * @param pWriter The JSP writer.
      */
-    public MethodCallUtil(StringBuffer pWriter)
+    public MethodCallUtil()
     {
-        mWriter = pWriter;
+        mWriter = new StringBuffer();
     }
 
-    /**
-     * @todo refactore this code;
-     */
-    private Map getTreeOfMeasure()
+    public String toString()
     {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        return convertListAsTree(tProcess.getListOfMethodCallExtract());
+        return mWriter.toString();
     }
-
+    
     /**
      * Write the list of Measure as an Html Tree.
      */
-    public void writeMeasureListAsMenu()
+    public void writeMeasureListAsMenu(Map pListOfAllExtractByFullName, Map pTreeOfExtract)
     {
-        Map tMapAsTree = getTreeOfMeasure();
-        if (tMapAsTree.size() == 0)
+        if (pTreeOfExtract.size() == 0)
         {
             mWriter.append("No Measure Found");
         } else
@@ -62,11 +55,11 @@ public class MethodCallUtil
             Map.Entry curEntry;
             mWriter.append("<ul id=\"menuList\">");
             int tLastId = 0;
-            for (Iterator tIt = tMapAsTree.entrySet().iterator(); tIt.hasNext();)
+            for (Iterator tIt = pTreeOfExtract.entrySet().iterator(); tIt.hasNext();)
             {
                 curEntry = (Map.Entry) tIt.next();
                 mWriter.append("<li class=\"menubar\">");
-                tLastId = writeMeasuresAsMenu(new ArrayList(), (Map) curEntry.getValue(), (String) curEntry.getKey(),
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList(), (Map) curEntry.getValue(), (String) curEntry.getKey(),
                                 true, tLastId + 1);
                 mWriter.append("</li>");
             }
@@ -75,42 +68,9 @@ public class MethodCallUtil
     }
 
     /**
-     * Convert a list of String containing caracter <code>.</code> into a Tree. Each branch is composed with the
-     * Token.
-     * 
-     * @param pListOfMeasure The list of <code>String</code>.
-     * @return The Tree has a Map.
-     */
-    Map convertListAsTree(List pListOfMeasure)
-    {
-        Map tTree = new HashMap();
-        mMeasureExtracts = new HashMap();
-        String curString;
-        Map curMap;
-        MethodCallExtractDTO tExtract;
-        for (Iterator tIt = pListOfMeasure.iterator(); tIt.hasNext();)
-        {
-            curMap = tTree;
-            tExtract = (MethodCallExtractDTO) tIt.next();
-            mMeasureExtracts.put(tExtract.getName() + tExtract.getGroupName(), tExtract);
-            for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(), "."); tTokenizer
-                            .hasMoreElements();)
-            {
-                curString = (String) tTokenizer.nextElement();
-                if (curMap.get(curString) == null)
-                {
-                    curMap.put(curString, new HashMap());
-                }
-                curMap = (Map) curMap.get(curString);
-            }
-        }
-
-        return tTree;
-    }
-
-    /**
      * Write the Tree as a Html Menu.
      * 
+     * @param pListOfAllExtractByFullName List of all the Extract, the key is <code>FullClassName.methodName</code>.
      * @param pCurrentClassName The name of the class that we are building, the <code>List</code> is compose with the
      *        package parts.
      * @param pTreeOfMeasure The Tree to write.
@@ -119,7 +79,7 @@ public class MethodCallUtil
      * @param pLastId The technical identifier to use for the next generation.
      * @return The last technical identifier used.
      */
-    int writeMeasuresAsMenu(List pCurrentClassName, Map pTreeOfMeasure, String pCurNodeName, boolean pFirstLevel,
+    int writeMeasuresAsMenu(Map pListOfAllExtractByFullName, List pCurrentClassName, Map pTreeOfMeasure, String pCurNodeName, boolean pFirstLevel,
                     int pLastId)
     {
         int tLastId = pLastId;
@@ -146,7 +106,7 @@ public class MethodCallUtil
             for (Iterator tIterator = pTreeOfMeasure.entrySet().iterator(); tIterator.hasNext();)
             {
                 curEntry = (Map.Entry) tIterator.next();
-                tLastId = writeMeasuresAsMenu(pCurrentClassName, (Map) curEntry.getValue(), (String) curEntry.getKey(),
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName, (Map) curEntry.getValue(), (String) curEntry.getKey(),
                                 false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
@@ -160,13 +120,13 @@ public class MethodCallUtil
         {
             // Génération du lien vers les statistiques
             StringBuffer tLinkStat = new StringBuffer();
-            MethodCallExtractDTO tExtract = getExtractForThisNode(pCurrentClassName, pCurNodeName);
+            MethodCallExtractDTO tExtract = getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName, pCurNodeName);
             tLinkStat.append("<li><span title=\"GroupName=[").append(tExtract.getGroupName());
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
             tLinkStat.append("<span title=\"occurrence\">(").append(tExtract.getOccurenceNumber()).append(")</span>");
             tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?className=");
-            tLinkStat.append(getListAsString(pCurrentClassName)).append("&methodName=");
+            tLinkStat.append(tExtract.getClassName()).append("&methodName=");
             tLinkStat.append(tExtract.getMethodName()).append("\">");
             tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
             tLinkStat.append("</li>\n");
@@ -175,7 +135,7 @@ public class MethodCallUtil
         return tLastId++;
     }
 
-    private MethodCallExtractDTO getExtractForThisNode(List pClassNameAsString, String pCurrentNodeName)
+    private MethodCallExtractDTO getExtractForThisNode(Map pListOfAllExtractByFullName, List pClassNameAsString, String pCurrentNodeName)
     {
         // Calculation of the full name
         StringBuffer tBuffer = new StringBuffer();
@@ -185,7 +145,12 @@ public class MethodCallUtil
         }
         tBuffer.append(".").append(pCurrentNodeName);
         // Now return the extract for this name
-        return (MethodCallExtractDTO) mMeasureExtracts.get(tBuffer.toString());
+        MethodCallExtractDTO tResult = (MethodCallExtractDTO)pListOfAllExtractByFullName.get(tBuffer.toString());
+        if (tResult==null)
+        {
+            sLog.error("Unable to find Method Call with Key=["+tBuffer.toString()+"]");
+        }
+        return tResult;
     }
 
     private String getListAsString(List pList)

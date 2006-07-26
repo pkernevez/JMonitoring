@@ -205,7 +205,7 @@ public class ExecutionFlowDAO
         return (MethodCallPO) mSession.load(MethodCallPO.class, new Integer(pMethodId));
     }
 
-    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className  || '.' || MethodCallPO.methodName ," + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
+    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ," + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
                     + " FROM MethodCallPO MethodCallPO "
                     + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
                     + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
@@ -225,7 +225,7 @@ public class ExecutionFlowDAO
         for (Iterator tIt = tQuery.list().iterator(); tIt.hasNext();)
         {
             tExtract = (Object[]) tIt.next();
-            tResult.add(new MethodCallExtractDTO((String) tExtract[0], (String) tExtract[1], (Integer) tExtract[2]));
+            tResult.add(new MethodCallExtractDTO((String) tExtract[0],(String) tExtract[1], (String) tExtract[2], (Integer) tExtract[3]));
         }
         return tResult;
     }

@@ -4,7 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
 
-<html:form action="/FlowEdit">
+<html:form action="/FlowEditIn">
 	<H1>Flow Edition may be long...</H1>
 	<BR/>
 	<p>

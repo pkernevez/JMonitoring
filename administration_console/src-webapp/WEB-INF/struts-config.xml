@@ -13,6 +13,7 @@
         <form-bean name="methodcallform" type="org.jmonitoring.console.methodcall.MethodCallEditForm" />
         <form-bean name="methodcallstatform" type="org.jmonitoring.console.methodcall.MethodCallStatForm" />
         <form-bean name="methodcalllistform" type="org.jmonitoring.console.methodcall.list.MethodCallListForm" />
+        <form-bean name="methodcallsearchform" type="org.jmonitoring.console.methodcall.search.MethodCallSearchForm" />
 
         <!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="threadName" type="java.lang.String" />
@@ -66,8 +67,11 @@
 
         <!-- *** METHOD *** -->
 
-        <action path="/MethodCallSearchIn" forward="methodcallsearch" />
-
+        <action path="/MethodCallSearchIn" type="org.jmonitoring.console.methodcall.search.MethodCallSearchActionIn"
+        	name="methodcallsearchform" scope="request">
+        	<forward name="success" path="methodcallsearch" />
+		</action>
+		
         <action path="/MethodCallEditIn" type="org.jmonitoring.console.methodcall.MethodCallEditActionIn"
             name="methodcallform" scope="request">
             <forward name="success" path="methodcalledit" />
