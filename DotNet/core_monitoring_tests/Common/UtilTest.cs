@@ -11,7 +11,7 @@ namespace Org.NMonitoring.Core.Common.Tests
         public static void DeleteAllData()
         {
             DaoHelper dao = DaoHelper.Instance;
-            String sCommandText = @"UPDATE [jmonitoring].[EXECUTION_FLOW] SET  [FIRST_METHOD_CALL_ID] = NULL;DELETE FROM [jmonitoring].[METHOD_CALL];DELETE FROM [jmonitoring].[EXECUTION_FLOW];";
+            String sCommandText = @"UPDATE [EXECUTION_FLOW] SET  [FIRST_METHOD_CALL_ID] = NULL;DELETE FROM [METHOD_CALL];DELETE FROM [EXECUTION_FLOW];";
             IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
 
             dao.Connection.Open();
@@ -30,7 +30,7 @@ namespace Org.NMonitoring.Core.Common.Tests
         public static int CountMethods()
         {
             DaoHelper dao = DaoHelper.Instance;
-            String sCommandText = @"SELECT COUNT(*) FROM [jmonitoring].[METHOD_CALL];";
+            String sCommandText = @"SELECT COUNT(*) FROM [METHOD_CALL];";
             IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
 
             dao.Connection.Open();
@@ -51,7 +51,7 @@ namespace Org.NMonitoring.Core.Common.Tests
         public static int CountFlows()
         {
             DaoHelper dao = DaoHelper.Instance;
-            String sCommandText = @"SELECT COUNT(*) FROM [jmonitoring].[EXECUTION_FLOW];";
+            String sCommandText = @"SELECT COUNT(*) FROM [EXECUTION_FLOW];";
             IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
 
             dao.Connection.Open();

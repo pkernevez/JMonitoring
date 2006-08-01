@@ -17,7 +17,7 @@ namespace Org.NMonitoring.Core.Store.Tests
         public void initialize()
         {
             DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance,
-                   "Data Source=VIRTUALPODE\\JMONITORING;Initial Catalog=jmonitoring;User ID=jmonitoring;Password=jmonitoring");
+                   "Data Source=.\\SQLEXPRESS;Initial Catalog=jmonitoring;User ID=jmonitoring;Password=jmonitoring");
             UtilTest.DeleteAllData();
         }
 

@@ -16,8 +16,8 @@ namespace Org.NMonitoring.Core.Store.Impl
         public static IStoreWriter getWriter()
         {
             //TODO FCH : Parametrer
-            //return new SynchroneDbWriter();
-            return new AsynchroneDbWriter();
+            return new SynchroneDbWriter();
+            //return new AsynchroneDbWriter();
         }
     }
 

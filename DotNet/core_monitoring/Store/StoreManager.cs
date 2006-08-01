@@ -3,6 +3,7 @@ using System;
 using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Configuration;
 using Org.NMonitoring.Core.Store.Impl;
+using Org.NMonitoring.Core.Dao;
 
 using log4net;
 
@@ -23,6 +24,33 @@ namespace Org.NMonitoring.Core.Store
     public class StoreManager
     {
 
+		#region ThreadStatic Singleton
+		[ThreadStatic]
+		private static StoreManager mStoreManager = null;
+
+		public static StoreManager getManager()
+		{
+			try
+			{
+				if (mStoreManager == null)
+				{
+                    DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance,
+                           "Data Source=.\\SQLEXPRESS;Initial Catalog=jmonitoring;User ID=jmonitoring;Password=jmonitoring");
+                    mStoreManager = new StoreManager();
+				}
+
+			}
+			catch (Exception e)
+			{
+				// Impossible de laisser remonter l'erreur car elle se confond avec l'erreur
+				// de la méthode fonctionelle invoquée.
+				sLog.Error("Impossible d'instancier un logger pour tracer les appels", e);
+			}
+
+			return mStoreManager;
+		}
+		#endregion ThreadStatic Singleton
+
         private MethodCallPO mCurrentLogPoint;
 
         /** <code>CommonsLog</code> instance. */
@@ -38,7 +66,7 @@ namespace Org.NMonitoring.Core.Store
          * 
          * @param pConfiguration The configuration instance to use.
          */
-        public StoreManager()  : this(StoreFactory.getWriter(), Configuration.Configuration.getInstance())
+        protected StoreManager()  : this(StoreFactory.getWriter(), Configuration.Configuration.getInstance())
         {
             Console.WriteLine("StoreManager::StoreManager(Vide)");
         }
@@ -49,7 +77,7 @@ namespace Org.NMonitoring.Core.Store
          * @param pStoreWriter The <code>IStoreWriter</code> to use.
          * @param pConfiguration The configuration instance to use.
          */
-        public StoreManager(IStoreWriter pStoreWriter, Configuration.Configuration pConfiguration)
+        protected StoreManager(IStoreWriter pStoreWriter, Configuration.Configuration pConfiguration)
         {
             mConfiguration = pConfiguration;
             mStoreWriter = pStoreWriter;
@@ -66,28 +94,35 @@ namespace Org.NMonitoring.Core.Store
 
         public void logBeginOfMethod(OperationJoinPoint opJoinPoint, Object [] pArgs, String pGroupName)
         {
-            Console.WriteLine("StoreManager::logBeginOfMethod()");
             string operationName = opJoinPoint.TargetOperationName;
-            string classeName = opJoinPoint.TargetOperation.ReflectedType.Name; //FullName ??
+            string classeName = opJoinPoint.TargetOperation.ReflectedType.FullName; // Name ?
 
-            if (mCurrentLogPoint == null)
-            { // Premier appel du Thread
-                if (sLog.IsDebugEnabled)
-                {
-                    sLog.Debug("logBeginOfMethod First Time" + opJoinPoint.ToString());
-                }
-                mCurrentLogPoint = new MethodCallPO(null, classeName, operationName, pGroupName, pArgs);
-            }
-            else
-            {
-                if (sLog.IsDebugEnabled)
-                {
-                    sLog.Debug("logBeginOfMethod Any Time" + opJoinPoint.ToString());
-                }
-                MethodCallPO tOldPoint = mCurrentLogPoint;
-                mCurrentLogPoint = new MethodCallPO(tOldPoint, classeName, operationName,  pGroupName, pArgs);
-            }
+			logBeginOfMethod(classeName,operationName,pArgs,pGroupName);
         }
+
+
+		public void logBeginOfMethod(string className, string operationName, Object [] pArgs, String pGroupName)
+		{
+			Console.WriteLine("StoreManager::logBeginOfMethod()");
+
+			if (mCurrentLogPoint == null)
+			{ // Premier appel du Thread
+				if (sLog.IsDebugEnabled)
+				{
+					//sLog.Debug("logBeginOfMethod First Time" + opJoinPoint.ToString());
+				}
+				mCurrentLogPoint = new MethodCallPO(null, className, operationName, pGroupName, pArgs);
+			}
+			else
+			{
+				if (sLog.IsDebugEnabled)
+				{
+					//sLog.Debug("logBeginOfMethod Any Time" + opJoinPoint.ToString());
+				}
+				MethodCallPO tOldPoint = mCurrentLogPoint;
+				mCurrentLogPoint = new MethodCallPO(tOldPoint, className, operationName,  pGroupName, pArgs);
+			}
+		}
 
         /**
          * Trace the result of a method ended normally.
@@ -106,7 +141,8 @@ namespace Org.NMonitoring.Core.Store
                 {
                     sLog.Debug("logEndOfMethodNormal Last Time" + tResultAsString);
                 }
-                String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
+                //String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
+				String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
                 if (System.Threading.Thread.CurrentThread.Name != null)
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 
@@ -116,6 +152,7 @@ namespace Org.NMonitoring.Core.Store
                 {
                     Console.WriteLine("StoreManager::mStoreWriter.writeExecutionFlow(Dernier Appel)");
                     mStoreWriter.writeExecutionFlow(tFlow);
+					//System.Threading.Thread.Sleep(2000);
                 }
                 catch (Exception e)
                 {
@@ -159,7 +196,9 @@ namespace Org.NMonitoring.Core.Store
                 {
                     sLog.Debug("logEndOfMethodWithException Last Time" + pException.Message);
                 }
-                String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
+				
+                //String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
+				String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
                 if (System.Threading.Thread.CurrentThread.Name != null)
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 

@@ -4,7 +4,7 @@
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="jmonitoringConnectionString" ConnectionStringObject="" IsAppSettingsProperty="True" Modifier="Assembly" Name="jmonitoringConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Org.NMonitoring.Core.Properties.Settings.GlobalReference.Default.jmonitoringConnectionString" Provider="System.Data.SqlClient">
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="jmonitoringConnectionString" IsAppSettingsProperty="True" Modifier="Assembly" Name="jmonitoringConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Org.NMonitoring.Core.Properties.Settings.GlobalReference.Default.jmonitoringConnectionString" Provider="System.Data.SqlClient">
           </Connection>
         </Connections>
         <Tables>
@@ -222,87 +222,87 @@ SELECT ID, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, METHOD_NAME, THROW
         <xs:element name="EXECUTION_FLOW" msprop:Generator_UserTableName="EXECUTION_FLOW" msprop:Generator_RowDeletedName="EXECUTION_FLOWRowDeleted" msprop:Generator_RowChangedName="EXECUTION_FLOWRowChanged" msprop:Generator_RowClassName="EXECUTION_FLOWRow" msprop:Generator_RowChangingName="EXECUTION_FLOWRowChanging" msprop:Generator_RowEvArgName="EXECUTION_FLOWRowChangeEvent" msprop:Generator_RowEvHandlerName="EXECUTION_FLOWRowChangeEventHandler" msprop:Generator_TableClassName="EXECUTION_FLOWDataTable" msprop:Generator_TableVarName="tableEXECUTION_FLOW" msprop:Generator_RowDeletingName="EXECUTION_FLOWRowDeleting" msprop:Generator_TablePropName="EXECUTION_FLOW">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="ID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInTable="IDColumn" type="xs:int" />
-              <xs:element name="THREAD_NAME" msprop:Generator_UserColumnName="THREAD_NAME" msprop:Generator_ColumnPropNameInRow="THREAD_NAME" msprop:Generator_ColumnVarNameInTable="columnTHREAD_NAME" msprop:Generator_ColumnPropNameInTable="THREAD_NAMEColumn" minOccurs="0">
+              <xs:element name="ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" type="xs:int" />
+              <xs:element name="THREAD_NAME" msprop:Generator_UserColumnName="THREAD_NAME" msprop:Generator_ColumnVarNameInTable="columnTHREAD_NAME" msprop:Generator_ColumnPropNameInRow="THREAD_NAME" msprop:Generator_ColumnPropNameInTable="THREAD_NAMEColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="JVM" msprop:Generator_UserColumnName="JVM" msprop:Generator_ColumnPropNameInRow="JVM" msprop:Generator_ColumnVarNameInTable="columnJVM" msprop:Generator_ColumnPropNameInTable="JVMColumn" minOccurs="0">
+              <xs:element name="JVM" msprop:Generator_UserColumnName="JVM" msprop:Generator_ColumnVarNameInTable="columnJVM" msprop:Generator_ColumnPropNameInRow="JVM" msprop:Generator_ColumnPropNameInTable="JVMColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="BEGIN_TIME" msprop:Generator_UserColumnName="BEGIN_TIME" msprop:Generator_ColumnPropNameInRow="BEGIN_TIME" msprop:Generator_ColumnVarNameInTable="columnBEGIN_TIME" msprop:Generator_ColumnPropNameInTable="BEGIN_TIMEColumn" type="xs:decimal" minOccurs="0" />
-              <xs:element name="END_TIME" msprop:Generator_UserColumnName="END_TIME" msprop:Generator_ColumnPropNameInRow="END_TIME" msprop:Generator_ColumnVarNameInTable="columnEND_TIME" msprop:Generator_ColumnPropNameInTable="END_TIMEColumn" type="xs:decimal" minOccurs="0" />
-              <xs:element name="BEGIN_TIME_AS_DATE" msprop:Generator_UserColumnName="BEGIN_TIME_AS_DATE" msprop:Generator_ColumnPropNameInRow="BEGIN_TIME_AS_DATE" msprop:Generator_ColumnVarNameInTable="columnBEGIN_TIME_AS_DATE" msprop:Generator_ColumnPropNameInTable="BEGIN_TIME_AS_DATEColumn" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="DURATION" msprop:Generator_UserColumnName="DURATION" msprop:Generator_ColumnPropNameInRow="DURATION" msprop:Generator_ColumnVarNameInTable="columnDURATION" msprop:Generator_ColumnPropNameInTable="DURATIONColumn" type="xs:decimal" minOccurs="0" />
-              <xs:element name="FIRST_METHOD_CALL_ID" msprop:Generator_UserColumnName="FIRST_METHOD_CALL_ID" msprop:Generator_ColumnPropNameInRow="FIRST_METHOD_CALL_ID" msprop:Generator_ColumnVarNameInTable="columnFIRST_METHOD_CALL_ID" msprop:Generator_ColumnPropNameInTable="FIRST_METHOD_CALL_IDColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="BEGIN_TIME" msprop:Generator_UserColumnName="BEGIN_TIME" msprop:Generator_ColumnVarNameInTable="columnBEGIN_TIME" msprop:Generator_ColumnPropNameInRow="BEGIN_TIME" msprop:Generator_ColumnPropNameInTable="BEGIN_TIMEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="END_TIME" msprop:Generator_UserColumnName="END_TIME" msprop:Generator_ColumnVarNameInTable="columnEND_TIME" msprop:Generator_ColumnPropNameInRow="END_TIME" msprop:Generator_ColumnPropNameInTable="END_TIMEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BEGIN_TIME_AS_DATE" msprop:Generator_UserColumnName="BEGIN_TIME_AS_DATE" msprop:Generator_ColumnVarNameInTable="columnBEGIN_TIME_AS_DATE" msprop:Generator_ColumnPropNameInRow="BEGIN_TIME_AS_DATE" msprop:Generator_ColumnPropNameInTable="BEGIN_TIME_AS_DATEColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="DURATION" msprop:Generator_UserColumnName="DURATION" msprop:Generator_ColumnVarNameInTable="columnDURATION" msprop:Generator_ColumnPropNameInRow="DURATION" msprop:Generator_ColumnPropNameInTable="DURATIONColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FIRST_METHOD_CALL_ID" msprop:Generator_UserColumnName="FIRST_METHOD_CALL_ID" msprop:Generator_ColumnVarNameInTable="columnFIRST_METHOD_CALL_ID" msprop:Generator_ColumnPropNameInRow="FIRST_METHOD_CALL_ID" msprop:Generator_ColumnPropNameInTable="FIRST_METHOD_CALL_IDColumn" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="METHOD_CALL" msprop:Generator_UserTableName="METHOD_CALL" msprop:Generator_RowDeletedName="METHOD_CALLRowDeleted" msprop:Generator_RowChangedName="METHOD_CALLRowChanged" msprop:Generator_RowClassName="METHOD_CALLRow" msprop:Generator_RowChangingName="METHOD_CALLRowChanging" msprop:Generator_RowEvArgName="METHOD_CALLRowChangeEvent" msprop:Generator_RowEvHandlerName="METHOD_CALLRowChangeEventHandler" msprop:Generator_TableClassName="METHOD_CALLDataTable" msprop:Generator_TableVarName="tableMETHOD_CALL" msprop:Generator_RowDeletingName="METHOD_CALLRowDeleting" msprop:Generator_TablePropName="METHOD_CALL">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="ID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInTable="IDColumn" type="xs:int" />
-              <xs:element name="PARAMETERS" msprop:Generator_UserColumnName="PARAMETERS" msprop:Generator_ColumnPropNameInRow="PARAMETERS" msprop:Generator_ColumnVarNameInTable="columnPARAMETERS" msprop:Generator_ColumnPropNameInTable="PARAMETERSColumn" minOccurs="0">
+              <xs:element name="ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" type="xs:int" />
+              <xs:element name="PARAMETERS" msprop:Generator_UserColumnName="PARAMETERS" msprop:Generator_ColumnVarNameInTable="columnPARAMETERS" msprop:Generator_ColumnPropNameInRow="PARAMETERS" msprop:Generator_ColumnPropNameInTable="PARAMETERSColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="BEGIN_TIME" msprop:Generator_UserColumnName="BEGIN_TIME" msprop:Generator_ColumnPropNameInRow="BEGIN_TIME" msprop:Generator_ColumnVarNameInTable="columnBEGIN_TIME" msprop:Generator_ColumnPropNameInTable="BEGIN_TIMEColumn" type="xs:decimal" minOccurs="0" />
-              <xs:element name="END_TIME" msprop:Generator_UserColumnName="END_TIME" msprop:Generator_ColumnPropNameInRow="END_TIME" msprop:Generator_ColumnVarNameInTable="columnEND_TIME" msprop:Generator_ColumnPropNameInTable="END_TIMEColumn" type="xs:decimal" minOccurs="0" />
-              <xs:element name="FULL_CLASS_NAME" msprop:Generator_UserColumnName="FULL_CLASS_NAME" msprop:Generator_ColumnPropNameInRow="FULL_CLASS_NAME" msprop:Generator_ColumnVarNameInTable="columnFULL_CLASS_NAME" msprop:Generator_ColumnPropNameInTable="FULL_CLASS_NAMEColumn" minOccurs="0">
+              <xs:element name="BEGIN_TIME" msprop:Generator_UserColumnName="BEGIN_TIME" msprop:Generator_ColumnVarNameInTable="columnBEGIN_TIME" msprop:Generator_ColumnPropNameInRow="BEGIN_TIME" msprop:Generator_ColumnPropNameInTable="BEGIN_TIMEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="END_TIME" msprop:Generator_UserColumnName="END_TIME" msprop:Generator_ColumnVarNameInTable="columnEND_TIME" msprop:Generator_ColumnPropNameInRow="END_TIME" msprop:Generator_ColumnPropNameInTable="END_TIMEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FULL_CLASS_NAME" msprop:Generator_UserColumnName="FULL_CLASS_NAME" msprop:Generator_ColumnVarNameInTable="columnFULL_CLASS_NAME" msprop:Generator_ColumnPropNameInRow="FULL_CLASS_NAME" msprop:Generator_ColumnPropNameInTable="FULL_CLASS_NAMEColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="120" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="METHOD_NAME" msprop:Generator_UserColumnName="METHOD_NAME" msprop:Generator_ColumnPropNameInRow="METHOD_NAME" msprop:Generator_ColumnVarNameInTable="columnMETHOD_NAME" msprop:Generator_ColumnPropNameInTable="METHOD_NAMEColumn" minOccurs="0">
+              <xs:element name="METHOD_NAME" msprop:Generator_UserColumnName="METHOD_NAME" msprop:Generator_ColumnVarNameInTable="columnMETHOD_NAME" msprop:Generator_ColumnPropNameInRow="METHOD_NAME" msprop:Generator_ColumnPropNameInTable="METHOD_NAMEColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="THROWABLE_CLASS_NAME" msprop:Generator_UserColumnName="THROWABLE_CLASS_NAME" msprop:Generator_ColumnPropNameInRow="THROWABLE_CLASS_NAME" msprop:Generator_ColumnVarNameInTable="columnTHROWABLE_CLASS_NAME" msprop:Generator_ColumnPropNameInTable="THROWABLE_CLASS_NAMEColumn" minOccurs="0">
+              <xs:element name="THROWABLE_CLASS_NAME" msprop:Generator_UserColumnName="THROWABLE_CLASS_NAME" msprop:Generator_ColumnVarNameInTable="columnTHROWABLE_CLASS_NAME" msprop:Generator_ColumnPropNameInRow="THROWABLE_CLASS_NAME" msprop:Generator_ColumnPropNameInTable="THROWABLE_CLASS_NAMEColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="120" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="THROWABLE_MESSAGE" msprop:Generator_UserColumnName="THROWABLE_MESSAGE" msprop:Generator_ColumnPropNameInRow="THROWABLE_MESSAGE" msprop:Generator_ColumnVarNameInTable="columnTHROWABLE_MESSAGE" msprop:Generator_ColumnPropNameInTable="THROWABLE_MESSAGEColumn" minOccurs="0">
+              <xs:element name="THROWABLE_MESSAGE" msprop:Generator_UserColumnName="THROWABLE_MESSAGE" msprop:Generator_ColumnVarNameInTable="columnTHROWABLE_MESSAGE" msprop:Generator_ColumnPropNameInRow="THROWABLE_MESSAGE" msprop:Generator_ColumnPropNameInTable="THROWABLE_MESSAGEColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="RESULT" msprop:Generator_UserColumnName="RESULT" msprop:Generator_ColumnPropNameInRow="RESULT" msprop:Generator_ColumnVarNameInTable="columnRESULT" msprop:Generator_ColumnPropNameInTable="RESULTColumn" minOccurs="0">
+              <xs:element name="RESULT" msprop:Generator_UserColumnName="RESULT" msprop:Generator_ColumnVarNameInTable="columnRESULT" msprop:Generator_ColumnPropNameInRow="RESULT" msprop:Generator_ColumnPropNameInTable="RESULTColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="255" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="GROUP_NAME" msprop:Generator_UserColumnName="GROUP_NAME" msprop:Generator_ColumnPropNameInRow="GROUP_NAME" msprop:Generator_ColumnVarNameInTable="columnGROUP_NAME" msprop:Generator_ColumnPropNameInTable="GROUP_NAMEColumn" minOccurs="0">
+              <xs:element name="GROUP_NAME" msprop:Generator_UserColumnName="GROUP_NAME" msprop:Generator_ColumnVarNameInTable="columnGROUP_NAME" msprop:Generator_ColumnPropNameInRow="GROUP_NAME" msprop:Generator_ColumnPropNameInTable="GROUP_NAMEColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="145" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="PARENT_ID" msprop:Generator_UserColumnName="PARENT_ID" msprop:Generator_ColumnPropNameInRow="PARENT_ID" msprop:Generator_ColumnVarNameInTable="columnPARENT_ID" msprop:Generator_ColumnPropNameInTable="PARENT_IDColumn" type="xs:int" minOccurs="0" />
-              <xs:element name="FLOW_ID" msprop:Generator_UserColumnName="FLOW_ID" msprop:Generator_ColumnPropNameInRow="FLOW_ID" msprop:Generator_ColumnVarNameInTable="columnFLOW_ID" msprop:Generator_ColumnPropNameInTable="FLOW_IDColumn" type="xs:int" minOccurs="0" />
-              <xs:element name="SUB_METH_INDEX" msprop:Generator_UserColumnName="SUB_METH_INDEX" msprop:Generator_ColumnPropNameInRow="SUB_METH_INDEX" msprop:Generator_ColumnVarNameInTable="columnSUB_METH_INDEX" msprop:Generator_ColumnPropNameInTable="SUB_METH_INDEXColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="PARENT_ID" msprop:Generator_UserColumnName="PARENT_ID" msprop:Generator_ColumnVarNameInTable="columnPARENT_ID" msprop:Generator_ColumnPropNameInRow="PARENT_ID" msprop:Generator_ColumnPropNameInTable="PARENT_IDColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="FLOW_ID" msprop:Generator_UserColumnName="FLOW_ID" msprop:Generator_ColumnVarNameInTable="columnFLOW_ID" msprop:Generator_ColumnPropNameInRow="FLOW_ID" msprop:Generator_ColumnPropNameInTable="FLOW_IDColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="SUB_METH_INDEX" msprop:Generator_UserColumnName="SUB_METH_INDEX" msprop:Generator_ColumnVarNameInTable="columnSUB_METH_INDEX" msprop:Generator_ColumnPropNameInRow="SUB_METH_INDEX" msprop:Generator_ColumnPropNameInTable="SUB_METH_INDEXColumn" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

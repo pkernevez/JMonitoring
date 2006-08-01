@@ -47,6 +47,7 @@
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Dao\DaoHelper.cs" />
     <Compile Include="Dao\ExecutionFlowDAO.cs" />
+    <Compile Include="Dao\IDaoHelper.cs" />
     <Compile Include="Persitence\ExecutionFlowPO.cs" />
     <Compile Include="Persitence\MethodCallPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

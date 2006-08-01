@@ -5,7 +5,8 @@ using System.Data.SqlClient;
 
 namespace Org.NMonitoring.Core.Dao
 {
-    public class DaoHelper
+    public class DaoHelper : IDaoHelper
+
     {
         private static bool mInitialized = false;
         private static string mConnectionString;
@@ -30,6 +31,12 @@ namespace Org.NMonitoring.Core.Dao
             get { return _connection; }
         }
 
+        IDbTransaction _transaction = null;
+        public IDbTransaction CurrentTransaction
+        {
+            get { return _transaction; }
+        }
+		
         public static void Initialize(DbProviderFactory dbFactory, 
                                       string connectionString)
         {
@@ -37,12 +44,13 @@ namespace Org.NMonitoring.Core.Dao
             mConnectionString = connectionString;
             mInitialized = true;
         }
-
-        public DbParameter CreateParameter(String name, Object value)
+        
+       
+        public IDbDataParameter CreateParameter(String name, Object value)
         {
             if (!mInitialized)
                 throw new Exception("Please call Initialize() before");
-            DbParameter parameter = mDbFactory.CreateParameter();
+            IDbDataParameter parameter = mDbFactory.CreateParameter();
             parameter.ParameterName = name;
             if (value == null)
             {
@@ -53,17 +61,17 @@ namespace Org.NMonitoring.Core.Dao
             return parameter;
         }
 
-        public DbParameter CreateParameter(string parameterName, DbType dbType,
+
+        public IDbDataParameter CreateParameter(string parameterName, DbType dbType,
                                             int size, ParameterDirection direction,
                                             string sourceColumn, DataRowVersion sourceVersion,
-                                            bool sourceColumnNullMapping, object value)
+                                            object value)
         {
-            DbParameter parameter = this.CreateParameter(parameterName, value);
+            IDbDataParameter parameter = this.CreateParameter(parameterName, value);
             parameter.DbType = dbType;
             parameter.Direction = direction;
             parameter.SourceColumn = sourceColumn;
             parameter.SourceVersion = sourceVersion;
-            parameter.SourceColumnNullMapping = sourceColumnNullMapping;
             parameter.Size = size;
 
             return parameter;
@@ -82,6 +90,12 @@ namespace Org.NMonitoring.Core.Dao
             IDbCommand cmd = mDbFactory.CreateCommand();
             cmd.Connection = this.Connection;
             return cmd;
+        }
+
+        public IDbTransaction BeginTransaction()
+        {
+            _transaction = this.Connection.BeginTransaction();
+            return _transaction;
         }
 
         private DaoHelper()

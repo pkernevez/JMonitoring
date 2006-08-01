@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 
+
 using log4net;
 using DotNetGuru.AspectDNG.Joinpoints;
 
@@ -14,8 +15,6 @@ namespace Org.NMonitoring.Core.Aspect
     public class PerformanceAspect
     {
 
-        [ThreadStatic]
-        private static StoreManager mStoreManager = null;
 
         /** Log instance. */
         private static ILog sLog = LogManager.GetLogger("SynchroneDbWriter");
@@ -31,7 +30,7 @@ namespace Org.NMonitoring.Core.Aspect
         public static object executionToLogInternal(OperationJoinPoint jp)
         {
             object tResult = null;
-            StoreManager tManager = getManager();
+            StoreManager storeManager = StoreManager.getManager();
 
             Object[] tArgs = null;
             if (mLogParameter)
@@ -42,9 +41,9 @@ namespace Org.NMonitoring.Core.Aspect
 
             try
             {
-                if (tManager != null)
+                if (storeManager != null)
                 {
-                    mStoreManager.logBeginOfMethod(jp, tArgs, mGroupName);
+                    storeManager.logBeginOfMethod(jp, tArgs, mGroupName);
                 }
                 else
                 {
@@ -65,15 +64,15 @@ namespace Org.NMonitoring.Core.Aspect
 
                 try
                 {
-                    if (mStoreManager != null)
+                    if (storeManager != null)
                     {
                         if (mLogParameter)
                         {
-                            tManager.logEndOfMethodNormal(tResult);
+                            storeManager.logEndOfMethodNormal(tResult);
                         }
                         else
                         {
-                            tManager.logEndOfMethodNormal(null);
+                            storeManager.logEndOfMethodNormal(null);
                         }
                     }
                     else
@@ -91,7 +90,7 @@ namespace Org.NMonitoring.Core.Aspect
             {
                 try
                 {
-                    tManager.logEndOfMethodWithException(e);
+                    storeManager.logEndOfMethodWithException(e);
                 }
                 catch (Exception tT)
                 {
@@ -109,27 +108,5 @@ namespace Org.NMonitoring.Core.Aspect
                 
             }
          * */
-
-
-        private static StoreManager getManager()
-        {
-            try
-            {
-                if (mStoreManager == null)
-                {
-                    DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance, "Data Source=VIRTUALPODE\\JMONITORING;Initial Catalog=jmonitoring;User ID=jmonitoring;Password=jmonitoring");
-                    mStoreManager = new StoreManager();
-                }
-
-            }
-            catch (Exception e)
-            {
-                // Impossible de laisser remonter l'erreur car elle se confond avec l'erreur
-                // de la méthode fonctionelle invoquée.
-                sLog.Error("Impossible d'instancier un logger pour tracer les appels", e);
-            }
-
-            return mStoreManager;
-        }
     }
 }
