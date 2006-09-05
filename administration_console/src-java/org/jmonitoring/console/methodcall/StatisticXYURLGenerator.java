@@ -18,6 +18,8 @@ import org.jfree.data.xy.XYDataset;
  */
 public class StatisticXYURLGenerator implements XYURLGenerator, Serializable
 {
+    private static final long serialVersionUID = 3478122271738115018L;
+
     /** The interval duration used for the char bar generation. */
     private int mInterval;
 

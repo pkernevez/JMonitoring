@@ -16,8 +16,6 @@ import org.springframework.beans.BeanUtils;
 public final class DtoHelper
 {
 
-    private int mSequence = 1;
-
     DtoHelper()
     {
     }

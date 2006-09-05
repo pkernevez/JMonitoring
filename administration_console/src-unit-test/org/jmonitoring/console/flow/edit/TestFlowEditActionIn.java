@@ -1,7 +1,8 @@
-package org.jmonitoring.console.flow;
+package org.jmonitoring.console.flow.edit;
 
 import java.util.Date;
 
+import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.console.flow.jfreechart.FlowUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
@@ -56,6 +57,18 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         verifyTilesForward("success", "floweditinternal");
         assertNotNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
         assertNotNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
+
+        assertEquals(("<MAP NAME=\"ChartBar\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"121,79,140,118\" href=\"MethodCallEditIn.do?id=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"216,79,235,118\" href=\"MethodCallEditIn.do?id=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"311,79,330,118\" href=\"MethodCallEditIn.do?id=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"407,79,426,118\" href=\"MethodCallEditIn.do?id=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"502,79,883,118\" href=\"MethodCallEditIn.do?id=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"140,141,216,180\" href=\"MethodCallEditIn.do?id=2\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"235,141,311,180\" href=\"MethodCallEditIn.do?id=3\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"330,141,406,180\" href=\"MethodCallEditIn.do?id=4\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"426,141,502,180\" href=\"MethodCallEditIn.do?id=5\">\r\n" + "</MAP>\r\n"),
+            tForm.getImageMap());
     }
 
     public void testActionWithLongExecutionFlow()

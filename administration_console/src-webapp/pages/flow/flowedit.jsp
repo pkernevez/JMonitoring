@@ -3,16 +3,10 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@page import="org.jmonitoring.console.flow.FlowEditForm"%>
-<%@page import="org.jmonitoring.core.dto.MethodCallDTO"%>
+<%@page import="org.jmonitoring.console.flow.edit.FlowEditForm"%>
 <%@page import="org.jmonitoring.core.dto.ExecutionFlowDTO"%>
-<%@page import="org.jmonitoring.console.flow.jfreechart.FlowUtil"%>
-<%@page import="org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil"%>
 <%@page import="org.jmonitoring.console.flow.stack.FlowAsStackUtil"%>
 <%@page import="java.util.Date"%>
-<%@page import="javax.servlet.jsp.JspFactory"%>
-<%@page import="javax.servlet.jsp.JspWriter"%>
-<%@page import="javax.servlet.jsp.PageContext"%>
 
 <H1>Flow Edition</H1>
 <html:link action="DeleteFlow" paramName="floweditform" paramProperty="id" paramId="id">Delete</html:link>
@@ -53,7 +47,8 @@
 		<td><img src="DynamicImageServlet.do?Id=NB_CALL_TO_GROUP&Bidon=<%=new Date().getTime()%>"/></td>
 	</tr>
 	<tr>
-		<td align="center" colSpan="2"><img src="DynamicImageServlet.do?Id=CHART_BAR_FLOWS&Bidon=<%=new Date().getTime()%>"/></td>
+		<bean:write name="floweditform" filter="false" property="imageMap"/>
+		<td align="center" colSpan="2"><img src="DynamicImageServlet.do?Id=CHART_BAR_FLOWS&Bidon=<%=new Date().getTime()%>" USEMAP="#ChartBar"/></td>
 	</tr>
 </table>
 <div id="menuDiv">

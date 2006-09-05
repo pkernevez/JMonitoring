@@ -8,7 +8,7 @@
     <form-beans>
         <!-- Logon form bean -->
         <form-bean name="flowsearchform" type="org.jmonitoring.console.flow.FlowSearchForm" />
-        <form-bean name="floweditform" type="org.jmonitoring.console.flow.FlowEditForm" />
+        <form-bean name="floweditform" type="org.jmonitoring.console.flow.edit.FlowEditForm" />
         <form-bean name="flowidform" type="org.jmonitoring.console.flow.FlowIdForm" />
         <form-bean name="methodcallform" type="org.jmonitoring.console.methodcall.MethodCallEditForm" />
         <form-bean name="methodcallstatform" type="org.jmonitoring.console.methodcall.MethodCallStatForm" />
@@ -52,7 +52,7 @@
             <forward name="invalid" path="functionalerror" />
         </action>
 
-        <action path="/FlowEditIn" type="org.jmonitoring.console.flow.FlowEditActionIn" name="floweditform"
+        <action path="/FlowEditIn" type="org.jmonitoring.console.flow.edit.FlowEditActionIn" name="floweditform"
             scope="request">
             <forward name="success" path="floweditinternal" />
             <forward name="required_info" path="floweditrequiredinfo" />

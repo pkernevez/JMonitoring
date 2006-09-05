@@ -1,4 +1,4 @@
-package org.jmonitoring.console.flow;
+package org.jmonitoring.console.flow.edit;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -77,7 +77,7 @@ public class FlowEditActionIn extends Action
             sLog.debug("Write PieCharts into HttpSession");
             FlowUtil.writeImageIntoSession(tSession, tFirstMeasure);
             sLog.debug("Write GantBarChart into HttpSession");
-            FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure);
+            FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure, tForm);
             if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
             {
                 sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());

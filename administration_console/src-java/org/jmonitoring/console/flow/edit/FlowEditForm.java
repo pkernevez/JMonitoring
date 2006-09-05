@@ -1,4 +1,4 @@
-package org.jmonitoring.console.flow;
+package org.jmonitoring.console.flow.edit;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -27,6 +27,8 @@ public class FlowEditForm extends ActionForm
     private int mId;
 
     private int mDurationMin;
+
+    private String mImageMap;
 
     /**
      * Allow to know what to do when there is a lot of <code>MeasuePoint</code> and that the tree could be very slow
@@ -108,5 +110,15 @@ public class FlowEditForm extends ActionForm
     public void setKindOfAction(int pKindOfAction)
     {
         mKindOfAction = pKindOfAction;
+    }
+
+    public String getImageMap()
+    {
+        return mImageMap;
+    }
+
+    public void setImageMap(String pImageMap)
+    {
+        mImageMap = pImageMap;
     }
 }

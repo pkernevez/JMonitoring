@@ -4,7 +4,11 @@
 	<classpathentry kind="src" path="src-java"/>
 	<classpathentry kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="/core_monitoring"/>
+	<classpathentry kind="src" path="/core_monitoring">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="target/**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="var" path="MAVEN_REPO/displaytag/jars/displaytag-1.0.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/log4j/jars/log4j-1.2.8.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.4.jar"/>
@@ -30,5 +34,6 @@
 	<classpathentry kind="var" path="MAVEN_REPO/commons-configuration/jars/commons-configuration-1.1.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-lang/jars/commons-lang-2.0.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar"/>
+	<classpathentry output="work" kind="src" path="work"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

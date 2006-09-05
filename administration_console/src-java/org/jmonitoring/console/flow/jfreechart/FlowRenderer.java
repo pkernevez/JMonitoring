@@ -74,7 +74,7 @@ public class FlowRenderer extends GanttRenderer
                 translatedValue0 = temp;
             }
             double rectStart = calculateBarW0(pPlot, pPlot.getOrientation(), pDataArea, pDomainAxis, pCatState, pRow,
-                            pColumn);
+                pColumn);
             double rectLength = Math.abs(translatedValue1 - translatedValue0);
             double rectBreadth = pCatState.getBarWidth();
             Rectangle2D bar = null;
@@ -96,16 +96,15 @@ public class FlowRenderer extends GanttRenderer
                 if (pPlot.getOrientation() == PlotOrientation.HORIZONTAL)
                 {
                     completeBar = new java.awt.geom.Rectangle2D.Double(translatedValue0, rectStart + start
-                                    * rectBreadth, rectLength * p, rectBreadth * (end - start));
+                        * rectBreadth, rectLength * p, rectBreadth * (end - start));
                     incompleteBar = new java.awt.geom.Rectangle2D.Double(translatedValue0 + rectLength * p, rectStart
-                                    + start * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
+                        + start * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
                 } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
                 {
                     completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                    translatedValue0 + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength
-                                                    * p);
+                        translatedValue0 + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
                     incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                    translatedValue0, rectBreadth * (end - start), rectLength * (1.0D - p));
+                        translatedValue0, rectBreadth * (end - start), rectLength * (1.0D - p));
                 }
             }
             // Paint seriesPaint = getItemPaint(row, column);
@@ -137,7 +136,7 @@ public class FlowRenderer extends GanttRenderer
                 url = getItemURLGenerator(pRow, pColumn).generateURL(pDataset, pRow, pColumn);
             }
             CategoryItemEntity entity = new CategoryItemEntity(bar, tip, url, pDataset, pRow, pDataset
-                            .getColumnKey(pColumn), pColumn);
+                .getColumnKey(pColumn), pColumn);
             entities.addEntity(entity);
         }
     }
@@ -165,9 +164,6 @@ public class FlowRenderer extends GanttRenderer
             double temp = java2dValue1;
             java2dValue1 = java2dValue0;
             java2dValue0 = temp;
-            Number tempNum = value1;
-            // value1 = value0;
-            // value0 = tempNum;
         }
         double rectStart = calculateBarW0(pPlot, orientation, pDataArea, pDomainAxis, pCatState, pRow, pColumn);
         double rectBreadth = pCatState.getBarWidth();
@@ -191,15 +187,15 @@ public class FlowRenderer extends GanttRenderer
             if (pPlot.getOrientation() == PlotOrientation.HORIZONTAL)
             {
                 completeBar = new java.awt.geom.Rectangle2D.Double(java2dValue0, rectStart + start * rectBreadth,
-                                rectLength * p, rectBreadth * (end - start));
+                    rectLength * p, rectBreadth * (end - start));
                 incompleteBar = new java.awt.geom.Rectangle2D.Double(java2dValue0 + rectLength * p, rectStart + start
-                                * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
+                    * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
             } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
             {
                 completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1
-                                + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
+                    + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
                 incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1,
-                                rectBreadth * (end - start), rectLength * (1.0D - p));
+                    rectBreadth * (end - start), rectLength * (1.0D - p));
             }
         }
 
@@ -237,7 +233,7 @@ public class FlowRenderer extends GanttRenderer
                     url = getItemURLGenerator(pRow, pColumn).generateURL(pDataset, pRow, pColumn);
                 }
                 CategoryItemEntity entity = new CategoryItemEntity(bar, tip, url, pDataset, pRow, pDataset
-                                .getColumnKey(pColumn), pColumn);
+                    .getColumnKey(pColumn), pColumn);
                 entities.addEntity(entity);
             }
         }
