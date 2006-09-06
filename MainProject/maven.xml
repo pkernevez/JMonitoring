@@ -19,7 +19,6 @@
         <echo>"buildAndDeploy" prereqs="clean"</echo>
         <echo>"buildRelease" prereqs="clean,multiproject:install,announcement"</echo>
         <echo>"deploySite" prereqs="buildSite,buildRelease"</echo>
-        <echo>"publishSite"</echo>
     </goal>
     
 		<goal name="build">
@@ -124,8 +123,11 @@
       <echo>KKKK1${maven.multiproject.excludes}</echo>
 		</goal>
 	
-		<goal name="deploySite" prereqs="buildSite,buildRelease">
-    	<attainGoal name="publishSite"/>
+		<goal name="deploySite" >
+    	<attainGoal name="buildSite"/>
+    	<copy todir="${forge.apache.htdocs}/jmonitoring">
+		   	<fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
+     	</copy>
 		</goal>
 	
 		<!--goal name="publishSite">
