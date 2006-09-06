@@ -16,7 +16,7 @@
     <organization>
         <name>Philippe Kernevez</name>
         <url>http://www.octo.com/</url>
-        <logo>http://jmonitoring.free.fr/octo3d.gif</logo>
+        <logo>http://forge.octo.com/maven/images/octo.gif</logo>
     </organization>
 
     <!-- (facultatif) identifiant de groupe -->
@@ -26,13 +26,13 @@
     <inceptionYear>2005</inceptionYear>
 
     <!-- logo -->
-    <logo>http://jmonitoring.free.fr/usinededev.gif</logo>
+    <logo>http://forge.octo.com/maven/images/usinededev.gif</logo>
     
     <!-- the project home page -->
-    <url>http://jmonitoring.free.fr/index.html</url>
+    <url>http://forge.octo.com/confluence/display/JMO/Home</url>
     
     <!-- racine du package (syntaxe java) -->
-    <package>net.kernevez</package>
+    <package>org.jmonitoring</package>
     
     <!--issueTrackingUrl>http://jmonitoring.dnsalias.com/jira/browse/JMO</issueTrackingUrl-->
     <issueTrackingUrl>http://forge.octo.com/jira/browse/JMO</issueTrackingUrl>

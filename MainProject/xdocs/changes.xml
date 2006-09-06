@@ -6,9 +6,10 @@
   </properties>
   <body>
 
-    <release version="0.6-SNAPSHOT" date="2006-05-31" description="Hibernate migration">
+    <release version="1.0-SNAPSHOT" description="Hibernate migration">
+    	<a href="http://forge.octo.com/confluence/display/JMO/ReleaseNotes"/>
     </release>
-    <release version="0.5dev" date="2005-06-16" description="Performance and stability">
+    <release version="0.5" date="2005-06-16" description="Performance and stability">
         <action dev="pkernevez" type="add">New page for searching list of <code>MeasurePoint</code> on same class and method.</action>
         <action dev="pkernevez" type="update">Information add to <code>MeasurePoint</code> statistics.</action>
         <action dev="pkernevez" type="update">Big Tree in the detail view of the flow (as tree) has duration filtering (don’t show to long <code>MeasurePoint</code>.</action>

@@ -22,8 +22,31 @@
         <echo>"publishSite"</echo>
     </goal>
     
-	<goal name="build">
-	        <attainGoal name="multiproject:install"/>
+		<goal name="build">
+			<j:set var="_exception1" value="${null}" />
+			<j:catch var="_exception1">
+				<echo>***** Try to clean project</echo>
+				<attainGoal name="multiproject:clean" />
+				<attainGoal name="clean" />
+			</j:catch>
+			<!-- Le maven clean peut planter si on vient de changer de version globalement pour le projet car les dependances n'existe pas encore 
+				==> on lance un install pour tout refaire et on lance ensuite un clean -->
+			<j:if test="${_exception1 != null}">
+				<echo>***** Clean Fail, now try to build without test then we clean</echo>
+				<j:set var="maven.test.skip" value="true" scope="parent" />
+					<j:catch var="_exception1">
+						<!-- On lance ce goal 2 fois car il plante (lors du build de l'ear sur la dependance de la web app) a cause de pb de telechargement de war interdit
+							C'est une consequence de la limitation du traffic entre Paris et Orleans -->
+						<attainGoal name="multiproject:install" />
+					</j:catch>
+					<!-- Celui la doit passer... -->
+					<attainGoal name="multiproject:install" />
+					<j:set var="maven.test.skip" value="false" scope="parent" />
+					<attainGoal name="multiproject:clean" />
+					<attainGoal name="clean" />
+				</j:if>
+				<echo>***** Try to build</echo>
+			<attainGoal name="multiproject:install" />
     </goal>
 
 	<goal name="buildSite" prereqs="multiproject:clean,exclude-sample">
@@ -44,27 +67,29 @@
 	        
     </goal>
     
-	<goal name="buildAndDeploy" prereqs="multiproject:clean,clean">
-	        <echo>Build All</echo>
-	        <attainGoal name="multiproject:install"/>
-            <echo>Deploy WebApp [administration_console.war]</echo>
-            <!-- Tomcat -->
-            <!--copy file="../administration_console/target/administration_console.war"    todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/>
-            <copy file="../sample_webapp/target/sample_webapp.war"                      todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/-->
-            <!-- AppServer -->
-            <copy file="../administration_console/target/administration_console.war" todir="${application.server.deploy.dir}"/>
-            <copy file="../sample_webapp/target/sample_webapp.war" todir="${application.server.deploy.dir}"/>
-            <!-- Pour éviter les effet de bord avec Eclipse -->
-            <attainGoal name="multiproject:clean"/>
-            <attainGoal name="clean"/>
-            
-    </goal>  
+		<goal name="buildAndDeploy" >
+	  	<echo>Build All</echo>
+	    <attainGoal name="build"/>
+      <echo>Deploy WebApp [administration_console.war]</echo>
+      <!-- Tomcat -->
+      <!--copy file="../administration_console/target/administration_console.war"    todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/>
+      <copy file="../sample_webapp/target/sample_webapp.war"                      todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/-->
+      <!-- AppServer -->
+      <copy file="../administration_console/target/administration_console.war" todir="${application.server.deploy.dir}"/>
+      <copy file="../sample_webapp/target/sample_webapp.war" todir="${application.server.deploy.dir}"/>
+      <!-- Pour éviter les effet de bord avec Eclipse -->
+      <attainGoal name="multiproject:clean"/>
+      <attainGoal name="clean"/>
+   	</goal>  
    
 	
         
-	<goal name="buildRelease" prereqs="multiproject:clean,multiproject:install,announcement">
+		<goal name="buildRelease">
+	    <attainGoal name="build"/>
+	    <attainGoal name="announcement"/>
+		
 	    <j:set var="release.dir" scope="parent" value="${maven.build.dir}/release"/>
-    	<j:set var="release.file" scope="parent" value="${maven.build.dir}/${pom.groupId}-${monitoring.version}.zip"/>
+    	<j:set var="release.file" scope="parent" value="${maven.repo.local}/${pom.groupId}/releases/${pom.groupId}-${monitoring.version}.zip"/>
 
 	    <mkdir dir="${release.dir}"/>
 	    <!-- main artifacts -->
@@ -92,46 +117,22 @@
     </goal>
 
 
-	<goal name="exclude-sample">
-	    <!-- We don't want to build the site for the sample projects...-->
-        <echo>KKKK2${maven.multiproject.excludes}</echo>
-        <j:set var="maven.multiproject.excludes" value="${maven.multiproject.excludes},sample_core/project.xml,sample_webapp/project.xml"/>
-        <echo>KKKK1${maven.multiproject.excludes}</echo>
-	</goal>
+		<goal name="exclude-sample">
+	   	<!-- We don't want to build the site for the sample projects...-->
+      <echo>KKKK2${maven.multiproject.excludes}</echo>
+      <j:set var="maven.multiproject.excludes" value="${maven.multiproject.excludes},sample_core/project.xml,sample_webapp/project.xml"/>
+      <echo>KKKK1${maven.multiproject.excludes}</echo>
+		</goal>
 	
-	<goal name="deploySite" prereqs="buildSite,buildRelease">
-        <attainGoal name="publishSite"/>
-	</goal>
+		<goal name="deploySite" prereqs="buildSite,buildRelease">
+    	<attainGoal name="publishSite"/>
+		</goal>
 	
-	<goal name="publishSite">
-	<!--goal name="deploySite" -->
-        <taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
+		<!--goal name="publishSite">
+			<taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
     	<j:set var="release.file" scope="parent" value="${maven.build.dir}/${pom.groupId}-${monitoring.version}.zip"/>
-
     	<copy todir="${forge.apache.htdocs}/jmonitoring">
-		    <fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
-        </copy>
-
-        <echo>Publish ${release.file}</echo>
-        <!-- Copy du dernier fichier de release-->
-        <!--ftp server="ftpperso.free.fr" 
-            userid="jmonitoring" 
-            password="${ftp.free.password}" verbose="yes" 
-            remotedir="release"
-            skipFailedTransfers="true">
-            <fileset file="${release.file}"/>
-        </ftp-->
-
-        <echo>Publish Site ${maven.build.dir}/docs</echo>
-        <!-- Copy du dernier fichier de release -->
-        <!--ftp server="ftpperso.free.fr" 
-            userid="jmonitoring" 
-            password="${ftp.free.password}" 
-            verbose="yes" 
-            skipFailedTransfers="true">
-            <fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
-        </ftp-->
-
-    </goal>
-    
+		   	<fileset dir="${maven.build.dir}/docs" includes="**/*.*"/>
+     	</copy>
+  	</goal-->
 </project>

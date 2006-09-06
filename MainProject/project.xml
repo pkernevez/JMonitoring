@@ -24,22 +24,20 @@
     
     <versions>
         <version>
-            <id>0.6-SNAPSHOT</id>
-            <name>0.6-SNAPSHOT</name>
+            <id>1.0-SNAPSHOT</id>
+            <name>1.0-SNAPSHOT</name>
         </version>
         <version>
-            <id>0.5dev</id>
-            <name>0.5dev</name>
+            <id>0.5</id>
+            <name>0.5</name>
         </version>
         <version>
-            <id>0.4</id>
-            <name>0.4</name>
-            <tag>V0.4_Release</tag>
+            <id>0.4.1</id>
+            <name>0.4.1</name>
         </version>
         <version>
             <id>0.3</id>
             <name>0.3</name>
-            <tag>V0.3_Release</tag>
         </version>
         <version>
             <id>0.2</id>
