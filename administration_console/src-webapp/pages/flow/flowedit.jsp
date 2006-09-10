@@ -9,9 +9,8 @@
 <%@page import="java.util.Date"%>
 
 <H1>Flow Edition</H1>
-<html:link action="DeleteFlow" paramName="floweditform" paramProperty="id" paramId="id">Delete</html:link>
+<html:link action="DeleteOneFlowIn" paramName="floweditform" paramProperty="id" paramId="id">Delete</html:link>
 
-<!--a href="/DeleteFlow.do?Id=< % =((FlowEditForm)request.getAttribute("floweditform").getId()% >">Delete</a-->
 <table width="100%">
 	<tr>	
 		<td>JVM Name</td>

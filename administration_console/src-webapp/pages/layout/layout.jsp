@@ -34,24 +34,18 @@
 		    <script type="text/javascript" src="<bean:write name="js3"/>"></script>
 		</logic:present>
 	     
-	<style type="text/css">
-  	.smd-menu-top {0}font-family:verdana,arial;font-size:12px;font-weight:bold{1}
-  	.smd-menu-item {0}font-family:verdana,arial;font-size:12px;{1}
-  	img.smd-menu {0}border: 0{1}
-  	a.smd-menu {0}text-decoration:none{1}
-	</style>
     </head>
     <body>
     	<table class="layout" border="0" height="100%" width="100%">
       	<tbody>
-            	<tr height="40">
+            	<tr class="header" height="40">
                     <tiles:insert attribute="head"/>
             	</tr>
             	<tr>
-                <td class="Leftmenu" width="130" valign="top">
+                <td class="leftMenu" width="130" valign="top">
                     <tiles:insert attribute="menu"/>
                 </td>
-                <td class="header"  valign="top">
+                <td class="main"  valign="top">
                     <tiles:insert attribute="body"/>                
                 </td>
             </tr>
