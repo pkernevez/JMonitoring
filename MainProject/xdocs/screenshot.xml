@@ -10,10 +10,11 @@
     <body>
         <section name="ScreenShots">
             <ul>
-                <li><a href="sample/MeasureSearch.do.htm">Measures search</a></li>
-                <li><a href="sample/FlowEdit.do.htm">Flow Stack Edition</a></li>
-                <li><a href="sample/MeasurePointEdit.do.htm">Method Call Detail</a></li>
-                <li><a href="sample/MeasurePointStat.do.htm">Methods Call Statistics</a></li>
+                <li><a href="sample/FlowSearchOut.do.htm">Flow search</a></li>
+                <li><a href="sample/FlowEditIn.do.htm">Flow Stack Edition</a></li>
+                <li><a href="sample/MethodCallEditIn.do.htm">Method Call Detail</a></li>
+                <li><a href="sample/MethodCallStatIn.do.htm">Method calls statistic</a></li>
+                <li><a href="sample/MethodCallSearchIn.do.htm">Method calls search</a></li>
             </ul>
         </section>
     </body>
