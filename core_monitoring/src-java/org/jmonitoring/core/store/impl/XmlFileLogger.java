@@ -71,19 +71,19 @@ public class XmlFileLogger implements IStoreWriter
                     writeToAllThreadFile("<Threads>");
                     Runtime.getRuntime().addShutdownHook(new Thread()
                     { // On
-                                        // ferme le tag en sortant
-                                        public void run()
-                                        {
-                                            writeToAllThreadFile("</Threads>");
-                                            try
-                                            {
-                                                sCommonFileWriter.flush();
-                                            } catch (IOException e)
-                                            {
-                                                throw new MeasureException("Unable to flush stream for logging.", e);
-                                            }
-                                        }
-                                    });
+                            // ferme le tag en sortant
+                            public void run()
+                            {
+                                writeToAllThreadFile("</Threads>");
+                                try
+                                {
+                                    sCommonFileWriter.flush();
+                                } catch (IOException e)
+                                {
+                                    throw new MeasureException("Unable to flush stream for logging.", e);
+                                }
+                            }
+                        });
                 } catch (IOException e)
                 {
                     throw new MeasureException("Unable to open stream for logging.", e);
@@ -105,23 +105,23 @@ public class XmlFileLogger implements IStoreWriter
         if (!sConfiguration.getSameFileForAllThread())
         { // On initalise un fichier pour ce Thread
             File tFile = new File(sConfiguration.getXmlOutpuDir() + "/Thread." + Thread.currentThread().getName()
-                            + ".xml");
+                + ".xml");
             try
             {
                 mLogFile = new FileWriter(tFile);
                 writeToFile("<Threads>");
                 Runtime.getRuntime().addShutdownHook(new Thread()
                 { // On ferme le tag en sortant
-                                    public void run()
-                                    {
-                                        writeToFile("</Threads>");
-                                        flushFile();
-                                    }
-                                });
+                        public void run()
+                        {
+                            writeToFile("</Threads>");
+                            flushFile();
+                        }
+                    });
             } catch (IOException e)
             {
                 throw new MeasureException("Unable to create LogFile for Thread [" + Thread.currentThread().getName()
-                                + "] [" + tFile.getAbsolutePath() + "]");
+                    + "] [" + tFile.getAbsolutePath() + "]");
             }
         } else
         {
@@ -143,7 +143,7 @@ public class XmlFileLogger implements IStoreWriter
             } catch (IOException e)
             {
                 throw new MeasureException("Unable to write into LogFile for Thread ["
-                                + Thread.currentThread().getName() + "]");
+                    + Thread.currentThread().getName() + "]");
             }
         }
     }
@@ -156,7 +156,7 @@ public class XmlFileLogger implements IStoreWriter
         } catch (IOException e)
         {
             throw new MeasureException("Unable to write into LogFile for Thread [" + Thread.currentThread().getName()
-                            + "]");
+                + "]");
         }
 
     }
@@ -169,15 +169,14 @@ public class XmlFileLogger implements IStoreWriter
         } catch (IOException e)
         {
             throw new MeasureException("Unable to write into LogFile for Thread [" + Thread.currentThread().getName()
-                            + "]");
+                + "]");
         }
     }
 
     /**
      * (non-Javadoc)
      * 
-     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow(
-     *      org.jmonitoring.core.dto.ExecutionFlow)
+     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow( org.jmonitoring.core.dto.ExecutionFlow)
      */
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
@@ -228,10 +227,9 @@ public class XmlFileLogger implements IStoreWriter
                 }
             } else
             { // On log l'exception
-                mCurrentBuffer.append("throwable=\"").append(pCurrentMethodCall.getThrowableClass())
-                                .append("\" ");
+                mCurrentBuffer.append("throwable=\"").append(pCurrentMethodCall.getThrowableClass()).append("\" ");
                 mCurrentBuffer.append("throwableMessage=\"").append(pCurrentMethodCall.getThrowableMessage()).append(
-                                "\" ");
+                    "\" ");
             }
         } else
         { // On log que le type de retour

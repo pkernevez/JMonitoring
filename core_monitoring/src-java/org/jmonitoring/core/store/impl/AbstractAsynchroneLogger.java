@@ -23,8 +23,9 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
     private static Log sLog = LogFactory.getLog(AbstractAsynchroneLogger.class);
 
     private static PooledExecutor sExecutor;
-    
-    static {
+
+    static
+    {
         int tAsynchroneLoggerThreadPoolSize = Configuration.getInstance().getAsynchroneStoreThreadPoolSize();
         sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
         sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");

@@ -11,7 +11,7 @@ public class MethodCallSearchForm extends ActionForm
     private Map mTreeOfMethodCallExtract;
 
     private Map mMapOfMethodCallExtractByFullName;
-    
+
     public Map getTreeOfMethodCallExtract()
     {
         return mTreeOfMethodCallExtract;
@@ -31,6 +31,5 @@ public class MethodCallSearchForm extends ActionForm
     {
         mMapOfMethodCallExtractByFullName = pMapOfMethodCallExtractByFullName;
     }
-
 
 }

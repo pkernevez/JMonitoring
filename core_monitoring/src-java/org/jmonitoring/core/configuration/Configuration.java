@@ -85,17 +85,17 @@ public final class Configuration
             mTimeFormat = tConfig.getString("format.ihm.time", "HH:mm:ss.SSS");
             mDateTimeFormat = mDateFormat + " " + mTimeFormat;
             mMaxExecutionDuringFlowEdition = tConfig.getInt("maxExecutionDuringFlowEdition");
-            
+
             mAsynchroneStoreThreadPoolSize = tConfig.getInt("asynchronelogger.threadpool.size", 1);
 
             initColor(tConfig);
         } catch (Error e)
         {
-                sLog.error("Error during the loading of the configuration file \"jmonitoring.properties\"", e);
+            sLog.error("Error during the loading of the configuration file \"jmonitoring.properties\"", e);
             throw e;
         } catch (RuntimeException e2)
         {
-                sLog.error("Error during the loading of the configuration file " + "\"jmonitoring.properties\"", e2);
+            sLog.error("Error during the loading of the configuration file " + "\"jmonitoring.properties\"", e2);
             throw e2;
         }
     }
@@ -105,7 +105,8 @@ public final class Configuration
         Class tResultClass;
         try
         {
-            String tLoggerClassName = pConfig.getString("measurepoint.logger.class", AsynchroneJdbcLogger.class.getName());
+            String tLoggerClassName = pConfig.getString("measurepoint.logger.class", AsynchroneJdbcLogger.class
+                .getName());
             tResultClass = Class.forName(tLoggerClassName);
         } catch (ClassNotFoundException e1)
         {
@@ -127,7 +128,7 @@ public final class Configuration
         } catch (ConfigurationException e)
         {
             throw new MeasureException("Unable to initialise Configuration. "
-                            + "Check that you have a file \"jmonitoring.properties\" in your CLASSPATH");
+                + "Check that you have a file \"jmonitoring.properties\" in your CLASSPATH");
         }
     }
 
@@ -151,7 +152,7 @@ public final class Configuration
                 tGroupName = curKey.substring(tPrefix.length() + 1);
                 mGroupColor.put(tGroupName, new Color(tRed, tGreen, tBlue));
             } catch (Throwable t)
-            { //Nothing to do we'll use the calculateColorMethod
+            { // Nothing to do we'll use the calculateColorMethod
                 sLog.warn("Unable to initialise ColorGroup name for Key=[" + curKey + "]");
             }
 

@@ -2,8 +2,6 @@ package org.jmonitoring.core.dto;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
@@ -17,7 +15,7 @@ public class TestDtoHelper extends PersistanceTestCase
 {
     public void testGetExecutionFlowDto()
     {
-        ExecutionFlowPO tFlowPO = TestExecutionFlowDAO.buildAndSaveNewFullFlow(mSession);
+        ExecutionFlowPO tFlowPO = TestExecutionFlowDAO.buildAndSaveNewFullFlow(getSession());
         tFlowPO.setId(45);
 
         ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(tFlowPO);
@@ -50,8 +48,7 @@ public class TestDtoHelper extends PersistanceTestCase
     public void testGetFullMethodCallDto()
     {
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
-        DtoHelper tHelper = new DtoHelper();
-        MethodCallDTO tMeth = tHelper.getFullMethodCallDto(tFlow.getFirstMethodCall());
+        MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall());
         assertNotNull(tMeth);
         assertEquals(2, tMeth.getChildren().size());
         MethodCallDTO tChild1 = (MethodCallDTO) tMeth.getChildren().get(0);

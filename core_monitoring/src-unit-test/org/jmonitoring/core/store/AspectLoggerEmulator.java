@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.StoreManager;
 import org.jmonitoring.core.utils.MockSignature;
 
 /***************************************************************************
@@ -46,7 +44,7 @@ public class AspectLoggerEmulator
     public void simulateExecutionFlow(boolean pWithLog)
     {
         StoreManager tManager = new StoreManager(mStoreWriter, Configuration.getInstance());
-        tManager.sLog = new ErrorLogTracer(pWithLog);
+        StoreManager.setLog(new ErrorLogTracer(pWithLog));
         AspectLoggerEmulator.resetCounters();
 
         Signature tSignature;
@@ -67,7 +65,7 @@ public class AspectLoggerEmulator
     public void simulateExecutionFlowWithExceptioninMain(boolean pWithLog)
     {
         StoreManager tManager = new StoreManager(mStoreWriter, Configuration.getInstance());
-        tManager.sLog = new ErrorLogTracer(pWithLog);
+        StoreManager.setLog(new ErrorLogTracer(pWithLog));
         AspectLoggerEmulator.resetCounters();
 
         Signature tSignature;

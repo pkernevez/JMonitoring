@@ -1,13 +1,10 @@
 package org.jmonitoring.core.store;
 
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.TestExecutionFlowDAO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 
@@ -72,7 +69,7 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.sLog).mErrors;
+        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
         assertEquals("Unable to trace return value of call.Pour faire planter un appelMain", tErrors.get(0));
@@ -95,7 +92,7 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.sLog).mErrors;
+        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
         assertEquals("Unable to trace return value of call.Pour faire planter un appelMain", tErrors.get(0));
@@ -117,7 +114,7 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.sLog).mErrors;
+        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
@@ -137,14 +134,14 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.sLog).mErrors;
+        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
     public void testFactory()
     {
-        StoreManager tManager = new StoreManager();
-        tManager = new StoreManager(null, null);
+        new StoreManager();
+        new StoreManager(null, null);
     }
     
 }

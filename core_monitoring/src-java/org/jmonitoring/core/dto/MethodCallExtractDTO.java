@@ -7,7 +7,7 @@ package org.jmonitoring.core.dto;
 
 /**
  * Extract of a king of measure.
- *  
+ * 
  */
 public class MethodCallExtractDTO
 {
@@ -24,7 +24,7 @@ public class MethodCallExtractDTO
     /**
      * Default constructor.
      * 
-     * @param pClassName Full class name 
+     * @param pClassName Full class name
      * @param pMethodName Method name).
      * @param pGroupName The name of the group associated with this measure extract.
      * @param pNb The number of occurrence of this kind of measure.
@@ -40,7 +40,7 @@ public class MethodCallExtractDTO
 
     protected static String getFullName(String pClassName, String pMethodName)
     {
-        String tName = pClassName+"."+pMethodName;
+        String tName = pClassName + "." + pMethodName;
         return tName.replaceAll("\\.++", ".");
     }
 

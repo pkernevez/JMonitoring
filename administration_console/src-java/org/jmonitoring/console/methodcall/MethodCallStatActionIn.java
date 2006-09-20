@@ -190,7 +190,7 @@ public class MethodCallStatActionIn extends Action
         renderer.setToolTipGenerator(new StandardXYToolTipGenerator());
 
         renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(), pForm
-                        .getClassName(), pForm.getMethodName()));
+            .getClassName(), pForm.getMethodName()));
 
         XYPlot plot = new XYPlot(dataset, tAxis, tValueAxis, renderer);
         plot.setOrientation(PlotOrientation.VERTICAL);

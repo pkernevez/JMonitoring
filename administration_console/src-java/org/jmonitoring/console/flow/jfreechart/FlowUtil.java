@@ -73,12 +73,12 @@ public class FlowUtil
             tPos++;
         }
         DefaultDrawingSupplier tSupplier = new DefaultDrawingSupplier(tColors, new Paint[0], new Stroke[0],
-                        new Stroke[0], new Shape[0]);
+            new Stroke[0], new Shape[0]);
 
         JFreeChart chart = createPieChart("Duration in group", // chart title
-                        dataset, // data
-                        tSupplier, true, // include legend
-                        true, false);
+            dataset, // data
+            tSupplier, true, // include legend
+            true, false);
         addChart(chart, pSession, DURATION_IN_GROUP);
 
         // Maintenant image par nb d'appel
@@ -91,9 +91,9 @@ public class FlowUtil
             dataset.setValue(curValue, ((Integer) tFlow.mListOfGroup.get(curValue)).intValue());
         }
         chart = createPieChart("Nb call of group", // chart title
-                        dataset, // data
-                        tSupplier, true, // include legend
-                        true, false);
+            dataset, // data
+            tSupplier, true, // include legend
+            true, false);
         addChart(chart, pSession, NB_CALL_TO_GROUP);
 
     }
@@ -212,7 +212,7 @@ public class FlowUtil
         if (pTooltips)
         {
             plot.setToolTipGenerator(new StandardPieItemLabelGenerator(
-                            StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT));
+                StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT));
         }
         if (pUrls)
         {

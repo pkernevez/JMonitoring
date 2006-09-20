@@ -110,19 +110,18 @@ public final class DtoHelper
         return tResult;
     }
 
-
     public static List copyListMethodCallFullExtract(List pListOfMeth)
     {
         MethodCallPO tMeth;
-        List tResult = new ArrayList(pListOfMeth.size()); 
-        for (Iterator tIt = pListOfMeth.iterator(); tIt.hasNext(); )
+        List tResult = new ArrayList(pListOfMeth.size());
+        for (Iterator tIt = pListOfMeth.iterator(); tIt.hasNext();)
         {
             tMeth = (MethodCallPO) tIt.next();
             tResult.add(copyMethodCallFullExtract(tMeth));
         }
         return tResult;
     }
-    
+
     static MethodCallFullExtractDTO copyMethodCallFullExtract(MethodCallPO pMeth)
     {
         MethodCallFullExtractDTO tResult = new MethodCallFullExtractDTO();

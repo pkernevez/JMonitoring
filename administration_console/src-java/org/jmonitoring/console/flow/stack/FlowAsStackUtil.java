@@ -95,12 +95,12 @@ public class FlowAsStackUtil
         // Génération du lien vers les statistiques
         StringBuffer tLinkStat = new StringBuffer();
         tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=" + pCurrentMethod.getFlowId()
-                        + "&id=" + pCurrentMethod.getId() + "\">");
+            + "&id=" + pCurrentMethod.getId() + "\">");
         tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
 
         StringBuffer tLinkDetail = new StringBuffer();
         tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId="
-                        + pCurrentMethod.getFlowId() + "&id=" + pCurrentMethod.getId() + "\">");
+            + pCurrentMethod.getFlowId() + "&id=" + pCurrentMethod.getId() + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
         // Maintenant on créer le le html associé au MethodCallDTO
@@ -120,7 +120,7 @@ public class FlowAsStackUtil
         } else
         {
             pHtmlBuffer.append("<li><span title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">" + tReturnImage
-                            + getMeasurePointText(pCurrentMethod) + "</span>");
+                + getMeasurePointText(pCurrentMethod) + "</span>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "</li>\n");
         }
     }
@@ -137,7 +137,7 @@ public class FlowAsStackUtil
         long tDuration = pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime();
         tBuffer.append("[").append(tDuration).append("] ");
         tBuffer.append(pMeasure.getGroupName()).append(" -> ").append(pMeasure.getClassName()).append(".").append(
-                        pMeasure.getMethodName());
+            pMeasure.getMethodName());
         return tBuffer.toString();
     }
 

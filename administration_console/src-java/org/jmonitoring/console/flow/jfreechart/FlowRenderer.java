@@ -40,9 +40,10 @@ public class FlowRenderer extends GanttRenderer
 
     /**
      * Pour la serialisation.
-     */
+     */ 
     private static final long serialVersionUID = 3258413911081431864L;
 
+    /** More than 7 parameters, because of JFreeChart. */
     protected void drawTasks(Graphics2D pGraph2D, CategoryItemRendererState pCatState, Rectangle2D pDataArea,
                     CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset,
                     int pRow, int pColumn)
@@ -141,6 +142,7 @@ public class FlowRenderer extends GanttRenderer
         }
     }
 
+    /** More than 7 parameters, because of JFreeChart. */
     protected void drawTask(Graphics2D pGraph2D, CategoryItemRendererState pCatState, Rectangle2D pDataArea,
                     CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset,
                     int pRow, int pColumn)

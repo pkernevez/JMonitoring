@@ -37,7 +37,7 @@ public class MethodCallSearchActionIn extends Action
         MethodCallSearchForm tForm = (MethodCallSearchForm) pForm;
         tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
         tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
-        
+
         return pMapping.findForward("success");
     }
 
@@ -60,7 +60,7 @@ public class MethodCallSearchActionIn extends Action
             tExtract = (MethodCallExtractDTO) tIt.next();
             pListOfExtractByFullClassName.put(tExtract.getName() + tExtract.getGroupName(), tExtract);
             for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(), "."); tTokenizer
-                            .hasMoreElements();)
+                .hasMoreElements();)
             {
                 curString = (String) tTokenizer.nextElement();
                 if (curMap.get(curString) == null)

@@ -8,9 +8,6 @@ import java.awt.Color;
 
 import junit.framework.TestCase;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 public class TestConfiguration extends TestCase
 {
 

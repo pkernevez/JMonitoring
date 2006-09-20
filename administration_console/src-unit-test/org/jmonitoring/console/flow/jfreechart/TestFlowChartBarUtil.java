@@ -23,14 +23,14 @@ public class TestFlowChartBarUtil extends TestCase
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
-//        writeChart("c:/temp/toto.gif", tUtil);
+        // writeChart("c:/temp/toto.gif", tUtil);
 
         Map tGroups = tUtil.getListOfGroup();
         assertEquals(2, tGroups.size());
 
         TaskForGroupName tTaskEntry = (TaskForGroupName) tGroups.get("GrDefault");
         assertNotNull(tTaskEntry);
-        Task curTask = tTaskEntry.mMainTaskOfGroup;
+        Task curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(3, curTask.getSubtaskCount());
         Task curSubTask = curTask.getSubtask(0);
         TimePeriod curDuration = curSubTask.getDuration();
@@ -49,7 +49,7 @@ public class TestFlowChartBarUtil extends TestCase
 
         tTaskEntry = (TaskForGroupName) tGroups.get("GrChild1");
         assertNotNull(tTaskEntry);
-        curTask = tTaskEntry.mMainTaskOfGroup;
+        curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(2, curTask.getSubtaskCount());
 
         curSubTask = curTask.getSubtask(0);
@@ -64,23 +64,23 @@ public class TestFlowChartBarUtil extends TestCase
 
     }
 
-//     private void writeChart(String pString, FlowChartBarUtil pUtil)
-//     {
-//     IntervalCategoryDataset intervalcategorydataset = pUtil.createDataset();
-//     JFreeChart jfreechart = pUtil.createGanttChart(intervalcategorydataset);
-//     Plot tPlot = jfreechart.getPlot();
-//     tPlot.setNoDataMessage("No data available");
-//     try
-//     {
-//     OutputStream tStream = new FileOutputStream(pString);
-//     ChartUtilities.writeChartAsPNG(tStream, jfreechart, 600, 400);
-//     tStream.close();
-//     } catch (IOException e)
-//     {
-//     throw new MeasureException("Unable to write Image", e);
-//     }
-//     }
-    
+    // private void writeChart(String pString, FlowChartBarUtil pUtil)
+    // {
+    // IntervalCategoryDataset intervalcategorydataset = pUtil.createDataset();
+    // JFreeChart jfreechart = pUtil.createGanttChart(intervalcategorydataset);
+    // Plot tPlot = jfreechart.getPlot();
+    // tPlot.setNoDataMessage("No data available");
+    // try
+    // {
+    // OutputStream tStream = new FileOutputStream(pString);
+    // ChartUtilities.writeChartAsPNG(tStream, jfreechart, 600, 400);
+    // tStream.close();
+    // } catch (IOException e)
+    // {
+    // throw new MeasureException("Unable to write Image", e);
+    // }
+    // }
+
     public void testFillListOfGroup()
     {
         MethodCallDTO tFirstMethod = TestFlowUtils.getSampleMeasurePoint();
@@ -94,7 +94,7 @@ public class TestFlowChartBarUtil extends TestCase
 
         TaskForGroupName tTaskEntry = (TaskForGroupName) tGroups.get("GrDefault");
         assertNotNull(tTaskEntry);
-        Task curTask = tTaskEntry.mMainTaskOfGroup;
+        Task curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(4, curTask.getSubtaskCount());
         Task curSubTask = curTask.getSubtask(0);
         TimePeriod curDuration = curSubTask.getDuration();
@@ -118,7 +118,7 @@ public class TestFlowChartBarUtil extends TestCase
 
         tTaskEntry = (TaskForGroupName) tGroups.get("GrChild1");
         assertNotNull(tTaskEntry);
-        curTask = tTaskEntry.mMainTaskOfGroup;
+        curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(3, curTask.getSubtaskCount());
 
         curSubTask = curTask.getSubtask(0);
@@ -138,7 +138,7 @@ public class TestFlowChartBarUtil extends TestCase
 
         tTaskEntry = (TaskForGroupName) tGroups.get("GrChild2");
         assertNotNull(tTaskEntry);
-        curTask = tTaskEntry.mMainTaskOfGroup;
+        curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(2, curTask.getSubtaskCount());
 
         curSubTask = curTask.getSubtask(0);

@@ -1,15 +1,8 @@
 package org.jmonitoring.console.flow.jfreechart;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import junit.framework.TestCase;
-
-import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 /***********************************************************************************************************************

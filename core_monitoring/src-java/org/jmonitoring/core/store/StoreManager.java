@@ -26,7 +26,7 @@ public class StoreManager
     private MethodCallPO mCurrentLogPoint;
 
     /** <code>CommonsLog</code> instance. */
-    static Log sLog = LogFactory.getLog(StoreManager.class);
+    private static Log sLog = LogFactory.getLog(StoreManager.class);
 
     private IStoreWriter mStoreWriter;
 
@@ -34,8 +34,6 @@ public class StoreManager
 
     /**
      * Default constructor.
-     * 
-     * @param pConfiguration The configuration instance to use.
      */
     public StoreManager()
     {
@@ -70,7 +68,7 @@ public class StoreManager
                 sLog.debug("logBeginOfMethod First Time" + pSignature);
             }
             mCurrentLogPoint = new MethodCallPO(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
-                            pGroupName, pArgs);
+                pGroupName, pArgs);
         } else
         {
             if (sLog.isDebugEnabled())
@@ -79,7 +77,7 @@ public class StoreManager
             }
             MethodCallPO tOldPoint = mCurrentLogPoint;
             mCurrentLogPoint = new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
-                            pGroupName, pArgs);
+                pGroupName, pArgs);
         }
     }
 
@@ -99,7 +97,7 @@ public class StoreManager
                 sLog.debug("logEndOfMethodNormal Last Time" + tResultAsString);
             }
             ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
-                            mConfiguration.getServerName());
+                mConfiguration.getServerName());
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
@@ -138,7 +136,7 @@ public class StoreManager
                 sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
             }
             ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
-                            mConfiguration.getServerName());
+                mConfiguration.getServerName());
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
@@ -146,8 +144,7 @@ public class StoreManager
             if (sLog.isDebugEnabled())
             {
                 sLog
-                                .debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException
-                                                .getMessage()));
+                    .debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.getMessage()));
             }
             mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
         }
@@ -160,6 +157,7 @@ public class StoreManager
      * 
      * @param pMethodCall the current methodcall to manage.
      * @param pReturnValue The return value of the method.
+     * @return The value of the real method call if tracing is activated, null othewise.
      */
     public String endMethod(MethodCallPO pMethodCall, Object pReturnValue)
     {
@@ -191,6 +189,16 @@ public class StoreManager
         pMethodCall.setEndTime(System.currentTimeMillis());
         pMethodCall.setThrowableClass(pExceptionClassName);
         pMethodCall.setThrowableMessage(pExceptionMessage);
+    }
+
+    public static void setLog(Log pLog)
+    {
+        sLog = pLog;
+    }
+
+    public static Log getLog()
+    {
+        return sLog;
     }
 
 }

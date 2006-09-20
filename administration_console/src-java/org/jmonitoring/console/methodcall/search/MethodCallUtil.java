@@ -26,7 +26,7 @@ public class MethodCallUtil
     private StringBuffer mWriter;
 
     private static Log sLog = LogFactory.getLog(MethodCallUtil.class);
-    
+
     /**
      * Contructor for test.
      * 
@@ -41,7 +41,7 @@ public class MethodCallUtil
     {
         return mWriter.toString();
     }
-    
+
     /**
      * Write the list of Measure as an Html Tree.
      */
@@ -59,8 +59,8 @@ public class MethodCallUtil
             {
                 curEntry = (Map.Entry) tIt.next();
                 mWriter.append("<li class=\"menubar\">");
-                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList(), (Map) curEntry.getValue(), (String) curEntry.getKey(),
-                                true, tLastId + 1);
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList(), (Map) curEntry.getValue(),
+                    (String) curEntry.getKey(), true, tLastId + 1);
                 mWriter.append("</li>");
             }
             mWriter.append("</ul>");
@@ -79,8 +79,8 @@ public class MethodCallUtil
      * @param pLastId The technical identifier to use for the next generation.
      * @return The last technical identifier used.
      */
-    int writeMeasuresAsMenu(Map pListOfAllExtractByFullName, List pCurrentClassName, Map pTreeOfMeasure, String pCurNodeName, boolean pFirstLevel,
-                    int pLastId)
+    int writeMeasuresAsMenu(Map pListOfAllExtractByFullName, List pCurrentClassName, Map pTreeOfMeasure,
+                    String pCurNodeName, boolean pFirstLevel, int pLastId)
     {
         int tLastId = pLastId;
         if (pTreeOfMeasure.size() > 0)
@@ -100,14 +100,14 @@ public class MethodCallUtil
             }
             mWriter.append("<a href=\"#\" id=\"" + tLastId + "Actuator\"");
             mWriter.append(" class=\"actuator\">" // + tReturnImage
-                            + pCurNodeName + "</a>\n");
+                + pCurNodeName + "</a>\n");
             mWriter.append("  <ul id=\"" + tLastId + "Menu\" class=\"" + tClassName + "\">\n");
             Map.Entry curEntry;
             for (Iterator tIterator = pTreeOfMeasure.entrySet().iterator(); tIterator.hasNext();)
             {
                 curEntry = (Map.Entry) tIterator.next();
-                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName, (Map) curEntry.getValue(), (String) curEntry.getKey(),
-                                false, ++tLastId);
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName,
+                    (Map) curEntry.getValue(), (String) curEntry.getKey(), false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
             if (pFirstLevel)
@@ -120,7 +120,8 @@ public class MethodCallUtil
         {
             // Génération du lien vers les statistiques
             StringBuffer tLinkStat = new StringBuffer();
-            MethodCallExtractDTO tExtract = getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName, pCurNodeName);
+            MethodCallExtractDTO tExtract = getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName,
+                pCurNodeName);
             tLinkStat.append("<li><span title=\"GroupName=[").append(tExtract.getGroupName());
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
@@ -135,7 +136,8 @@ public class MethodCallUtil
         return tLastId++;
     }
 
-    private MethodCallExtractDTO getExtractForThisNode(Map pListOfAllExtractByFullName, List pClassNameAsString, String pCurrentNodeName)
+    private MethodCallExtractDTO getExtractForThisNode(Map pListOfAllExtractByFullName, List pClassNameAsString,
+                    String pCurrentNodeName)
     {
         // Calculation of the full name
         StringBuffer tBuffer = new StringBuffer();
@@ -145,10 +147,10 @@ public class MethodCallUtil
         }
         tBuffer.append(".").append(pCurrentNodeName);
         // Now return the extract for this name
-        MethodCallExtractDTO tResult = (MethodCallExtractDTO)pListOfAllExtractByFullName.get(tBuffer.toString());
-        if (tResult==null)
+        MethodCallExtractDTO tResult = (MethodCallExtractDTO) pListOfAllExtractByFullName.get(tBuffer.toString());
+        if (tResult == null)
         {
-            sLog.error("Unable to find Method Call with Key=["+tBuffer.toString()+"]");
+            sLog.error("Unable to find Method Call with Key=[" + tBuffer.toString() + "]");
         }
         return tResult;
     }

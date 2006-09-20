@@ -14,12 +14,16 @@ import org.hibernate.stat.Statistics;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class HibernateManager
+public final class HibernateManager
 {
 
     private static final String HIBERNATE_CFG_XML = "hibernate.cfg.xml";
 
     private static final String HIBERNATE_CFG_PROPERTIES = "hibernate.cfg.properties";
+
+    private HibernateManager()
+    {
+    }
 
     /**
      * Logger of the class

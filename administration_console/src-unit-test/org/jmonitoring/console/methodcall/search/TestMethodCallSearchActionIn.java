@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jmonitoring.console.flow.FlowBuilderUtil;
-import org.jmonitoring.console.methodcall.MethodCallEditForm;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 
 import servletunit.struts.MockStrutsTestCase;
@@ -20,7 +18,7 @@ public class TestMethodCallSearchActionIn extends MockStrutsTestCase
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
+        tUtil.buildAndSaveNewDto(2);
 
         setRequestPathInfo("/MethodCallSearchIn");
         MethodCallSearchForm tForm = new MethodCallSearchForm();
@@ -99,8 +97,8 @@ public class TestMethodCallSearchActionIn extends MockStrutsTestCase
         assertEquals(1, curMap.size());
         curMap = (HashMap) curMap.get("getTitiGrp2");
         assertEquals(0, curMap.size());
-        
-        assertEquals(6 ,tFullListOfMap.size());
+
+        assertEquals(6, tFullListOfMap.size());
         assertNotNull(tFullListOfMap.get("org.monitoring.toto.Toto.getTotoGrp1"));
         assertNotNull(tFullListOfMap.get("org.monitoring.toto.Toto.getTotoBisGrp1"));
         assertNotNull(tFullListOfMap.get("org.monitoring.toto.TotoBis.getTotoGrp1"));

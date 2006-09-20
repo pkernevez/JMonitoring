@@ -47,12 +47,12 @@ public final class StoreFactory
             {
                 sLog.error("Unable to get Constructor for the class MEASURE_POINT_LOGGER_CLASS", e);
                 throw new MeasureException("Unable to find constructor without parameter for class [" + tStoreClass
-                                + "]", e);
+                    + "]", e);
             } catch (NoSuchMethodException e)
             {
                 sLog.error("Unable to get Constructor for the class MEASURE_POINT_LOGGER_CLASS", e);
                 throw new MeasureException("Unable to find constructor without parameter for class [" + tStoreClass
-                                + "]", e);
+                    + "]", e);
             }
 
         }

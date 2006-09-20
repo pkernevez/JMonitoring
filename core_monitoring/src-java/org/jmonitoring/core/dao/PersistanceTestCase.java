@@ -4,13 +4,11 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.XmlDataSet;
 import org.dbunit.operation.DatabaseOperation;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
@@ -24,9 +22,9 @@ import org.jmonitoring.core.persistence.HibernateManager;
 public abstract class PersistanceTestCase extends TestCase
 {
 
-    protected Session mSession;
+    private Session mSession;
 
-    protected Transaction mTransaction;
+    private Transaction mTransaction;
 
     private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
 
@@ -84,6 +82,16 @@ public abstract class PersistanceTestCase extends TestCase
             mSession.close();
             sLog.info("Hibernate Session Closed");
         }
+    }
+
+    public Session getSession()
+    {
+        return mSession;
+    }
+
+    public Transaction getTransaction()
+    {
+        return mTransaction;
     }
 
     // protected String getDataSetFileName() throws Exception

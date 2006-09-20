@@ -73,9 +73,10 @@ public class MethodCallPO
      *        <code>MethodCallDTO</code>.
      * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
      * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
-     * @param pParams The parameters passed to the method <code>pMethodName</code>.
+     * @param pParameters The parameters passed to the method <code>pMethodName</code>.
      */
-    public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName, Object[] pParams)
+    public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName,
+                        Object[] pParameters)
     {
         if (pParent != null)
         { // On chaine la hierachie
@@ -84,7 +85,7 @@ public class MethodCallPO
         mClassName = pClassName;
         mMethodName = pMethodName;
         mBeginTime = System.currentTimeMillis();
-        mParams = getParamsAsString(pParams, pClassName, pMethodName);
+        mParams = getParamsAsString(pParameters, pClassName, pMethodName);
         mGroupName = pGroupName;
     }
 
@@ -155,7 +156,7 @@ public class MethodCallPO
     }
 
     /**
-     * @param pSequenceId The mId to set.
+     * @param pId The primary key to set.
      */
     public void setId(int pId)
     {
@@ -216,7 +217,7 @@ public class MethodCallPO
      * Accessor.
      * 
      * @todo Voir comment supprimer cette méthode pour la remplacer par la conf hibernate
-     * @param The time of the execution of the methid associated with this <code>MethodCallDTO</code>.
+     * @param pDuration The time of the execution of the methid associated with this <code>MethodCallDTO</code>.
      */
     public void setDuration(long pDuration)
     {
@@ -365,6 +366,7 @@ public class MethodCallPO
 
     /**
      * Internal use by Hibernate
+     * 
      * @return Returns the mParent.
      */
     private MethodCallPO getParent()
@@ -374,6 +376,7 @@ public class MethodCallPO
 
     /**
      * Internal use by Hibernate
+     * 
      * @param pParent The mParent to set.
      */
     private void setParent(MethodCallPO pParent)
@@ -417,14 +420,14 @@ public class MethodCallPO
 
     public void setFlowRecusivly(ExecutionFlowPO pFlowPO)
     {
-        mFlow=pFlowPO;
+        mFlow = pFlowPO;
         MethodCallPO curMeth;
-        for (Iterator tIt = mChildren.iterator();tIt.hasNext();)
+        for (Iterator tIt = mChildren.iterator(); tIt.hasNext();)
         {
             curMeth = (MethodCallPO) tIt.next();
             curMeth.setFlowRecusivly(pFlowPO);
         }
-        
+
     }
 
 }

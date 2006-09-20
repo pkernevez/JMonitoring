@@ -5,13 +5,11 @@ package org.jmonitoring.core.aspects;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.store.StoreManager;
-import org.jmonitoring.core.common.MeasureException; 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
+import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.store.StoreManager;
 
 /**
  * Cet aspect permet d'activer le log de toutes les exécutions de méthodes/constructeurs dans une application. Il permet

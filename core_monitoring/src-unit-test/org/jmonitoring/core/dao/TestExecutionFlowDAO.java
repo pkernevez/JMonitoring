@@ -25,18 +25,18 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testCountOk()
     {
-        assertEquals(0, new ExecutionFlowDAO(mSession).countFlows());
+        assertEquals(0, new ExecutionFlowDAO(getSession()).countFlows());
     }
 
     public void testInsertSimpleFlow()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
         int tOldNbFlow = tFlowDAO.countFlows();
         int tOldNbMethodCall = countMethods();
 
         ExecutionFlowPO tFlow = buildNewSimpleFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
-        mSession.flush();
+        getSession().flush();
 
         int tNewNbFlow = tFlowDAO.countFlows();
         int tNewNbMethodCall = countMethods();
@@ -61,13 +61,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testInsertNewFlows()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
         int tOldNbFlow = tFlowDAO.countFlows();
         int tOldNbMeth = countMethods();
 
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
-        mSession.flush();
+        getSession().flush();
         int tNewNbFlow = tFlowDAO.countFlows();
         int tNewNbMeth = countMethods();
         assertEquals(tOldNbFlow + 1, tNewNbFlow);
@@ -85,8 +85,8 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
         MethodCallPO tMethodCall = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
                         "GrDefault", new Object[0]);
-        mSession.save(tMethodCall);
-        mSession.flush();
+        getSession().save(tMethodCall);
+        getSession().flush();
 
         int tNewResult = countMethods();
         assertEquals(tOldResult + 1, tNewResult);
@@ -105,8 +105,8 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         tMethodCall1.addChildren(tMethodCall2);
         tMethodCall1.addChildren(tMethodCall3);
 
-        mSession.save(tMethodCall1);
-        mSession.flush();
+        getSession().save(tMethodCall1);
+        getSession().flush();
 
         int tNewResult = countMethods();
         assertEquals(tOldResult + 3, tNewResult);
@@ -118,21 +118,19 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testLinkedMethodCalls()
     {
-        int tOldResult = countMethods();
-
         MethodCallPO tMethodCall1 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
                         "GrDefault", new Object[0]);
         assertEquals(-1, tMethodCall1.getId());
-        mSession.save(tMethodCall1);
-        mSession.flush();
+        getSession().save(tMethodCall1);
+        getSession().flush();
 
         assertEquals(1, tMethodCall1.getId());
 
         MethodCallPO tMethodCall2 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
                         "GrDefault", new Object[0]);
         assertEquals(-1, tMethodCall2.getId());
-        mSession.save(tMethodCall2);
-        mSession.flush();
+        getSession().save(tMethodCall2);
+        getSession().flush();
 
         assertNull(tMethodCall1.getParentMethodCall());
         assertNull(tMethodCall2.getParentMethodCall());
@@ -142,19 +140,19 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
         assertEquals(0, countMethodsWithParent());
         tMethodCall1.addChildren(tMethodCall2);
-        mSession.save(tMethodCall1);
-        mSession.flush();
+        getSession().save(tMethodCall1);
+        getSession().flush();
         assertEquals(1, tMethodCall1.getId());
         assertEquals(2, tMethodCall2.getId());
 
         assertEquals(1, countMethodsWithParent());
 
-        mSession.clear();
-        MethodCallPO tTempMeth = (MethodCallPO) mSession.load(MethodCallPO.class, new Integer(tMethodCall1
+        getSession().clear();
+        MethodCallPO tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class, new Integer(tMethodCall1
                         .getId()));
         assertNotSame(tMethodCall1, tTempMeth);
         tMethodCall1 = tTempMeth;
-        tTempMeth = (MethodCallPO) mSession.load(MethodCallPO.class, new Integer(tMethodCall2.getId()));
+        tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class, new Integer(tMethodCall2.getId()));
         assertNotSame(tMethodCall2, tTempMeth);
         tMethodCall2 = tTempMeth;
         assertNull(tMethodCall1.getParentMethodCall());
@@ -166,14 +164,14 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     private int countMethods()
     {
-        SQLQuery tQuery = mSession.createSQLQuery("Select Count(*) as myCount From METHOD_CALL");
+        SQLQuery tQuery = getSession().createSQLQuery("Select Count(*) as myCount From METHOD_CALL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();
     }
 
     private int countMethodsWithParent()
     {
-        SQLQuery tQuery = mSession
+        SQLQuery tQuery = getSession()
                         .createSQLQuery("Select Count(*) as myCount From METHOD_CALL Where PARENT_ID IS NOT NULL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();
@@ -219,7 +217,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
      */
     public void testGetMethodCallOfTheFlow()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
 
         int tOldResult = tFlowDAO.countFlows();
         int tOldResultM = countMethods();
@@ -231,8 +229,8 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         int tNewResult = tFlowDAO.countFlows();
         assertEquals(tOldResult + 1, tNewResult);
 
-        mSession.flush();
-        mSession.clear();
+        getSession().flush();
+        getSession().clear();
 
         assertEquals(tOldResultM + 3, countMethods());
 
@@ -291,11 +289,11 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testReadMethodCall()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
-        mSession.flush();
-        mSession.clear();
+        getSession().flush();
+        getSession().clear();
 
         MethodCallPO tInitialPoint = (MethodCallPO) tFlow.getFirstMethodCall().getChildren().get(0);
         MethodCallPO tReadPoint = tFlowDAO.readMethodCall(tInitialPoint.getId());
@@ -314,17 +312,17 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testGetListOfMethodCallExtract()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(mSession);
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
 
         // First delete all flow, we don't use the DeleteAll Method of the
         // Dao Object because, it doesn't support transactions.
-        mSession.createQuery("Delete FROM MethodCallPO").executeUpdate();
-        mSession.createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
+        getSession().createQuery("Delete FROM MethodCallPO").executeUpdate();
+        getSession().createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
 
         // Now insert the TestFlow
         ExecutionFlowPO tFlow = buildNewFullFlow();
-        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
-        mSession.flush();
+        tFlowDAO.insertFullExecutionFlow(tFlow);
+        getSession().flush();
 
         List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
         MethodCallExtractDTO curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(0);

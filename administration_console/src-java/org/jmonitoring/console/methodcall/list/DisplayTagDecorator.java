@@ -29,7 +29,7 @@ public class DisplayTagDecorator extends TableDecorator
         StringBuffer tResult = new StringBuffer();
         tResult.append("<A href=\"");
         tResult.append("FlowEditIn.do?id=").append(tMeth.getFlowId()).append(
-                        "\" title=\"View this Flow\"><IMG src=\"images/edit.png\"/></A>");
+            "\" title=\"View this Flow\"><IMG src=\"images/edit.png\"/></A>");
         return tResult.toString();
     }
 }

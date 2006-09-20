@@ -5,7 +5,6 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +38,7 @@ public class ExecutionFlowDAO
     /**
      * Default constructor.
      * 
-     * @param pSession
+     * @param pSession The hibrnate Session to use for DataBase access.
      */
     public ExecutionFlowDAO(Session pSession)
     {
@@ -57,7 +56,6 @@ public class ExecutionFlowDAO
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        MethodCallPO tFirstMeth = pExecutionFlow.getFirstMethodCall();
         mSession.save(pExecutionFlow);
         return pExecutionFlow.getId();
     }
@@ -69,7 +67,6 @@ public class ExecutionFlowDAO
      * 
      * @param pCriterion The criterions for the search.
      * @return The <code>ExecutionFlowDTO</code> list matching the criterion.
-     * @throws SQLException If an exception occures.
      */
     public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
     { // On construit la requête
@@ -142,8 +139,6 @@ public class ExecutionFlowDAO
     /**
      * Delete all flows and linked objects. This method, drop and recreate the schema that is faster than the deletion
      * of all instances.
-     * 
-     * @throws SQLException If an exception occures.
      */
     public void deleteAllFlows()
     {
@@ -167,7 +162,7 @@ public class ExecutionFlowDAO
         if (tFlow == null)
         {
             throw new UnknownFlowException("Flow with Id=" + pId
-                            + " could not be retreive from database, and can't be delete");
+                + " could not be retreive from database, and can't be delete");
         } else
         {
             mSession.delete(tFlow);
@@ -180,7 +175,6 @@ public class ExecutionFlowDAO
      * @param pClassName The classname mask.
      * @param pMethodName The methodname mask.
      * @return The list of <code>MethodCallPO</code> that math the criteria.
-     * @throws SQLException If DataBase access fail.
      */
     public List getListOfMethodCall(String pClassName, String pMethodName)
     {
@@ -195,7 +189,6 @@ public class ExecutionFlowDAO
      * 
      * @param pMethodId The flow identifier.
      * @return The <code>MethodCallDTO</code>.
-     * @throws SQLException If DataBase access fail.
      */
     public MethodCallPO readMethodCall(int pMethodId)
     {
@@ -205,16 +198,23 @@ public class ExecutionFlowDAO
         return (MethodCallPO) mSession.load(MethodCallPO.class, new Integer(pMethodId));
     }
 
-    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ," + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB"
-                    + " FROM MethodCallPO MethodCallPO "
-                    + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
-                    + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
+    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ,"
+        + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB" + " FROM MethodCallPO MethodCallPO "
+        + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
+        + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
+
+    private static final int EXTRACT_NB_POS = 3;
+
+    private static final int EXTRACT_GROUPNAME_POS = 2;
+
+    private static final int EXTRACT_METHODNAME_POS = 1;
+
+    private static final int EXTRACT_CLASSNAME_POS = 0;
 
     /**
      * Find the <code>List</code> of Measure from the database.
      * 
      * @return The <code>List</code> of all Measure.
-     * @throws SQLException If the database is not available.
      */
     public List getListOfMethodCallExtract()
     {
@@ -225,7 +225,9 @@ public class ExecutionFlowDAO
         for (Iterator tIt = tQuery.list().iterator(); tIt.hasNext();)
         {
             tExtract = (Object[]) tIt.next();
-            tResult.add(new MethodCallExtractDTO((String) tExtract[0],(String) tExtract[1], (String) tExtract[2], (Integer) tExtract[3]));
+            tResult.add(new MethodCallExtractDTO((String) tExtract[EXTRACT_CLASSNAME_POS],
+                (String) tExtract[EXTRACT_METHODNAME_POS], (String) tExtract[EXTRACT_GROUPNAME_POS],
+                (Integer) tExtract[EXTRACT_NB_POS]));
         }
         return tResult;
     }
@@ -255,10 +257,10 @@ public class ExecutionFlowDAO
 
     /**
      * 
-     * @param pClassName
-     * @param pMethodName
-     * @param pDurationMin
-     * @param pDurationMax
+     * @param pClassName The matching classname
+     * @param pMethodName The mathing method name
+     * @param pDurationMin The minimum duration of <code>MethodCall</code>
+     * @param pDurationMax The maximimu duration of the <code>MethodCall</code>
      * @return La liste d'objet <code>MethodCallFullExtractPO</code> correspondant aux critères.
      */
     public List getMethodCallList(String pClassName, String pMethodName, long pDurationMin, long pDurationMax)

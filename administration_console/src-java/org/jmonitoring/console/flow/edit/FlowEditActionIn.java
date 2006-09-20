@@ -43,7 +43,7 @@ public class FlowEditActionIn extends Action
     /**
      * Max number of measure to show in one flow. If this number is exceed, then the user is asked to choose an action.
      */
-    public static int MAX_FLOW_TO_SHOW = Configuration.getInstance().getMaxExecutionDuringFlowEdition();
+    private static int sMaxFlowToShow = Configuration.getInstance().getMaxExecutionDuringFlowEdition();
 
     /*
      * (non-Javadoc)
@@ -65,7 +65,7 @@ public class FlowEditActionIn extends Action
         sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
         int tNbMeasure = tFlow.getMeasureCount();
         tForm.setExecutionFlow(tFlow);
-        if ((tNbMeasure > MAX_FLOW_TO_SHOW) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
+        if ((tNbMeasure > sMaxFlowToShow) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
         {
             sLog.debug("Need more information to know if we can displayed the next screen...");
             tForward = pMapping.findForward("required_info");
@@ -113,5 +113,16 @@ public class FlowEditActionIn extends Action
         }
 
     }
+
+    public static void setMaxFlowToShow(int pMaxFlowToShow)
+    {
+        sMaxFlowToShow = pMaxFlowToShow;
+    }
+
+    public static int getMaxFlowToShow()
+    {
+        return sMaxFlowToShow;
+    }
+
 
 }

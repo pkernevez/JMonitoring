@@ -224,7 +224,8 @@ public class JMonitoringProcess
         }
     }
 
-    public List getListOfMethodCallFullExtract(String pClassName, String pMethodName, long pDurationMin, long pDurationMax)
+    public List getListOfMethodCallFullExtract(String pClassName, String pMethodName, long pDurationMin,
+                    long pDurationMax)
     {
         Session tSession = null;
         try

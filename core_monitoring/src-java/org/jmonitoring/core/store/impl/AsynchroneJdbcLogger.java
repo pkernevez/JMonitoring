@@ -23,7 +23,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
 
     private static Log sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);;
 
-    private static boolean mAutoflush = false;
+    private boolean mAutoflush = false;
 
     /**
      * Default constructor.
@@ -43,7 +43,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
         mAutoflush = pAutoFlush;
     }
 
-    private static class AsynchroneJdbcLoggerRunnable implements Runnable
+    private class AsynchroneJdbcLoggerRunnable implements Runnable
     {
         private ExecutionFlowPO mExecutionFlowToLog;
 
@@ -61,7 +61,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
                 Transaction tTransaction = tPManager.getTransaction();
                 tTransaction.begin();
                 ExecutionFlowDAO tDao = new ExecutionFlowDAO(tPManager);
-                int tId = tDao.insertFullExecutionFlow(mExecutionFlowToLog);
+                tDao.insertFullExecutionFlow(mExecutionFlowToLog);
                 if (mAutoflush)
                 {
                     tPManager.flush();
@@ -71,7 +71,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
                     tPManager.close();
                 }
                 long tEndTime = System.currentTimeMillis();
-                sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog+" in "+(tEndTime-tStartTime)+" ms.");
+                sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog + " in " + (tEndTime - tStartTime) + " ms.");
             } catch (RuntimeException e)
             {
                 sLog.error("Unable to insert ExecutionFlow into database", e);

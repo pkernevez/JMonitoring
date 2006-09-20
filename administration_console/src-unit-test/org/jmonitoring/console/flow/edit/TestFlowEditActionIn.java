@@ -29,15 +29,15 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        FlowEditActionIn.MAX_FLOW_TO_SHOW = 5;
+        FlowEditActionIn.setMaxFlowToShow(5);
     }
 
     public void testActionWithSmallExecutionFlow()
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW - 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW - 1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow()- 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
 
         assertNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
         assertNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
@@ -75,8 +75,8 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
 
         assertEquals(2, tUtil.countFlows());
         tUtil.clear();
@@ -100,8 +100,8 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
 
         assertEquals(2, tUtil.countFlows());
         tUtil.clear();
@@ -123,12 +123,15 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
 
     }
 
+    /**
+     * 
+     */
     public void testActionWithLongExecutionFlowAndForce()
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.MAX_FLOW_TO_SHOW + 1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
 
         assertEquals(2, tUtil.countFlows());
         tUtil.clear();

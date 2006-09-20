@@ -1,10 +1,10 @@
 package org.jmonitoring.core.store.impl;
 
+import junit.framework.TestCase;
+
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.IStoreWriter;
-
-import junit.framework.TestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -30,7 +30,7 @@ public class TestStoreFactory extends TestCase
         tConfiguration.setMeasurePointStoreClass(BadStoreClassWithoutConstructor.class);
         try
         {
-            IStoreWriter tWriter = StoreFactory.getWriter();
+            StoreFactory.getWriter();
             fail("Should not had a writer");
         } catch (Exception e)
         {
@@ -47,7 +47,7 @@ public class TestStoreFactory extends TestCase
         tConfiguration.setMeasurePointStoreClass(BadStoreClassWithPrivateConstructor.class);
         try
         {
-            IStoreWriter tWriter = StoreFactory.getWriter();
+            StoreFactory.getWriter();
             fail("Should not had a writer");
         } catch (Exception e)
         {
@@ -62,7 +62,7 @@ public class TestStoreFactory extends TestCase
         tConfiguration.setMeasurePointStoreClass(BadStoreClassNotWriter.class);
         try
         {
-            IStoreWriter tWriter = StoreFactory.getWriter();
+            StoreFactory.getWriter();
             fail("Should not had a writer");
         } catch (Exception e)
         {

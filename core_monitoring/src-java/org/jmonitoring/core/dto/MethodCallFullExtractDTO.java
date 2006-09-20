@@ -2,21 +2,26 @@ package org.jmonitoring.core.dto;
 
 import java.util.Date;
 
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
+/***********************************************************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
+ **********************************************************************************************************************/
 
 public class MethodCallFullExtractDTO
 {
-    private int mFlowId; 
+    private int mFlowId;
+
     private String mThreadName;
+
     private long mDuration;
+
     private long mFlowDuration;
+
     private Date mBeginDate;
+
     private String mJvmName;
+
     private int mId;
-    
+
     /**
      * @return Returns the beginDate.
      */
@@ -24,6 +29,7 @@ public class MethodCallFullExtractDTO
     {
         return mBeginDate;
     }
+
     /**
      * @param pBeginDate The beginDate to set.
      */
@@ -31,6 +37,7 @@ public class MethodCallFullExtractDTO
     {
         mBeginDate = pBeginDate;
     }
+
     /**
      * @return Returns the duration.
      */
@@ -38,6 +45,7 @@ public class MethodCallFullExtractDTO
     {
         return mDuration;
     }
+
     /**
      * @param pDuration The duration to set.
      */
@@ -45,6 +53,7 @@ public class MethodCallFullExtractDTO
     {
         mDuration = pDuration;
     }
+
     /**
      * @return Returns the flowId.
      */
@@ -52,6 +61,7 @@ public class MethodCallFullExtractDTO
     {
         return mFlowId;
     }
+
     /**
      * @param pFlowId The flowId to set.
      */
@@ -59,6 +69,7 @@ public class MethodCallFullExtractDTO
     {
         mFlowId = pFlowId;
     }
+
     /**
      * @return Returns the id.
      */
@@ -66,6 +77,7 @@ public class MethodCallFullExtractDTO
     {
         return mId;
     }
+
     /**
      * @param pId The id to set.
      */
@@ -73,6 +85,7 @@ public class MethodCallFullExtractDTO
     {
         mId = pId;
     }
+
     /**
      * @return Returns the jvmName.
      */
@@ -80,6 +93,7 @@ public class MethodCallFullExtractDTO
     {
         return mJvmName;
     }
+
     /**
      * @param pJvmName The jvmName to set.
      */
@@ -87,6 +101,7 @@ public class MethodCallFullExtractDTO
     {
         mJvmName = pJvmName;
     }
+
     /**
      * @return Returns the threadName.
      */
@@ -94,6 +109,7 @@ public class MethodCallFullExtractDTO
     {
         return mThreadName;
     }
+
     /**
      * @param pThreadName The threadName to set.
      */
@@ -101,6 +117,7 @@ public class MethodCallFullExtractDTO
     {
         mThreadName = pThreadName;
     }
+
     /**
      * @return Returns the flowDuration.
      */
@@ -108,6 +125,7 @@ public class MethodCallFullExtractDTO
     {
         return mFlowDuration;
     }
+
     /**
      * @param pFlowDuration The flowDuration to set.
      */
@@ -115,4 +133,4 @@ public class MethodCallFullExtractDTO
     {
         mFlowDuration = pFlowDuration;
     }
-    }
+}

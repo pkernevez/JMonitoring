@@ -6,9 +6,7 @@ package org.jmonitoring.console.flow;
  **************************************************************************/
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,12 +40,11 @@ public class FlowSearchActionOut extends Action
                     HttpServletResponse pResponse) throws Exception
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        List tList = new ArrayList();
         FlowSearchForm tForm = (FlowSearchForm) pForm;
 
         FlowSearchCriterion tCriterion = copyBeanFormToCriterion(tForm);
 
-        ((FlowSearchForm) pForm).setListOfFlows(tProcess.getListOfExecutionFlowDto(tCriterion));
+        ((FlowSearchForm) tForm).setListOfFlows(tProcess.getListOfExecutionFlowDto(tCriterion));
         return pMapping.findForward("success");
     }
 
@@ -65,7 +62,7 @@ public class FlowSearchActionOut extends Action
         if (pForm.getBeginTimeMin() != null && pForm.getBeginTimeMin().length() != 0)
         {
             tBeginTime = new Date(Configuration.getInstance().getTimeFormater().parse(pForm.getBeginTimeMin())
-                            .getTime());
+                .getTime());
             tResult.setBeginTimeMin(tBeginTime);
         }
         if (pForm.getDurationMin() != null && pForm.getDurationMin().length() != 0)

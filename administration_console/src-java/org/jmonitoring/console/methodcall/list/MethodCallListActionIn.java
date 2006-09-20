@@ -35,7 +35,7 @@ public class MethodCallListActionIn extends Action
         MethodCallListForm tListForm = (MethodCallListForm) pForm;
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         List tResult = tProcess.getListOfMethodCallFullExtract(tListForm.getClassName(), tListForm.getMethodName(),
-                        tListForm.getDurationMin(), tListForm.getDurationMax());
+            tListForm.getDurationMin(), tListForm.getDurationMax());
         tListForm.setSearchResult(tResult);
         return pMapping.findForward("success");
     }

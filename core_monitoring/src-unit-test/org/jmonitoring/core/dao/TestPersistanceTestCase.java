@@ -15,7 +15,7 @@ public class TestPersistanceTestCase extends PersistanceTestCase
 
     public void testRequestExecution() throws SQLException
     {
-        PreparedStatement tStat = mSession.connection().prepareStatement("select 1 from METHOD_CALL");
+        PreparedStatement tStat = getSession().connection().prepareStatement("select 1 from METHOD_CALL");
         assertTrue(tStat.execute());
         ResultSet tResult = tStat.getResultSet();
         assertFalse(tResult.next());

@@ -8,8 +8,6 @@ package org.jmonitoring.core.persistence;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.jmonitoring.core.configuration.Configuration;
-
 /**
  * This instance is the entry of a flow. It has a list of MethodCallDTO and some properties.
  * 
@@ -35,14 +33,13 @@ public class ExecutionFlowPO
 
     /** First method call of this flow. */
     private MethodCallPO mFirstMethodCall;
-    
+
     /**
      * Default constructor for Hibernate.
      */
     public ExecutionFlowPO()
     {
     }
-
 
     /**
      * Constructor.

@@ -36,7 +36,6 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
      */
     public String generateURL(CategoryDataset categorydataset, int i, int j)
     {
-        System.out.println("i=" + i + ", j=" + j);
         if (j != mCurrentMainTaskPosition)
         { // Changent de group
             mCurrentPositionForThisTask = 0;

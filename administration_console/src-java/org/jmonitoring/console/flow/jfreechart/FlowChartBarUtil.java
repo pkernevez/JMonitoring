@@ -98,7 +98,12 @@ public class FlowChartBarUtil
 
         private String mGroupName;
 
-        protected Task mMainTaskOfGroup;
+        private Task mMainTaskOfGroup;
+
+        protected Task getMainTaskOfGroup()
+        {
+            return mMainTaskOfGroup;
+        }
 
     }
 
@@ -128,24 +133,24 @@ public class FlowChartBarUtil
 
     private void addSubTask(TaskForGroupName pTaskForTheGroupName, int pMethodCallId, Date pBeginDate, Date pEndDate)
     {
-        if (pEndDate.before(pBeginDate))
-        { // Contournement du bug
-            pEndDate = pBeginDate;
-        }
-        pTaskForTheGroupName.mMainTaskOfGroup.addSubtask(new MethodCallTask(pMethodCallId, new SimpleTimePeriod(pBeginDate, pEndDate)));
+        // Contournement du bug
+        Date tNewEndDate = (pEndDate.before(pBeginDate) ? pBeginDate : pEndDate);
+
+        pTaskForTheGroupName.mMainTaskOfGroup.addSubtask(new MethodCallTask(pMethodCallId, new SimpleTimePeriod(
+            pBeginDate, tNewEndDate)));
     }
 
-    private TaskForGroupName getTaskForGroupName(MethodCallDTO pCurMeasure, String tGroupName)
+    private TaskForGroupName getTaskForGroupName(MethodCallDTO pCurMeasure, String pGroupName)
     {
-        TaskForGroupName tTaskEntry = (TaskForGroupName) mListOfGroup.get(tGroupName);
+        TaskForGroupName tTaskEntry = (TaskForGroupName) mListOfGroup.get(pGroupName);
         if (tTaskEntry == null)
         { // We create a new entry
             tTaskEntry = new TaskForGroupName();
             tTaskEntry.mPositionOfTheGroup = mListOfGroup.size() + 1;
-            tTaskEntry.mMainTaskOfGroup = new Task(tGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(),
+            tTaskEntry.mMainTaskOfGroup = new Task(pGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(),
                 pCurMeasure.getEndTime()));
-            tTaskEntry.mGroupName = tGroupName;
-            mListOfGroup.put(tGroupName, tTaskEntry);
+            tTaskEntry.mGroupName = pGroupName;
+            mListOfGroup.put(pGroupName, tTaskEntry);
         }
         return tTaskEntry;
     }

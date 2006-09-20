@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
 import org.jmonitoring.core.configuration.Configuration;
 
 /**
@@ -60,7 +59,6 @@ public class MethodCallDTO
     /** Nom du group associé au point de mesure. */
     private String mGroupName;
 
-    private static Log sLog;
 
     public MethodCallDTO()
     {
@@ -205,6 +203,7 @@ public class MethodCallDTO
     /**
      * Accessor.
      * 
+     * @param pPos The position of the child in the list of children.
      * @return The list of the sub-method of this <code>MethodCallDTO</code>.
      */
     public MethodCallDTO getChild(int pPos)
