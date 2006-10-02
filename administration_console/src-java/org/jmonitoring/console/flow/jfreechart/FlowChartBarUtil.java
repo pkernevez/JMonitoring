@@ -121,23 +121,24 @@ public class FlowChartBarUtil
             curChild = ((MethodCallDTO) tListOfClidren.get(i));
             tBeginDate = tEndDate;
             tEndDate = curChild.getBeginTime();
-            addSubTask(tTask, pCurMeasure.getId(), tBeginDate, tEndDate);
+            addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getId(), tBeginDate, tEndDate);
             chainAllMethodCallToMainTaskOfGroup(curChild);
             tEndDate = curChild.getEndTime();
         }
 
         tBeginDate = tEndDate;
         tEndDate = pCurMeasure.getEndTime();
-        addSubTask(tTask, pCurMeasure.getId(), tBeginDate, tEndDate);
+        addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getId(), tBeginDate, tEndDate);
     }
 
-    private void addSubTask(TaskForGroupName pTaskForTheGroupName, int pMethodCallId, Date pBeginDate, Date pEndDate)
+    private void addSubTask(TaskForGroupName pTaskForTheGroupName, int pFlowId, int pMethodCallId, Date pBeginDate,
+                    Date pEndDate)
     {
         // Contournement du bug
         Date tNewEndDate = (pEndDate.before(pBeginDate) ? pBeginDate : pEndDate);
 
-        pTaskForTheGroupName.mMainTaskOfGroup.addSubtask(new MethodCallTask(pMethodCallId, new SimpleTimePeriod(
-            pBeginDate, tNewEndDate)));
+        pTaskForTheGroupName.mMainTaskOfGroup.addSubtask(new MethodCallTask(pFlowId, pMethodCallId,
+            new SimpleTimePeriod(pBeginDate, tNewEndDate)));
     }
 
     private TaskForGroupName getTaskForGroupName(MethodCallDTO pCurMeasure, String pGroupName)

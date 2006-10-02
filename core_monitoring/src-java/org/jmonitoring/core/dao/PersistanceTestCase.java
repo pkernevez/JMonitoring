@@ -12,6 +12,8 @@ import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.stat.EntityStatistics;
+import org.hibernate.stat.Statistics;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.persistence.HibernateManager;
 
@@ -26,6 +28,8 @@ public abstract class PersistanceTestCase extends TestCase
 
     private Transaction mTransaction;
 
+    private Statistics mStats;
+
     private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
 
     protected void setUp() throws Exception
@@ -35,11 +39,25 @@ public abstract class PersistanceTestCase extends TestCase
         mSession = HibernateManager.getSession();
         mTransaction = mSession.beginTransaction();
 
+        mStats = HibernateManager.getStats();
+        mStats.clear();
+
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
 
         tDdlexport.create(true, true);
 
+    }
+
+    protected void assertStatistics(Class pEntity, int pInsertCount, int pUpdateCount, int pLoadCount, int pFetchCount)
+    {
+        EntityStatistics tStat = mStats.getEntityStatistics(pEntity.getName());
+
+        assertEquals("Invalid INSERT statistics", pInsertCount, tStat.getInsertCount());
+        assertEquals("Invalid UPDATE statistics", pUpdateCount, tStat.getUpdateCount());
+        assertEquals("Invalid LOAD statistics", pLoadCount, tStat.getLoadCount());
+        assertEquals("Invalid FECTH statistics", pFetchCount, tStat.getFetchCount());
+        
     }
 
     protected void createDataSet(String pDataSetFileName)
@@ -52,7 +70,7 @@ public abstract class PersistanceTestCase extends TestCase
             try
             {
                 sLog.debug("Before CLEAN INSERT");
-                tDataSet = new XmlDataSet(getClass().getResourceAsStream(pDataSetFileName));
+                tDataSet = new XmlDataSet(PersistanceTestCase.class.getResourceAsStream(pDataSetFileName));
                 DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(tSession.connection()), tDataSet);
                 sLog.debug("Now flush data");
                 mSession.flush();
@@ -92,6 +110,11 @@ public abstract class PersistanceTestCase extends TestCase
     public Transaction getTransaction()
     {
         return mTransaction;
+    }
+
+    public Statistics getStats()
+    {
+        return mStats;
     }
 
     // protected String getDataSetFileName() throws Exception

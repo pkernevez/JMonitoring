@@ -57,9 +57,9 @@ public class TestMethodCallStatActionIn extends MockStrutsTestCase
         // }
         assertEquals(0, tStats.getCollectionFetchCount());
         assertEquals(0, tStats.getCollectionLoadCount());
-        assertEquals(1, tStats.getEntityFetchCount());
+        assertEquals(0, tStats.getEntityFetchCount());
         assertEquals(6, tStats.getEntityLoadCount());
-        assertEquals(1, tStats.getQueryExecutionCount());
+        assertEquals(2, tStats.getQueryExecutionCount());
         assertEquals(2, tStats.getPrepareStatementCount());
 
     }

@@ -23,10 +23,10 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals("myJVM", tFlow.getJvmIdentifier());
         assertEquals(45, tFlow.getId());
         MethodCallDTO curMeth = tFlow.getFirstMethodCall();
-        assertEquals(1, curMeth.getId());
+        assertEquals(0, curMeth.getId());
         assertEquals(45, curMeth.getFlowId());
         curMeth = curMeth.getChild(0);
-        assertEquals(2, curMeth.getId());
+        assertEquals(1, curMeth.getId());
         assertEquals(45, curMeth.getFlowId());
     }
 
@@ -74,6 +74,6 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals(tFlow.getDuration(), tMeth.getFlowDuration());
         assertEquals(tFlow.getFirstMethodCall().getChild(0).getDuration(), tMeth.getDuration());
         assertEquals(tFlow.getId(), tMeth.getFlowId());
-        assertEquals(tFlow.getFirstMethodCall().getChild(0).getId(), tMeth.getId());
+        assertEquals(tFlow.getFirstMethodCall().getChild(0).getPosition(), tMeth.getId());
     }
 }

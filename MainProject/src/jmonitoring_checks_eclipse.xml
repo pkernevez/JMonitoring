@@ -61,7 +61,7 @@
         
         <module name="ParameterNumber">
         		<property name="severity" value="error"/>
-            <property name="max" value="7"/>
+            <property name="max" value="9"/>
         </module>
         
 
@@ -115,13 +115,13 @@
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         
         <module name="JavadocMethod">
-            <property name="scope" value="package"/>
+            <property name="scope" value="public"/>
         </module>
         <module name="JavadocType">
-            <property name="scope" value="package"/>
+            <property name="scope" value="public"/>
         </module>
         <module name="JavadocVariable">
-            <property name="scope" value="package"/>
+            <property name="scope" value="public"/>
         </module>
 
         

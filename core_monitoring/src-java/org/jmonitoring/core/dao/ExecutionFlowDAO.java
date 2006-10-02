@@ -5,6 +5,9 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,10 +22,12 @@ import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.persistence.MethodCallPK;
 import org.jmonitoring.core.persistence.MethodCallPO;
 
 /**
@@ -47,6 +52,8 @@ public class ExecutionFlowDAO
 
     private Session mSession;
 
+    private static final String UPDATE_FLOW_WITH_FIRST_METHOD_CALL = "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?";
+
     /**
      * Insert la totalité d'un flux en base.
      * 
@@ -56,8 +63,62 @@ public class ExecutionFlowDAO
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
+        MethodCallPO tMeth = pExecutionFlow.getFirstMethodCall();
+        pExecutionFlow.setFirstMethodCall(null);
         mSession.save(pExecutionFlow);
+        mSession.flush();
+        updatePkMethodCall(tMeth, 0);
+        saveAllMethodCall(tMeth);
+        mSession.flush();
+        updateExecutionFlowLink(pExecutionFlow);
+        pExecutionFlow.setFirstMethodCall(tMeth);
         return pExecutionFlow.getId();
+    }
+
+    private void updateExecutionFlowLink(ExecutionFlowPO pExecutionFlow)
+    {
+        PreparedStatement tStat = null;
+        try
+        {
+            try
+            {
+                tStat = mSession.connection().prepareStatement(UPDATE_FLOW_WITH_FIRST_METHOD_CALL);
+                tStat.setInt(1, 0);
+                tStat.setInt(2, pExecutionFlow.getId());
+                tStat.execute();
+            } finally
+            {
+                if (tStat != null)
+                {
+                    tStat.close();
+                }
+            }
+        } catch (SQLException e)
+        {
+            sLog.error("Unable to UPDATE the link of ExecutionFlowPO in DataBase", e);
+            throw new MeasureException("Unable to UPDATE the link of ExecutionFlowPO in DataBase");
+        }
+    }
+
+    private int updatePkMethodCall(MethodCallPO pMethodCall, final int pCurrentIndex)
+    {
+        int tCurrentIndex = pCurrentIndex;
+        MethodCallPK tPK = new MethodCallPK(pMethodCall.getFlow(), tCurrentIndex);
+        pMethodCall.setMethId(tPK);
+        for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
+        {
+            tCurrentIndex = updatePkMethodCall((MethodCallPO) tChildIt.next(), tCurrentIndex + 1);
+        }
+        return tCurrentIndex;
+    }
+
+    private void saveAllMethodCall(MethodCallPO pMethodCall)
+    {
+        mSession.save(pMethodCall);
+        for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
+        {
+            saveAllMethodCall((MethodCallPO) tChildIt.next());
+        }
     }
 
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
@@ -165,8 +226,59 @@ public class ExecutionFlowDAO
                 + " could not be retreive from database, and can't be delete");
         } else
         {
-            mSession.delete(tFlow);
+            deleteAllFlow(tFlow);
         }
+
+    }
+
+    private void deleteAllFlow(ExecutionFlowPO pFlow)
+    {
+        PreparedStatement tStat = null;
+        try
+        {
+            try
+            {
+                tStat = mSession.connection().prepareStatement(
+                    "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
+                tStat.setNull(1, Types.INTEGER);
+                tStat.setInt(2, pFlow.getId());
+                tStat.execute();
+                tStat.close();
+                tStat = null;
+
+                tStat = mSession.connection().prepareStatement(
+                    "UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
+                tStat.setNull(1, Types.INTEGER);
+                tStat.setInt(2, pFlow.getId());
+                tStat.execute();
+                tStat.close();
+                tStat = null;
+
+                tStat = mSession.connection().prepareStatement("DELETE FROM METHOD_CALL Where FLOW_ID=?");
+                tStat.setInt(1, pFlow.getId());
+                tStat.execute();
+                tStat.close();
+                tStat = null;
+
+                tStat = mSession.connection().prepareStatement("DELETE FROM EXECUTION_FLOW Where ID=?");
+                tStat.setInt(1, pFlow.getId());
+                tStat.execute();
+                tStat.close();
+                tStat = null;
+
+            } finally
+            {
+                if (tStat != null)
+                {
+                    tStat.close();
+                }
+            }
+        } catch (SQLException e)
+        {
+            sLog.error("Unable to UPDATE the link of ExecutionFlowPO in DataBase", e);
+            throw new MeasureException("Unable to delete the ExecutionFlowPO in DataBase");
+        }
+
     }
 
     /**
@@ -187,19 +299,23 @@ public class ExecutionFlowDAO
     /**
      * Read a single <code>MethodCallDTO</code>.
      * 
+     * @param pFlow
+     * 
+     * @param pFlow The ExecutionFlow of this <code>MethodCall</code>.
      * @param pMethodId The flow identifier.
      * @return The <code>MethodCallDTO</code>.
      */
-    public MethodCallPO readMethodCall(int pMethodId)
+    public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
     {
-        // Query tQuery = mSession.createQuery("from MethodCallPO m where m.id=:pid");
-        // tQuery.setInteger("pid", pMethodId);
-        // return (MethodCallPO) tQuery.uniqueResult();
-        return (MethodCallPO) mSession.load(MethodCallPO.class, new Integer(pMethodId));
+        Query tQuery = mSession.createQuery("from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
+        tQuery.setInteger("flowId", pFlowId);
+        tQuery.setInteger("pid", pMethodId);
+        return (MethodCallPO) tQuery.uniqueResult();
+//        return (MethodCallPO) mSession.load(MethodCallPO.class, new MethodCallPK(pFlow, pMethodId));
     }
 
     private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ,"
-        + " MethodCallPO.groupName, COUNT(MethodCallPO) As NB" + " FROM MethodCallPO MethodCallPO "
+        + " MethodCallPO.groupName, COUNT(MethodCallPO.id.position) As NB" + " FROM MethodCallPO MethodCallPO "
         + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
         + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
 

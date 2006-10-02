@@ -50,7 +50,7 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
         Task tMainTask = (Task) tTaskSeries.get(j);
         MethodCallTask tCurrentTask = (MethodCallTask) tMainTask.getSubtask(mCurrentPositionForThisTask);
 
-        String tUrl = "MethodCallEditIn.do?id=" + tCurrentTask.getMethodCallId();
+        String tUrl = "MethodCallEditIn.do?flowId="+tCurrentTask.getFlowId()+"&position=" + tCurrentTask.getMethodCallId();
         sLog.debug("Generate URL:" + tUrl);
         return tUrl;
     }

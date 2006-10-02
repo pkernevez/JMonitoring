@@ -10,8 +10,13 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.stat.EntityStatistics;
+import org.hibernate.stat.SessionStatistics;
+import org.hibernate.stat.Statistics;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.persistence.MethodCallPK;
 import org.jmonitoring.core.persistence.MethodCallPO;
 
 /**
@@ -26,6 +31,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
     public void testCountOk()
     {
         assertEquals(0, new ExecutionFlowDAO(getSession()).countFlows());
+        assertEquals(0, countMethods());
     }
 
     public void testInsertSimpleFlow()
@@ -51,7 +57,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         long tStartTime = System.currentTimeMillis();
 
         tPoint = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
+            new Object[0]);
         tPoint.setBeginTime(tStartTime);
 
         tPoint.setEndTime(tStartTime + 20);
@@ -83,76 +89,92 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
     {
         int tOldResult = countMethods();
 
+        ExecutionFlowPO tFlow = new ExecutionFlowPO();
+        getSession().save(tFlow);
         MethodCallPO tMethodCall = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-                        "GrDefault", new Object[0]);
+            "GrDefault", new Object[0]);
+        tMethodCall.setMethId(new MethodCallPK(tFlow, 0));
         getSession().save(tMethodCall);
         getSession().flush();
 
         int tNewResult = countMethods();
         assertEquals(tOldResult + 1, tNewResult);
+        assertStatistics(MethodCallPO.class, 1, 0, 0, 0);
     }
 
     public void testInsertMethodCalls()
     {
         int tOldResult = countMethods();
 
+        ExecutionFlowPO tFlow = new ExecutionFlowPO();
+        getSession().save(tFlow);
         MethodCallPO tMethodCall1 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-                        "GrDefault", new Object[0]);
+            "GrDefault", new Object[0]);
+        tMethodCall1.setMethId(new MethodCallPK(tFlow, 1));
         MethodCallPO tMethodCall2 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-                        "GrDefault", new Object[0]);
+            "GrDefault", new Object[0]);
+        tMethodCall2.setMethId(new MethodCallPK(tFlow, 2));
         MethodCallPO tMethodCall3 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-                        "GrDefault", new Object[0]);
+            "GrDefault", new Object[0]);
+        tMethodCall3.setMethId(new MethodCallPK(tFlow, 3));
         tMethodCall1.addChildren(tMethodCall2);
         tMethodCall1.addChildren(tMethodCall3);
 
         getSession().save(tMethodCall1);
+        getSession().save(tMethodCall2);
+        getSession().save(tMethodCall3);
         getSession().flush();
 
         int tNewResult = countMethods();
         assertEquals(tOldResult + 3, tNewResult);
-        assertEquals(1, tMethodCall1.getId());
-        assertEquals(2, tMethodCall2.getId());
-        assertEquals(3, tMethodCall3.getId());
-
+        assertEquals(1, tMethodCall1.getPosition());
+        assertEquals(2, tMethodCall2.getPosition());
+        assertEquals(3, tMethodCall3.getPosition());
+        assertStatistics(MethodCallPO.class, 3, 0, 0, 0);
     }
 
     public void testLinkedMethodCalls()
     {
+        ExecutionFlowPO tFlow = new ExecutionFlowPO();
+        getSession().save(tFlow);
         MethodCallPO tMethodCall1 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-                        "GrDefault", new Object[0]);
-        assertEquals(-1, tMethodCall1.getId());
+            "GrDefault", new Object[0]);
+        tMethodCall1.setMethId(new MethodCallPK(tFlow, 0));
         getSession().save(tMethodCall1);
         getSession().flush();
 
-        assertEquals(1, tMethodCall1.getId());
-
         MethodCallPO tMethodCall2 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-                        "GrDefault", new Object[0]);
-        assertEquals(-1, tMethodCall2.getId());
+            "GrDefault", new Object[0]);
+        tMethodCall2.setMethId(new MethodCallPK(tFlow, 1));
         getSession().save(tMethodCall2);
         getSession().flush();
 
         assertNull(tMethodCall1.getParentMethodCall());
         assertNull(tMethodCall2.getParentMethodCall());
 
-        assertEquals(1, tMethodCall1.getId());
-        assertEquals(2, tMethodCall2.getId());
+        assertEquals(0, tMethodCall1.getPosition());
+        assertEquals(1, tMethodCall2.getPosition());
+        assertStatistics(MethodCallPO.class, 2, 0, 0, 0);
 
         assertEquals(0, countMethodsWithParent());
         tMethodCall1.addChildren(tMethodCall2);
         getSession().save(tMethodCall1);
+        getSession().save(tMethodCall2);
         getSession().flush();
-        assertEquals(1, tMethodCall1.getId());
-        assertEquals(2, tMethodCall2.getId());
+        // assertStatistics(MethodCallPO.class, 2, 2, 0, 0);
+
+        assertEquals(0, tMethodCall1.getPosition());
+        assertEquals(1, tMethodCall2.getPosition());
 
         assertEquals(1, countMethodsWithParent());
 
         getSession().clear();
-        MethodCallPO tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class, new Integer(tMethodCall1
-                        .getId()));
+        MethodCallPO tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class,
+            new MethodCallPK(tFlow, tMethodCall1.getPosition()));
         assertNotSame(tMethodCall1, tTempMeth);
         tMethodCall1 = tTempMeth;
-        tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class, new Integer(tMethodCall2.getId()));
+        tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class,
+            new MethodCallPK(tFlow, tMethodCall2.getPosition()));
         assertNotSame(tMethodCall2, tTempMeth);
         tMethodCall2 = tTempMeth;
         assertNull(tMethodCall1.getParentMethodCall());
@@ -169,10 +191,11 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         return ((Integer) tResult).intValue();
     }
 
+    /** @todo Passer les requêtes en Query externe */
     private int countMethodsWithParent()
     {
-        SQLQuery tQuery = getSession()
-                        .createSQLQuery("Select Count(*) as myCount From METHOD_CALL Where PARENT_ID IS NOT NULL");
+        SQLQuery tQuery = getSession().createSQLQuery(
+            "Select Count(*) as myCount From METHOD_CALL Where PARENT_INDEX_IN_FLOW IS NOT NULL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();
     }
@@ -185,30 +208,31 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         pSession.flush();
         return tExecFlow;
     }
-    
+
     public static ExecutionFlowPO buildNewFullFlow()
-        {
-        ExecutionFlowPO tFlow;
+    {
         MethodCallPO tPoint;
-        MethodCallPO tSubPoint;
+        MethodCallPO tSubPoint,tSubPoint2;
         long tStartTime = System.currentTimeMillis();
 
         tPoint = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault",
-                        new Object[0]);
+            new Object[0]);
         tPoint.setBeginTime(tStartTime);
-
         tSubPoint = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow2", "GrChild1",
-                        new Object[0]);
-        tSubPoint.setBeginTime(tStartTime+2);
-        tSubPoint.setEndTime(tStartTime+5);
+            new Object[0]);
+        tSubPoint.setBeginTime(tStartTime + 2);
+        tSubPoint.setEndTime(tStartTime + 5);
 
-        tSubPoint = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2",
-                        new Object[0]);
-        tSubPoint.setBeginTime(tStartTime+8);
-        tSubPoint.setEndTime(tStartTime+13);
-        
+        tSubPoint2 = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2",
+            new Object[0]);
+        tSubPoint2.setBeginTime(tStartTime + 8);
+        tSubPoint2.setEndTime(tStartTime + 13);
+
         tPoint.setEndTime(tStartTime + 20);
-        tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
+        ExecutionFlowPO   tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
+        tPoint.setMethId(new MethodCallPK(tFlow, 0));
+        tSubPoint.setMethId(new MethodCallPK(tFlow, 1));
+        tSubPoint2.setMethId(new MethodCallPK(tFlow, 2));
         return tFlow;
     }
 
@@ -246,7 +270,9 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
         // Check equality of the first measure point
         MethodCallPO tInitialPoint = tInitialFlow.getFirstMethodCall();
+        assertNotNull(tInitialPoint);
         MethodCallPO tReadPoint = tReadFlow.getFirstMethodCall();
+        assertNotNull(tReadPoint);
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
@@ -296,7 +322,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         getSession().clear();
 
         MethodCallPO tInitialPoint = (MethodCallPO) tFlow.getFirstMethodCall().getChildren().get(0);
-        MethodCallPO tReadPoint = tFlowDAO.readMethodCall(tInitialPoint.getId());
+        MethodCallPO tReadPoint = tFlowDAO.readMethodCall(tFlow.getId(), tInitialPoint.getPosition());
         assertNotSame(tInitialPoint, tReadPoint);
 
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());

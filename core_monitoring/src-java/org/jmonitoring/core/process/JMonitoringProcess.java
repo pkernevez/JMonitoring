@@ -72,6 +72,7 @@ public class JMonitoringProcess
             {
                 tTransaction.rollback();
             }
+            throw t;
         } finally
         {
             if (tSession != null)
@@ -109,7 +110,7 @@ public class JMonitoringProcess
         }
     }
 
-    public MethodCallDTO readFullMethodCall(int pId)
+    public MethodCallDTO readFullMethodCall(int pFlowId, int pId)
     {
         Session tSession = null;
         try
@@ -117,7 +118,7 @@ public class JMonitoringProcess
             tSession = HibernateManager.getSession();
             sLog.debug("Read method call from database, Id=[" + pId + "]");
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
-            MethodCallPO tMethodCallPo = tDao.readMethodCall(pId);
+            MethodCallPO tMethodCallPo = tDao.readMethodCall(pFlowId, pId);
             return DtoHelper.getFullMethodCallDto(tMethodCallPo);
         } finally
         {
@@ -176,8 +177,7 @@ public class JMonitoringProcess
         {
             tSession = HibernateManager.getSession();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
-            // ExecutionFlowPO tFlow = tDao.readExecutionFlow(pFlowId);
-            MethodCallPO tMethod = tDao.readMethodCall(pMethodCallId);
+            MethodCallPO tMethod = tDao.readMethodCall(pFlowId, pMethodCallId);
             return DtoHelper.simpleCopy(tMethod);
         } finally
         {

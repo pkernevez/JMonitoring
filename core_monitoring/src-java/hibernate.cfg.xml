@@ -5,7 +5,6 @@
 
 <hibernate-configuration>
 
-    <!-- a SessionFactory instance listed as /jndi/name -->
     <session-factory>
 
     	<!-- mapping files -->
@@ -14,15 +13,5 @@
 	  
     	
     </session-factory>
-    
-	<!--
-	<show_sql>false</show_sql>
-	<max_fetch_depth>3</max_fetch_depth>
-	<connection.datasource>java:comp/env/JDBC/DB2AS400</connection.datasource>
-	<property name="hibernate.jndi.class">com.ibm.websphere.naming.WsnInitialContextFactory</property>
-	<property name="hibernate.jndi.url">iiop://localhost:900/</property>
-
-	-->
-	
 </hibernate-configuration>
 

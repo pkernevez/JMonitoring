@@ -22,11 +22,10 @@ public class MethodCallPO
 
     private static Log sLog = LogFactory.getLog(MethodCallPO.class);
 
+    private MethodCallPK mId;
+    
     /** Flow Technical Id. */
     private ExecutionFlowPO mFlow;
-
-    /** Technical Id. */
-    private int mId = -1;
 
     /** Lien sur le père de ce point dans la hierachie d'appel. */
     private MethodCallPO mParent;
@@ -150,17 +149,17 @@ public class MethodCallPO
      * 
      * @return Returns the sequence identifier.
      */
-    public int getId()
+    public int getPosition()
     {
-        return mId;
+        return mId.getPosition();
     }
 
     /**
      * @param pId The primary key to set.
      */
-    public void setId(int pId)
+    public void setPosition(int pId)
     {
-        mId = pId;
+        mId.setPosition(pId);
     }
 
     /**
@@ -430,4 +429,14 @@ public class MethodCallPO
 
     }
 
+    public MethodCallPK getMethId()
+    {
+        return mId;
+    }
+
+    public void setMethId(MethodCallPK pId)
+    {
+        mId = pId;
+    }
+    
 }

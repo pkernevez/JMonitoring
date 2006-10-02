@@ -83,6 +83,7 @@ public final class DtoHelper
     {
         MethodCallDTO tResult = new MethodCallDTO();
         BeanUtils.copyProperties(pCallPO, tResult, new String[] {"beginTime", "endTime" });
+        tResult.setId(pCallPO.getMethId().getPosition());
         tResult.setBeginTime(new Date(pCallPO.getBeginTime()));
         tResult.setEndTime(new Date(pCallPO.getEndTime()));
         tResult.setFlowId(pCallPO.getFlow().getId());
@@ -132,7 +133,7 @@ public final class DtoHelper
         tResult.setFlowId(tFlow.getId());
         tResult.setJvmName(tFlow.getJvmIdentifier());
         tResult.setThreadName(tFlow.getThreadName());
-        tResult.setId(pMeth.getId());
+        tResult.setId(pMeth.getPosition());
         return tResult;
     }
 

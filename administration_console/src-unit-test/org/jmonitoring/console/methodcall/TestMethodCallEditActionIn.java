@@ -25,6 +25,7 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
         setRequestPathInfo("/MethodCallEditIn");
         MethodCallEditForm tForm = new MethodCallEditForm();
         tForm.setId(tId);
+        tForm.setFlowId(tFlow.getId());
         setActionForm(tForm);
         assertNull(tForm.getMethodCall());
 
