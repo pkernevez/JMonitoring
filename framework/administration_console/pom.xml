@@ -1,0 +1,162 @@
+<project>
+    <parent>
+        <groupId>com.octo.opensource.jmonitoring</groupId>
+        <artifactId>framework</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>administration_console</artifactId>
+    <name>Monitoring console.</name>
+    <description>This project provides an Administration console for Monitring infrastructure.</description>
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/adminsitration_console</connection>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/adminsitration_console</url>
+    </scm>
+  
+    <packaging>war</packaging>
+    <dependencies>
+       <dependency>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
+          <artifactId>core</artifactId>
+          <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+          <groupId>displaytag</groupId>
+          <artifactId>displaytag</artifactId>
+          <version>1.0</version>
+        </dependency>
+
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>5.0.3</version>
+        </dependency>
+        
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <version>2.3</version>
+					<scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+          <groupId>cglib</groupId>
+          <artifactId>cglib-nodep</artifactId>
+          <version>2.1</version>
+        </dependency>
+
+       <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+          <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>struts</groupId>
+            <artifactId>struts</artifactId>
+            <version>1.2.4</version>
+        </dependency>    
+        
+        <dependency>
+            <groupId>struts-menu</groupId>
+            <artifactId>struts-menu</artifactId>
+            <version>2.3</version>
+        </dependency>    
+        
+        <dependency>
+            <groupId>strutstestcase</groupId>
+            <artifactId>strutstestcase</artifactId>
+            <version>2.1.2-1.1-2.3</version>
+        </dependency>    
+        
+        <dependency>
+          <groupId>jmock</groupId>
+          <artifactId>jmock</artifactId>
+          <version>1.0.1</version>
+        </dependency>
+        
+        <dependency>
+          <groupId>jmock</groupId>
+          <artifactId>jmock-cglib</artifactId>
+          <version>1.0.1</version>
+        </dependency>
+
+       <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.0.6</version>
+        </dependency>    
+        
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>0.9.21</version>
+        </dependency>    
+        
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>0.9.6</version>
+        </dependency>    
+   
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copyweb</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+		<echo>*** Project type = war => copy content of WEB-INF into bin-test and target/test-classes ***</echo>
+		<copy todir="${basedir}/bin/WEB-INF" >
+			<fileset dir="${basedir}/src/main/webapp/WEB-INF" />
+		</copy>
+		<copy todir="${basedir}/target/test-classes/WEB-INF" >
+			<fileset dir="${basedir}/src/main/webapp/WEB-INF" />
+		</copy>
+
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>delete</id>
+                        <phase>verify</phase>
+                        <configuration>
+                            <tasks>
+                   	            <echo>*** Delete *** </echo>
+                   	            <delete dir="${basedir}/classes"/>
+                   	            <delete dir="${basedir}/test-classes"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!--execution>
+                        <id>deplo</id>
+                        <phase>deploy</phase>
+                        <configuration>
+                            <tasks>
+                                <echo> *** Copy to serveur ***</echo>
+                   	            <copy file="target/administration_console.war" todir="${application.server.deploy.dir}"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution-->
+                    
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
