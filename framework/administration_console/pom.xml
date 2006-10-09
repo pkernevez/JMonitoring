@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>administration_console</artifactId>
     <name>Monitoring console.</name>
-    <description>This project provides an Administration console for Monitring infrastructure.</description>
+    <description>This project provides an Administration console for Monitoring infrastructure.</description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/adminsitration_console</connection>
         <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/adminsitration_console</url>

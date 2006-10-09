@@ -22,6 +22,7 @@
         <system>jira</system>
         <url>http://forge.octo.com/jira/browse/JMO</url>
     </issueManagement>
+
     <developers>
         <developer>
             <name>Philippe Kernevez</name>
@@ -35,52 +36,6 @@
             <timezone>+2</timezone>
         </developer>
     </developers>
-    
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>1.8.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <version>2.1</version>
-            <scope>compile</scope>
-        </dependency>
-        
-          <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.1</version>
-        </dependency>
-        
-          <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.1</version>
-        </dependency>
-
-        <dependency>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-          <version>1.2.8</version>
-        </dependency>
-        
-        <dependency>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-          <version>1.0.4</version>
-        </dependency>
-    </dependencies>
     
     <licenses>
         <license>
@@ -291,5 +246,26 @@
             <layout>legacy</layout>
         </repository-->
     </repositories>
-    
+    <dependencies>
+    	<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 </project>
