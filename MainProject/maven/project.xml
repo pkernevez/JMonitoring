@@ -13,8 +13,8 @@
   
     <!-- fichiers à include dans le build --> 
     <build>
-        <sourceDirectory>${basedir}/src-java</sourceDirectory>
-        <unitTestSourceDirectory>${basedir}/src-unit-test</unitTestSourceDirectory>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <unitTestSourceDirectory>${basedir}/src/test/java</unitTestSourceDirectory>
         <unitTest>
            <includes>
                 <include>**/Test*.java</include>
@@ -23,7 +23,7 @@
             </includes>
             <resources>
                 <resource>
-                    <directory>${basedir}/src-unit-test</directory>
+                    <directory>${basedir}/src/test/resources</directory>
                     <includes>
                         <include>**/*.xml</include>
                         <include>**/*.properties</include>
@@ -35,7 +35,7 @@
 
         <resources>
             <resource>
-                <directory>${basedir}/src-java</directory>
+                <directory>${basedir}/src/main/resources</directory>
                 <includes>
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>

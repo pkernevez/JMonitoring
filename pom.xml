@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.octo.opensource.jmonitoring</groupId>
     <artifactId>main</artifactId>
@@ -86,11 +87,18 @@
                 </dependencies>
                 <configuration>
                     <links>
-                        <link>http://java.sun.com/j2se/1.4.2/docs/api</link>
-                        <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>
-                        <link>http://jakarta.apache.org/commons/chain/apidocs</link>
-                        <link>http://jakarta.apache.org/commons/digester/commons-digester-1.6/docs/api</link>
-                        <link>http://jakarta.apache.org/commons/logging/commons-logging-1.0.4/docs/apidocs</link>
+                        <link>http://java.sun.com/j2ee/1.4/docs/api</link>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+                        <link>http://jakarta.apache.org/commons/collections/apidocs-COLLECTIONS_3_0/</link>
+                        <link>http://jakarta.apache.org/commons/dbcp/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/fileupload/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/httpclient/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/logging/apidocs/</link>
+                        <link>http://jakarta.apache.org/commons/pool/apidocs/</link>
+                        <link>http://www.junit.org/junit/javadoc/</link>
+                        <link>http://logging.apache.org/log4j/docs/api/</link>
+                        <link>http://jakarta.apache.org/regexp/apidocs/</link>
+                        <link>http://jakarta.apache.org/velocity/api/</link>
                     </links>
                     <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
                     <docletArtifact>
