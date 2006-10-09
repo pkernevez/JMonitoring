@@ -6,7 +6,9 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
+import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
+import org.jmonitoring.core.store.impl.StoreFactory;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -140,6 +142,8 @@ public class TestStoreManager extends TestCase
 
     public void testFactory()
     {
+        Configuration.getInstance().setMeasurePointStoreClass(AsynchroneJdbcLogger.class);
+        StoreFactory.clear();
         new StoreManager();
         new StoreManager(null, null);
     }

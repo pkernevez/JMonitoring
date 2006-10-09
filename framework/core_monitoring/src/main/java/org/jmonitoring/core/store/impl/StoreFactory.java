@@ -81,7 +81,7 @@ public final class StoreFactory
     }
 
     /** For test purpose. */
-    static void clear()
+    public static void clear()
     {
         sConstructor = null;
     }
