@@ -51,5 +51,6 @@
 	<classpathentry kind="var" path="M2_REPO/asm/asm/1.5.3/asm-1.5.3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/hibernate/antlr/2.7.5H3/antlr-2.7.5H3.jar"/>
 	<classpathentry sourcepath="M2_REPO/cglib/cglib/2.1_2/cglib-2.1_2-sources.jar" kind="var" path="M2_REPO/cglib/cglib/2.1_2/cglib-2.1_2.jar"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -17,7 +17,7 @@
     <name>WebApp pour le sample.</name>
     
     <!-- racine du package (syntaxe java) -->
-    <package>net.kernevez</package>
+    <package>org.jmonitoring</package>
     
     <description>
          This project provides an a sample for JMonitring.
@@ -27,7 +27,7 @@
     <dependencies>
     
         <dependency>
-          <groupId>jmonitoring</groupId>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
           <artifactId>core_monitoring</artifactId>
           <version>${monitoring.version}</version>
           <url>http://octo.dnalias.com/maven</url>
@@ -39,7 +39,7 @@
         </dependency>
 
         <dependency>
-          <groupId>jmonitoring</groupId>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
           <artifactId>sample_core</artifactId>
           <version>${monitoring.version}</version>
           <url>http://octo.dnalias.com/maven</url>
@@ -50,7 +50,7 @@
         </dependency>
 
         <dependency>
-          <groupId>jmonitoring</groupId>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
           <artifactId>sample_aspects</artifactId>
           <version>${monitoring.version}</version>
           <url>http://octo.dnalias.com/maven</url>

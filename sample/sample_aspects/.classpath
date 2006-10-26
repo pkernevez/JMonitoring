@@ -38,5 +38,6 @@
 	<classpathentry kind="var" path="M2_REPO/xerces/xercesImpl/2.2.1/xercesImpl-2.2.1.jar"/>
 	<classpathentry kind="con" path="org.jboss.ide.eclipse.jdt.aop.core.classpath.AOP_14_CONTAINER"/>
 	<classpathentry kind="var" path="ASPECTJRT_LIB"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

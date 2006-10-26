@@ -53,5 +53,6 @@
 	<classpathentry sourcepath="M2_REPO/org/springframework/spring-core/1.2.6/spring-core-1.2.6-sources.jar" kind="var" path="M2_REPO/org/springframework/spring-core/1.2.6/spring-core-1.2.6.jar"/>
 	<classpathentry sourcepath="M2_REPO/ehcache/ehcache/1.1/ehcache-1.1-sources.jar" kind="var" path="M2_REPO/ehcache/ehcache/1.1/ehcache-1.1.jar"/>
 	<classpathentry sourcepath="M2_REPO/commons-digester/commons-digester/1.5/commons-digester-1.5-sources.jar" kind="var" path="M2_REPO/commons-digester/commons-digester/1.5/commons-digester-1.5.jar"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

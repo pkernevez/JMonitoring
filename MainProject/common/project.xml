@@ -20,7 +20,7 @@
     </organization>
 
     <!-- (facultatif) identifiant de groupe -->
-    <groupId>jmonitoring</groupId>
+    <groupId>com.octo.opensource.jmonitoring</groupId>
     
     <!-- année de début du projet -->
     <inceptionYear>2005</inceptionYear>

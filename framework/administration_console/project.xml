@@ -23,7 +23,7 @@
     <dependencies>
     
         <dependency>
-          <groupId>jmonitoring</groupId>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
           <artifactId>core_monitoring</artifactId>
           <version>${monitoring.version}</version>
           <url>http://octo.dnalias.com/maven</url>

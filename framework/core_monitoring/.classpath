@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry output="target/test-classes" kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar" kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
@@ -39,5 +41,6 @@
 	<classpathentry sourcepath="M2_REPO/jaxen/jaxen/1.0-FCS/jaxen-1.0-FCS-sources.jar" kind="var" path="M2_REPO/jaxen/jaxen/1.0-FCS/jaxen-1.0-FCS.jar"/>
 	<classpathentry sourcepath="M2_REPO/cglib/cglib/2.1_2/cglib-2.1_2-sources.jar" kind="var" path="M2_REPO/cglib/cglib/2.1_2/cglib-2.1_2.jar"/>
 	<classpathentry kind="var" path="ASPECTJRT_LIB"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
