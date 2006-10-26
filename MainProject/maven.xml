@@ -85,9 +85,9 @@
    
 	
         
-		<goal name="buildRelease">
-	    <attainGoal name="build"/>
-	    <attainGoal name="announcement"/>
+	<goal name="buildRelease">
+	    <!--attainGoal name="build"/>
+	    <attainGoal name="announcement"/-->
 		
 	    <j:set var="release.dir" scope="parent" value="${maven.build.dir}/release"/>
     	<j:set var="release.file" scope="parent" value="${maven.repo.local}/${pom.groupId}/releases/${pom.groupId}-${monitoring.version}.zip"/>
