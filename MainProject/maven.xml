@@ -51,7 +51,9 @@
 	<goal name="buildSite" prereqs="multiproject:clean,exclude-sample">
             <!-- @todo Utiliser Cargo -->
             <echo>Build Site</echo>
-	        <attainGoal name="buildAndDeploy"/>
+	        <attainGoal name="build"/>
+            <attainGoal name="multiproject:clean"/>
+            <attainGoal name="clean"/>
             
 	        <!-- Autorise the failure of the test during site generation -->
             <j:set var="maven.webtest.config.haltonfailure" value="false"/>
@@ -74,8 +76,8 @@
       <!--copy file="../administration_console/target/administration_console.war"    todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/>
       <copy file="../sample_webapp/target/sample_webapp.war"                      todir="C:/Program Files/Apache Software Foundation/Tomcat 5.5/webapps"/-->
       <!-- AppServer -->
-      <copy file="../administration_console/target/administration_console.war" todir="${application.server.deploy.dir}"/>
-      <copy file="../sample_webapp/target/sample_webapp.war" todir="${application.server.deploy.dir}"/>
+      <copy file="../framework/administration_console/target/administration_console.war" todir="${application.server.deploy.dir}"/>
+      <copy file="../sample/sample_webapp/target/sample_webapp.war" todir="${application.server.deploy.dir}"/>
       <!-- Pour éviter les effet de bord avec Eclipse -->
       <attainGoal name="multiproject:clean"/>
       <attainGoal name="clean"/>

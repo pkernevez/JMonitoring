@@ -8,7 +8,7 @@
 -->
      
 <project>
-    <extend>${basedir}/../MainProject/maven/project.xml</extend>
+    <extend>${basedir}/../../MainProject/maven/project.xml</extend>
   
     <!-- identifiant du projet -->
     <id>sample_webapp</id>

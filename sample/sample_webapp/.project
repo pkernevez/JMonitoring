@@ -1,28 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>sample_webapp</name>
-	<comment>This project provides an Administration console for Monitring infrastrcture.</comment>
-	<projects>
-		<project>core_monitoring</project>
-		<project>sample_core_not_weaved</project>
-		<project>sample_aspect</project>
-		<project>sample_core</project>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.ajdt.core.ajbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
-	<natures>
-		<nature>org.eclipse.ajdt.ui.ajnature</nature>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
-	</natures>
+  <name>sample_webapp</name>
+  <comment>This project provides a Sample console for Monitoring infrastructure.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
+      <arguments/>
+    </buildCommand>
+    <buildCommand>
+      <name>org.eclipse.ajdt.core.ajbuilder</name>
+      <arguments/>
+    </buildCommand>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+      <arguments/>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.ajdt.ui.ajnature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
+  </natures>
 </projectDescription>

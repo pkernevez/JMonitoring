@@ -29,10 +29,10 @@
 	<goal name="copyweb">
 		<echo>*** Project type = war => copy content of WEB-INF into bin-test and target/test-classes ***</echo>
 		<copy todir="${basedir}/bin/WEB-INF" >
-			<fileset dir="${basedir}/src-webapp/WEB-INF" />
+			<fileset dir="${basedir}/src/main/webapp/WEB-INF" />
 		</copy>
 		<copy todir="${basedir}/target/test-classes/WEB-INF" >
-			<fileset dir="${basedir}/src-webapp/WEB-INF" />
+			<fileset dir="${basedir}/src/main/webapp/WEB-INF" />
 		</copy>
 	</goal>
 

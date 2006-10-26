@@ -1,23 +1,15 @@
 body{ 
-	background-color: #fff; padding:0 0 0 0; margin:0 0 0 0;
+	background-color: #fff; padding:0; margin:0;
 }
 body, input, select, td, textarea{ 
 	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif; 
 	font-size: 11px;
 }
-h1, h2, h3, h4, h5, h6, p, strong, div, form, acronym, label, table, td, th, span, a, hr, code, pre, hr {
-	margin:0;
-	padding:0;
-	font-size: 1em;
-	background-repeat:no-repeat;
-	list-style-type:none;
-}
+h1, h2, h3, h4, h5, h6, p, strong, div, form, acronym, label, table, td, th, span, a, hr, code, pre, hr { color: #808080; margin:0; padding:0; font-size: 1em; background-repeat:no-repeat; list-style-type:none; }
 a, a:visited, a:hover { 
-	color:#666; text-decoration:none; 
+	color:#d00; text-decoration:none; 
 }
-a:hover {
-	text-decoration: underline;
-}
+a:hover { color: #008000; text-decoration: underline; }
 img{ 
 	border:none;
 }
@@ -131,12 +123,7 @@ ul#stylelist li {
 	padding:2px;
 	margin-right: 2px;
 }
-table {
-	border: 1px solid #666;
-
-	width: 80%;
-	margin: 20px 0 20px 0;
-}
+table { width: 100%; }
 th, td {
 	padding: 2px 4px 2px 4px;
 	text-align: left;
@@ -268,6 +255,18 @@ table.mark td.tableCellError {
 	color: #fff;
 }
 
+table.presentation {
+	border: 0px; 
+	margin: 0 0 0 0;
+	width: 100%;
+}
+
+td.group {
+	border: 0px; 
+	margin: 0 0 0 0;
+	width: 1%;
+}
+
 table.sublist {
 	margin: 0 0 0 0;
 	width: 100%;
@@ -324,3 +323,4 @@ span.pagelinks {
 }
 
 table.simple td.textRed {color: #b11;}
+#id { }

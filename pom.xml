@@ -10,10 +10,11 @@
     <modules>
         <module>build-tools</module>
         <module>framework</module>
+        <module>sample</module>
     </modules>
 
-    <name>Main component of JavaMonitoring project.</name>
-    <description>This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.</description>
+    <name>JMonitoring: master module.</name>
+    <description>This project provides JMonitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/</connection>
         <url>https://forge.octo.com/</url>
@@ -86,7 +87,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <links>
+                    <!--links>
                         <link>http://java.sun.com/j2ee/1.4/docs/api</link>
                         <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
                         <link>http://jakarta.apache.org/commons/collections/apidocs-COLLECTIONS_3_0/</link>
@@ -99,7 +100,7 @@
                         <link>http://logging.apache.org/log4j/docs/api/</link>
                         <link>http://jakarta.apache.org/regexp/apidocs/</link>
                         <link>http://jakarta.apache.org/velocity/api/</link>
-                    </links>
+                    </links-->
                     <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
                     <docletArtifact>
                         <groupId>gr.spinellis</groupId>
@@ -158,10 +159,43 @@
     
     <reporting>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <reportSets>
+               <reportSet>
+                  <!--id>uml</id-->
+                  <!--id>apidocs</id-->
+                  <configuration>
+                     <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
+                     <docletArtifact>
+                       <groupId>gr.spinellis</groupId>
+                       <artifactId>UmlGraph</artifactId>
+                       <version>4.4</version>
+                     </docletArtifact>
+                     <additionalparam>
+                            -inferrel -inferdep -quiet -hide java.* -collpackages java.util.* -qualify
+                            -postfixpackage -nodefontsize 9
+                            -nodefontpackagesize 7
+                        </additionalparam>
+                     <!--destDir>target/uml</destDir-->
+                     <!--show>private</show-->
+                  </configuration>
+                  <reports>
+                     <report>javadoc</report>
+                  </reports>
+               </reportSet>
+               <!--reportSet>
+                  <id>html</id>
+                  <configuration>
+                     <show>private</show>
+                  </configuration>
+                  <reports>
+                     <report>javadoc</report>
+                  </reports>
+               </reportSet-->
+            </reportSets>
+         </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jxr-maven-plugin</artifactId>

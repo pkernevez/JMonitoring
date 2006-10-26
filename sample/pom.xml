@@ -8,19 +8,20 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>framework</artifactId>
+    <artifactId>sample</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
      <modules>
-        <module>core_monitoring</module>
-        <module>administration_console</module>
+        <module>sample_aspects</module>
+        <module>sample_core</module>
+        <module>sample_webapp</module>
     </modules>
 
-    <name>JMonitoring: framework, master module.</name>
+    <name>JMonitoring: sample, master module.</name>
     <description>This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework</connection>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample</connection>
         <url>https://forge.octo.com/</url>
     </scm>
   

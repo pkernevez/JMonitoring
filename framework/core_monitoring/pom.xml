@@ -7,8 +7,8 @@
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>core</artifactId>
-    <name>Core framework.</name>
+    <artifactId>core_monitoring</artifactId>
+    <name>JMonitoring: framework, core.</name>
     <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/core_monitoring</connection>

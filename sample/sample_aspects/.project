@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>sample_aspects</name>
-	<comment>This is a sample for the use of JavaMonitring.</comment>
+	<comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
 	<projects>
-		<project>core_monitoring</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -16,9 +15,15 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.jboss.ide.eclipse.jdt.aop.core.AopProjectBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.ajdt.ui.ajnature</nature>
+		<nature>org.jboss.ide.eclipse.jdt.aop.core.AopProjectNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

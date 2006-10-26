@@ -8,7 +8,7 @@
 -->
      
 <project>
-    <extend>${basedir}/../MainProject/maven/project.xml</extend>
+    <extend>${basedir}/../../MainProject/maven/project.xml</extend>
   
     <!-- identifiant du projet -->
     <id>sample_aspects</id>
@@ -24,7 +24,7 @@
     </description>
   
     <build>
-        <aspectSourceDirectory>src-aspectj</aspectSourceDirectory>
+        <aspectSourceDirectory>src/main/java</aspectSourceDirectory>
     </build>
 
     <!-- dépendances -->

@@ -2,30 +2,29 @@
 <html>
     <head>
         <title>JMonitoring sample</title>
-    	<link href="css/screen.css" rel="stylesheet" type="text/css">    
     	<link href="css/global.css" rel="stylesheet" type="text/css" media="screen"/>
  
     </head>
     <body>
-        <table border="2" width="100%" height="100%">
-            <tr height="40" bgcolor="#FFFF55">
-                <td colSpan="2">
+    	<table class="layout" border="0" height="100%" width="100%">
+      	<tbody>
+            	<tr class="header" height="40">
                     <tiles:insert attribute="head"/>
-                </td>
-            </tr>
-            <tr>
-                <td width="130" valign="top">
+            	</tr>
+            	<tr>
+                <td class="leftMenu" width="200" valign="top">
                     <tiles:insert attribute="menu"/>
                 </td>
-                <td  valign="top">
+                <td class="main"  valign="top">
                     <tiles:insert attribute="body"/>                
                 </td>
             </tr>
-            <tr height="20" bgcolor="#FFFF55">
-                <td align="center" colSpan="2">
+            <tr height="20">
+                <td class="footer" colspan="2" align="center">
                     <tiles:insert attribute="footer"/>
                 </td>
             </tr>
+          </tbody>
         </table>
-    <body>
+    </body>
 </html>

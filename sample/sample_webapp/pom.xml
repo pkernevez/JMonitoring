@@ -2,24 +2,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
-        <artifactId>framework</artifactId>
+        <artifactId>sample</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>administration_console</artifactId>
-    <name>JMonitoring: framework, administration console.</name>
-    <description>This project provides an Administration console for Monitoring infrastructure.</description>
+    <artifactId>sample_webapp</artifactId>
+    <name>JMonitoring: sample, web application.</name>
+    <description>This project provides a Sample console for Monitoring infrastructure.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/adminsitration_console</connection>
-        <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/adminsitration_console</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_webapp_console</connection>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_webapp_consolee</url>
     </scm>
   
     <packaging>war</packaging>
     <dependencies>
        <dependency>
           <groupId>com.octo.opensource.jmonitoring</groupId>
-          <artifactId>core_monitoring</artifactId>
+          <artifactId>sample_core</artifactId>
           <version>1.0-SNAPSHOT</version>
         </dependency>
 
