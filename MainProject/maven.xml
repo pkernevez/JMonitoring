@@ -108,10 +108,10 @@
 	    <copy file="${basedir}/LICENSE.txt" todir="${release.dir}"/>
 	    
 	    <!-- MySql create script -->
-	    <copy file="${basedir}/../framework/core_monitoring/sql-script/createMySqlDB.sql" todir="${release.dir}"/>
+	    <copy file="${basedir}/../framework/core_monitoring/src/main/sql/createMySqlDB.sql" todir="${release.dir}"/>
 	    
 	    <!-- MySql create script -->
-	    <copy file="${basedir}/../framework/core_monitoring/src-unit-test/jmonitoring.properties" todir="${release.dir}"/>
+	    <copy file="${basedir}/../framework/core_monitoring/src/test/resources/jmonitoring.properties" todir="${release.dir}"/>
 	    
 	    <!-- Now build the Zip release file -->
 	    <ant:zip destfile="${release.file}" basedir="${release.dir}/"/>
