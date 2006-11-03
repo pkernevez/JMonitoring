@@ -148,19 +148,19 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                    <!--execution>
+                    <execution>
                         <id>deplo</id>
-                        <phase>deploy</phase>
+                        <phase>install</phase>
                         <configuration>
                             <tasks>
                                 <echo> *** Copy to serveur ***</echo>
-                   	            <copy file="target/administration_console.war" todir="${application.server.deploy.dir}"/>
+                   	            <copy file="target/${pom.artifactId}-${pom.version}.war" tofile="${application.server.deploy.dir}/${pom.artifactId}.war"/>
                             </tasks>
                         </configuration>
                         <goals>
                             <goal>run</goal>
                         </goals>
-                    </execution-->
+                    </execution>
                     
                 </executions>
             </plugin>

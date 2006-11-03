@@ -212,7 +212,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
     public static ExecutionFlowPO buildNewFullFlow()
     {
         MethodCallPO tPoint;
-        MethodCallPO tSubPoint,tSubPoint2;
+        MethodCallPO tSubPoint, tSubPoint2;
         long tStartTime = System.currentTimeMillis();
 
         tPoint = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault",
@@ -229,7 +229,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         tSubPoint2.setEndTime(tStartTime + 13);
 
         tPoint.setEndTime(tStartTime + 20);
-        ExecutionFlowPO   tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
+        ExecutionFlowPO tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
         tPoint.setMethId(new MethodCallPK(tFlow, 0));
         tSubPoint.setMethId(new MethodCallPK(tFlow, 1));
         tSubPoint2.setMethId(new MethodCallPK(tFlow, 2));
@@ -367,5 +367,6 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         assertEquals(1, curExtrat.getOccurenceNumber());
 
     }
+
 
 }

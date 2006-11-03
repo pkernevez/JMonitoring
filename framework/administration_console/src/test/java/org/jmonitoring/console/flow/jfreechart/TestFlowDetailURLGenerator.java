@@ -24,11 +24,11 @@ public class TestFlowDetailURLGenerator extends PersistanceTestCase
 
         FlowDetailURLGenerator tGenerator = new FlowDetailURLGenerator();
         String tUrl = tGenerator.generateURL(tIntervalcategorydataset, 0, 0);
-        assertEquals("MethodCallEditIn.do?flowId=1&position=0", tUrl);
-        assertEquals("MethodCallEditIn.do?flowId=1&position=0", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
-        assertEquals("MethodCallEditIn.do?flowId=1&position=0", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
-        assertEquals("MethodCallEditIn.do?flowId=1&position=1", tGenerator.generateURL(tIntervalcategorydataset, 0, 1));
+        assertEquals("MethodCallEditIn.do?flowId=1&position=1", tUrl);
+        assertEquals("MethodCallEditIn.do?flowId=1&position=1", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
+        assertEquals("MethodCallEditIn.do?flowId=1&position=1", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
         assertEquals("MethodCallEditIn.do?flowId=1&position=2", tGenerator.generateURL(tIntervalcategorydataset, 0, 1));
+        assertEquals("MethodCallEditIn.do?flowId=1&position=3", tGenerator.generateURL(tIntervalcategorydataset, 0, 1));
 
     }
 

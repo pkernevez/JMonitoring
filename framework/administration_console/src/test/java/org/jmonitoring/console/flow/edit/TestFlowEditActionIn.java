@@ -59,15 +59,15 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         assertNotNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
 
         assertEquals(("<MAP NAME=\"ChartBar\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"121,79,140,118\" href=\"MethodCallEditIn.do?flowId=1&position=0\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"216,79,235,118\" href=\"MethodCallEditIn.do?flowId=1&position=0\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"311,79,330,118\" href=\"MethodCallEditIn.do?flowId=1&position=0\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"407,79,426,118\" href=\"MethodCallEditIn.do?flowId=1&position=0\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"502,79,883,118\" href=\"MethodCallEditIn.do?flowId=1&position=0\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"140,141,216,180\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"235,141,311,180\" href=\"MethodCallEditIn.do?flowId=1&position=2\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"330,141,406,180\" href=\"MethodCallEditIn.do?flowId=1&position=3\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"426,141,502,180\" href=\"MethodCallEditIn.do?flowId=1&position=4\">\r\n" + "</MAP>\r\n"),
+            + "<AREA SHAPE=\"RECT\" COORDS=\"121,79,140,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"216,79,235,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"311,79,330,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"407,79,426,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"502,79,883,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"140,141,216,180\" href=\"MethodCallEditIn.do?flowId=1&position=2\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"235,141,311,180\" href=\"MethodCallEditIn.do?flowId=1&position=3\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"330,141,406,180\" href=\"MethodCallEditIn.do?flowId=1&position=4\">\r\n"
+            + "<AREA SHAPE=\"RECT\" COORDS=\"426,141,502,180\" href=\"MethodCallEditIn.do?flowId=1&position=5\">\r\n" + "</MAP>\r\n"),
             tForm.getImageMap());
     }
 

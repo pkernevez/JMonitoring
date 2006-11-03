@@ -16,12 +16,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.jmonitoring.core.common.DataBaseException;
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
@@ -39,6 +41,8 @@ public class ExecutionFlowDAO
 {
 
     private static Log sLog = LogFactory.getLog(ExecutionFlowDAO.class);
+
+    private PreparedStatement mMethodCallInsertStatement;
 
     /**
      * Default constructor.
@@ -67,8 +71,28 @@ public class ExecutionFlowDAO
         pExecutionFlow.setFirstMethodCall(null);
         mSession.save(pExecutionFlow);
         mSession.flush();
-        updatePkMethodCall(tMeth, 0);
-        saveAllMethodCall(tMeth);
+        updatePkMethodCall(tMeth, 1);
+
+        try
+        {
+            try
+            {
+                saveAllMethodCall(tMeth, 0);
+                mMethodCallInsertStatement.executeBatch();
+            } finally
+            {
+                try
+                {
+                    mMethodCallInsertStatement.close();
+                } finally
+                {
+                    mMethodCallInsertStatement = null;
+                }
+            }
+        } catch (SQLException e)
+        {
+            throw new DataBaseException("Unable to insert METHOD_CALL into DB", e);
+        }
         mSession.flush();
         updateExecutionFlowLink(pExecutionFlow);
         pExecutionFlow.setFirstMethodCall(tMeth);
@@ -83,7 +107,7 @@ public class ExecutionFlowDAO
             try
             {
                 tStat = mSession.connection().prepareStatement(UPDATE_FLOW_WITH_FIRST_METHOD_CALL);
-                tStat.setInt(1, 0);
+                tStat.setInt(1, 1);
                 tStat.setInt(2, pExecutionFlow.getId());
                 tStat.execute();
             } finally
@@ -112,12 +136,57 @@ public class ExecutionFlowDAO
         return tCurrentIndex;
     }
 
-    private void saveAllMethodCall(MethodCallPO pMethodCall)
+    private void saveAllMethodCall(MethodCallPO pMethodCall, int pCurrentChildIndex)
     {
-        mSession.save(pMethodCall);
+        saveMethodCall(pMethodCall, pCurrentChildIndex);
+        int tChildIndex = 0;
         for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
         {
-            saveAllMethodCall((MethodCallPO) tChildIt.next());
+            saveAllMethodCall((MethodCallPO) tChildIt.next(), tChildIndex++);
+        }
+    }
+
+    private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL "
+        + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME,"
+        + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
+        + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    void saveMethodCall(MethodCallPO pMethodCall, int pCurIndex)
+    {
+        try
+        {
+            int curIndex = 1;
+            if (mMethodCallInsertStatement == null)
+            {
+                mMethodCallInsertStatement = mSession.connection().prepareStatement(SQL_INSERT_METHOD_CALL);
+            }
+            mMethodCallInsertStatement.setInt(curIndex++, pMethodCall.getFlow().getId());
+            mMethodCallInsertStatement.setInt(curIndex++, pMethodCall.getPosition());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getParams());
+            mMethodCallInsertStatement.setLong(curIndex++, pMethodCall.getBeginTime());
+            mMethodCallInsertStatement.setLong(curIndex++, pMethodCall.getEndTime());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getClassName());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getMethodName());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getThrowableClass());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getThrowableMessage());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getReturnValue());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getGroupName());
+            if (pMethodCall.getParentMethodCall() == null)
+            {
+                mMethodCallInsertStatement.setObject(curIndex++, null);
+            } else
+            {
+                mMethodCallInsertStatement.setInt(curIndex++, pMethodCall.getParentMethodCall().getPosition());
+            }
+            mMethodCallInsertStatement.setInt(curIndex++, pCurIndex);
+            mMethodCallInsertStatement.addBatch();
+        } catch (HibernateException e)
+        {
+            throw new DataBaseException("Unable to insert METHOD_CALL into DB", e);
+        } catch (SQLException e)
+        {
+            throw new DataBaseException("Unable to insert METHOD_CALL into DB", e);
         }
     }
 
@@ -307,11 +376,12 @@ public class ExecutionFlowDAO
      */
     public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
     {
-        Query tQuery = mSession.createQuery("from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
+        Query tQuery = mSession
+            .createQuery("from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
         tQuery.setInteger("flowId", pFlowId);
         tQuery.setInteger("pid", pMethodId);
         return (MethodCallPO) tQuery.uniqueResult();
-//        return (MethodCallPO) mSession.load(MethodCallPO.class, new MethodCallPK(pFlow, pMethodId));
+        // return (MethodCallPO) mSession.load(MethodCallPO.class, new MethodCallPK(pFlow, pMethodId));
     }
 
     private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ,"

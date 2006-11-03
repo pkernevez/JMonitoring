@@ -23,10 +23,10 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals("myJVM", tFlow.getJvmIdentifier());
         assertEquals(45, tFlow.getId());
         MethodCallDTO curMeth = tFlow.getFirstMethodCall();
-        assertEquals(0, curMeth.getId());
+        assertEquals(1, curMeth.getId());
         assertEquals(45, curMeth.getFlowId());
         curMeth = curMeth.getChild(0);
-        assertEquals(1, curMeth.getId());
+        assertEquals(2, curMeth.getId());
         assertEquals(45, curMeth.getFlowId());
     }
 
