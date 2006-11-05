@@ -52,7 +52,7 @@
 		<td NOWRAP>Parent id:</td>
 		<td NOWRAP colSpan="2">
 			<b><html:link action="MethodCallEditIn" name="methodcallform" property="parentIdsMap">
-				<bean:write format="####" name="methodcallform" property="methodCall.parent.id"/>
+				<bean:write format="####" name="methodcallform" property="methodCall.parent.position"/>
 			</html:link></b>
 		</td>
 	</tr>

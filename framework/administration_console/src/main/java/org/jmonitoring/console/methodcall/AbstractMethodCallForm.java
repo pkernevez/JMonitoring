@@ -13,7 +13,7 @@ public class AbstractMethodCallForm extends ActionForm
     private int mFlowId = -1;
 
     /** Sequence identifier. */
-    private int mId = -1;
+    private int mPosition = -1;
 
     /** Name of the method for which we want to find static. */
     private String mMethodName;
@@ -32,7 +32,7 @@ public class AbstractMethodCallForm extends ActionForm
         if (mMethodName != null && mClassName != null)
         { // We give name parameters
             tResult = true;
-        } else if (mFlowId != -1 && mId != -1)
+        } else if (mFlowId != -1 && mPosition != -1)
         { // We give identifier parameters
             tResult = false;
         } else
@@ -68,9 +68,9 @@ public class AbstractMethodCallForm extends ActionForm
      * 
      * @return The sequence identifier.
      */
-    public int getId()
+    public int getPosition()
     {
-        return mId;
+        return mPosition;
     }
 
     /**
@@ -78,9 +78,9 @@ public class AbstractMethodCallForm extends ActionForm
      * 
      * @param pSequenceId The sequence identifier.
      */
-    public void setId(int pSequenceId)
+    public void setPosition(int pSequenceId)
     {
-        mId = pSequenceId;
+        mPosition = pSequenceId;
     }
 
     /**

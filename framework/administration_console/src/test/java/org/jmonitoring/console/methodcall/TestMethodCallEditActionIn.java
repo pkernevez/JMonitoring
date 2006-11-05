@@ -24,7 +24,7 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
 
         setRequestPathInfo("/MethodCallEditIn");
         MethodCallEditForm tForm = new MethodCallEditForm();
-        tForm.setId(tId);
+        tForm.setPosition(tId);
         tForm.setFlowId(tFlow.getId());
         setActionForm(tForm);
         assertNull(tForm.getMethodCall());
@@ -47,7 +47,7 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
 
         setRequestPathInfo("/MethodCallEditIn");
         MethodCallEditForm tForm = new MethodCallEditForm();
-        tForm.setId(567749375);
+        tForm.setPosition(567749375);
         setActionForm(tForm);
         assertNull(tForm.getMethodCall());
         actionPerform();

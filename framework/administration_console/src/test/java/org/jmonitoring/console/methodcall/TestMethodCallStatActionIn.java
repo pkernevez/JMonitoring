@@ -27,7 +27,7 @@ public class TestMethodCallStatActionIn extends MockStrutsTestCase
 
         setRequestPathInfo("/MethodCallStatIn.do");
         MethodCallStatForm tForm = new MethodCallStatForm();
-        tForm.setId(tId);
+        tForm.setPosition(tId);
         tForm.setFlowId(tFlow.getId());
 
         setActionForm(tForm);

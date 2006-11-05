@@ -86,7 +86,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
         Map tHashMap = new HashMap();
         MethodCallDTO tMeasure = (MethodCallDTO) mMethodCall.getChildren().get(pPosition);
         tHashMap.put("flowId", new Integer(tMeasure.getFlowId()));
-        tHashMap.put("id", new Integer(tMeasure.getId()));
+        tHashMap.put("position", new Integer(tMeasure.getId()));
         return tHashMap;
     }
 

@@ -380,8 +380,15 @@ public class ExecutionFlowDAO
             .createQuery("from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
         tQuery.setInteger("flowId", pFlowId);
         tQuery.setInteger("pid", pMethodId);
-        return (MethodCallPO) tQuery.uniqueResult();
-        // return (MethodCallPO) mSession.load(MethodCallPO.class, new MethodCallPK(pFlow, pMethodId));
+        MethodCallPO tMeth = (MethodCallPO) tQuery.uniqueResult();
+        if (tMeth == null)
+        {
+            throw new DataBaseException("Unable to find a MethodCall for FlowId=" + pFlowId + " and Position="
+                + pMethodId);
+        } else
+        {
+            return tMeth;
+        }
     }
 
     private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ,"

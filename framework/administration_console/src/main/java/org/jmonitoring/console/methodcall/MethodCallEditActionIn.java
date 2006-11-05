@@ -32,7 +32,7 @@ public class MethodCallEditActionIn extends Action
         // List tList = new ArrayList();
         MethodCallEditForm tForm = (MethodCallEditForm) pForm;
 
-        MethodCallDTO tMeth = tProcess.readFullMethodCall(tForm.getFlowId(), tForm.getId());
+        MethodCallDTO tMeth = tProcess.readFullMethodCall(tForm.getFlowId(), tForm.getPosition());
 
         tForm.setMethodCall(tMeth);
         return pMapping.findForward("success");

@@ -80,7 +80,7 @@ public class MethodCallStatActionIn extends Action
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         if (!pForm.isParametersByName())
         {
-            MethodCallDTO tMeth = tProcess.readMethodCall(pForm.getFlowId(), pForm.getId());
+            MethodCallDTO tMeth = tProcess.readMethodCall(pForm.getFlowId(), pForm.getPosition());
             pForm.setClassName(tMeth.getClassName());
             pForm.setMethodName(tMeth.getMethodName());
         }
