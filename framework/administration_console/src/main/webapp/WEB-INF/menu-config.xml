@@ -19,6 +19,7 @@
             <Item name="DeleteAll" title="Delete Flows" toolTip="Delete all execution flow in database." page="/DeleteAllFlowsConfirmIn.do" /> 
             <Item name="FlowSearch" title="Search Flows" toolTip="Search all flows in database." page="/FlowSearchIn.do" /> 
             <Item name="MethodCallSearch" title="Search Method" toolTip="Search all Methods in database." page="/MethodCallSearchIn.do" /> 
+            <Item name="ImportFlow" title="Import Flow" toolTip="Import a flow already export with JMonitoring." page="/ImportFlowIn.do" /> 
 		</Menu>
 
         <Menu name="indexMenu" title="Examples">

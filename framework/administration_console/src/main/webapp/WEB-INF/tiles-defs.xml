@@ -51,6 +51,14 @@
         <put name="js3" value="scripts/calendar-setup.js"/>
     </definition>
     
+    <definition name="importflow" extends="staticlayout">
+        <put name="body" value="/pages/flow/importflow.jsp"/>
+    </definition>
+
+    <definition name="importflowsuccessful" extends="staticlayout">
+        <put name="body" value="/pages/flow/importflowOk.jsp"/>
+    </definition>
+
     <definition name="methodcallsearch" extends="staticlayout">
         <put name="body" value="/pages/methodcall/MethodCallSearch.jsp"/>
         <put name="css1" value="css/menuExpandable.css"/>

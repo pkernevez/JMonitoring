@@ -14,7 +14,8 @@
         <form-bean name="methodcallstatform" type="org.jmonitoring.console.methodcall.MethodCallStatForm" />
         <form-bean name="methodcalllistform" type="org.jmonitoring.console.methodcall.list.MethodCallListForm" />
         <form-bean name="methodcallsearchform" type="org.jmonitoring.console.methodcall.search.MethodCallSearchForm" />
-
+		<form-bean name="importexecutionflow" type="org.jmonitoring.console.flow.edit.ImportFlowForm"/>
+		
         <!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="threadName" type="java.lang.String" />
             <form-property name="country" type="java.lang.String" />
@@ -86,7 +87,13 @@
             name="methodcalllistform" scope="request">
             <forward name="success" path="methodcalllist" />
         </action>
+		
+        <action path="/ImportFlowIn" forward="importflow" name="importexecutionflow" scope="request" />
 
+		<action path="/ImportFlowOut" type="org.jmonitoring.console.flow.edit.ImportFlowActionOut"
+     		name="importexecutionflow" scope="request" validate="true">
+     		<forward name="success" path="importflowsuccessful"/>
+		</action>
     </action-mappings>
 
     <plug-in className="org.apache.struts.tiles.TilesPlugin">
