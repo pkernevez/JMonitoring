@@ -1,6 +1,6 @@
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="struts-logic.tld" prefix="logic" %>
 <html>
     <head>
         <title>JMonitoring administration</title>

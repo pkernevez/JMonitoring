@@ -21,7 +21,7 @@ public class TestMethodCallStatActionIn extends MockStrutsTestCase
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(5);
         MethodCallDTO tFirstMeth = tFlow.getFirstMethodCall();
         MethodCallDTO tFirstChild = tFirstMeth.getChild(0);
-        int tId = tFirstChild.getId();
+        int tId = tFirstChild.getPosition();
         Statistics tStats = HibernateManager.getStats();
         tStats.clear();
 

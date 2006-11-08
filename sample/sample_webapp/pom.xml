@@ -164,6 +164,33 @@
                     
                 </executions>
             </plugin>
+            
+            <!-- For Weaving the WAR dependencies during the package phase  See: http://mojo.codehaus.org/aspectj-maven-plugin/weaveJars.html -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <configuration>
+                    <weaveDependencies>
+                        <weaveDependency>
+                            <groupId>com.octo.opensource.jmonitoring</groupId>
+                            <artifactId>sample_core</artifactId>
+                        </weaveDependency>
+                    </weaveDependencies>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>com.octo.opensource.jmonitoring</groupId>
+                            <artifactId>sample_aspects</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+               </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -27,7 +27,6 @@
 	<classpathentry sourcepath="M2_REPO/hsqldb/hsqldb/1.8.0.1/hsqldb-1.8.0.1-sources.jar" kind="var" path="M2_REPO/hsqldb/hsqldb/1.8.0.1/hsqldb-1.8.0.1.jar"/>
 	<classpathentry sourcepath="M2_REPO/dbunit/dbunit/2.1/dbunit-2.1-sources.jar" kind="var" path="M2_REPO/dbunit/dbunit/2.1/dbunit-2.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate/3.1rc2/hibernate-3.1rc2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/octo/opensource/jmonitoring/core_monitoring/1.0-SNAPSHOT/core_monitoring-1.0-SNAPSHOT.jar"/>
 	<classpathentry sourcepath="M2_REPO/javax/servlet/servlet-api/2.3/servlet-api-2.3-sources.jar" kind="var" path="M2_REPO/javax/servlet/servlet-api/2.3/servlet-api-2.3.jar"/>
 	<classpathentry sourcepath="M2_REPO/org/springframework/spring-beans/1.2.6/spring-beans-1.2.6-sources.jar" kind="var" path="M2_REPO/org/springframework/spring-beans/1.2.6/spring-beans-1.2.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/jmock/jmock/1.0.1/jmock-1.0.1.jar"/>
@@ -51,6 +50,6 @@
 	<classpathentry kind="var" path="M2_REPO/asm/asm/1.5.3/asm-1.5.3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/hibernate/antlr/2.7.5H3/antlr-2.7.5H3.jar"/>
 	<classpathentry sourcepath="M2_REPO/cglib/cglib/2.1_2/cglib-2.1_2-sources.jar" kind="var" path="M2_REPO/cglib/cglib/2.1_2/cglib-2.1_2.jar"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/core_monitoring"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -95,26 +95,26 @@ public class FlowAsStackUtil
         // Génération du lien vers les statistiques
         StringBuffer tLinkStat = new StringBuffer();
         tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=" + pCurrentMethod.getFlowId()
-            + "&id=" + pCurrentMethod.getId() + "\">");
+            + "&position=" + pCurrentMethod.getPosition() + "\">");
         tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
 
         StringBuffer tLinkDetail = new StringBuffer();
         tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId="
-            + pCurrentMethod.getFlowId() + "&id=" + pCurrentMethod.getId() + "\">");
+            + pCurrentMethod.getFlowId() + "&position=" + pCurrentMethod.getPosition() + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
         // Maintenant on créer le le html associé au MethodCallDTO
-        if (pCurrentMethod.getChildren().size() > 0)
+        if (pCurrentMethod.getChildren().length > 0)
         { // On crée un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
-            pHtmlBuffer.append("<li>\n<a href=\"#\" id=\"" + pCurrentMethod.getId() + "Actuator\"");
+            pHtmlBuffer.append("<li>\n<a href=\"#\" id=\"" + pCurrentMethod.getPosition() + "Actuator\"");
             pHtmlBuffer.append(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">");
             pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMethod) + "</a>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "\n");
-            pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getId() + "Menu\" class=\"submenu\">\n");
-            for (Iterator tIterator = pCurrentMethod.getChildren().iterator(); tIterator.hasNext();)
+            pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getPosition() + "Menu\" class=\"submenu\">\n");
+            for (int i=0;i<pCurrentMethod.getChildren().length;i++)
             {
-                writeMethodCallAsHtml((MethodCallDTO) tIterator.next(), pHtmlBuffer);
+                writeMethodCallAsHtml(pCurrentMethod.getChild(i), pHtmlBuffer);
             }
             pHtmlBuffer.append("  </ul>\n</li>\n");
         } else

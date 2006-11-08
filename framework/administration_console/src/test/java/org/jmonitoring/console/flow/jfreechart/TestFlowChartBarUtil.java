@@ -161,7 +161,7 @@ public class TestFlowChartBarUtil extends TestCase
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);
         tPoint = new MethodCallDTO();
-        tPoint.setId(1);
+        tPoint.setPosition(1);
         tPoint.setParent(null);
         tPoint.setClassName(TestFlowUtils.class.getName());
         tPoint.setMethodName("builNewFullFlow");
@@ -169,11 +169,12 @@ public class TestFlowChartBarUtil extends TestCase
         tPoint.setParams("[]");
         tPoint.setBeginTime(tRefDate);
         tPoint.setEndTime(new Date(tRefDate.getTime() + 106));
+        MethodCallDTO[] tChildren = new MethodCallDTO[2];
 
         MethodCallDTO tChild1 = new MethodCallDTO();
-        tChild1.setId(2);
+        tChild1.setPosition(2);
         tChild1.setParent(tPoint);
-        tPoint.addChildren(tChild1);
+        tChildren[0]=tChild1;
         tChild1.setClassName(TestFlowUtils.class.getName());
         tChild1.setMethodName("builNewFullFlow2");
         tChild1.setGroupName("GrChild1");
@@ -182,15 +183,16 @@ public class TestFlowChartBarUtil extends TestCase
         tChild1.setEndTime(new Date(tRefDate.getTime() + 45));
 
         MethodCallDTO tChild2 = new MethodCallDTO();
-        tChild2.setId(3);
+        tChild2.setPosition(3);
         tChild2.setParent(tPoint);
-        tPoint.addChildren(tChild2);
+        tChildren[1]=tChild2;
         tChild2.setClassName(TestFlowUtils.class.getName());
         tChild2.setMethodName("builNewFullFlow2");
         tChild2.setGroupName("GrChild1");
         tChild2.setParams("[]");
         tChild2.setBeginTime(new Date(tRefDate.getTime() + 48));
         tChild2.setEndTime(new Date(tRefDate.getTime() + 54));
+        tPoint.setChildren(tChildren);
         return tPoint;
     }
 
@@ -202,7 +204,7 @@ public class TestFlowChartBarUtil extends TestCase
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
         // Un seul group à 2 entrées
-        tFirstMethod.getChildren().remove(1);
+        tFirstMethod.removeChild(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
         tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
@@ -214,7 +216,7 @@ public class TestFlowChartBarUtil extends TestCase
 
         // 2 groupe à une entrée
         tFirstMethod = getVerySimpleMeasurePoint();
-        tFirstMethod.getChildren().remove(0);
+        tFirstMethod.removeChild(0);
         tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
 

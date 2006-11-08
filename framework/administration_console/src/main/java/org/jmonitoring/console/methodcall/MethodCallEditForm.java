@@ -55,7 +55,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
         if (mMethodCall.getParent() != null)
         {
             tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
-            tHashMap.put("id", new Integer(mMethodCall.getParent().getId()));
+            tHashMap.put("position", new Integer(mMethodCall.getParent().getPosition()));
         }
         return tHashMap;
     }
@@ -70,7 +70,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
     {
         Map tHashMap = new HashMap();
         tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
-        tHashMap.put("id", new Integer(mMethodCall.getId()));
+        tHashMap.put("position", new Integer(mMethodCall.getPosition()));
         return tHashMap;
     }
 
@@ -84,9 +84,9 @@ public class MethodCallEditForm extends AbstractMethodCallForm
     public Map getChildMethodCallIdsMap(int pPosition)
     {
         Map tHashMap = new HashMap();
-        MethodCallDTO tMeasure = (MethodCallDTO) mMethodCall.getChildren().get(pPosition);
+        MethodCallDTO tMeasure = (MethodCallDTO) mMethodCall.getChild(pPosition);
         tHashMap.put("flowId", new Integer(tMeasure.getFlowId()));
-        tHashMap.put("position", new Integer(tMeasure.getId()));
+        tHashMap.put("position", new Integer(tMeasure.getPosition()));
         return tHashMap;
     }
 

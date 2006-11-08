@@ -5,6 +5,8 @@ package org.jmonitoring.core.dto;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,20 +20,20 @@ import org.jmonitoring.core.configuration.Configuration;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class MethodCallDTO
+public class MethodCallDTO implements Serializable
 {
 
     /** Flow Technical Id. */
     private int mFlowId;
 
     /** Technical Id. */
-    private int mId;
+    private int mPosition;
 
     /** Lien sur le père de ce point dans la hierachie d'appel. */
     private MethodCallDTO mParent;
 
     /** Liste des points de mesure fils dans la chaîne d'appel. */
-    private LinkedList mChildren = new LinkedList();
+    private MethodCallDTO[] mChildren = new MethodCallDTO[0];
 
     /** Représentation sous forme de <code>String</code> des paramètres passés lors de l'appel à la méthode. */
     private String mParams;
@@ -59,7 +61,6 @@ public class MethodCallDTO
     /** Nom du group associé au point de mesure. */
     private String mGroupName;
 
-
     public MethodCallDTO()
     {
     }
@@ -75,16 +76,16 @@ public class MethodCallDTO
 
     }
 
-    /**
-     * Accessor, add a call to a sub-method of this <code>MethodCallDTO</code>.
-     * 
-     * @param pChild The <code>MethodCallDTO</code> associated with the sub-method call.
-     */
-    void addChild(MethodCallDTO pChild)
-    {
-        mChildren.add(pChild);
-        pChild.mParent = this;
-    }
+    // /**
+    // * Accessor, add a call to a sub-method of this <code>MethodCallDTO</code>.
+    // *
+    // * @param pChild The <code>MethodCallDTO</code> associated with the sub-method call.
+    // */
+    // void addChild(MethodCallDTO pChild)
+    // {
+    // mChildren.add(pChild);
+    // pChild.mParent = this;
+    // }
 
     /**
      * Accessor.
@@ -195,7 +196,7 @@ public class MethodCallDTO
      * 
      * @return The list of the sub-method of this <code>MethodCallDTO</code>.
      */
-    public List getChildren()
+    public MethodCallDTO[] getChildren()
     {
         return mChildren;
     }
@@ -208,7 +209,7 @@ public class MethodCallDTO
      */
     public MethodCallDTO getChild(int pPos)
     {
-        return (MethodCallDTO) mChildren.get(pPos);
+        return (MethodCallDTO) mChildren[pPos];
     }
 
     /**
@@ -216,17 +217,17 @@ public class MethodCallDTO
      * 
      * @return Returns the sequence identifier.
      */
-    public int getId()
+    public int getPosition()
     {
-        return mId;
+        return mPosition;
     }
 
     /**
-     * @param pId The mId to set.
+     * @param pPosition The mId to set.
      */
-    public void setId(int pId)
+    public void setPosition(int pPosition)
     {
-        mId = pId;
+        mPosition = pPosition;
     }
 
     /**
@@ -334,9 +335,9 @@ public class MethodCallDTO
     {
         int tNbMeasure = 1;
         MethodCallDTO curChild;
-        for (Iterator tIte = mChildren.iterator(); tIte.hasNext();)
+        for (int i = 0; i < mChildren.length; i++)
         {
-            curChild = (MethodCallDTO) tIte.next();
+            curChild = mChildren[i];
             tNbMeasure += curChild.getSubMeasureCount();
         }
         return tNbMeasure;
@@ -369,19 +370,30 @@ public class MethodCallDTO
     /**
      * @param pChildren The children to set.
      */
-    protected void setChildren(LinkedList pChildren)
+    public void setChildren(MethodCallDTO[] pChildren)
     {
         mChildren = pChildren;
     }
 
     /**
-     * @param pChildren The children to set.
+     * @param pIndex The index of the Child to remove.
      */
-    public void addChildren(MethodCallDTO pChildren)
+    public void removeChild(int pIndex)
     {
-        mChildren.add(pChildren);
+        MethodCallDTO[] tNewMeth = new MethodCallDTO[mChildren.length - 1];
+        System.arraycopy(mChildren, 0, tNewMeth, 0, pIndex);
+        System.arraycopy(mChildren, pIndex+1, tNewMeth, pIndex , mChildren.length - pIndex-1);
+        mChildren = tNewMeth;
     }
 
+    // /**
+    // * @param pChildren The children to set.
+    // */
+    // public void addChildren(MethodCallDTO pChildren)
+    // {
+    // mChildren.add(pChildren);
+    // }
+    //
     /**
      * @param pParams The params to set.
      */

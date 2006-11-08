@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="org.apache.struts.Globals" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+<%@ taglib uri="struts-logic.tld" prefix="logic" %>
 <%@page import="java.io.ByteArrayOutputStream"%>
 <%@page import="java.io.PrintWriter"%>
 

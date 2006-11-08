@@ -23,10 +23,10 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals("myJVM", tFlow.getJvmIdentifier());
         assertEquals(45, tFlow.getId());
         MethodCallDTO curMeth = tFlow.getFirstMethodCall();
-        assertEquals(1, curMeth.getId());
+        assertEquals(1, curMeth.getPosition());
         assertEquals(45, curMeth.getFlowId());
         curMeth = curMeth.getChild(0);
-        assertEquals(2, curMeth.getId());
+        assertEquals(2, curMeth.getPosition());
         assertEquals(45, curMeth.getFlowId());
     }
 
@@ -40,9 +40,9 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals("builNewFullFlow", tMeth.getMethodName());
         assertEquals("GrDefault", tMeth.getGroupName());
         assertEquals("[]", tMeth.getParams());
-        assertEquals(2, tMeth.getChildren().size());
-        assertEquals(MethodCallDTO.class.getName(), tMeth.getChildren().get(0).getClass().getName());
-        assertEquals(tMeth, ((MethodCallDTO) tMeth.getChildren().get(0)).getParent());
+        assertEquals(2, tMeth.getChildren().length);
+        assertEquals(MethodCallDTO.class.getName(), tMeth.getChild(0).getClass().getName());
+        assertEquals(tMeth, ((MethodCallDTO) tMeth.getChild(0)).getParent());
     }
 
     public void testGetFullMethodCallDto()
@@ -50,8 +50,8 @@ public class TestDtoHelper extends PersistanceTestCase
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall());
         assertNotNull(tMeth);
-        assertEquals(2, tMeth.getChildren().size());
-        MethodCallDTO tChild1 = (MethodCallDTO) tMeth.getChildren().get(0);
+        assertEquals(2, tMeth.getChildren().length);
+        MethodCallDTO tChild1 = (MethodCallDTO) tMeth.getChild(0);
         assertNotNull(tChild1.getParent());
     }
 
@@ -74,6 +74,6 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals(tFlow.getDuration(), tMeth.getFlowDuration());
         assertEquals(tFlow.getFirstMethodCall().getChild(0).getDuration(), tMeth.getDuration());
         assertEquals(tFlow.getId(), tMeth.getFlowId());
-        assertEquals(tFlow.getFirstMethodCall().getChild(0).getPosition(), tMeth.getId());
+        assertEquals(tFlow.getFirstMethodCall().getChild(0).getPosition(), tMeth.getPosition());
     }
 }

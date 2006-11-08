@@ -20,7 +20,7 @@ public class MethodCallFullExtractDTO
 
     private String mJvmName;
 
-    private int mId;
+    private int mPosition;
 
     /**
      * @return Returns the beginDate.
@@ -73,17 +73,17 @@ public class MethodCallFullExtractDTO
     /**
      * @return Returns the id.
      */
-    public int getId()
+    public int getPosition()
     {
-        return mId;
+        return mPosition;
     }
 
     /**
-     * @param pId The id to set.
+     * @param pPosition The id to set.
      */
-    public void setId(int pId)
+    public void setPosition(int pPosition)
     {
-        mId = pId;
+        mPosition = pPosition;
     }
 
     /**

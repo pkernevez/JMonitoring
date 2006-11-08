@@ -5,6 +5,7 @@ package org.jmonitoring.core.dto;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import org.jmonitoring.core.configuration.Configuration;
  * 
  * @author pke
  */
-public class ExecutionFlowDTO
+public class ExecutionFlowDTO implements Serializable
 {
     /** Thread name. */
     private String mThreadName;
@@ -44,7 +45,7 @@ public class ExecutionFlowDTO
     /**
      * Constructor.
      */
-    protected ExecutionFlowDTO()
+    public ExecutionFlowDTO()
     {
     }
 
@@ -172,7 +173,7 @@ public class ExecutionFlowDTO
      */
     public String getBeginDateAsString()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(mBeginTime);
+        return (mBeginTime == null ? null : Configuration.getInstance().getDateTimeFormater().format(mBeginTime));
     }
 
     /**
@@ -266,7 +267,7 @@ public class ExecutionFlowDTO
         tBuffer.append("FlowId=[").append(mId).append("] ");
         if (mFirstMethodCall != null)
         {
-            tBuffer.append("SequenceId=[").append(mFirstMethodCall.getId()).append("] ");
+            tBuffer.append("SequenceId=[").append(mFirstMethodCall.getPosition()).append("] ");
             tBuffer.append("GroupName=[").append(mFirstMethodCall.getGroupName()).append("] ");
             tBuffer.append("ClassName=[").append(mFirstMethodCall.getClassName()).append("] ");
             tBuffer.append("MethodName=[").append(mFirstMethodCall.getMethodName()).append("] ");

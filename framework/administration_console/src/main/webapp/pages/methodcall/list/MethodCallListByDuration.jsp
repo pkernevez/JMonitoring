@@ -1,6 +1,6 @@
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+<%@ taglib uri="displaytag.tld" prefix="display" %>
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
 
 <html:form action="/MethodCallListIn">
 	<table>

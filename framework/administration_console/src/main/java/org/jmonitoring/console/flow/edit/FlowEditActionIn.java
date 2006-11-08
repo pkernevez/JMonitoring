@@ -98,12 +98,12 @@ public class FlowEditActionIn extends Action
     void limitMeasureWithDuration(int pDurationMin, MethodCallDTO pCurrentMeasure)
     {
         MethodCallDTO curChild;
-        for (int i = 0; i < pCurrentMeasure.getChildren().size();)
+        for (int i = 0; i < pCurrentMeasure.getChildren().length;)
         {
-            curChild = (MethodCallDTO) pCurrentMeasure.getChildren().get(i);
+            curChild = (MethodCallDTO) pCurrentMeasure.getChild(i);
             if (curChild.getDuration() < pDurationMin)
             { // We remove this child
-                pCurrentMeasure.getChildren().remove(i);
+                pCurrentMeasure.removeChild(i);
                 // We don't increment 'i' because of the removing
             } else
             {

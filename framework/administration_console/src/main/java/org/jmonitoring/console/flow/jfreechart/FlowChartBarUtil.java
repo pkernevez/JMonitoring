@@ -112,23 +112,23 @@ public class FlowChartBarUtil
         String tGroupName = pCurMeasure.getGroupName();
         TaskForGroupName tTask = getTaskForGroupName(pCurMeasure, tGroupName);
 
-        List tListOfClidren = pCurMeasure.getChildren();
+        //List tListOfClidren = pCurMeasure.getChildren();
         Date tBeginDate;
         Date tEndDate = pCurMeasure.getBeginTime();
         MethodCallDTO curChild;
-        for (int i = 0; i < tListOfClidren.size(); i++)
+        for (int i = 0; i < pCurMeasure.getChildren().length; i++)
         {
-            curChild = ((MethodCallDTO) tListOfClidren.get(i));
+            curChild = pCurMeasure.getChild(i);
             tBeginDate = tEndDate;
             tEndDate = curChild.getBeginTime();
-            addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getId(), tBeginDate, tEndDate);
+            addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
             chainAllMethodCallToMainTaskOfGroup(curChild);
             tEndDate = curChild.getEndTime();
         }
 
         tBeginDate = tEndDate;
         tEndDate = pCurMeasure.getEndTime();
-        addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getId(), tBeginDate, tEndDate);
+        addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
     }
 
     private void addSubTask(TaskForGroupName pTaskForTheGroupName, int pFlowId, int pMethodCallId, Date pBeginDate,
@@ -285,9 +285,9 @@ public class FlowChartBarUtil
         {
             pMapOfGroup.put(tCurGroupName, new Integer(tCurrentNbOfMeth.intValue() + 1));
         }
-        for (Iterator tIt = pCurrentMeasure.getChildren().iterator(); tIt.hasNext();)
+        for (int i = 0; i < pCurrentMeasure.getChildren().length; i++)
         {
-            getResursiveStatOfThisMethodCall((MethodCallDTO) tIt.next(), pMapOfGroup);
+            getResursiveStatOfThisMethodCall(pCurrentMeasure.getChild(i), pMapOfGroup);
         }
 
     }

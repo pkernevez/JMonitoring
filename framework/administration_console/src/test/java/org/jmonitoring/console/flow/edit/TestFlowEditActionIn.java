@@ -36,7 +36,7 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow()- 1);
+        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
         tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
 
         assertNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
@@ -67,8 +67,8 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
             + "<AREA SHAPE=\"RECT\" COORDS=\"140,141,216,180\" href=\"MethodCallEditIn.do?flowId=1&position=2\">\r\n"
             + "<AREA SHAPE=\"RECT\" COORDS=\"235,141,311,180\" href=\"MethodCallEditIn.do?flowId=1&position=3\">\r\n"
             + "<AREA SHAPE=\"RECT\" COORDS=\"330,141,406,180\" href=\"MethodCallEditIn.do?flowId=1&position=4\">\r\n"
-            + "<AREA SHAPE=\"RECT\" COORDS=\"426,141,502,180\" href=\"MethodCallEditIn.do?flowId=1&position=5\">\r\n" + "</MAP>\r\n"),
-            tForm.getImageMap());
+            + "<AREA SHAPE=\"RECT\" COORDS=\"426,141,502,180\" href=\"MethodCallEditIn.do?flowId=1&position=5\">\r\n"
+            + "</MAP>\r\n"), tForm.getImageMap());
     }
 
     public void testActionWithLongExecutionFlow()
@@ -168,11 +168,13 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         tPoint.setParams("[]");
         tPoint.setBeginTime(new Date(tCurrentTime));
         tPoint.setEndTime(new Date(tCurrentTime + 2 + 2 + 1)); // Duration=5
+        MethodCallDTO[] tChildren1 = new MethodCallDTO[2];
+        MethodCallDTO[] tChildren2 = new MethodCallDTO[1];
 
         // This local variable is indireclty used by its parent
         curPoint = new MethodCallDTO();
         curPoint.setParent(tPoint);
-        tPoint.addChildren(curPoint);
+        tChildren1[0] = curPoint;
         curPoint.setClassName(TestFlowEditActionIn.class.getName());
         curPoint.setMethodName("builNewFullFlow2");
         curPoint.setGroupName("GrChild1");
@@ -183,25 +185,27 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         // This local variable is indireclty used by its parent
         curPoint = new MethodCallDTO();
         curPoint.setParent(tPoint);
-        tPoint.addChildren(curPoint);
+        tChildren1[1] = curPoint;
         curPoint.setClassName(TestFlowEditActionIn.class.getName());
         curPoint.setMethodName("builNewFullFlow2");
         curPoint.setGroupName("GrChild2");
         curPoint.setParams("[]");
         curPoint.setBeginTime(new Date(tCurrentTime));
         curPoint.setEndTime(new Date(tCurrentTime + 2 + 1)); // Duration=3
-
+        curPoint.setChildren(tChildren2);
+        
         // This local variable is indireclty used by its parent
         MethodCallDTO tOldPoint = curPoint;
         curPoint = new MethodCallDTO();
         curPoint.setParent(tOldPoint);
-        tOldPoint.addChildren(curPoint);
+        tChildren2[0] = curPoint;
         curPoint.setClassName(TestFlowEditActionIn.class.getName());
         curPoint.setMethodName("builNewFullFlow3");
         curPoint.setGroupName("GrChild2_1");
         curPoint.setParams("[]");
         curPoint.setBeginTime(new Date(tCurrentTime));
         curPoint.setEndTime(new Date(tCurrentTime + 1)); // Duration=1
+        tPoint.setChildren(tChildren1);
 
         return tPoint;
     }
@@ -211,13 +215,13 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(1, tMeasure);
-        assertEquals(2, tMeasure.getChildren().size());
-        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChildren().get(0); // Child1
-        assertEquals(0, curMeasure.getChildren().size());
-        curMeasure = (MethodCallDTO) tMeasure.getChildren().get(1); // Child2
-        assertEquals(1, curMeasure.getChildren().size());
-        curMeasure = (MethodCallDTO) curMeasure.getChildren().get(0); // Child2_2
-        assertEquals(0, curMeasure.getChildren().size());
+        assertEquals(2, tMeasure.getChildren().length);
+        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChild(0); // Child1
+        assertEquals(0, curMeasure.getChildren().length);
+        curMeasure = (MethodCallDTO) tMeasure.getChild(1); // Child2
+        assertEquals(1, curMeasure.getChildren().length);
+        curMeasure = (MethodCallDTO) curMeasure.getChild(0); // Child2_2
+        assertEquals(0, curMeasure.getChildren().length);
     }
 
     public void testLimitMeasureWithDurationLimitation2ndLevel()
@@ -225,11 +229,11 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(2, tMeasure);
-        assertEquals(2, tMeasure.getChildren().size());
-        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChildren().get(0); // Child1
-        assertEquals(0, curMeasure.getChildren().size());
-        curMeasure = (MethodCallDTO) tMeasure.getChildren().get(1); // Child2
-        assertEquals(0, curMeasure.getChildren().size());
+        assertEquals(2, tMeasure.getChildren().length);
+        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChild(0); // Child1
+        assertEquals(0, curMeasure.getChildren().length);
+        curMeasure = (MethodCallDTO) tMeasure.getChild(1); // Child2
+        assertEquals(0, curMeasure.getChildren().length);
     }
 
     public void testLimitMeasureWithDurationLimitation2ndChild()
@@ -237,9 +241,9 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(2 + 1, tMeasure);
-        assertEquals(1, tMeasure.getChildren().size());
-        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChildren().get(0); // Child2
-        assertEquals(0, curMeasure.getChildren().size());
+        assertEquals(1, tMeasure.getChildren().length);
+        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChild(0); // Child2
+        assertEquals(0, curMeasure.getChildren().length);
         assertEquals("GrChild2", curMeasure.getGroupName());
     }
 
@@ -248,7 +252,7 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(2 + 2 + 2, tMeasure);
-        assertEquals(0, tMeasure.getChildren().size());
+        assertEquals(0, tMeasure.getChildren().length);
     }
 
 }

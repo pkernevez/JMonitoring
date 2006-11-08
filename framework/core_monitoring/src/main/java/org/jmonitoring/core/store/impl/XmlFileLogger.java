@@ -8,6 +8,7 @@ package org.jmonitoring.core.store.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -36,10 +37,10 @@ public class XmlFileLogger implements IStoreWriter
     private static boolean sIsInitialized = false;
 
     /** Permet de loguer dans un seul fichier quand il est partagé. */
-    private static FileWriter sCommonFileWriter;
+    private static Writer sCommonFileWriter;
 
     /** Permet de loguer dans un fichier spécifique à chaque instance. */
-    private final FileWriter mLogFile;
+    private final Writer mLogFile;
 
     private static Log sLog = LogFactory.getLog(XmlFileLogger.class);
 
@@ -115,7 +116,7 @@ public class XmlFileLogger implements IStoreWriter
                         public void run()
                         {
                             writeToFile("</Threads>");
-                            flushFile();
+                            flush();
                         }
                     });
             } catch (IOException e)
@@ -148,7 +149,7 @@ public class XmlFileLogger implements IStoreWriter
         }
     }
 
-    private void flushFile()
+    private void flush()
     {
         try
         {
@@ -204,7 +205,7 @@ public class XmlFileLogger implements IStoreWriter
      */
     private void fillStringBuffer(MethodCallPO pCurrentMethodCall)
     {
-        mCurrentBuffer.append("<Execution ");
+        mCurrentBuffer.append("<MethodCall ");
         mCurrentBuffer.append("class=\"").append(pCurrentMethodCall.getClassName()).append("\" ");
         mCurrentBuffer.append("method=\"").append(pCurrentMethodCall.getMethodName()).append("\" ");
         mCurrentBuffer.append("duration=\"");
@@ -252,6 +253,6 @@ public class XmlFileLogger implements IStoreWriter
         }
 
         // On ferme le tag
-        mCurrentBuffer.append("</Execution>\n");
+        mCurrentBuffer.append("</MethodCall>\n");
     }
 }

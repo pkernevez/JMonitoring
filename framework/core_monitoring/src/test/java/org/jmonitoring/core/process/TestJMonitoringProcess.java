@@ -11,6 +11,7 @@ import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
+import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
@@ -124,9 +125,9 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         // Check equality of the first child measure point
         assertEquals(2, tInitialPoint.getChildren().size());
-        assertEquals(2, tReadPoint.getChildren().size());
+        assertEquals(2, tReadPoint.getChildren().length);
         tInitialPoint = (MethodCallPO) tInitialPoint.getChildren().get(0);
-        tReadPoint = (MethodCallDTO) tReadPoint.getChildren().get(0);
+        tReadPoint = (MethodCallDTO) tReadPoint.getChild(0);
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
@@ -139,7 +140,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         // Check equality of the second child measure point
         tInitialPoint = (MethodCallPO) tInitialPoint.getParentMethodCall().getChildren().get(1);
-        tReadPoint = (MethodCallDTO) tReadPoint.getParent().getChildren().get(1);
+        tReadPoint = (MethodCallDTO) tReadPoint.getParent().getChild(1);
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
@@ -324,7 +325,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertEquals(3, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestExecutionFlowDAO.class.getName()
-                        .substring(0, 5), "");
+            .substring(0, 5), "");
         assertEquals(3, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName("3333", "");
@@ -340,11 +341,11 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertEquals(1, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestExecutionFlowDAO.class.getName()
-                        .substring(0, 25), "builNewFullFlow");
+            .substring(0, 25), "builNewFullFlow");
         assertEquals(3, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestExecutionFlowDAO.class.getName()
-                        .substring(0, 25), "builNewFullFlow2");
+            .substring(0, 25), "builNewFullFlow2");
         assertEquals(1, tMethodsDto.size());
 
     }
@@ -357,10 +358,10 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         String tClassName = TestExecutionFlowDAO.class.getName();
-        
+
         List tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 5L);
         assertEquals(0, tResult.size());
-        
+
         tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 21L, 21L);
         assertEquals(0, tResult.size());
 
@@ -373,6 +374,66 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow2", 5L, 21L);
         assertEquals(0, tResult.size());
 
+    }
 
+    public void testGetFlowAsXml()
+    {
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+
+        // Firstt instert a flow
+        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+
+        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+
+        ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
+        byte[] tFlowAsXml = tProcess.getFlowAsXml(tFlowDto);
+        assertTrue("The byte[] is to small...["+tFlowAsXml.length+"]", tFlowAsXml.length>100);
+    }
+
+    public void testSerialisationConversion()
+    {
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+
+        // Firstt instert a flow
+        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+
+        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+
+        ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
+        byte[] tFlowAsXml = tProcess.getFlowAsXml(tFlowDto);
+
+        ExecutionFlowDTO tNewFlow = tProcess.getFlowFromXml(tFlowAsXml);
+        assertNotSame(tFlowDto, tNewFlow);
+        assertEquals(tFlowDto.getDuration(), tNewFlow.getDuration());
+        assertEquals(tFlowDto.getBeginDateAsString(), tNewFlow.getBeginDateAsString());
+        assertEquals(tFlowDto.getBeginTime(), tNewFlow.getBeginTime());
+        assertEquals(tFlowDto.getClassName(), tNewFlow.getClassName());
+        assertEquals(tFlowDto.getEndTime(), tNewFlow.getEndTime());
+        assertEquals(tFlowDto.getId(), tNewFlow.getId());
+        assertEquals(tFlowDto.getJvmIdentifier(), tNewFlow.getJvmIdentifier());
+        assertEquals(tFlowDto.getMeasureCount(), tNewFlow.getMeasureCount());
+        assertEquals(tFlowDto.getMethodName(), tNewFlow.getMethodName());
+        assertEquals(tFlowDto.getThreadName(), tNewFlow.getThreadName());
+        MethodCallDTO tMeth = tFlowDto.getFirstMethodCall();
+        MethodCallDTO tNewMeth = tNewFlow.getFirstMethodCall();
+        assertNotSame(tMeth, tNewMeth);
+        assertEquals(tMeth.getDuration(), tNewMeth.getDuration());
+        assertEquals(tMeth.isReturnCallException(), tNewMeth.isReturnCallException());
+        assertEquals(tMeth.getBeginTime(), tNewMeth.getBeginTime());
+        assertEquals(tMeth.getClassName(), tNewMeth.getClassName());
+        assertEquals(tMeth.getEndTime(), tNewMeth.getEndTime());
+        assertEquals(tMeth.getFlowId(), tNewMeth.getFlowId());
+        assertEquals(tMeth.getGroupName(), tNewMeth.getGroupName());
+        assertEquals(tMeth.getMethodName(), tNewMeth.getMethodName());
+        assertEquals(tMeth.getParams(), tNewMeth.getParams());
+        assertEquals(tMeth.getParent(), tNewMeth.getParent());
+        assertEquals(tMeth.getPosition(), tNewMeth.getPosition());
+        assertEquals(tMeth.getReturnValue(), tNewMeth.getReturnValue());
+        assertEquals(tMeth.getThrowableClassName(), tNewMeth.getThrowableClassName());
+        assertEquals(tMeth.getThrowableMessage(), tNewMeth.getThrowableMessage());
     }
 }

@@ -145,9 +145,9 @@ public class FlowUtil
         long tChildDuration = 0;
         MethodCallDTO curPoint;
         // On itère sur les noeuds fils
-        for (int i = 0; i < pMeasure.getChildren().size(); i++)
+        for (int i = 0; i < pMeasure.getChildren().length; i++)
         {
-            curPoint = (MethodCallDTO) pMeasure.getChildren().get(i);
+            curPoint = (MethodCallDTO) pMeasure.getChild(i);
             addTimeWith(curPoint);
             tChildDuration = tChildDuration + (curPoint.getEndTime().getTime() - curPoint.getBeginTime().getTime());
         }
@@ -179,9 +179,9 @@ public class FlowUtil
             mListOfGroup.put(tGroupName, new Integer(tNbCall.intValue() + 1));
         }
         // On itère sur les noeuds fils
-        for (int i = 0; i < pMeasure.getChildren().size(); i++)
+        for (int i = 0; i < pMeasure.getChildren().length; i++)
         {
-            addNbCallWith((MethodCallDTO) pMeasure.getChildren().get(i));
+            addNbCallWith((MethodCallDTO) pMeasure.getChild(i));
         }
     }
 

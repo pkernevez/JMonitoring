@@ -20,7 +20,7 @@ public class TestMethodCallListActionIn extends MockStrutsTestCase
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
         MethodCallDTO tFirstMeth = tFlow.getFirstMethodCall();
         MethodCallDTO tFirstChild = tFirstMeth.getChild(0);
-        int tId = tFirstChild.getId();
+        int tId = tFirstChild.getPosition();
 
         setRequestPathInfo("/MethodCallListIn");
         MethodCallListForm tForm = new MethodCallListForm();

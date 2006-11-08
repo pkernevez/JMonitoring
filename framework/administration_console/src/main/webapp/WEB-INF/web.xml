@@ -7,6 +7,10 @@
 
 
 	<servlet>
+		<servlet-name>ExportXml</servlet-name>
+		<servlet-class>org.jmonitoring.console.flow.edit.FlowExportServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>DynamicImageServlet</servlet-name>
 		<servlet-class>org.jmonitoring.console.image.DynamicImageServlet</servlet-class>
 	</servlet>
@@ -25,6 +29,11 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+		<servlet-name>ExportXml</servlet-name>
+		<url-pattern>/ExportXml.do</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>DynamicImageServlet</servlet-name>
 		<url-pattern>/DynamicImageServlet.do</url-pattern>
@@ -46,38 +55,43 @@
     </welcome-file-list>
 
   	<taglib>
-		<taglib-uri>/WEB-INF/struts-tiles.tld</taglib-uri>
-		<taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
+		<taglib-uri>struts-tiles.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/struts-tiles.tld</taglib-location>
 	</taglib>
     
   	<taglib>
-		<taglib-uri>/WEB-INF/struts-nested.tld</taglib-uri>
-		<taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+		<taglib-uri>struts-nested.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
 	</taglib>
     
   	<taglib>
-		<taglib-uri>/WEB-INF/struts-logic.tld</taglib-uri>
-		<taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+		<taglib-uri>struts-logic.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/struts-logic.tld</taglib-location>
 	</taglib>
     
   	<taglib>
-		<taglib-uri>/WEB-INF/struts-html.tld</taglib-uri>
-		<taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+		<taglib-uri>struts-html.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/struts-html.tld</taglib-location>
 	</taglib>
     
   	<taglib>
-		<taglib-uri>/WEB-INF/struts-bean.tld</taglib-uri>
-		<taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+		<taglib-uri>struts-bean.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/struts-bean.tld</taglib-location>
 	</taglib>
     
   	<taglib>
-		<taglib-uri>/WEB-INF/displaytag-12.tld</taglib-uri>
-		<taglib-location>/WEB-INF/displaytag-12.tld</taglib-location>
+		<taglib-uri>displaytag.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/displaytag-12.tld</taglib-location>
 	</taglib>
     
   	<taglib>
-		<taglib-uri>/WEB-INF/displaytag-el-12.tld</taglib-uri>
-		<taglib-location>/WEB-INF/displaytag-el-12.tld</taglib-location>
+		<taglib-uri>displaytag.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/displaytag-el-12.tld</taglib-location>
+	</taglib>
+
+  	<taglib>
+		<taglib-uri>struts-menu.tld</taglib-uri>
+		<taglib-location>/WEB-INF/tld/struts-menu-2.3.tld</taglib-location>
 	</taglib>
 
 </web-app>

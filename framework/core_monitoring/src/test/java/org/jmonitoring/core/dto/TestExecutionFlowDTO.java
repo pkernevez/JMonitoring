@@ -20,7 +20,7 @@ public class TestExecutionFlowDTO extends TestCase
         assertEquals(2 + 1, tFlow.getMeasureCount());
         MethodCallDTO curMeasure = tFlow.getFirstMethodCall();
         assertEquals(2 + 1, curMeasure.getSubMeasureCount());
-        curMeasure = (MethodCallDTO) curMeasure.getChildren().get(1);
+        curMeasure = (MethodCallDTO) curMeasure.getChild(1);
         assertEquals(1, curMeasure.getSubMeasureCount());
     }
 

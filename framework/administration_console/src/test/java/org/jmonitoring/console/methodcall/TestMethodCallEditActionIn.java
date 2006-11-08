@@ -20,7 +20,7 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
         MethodCallDTO tFirstMeth = tFlow.getFirstMethodCall();
         MethodCallDTO tFirstChild = tFirstMeth.getChild(0);
-        int tId = tFirstChild.getId();
+        int tId = tFirstChild.getPosition();
 
         setRequestPathInfo("/MethodCallEditIn");
         MethodCallEditForm tForm = new MethodCallEditForm();
@@ -36,7 +36,7 @@ public class TestMethodCallEditActionIn extends MockStrutsTestCase
         assertNotNull(tNewFirstChild);
         assertEquals(tFlow.getId(), tNewFirstChild.getFlowId());
         assertNotNull(tNewFirstChild.getParent());
-        assertEquals(tFirstChild.getId(), tNewFirstChild.getId());
+        assertEquals(tFirstChild.getPosition(), tNewFirstChild.getPosition());
 
     }
 

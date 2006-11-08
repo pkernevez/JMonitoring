@@ -50,13 +50,15 @@ public final class DtoHelper
         MethodCallDTO tResult = simpleCopy(pCallPO);
         MethodCallPO curChild;
         MethodCallDTO curChildDto;
+        MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
         for (int i = 0; i < pCallPO.getChildren().size(); i++)
         {
             curChild = (MethodCallPO) pCallPO.getChildren().get(i);
             curChildDto = simpleCopy(curChild);
-            tResult.addChild(curChildDto);
             curChildDto.setParent(tResult);
+            tChildren[i] = curChildDto;
         }
+        tResult.setChildren(tChildren);
         if (pCallPO.getParentMethodCall() != null)
         {
             tResult.setParent(simpleCopy(pCallPO.getParentMethodCall()));
@@ -69,21 +71,24 @@ public final class DtoHelper
         MethodCallDTO tResult = simpleCopy(pCallPO);
         MethodCallPO curMethod;
         MethodCallDTO curChildDto;
+        MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
+        int i = 0;
         for (Iterator tIt = pCallPO.getChildren().iterator(); tIt.hasNext();)
         {
             curMethod = (MethodCallPO) tIt.next();
             curChildDto = getMethodCallDto(curMethod);
-            tResult.addChild(curChildDto);
             curChildDto.setParent(tResult);
+            tChildren[i++] = curChildDto;
         }
+        tResult.setChildren(tChildren);
         return tResult;
     }
 
     public static MethodCallDTO simpleCopy(MethodCallPO pCallPO)
     {
         MethodCallDTO tResult = new MethodCallDTO();
-        BeanUtils.copyProperties(pCallPO, tResult, new String[] {"beginTime", "endTime" });
-        tResult.setId(pCallPO.getMethId().getPosition());
+        BeanUtils.copyProperties(pCallPO, tResult, new String[] {"beginTime", "endTime", "children" });
+        tResult.setPosition(pCallPO.getMethId().getPosition());
         tResult.setBeginTime(new Date(pCallPO.getBeginTime()));
         tResult.setEndTime(new Date(pCallPO.getEndTime()));
         tResult.setFlowId(pCallPO.getFlow().getId());
@@ -133,7 +138,7 @@ public final class DtoHelper
         tResult.setFlowId(tFlow.getId());
         tResult.setJvmName(tFlow.getJvmIdentifier());
         tResult.setThreadName(tFlow.getThreadName());
-        tResult.setId(pMeth.getPosition());
+        tResult.setPosition(pMeth.getPosition());
         return tResult;
     }
 

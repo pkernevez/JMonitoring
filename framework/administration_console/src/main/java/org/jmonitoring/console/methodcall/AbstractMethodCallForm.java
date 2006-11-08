@@ -37,8 +37,8 @@ public class AbstractMethodCallForm extends ActionForm
             tResult = false;
         } else
         { // Invalid parameters
-            throw new MeasureException("Invalid parameter expected flowId and sequenceId OR "
-                + "methodName and className.");
+            throw new MeasureException("Invalid parameter expected 'flowId' and 'position' OR "
+                + "'methodName' and 'className'.");
         }
         return tResult;
     }

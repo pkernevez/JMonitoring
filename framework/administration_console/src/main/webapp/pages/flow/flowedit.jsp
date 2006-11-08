@@ -1,8 +1,8 @@
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/displaytag-12.tld" prefix="display" %>
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+<%@ taglib uri="struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="displaytag.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.flow.edit.FlowEditForm"%>
 <%@page import="org.jmonitoring.core.dto.ExecutionFlowDTO"%>
 <%@page import="org.jmonitoring.console.flow.stack.FlowAsStackUtil"%>
@@ -10,6 +10,7 @@
 
 <H1>Flow Edition</H1>
 <html:link action="DeleteOneFlowIn" paramName="floweditform" paramProperty="id" paramId="id">Delete</html:link>
+<html:link action="ExportXml" paramName="floweditform" paramProperty="id" paramId="id">XML Export</html:link>
 
 <table width="100%">
 	<tr>	

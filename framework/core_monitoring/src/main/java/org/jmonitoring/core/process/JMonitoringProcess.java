@@ -1,14 +1,25 @@
 package org.jmonitoring.core.process;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.SQLGrammarException;
+import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
@@ -18,6 +29,7 @@ import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.persistence.MethodCallPO;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -259,4 +271,48 @@ public class JMonitoringProcess
             }
         }
     }
+
+    /**
+     * Serialize a full ExecutionFlow as Xml/GZip bytes.
+     * @param pFlow The flow to serialize.
+     * @return The bytes of a GZip.
+     */
+    public byte[] getFlowAsXml(ExecutionFlowDTO pFlow)
+    {
+        ByteArrayOutputStream tOutput = new ByteArrayOutputStream(10000);
+        GZIPOutputStream tZipStream;
+        try
+        {
+            tZipStream = new GZIPOutputStream(tOutput);
+            XMLEncoder tEncoder = new XMLEncoder(tZipStream);
+            tEncoder.writeObject(pFlow);
+            tEncoder.close();
+            return tOutput.toByteArray();
+        } catch (IOException e)
+        {
+            throw new MeasureException("Unable to Zip Xml ExecutionFlow", e);
+        }
+    }
+
+    /**
+     * Concert an GZip/Xml serialized ExecutionFlow as an ExecutionFLow Object. 
+     * @param pFlowAsXml The GZip bytes.
+     * @return The ExecutionFLow.
+     */
+    public ExecutionFlowDTO getFlowFromXml(byte[] pFlowAsXml)
+    {
+        InputStream tInput = new ByteArrayInputStream(pFlowAsXml);
+        try
+        {
+            GZIPInputStream tZipStream = new GZIPInputStream(tInput);
+            XMLDecoder tDecoder = new XMLDecoder(tZipStream);
+            Object tResult = tDecoder.readObject();
+            tDecoder.close();
+            return (ExecutionFlowDTO) tResult;
+        } catch (IOException e)
+        {
+            throw new MeasureException("Unable to Zip Xml ExecutionFlow", e);
+        }
+    }
+
 }
