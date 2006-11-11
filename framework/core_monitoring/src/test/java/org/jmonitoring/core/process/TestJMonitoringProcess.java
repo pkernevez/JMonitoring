@@ -216,8 +216,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
         assertEquals(1, tProcess.getListOfExecutionFlowDto(tCriterion).size());
-
-        tCriterion.setDurationMin(new Long(25));
+        
+        tCriterion.setDurationMin(new Long(35));
         assertEquals(0, tProcess.getListOfExecutionFlowDto(tCriterion).size());
     }
 
@@ -322,27 +322,27 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertEquals(0, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestExecutionFlowDAO.class.getName(), "");
-        assertEquals(3, tMethodsDto.size());
+        assertEquals(6, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestExecutionFlowDAO.class.getName()
             .substring(0, 5), "");
-        assertEquals(3, tMethodsDto.size());
+        assertEquals(6, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName("3333", "");
         assertEquals(0, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName("", "builNewFullFlow");
-        assertEquals(3, tMethodsDto.size());
+        assertEquals(6, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName("", "builNewFullFlow2");
         assertEquals(1, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName("", "builNewFullFlow3");
-        assertEquals(1, tMethodsDto.size());
+        assertEquals(4, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestExecutionFlowDAO.class.getName()
             .substring(0, 25), "builNewFullFlow");
-        assertEquals(3, tMethodsDto.size());
+        assertEquals(6, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestExecutionFlowDAO.class.getName()
             .substring(0, 25), "builNewFullFlow2");
@@ -362,16 +362,16 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         List tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 5L);
         assertEquals(0, tResult.size());
 
-        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 21L, 21L);
+        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 36L, 36L);
         assertEquals(0, tResult.size());
 
-        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 21L);
+        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 15L, 36L);
         assertEquals(1, tResult.size());
 
-        tResult = tProcess.getListOfMethodCallFullExtract("kj", "builNewFullFlow", 5L, 21L);
+        tResult = tProcess.getListOfMethodCallFullExtract("kj", "builNewFullFlow", 15L, 36L);
         assertEquals(0, tResult.size());
 
-        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow2", 5L, 21L);
+        tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow2", 15L, 36L);
         assertEquals(0, tResult.size());
 
     }
@@ -389,7 +389,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
         byte[] tFlowAsXml = tProcess.getFlowAsXml(tFlowDto);
-        assertTrue("The byte[] is to small...["+tFlowAsXml.length+"]", tFlowAsXml.length>100);
+        assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
     }
 
     public void testSerialisationConversion()
@@ -435,5 +435,22 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertEquals(tMeth.getReturnValue(), tNewMeth.getReturnValue());
         assertEquals(tMeth.getThrowableClassName(), tNewMeth.getThrowableClassName());
         assertEquals(tMeth.getThrowableMessage(), tNewMeth.getThrowableMessage());
+    }
+
+    public void testInsertFlowFromXml()
+    {
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+
+        // Firstt instert a flow
+        ExecutionFlowPO tFlowPo = TestExecutionFlowDAO.buildNewFullFlow();
+        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlowPo);
+        getSession().flush();
+        ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlowPo);
+
+        // ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
+        byte[] tFlowAsBytes = tProcess.getFlowAsXml(tFlowDto);
+        ExecutionFlowDTO tNewFlow =tProcess.insertFlowFromXml(tFlowAsBytes); 
+        assertTrue("The Id must be different [" + tFlowId + "]", tFlowId != tNewFlow.getId());
     }
 }

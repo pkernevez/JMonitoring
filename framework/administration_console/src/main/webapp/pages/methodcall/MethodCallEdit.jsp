@@ -92,8 +92,9 @@
 			<ul>
 				<logic:iterate id="child" name="methodcallform" property="methodCall.children" indexId="ctr">
 					<li>
-						<html:link action="MethodCallEditIn" name="methodcallform" property='<%="childMethodCallIdsMap["+ctr+"]"%>' title="View details...">
-							[<bean:write format="" name="child" property="duration"/>] &nbsp;
+						<span class="prevDuration" title="Duration since the prev MethodCall">[-><bean:write format="" name="child" property="durationFromPreviousCall"/>]</span>
+						<span class="curDuration" title="Duration of this MethodCall">[<bean:write format="" name="child" property="duration"/>]</span>&nbsp;
+							<html:link action="MethodCallEditIn" name="methodcallform" property='<%="childMethodCallIdsMap["+ctr+"]"%>' title="View details...">
 							<bean:write name="child" property="groupName"/> &nbsp;-->&nbsp;
 							<bean:write name="child" property="className"/>.<bean:write name="child" property="methodName"/>()
 						</html:link>

@@ -26,8 +26,14 @@ public class MethodCallDTO implements Serializable
     /** Flow Technical Id. */
     private int mFlowId;
 
+    /** Flow Technical Id. */
+    private ExecutionFlowDTO mFlow;
+
     /** Technical Id. */
     private int mPosition;
+
+    /** Position of the Child. */
+    private int mChildPosition;
 
     /** Lien sur le père de ce point dans la hierachie d'appel. */
     private MethodCallDTO mParent;
@@ -75,17 +81,6 @@ public class MethodCallDTO implements Serializable
         return mThrowableClass != null;
 
     }
-
-    // /**
-    // * Accessor, add a call to a sub-method of this <code>MethodCallDTO</code>.
-    // *
-    // * @param pChild The <code>MethodCallDTO</code> associated with the sub-method call.
-    // */
-    // void addChild(MethodCallDTO pChild)
-    // {
-    // mChildren.add(pChild);
-    // pChild.mParent = this;
-    // }
 
     /**
      * Accessor.
@@ -386,14 +381,6 @@ public class MethodCallDTO implements Serializable
         mChildren = tNewMeth;
     }
 
-    // /**
-    // * @param pChildren The children to set.
-    // */
-    // public void addChildren(MethodCallDTO pChildren)
-    // {
-    // mChildren.add(pChildren);
-    // }
-    //
     /**
      * @param pParams The params to set.
      */
@@ -408,6 +395,39 @@ public class MethodCallDTO implements Serializable
     public void setParent(MethodCallDTO pParent)
     {
         mParent = pParent;
+    }
+
+    public void setFlow(ExecutionFlowDTO pFlow)
+    {
+        mFlow = pFlow;
+    }
+
+    public long getDurationFromPreviousCall()
+    {
+        long tDuration;
+        if (mChildPosition == 0)
+        {
+            if (mParent == null)
+            {
+                tDuration = mFlow.getBeginTime().getTime()-mBeginTime.getTime();
+            } else {
+                tDuration = mBeginTime.getTime()-mParent.getBeginTime().getTime();
+            }
+        } else {
+            MethodCallDTO tPrecedentMethodCall = mParent.getChild(mChildPosition-1);
+            tDuration = mBeginTime.getTime()-tPrecedentMethodCall.getEndTime().getTime();
+        }
+        return tDuration;
+    }
+
+    public int getChildPosition()
+    {
+        return mChildPosition;
+    }
+
+    public void setChildPosition(int pChildPosition)
+    {
+        mChildPosition = pChildPosition;
     }
 
 }

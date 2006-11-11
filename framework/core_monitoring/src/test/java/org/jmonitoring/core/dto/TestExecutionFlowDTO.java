@@ -17,11 +17,11 @@ public class TestExecutionFlowDTO extends TestCase
     public void testMeasureCount()
     {
         ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
-        assertEquals(2 + 1, tFlow.getMeasureCount());
+        assertEquals(6, tFlow.getMeasureCount());
         MethodCallDTO curMeasure = tFlow.getFirstMethodCall();
-        assertEquals(2 + 1, curMeasure.getSubMeasureCount());
+        assertEquals(6, curMeasure.getSubMeasureCount());
         curMeasure = (MethodCallDTO) curMeasure.getChild(1);
-        assertEquals(1, curMeasure.getSubMeasureCount());
+        assertEquals(4, curMeasure.getSubMeasureCount());
     }
 
 }

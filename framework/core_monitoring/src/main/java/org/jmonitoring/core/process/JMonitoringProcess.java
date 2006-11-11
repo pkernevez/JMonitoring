@@ -131,7 +131,7 @@ public class JMonitoringProcess
             sLog.debug("Read method call from database, Id=[" + pId + "]");
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             MethodCallPO tMethodCallPo = tDao.readMethodCall(pFlowId, pId);
-            return DtoHelper.getFullMethodCallDto(tMethodCallPo);
+            return DtoHelper.getFullMethodCallDto(tMethodCallPo, -1);
         } finally
         {
             if (tSession != null)
@@ -190,7 +190,7 @@ public class JMonitoringProcess
             tSession = HibernateManager.getSession();
             ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
             MethodCallPO tMethod = tDao.readMethodCall(pFlowId, pMethodCallId);
-            return DtoHelper.simpleCopy(tMethod);
+            return DtoHelper.simpleCopy(tMethod, -1);
         } finally
         {
             if (tSession != null)
@@ -313,6 +313,27 @@ public class JMonitoringProcess
         {
             throw new MeasureException("Unable to Zip Xml ExecutionFlow", e);
         }
+    }
+
+    public ExecutionFlowDTO insertFlowFromXml(byte[] pFlowAsXml)
+    {
+        Session tSession = null;
+        try
+        {
+            tSession = HibernateManager.getSession();
+            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tSession);
+            ExecutionFlowDTO tFlowDto = getFlowFromXml(pFlowAsXml);
+            ExecutionFlowPO tFlowPO = DtoHelper.getDeepCopy(tFlowDto);
+            tFlowPO.setId(-1);
+            tDao.insertFullExecutionFlow(tFlowPO);
+            return  DtoHelper.getDeepCopy(tFlowPO);
+        } finally
+        {
+            if (tSession != null)
+            {
+                tSession.close();
+            }
+        }        
     }
 
 }

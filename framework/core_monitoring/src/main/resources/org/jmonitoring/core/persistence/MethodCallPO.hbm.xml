@@ -30,7 +30,7 @@
 			<column name="FLOW_ID" />
 			<column name="PARENT_INDEX_IN_FLOW"></column>
 		</many-to-one>
-		<list name="children" lazy="true" cascade="all">
+		<list name="children" lazy="true" cascade="all" >
 			<key>
 				<column name="FLOW_ID" not-null="false"/>
 				<column name="PARENT_INDEX_IN_FLOW" not-null="false"/>

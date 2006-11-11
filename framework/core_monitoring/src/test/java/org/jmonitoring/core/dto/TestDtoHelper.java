@@ -25,7 +25,9 @@ public class TestDtoHelper extends PersistanceTestCase
         MethodCallDTO curMeth = tFlow.getFirstMethodCall();
         assertEquals(1, curMeth.getPosition());
         assertEquals(45, curMeth.getFlowId());
+        MethodCallDTO tParentDto = curMeth;
         curMeth = curMeth.getChild(0);
+        assertSame(tParentDto, curMeth.getParent());
         assertEquals(2, curMeth.getPosition());
         assertEquals(45, curMeth.getFlowId());
     }
@@ -33,8 +35,7 @@ public class TestDtoHelper extends PersistanceTestCase
     public void testGetMethodCallDto()
     {
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
-        DtoHelper tHelper = new DtoHelper();
-        MethodCallDTO tMeth = tHelper.getMethodCallDto(tFlow.getFirstMethodCall());
+        MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
         assertNull(tMeth.getParent());
         assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getClassName());
         assertEquals("builNewFullFlow", tMeth.getMethodName());
@@ -48,11 +49,58 @@ public class TestDtoHelper extends PersistanceTestCase
     public void testGetFullMethodCallDto()
     {
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
-        MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall());
+        MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall(), 0);
         assertNotNull(tMeth);
         assertEquals(2, tMeth.getChildren().length);
         MethodCallDTO tChild1 = (MethodCallDTO) tMeth.getChild(0);
         assertNotNull(tChild1.getParent());
+    }
+
+    public void testGetExecutionFlowPO()
+    {
+        ExecutionFlowPO tFlowPO = TestExecutionFlowDAO.buildAndSaveNewFullFlow(getSession());
+        tFlowPO.setId(45);
+
+        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(tFlowPO);
+        ExecutionFlowPO tNewFlow = DtoHelper.getDeepCopy(tFlow);
+
+        assertEquals("TEST-main", tNewFlow.getThreadName());
+        assertEquals("myJVM", tNewFlow.getJvmIdentifier());
+        assertEquals(45, tNewFlow.getId());
+        MethodCallPO curMeth = tNewFlow.getFirstMethodCall();
+        assertEquals(1, curMeth.getPosition());
+        assertEquals(45, curMeth.getFlow().getId());
+        MethodCallPO tParentDto = curMeth;
+        curMeth = curMeth.getChild(0);
+        assertSame(tParentDto, curMeth.getParentMethodCall());
+        assertEquals(2, curMeth.getPosition());
+        assertEquals(45, curMeth.getFlow().getId());
+    }
+
+    public void testGetMethodCallPO()
+    {
+        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
+        MethodCallPO tNewMeth = DtoHelper.getMethodCallPO(tMeth, null);
+        assertNull(tNewMeth.getParentMethodCall());
+        assertEquals(TestExecutionFlowDAO.class.getName(), tNewMeth.getClassName());
+        assertEquals("builNewFullFlow", tNewMeth.getMethodName());
+        assertEquals("GrDefault", tNewMeth.getGroupName());
+        assertEquals("[]", tNewMeth.getParams());
+        assertEquals(2, tNewMeth.getChildren().size());
+        assertEquals(MethodCallPO.class.getName(), tNewMeth.getChild(0).getClass().getName());
+        assertEquals(tNewMeth, ((MethodCallPO) tNewMeth.getChild(0)).getParentMethodCall());
+    }
+
+    public void testGetFullMethodCallPO()
+    {
+        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall(), 0);
+        MethodCallPO tNewMeth = DtoHelper.getFullMethodCallPO(tMeth, null);
+        assertNotNull(tNewMeth);
+        assertEquals(2, tNewMeth.getChildren().size());
+        MethodCallPO tChild1 = (MethodCallPO) tNewMeth.getChild(0);
+        assertNotNull(tChild1.getParentMethodCall());
     }
 
     public void testCopyListMethodCallFullExtract()
@@ -75,5 +123,30 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals(tFlow.getFirstMethodCall().getChild(0).getDuration(), tMeth.getDuration());
         assertEquals(tFlow.getId(), tMeth.getFlowId());
         assertEquals(tFlow.getFirstMethodCall().getChild(0).getPosition(), tMeth.getPosition());
+    }
+
+    public void testGetDeepCopy()
+    {
+        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
+        MethodCallDTO tParent = tFlow.getFirstMethodCall();
+
+        assertEquals(0, tParent.getChildPosition());
+
+        MethodCallDTO tMeth = tParent.getChild(0);
+        assertEquals(0, tMeth.getChildPosition());
+
+        tMeth = tParent.getChild(1);
+        assertEquals(1, tMeth.getChildPosition());
+
+        tParent = tMeth;
+        tMeth = tParent.getChild(0);
+        assertEquals(0, tMeth.getChildPosition());
+
+        tMeth = tParent.getChild(1);
+        assertEquals(1, tMeth.getChildPosition());
+
+        tParent = tMeth;
+        tMeth = tParent.getChild(0);
+        assertEquals(0, tMeth.getChildPosition());
     }
 }

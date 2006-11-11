@@ -79,6 +79,7 @@ public class FlowAsStackUtil
      * @param pCurrentMethod The Measure to write.
      * @param pHtmlBuffer The Html buffer for this measure.
      * @todo Use background color with item.
+     * @todo Mettre les titles des durées dans une feuille de style pour diminuer le volume de la page
      */
     private void writeMethodCallAsHtml(MethodCallDTO pCurrentMethod, StringBuffer pHtmlBuffer)
     {
@@ -103,23 +104,33 @@ public class FlowAsStackUtil
             + pCurrentMethod.getFlowId() + "&position=" + pCurrentMethod.getPosition() + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
-        // Maintenant on créer le le html associé au MethodCallDTO
+        long tDuration = pCurrentMethod.getEndTime().getTime() - pCurrentMethod.getBeginTime().getTime();
+       // Maintenant on créer le le html associé au MethodCallDTO
         if (pCurrentMethod.getChildren().length > 0)
         { // On crée un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
-            pHtmlBuffer.append("<li>\n<a href=\"#\" id=\"" + pCurrentMethod.getPosition() + "Actuator\"");
+            pHtmlBuffer.append("<li>\n<span class=\"prevDuration\" title=\"Since prev MethodCall\">[->");
+            pHtmlBuffer.append( pCurrentMethod.getDurationFromPreviousCall() + "]</span>");
+            pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
+            pHtmlBuffer.append(tDuration+"]</span>");
+            pHtmlBuffer.append("<a href=\"#\" id=\"");
+            pHtmlBuffer.append( pCurrentMethod.getPosition() + "Actuator\"");
             pHtmlBuffer.append(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">");
             pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMethod) + "</a>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "\n");
             pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getPosition() + "Menu\" class=\"submenu\">\n");
-            for (int i=0;i<pCurrentMethod.getChildren().length;i++)
+            for (int i = 0; i < pCurrentMethod.getChildren().length; i++)
             {
                 writeMethodCallAsHtml(pCurrentMethod.getChild(i), pHtmlBuffer);
             }
             pHtmlBuffer.append("  </ul>\n</li>\n");
         } else
         {
-            pHtmlBuffer.append("<li><span title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">" + tReturnImage
+            pHtmlBuffer.append("<li><span class=\"prevDuration\" title=\"Duration since the prev MethodCall\">[->");
+            pHtmlBuffer.append( pCurrentMethod.getDurationFromPreviousCall() + "]</span>");
+            pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
+            pHtmlBuffer.append(tDuration+"]</span>");
+            pHtmlBuffer.append("<span title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">" + tReturnImage
                 + getMeasurePointText(pCurrentMethod) + "</span>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "</li>\n");
         }
@@ -134,8 +145,6 @@ public class FlowAsStackUtil
     private String getMeasurePointText(MethodCallDTO pMeasure)
     {
         StringBuffer tBuffer = new StringBuffer();
-        long tDuration = pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime();
-        tBuffer.append("[").append(tDuration).append("] ");
         tBuffer.append(pMeasure.getGroupName()).append(" -> ").append(pMeasure.getClassName()).append(".").append(
             pMeasure.getMethodName());
         return tBuffer.toString();

@@ -349,3 +349,13 @@ span.pagelinks {
 }
 
 table.simple td.textRed {color: #b11;}
+
+
+span.prevDuration {
+	font-style: italic;
+	color: #219919;
+}
+
+span.curDuration {
+	color: #d00;
+}

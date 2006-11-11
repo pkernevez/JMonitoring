@@ -10,9 +10,9 @@ public class ImportFlowForm extends ActionForm
     
     private ExecutionFlowDTO mNewExecutionFlow;
 
-    public ExecutionFlowDTO getNewExecutionFlow()
+    public String getNewExecutionFlowId()
     {
-        return mNewExecutionFlow;
+        return ""+mNewExecutionFlow.getId();
     }
     public void setNewExecutionFlow(ExecutionFlowDTO pNewExecutionFlow)
     {

@@ -19,7 +19,7 @@ import org.jmonitoring.core.store.AspectLoggerEmulator;
  */
 public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 {
-    private static final int TIME_TO_WAIT = 1000;
+    private static final int TIME_TO_WAIT = 1500;
 
 //    private int mInitialMaxFlowId;
 

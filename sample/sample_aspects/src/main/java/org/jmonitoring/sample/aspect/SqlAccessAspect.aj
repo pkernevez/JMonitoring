@@ -15,8 +15,8 @@ import org.jmonitoring.core.aspects.PerformanceAspect;
  */
 public aspect SqlAccessAspect extends PerformanceAspect
 {
-    public pointcut executionToLog() : ( call( * java.sql.Connection+.*(..) )
-                    || call( * java.sql.Statement+.*(..) ) );
+    public pointcut executionToLog() : ( call( * *.*(..)) );
+                    
 
     public SqlAccessAspect()
     {

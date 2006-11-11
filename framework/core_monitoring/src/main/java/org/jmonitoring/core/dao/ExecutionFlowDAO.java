@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -249,11 +250,14 @@ public class ExecutionFlowDAO
     /**
      * @param pFlowId The execution flow identifier to read.
      * @return The corresponding ExecutionFlowDTO.
-     * @todo Be sure that all MethodCall are already loaded after this call...
      */
     public ExecutionFlowPO readExecutionFlow(int pFlowId)
     {
-        return (ExecutionFlowPO) mSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
+        ExecutionFlowPO tFlow = (ExecutionFlowPO) mSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
+        Criteria tCriteria = mSession.createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
+        tCriteria.add(Restrictions.eq("flow.id", new Integer(pFlowId)));
+        tCriteria.list();
+        return tFlow;
     }
 
     // /**
