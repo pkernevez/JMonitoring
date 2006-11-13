@@ -58,8 +58,9 @@ public class StoreManager
      * @param pSignature The method signature.
      * @param pArgs The method arguments.
      * @param pGroupName The name of the group associated with this <code>MethodCallDTO</code>.
+     * @param pTarget The targeted object of this call.
      */
-    public void logBeginOfMethod(Signature pSignature, Object[] pArgs, String pGroupName)
+    public void logBeginOfMethod(Signature pSignature, Object[] pArgs, String pGroupName, Object pTarget)
     {
         if (mCurrentLogPoint == null)
         { // Premier appel du Thread
@@ -78,6 +79,10 @@ public class StoreManager
             MethodCallPO tOldPoint = mCurrentLogPoint;
             mCurrentLogPoint = new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
                 pGroupName, pArgs);
+        }
+        if (!pTarget.getClass().equals(pSignature.getDeclaringType()))
+        {
+            mCurrentLogPoint.setRuntimeClassName(pTarget.getClass().getName());
         }
     }
 

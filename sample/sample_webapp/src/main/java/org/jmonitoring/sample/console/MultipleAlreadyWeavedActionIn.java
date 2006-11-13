@@ -8,15 +8,11 @@ package org.jmonitoring.sample.console;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.sample.main.RunSample;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmonitoring.sample.main.RunSample;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
@@ -28,7 +24,7 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  */
 public class MultipleAlreadyWeavedActionIn extends Action
 {
-    private static Log sLog = LogFactory.getLog(MultipleAlreadyWeavedActionIn.class);
+//    private static Log sLog = LogFactory.getLog(MultipleAlreadyWeavedActionIn.class);
 
     /*
      * (non-Javadoc)

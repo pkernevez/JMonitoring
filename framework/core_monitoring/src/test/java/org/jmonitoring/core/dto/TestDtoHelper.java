@@ -38,6 +38,11 @@ public class TestDtoHelper extends PersistanceTestCase
         MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
         assertNull(tMeth.getParent());
         assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getClassName());
+        assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getRuntimeClassName());
+
+        assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getChild(0).getClassName());
+        assertEquals(TestExecutionFlowDAO.class.getName()+"iuiu", tMeth.getChild(0).getRuntimeClassName());
+
         assertEquals("builNewFullFlow", tMeth.getMethodName());
         assertEquals("GrDefault", tMeth.getGroupName());
         assertEquals("[]", tMeth.getParams());

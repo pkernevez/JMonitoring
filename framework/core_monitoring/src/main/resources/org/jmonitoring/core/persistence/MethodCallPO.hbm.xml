@@ -16,6 +16,7 @@
       <property name="beginTime" column="BEGIN_TIME" type="java.lang.Long" />
       <property name="endTime" column="END_TIME" type="java.lang.Long" />
       <property name="className" column="FULL_CLASS_NAME" type="java.lang.String" length="120"/>
+      <property name="runtimeClassName" column="RUNTIME_CLASS_NAME" type="java.lang.String" length="120"/>
       <property name="methodName" column="METHOD_NAME" type="java.lang.String" length="50"/>
       <property name="throwableClass" column="THROWABLE_CLASS_NAME" type="java.lang.String" length="120" />
       <property name="throwableMessage" column="THROWABLE_MESSAGE" type="java.lang.String" />

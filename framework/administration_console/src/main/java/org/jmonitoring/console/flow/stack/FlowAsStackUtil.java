@@ -7,7 +7,6 @@ package org.jmonitoring.console.flow.stack;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.util.Iterator;
 
 import org.apache.taglibs.standard.lang.jpath.encoding.HtmlEncoder;
 import org.jmonitoring.core.configuration.Configuration;

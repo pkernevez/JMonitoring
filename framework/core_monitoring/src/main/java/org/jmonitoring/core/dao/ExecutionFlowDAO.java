@@ -84,7 +84,10 @@ public class ExecutionFlowDAO
             {
                 try
                 {
-                    mMethodCallInsertStatement.close();
+                    if (mMethodCallInsertStatement != null)
+                    {
+                        mMethodCallInsertStatement.close();
+                    }
                 } finally
                 {
                     mMethodCallInsertStatement = null;
@@ -148,10 +151,10 @@ public class ExecutionFlowDAO
     }
 
     private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL "
-        + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME,"
+        + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, RUNTIME_CLASS_NAME,"
         + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
         + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
-        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     void saveMethodCall(MethodCallPO pMethodCall, int pCurIndex)
     {
@@ -168,6 +171,7 @@ public class ExecutionFlowDAO
             mMethodCallInsertStatement.setLong(curIndex++, pMethodCall.getBeginTime());
             mMethodCallInsertStatement.setLong(curIndex++, pMethodCall.getEndTime());
             mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getClassName());
+            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getRuntimeClassName());
             mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getMethodName());
             mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getThrowableClass());
             mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getThrowableMessage());

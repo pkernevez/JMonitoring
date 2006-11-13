@@ -42,8 +42,11 @@ public class MethodCallPO
     /** Date/Heure de fin d'appel de la méthode. */
     private long mEndTime;
 
-    /** Nom de la classe sur laquelle est fait l'appel de la méthode. */
+    /** Name of the class on which the Method is defined. */
     private String mClassName;
+
+    /** Name of the class on which the Method is called. Null if it's the same as <code>mClassName</code>. */
+    private String mRuntimeClassName;
 
     /** Nom de la méthode associée à ce point de mesure. */
     private String mMethodName;
@@ -437,6 +440,16 @@ public class MethodCallPO
     public void setMethId(MethodCallPK pId)
     {
         mId = pId;
+    }
+
+    public String getRuntimeClassName()
+    {
+        return mRuntimeClassName;
+    }
+
+    public void setRuntimeClassName(String pRuntimeClassName)
+    {
+        mRuntimeClassName = pRuntimeClassName;
     }
     
 }

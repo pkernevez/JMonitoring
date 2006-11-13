@@ -1,0 +1,33 @@
+package org.jmonitoring.core.store.impl;
+
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.core.store.AspectLoggerEmulator;
+
+public class TestSynchroneJdbcStore extends PersistanceTestCase
+{
+    public void testNbToStringMethodCall() throws InterruptedException
+    {
+        int tInitialFlowCount;
+        // We check the result into DB
+        int tFinalFlowCount;
+        ExecutionFlowDAO tFlowDao = new ExecutionFlowDAO(getSession());
+        tInitialFlowCount = tFlowDao.countFlows();
+
+        MockAbstractAsynchroneLogger.resetNbLog();
+        MockAbstractAsynchroneLogger.resetNbPublish();
+        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new SynchroneJdbcStore());
+        tEmulator.simulateExecutionFlow(true);
+
+        // Now check the number of toString called
+        assertEquals(3, AspectLoggerEmulator.Param.getNbToString());
+        assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
+        assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
+        assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
+
+        tFinalFlowCount = tFlowDao.countFlows();
+
+        getSession().flush();
+        assertEquals(tInitialFlowCount + 1, tFinalFlowCount);
+    }
+}

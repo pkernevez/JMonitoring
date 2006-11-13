@@ -245,6 +245,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
             new Object[0]);
         tSubPoint.setBeginTime(tStartTime + 2); //3
         tSubPoint.setEndTime(tStartTime + 5);
+        tSubPoint.setRuntimeClassName(TestExecutionFlowDAO.class.getName()+"iuiu");
 
         tSubPoint2 = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2",
             new Object[0]);
@@ -364,11 +365,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         getSession().flush();
         getSession().clear();
 
-        MethodCallPO tInitialPoint = (MethodCallPO) tFlow.getFirstMethodCall().getChildren().get(0);
+        MethodCallPO tInitialPoint = (MethodCallPO) tFlow.getFirstMethodCall().getChild(0);
         MethodCallPO tReadPoint = tFlowDAO.readMethodCall(tFlow.getId(), tInitialPoint.getPosition());
         assertNotSame(tInitialPoint, tReadPoint);
 
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
+        assertEquals("org.jmonitoring.core.dao.TestExecutionFlowDAOiuiu", tInitialPoint.getRuntimeClassName());
+        assertEquals("org.jmonitoring.core.dao.TestExecutionFlowDAOiuiu", tReadPoint.getRuntimeClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
         assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());

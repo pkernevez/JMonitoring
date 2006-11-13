@@ -7,6 +7,7 @@ package org.jmonitoring.core.aspects;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.store.StoreManager;
@@ -63,7 +64,7 @@ public abstract aspect PerformanceAspect
         {
             if (tManager != null)
             {
-                tManager.logBeginOfMethod(tSig, tArgs, mGroupName);
+                tManager.logBeginOfMethod(tSig, tArgs, mGroupName, thisJoinPoint.getTarget());
             } else
             {
                 mLog.error("executionToLogInternal Impossible de logger l'entrée de la methode");

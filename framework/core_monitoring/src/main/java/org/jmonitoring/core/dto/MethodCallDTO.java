@@ -50,8 +50,11 @@ public class MethodCallDTO implements Serializable
     /** Date/Heure de fin d'appel de la méthode. */
     private Date mEndTime;
 
-    /** Nom de la classe sur laquelle est fait l'appel de la méthode. */
+    /** Name of the class on which the Method is defined. */
     private String mClassName;
+
+    /** Name of the class on which the Method is called. Null if it's the same as <code>mClassName</code>. */
+    private String mRuntimeClassName;
 
     /** Nom de la méthode associée à ce point de mesure. */
     private String mMethodName;
@@ -428,6 +431,16 @@ public class MethodCallDTO implements Serializable
     public void setChildPosition(int pChildPosition)
     {
         mChildPosition = pChildPosition;
+    }
+
+    public String getRuntimeClassName()
+    {
+        return (mRuntimeClassName!=null?mRuntimeClassName:mClassName);
+    }
+
+    public void setRuntimeClassName(String pRuntimeClassName)
+    {
+        mRuntimeClassName = pRuntimeClassName;
     }
 
 }

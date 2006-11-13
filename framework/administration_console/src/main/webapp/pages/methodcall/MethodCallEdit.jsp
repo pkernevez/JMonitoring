@@ -14,9 +14,13 @@
 
 
 <table border="0" class="presentation">
+	<tr title="This class can be different of the full classname if the runtime instance is a child of the Weaving class." >
+		<td class="title" NOWRAP>Runtime class name:</td>
+		<td class="content" NOWRAP colSpan="2"><b><bean:write format="" name="methodcallform" property="methodCall.duration"/></b></td>
+	</tr>
 	<tr>
-		<td NOWRAP>Duration:</td>
-		<td NOWRAP colSpan="2"><b><bean:write format="" name="methodcallform" property="methodCall.duration"/></b></td>
+		<td class="title" NOWRAP>Duration:</td>
+		<td class="content" NOWRAP colSpan="2"><b><bean:write format="" name="methodcallform" property="methodCall.duration"/></b></td>
 	</tr>
 	<tr>
 		<td NOWRAP>Group name:</td>
@@ -27,15 +31,15 @@
 		<td NOWRAP>Flow Id:</td>
 		<td NOWRAP colSpan="2">
 			<html:link action="FlowEditIn" paramId="id" paramName="methodcallform" paramProperty="methodCall.flowId" title="View full flow...">
-				<b><bean:write format="####" name="methodcallform" property="methodCall.flowId"/></b></td>
+				<b><bean:write format="####" name="methodcallform" property="methodCall.flowId"/></b><img src="images/edit.png"/>
 			</html:link>
-		
+		</td>
 	</tr>
 	<tr>
 		<td NOWRAP>Id:</td>
-		<td NOWRAP colSpan="2"><b><bean:write format="####" name="methodcallform" property="methodCall.position"/></b>
+		<td NOWRAP colSpan="2">
 			<html:link action="MethodCallStatIn" name="methodcallform" property="methodCallIdsMap" title="View stats...">
-				<IMG src="images/graphique.png"/>
+				<b><bean:write format="####" name="methodcallform" property="methodCall.position"/></b><IMG src="images/graphique.png"/>
 			</html:link>
 		</td>
 	</tr>
@@ -51,9 +55,9 @@
 	<tr>
 		<td NOWRAP>Parent id:</td>
 		<td NOWRAP colSpan="2">
-			<b><html:link action="MethodCallEditIn" name="methodcallform" property="parentIdsMap">
-				<bean:write format="####" name="methodcallform" property="methodCall.parent.position"/>
-			</html:link></b>
+			<html:link action="MethodCallEditIn" name="methodcallform" property="parentIdsMap" title="View parent...">
+				<b><bean:write format="####" name="methodcallform" property="methodCall.parent.position"/></b><IMG src="images/edit.png"/>
+			</html:link>
 		</td>
 	</tr>
 </logic:notEmpty> 
@@ -96,7 +100,7 @@
 						<span class="curDuration" title="Duration of this MethodCall">[<bean:write format="" name="child" property="duration"/>]</span>&nbsp;
 							<html:link action="MethodCallEditIn" name="methodcallform" property='<%="childMethodCallIdsMap["+ctr+"]"%>' title="View details...">
 							<bean:write name="child" property="groupName"/> &nbsp;-->&nbsp;
-							<bean:write name="child" property="className"/>.<bean:write name="child" property="methodName"/>()
+							<bean:write name="child" property="className"/>.<bean:write name="child" property="methodName"/>()<img src="images/edit.png"/>
 						</html:link>
 						<html:link action="MethodCallStatIn" name="methodcallform" property='<%="childMethodCallIdsMap["+ctr+"]"%>' title="View stats...">
 							<IMG src="images/graphique.png"/>
