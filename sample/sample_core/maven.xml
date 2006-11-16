@@ -5,9 +5,14 @@
         xmlns:ant="jelly:ant"
         xmlns:x="jelly:xml">
 
-   	   <preGoal name="jar:jar">
+   	   <postGoal name="test:compile">
+             <attainGoal name="aspectj:test-compile"/>
+       </postGoal>
+     
+   	   <!--preGoal name="jar:jar">
              <attainGoal name="aspectj:compile"/>
-       </preGoal>
+             <attainGoal name="aspectj:test-compile"/>
+       </preGoal-->
      
 </project>
         

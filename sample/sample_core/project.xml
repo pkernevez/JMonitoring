@@ -23,8 +23,46 @@
          This is a sample for the use of JavaMonitring.
     </description>
   
+    <!--build>
+        <aspectSourceDirectory>src/test/java</aspectSourceDirectory>
+    </build-->
     <build>
-        <aspectSourceDirectory>src-aspectj</aspectSourceDirectory>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <unitTestSourceDirectory>${basedir}/src/test/bidon</unitTestSourceDirectory>
+        <unitTest>
+           <includes>
+                <include>**/Test*.java</include>
+                <include>**/*Test.java</include>
+                <include>**/*.properties</include>
+            </includes>
+            <resources>
+                <resource>
+                    <directory>${basedir}/src/test/resources</directory>
+                    <includes>
+                        <include>**/*.xml</include>
+                        <include>**/*.properties</include>
+                        <include>**/*.java</include>
+                    </includes>
+                </resource>            
+            </resources>
+        </unitTest>
+
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.java</include>
+                    <include>**/*.aj</include>
+                </includes>
+                <excludes>
+                    <exclude>**/.svn</exclude>
+                </excludes>
+            </resource>
+            
+        </resources>
+    
     </build>
 
     <!-- dépendances -->
@@ -84,12 +122,69 @@
         </dependency>
 
         <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>${depends.mysql.version}</version>
-          <url>http://www.mysql.com/</url>
+          <id>hibernate</id>
+          <version>${depends.hibernate.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+          <url>http://www.hibernate.org</url>
         </dependency>
 
+        <dependency>
+          <id>antlr</id>
+          <version>${depends.antlr.version}</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+          <url>http://www.ant.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${depends.hsqldb.version}</version>
+            <type>jar</type>
+            <url>http://www.hsqldb.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+            <version>${depends.dom4j.version}</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${depends.ehcache.version}</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+          <id>dbunit</id>
+          <version>${depends.dbunit.version}</version>
+          <url>http://www.dbunit.org/</url>
+        </dependency>
+
+        <dependency>
+          <groupId>cglib</groupId>
+          <artifactId>cglib-nodep</artifactId>
+          <version>${depends.cglib.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>j2ee</groupId>
+            <artifactId>j2ee</artifactId>
+            <version>${depends.j2ee.version}</version>
+            <type>jar</type>
+            <url>http://java.sun.com</url>
+        </dependency>
+        
     </dependencies>
    
    <!--  Verrue pour pouvoir builder ! -->
