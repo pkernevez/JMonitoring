@@ -21,7 +21,8 @@ public aspect SqlAccessAspect extends PerformanceAspect
     public SqlAccessAspect()
     {
         mGroupName = "SQL";
-        mLogParameter = true;
+        mParamTracer = null;
+        mResultTracer = null;
     }
 
 }

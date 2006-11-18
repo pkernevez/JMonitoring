@@ -7,6 +7,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.jboss.ide.eclipse.jdt.aop.core.classpath.AOP_14_CONTAINER"/>
 	<classpathentry kind="var" path="ASPECTJRT_LIB"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/core_monitoring"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
