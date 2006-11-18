@@ -45,6 +45,8 @@ public class ExecutionFlowDAO
 
     private PreparedStatement mMethodCallInsertStatement;
 
+    private static final int BATCH_SIZE = 100;
+    
     /**
      * Default constructor.
      * 
@@ -78,7 +80,7 @@ public class ExecutionFlowDAO
         {
             try
             {
-                saveAllMethodCall(tMeth, 0);
+                saveAllMethodCall(tMeth, 0, 0);
                 mMethodCallInsertStatement.executeBatch();
             } finally
             {
@@ -140,14 +142,15 @@ public class ExecutionFlowDAO
         return tCurrentIndex;
     }
 
-    private void saveAllMethodCall(MethodCallPO pMethodCall, int pCurrentChildIndex)
+    private int saveAllMethodCall(MethodCallPO pMethodCall, int pCurrentChildIndex, int pBatchBufferSize)
     {
-        saveMethodCall(pMethodCall, pCurrentChildIndex);
+        int tNewBatchBufferSize = saveMethodCall(pMethodCall, pCurrentChildIndex, pBatchBufferSize++);
         int tChildIndex = 0;
         for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
         {
-            saveAllMethodCall((MethodCallPO) tChildIt.next(), tChildIndex++);
+            tNewBatchBufferSize = saveAllMethodCall((MethodCallPO) tChildIt.next(), tChildIndex++, tNewBatchBufferSize++);
         }
+        return tNewBatchBufferSize;
     }
 
     private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL "
@@ -156,14 +159,28 @@ public class ExecutionFlowDAO
         + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    void saveMethodCall(MethodCallPO pMethodCall, int pCurIndex)
+    int saveMethodCall(MethodCallPO pMethodCall, int pCurIndex, int pBatchBufferSize)
     {
         try
         {
+            if (sLog.isDebugEnabled())
+            {
+                sLog.debug("Interting MethodCall(FlowId=["+pMethodCall.getFlow().getId()+"Index=["+pMethodCall.getPosition()+"] and NewBatchSize=["+pBatchBufferSize);
+            }
             int curIndex = 1;
             if (mMethodCallInsertStatement == null)
             {
                 mMethodCallInsertStatement = mSession.connection().prepareStatement(SQL_INSERT_METHOD_CALL);
+            }
+            int tNewBatchBufferSize = pBatchBufferSize;
+            if ( tNewBatchBufferSize%BATCH_SIZE == 0)
+            {
+                tNewBatchBufferSize = 0;
+                int tFlushSize = mMethodCallInsertStatement.executeBatch().length;
+                if (sLog.isDebugEnabled())
+                {
+                sLog.debug("Flush MethodCall, flushsize=["+tFlushSize+"]");
+                }
             }
             mMethodCallInsertStatement.setInt(curIndex++, pMethodCall.getFlow().getId());
             mMethodCallInsertStatement.setInt(curIndex++, pMethodCall.getPosition());
@@ -186,6 +203,7 @@ public class ExecutionFlowDAO
             }
             mMethodCallInsertStatement.setInt(curIndex++, pCurIndex);
             mMethodCallInsertStatement.addBatch();
+            return tNewBatchBufferSize;
         } catch (HibernateException e)
         {
             throw new DataBaseException("Unable to insert METHOD_CALL into DB", e);

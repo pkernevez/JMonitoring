@@ -10,12 +10,9 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.stat.EntityStatistics;
-import org.hibernate.stat.SessionStatistics;
 import org.hibernate.stat.Statistics;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.persistence.MethodCallPK;
 import org.jmonitoring.core.persistence.MethodCallPO;
 
@@ -56,8 +53,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         MethodCallPO tPoint;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault",
-            new Object[0]);
+        tPoint = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault", "");
         tPoint.setBeginTime(tStartTime);
 
         tPoint.setEndTime(tStartTime + 20);
@@ -93,9 +89,9 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
         int tFlowId = tFlow.getId();
-        tFlow=null;
+        tFlow = null;
         getSession().clear();
-        
+
         tFlow = tFlowDAO.readExecutionFlow(tFlowId);
         MethodCallPO tMeth = tFlow.getFirstMethodCall();
         tMeth.getBeginTime();
@@ -115,7 +111,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         ExecutionFlowPO tFlow = new ExecutionFlowPO();
         getSession().save(tFlow);
         MethodCallPO tMethodCall = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-            "GrDefault", new Object[0]);
+            "GrDefault", "[]");
         tMethodCall.setMethId(new MethodCallPK(tFlow, 0));
         getSession().save(tMethodCall);
         getSession().flush();
@@ -132,13 +128,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         ExecutionFlowPO tFlow = new ExecutionFlowPO();
         getSession().save(tFlow);
         MethodCallPO tMethodCall1 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-            "GrDefault", new Object[0]);
+            "GrDefault", "[]");
         tMethodCall1.setMethId(new MethodCallPK(tFlow, 1));
         MethodCallPO tMethodCall2 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-            "GrDefault", new Object[0]);
+            "GrDefault", "[]");
         tMethodCall2.setMethId(new MethodCallPK(tFlow, 2));
         MethodCallPO tMethodCall3 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-            "GrDefault", new Object[0]);
+            "GrDefault", "[]");
         tMethodCall3.setMethId(new MethodCallPK(tFlow, 3));
         tMethodCall1.addChildren(tMethodCall2);
         tMethodCall1.addChildren(tMethodCall3);
@@ -161,13 +157,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         ExecutionFlowPO tFlow = new ExecutionFlowPO();
         getSession().save(tFlow);
         MethodCallPO tMethodCall1 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-            "GrDefault", new Object[0]);
+            "GrDefault", "[]");
         tMethodCall1.setMethId(new MethodCallPK(tFlow, 0));
         getSession().save(tMethodCall1);
         getSession().flush();
 
         MethodCallPO tMethodCall2 = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
-            "GrDefault", new Object[0]);
+            "GrDefault", "[]");
         tMethodCall2.setMethId(new MethodCallPK(tFlow, 1));
         getSession().save(tMethodCall2);
         getSession().flush();
@@ -238,34 +234,30 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault",
-            new Object[0]);
-        tPoint.setBeginTime(tStartTime); //35
-        tSubPoint = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow2", "GrChild1",
-            new Object[0]);
-        tSubPoint.setBeginTime(tStartTime + 2); //3
+        tPoint = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow", "GrDefault", "[]");
+        tPoint.setBeginTime(tStartTime); // 35
+        tSubPoint = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
+        tSubPoint.setBeginTime(tStartTime + 2); // 3
         tSubPoint.setEndTime(tStartTime + 5);
-        tSubPoint.setRuntimeClassName(TestExecutionFlowDAO.class.getName()+"iuiu");
+        tSubPoint.setRuntimeClassName(TestExecutionFlowDAO.class.getName() + "iuiu");
 
-        tSubPoint2 = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2",
-            new Object[0]);
-        tSubPoint2.setBeginTime(tStartTime + 8);//21
+        tSubPoint2 = new MethodCallPO(tPoint, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
+        tSubPoint2.setBeginTime(tStartTime + 8);// 21
 
         tSubPoint3 = new MethodCallPO(tSubPoint2, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2",
-            new Object[0]);
-        tSubPoint3.setBeginTime(tStartTime + 14);//1
+            "[]");
+        tSubPoint3.setBeginTime(tStartTime + 14);// 1
         tSubPoint3.setEndTime(tStartTime + 15);
-        
+
         tSubPoint4 = new MethodCallPO(tSubPoint2, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2",
-            new Object[0]);
-        tSubPoint4.setBeginTime(tStartTime + 16);//12
-        
+            "[]");
+        tSubPoint4.setBeginTime(tStartTime + 16);// 12
 
         tSubPoint5 = new MethodCallPO(tSubPoint4, TestExecutionFlowDAO.class.getName(), "builNewFullFlow3", "GrChild2",
-            new Object[0]);
-        tSubPoint5.setBeginTime(tStartTime + 26);//1
+            "[]");
+        tSubPoint5.setBeginTime(tStartTime + 26);// 1
         tSubPoint5.setEndTime(tStartTime + 27);
-        
+
         tSubPoint4.setEndTime(tStartTime + 28);
         tSubPoint2.setEndTime(tStartTime + 29);
 
@@ -413,6 +405,5 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         assertEquals(4, curExtrat.getOccurenceNumber());
 
     }
-
 
 }

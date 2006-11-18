@@ -16,7 +16,7 @@
 <table border="0" class="presentation">
 	<tr title="This class can be different of the full classname if the runtime instance is a child of the Weaving class." >
 		<td class="title" NOWRAP>Runtime class name:</td>
-		<td class="content" NOWRAP colSpan="2"><b><bean:write format="" name="methodcallform" property="methodCall.duration"/></b></td>
+		<td class="content" NOWRAP colSpan="2"><b><bean:write format="" name="methodcallform" property="methodCall.runtimeClassB"/></b></td>
 	</tr>
 	<tr>
 		<td class="title" NOWRAP>Duration:</td>

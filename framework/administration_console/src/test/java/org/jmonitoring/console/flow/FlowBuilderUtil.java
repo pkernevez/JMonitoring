@@ -64,13 +64,12 @@ public class FlowBuilderUtil
         MethodCallPO tSubPoint;
         long currentTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, FlowBuilderUtil.class.getName(), "builNewFullFlow", "GrDefault", new Object[0]);
+        tPoint = new MethodCallPO(null, FlowBuilderUtil.class.getName(), "builNewFullFlow", "GrDefault", "[]");
         tPoint.setBeginTime(currentTime);
 
         for (int i = 0; i < pNbMethods; i++)
         {
-            tSubPoint = new MethodCallPO(tPoint, FlowBuilderUtil.class.getName(), "builNewFullFlow3", "GrChild2",
-                new Object[0]);
+            tSubPoint = new MethodCallPO(tPoint, FlowBuilderUtil.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
             tSubPoint.setBeginTime(currentTime + 1);
             currentTime = currentTime + 5;
             tSubPoint.setEndTime(currentTime);

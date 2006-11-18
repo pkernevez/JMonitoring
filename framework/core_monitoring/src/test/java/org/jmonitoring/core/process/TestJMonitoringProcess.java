@@ -386,7 +386,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
-
+        assertTrue(tFlowId>0);
+        
         ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
         byte[] tFlowAsXml = tProcess.getFlowAsXml(tFlowDto);
         assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
@@ -401,6 +402,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
 
         int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        assertTrue(tFlowId>0);
         getSession().flush();
 
         ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);

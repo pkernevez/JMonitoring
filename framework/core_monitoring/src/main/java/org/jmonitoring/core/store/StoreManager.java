@@ -9,6 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.info.IParamaterTracer;
+import org.jmonitoring.core.info.IResultTracer;
+import org.jmonitoring.core.info.IThrowableTracer;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.MethodCallPO;
 import org.jmonitoring.core.store.impl.StoreFactory;
@@ -60,8 +63,20 @@ public class StoreManager
      * @param pGroupName The name of the group associated with this <code>MethodCallDTO</code>.
      * @param pTarget The targeted object of this call.
      */
-    public void logBeginOfMethod(Signature pSignature, Object[] pArgs, String pGroupName, Object pTarget)
+    public void logBeginOfMethod(Signature pSignature, IParamaterTracer pTracer, Object[] pArgs, String pGroupName, Object pTarget)
     {
+        String tArgs;
+        try
+        {
+            tArgs = (pTracer == null ? null : pTracer.convertToString(pArgs));
+        } catch (Throwable tT)
+        {
+            String tClassName = pSignature.getDeclaringTypeName();
+            String tMethodName = pSignature.getName();
+            sLog.error("Unable to getArguments of class=[" + tClassName + "] and method=[" + tMethodName + "]", tT);
+            tArgs = "";
+        }
+        
         if (mCurrentLogPoint == null)
         { // Premier appel du Thread
             if (sLog.isDebugEnabled())
@@ -69,7 +84,7 @@ public class StoreManager
                 sLog.debug("logBeginOfMethod First Time" + pSignature);
             }
             mCurrentLogPoint = new MethodCallPO(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
-                pGroupName, pArgs);
+                pGroupName, tArgs);
         } else
         {
             if (sLog.isDebugEnabled())
@@ -78,7 +93,7 @@ public class StoreManager
             }
             MethodCallPO tOldPoint = mCurrentLogPoint;
             mCurrentLogPoint = new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
-                pGroupName, pArgs);
+                pGroupName, tArgs);
         }
         if (!pTarget.getClass().equals(pSignature.getDeclaringType()))
         {
@@ -91,10 +106,22 @@ public class StoreManager
      * 
      * @param pResult The result of the execution of the method.
      */
-    public void logEndOfMethodNormal(Object pResult)
+    public void logEndOfMethodNormal(IResultTracer pTracer, Object pResult)
     {
+        String tResultAsString;
+        try
+        {
+            tResultAsString = (pTracer == null ? null : pTracer.convertToString(pResult));
+        } catch (Throwable tT)
+        {
+            String tClassName = (pResult==null?"":pResult.getClass().getName());
+            String tTracerClassName = (pTracer==null?"":pTracer.getClass().getName());
+            sLog.error("Unable to trace class=[" + tClassName + "] with tracer=["+tTracerClassName+"]",
+                tT);
+            tResultAsString = "";
+        }
         // To limit call to toString on business object, that could be expensive
-        String tResultAsString = endMethod(mCurrentLogPoint, pResult);
+        endMethod(mCurrentLogPoint, tResultAsString);
         if (mCurrentLogPoint.getParentMethodCall() == null)
         { // Dernier appel du Thread
             if (sLog.isDebugEnabled())
@@ -118,9 +145,10 @@ public class StoreManager
     /**
      * Trace the <code>Exception</code> thrown during its execution.
      * 
+     * @param pTracer The tracer for logging Exception.
      * @param pException The <code>Exception</code> to trace.
      */
-    public void logEndOfMethodWithException(Throwable pException)
+    public void logEndOfMethodWithException(IThrowableTracer pTracer, Throwable pException)
     {
         if (sLog.isDebugEnabled())
         {
@@ -131,7 +159,19 @@ public class StoreManager
             endMethodWithException(mCurrentLogPoint, null, null);
         } else
         {
-            endMethodWithException(mCurrentLogPoint, pException.getClass().getName(), pException.getMessage());
+            String tOutput;
+            try
+            {
+                tOutput = (pTracer == null ? "" : pTracer.convertToString(pException));
+            } catch (Throwable e)
+            {
+                String tExceptionClass = (pException == null ? "" : pException.getClass().getName());
+                String tLogClass = (pTracer == null ? "" : pTracer.getClass().getName());
+                sLog.error("The log of the Exception as Throw an exception during it, Exception=[" + tExceptionClass
+                    + "] Traccer=[" + tLogClass + "]");
+                tOutput = "";
+            }
+            endMethodWithException(mCurrentLogPoint, pException.getClass().getName(), tOutput);
         }
 
         if (mCurrentLogPoint.getParentMethodCall() == null)
@@ -162,24 +202,20 @@ public class StoreManager
      * 
      * @param pMethodCall the current methodcall to manage.
      * @param pReturnValue The return value of the method.
-     * @return The value of the real method call if tracing is activated, null othewise.
      */
-    public String endMethod(MethodCallPO pMethodCall, Object pReturnValue)
+    public void endMethod(MethodCallPO pMethodCall, String pReturnValue)
     {
-        String tReturnValueAsString = null;
         pMethodCall.setEndTime(System.currentTimeMillis());
         if (pReturnValue != null)
         {
             try
             {
-                tReturnValueAsString = pReturnValue.toString();
-                pMethodCall.setReturnValue(tReturnValueAsString);
+                pMethodCall.setReturnValue(pReturnValue);
             } catch (Throwable tT)
             {
                 sLog.error("Unable to trace return value of call.", tT);
             }
         }
-        return tReturnValueAsString;
     }
 
     /**

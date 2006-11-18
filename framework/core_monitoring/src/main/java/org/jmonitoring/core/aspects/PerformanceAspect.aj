@@ -7,9 +7,14 @@ package org.jmonitoring.core.aspects;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.info.DefaultExceptionTracer;
+import org.jmonitoring.core.info.IParamaterTracer;
+import org.jmonitoring.core.info.IResultTracer;
+import org.jmonitoring.core.info.IThrowableTracer;
+import org.jmonitoring.core.info.ToStringParametersTracer;
+import org.jmonitoring.core.info.ToStringResultTracer;
 import org.jmonitoring.core.store.StoreManager;
 
 /**
@@ -32,8 +37,14 @@ public abstract aspect PerformanceAspect
     /** End of Parameters */
     private static ThreadLocal sManager = new ThreadLocal();
 
-    /** Allow the parameter log. */
-    protected boolean mLogParameter;
+    /** Allow to trace the parameter of a method. */
+    protected IParamaterTracer mParamTracer;
+
+    /** Allow to trace the returnValue of a method. */
+    protected IResultTracer mResultTracer;
+
+    /** Allow to trace the détail of an Exception. */
+    protected IThrowableTracer mThowableTracer;
 
     /** Nom du group associé au pointcut. */
     protected String mGroupName = "Default";
@@ -41,30 +52,26 @@ public abstract aspect PerformanceAspect
     /** Default constructor. */
     public PerformanceAspect()
     {
-        mLogParameter = true;//Configuration.LOG_METHOD_PARAMETER;
+        mParamTracer = new ToStringParametersTracer();
+        mResultTracer = new ToStringResultTracer();
+        mThowableTracer = new DefaultExceptionTracer();
         mLog = LogFactory.getLog(this.getClass());
-        
+
     }
 
     pointcut executionToLogInternal() : executionToLog() 
-        && !within(org.jmonitoring.core.*.*); 
-//        && !within(org.jmonitoring.core.store.MeasurePointManager);
+        && !within(org.jmonitoring.core.*.*);
 
     Object around() : executionToLogInternal()
     {
         Object tResult = null;
         StoreManager tManager = getManager();
         Signature tSig = thisJoinPointStaticPart.getSignature();
-        Object [] tArgs = null;
-        if (mLogParameter)
-        { // On log les paramètres d'appel, de retour et les exceptions
-            tArgs = thisJoinPoint.getArgs();
-        }
         try
         {
             if (tManager != null)
             {
-                tManager.logBeginOfMethod(tSig, tArgs, mGroupName, thisJoinPoint.getTarget());
+                tManager.logBeginOfMethod(tSig, mParamTracer, thisJoinPoint.getArgs(), mGroupName, thisJoinPoint.getTarget());
             } else
             {
                 mLog.error("executionToLogInternal Impossible de logger l'entrée de la methode");
@@ -78,13 +85,8 @@ public abstract aspect PerformanceAspect
         {
             if (tManager != null)
             {
-                if (mLogParameter)
-                {
-                    tManager.logEndOfMethodNormal(tResult);
-                } else
-                {
-                    tManager.logEndOfMethodNormal(null);
-                }
+                tManager.logEndOfMethodNormal(mResultTracer, tResult);
+
             } else
             {
                 mLog.error("executionToLogInternal Impossible de logger la sortie de la methode");
@@ -101,7 +103,7 @@ public abstract aspect PerformanceAspect
         try
         {
             StoreManager tManager = getManager();
-            tManager.logEndOfMethodWithException(t);
+            tManager.logEndOfMethodWithException(mThowableTracer, t);
         } catch (Throwable tT)
         {
             mLog.error("Unable to log execution Throwable");
@@ -121,7 +123,6 @@ public abstract aspect PerformanceAspect
         {
             try
             {
-                // tResult = (Log4jMethodCaller) mLoggerClass.getConstructor(new Class[0]).newInstance(new Object[0]);
                 tResult = new StoreManager();
                 sManager.set(tResult);
             } catch (Exception e)

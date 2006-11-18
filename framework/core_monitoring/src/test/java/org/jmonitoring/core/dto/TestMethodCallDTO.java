@@ -1,9 +1,8 @@
 package org.jmonitoring.core.dto;
 
-import org.jmonitoring.core.dao.TestExecutionFlowDAO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-
 import junit.framework.TestCase;
+
+import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 
 public class TestMethodCallDTO extends TestCase
 {

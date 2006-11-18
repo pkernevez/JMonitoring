@@ -78,7 +78,7 @@ public class MethodCallPO
      * @param pParameters The parameters passed to the method <code>pMethodName</code>.
      */
     public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName,
-                        Object[] pParameters)
+                        String pParameters)
     {
         if (pParent != null)
         { // On chaine la hierachie
@@ -87,37 +87,10 @@ public class MethodCallPO
         mClassName = pClassName;
         mMethodName = pMethodName;
         mBeginTime = System.currentTimeMillis();
-        mParams = getParamsAsString(pParameters, pClassName, pMethodName);
+        mParams = pParameters;
         mGroupName = pGroupName;
     }
 
-    private String getParamsAsString(Object[] pParams, String pClassName, String pMethodName)
-    {
-        StringBuffer tBuffer = new StringBuffer();
-        try
-        {
-            if (pParams != null)
-            {
-                boolean tFistTime = true;
-                tBuffer.append("[");
-                for (int i = 0; i < pParams.length; i++)
-                {
-                    if (!tFistTime)
-                    {
-                        tBuffer.append(", ");
-                    }
-                    tBuffer.append("" + pParams[i]);
-                    tFistTime = false;
-                }
-                tBuffer.append("]");
-            }
-        } catch (Throwable tT)
-        {
-            sLog.error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
-        }
-        return tBuffer.toString();
-
-    }
 
     public void addChildren(MethodCallPO pChild)
     {
@@ -371,7 +344,7 @@ public class MethodCallPO
      * 
      * @return Returns the mParent.
      */
-    private MethodCallPO getParent()
+    MethodCallPO getParent()
     {
         return mParent;
     }
@@ -381,7 +354,7 @@ public class MethodCallPO
      * 
      * @param pParent The mParent to set.
      */
-    private void setParent(MethodCallPO pParent)
+    void setParent(MethodCallPO pParent)
     {
         mParent = pParent;
     }

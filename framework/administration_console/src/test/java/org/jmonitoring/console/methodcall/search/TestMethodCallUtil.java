@@ -114,15 +114,15 @@ public class TestMethodCallUtil extends PersistanceTestCase
         long tStartTime = System.currentTimeMillis();
 
         tPoint = new MethodCallPO(null, TestMethodCallUtil.class.getName(), "builNewFullFlow", "GrDefault",
-            new Object[0]);
+            "[]");
         tPoint.setBeginTime(tStartTime);
 
         tSubPoint = new MethodCallPO(tPoint, TestMethodCallUtil.class.getName(), "builNewFullFlow2", "GrChild1",
-            new Object[0]);
+            "[]");
         tSubPoint.setEndTime(System.currentTimeMillis());
 
         new MethodCallPO(tPoint, TestMethodCallUtil.class.getName(), "builNewFullFlow3", "GrChild2",
-            new Object[0]);
+            "[]");
         tPoint.setEndTime(tStartTime + 20);
         tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
         return tFlow;

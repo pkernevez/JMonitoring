@@ -5,6 +5,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.info.ToStringResultTracer;
 import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
@@ -25,7 +26,7 @@ public class TestStoreManager extends TestCase
 
     private void callOneExecutionFlow(boolean pLogDebugEnabled) throws InterruptedException
     {
-        //Check the count
+        // Check the count
         MockAbstractAsynchroneLogger.clear();
         AspectLoggerEmulator.clear();
         assertEquals(0, MockAbstractAsynchroneLogger.getNbPublish());
@@ -41,7 +42,7 @@ public class TestStoreManager extends TestCase
 
     private void callOneExecutionFlowWithExceptionInMain(boolean pLogDebugEnabled) throws InterruptedException
     {
-        //Check the count
+        // Check the count
         MockAbstractAsynchroneLogger.clear();
         AspectLoggerEmulator.clear();
         assertEquals(0, MockAbstractAsynchroneLogger.getNbPublish());
@@ -56,8 +57,8 @@ public class TestStoreManager extends TestCase
     }
 
     /**
-     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because of
-     * the cost of a toString method on complexe objects.
+     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because
+     * of the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc
      */
@@ -65,21 +66,23 @@ public class TestStoreManager extends TestCase
     {
         callOneExecutionFlow(true);
 
-        //Now check the number of toString called
+        // Now check the number of toString called
         assertEquals(3, AspectLoggerEmulator.Param.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
+        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace return value of call.Pour faire planter un appelMain", tErrors.get(0));
+        assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult] "
+            + "with tracer=[org.jmonitoring.core.info.ToStringResultTracer]Pour faire planter un appelMain",
+            (String) tErrors.get(0));
     }
 
     /**
-     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because of
-     * the cost of a toString method on complexe objects.
+     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because
+     * of the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc
      */
@@ -88,21 +91,23 @@ public class TestStoreManager extends TestCase
         callOneExecutionFlow(false);
 
         Configuration.getInstance().setLogMethodParameter(false);
-        //Now check the number of toString called
+        // Now check the number of toString called
         assertEquals(3, AspectLoggerEmulator.Param.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
+        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace return value of call.Pour faire planter un appelMain", tErrors.get(0));
+        assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult]"
+            + " with tracer=[org.jmonitoring.core.info.ToStringResultTracer]Pour faire planter un appelMain",
+            (String) tErrors.get(0));
     }
 
     /**
-     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because of
-     * the cost of a toString method on complexe objects.
+     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because
+     * of the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc
      */
@@ -110,19 +115,19 @@ public class TestStoreManager extends TestCase
     {
         callOneExecutionFlowWithExceptionInMain(true);
 
-        //Now check the number of toString called
+        // Now check the number of toString called
         assertEquals(5, AspectLoggerEmulator.Param.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
+        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
     /**
-     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because of
-     * the cost of a toString method on complexe objects.
+     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because
+     * of the cost of a toString method on complexe objects.
      * 
      * @throws InterruptedException no doc
      */
@@ -130,13 +135,13 @@ public class TestStoreManager extends TestCase
     {
         callOneExecutionFlowWithExceptionInMain(false);
 
-        //Now check the number of toString called
+        // Now check the number of toString called
         assertEquals(5, AspectLoggerEmulator.Param.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer)StoreManager.getLog()).mErrors;
+        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
@@ -147,5 +152,5 @@ public class TestStoreManager extends TestCase
         new StoreManager();
         new StoreManager(null, null);
     }
-    
+
 }
