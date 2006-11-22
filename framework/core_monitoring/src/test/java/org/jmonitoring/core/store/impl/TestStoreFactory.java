@@ -36,8 +36,8 @@ public class TestStoreFactory extends TestCase
         {
             assertEquals("org.jmonitoring.core.common.MeasureException", e.getClass().getName());
             assertEquals(
-                            "Unable to find constructor without parameter for class [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassWithoutConstructor]",
-                            e.getMessage());
+                "Unable to find constructor without parameter for class [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassWithoutConstructor]",
+                e.getMessage());
         }
     }
 
@@ -52,7 +52,9 @@ public class TestStoreFactory extends TestCase
         } catch (Exception e)
         {
             assertEquals("org.jmonitoring.core.common.MeasureException", e.getClass().getName());
-            assertEquals("Unable to find constructor without parameter for class [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassWithPrivateConstructor]", e.getMessage());
+            assertEquals(
+                "Unable to find constructor without parameter for class [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassWithPrivateConstructor]",
+                e.getMessage());
         }
     }
 
@@ -67,9 +69,8 @@ public class TestStoreFactory extends TestCase
         } catch (Exception e)
         {
             assertEquals("org.jmonitoring.core.common.MeasureException", e.getClass().getName());
-            assertEquals(
-                            "The writer : [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassNotWriter]" + " is not an instance of IStoreWriter",
-                            e.getMessage());
+            assertEquals("The writer : [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassNotWriter]"
+                + " is not an instance of IStoreWriter", e.getMessage());
         }
     }
 

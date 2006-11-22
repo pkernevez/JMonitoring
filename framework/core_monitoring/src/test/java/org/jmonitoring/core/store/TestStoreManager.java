@@ -5,7 +5,6 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.info.impl.ToStringResultTracer;
 import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;

@@ -216,7 +216,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
         assertEquals(1, tProcess.getListOfExecutionFlowDto(tCriterion).size());
-        
+
         tCriterion.setDurationMin(new Long(35));
         assertEquals(0, tProcess.getListOfExecutionFlowDto(tCriterion).size());
     }
@@ -386,8 +386,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
-        assertTrue(tFlowId>0);
-        
+        assertTrue(tFlowId > 0);
+
         ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
         byte[] tFlowAsXml = tProcess.getFlowAsXml(tFlowDto);
         assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
@@ -402,7 +402,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
 
         int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
-        assertTrue(tFlowId>0);
+        assertTrue(tFlowId > 0);
         getSession().flush();
 
         ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
@@ -452,7 +452,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         // ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
         byte[] tFlowAsBytes = tProcess.getFlowAsXml(tFlowDto);
-        ExecutionFlowDTO tNewFlow =tProcess.insertFlowFromXml(tFlowAsBytes); 
+        ExecutionFlowDTO tNewFlow = tProcess.insertFlowFromXml(tFlowAsBytes);
         assertTrue("The Id must be different [" + tFlowId + "]", tFlowId != tNewFlow.getId());
     }
 }

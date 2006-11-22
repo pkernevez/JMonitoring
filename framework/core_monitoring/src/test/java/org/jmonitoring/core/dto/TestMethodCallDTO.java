@@ -44,26 +44,26 @@ public class TestMethodCallDTO extends TestCase
 
     public void testDurationFromPreviousCall()
     {
-        ExecutionFlowDTO tFlow=DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
+        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
         MethodCallDTO tParentMeth = tFlow.getFirstMethodCall();
-        
+
         assertEquals(0, tParentMeth.getDurationFromPreviousCall());
-        
-        MethodCallDTO curMeth=tParentMeth.getChild(0);
+
+        MethodCallDTO curMeth = tParentMeth.getChild(0);
         assertEquals(2, curMeth.getDurationFromPreviousCall());
-        
-        curMeth=tParentMeth.getChild(1);
+
+        curMeth = tParentMeth.getChild(1);
         assertEquals(3, curMeth.getDurationFromPreviousCall());
-        
+
         tParentMeth = tParentMeth.getChild(1);
-        curMeth=tParentMeth.getChild(0);
+        curMeth = tParentMeth.getChild(0);
         assertEquals(6, curMeth.getDurationFromPreviousCall());
-        
-        curMeth=tParentMeth.getChild(1);
+
+        curMeth = tParentMeth.getChild(1);
         assertEquals(1, curMeth.getDurationFromPreviousCall());
-        
+
         tParentMeth = tParentMeth.getChild(1);
-        curMeth=tParentMeth.getChild(0);
+        curMeth = tParentMeth.getChild(0);
         assertEquals(10, curMeth.getDurationFromPreviousCall());
     }
 }

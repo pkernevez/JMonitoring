@@ -11,7 +11,7 @@ import org.jmonitoring.core.store.AspectLoggerEmulator;
 
 /**
  * @author pke
- *  
+ * 
  */
 public class TestAbstractAsynchroneLogger extends TestCase
 {
@@ -33,12 +33,12 @@ public class TestAbstractAsynchroneLogger extends TestCase
      */
     public void testAsynchronePublication() throws InterruptedException
     {
-        //Check the count
+        // Check the count
         assertEquals(0, MockAbstractAsynchroneLogger.getNbPublish());
         assertEquals(0, MockAbstractAsynchroneLogger.getNbLog());
 
         AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockAbstractAsynchroneLogger());
-        //Log NB_FLOW_TO_LOG
+        // Log NB_FLOW_TO_LOG
         for (int i = 0; i < NB_FLOW_TO_LOG; i++)
         {
             tEmulator.simulateExecutionFlow(true);

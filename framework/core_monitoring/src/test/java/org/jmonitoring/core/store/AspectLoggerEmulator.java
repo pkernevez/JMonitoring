@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.info.IThrowableTracer;
 import org.jmonitoring.core.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.core.info.impl.ToStringParametersTracer;
 import org.jmonitoring.core.info.impl.ToStringResultTracer;

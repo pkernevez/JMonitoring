@@ -4,10 +4,9 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
+/***********************************************************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
+ **********************************************************************************************************************/
 
 public class TestExecutionFlowDTO extends TestCase
 {

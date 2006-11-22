@@ -11,10 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.apache.commons.lang.StringUtils;
-import org.jmonitoring.core.info.impl.TreeTracerHelper;
-
 import junit.framework.TestCase;
+
+import org.apache.commons.lang.StringUtils;
 
 public class TestTreeTracerHelper extends TestCase
 {
@@ -39,7 +38,7 @@ public class TestTreeTracerHelper extends TestCase
         {
             return new Mother();
         }
-        
+
         public Date getBidon()
         {
             return mBidon;
@@ -156,17 +155,17 @@ public class TestTreeTracerHelper extends TestCase
         {
             return this.getClass().getClassLoader();
         }
-        
+
         private Child2 getChildPrivate()
         {
             return mChild2;
         }
-        
+
         protected Child2 getChildProtected()
         {
             return mChild2;
         }
-        
+
         public Child2 getChild2()
         {
             return mChild2;
@@ -514,15 +513,14 @@ public class TestTreeTracerHelper extends TestCase
     {
         int curModifier = Modifier.FINAL;
         assertEquals(0, Modifier.STATIC & curModifier);
-        curModifier=curModifier+Modifier.PUBLIC;
+        curModifier = curModifier + Modifier.PUBLIC;
         assertEquals(0, Modifier.STATIC & curModifier);
-        curModifier=curModifier+Modifier.TRANSIENT;
+        curModifier = curModifier + Modifier.TRANSIENT;
         assertEquals(0, Modifier.STATIC & curModifier);
-        assertTrue((Modifier.FINAL & curModifier)>0);
-        curModifier=curModifier+Modifier.STATIC;
-        assertTrue((Modifier.STATIC& curModifier)>0);
-        
+        assertTrue((Modifier.FINAL & curModifier) > 0);
+        curModifier = curModifier + Modifier.STATIC;
+        assertTrue((Modifier.STATIC & curModifier) > 0);
+
     }
 
-    
 }

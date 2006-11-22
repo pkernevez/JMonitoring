@@ -7,7 +7,6 @@ package org.jmonitoring.core.dto;
 
 import junit.framework.TestCase;
 
-
 /**
  * @author pke
  * 
@@ -25,15 +24,20 @@ public class TestMethodCallExtractDTO extends TestCase
         assertEquals(3, tExtract.getOccurenceNumber());
     }
 
-    public void testGetFullName() {
-        assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO.getFullName("net.jmonitoring.Test", "getMeth"));
-        assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO.getFullName("net.jmonitoring.Test", ".getMeth"));
-        assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO.getFullName("net.jmonitoring.Test.", ".getMeth"));
+    public void testGetFullName()
+    {
+        assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO
+            .getFullName("net.jmonitoring.Test", "getMeth"));
+        assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO.getFullName("net.jmonitoring.Test",
+            ".getMeth"));
+        assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO.getFullName("net.jmonitoring.Test.",
+            ".getMeth"));
     }
 
-     public void testGetGroupName() {
-         assertEquals("Ceci est un group", MethodCallExtractDTO.getGroupName("Ceci est un group"));
-         assertEquals("Ceciestungroup", MethodCallExtractDTO.getGroupName("Ceci.est.un..group"));
+    public void testGetGroupName()
+    {
+        assertEquals("Ceci est un group", MethodCallExtractDTO.getGroupName("Ceci est un group"));
+        assertEquals("Ceciestungroup", MethodCallExtractDTO.getGroupName("Ceci.est.un..group"));
     }
 
 }

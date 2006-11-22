@@ -41,7 +41,7 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getRuntimeClassName());
 
         assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getChild(0).getClassName());
-        assertEquals(TestExecutionFlowDAO.class.getName()+"iuiu", tMeth.getChild(0).getRuntimeClassName());
+        assertEquals(TestExecutionFlowDAO.class.getName() + "iuiu", tMeth.getChild(0).getRuntimeClassName());
 
         assertEquals("builNewFullFlow", tMeth.getMethodName());
         assertEquals("GrDefault", tMeth.getGroupName());
