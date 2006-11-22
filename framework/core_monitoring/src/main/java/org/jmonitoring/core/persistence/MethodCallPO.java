@@ -20,10 +20,12 @@ import org.apache.commons.logging.LogFactory;
 public class MethodCallPO
 {
 
+    private static final int MAX_STRING_SIZE = 65000;
+
     private static Log sLog = LogFactory.getLog(MethodCallPO.class);
 
     private MethodCallPK mId;
-    
+
     /** Flow Technical Id. */
     private ExecutionFlowPO mFlow;
 
@@ -90,7 +92,6 @@ public class MethodCallPO
         mParams = pParameters;
         mGroupName = pGroupName;
     }
-
 
     public void addChildren(MethodCallPO pChild)
     {
@@ -290,10 +291,17 @@ public class MethodCallPO
 
     /**
      * @param pReturnValue The mReturnValue to set.
+     * @todo Write a test for MAX_STRING_SIZE
      */
     public void setReturnValue(String pReturnValue)
     {
-        mReturnValue = pReturnValue;
+        if (pReturnValue != null && pReturnValue.length() > MAX_STRING_SIZE)
+        {
+            mReturnValue = pReturnValue.substring(MAX_STRING_SIZE);
+        } else
+        {
+            mReturnValue = pReturnValue;
+        }
     }
 
     /**
@@ -328,7 +336,13 @@ public class MethodCallPO
      */
     public void setParams(String pParams)
     {
-        mParams = pParams;
+        if (pParams!=null && pParams.length() > MAX_STRING_SIZE)
+        {
+            mParams = pParams.substring(MAX_STRING_SIZE);
+        } else
+        {
+            mParams = pParams;
+        }
     }
 
     /**
@@ -424,5 +438,5 @@ public class MethodCallPO
     {
         mRuntimeClassName = pRuntimeClassName;
     }
-    
+
 }

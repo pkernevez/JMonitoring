@@ -9,12 +9,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.info.DefaultExceptionTracer;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
-import org.jmonitoring.core.info.ToStringParametersTracer;
-import org.jmonitoring.core.info.ToStringResultTracer;
+import org.jmonitoring.core.info.impl.DefaultExceptionTracer;
+import org.jmonitoring.core.info.impl.ToStringParametersTracer;
+import org.jmonitoring.core.info.impl.ToStringResultTracer;
 import org.jmonitoring.core.store.StoreManager;
 
 /**

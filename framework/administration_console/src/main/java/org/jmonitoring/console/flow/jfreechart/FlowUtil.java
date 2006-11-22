@@ -129,6 +129,7 @@ public class FlowUtil
             ChartUtilities.writeChartAsPNG(tStream, pChart, 460, 360);
         } catch (IOException e)
         {
+            sLog.error(e);
             throw new MeasureException("Unable to write Image", e);
         }
         pSession.setAttribute(pName, tStream.toByteArray());

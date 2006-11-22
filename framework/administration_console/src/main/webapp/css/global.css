@@ -285,6 +285,7 @@ table.mark td.tableCellError {
 table.presentation {
 	border: 0px; 
 	margin: 0 0 0 0;
+	width: 10%;
 }
 
 td.group {
@@ -362,4 +363,9 @@ span.curDuration {
 
 td.title {
     width :10%;
+}
+
+pre.parameters {
+    font-weight:bolder;
+    background-color: #EEE;
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.info.ToStringResultTracer;
+import org.jmonitoring.core.info.impl.ToStringResultTracer;
 import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
@@ -76,7 +76,7 @@ public class TestStoreManager extends TestCase
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
         assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult] "
-            + "with tracer=[org.jmonitoring.core.info.ToStringResultTracer]Pour faire planter un appelMain",
+            + "with tracer=[org.jmonitoring.core.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
             (String) tErrors.get(0));
     }
 
@@ -101,7 +101,7 @@ public class TestStoreManager extends TestCase
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
         assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult]"
-            + " with tracer=[org.jmonitoring.core.info.ToStringResultTracer]Pour faire planter un appelMain",
+            + " with tracer=[org.jmonitoring.core.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
             (String) tErrors.get(0));
     }
 

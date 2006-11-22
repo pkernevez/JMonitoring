@@ -16,7 +16,7 @@
 <table border="0" class="presentation">
 	<tr title="This class can be different of the full classname if the runtime instance is a child of the Weaving class." >
 		<td class="title" NOWRAP>Runtime class name:</td>
-		<td class="content" NOWRAP colSpan="2"><b><bean:write format="" name="methodcallform" property="methodCall.runtimeClassB"/></b></td>
+		<td class="content" NOWRAP colSpan="2"><b><bean:write format="" name="methodcallform" property="methodCall.runtimeClassName"/></b></td>
 	</tr>
 	<tr>
 		<td class="title" NOWRAP>Duration:</td>
@@ -64,17 +64,17 @@
 	<tr>
 		<td NOWRAP></td>
 		<td NOWRAP colSpan="2"></td>
-	</tr></>
+	</tr>
 	<tr>
-		<td NOWRAP>Param:</td>
-		<td colSpan="2"><b><bean:write name="methodcallform" property="methodCall.params"/></b></td>
+		<td NOWRAP>Params:</td>
+		<td colSpan="2"><pre class="parameters"><bean:write name="methodcallform" property="methodCall.params"/></pre></td>
 	</tr>
 
 	<!-- End of method Normal -->
 	<logic:notEmpty name="methodcallform" property="methodCall.returnValue">
 		<tr>
 			<td NOWRAP>Result:</td>
-			<td colSpan="2"><b><bean:write name="methodcallform" property="methodCall.returnValue"/></b></td>
+			<td colSpan="2"><pre class="parameters"><bean:write name="methodcallform" property="methodCall.returnValue"/></pre></td>
 		</tr>
 	</logic:notEmpty> 
 	

@@ -6,6 +6,8 @@ package org.jmonitoring.sample.aspect;
  **************************************************************************/
 
 import org.jmonitoring.core.aspects.PerformanceAspect;
+import org.jmonitoring.core.info.impl.TreeParameterTracer;
+import org.jmonitoring.core.info.impl.TreeResultTracer;
 
 /**
  * @author pke
@@ -21,8 +23,8 @@ public aspect SqlAccessAspect extends PerformanceAspect
     public SqlAccessAspect()
     {
         mGroupName = "SQL";
-        mParamTracer = null;
-        mResultTracer = null;
+        mParamTracer = new TreeParameterTracer();
+        mResultTracer = new TreeResultTracer();
     }
 
 }

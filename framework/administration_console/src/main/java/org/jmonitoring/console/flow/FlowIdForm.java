@@ -15,7 +15,7 @@ public class FlowIdForm extends ActionForm
     /**
      * @return Returns the id.
      */
-    protected int getId()
+    public int getId()
     {
         return mId;
     }

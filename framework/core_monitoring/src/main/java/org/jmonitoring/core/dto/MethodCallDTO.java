@@ -19,6 +19,8 @@ import org.jmonitoring.core.configuration.Configuration;
 public class MethodCallDTO implements Serializable
 {
 
+    private static final long serialVersionUID = -497249515537353769L;
+
     /** Flow Technical Id. */
     private int mFlowId;
 

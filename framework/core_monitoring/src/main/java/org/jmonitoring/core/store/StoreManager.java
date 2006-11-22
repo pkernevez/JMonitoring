@@ -63,7 +63,8 @@ public class StoreManager
      * @param pGroupName The name of the group associated with this <code>MethodCallDTO</code>.
      * @param pTarget The targeted object of this call.
      */
-    public void logBeginOfMethod(Signature pSignature, IParamaterTracer pTracer, Object[] pArgs, String pGroupName, Object pTarget)
+    public void logBeginOfMethod(Signature pSignature, IParamaterTracer pTracer, Object[] pArgs, String pGroupName,
+                    Object pTarget)
     {
         String tArgs;
         try
@@ -76,7 +77,7 @@ public class StoreManager
             sLog.error("Unable to getArguments of class=[" + tClassName + "] and method=[" + tMethodName + "]", tT);
             tArgs = "";
         }
-        
+
         if (mCurrentLogPoint == null)
         { // Premier appel du Thread
             if (sLog.isDebugEnabled())
@@ -95,7 +96,7 @@ public class StoreManager
             mCurrentLogPoint = new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
                 pGroupName, tArgs);
         }
-        if (!pTarget.getClass().equals(pSignature.getDeclaringType()))
+        if (pTarget != null && !pTarget.getClass().equals(pSignature.getDeclaringType()))
         {
             mCurrentLogPoint.setRuntimeClassName(pTarget.getClass().getName());
         }
@@ -114,10 +115,9 @@ public class StoreManager
             tResultAsString = (pTracer == null ? null : pTracer.convertToString(pResult));
         } catch (Throwable tT)
         {
-            String tClassName = (pResult==null?"":pResult.getClass().getName());
-            String tTracerClassName = (pTracer==null?"":pTracer.getClass().getName());
-            sLog.error("Unable to trace class=[" + tClassName + "] with tracer=["+tTracerClassName+"]",
-                tT);
+            String tClassName = (pResult == null ? "" : pResult.getClass().getName());
+            String tTracerClassName = (pTracer == null ? "" : pTracer.getClass().getName());
+            sLog.error("Unable to trace class=[" + tClassName + "] with tracer=[" + tTracerClassName + "]", tT);
             tResultAsString = "";
         }
         // To limit call to toString on business object, that could be expensive
