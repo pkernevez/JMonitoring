@@ -8,7 +8,7 @@ import org.apache.taglibs.standard.lang.jpath.encoding.HtmlEncoder;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class FlowAsStackUtilTest extends TestCase
+public class TestFlowAsStackUtil extends TestCase
 {
 
     public void testHtmlEncode()

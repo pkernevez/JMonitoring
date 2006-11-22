@@ -23,7 +23,7 @@ public class FlowIdForm extends ActionForm
     /**
      * @param pId The id to set.
      */
-    protected void setId(int pId)
+    public void setId(int pId)
     {
         mId = pId;
     }

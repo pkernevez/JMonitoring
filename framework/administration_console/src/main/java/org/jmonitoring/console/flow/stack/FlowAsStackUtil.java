@@ -108,13 +108,14 @@ public class FlowAsStackUtil
         if (pCurrentMethod.getChildren().length > 0)
         { // On crée un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
-            pHtmlBuffer.append("<li>\n<span class=\"prevDuration\" title=\"Since prev MethodCall\">[->");
-            pHtmlBuffer.append( pCurrentMethod.getDurationFromPreviousCall() + "]</span>");
-            pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
-            pHtmlBuffer.append(tDuration+"]</span>");
+            pHtmlBuffer.append("<li>\n");
             pHtmlBuffer.append("<a href=\"#\" id=\"");
             pHtmlBuffer.append( pCurrentMethod.getPosition() + "Actuator\"");
             pHtmlBuffer.append(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">");
+            pHtmlBuffer.append("<span class=\"prevDuration\" title=\"Since prev MethodCall\">[->");
+            pHtmlBuffer.append( pCurrentMethod.getDurationFromPreviousCall() + "]</span>");
+            pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
+            pHtmlBuffer.append(tDuration+"]</span>");
             pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMethod) + "</a>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "\n");
             pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getPosition() + "Menu\" class=\"submenu\">\n");

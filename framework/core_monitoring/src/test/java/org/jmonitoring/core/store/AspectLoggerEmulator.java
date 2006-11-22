@@ -52,15 +52,18 @@ public class AspectLoggerEmulator
 
         Signature tSignature;
         tSignature = new MockSignature("mainMethod", Parent.class);
-        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(),new Object[] {new Param() } , "Parent", new Parent());
+        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Parent",
+            new Parent());
         tSignature = new MockSignature("child1", Child1.class);
-        tManager.logBeginOfMethod(tSignature,new ToStringParametersTracer(), null, "Child1", new Child1());
+        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), null, "Child1", new Child1());
         tSignature = new MockSignature("child2", Child1.class);
-        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(),new Object[] {new Param() }, "Child1", new Child1());
+        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child1",
+            new Child1());
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new NormalResult()); // child1_1
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), null); // child1_2
         tSignature = new MockSignature("child1", Child2.class);
-        tManager.logBeginOfMethod(tSignature,new ToStringParametersTracer(),new Object[] {new Param() }, "Child2", new Child2()); // child2_1
+        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child2",
+            new Child2()); // child2_1
         tManager.logEndOfMethodWithException(new DefaultExceptionTracer(), new Exception("Funny Exception"));
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new ExceptionResult("Main")); // mainMethod
     }
@@ -78,11 +81,13 @@ public class AspectLoggerEmulator
         tSignature = new MockSignature("child1", Child1.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), null, "Child1", new Child1());
         tSignature = new MockSignature("child2", Child1.class);
-        tManager.logBeginOfMethod(tSignature,new ToStringParametersTracer(),  new Object[] {new Param() }, "Child1", new Child1());
+        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child1",
+            new Child1());
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), null); // child1_1
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new NormalResult()); // child1_2
         tSignature = new MockSignature("child1", Child2.class);
-        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child2", new Child2()); // child2_1
+        tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child2",
+            new Child2()); // child2_1
         tManager.logEndOfMethodWithException(new DefaultExceptionTracer(), null);
         tManager.logEndOfMethodWithException(new DefaultExceptionTracer(), new Exception("Funny Exception2")); // mainMethod
     }
