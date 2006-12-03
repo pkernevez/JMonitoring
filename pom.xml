@@ -17,7 +17,7 @@
     <description>This project provides JMonitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/</connection>
-        <url>https://forge.octo.com/</url>
+        <url>https://forge.octo.com/svn</url>
     </scm>
   
     <issueManagement>

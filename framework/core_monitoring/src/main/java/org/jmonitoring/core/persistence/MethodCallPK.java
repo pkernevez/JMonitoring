@@ -71,4 +71,9 @@ public class MethodCallPK implements Serializable
         return true;
     }
 
+    public String toString()
+    {
+        return "FlowId=["+mFlow.getId()+"] et IndexInFlow=["+mPosition+"]";
+    }
+
 }
