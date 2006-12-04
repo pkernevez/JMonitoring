@@ -35,7 +35,7 @@ namespace Org.NMonitoring.SampleTarget
             }
             if ("3".Equals(pItem.getID()))
             {
-                throw new Exception("Pour declancher une exception sur item3");
+                throw new ApplicationException("Pour declancher une exception sur item3");
             }
             //*
             mItems.Add(pItem);

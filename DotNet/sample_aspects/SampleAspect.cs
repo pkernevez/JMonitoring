@@ -8,51 +8,51 @@ namespace sample_aspects
     {
         public static object Inventory(OperationJoinPoint jp)
         {
-            mGroupName = "GpeInventory";
-            mLogParameter = true;
+            GroupName = "GpeInventory";
+            LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.executionToLogInternal(jp);
+            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
         }
 
         public static object Item(OperationJoinPoint jp)
         {
-            mGroupName = "GpeItem";
-            mLogParameter = true;
+            GroupName = "GpeItem";
+            LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.executionToLogInternal(jp);
+            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
         }
 
         public static object ShoppingCart(OperationJoinPoint jp)
         {
-            mGroupName = "GpeShoppingCart";
-            mLogParameter = true;
+            GroupName = "GpeShoppingCart";
+            LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.executionToLogInternal(jp);
+            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
         }
 
 
         public static object ShoppingCartOperator(OperationJoinPoint jp)
         {
-            mGroupName = "GpeShoppingCartOperator";
-            mLogParameter = true;
+            GroupName = "GpeShoppingCartOperator";
+            LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.executionToLogInternal(jp);
+            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
         }
 
         public static object SampleTarget(OperationJoinPoint jp)
         {
-            mGroupName = "GpeSampleTarget";
-            mLogParameter = true;
+            GroupName = "GpeSampleTarget";
+            LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.executionToLogInternal(jp);
+            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
         }
 
         public static object SimpleLogger(OperationJoinPoint jp)
         {
-            mGroupName = "GpeSimpleLogger";
-            mLogParameter = true;
+            GroupName = "GpeSimpleLogger";
+            LogParameter = true;
             
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.executionToLogInternal(jp);
+            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
         }
 
     }

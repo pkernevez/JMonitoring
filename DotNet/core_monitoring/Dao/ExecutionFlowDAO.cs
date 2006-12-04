@@ -3,21 +3,22 @@ using System.Data;
 using System.Text;
 
 using Org.NMonitoring.Core.Persistence;
+using Org.NMonitoring.Core.Common;
 
 namespace Org.NMonitoring.Core.Dao
 {
-    public class ExecutionFlowDAO
+    public class ExecutionFlowDao
     {
 
         private IDaoHelper _dao;
 
-        public ExecutionFlowDAO()
+        public ExecutionFlowDao()
         {
             //TODO : Injecter la dépendance
             _dao = DaoHelper.Instance;
         }
 
-        public void insertFullExecutionFlow(ExecutionFlowPO executionFlow)
+        public void InsertFullExecutionFlow(ExecutionFlowPO executionFlow)
         {
             _dao.Connection.Open();
             IDbTransaction trans = _dao.BeginTransaction();
@@ -29,12 +30,13 @@ namespace Org.NMonitoring.Core.Dao
                 saveRecursMethodCall(tFirstMeth, 0);
 
                 //relier le executionflaw avec le 1st method call
-                setFirstMethodCall(executionFlow, tFirstMeth);
+                SetFirstMethodCall(executionFlow, tFirstMeth);
                 trans.Commit();
             }
-            catch (Exception e)
+            catch (Exception externalException)
             {
                 trans.Rollback();
+                throw new NMonitoringException("Unable to write Execution Flow",externalException);
             }
             finally
             {
@@ -116,7 +118,6 @@ SELECT ID, THREAD_NAME, JVM, BEGIN_TIME, END_TIME, BEGIN_TIME_AS_DATE, DURATION,
                 cmd.Parameters.Add(_dao.CreateParameter("@JVM", executionFlow.ServerIdentifier));
                 cmd.Parameters.Add(_dao.CreateParameter("@BEGIN_TIME", executionFlow.BeginTime));
                 cmd.Parameters.Add(_dao.CreateParameter("@END_TIME", executionFlow.EndTime));
-                //TODO FCH  : Remplacer DataTime.Now() par la valeur
                 cmd.Parameters.Add(_dao.CreateParameter("@BEGIN_TIME_AS_DATE", Org.NMonitoring.Core.Common.Util.TimeMillisToDate(executionFlow.BeginTime)));
                 cmd.Parameters.Add(_dao.CreateParameter("@DURATION", executionFlow.Duration));
                 //cmd.Parameters.Add(_dao.CreateParameter("@FIRST_METHOD_CALL_ID", null));
@@ -128,7 +129,7 @@ SELECT ID, THREAD_NAME, JVM, BEGIN_TIME, END_TIME, BEGIN_TIME_AS_DATE, DURATION,
             }
         }
 
-        private void setFirstMethodCall(ExecutionFlowPO executionFlow, MethodCallPO firstMethodCall)
+        private void SetFirstMethodCall(ExecutionFlowPO executionFlow, MethodCallPO firstMethodCall)
         {
             if ((executionFlow != null) && (firstMethodCall != null))
             {
@@ -144,7 +145,7 @@ SELECT ID, THREAD_NAME, JVM, BEGIN_TIME, END_TIME, BEGIN_TIME_AS_DATE, DURATION,
 
                 cmd.ExecuteNonQuery();
                 if (cmd.ExecuteNonQuery() != 1)
-                    throw new Exception("The count of updated rows is not equal to 1");
+                    throw new NMonitoringException("The count of updated rows is not equal to 1");
 
             }
         }

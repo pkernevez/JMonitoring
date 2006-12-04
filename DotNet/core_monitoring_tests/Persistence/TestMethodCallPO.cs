@@ -23,7 +23,7 @@ namespace Org.NMonitoring.Core.Persistence.Tests
             Assert.AreEqual(1, tParent.Children.Count);
             Assert.AreSame(tParent, tChild.Parent);
 
-            tParent.removeChildren(tChild);
+            tParent.RemoveChildren(tChild);
             Assert.IsNull(tParent.Parent);
             Assert.AreEqual(0, tParent.Children.Count);
             Assert.IsNull(tChild.Parent);
@@ -32,7 +32,7 @@ namespace Org.NMonitoring.Core.Persistence.Tests
         [Test]
         public void testUpdateChildrenWhenAddParent()
         {
-            MethodCallPO tParent = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow", "GrDefault",
+           MethodCallPO tParent = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow", "GrDefault",
                             new System.Reflection.ParameterInfo[0]);
 
             MethodCallPO tChild = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow2",

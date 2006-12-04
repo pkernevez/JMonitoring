@@ -1,0 +1,659 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FxCopProject Version="1.35" Name="My FxCop Project">
+ <ProjectOptions>
+  <SharedProject>True</SharedProject>
+  <Stylesheet Apply="False">http://www.gotdotnet.com/team/fxcop//xsl/1.35/FxCopReport.xsl</Stylesheet>
+  <SaveMessages>
+   <Project Status="Active, Excluded, Absent" NewOnly="False" />
+   <Report Status="Active" NewOnly="False" />
+  </SaveMessages>
+  <ProjectFile Compress="True" DefaultTargetCheck="True" DefaultRuleCheck="True" SaveByRuleGroup="" Deterministic="True" />
+  <EnableMultithreadedLoad>True</EnableMultithreadedLoad>
+  <EnableMultithreadedAnalysis>True</EnableMultithreadedAnalysis>
+  <SourceLookup>True</SourceLookup>
+  <AnalysisExceptionsThreshold>100000</AnalysisExceptionsThreshold>
+  <RuleExceptionsThreshold>100000</RuleExceptionsThreshold>
+  <Spelling Locale="en-us" />
+  <VersionAware>False</VersionAware>
+  <OverrideRuleVisibilities>False</OverrideRuleVisibilities>
+  <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
+  <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
+  <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
+ </ProjectOptions>
+ <Targets>
+  <Target Name="$(ProjectDir)/core_monitoring/bin/Debug/core_monitoring.dll" Analyze="True" AnalyzeAllChildren="True" />
+ </Targets>
+ <Rules>
+  <RuleFiles>
+   <RuleFile Name="$(FxCopDir)\Rules\DesignRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\GlobalizationRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\InteroperabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\MobilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\NamingRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PerformanceRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PortabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\UsageRules.dll" Enabled="True" AllRulesEnabled="True" />
+  </RuleFiles>
+  <Groups />
+  <Settings />
+ </Rules>
+ <FxCopReport Version="1.35">
+  <Namespaces>
+   <Namespace Name="Org.NMonitoring.Core.Aspect">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-10 07:32:51Z">
+      <Issue>
+       <Item>Org.NMonitoring.Core.Aspect</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Org.NMonitoring.Core.Common">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-10 07:32:51Z">
+      <Issue>
+       <Item>Org.NMonitoring.Core.Common</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Org.NMonitoring.Core.Dao">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-10 07:32:51Z">
+      <Issue>
+       <Item>Org.NMonitoring.Core.Dao</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Org.NMonitoring.Core.Persistence">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-10 07:32:51Z">
+      <Issue>
+       <Item>Org.NMonitoring.Core.Persistence</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Org.NMonitoring.Core.Store">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-10 07:32:51Z">
+      <Issue>
+       <Item>Org.NMonitoring.Core.Store</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Org.NMonitoring.Core.Store.Impl">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-10 07:32:51Z">
+      <Issue>
+       <Item>Org.NMonitoring.Core.Store.Impl</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+  </Namespaces>
+  <Targets>
+   <Target Name="$(ProjectDir)/core_monitoring/bin/Debug/core_monitoring.dll">
+    <Modules>
+     <Module Name="core_monitoring.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldDeclareMinimumSecurity" Category="Microsoft.Usage" CheckId="CA2209" Created="2006-11-10 07:32:51Z">
+        <Issue>
+         <Item>core_monitoring</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2006-11-10 07:32:51Z">
+        <Issue Name="NoStrongName">
+         <Item>core_monitoring</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2006-11-10 07:32:51Z">
+        <Issue Name="NoAttr">
+         <Item>core_monitoring</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="Org.NMonitoring.Core.Aspect">
+        <Types>
+         <Type Name="PerformanceAspect">
+          <Messages>
+           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Created="2006-11-10 07:32:51Z">
+            <Issue>
+             <Item>PerformanceAspect</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name=".cctor()">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-10 07:32:51Z">
+              <Issue>
+               <Item>PerformanceAspect.PerformanceAspect()</Item>
+               <Item>logParameter</Item>
+               <Item>System.Boolean</Item>
+               <Item>false</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ExecutionToLogInternal(DotNetGuru.AspectDNG.Joinpoints.OperationJoinPoint):System.Object">
+            <Messages>
+             <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Absent" Created="2006-11-22 06:38:26Z">
+              <Issue>PerformanceAspect.ExecutionToLogInternal(OperationJoinPoint):Object rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Org.NMonitoring.Core.Common">
+        <Types>
+         <Type Name="NMonitoringException">
+          <Messages>
+           <Message TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032" Status="Absent" Created="2006-11-10 07:39:11Z">
+            <Issue>Add the following constructor to Org.NMonitoring.Core.Common.NMonitoringException: private NMonitoringException(SerializationInfo, StreamingContext).</Issue>
+           </Message>
+           <Message TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" Status="Absent" Created="2006-11-10 07:39:11Z">
+            <Issue Level="Error">Add [Serializable] to 'NMonitoringException' as this type implements ISerializable.</Issue>
+           </Message>
+           <Message Id="System.ApplicationException" TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058" Status="Absent" Created="2006-11-10 07:39:11Z">
+            <Issue>Change NMonitoringException's base type so that it no longer extends System.ApplicationException. This base exception type does not provide any additional value for framework classes. Extend System.Exception or an existing unsealed exception type instead. Do not create a new exception base type unless there is specific value in enabling the creation of a catch handler for an entire class of exceptions.</Issue>
+           </Message>
+          </Messages>
+         </Type>
+         <Type Name="Util">
+          <Messages>
+           <Message TypeName="TypeNamesShouldNotMatchNamespaces" Category="Microsoft.Naming" CheckId="CA1724" Created="2006-11-10 07:32:51Z">
+            <Issue>
+             <Item>Util</Item>
+             <Item>System.Web.Util</Item>
+            </Issue>
+           </Message>
+           <Message TypeName="StaticHolderTypesShouldBeSealed" Category="Microsoft.Design" CheckId="CA1052" Status="Absent" Created="2006-11-22 06:13:01Z">
+            <Issue>Mark 'Util' as sealed.</Issue>
+           </Message>
+           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Absent" Created="2006-11-10 07:32:51Z">
+            <Issue>Remove the public constructors from 'Util'.</Issue>
+           </Message>
+          </Messages>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Org.NMonitoring.Core.Configuration">
+        <Types>
+         <Type Name="ConfigurationManager">
+          <Members>
+           <Member Name=".ctor()">
+            <Messages>
+             <Message Id="Org.NMonitoring.Core.Common.NMonitoringException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-22 06:24:13Z">
+              <Issue>
+               <Item>ConfigurationManager.ConfigurationManager()</Item>
+               <Item>1</Item>
+               <Item>NMonitoringException.NMonitoringException(String)</Item>
+               <Item>Connection String "jmonitoringConnectionString" could not be found in file "____"</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Org.NMonitoring.Core.Dao">
+        <Types>
+         <Type Name="DaoHelper">
+          <Members>
+           <Member Name=".cctor()">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-10 07:32:51Z">
+              <Issue>
+               <Item>DaoHelper.DaoHelper()</Item>
+               <Item>mInitialized</Item>
+               <Item>System.Boolean</Item>
+               <Item>false</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name=".ctor()">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-10 07:32:51Z">
+              <Issue>
+               <Item>DaoHelper.DaoHelper()</Item>
+               <Item>_connection</Item>
+               <Item>System.Data.IDbConnection</Item>
+               <Item>null</Item>
+              </Issue>
+              <Issue>
+               <Item>DaoHelper.DaoHelper()</Item>
+               <Item>_transaction</Item>
+               <Item>System.Data.IDbTransaction</Item>
+               <Item>null</Item>
+              </Issue>
+             </Message>
+             <Message Id="Org.NMonitoring.Core.Common.NMonitoringException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-10 07:39:11Z">
+              <Issue>
+               <Item>DaoHelper.DaoHelper()</Item>
+               <Item>1</Item>
+               <Item>NMonitoringException.NMonitoringException(String)</Item>
+               <Item>Please call Initialize() before</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue>DaoHelper.DaoHelper() passes a literal as parameter 1 of a call to Exception.Exception(String). Retrieve the following string argument from a resource table instead: 'Please call Initialize() before'</Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue>DaoHelper.DaoHelper() creates an exception of type 'System.Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="CreateParameter(System.String,System.Object):System.Data.IDbDataParameter">
+            <Messages>
+             <Message Id="Org.NMonitoring.Core.Common.NMonitoringException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-10 07:39:11Z">
+              <Issue>
+               <Item>DaoHelper.CreateParameter(String, Object):IDbDataParameter</Item>
+               <Item>1</Item>
+               <Item>NMonitoringException.NMonitoringException(String)</Item>
+               <Item>Please call Initialize() before</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue>DaoHelper.CreateParameter(String, Object):IDbDataParameter passes a literal as parameter 1 of a call to Exception.Exception(String). Retrieve the following string argument from a resource table instead: 'Please call Initialize() before'</Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue>DaoHelper.CreateParameter(String, Object):IDbDataParameter creates an exception of type 'System.Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="ExecutionFlowDao">
+          <Members>
+           <Member Name="InsertFullExecutionFlow(Org.NMonitoring.Core.Persistence.ExecutionFlowPO):System.Void">
+            <Messages>
+             <Message Id="Org.NMonitoring.Core.Common.NMonitoringException.#ctor(System.String,System.Exception)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-22 06:44:36Z">
+              <Issue>
+               <Item>ExecutionFlowDao.InsertFullExecutionFlow(ExecutionFlowPO):Void</Item>
+               <Item>1</Item>
+               <Item>NMonitoringException.NMonitoringException(String, Exception)</Item>
+               <Item>Unable to write Execution Flow</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="SetFirstMethodCall(Org.NMonitoring.Core.Persistence.ExecutionFlowPO,Org.NMonitoring.Core.Persistence.MethodCallPO):System.Void">
+            <Messages>
+             <Message Id="Org.NMonitoring.Core.Common.NMonitoringException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-22 06:44:36Z">
+              <Issue>
+               <Item>ExecutionFlowDao.SetFirstMethodCall(ExecutionFlowPO, MethodCallPO):Void</Item>
+               <Item>1</Item>
+               <Item>NMonitoringException.NMonitoringException(String)</Item>
+               <Item>The count of updated rows is not equal to 1</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Org.NMonitoring.Core.Persistence">
+        <Types>
+         <Type Name="ExecutionFlowPO">
+          <Members>
+           <Member Name=".ctor(System.String,Org.NMonitoring.Core.Persistence.MethodCallPO,System.String)">
+            <Messages>
+             <Message Id="0#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">
+               <Item>ExecutionFlowPO.ExecutionFlowPO(String, MethodCallPO, String)</Item>
+               <Item>p</Item>
+               <Item>pThreadName</Item>
+              </Issue>
+             </Message>
+             <Message Id="1#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">
+               <Item>ExecutionFlowPO.ExecutionFlowPO(String, MethodCallPO, String)</Item>
+               <Item>p</Item>
+               <Item>pFirstMeasure</Item>
+              </Issue>
+             </Message>
+             <Message Id="2#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">
+               <Item>ExecutionFlowPO.ExecutionFlowPO(String, MethodCallPO, String)</Item>
+               <Item>p</Item>
+               <Item>pServerIdentifier</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="MethodCallPO">
+          <Members>
+           <Member Name=".ctor(Org.NMonitoring.Core.Persistence.MethodCallPO,System.String,System.String,System.String,System.Object[])">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-10 07:32:51Z">
+              <Issue>
+               <Item>MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[])</Item>
+               <Item>mReturnValue</Item>
+               <Item>System.String</Item>
+               <Item>null</Item>
+              </Issue>
+              <Issue>
+               <Item>MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[])</Item>
+               <Item>mThrowableClass</Item>
+               <Item>System.String</Item>
+               <Item>null</Item>
+              </Issue>
+              <Issue>
+               <Item>MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[])</Item>
+               <Item>mThrowableMessage</Item>
+               <Item>System.String</Item>
+               <Item>null</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">In method MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[]), correct the spelling of the unrecognized token 'p' in parameter name 'pParent' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+             <Message Id="1#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">In method MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[]), correct the spelling of the unrecognized token 'p' in parameter name 'pClassName' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+             <Message Id="2#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">In method MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[]), correct the spelling of the unrecognized token 'p' in parameter name 'pMethodName' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+             <Message Id="3#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">In method MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[]), correct the spelling of the unrecognized token 'p' in parameter name 'pGroupName' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+             <Message Id="4#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Parameter">In method MethodCallPO.MethodCallPO(MethodCallPO, String, String, String, Object[]), correct the spelling of the unrecognized token 'p' in parameter name 'pParams' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Children">
+            <Messages>
+             <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue>Change 'Children' to be read-only by removing the property setter.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="getParamsAsString(System.Object[],System.String,System.String):System.String">
+            <Messages>
+             <Message Id="Org.NMonitoring.Core.Common.NMonitoringException.#ctor(System.String,System.Exception)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-10 07:58:56Z">
+              <Issue>
+               <Item>MethodCallPO.getParamsAsString(Object[], String, String):String</Item>
+               <Item>1</Item>
+               <Item>NMonitoringException.NMonitoringException(String, Exception)</Item>
+               <Item>Unable to getArguments of class=[____] and method=[____]</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-10 07:32:51Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>MethodCallPO.getParamsAsString(Object[], String, String):String</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue>Modify 'MethodCallPO.getParamsAsString(Object[], String, String):String' to catch a more specific exception than 'System.Exception' or rethrow the exception.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Org.NMonitoring.Core.Store">
+        <Types>
+         <Type Name="IStoreWriter">
+          <Members>
+           <Member Name="writeExecutionFlow(Org.NMonitoring.Core.Persistence.ExecutionFlowPO):System.Void">
+            <Messages>
+             <Message Id="Member" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2006-11-10 07:32:51Z">
+              <Issue Name="Member">
+               <Item>writeExecutionFlow</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-10 07:32:51Z">
+              <Issue>In method IStoreWriter.writeExecutionFlow(ExecutionFlowPO):Void, correct the spelling of the unrecognized token 'p' in parameter name 'pExecutionFlow' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="StoreManager">
+          <Members>
+           <Member Name=".cctor()">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-10 07:32:51Z">
+              <Issue>
+               <Item>StoreManager.StoreManager()</Item>
+               <Item>storeManager</Item>
+               <Item>Org.NMonitoring.Core.Store.StoreManager</Item>
+               <Item>null</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name=".ctor(Org.NMonitoring.Core.Store.IStoreWriter,Org.NMonitoring.Core.Configuration.ConfigurationManager)">
+            <Messages>
+             <Message Id="0#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-22 06:24:13Z">
+              <Issue Name="Parameter">In method StoreManager.StoreManager(IStoreWriter, ConfigurationManager), correct the spelling of the unrecognized token 'p' in parameter name 'pStoreWriter' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+             <Message Id="1#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-22 06:24:13Z">
+              <Issue Name="Parameter">In method StoreManager.StoreManager(IStoreWriter, ConfigurationManager), correct the spelling of the unrecognized token 'p' in parameter name 'pConfiguration' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="EndMethod(Org.NMonitoring.Core.Persistence.MethodCallPO,System.Object):System.String">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-22 06:51:56Z">
+              <Issue>
+               <Item>StoreManager.EndMethod(MethodCallPO, Object):String</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-22 06:51:56Z" FixCategory="Breaking">
+              <Issue>
+               <Item>StoreManager.EndMethod(MethodCallPO, Object):String</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-22 06:51:56Z">
+              <Issue>
+               <Item>'methodCall'</Item>
+               <Item>StoreManager.EndMethod(MethodCallPO, Object):String</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-22 06:51:56Z">
+              <Issue Name="Parameter">In method StoreManager.EndMethod(MethodCallPO, Object):String, correct the spelling of the unrecognized token 'p' in parameter name 'pMethodCall' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+             <Message Id="1#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-22 06:51:56Z">
+              <Issue Name="Parameter">In method StoreManager.EndMethod(MethodCallPO, Object):String, correct the spelling of the unrecognized token 'p' in parameter name 'pReturnValue' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="EndMethodWithException(Org.NMonitoring.Core.Persistence.MethodCallPO,System.String,System.String):System.Void">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-22 06:51:56Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>StoreManager.EndMethodWithException(MethodCallPO, String, String):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetManager():Org.NMonitoring.Core.Store.StoreManager">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-12-01 07:01:55Z">
+              <Issue>
+               <Item>StoreManager.GetManager():StoreManager</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-12-01 07:01:55Z">
+              <Issue>
+               <Item>GetManager</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="LogBeginOfMethod(DotNetGuru.AspectDNG.Joinpoints.OperationJoinPoint,System.Object[],System.String):System.Void">
+            <Messages>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-12-01 07:03:02Z">
+              <Issue>
+               <Item>'joinPoint'</Item>
+               <Item>StoreManager.LogBeginOfMethod(OperationJoinPoint, Object[], String):Void</Item>
+              </Issue>
+             </Message>
+             <Message Id="1#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-12-01 07:03:02Z">
+              <Issue Name="Parameter">In method StoreManager.LogBeginOfMethod(OperationJoinPoint, Object[], String):Void, correct the spelling of the unrecognized token 'p' in parameter name 'pArgs' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+             <Message Id="2#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-12-01 07:03:02Z">
+              <Issue Name="Parameter">In method StoreManager.LogBeginOfMethod(OperationJoinPoint, Object[], String):Void, correct the spelling of the unrecognized token 'p' in parameter name 'pGroupName' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="LogBeginOfMethod(System.String,System.String,System.Object[],System.String):System.Void">
+            <Messages>
+             <Message Id="2#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-12-01 07:03:02Z">
+              <Issue Name="Parameter">
+               <Item>StoreManager.LogBeginOfMethod(String, String, Object[], String):Void</Item>
+               <Item>p</Item>
+               <Item>pArgs</Item>
+              </Issue>
+             </Message>
+             <Message Id="3#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-12-01 07:03:02Z">
+              <Issue Name="Parameter">In method StoreManager.LogBeginOfMethod(String, String, Object[], String):Void, correct the spelling of the unrecognized token 'p' in parameter name 'pGroupName' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="LogEndOfMethodNormal(System.Object):System.Void">
+            <Messages>
+             <Message Id="Org.NMonitoring.Core.Common.NMonitoringException.#ctor(System.String,System.Exception)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-12-01 07:03:02Z">
+              <Issue>
+               <Item>StoreManager.LogEndOfMethodNormal(Object):Void</Item>
+               <Item>1</Item>
+               <Item>NMonitoringException.NMonitoringException(String, Exception)</Item>
+               <Item>Unable to Write ExecutionFlow</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-12-01 07:03:02Z">
+              <Issue>
+               <Item>StoreManager.LogEndOfMethodNormal(Object):Void</Item>
+               <Item>System.Int32.ToString</Item>
+               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-12-01 07:03:02Z">
+              <Issue Name="Parameter">In method StoreManager.LogEndOfMethodNormal(Object):Void, correct the spelling of the unrecognized token 'p' in parameter name 'pResult' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="LogEndOfMethodWithException(System.Exception):System.Void">
+            <Messages>
+             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-22 06:51:56Z">
+              <Issue>
+               <Item>StoreManager.LogEndOfMethodWithException(Exception):Void</Item>
+               <Item>System.Int32.ToString</Item>
+               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#p" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Absent" Created="2006-11-22 06:51:56Z">
+              <Issue Name="Parameter">In method StoreManager.LogEndOfMethodWithException(Exception):Void, correct the spelling of the unrecognized token 'p' in parameter name 'pException' or strip it entirely if it represents any sort of hungarian notation.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="mConfiguration">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2006-11-22 06:21:56Z">
+              <Issue>
+               <Item>StoreManager.mConfiguration</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Org.NMonitoring.Core.Store.Impl">
+        <Types>
+         <Type Name="AsynchroneDBWriter">
+          <Members>
+           <Member Name="writeExecutionFlow(Org.NMonitoring.Core.Persistence.ExecutionFlowPO):System.Void">
+            <Messages>
+             <Message Id="0#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Status="Absent" Created="2006-11-22 06:21:56Z">
+              <Issue>Change parameter name 'executionFlow' of method AsynchroneDBWriter.writeExecutionFlow(ExecutionFlowPO):Void to 'pExecutionFlow' in order to match the identifier as it has been declared in IStoreWriter.writeExecutionFlow(ExecutionFlowPO):Void.</Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+  </Targets>
+  <Rules>
+   <Rule TypeName="AssembliesShouldDeclareMinimumSecurity" Category="Microsoft.Usage" CheckId="CA2209">
+    <Resolution Name="Default">No valid permission requests were found for assembly '{0}'. You should always specify the minimum security permissions using SecurityAction.RequestMinimum.</Resolution>
+   </Rule>
+   <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
+    <Resolution Name="NoStrongName">Sign '{0}' with a strong name key.</Resolution>
+   </Rule>
+   <Rule TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020">
+    <Resolution Name="Default">Consider merging the types defined in '{0}' with another namespace.</Resolution>
+   </Rule>
+   <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
+    <Resolution Name="Default">It appears that field '{0}' is never used or is only ever assigned to. Use this field or remove it.</Resolution>
+   </Rule>
+   <Rule TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" />
+   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+    <Resolution Name="Default">Modify '{0}' to catch a more specific exception than '{1}' or rethrow the exception.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805">
+    <Resolution Name="Default">{0} initializes field {1} of type {2} to {3}. Remove this initialization as it will be done automatically by the runtime.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303">
+    <Resolution Name="Default">{0} passes a literal as parameter {1} of a call to {2}. Retrieve the following string argument from a resource table instead: '{3}'</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" />
+   <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+    <Resolution Name="Member">Correct the casing of member name '{0}'.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+    <Resolution Name="Parameter">In method {0}, correct the spelling of the unrecognized token '{1}' in parameter name '{2}' or strip it entirely if it represents any sort of hungarian notation.</Resolution>
+   </Rule>
+   <Rule TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032" />
+   <Rule TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014">
+    <Resolution Name="NoAttr">'{0}' should be marked with CLSCompliantAttribute and its value should be true.</Resolution>
+   </Rule>
+   <Rule TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" />
+   <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
+    <Resolution Name="Default">The 'this' parameter (or 'Me' in VB) of {0} is never used. Mark the member as static (or Shared in VB) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
+   </Rule>
+   <Rule TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" />
+   <Rule TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" />
+   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+    <Resolution Name="Default">{0} makes a call to {1} that does not explicitly provide an IFormatProvider. This should be replaced with a call to {2}.</Resolution>
+   </Rule>
+   <Rule TypeName="StaticHolderTypesShouldBeSealed" Category="Microsoft.Design" CheckId="CA1052" />
+   <Rule TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053">
+    <Resolution Name="Default">Remove the public constructors from '{0}'.</Resolution>
+   </Rule>
+   <Rule TypeName="TypeNamesShouldNotMatchNamespaces" Category="Microsoft.Naming" CheckId="CA1724">
+    <Resolution Name="Default">The type name '{0}' conflicts in whole or in part with the namespace name '{1}'. Change either name to eliminate the conflict.</Resolution>
+   </Rule>
+   <Rule TypeName="TypesShouldNotExtendCertainBaseTypes" Category="Microsoft.Design" CheckId="CA1058" />
+   <Rule TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024">
+    <Resolution Name="Default">Change '{0}' to a property if appropriate.</Resolution>
+   </Rule>
+   <Rule TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062">
+    <Resolution Name="Default">Validate parameter {0} passed to externally visible method {1}.</Resolution>
+   </Rule>
+  </Rules>
+ </FxCopReport>
+</FxCopProject>

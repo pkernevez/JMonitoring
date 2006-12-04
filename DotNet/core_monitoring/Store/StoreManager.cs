@@ -1,5 +1,6 @@
 using System;
 
+using Org.NMonitoring.Core.Common;
 using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Configuration;
 using Org.NMonitoring.Core.Store.Impl;
@@ -9,15 +10,6 @@ using log4net;
 
 using DotNetGuru.AspectDNG.Joinpoints;
 
-/*
- * 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.aspectj.lang.Signature;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.MethodCallPO;
-import org.jmonitoring.core.store.impl.StoreFactory;*/
 
 namespace Org.NMonitoring.Core.Store
 {
@@ -26,17 +18,16 @@ namespace Org.NMonitoring.Core.Store
 
 		#region ThreadStatic Singleton
 		[ThreadStatic]
-		private static StoreManager mStoreManager = null;
+		private static StoreManager storeManager;
 
-		public static StoreManager getManager()
+		public static StoreManager GetManager()
 		{
 			try
 			{
-				if (mStoreManager == null)
+				if (storeManager == null)
 				{
-                    DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance,
-                           "Data Source=.\\SQLEXPRESS;Initial Catalog=jmonitoring;User ID=jmonitoring;Password=jmonitoring");
-                    mStoreManager = new StoreManager();
+                    DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance, ConfigurationManager.Instance.ConnexionString);                           
+                    storeManager = new StoreManager();
 				}
 
 			}
@@ -47,26 +38,23 @@ namespace Org.NMonitoring.Core.Store
 				sLog.Error("Impossible d'instancier un logger pour tracer les appels", e);
 			}
 
-			return mStoreManager;
+			return storeManager;
 		}
-		#endregion ThreadStatic Singleton
+        #endregion ThreadStatic Singleton
 
-        private MethodCallPO mCurrentLogPoint;
+        private MethodCallPO currentLogPoint;
 
         /** <code>CommonsLog</code> instance. */
         static ILog sLog = LogManager.GetLogger("StoreManager");
 
-        private IStoreWriter mStoreWriter;
-
-
-        private Configuration.Configuration mConfiguration;
+        private IStoreWriter storeWriter;
 
         /**
          * Default constructor.
          * 
-         * @param pConfiguration The configuration instance to use.
          */
-        protected StoreManager()  : this(StoreFactory.getWriter(), Configuration.Configuration.getInstance())
+        protected StoreManager()
+            : this(new StoreFactory().Writer)
         {
             Console.WriteLine("StoreManager::StoreManager(Vide)");
         }
@@ -75,43 +63,45 @@ namespace Org.NMonitoring.Core.Store
          * Constructor for testing purpose.
          * 
          * @param pStoreWriter The <code>IStoreWriter</code> to use.
-         * @param pConfiguration The configuration instance to use.
          */
-        protected StoreManager(IStoreWriter pStoreWriter, Configuration.Configuration pConfiguration)
+        protected StoreManager(IStoreWriter storeWriter)
         {
-            mConfiguration = pConfiguration;
-            mStoreWriter = pStoreWriter;
+            this.storeWriter = storeWriter;
             Console.WriteLine("StoreManager::StoreManager(IStoreWriter,Configuration )");
         }
 
         /**
          * Trace a method with its arguments.
          * 
-         * @param pSignature The method signature.
-         * @param pArgs The method arguments.
-         * @param pGroupName The name of the group associated with this <code>MethodCallDTO</code>.
+         * @param joinPoint The method signature.
+         * @param args The method arguments.
+         * @param groupName The name of the group associated with this <code>MethodCallDTO</code>.
          */
 
-        public void logBeginOfMethod(OperationJoinPoint opJoinPoint, Object [] pArgs, String pGroupName)
+        public void LogBeginOfMethod(OperationJoinPoint joinPoint, Object [] args, String groupName)
         {
-            string operationName = opJoinPoint.TargetOperationName;
-            string classeName = opJoinPoint.TargetOperation.ReflectedType.FullName; // Name ?
+            if (joinPoint == null)
+            {
+                throw new NMonitoringException("No jointPoint to log");
+            }
+            string operationName = joinPoint.TargetOperationName;
+            string classeName = joinPoint.TargetOperation.ReflectedType.FullName; // Name ?
 
-			logBeginOfMethod(classeName,operationName,pArgs,pGroupName);
+			LogBeginOfMethod(classeName,operationName,args,groupName);
         }
 
 
-		public void logBeginOfMethod(string className, string operationName, Object [] pArgs, String pGroupName)
+		public void LogBeginOfMethod(string className, string operationName, Object [] args, String groupName)
 		{
 			Console.WriteLine("StoreManager::logBeginOfMethod()");
 
-			if (mCurrentLogPoint == null)
+			if (currentLogPoint == null)
 			{ // Premier appel du Thread
 				if (sLog.IsDebugEnabled)
 				{
 					//sLog.Debug("logBeginOfMethod First Time" + opJoinPoint.ToString());
 				}
-				mCurrentLogPoint = new MethodCallPO(null, className, operationName, pGroupName, pArgs);
+				currentLogPoint = new MethodCallPO(null, className, operationName, groupName, args);
 			}
 			else
 			{
@@ -119,46 +109,46 @@ namespace Org.NMonitoring.Core.Store
 				{
 					//sLog.Debug("logBeginOfMethod Any Time" + opJoinPoint.ToString());
 				}
-				MethodCallPO tOldPoint = mCurrentLogPoint;
-				mCurrentLogPoint = new MethodCallPO(tOldPoint, className, operationName,  pGroupName, pArgs);
+				MethodCallPO tOldPoint = currentLogPoint;
+				currentLogPoint = new MethodCallPO(tOldPoint, className, operationName,  groupName, args);
 			}
 		}
 
         /**
          * Trace the result of a method ended normally.
          * 
-         * @param pResult The result of the execution of the method.
+         * @param result The result of the execution of the method.
          */
-        public void logEndOfMethodNormal(Object pResult)
+        public void LogEndOfMethodNormal(Object result)
         {
             Console.WriteLine("StoreManager::logEndOfMethodNormal()");
 
             // To limit call to toString on business object, that could be expensive
-            String tResultAsString = endMethod(mCurrentLogPoint, pResult);
-            if (mCurrentLogPoint.Parent == null)
+            String tResultAsString = EndMethod(currentLogPoint, result);
+            if (currentLogPoint.Parent == null)
             { // Dernier appel du Thread
                 if (sLog.IsDebugEnabled)
                 {
                     sLog.Debug("logEndOfMethodNormal Last Time" + tResultAsString);
                 }
-                //String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
-				String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
+                String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
+                String threadName2 = System.Threading.Thread.CurrentThread.GetHashCode().ToString(System.Globalization.CultureInfo.CurrentCulture.NumberFormat);
                 if (System.Threading.Thread.CurrentThread.Name != null)
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 
                 Console.WriteLine("StoreManager::logEndOfMethodNormal(Dernier Appel)");
-                ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, mCurrentLogPoint, mConfiguration.getServerName());
+                ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
                 try
                 {
-                    Console.WriteLine("StoreManager::mStoreWriter.writeExecutionFlow(Dernier Appel)");
-                    mStoreWriter.writeExecutionFlow(tFlow);
-					//System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("StoreManager::storeWriter.writeExecutionFlow(Dernier Appel)");
+                    storeWriter.WriteExecutionFlow(tFlow);
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("StoreManager::logEndOfMethodNormal Exception : " + e.Message);
+                catch (NMonitoringException internalException)
+                {                    
+                    //TODO : LOG
+                    throw;
                 }
-                mCurrentLogPoint = null;
+                currentLogPoint = null;
             }
             else
             {
@@ -166,35 +156,37 @@ namespace Org.NMonitoring.Core.Store
                 {
                     sLog.Debug("logEndOfMethodNormal Any Time" + tResultAsString);
                 }
-                mCurrentLogPoint = mCurrentLogPoint.Parent;
+                currentLogPoint = currentLogPoint.Parent;
             }
         }
 
         /**
          * Trace the <code>Exception</code> thrown during its execution.
          * 
-         * @param pException The <code>Exception</code> to trace.
+         * @param exception The <code>Exception</code> to trace.
          */
-        public void logEndOfMethodWithException(Exception pException)
+        public void LogEndOfMethodWithException(Exception exception)
         {
+            string externalExceptionMessage = "";
             if (sLog.IsDebugEnabled)
             {
-                sLog.Debug("logEndOfMethodWithException " + (pException == null ? "" : pException.Message));
+                sLog.Debug("logEndOfMethodWithException " + (exception == null ? "" : exception.Message));
             }
-            if (pException == null)
+            if (exception == null)
             { // On ne logue pas le détail
-                endMethodWithException(mCurrentLogPoint, null, null);
+                EndMethodWithException(currentLogPoint, null, null);
             }
             else
             {
-                endMethodWithException(mCurrentLogPoint, pException.GetType().FullName, pException.Message);
+                externalExceptionMessage = exception.Message;
+                EndMethodWithException(currentLogPoint, exception.GetType().FullName, externalExceptionMessage);
             }
 
-            if (mCurrentLogPoint.Parent == null)
+            if (currentLogPoint.Parent == null)
             { // Dernier appel du Thread
                 if (sLog.IsDebugEnabled)
                 {
-                    sLog.Debug("logEndOfMethodWithException Last Time" + pException.Message);
+                    sLog.Debug("logEndOfMethodWithException Last Time" + externalExceptionMessage);
                 }
 				
                 //String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
@@ -202,17 +194,17 @@ namespace Org.NMonitoring.Core.Store
                 if (System.Threading.Thread.CurrentThread.Name != null)
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 
-                ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, mCurrentLogPoint, mConfiguration.getServerName());
-                mStoreWriter.writeExecutionFlow(tFlow);
-                mCurrentLogPoint = null;
+                ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
+                storeWriter.WriteExecutionFlow(tFlow);
+                currentLogPoint = null;
             }
             else
             {
                 if (sLog.IsDebugEnabled)
                 {
-                    sLog.Debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.Message));
+                    sLog.Debug("logEndOfMethodWithException Any Time" + (exception == null ? "" : exception.Message));
                 }
-                mCurrentLogPoint = mCurrentLogPoint.Parent;
+                currentLogPoint = currentLogPoint.Parent;
             }
 
         }
@@ -221,41 +213,46 @@ namespace Org.NMonitoring.Core.Store
          * Define the return value of the method associated with this <code>MethodCallDTO</code> when it didn't throw a
          * <code>Throwable</code>.
          * 
-         * @param pMethodCall the current methodcall to manage.
-         * @param pReturnValue The return value of the method.
+         * @param methodCall the current methodcall to manage.
+         * @param returnValue The return value of the method.
          */
-        public String endMethod(MethodCallPO pMethodCall, Object pReturnValue)
+        public static String EndMethod(MethodCallPO methodCall, Object returnValue)
         {
-            String tReturnValueAsString = null;
-            pMethodCall.EndTime = Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
+            if (methodCall == null)
+            {
+                throw new NMonitoringException("No methodCall to log");
+            }
+
+            String returnValueAsString = null;
+            methodCall.EndTime = Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
             
-            if (pReturnValue != null)
+            if (returnValue != null)
             {
                 try
                 {
-                    tReturnValueAsString = pReturnValue.ToString();
-                    pMethodCall.ReturnValue = tReturnValueAsString;
+                    returnValueAsString = returnValue.ToString();
+                    methodCall.ReturnValue = returnValueAsString;
                 }
-                catch (Exception tT)
+                catch (NMonitoringException internalException)
                 {
-                    sLog.Error("Unable to trace return value of call.", tT);
+                    sLog.Error("Unable to trace return value of call.", internalException);
                 }
             }
-            return tReturnValueAsString;
+            return returnValueAsString;
         }
 
         /**
          * Define the <code>Throwable</code> thrown by the method associated with this <code>MethodCallDTO</code>.
          * 
-         * @param pMethodCall the current methodcall to manage.
-         * @param pExceptionClassName The name of the <code>Class</code> of the <code>Exception</code>.
-         * @param pExceptionMessage The message of the <code>Exception</code>.
+         * @param methodCall the current methodcall to manage.
+         * @param exceptionClassName The name of the <code>Class</code> of the <code>Exception</code>.
+         * @param exceptionMessage The message of the <code>Exception</code>.
          */
-        private void endMethodWithException(MethodCallPO pMethodCall, String pExceptionClassName, String pExceptionMessage)
+        private static void EndMethodWithException(MethodCallPO methodCall, String exceptionClassName, String exceptionMessage)
         {
-            pMethodCall.EndTime =  Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
-            pMethodCall.ThrowableClass =  pExceptionClassName;
-            pMethodCall.ThrowableMessage =  pExceptionMessage;
+            methodCall.EndTime =  Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
+            methodCall.ThrowableClass =  exceptionClassName;
+            methodCall.ThrowableMessage =  exceptionMessage;
         }
     }
 }

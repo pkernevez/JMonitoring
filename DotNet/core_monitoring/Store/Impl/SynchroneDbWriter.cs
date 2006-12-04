@@ -5,15 +5,15 @@ using Org.NMonitoring.Core.Dao;
 
 namespace Org.NMonitoring.Core.Store.Impl
 {
-    public sealed class SynchroneDbWriter : IStoreWriter
+    public sealed class SynchroneDBWriter : IStoreWriter
     {
         private static ILog sLog = LogManager.GetLogger("SynchroneDbWriter");
 
-        public void writeExecutionFlow(ExecutionFlowPO executionFlow)
+        public void WriteExecutionFlow(ExecutionFlowPO executionFlow)
         {
-            ExecutionFlowDAO dao = new ExecutionFlowDAO();
+            ExecutionFlowDao dao = new ExecutionFlowDao();
 
-            dao.insertFullExecutionFlow(executionFlow);
+            dao.InsertFullExecutionFlow(executionFlow);
             System.Console.WriteLine("SynchroneDbWriter:writeExecutionFlow Added new ExecutionFlow to List " + executionFlow);
             sLog.Info("Added new ExecutionFlow to List " + executionFlow);
 

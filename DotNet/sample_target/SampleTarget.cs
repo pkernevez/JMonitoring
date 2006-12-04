@@ -62,7 +62,7 @@ namespace Org.NMonitoring.SampleTarget
             {
                 ShoppingCartOperator.addShoppingCartItem(sc, inventory, item3);
             }
-            catch (Exception e)
+            catch 
             {
                 // C'est juste pour tester la remontée d'exception
                 Console.WriteLine("");

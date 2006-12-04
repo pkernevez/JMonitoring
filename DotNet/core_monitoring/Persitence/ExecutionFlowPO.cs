@@ -8,49 +8,49 @@ namespace Org.NMonitoring.Core.Persistence
     public class ExecutionFlowPO
     {
         /** Thread name. */
-        private String mThreadName;
+        private String threadName;
         public String ThreadName
         {
-            get { return mThreadName; }
-            set { mThreadName = value; }
+            get { return threadName; }
+            set { threadName = value; }
         }
 
         /** Name of the 'Server' or server. */
-        private String mServerIdentifier;
+        private String serverIdentifier;
         public String ServerIdentifier
         {
-            get { return mServerIdentifier; }
-            set { mServerIdentifier = value; }
+            get { return serverIdentifier; }
+            set { serverIdentifier = value; }
         }
 
         /** Begin datetime. */
-        private long mBeginTime;
+        private long beginTime;
         public long BeginTime
         {
-            get { return mBeginTime; }
-            set { mBeginTime = value; }
+            get { return beginTime; }
+            set { beginTime = value; }
         }
 
         /** End datetime. */
-        private long mEndTime;
+        private long endTime;
         public long EndTime
         {
-            get { return mEndTime; }
-            set { mEndTime = value; }
+            get { return endTime; }
+            set { endTime = value; }
         }
 
         /** Technical identifier. */
-        private int mId = -1;
+        private int id = -1;
         public int Id
         {
-            get { return mId; }
-            set { mId = value; }
+            get { return id; }
+            set { id = value; }
         }
         /** First method call of this flow. */
-        private MethodCallPO mFirstMethodCall;
+        private MethodCallPO firstMethodCall;
         public MethodCallPO FirstMethodCall
         {
-            get { return mFirstMethodCall; }
+            get { return firstMethodCall; }
             //set { mFirstMethodCall = value; }
         }
         
@@ -66,16 +66,16 @@ namespace Org.NMonitoring.Core.Persistence
         /// <param name="pFirstMeasure">First <code>MeasurePoint</code> of this flow.</param>
         /// <param name="pServerIdentifier">The identifier of this Server.</param>
         /// </summary>
-        public ExecutionFlowPO(String pThreadName, MethodCallPO pFirstMeasure, String pServerIdentifier)
+        public ExecutionFlowPO(String threadName, MethodCallPO firstMeasure, String serverIdentifier)
         {
-            mThreadName = pThreadName;
-            mServerIdentifier = pServerIdentifier;
-            mFirstMethodCall = pFirstMeasure;
-            if (mFirstMethodCall != null)
+            this.threadName = threadName;
+            this.serverIdentifier = serverIdentifier;
+            this.firstMethodCall = firstMeasure;
+            if (this.firstMethodCall != null)
             {
-                mBeginTime = mFirstMethodCall.BeginTime;
-                mEndTime = mFirstMethodCall.EndTime;
-                mFirstMethodCall.setFlowRecusivly(this);
+                this.beginTime = firstMethodCall.BeginTime;
+                this.endTime = firstMethodCall.EndTime;
+                this.firstMethodCall.SetFlowRecusivly(this);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Org.NMonitoring.Core.Persistence
         override public String ToString()
         {
             StringBuilder buffer = new StringBuilder();
-            buffer.Append("ExecutionFlowPO FlowId=[").Append(mId).Append("] ");
+            buffer.Append("ExecutionFlowPO FlowId=[").Append(id).Append("] ");
             return base.ToString();
         }
 

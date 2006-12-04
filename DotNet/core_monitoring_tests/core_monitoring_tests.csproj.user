@@ -2,8 +2,10 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartAction>Program</StartAction>
     <StartProgram>D:\Program Files\NUnit-Net-2.0 2.2.8\bin\nunit-gui.exe</StartProgram>
-    <StartArguments>"C:\Documents and Settings\Administrateur\Mes documents\Visual Studio 2005\Projects\JMonitoring\DotNet\core_monitoring_tests\core_monitoring_tests.nunit"</StartArguments>
+    <StartArguments>
+    </StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
-    <StartWorkingDirectory>C:\Documents and Settings\Administrateur\Mes documents\Visual Studio 2005\Projects\JMonitoring\DotNet\core_monitoring_tests\</StartWorkingDirectory>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
   </PropertyGroup>
 </Project>

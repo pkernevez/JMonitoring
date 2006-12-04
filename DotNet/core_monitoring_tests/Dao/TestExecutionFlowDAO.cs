@@ -18,7 +18,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
         public void initialize()
         {
             DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance,
-                   "Data Source=.\\SQLEXPRESS;Initial Catalog=jmonitoring;User ID=jmonitoring;Password=jmonitoring");
+                                  Configuration.ConfigurationManager.Instance.ConnexionString);
             UtilTest.DeleteAllData();
         }
 
@@ -27,9 +27,9 @@ namespace Org.NMonitoring.Core.Dao.Tests
         {
 
              ExecutionFlowPO flow= new ExecutionFlowPO("TEST-main", null, "myCLR");
-             ExecutionFlowDAO dao = new ExecutionFlowDAO();
+             ExecutionFlowDao dao = new ExecutionFlowDao();
              int nbMethodsCallBeforeDao = UtilTest.CountMethods();
-             dao.insertFullExecutionFlow(flow);
+             dao.InsertFullExecutionFlow(flow);
              System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
              int nbMethodsCallAfterDao = UtilTest.CountMethods();
              UtilTest.DeleteAllData();
@@ -48,10 +48,10 @@ namespace Org.NMonitoring.Core.Dao.Tests
 
             ExecutionFlowPO flow = new ExecutionFlowPO("TEST-main", point, "myCLR");
 
-            ExecutionFlowDAO dao = new ExecutionFlowDAO();
+            ExecutionFlowDao dao = new ExecutionFlowDao();
 
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
-            dao.insertFullExecutionFlow(flow);
+            dao.InsertFullExecutionFlow(flow);
             System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 1;
@@ -64,9 +64,9 @@ namespace Org.NMonitoring.Core.Dao.Tests
         public void insertExecutionFlowWithRecursiveMethodCallPO()
         {
             ExecutionFlowPO flow = UtilTest.buildNewFullFlow();
-            ExecutionFlowDAO dao = new ExecutionFlowDAO();
+            ExecutionFlowDao dao = new ExecutionFlowDao();
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
-            dao.insertFullExecutionFlow(flow);
+            dao.InsertFullExecutionFlow(flow);
             System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 3;
@@ -79,10 +79,10 @@ namespace Org.NMonitoring.Core.Dao.Tests
         {
             ExecutionFlowPO flow  = UtilTest.buildNewFullFlow();
             ExecutionFlowPO flow2 = UtilTest.buildNewFullFlow();
-            ExecutionFlowDAO dao  = new ExecutionFlowDAO();
+            ExecutionFlowDao dao  = new ExecutionFlowDao();
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
-            dao.insertFullExecutionFlow(flow);
-            dao.insertFullExecutionFlow(flow2);
+            dao.InsertFullExecutionFlow(flow);
+            dao.InsertFullExecutionFlow(flow2);
             System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 6;

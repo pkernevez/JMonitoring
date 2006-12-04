@@ -2,8 +2,16 @@ using System;
 
 namespace Org.NMonitoring.Core.Common
 {
-    public class Util
+    public sealed class Util
     {
+        /// <summary>
+        /// Private Constructor to avoid default public one
+        /// </summary>
+        private Util()
+        {
+        }
+
+        
         private static DateTime premierJanvier1970 = new DateTime(1970, 01, 01, 0, 0, 0, 0);
 
         static public long CurrentTimeMillis()
@@ -21,5 +29,6 @@ namespace Org.NMonitoring.Core.Common
         {
             return premierJanvier1970.AddMilliseconds(milliseconds); 
         }
+
     }
 }

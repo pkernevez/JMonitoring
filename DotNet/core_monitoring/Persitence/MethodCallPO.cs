@@ -3,6 +3,8 @@ using System.Collections;
 using System.Text;
 using log4net;
 
+using Org.NMonitoring.Core.Common;
+
 namespace Org.NMonitoring.Core.Persistence
 {
     public class MethodCallPO
@@ -20,18 +22,18 @@ namespace Org.NMonitoring.Core.Persistence
 
 
         /** Technical Id. */
-        private int mId = -1;
+        private int id = -1;
         public int Id
         {
-            get { return mId; }
-            set { mId = value; }
+            get { return id; }
+            set { id = value; }
         }
         /** Lien sur le père de ce point dans la hierachie d'appel. */
-        private MethodCallPO mParent;
+        private MethodCallPO parent;
         public MethodCallPO Parent
         {
-            get { return mParent; }
-            set { setParentMethodCall(value); }
+            get { return parent; }
+            set { SetParentMethodCall(value); }
         }
     
 
@@ -39,7 +41,6 @@ namespace Org.NMonitoring.Core.Persistence
          public IList Children
          {
              get { return mChildren;}
-             set { mChildren = value;}
          }
      
 
@@ -79,20 +80,20 @@ namespace Org.NMonitoring.Core.Persistence
             set { mMethodName = value; }
         }
         /** Exception qui est stockée si l'exécution associée à ce point est levée durant son exécution. */
-        private String mThrowableClass = null;
+        private String mThrowableClass;
         public String ThrowableClass
         {
             get { return mThrowableClass; }
             set { mThrowableClass = value; }
         }
-        private String mThrowableMessage = null;
+        private String mThrowableMessage;
         public String ThrowableMessage
         {
             get { return mThrowableMessage; }
             set { mThrowableMessage = value; }
         }
         /** Valeur de retour si la méthode associée à ce point est autre que 'void' . */
-        private String mReturnValue = null;
+        private String mReturnValue;
         public String ReturnValue
         {
             get { return mReturnValue; }
@@ -117,29 +118,22 @@ namespace Org.NMonitoring.Core.Persistence
          * @param pGroupName The name of the group associated to this <code>MethodCallDTO</code>.
          * @param pParams The parameters passed to the method <code>pMethodName</code>.
          */
-        public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName, Object[] pParams)
+        public MethodCallPO(MethodCallPO parent, String className, String methodName, String groupName, Object[] parameters)
         {
-            if (pParent != null)
+            if (parent != null)
             { // On chaine la hierachie
-                pParent.addChildren(this);
+                parent.AddChildren(this);
             }
-            mClassName = pClassName;
-            mMethodName = pMethodName;
+            mClassName = className;
+            mMethodName = methodName;
             mBeginTime = Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
-            mParams = getParamsAsString(pParams, pClassName, pMethodName);
-            mGroupName = pGroupName;
+            mParams = getParamsAsString(parameters, className, methodName);
+            mGroupName = groupName;
         }
 
-        private String getParamsAsString(Object [] pParams, String pClassName, String pMethodName)
+        private static String getParamsAsString(Object [] pParams, String pClassName, String pMethodName)
         {
 
-            /*
-             *                 StringBuilder sb = new StringBuilder();
-                for (int iParam = 0; iParam < currentMethodCall.Params.Length; iParam++)
-                {
-                    sb.Append(currentMethodCall.Params.Get
-                }
-             * */
             StringBuilder buffer = new StringBuilder();
             try
             {
@@ -159,55 +153,62 @@ namespace Org.NMonitoring.Core.Persistence
                     buffer.Append("]");
                 }
             }
-            catch (Exception tT)
+            catch (Exception externalException)
             {
-                sLog.Error("Unable to getArguments of class=[" + pClassName + "] and method=[" + pMethodName + "]", tT);
+                String message = "Unable to get arguments of class=[" + pClassName + "] and method=[" + pMethodName + "]";
+                sLog.Error(message, externalException);
+                throw new NMonitoringException(message,externalException);
             }
             return buffer.ToString();
 
         }
 
-        public void addChildren(MethodCallPO pChild)
+        public void AddChildren(MethodCallPO child)
         {
-            mChildren.Add(pChild);
-            pChild.mParent = this;
+            if (child != null)
+            {
+                mChildren.Add(child);
+                child.parent = this;
+            }
         }
 
-        public void removeChildren(MethodCallPO pChild)
+        public void RemoveChildren(MethodCallPO child)
         {
-            mChildren.Remove(pChild);
-            pChild.mParent = null;
-
+            if (child != null)
+            {
+                mChildren.Remove(child);
+                child.parent = null;
+            }
         }
 
 
         /**
          * @param pParent The mParent to set.
          */
-        private void setParentMethodCall(MethodCallPO pParent)
+        private void SetParentMethodCall(MethodCallPO parent)
         {
-            if (pParent == null)
+            if (parent == null)
             {
-                if (this.mParent != null)
+                if (this.parent != null)
                 {
-                    this.mParent.mChildren.Remove(this);
+                    this.parent.mChildren.Remove(this);
                 }
             }
             else
             {
-                pParent.mChildren.Add(this);
+                parent.mChildren.Add(this);
             }
-            mParent = pParent;
+            this.parent = parent;
         }
 
-        public void setFlowRecusivly(ExecutionFlowPO pFlowPO)
+        public void SetFlowRecusivly(ExecutionFlowPO flowPO)
         {
-            mFlow = pFlowPO;
+            mFlow = flowPO;
             MethodCallPO curMeth;
             foreach (Object it in mChildren)            
             {
                 curMeth = (MethodCallPO)it;
-                curMeth.setFlowRecusivly(pFlowPO);
+                curMeth.SetFlowRecusivly(flowPO);
             }
 
         }

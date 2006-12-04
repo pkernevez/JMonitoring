@@ -4,7 +4,7 @@
 	debug="true">
 
 	<Variables>
-		<Variable name="path" value="C:\Documents and Settings\Administrateur\Mes documents\Visual Studio 2005\Projects\\JMonitoring\DotNet\sample_target\bin\Debug"/>
+		<Variable name="path" value="E:\MES_DOCUMENTS\Visual Studio 2005\Projects\JMonitoring\DotNet\sample_target\bin\Debug"/>
 	</Variables>
 	
     <TargetAssembly>$(path)\sample_target.exe</TargetAssembly>
@@ -21,7 +21,5 @@
       <AroundBody aspectRegExp="* *.SampleAspect::ShoppingCart(*)" 	        targetRegExp="* Org.NMonitoring.SampleTarget.ShoppingCart::*(*)"/>
       <AroundBody aspectRegExp="* *.SampleAspect::ShoppingCartOperator(*)" 	targetRegExp="* Org.NMonitoring.SampleTarget.ShoppingCartOperator::*(*)"/>
       <AroundBody aspectRegExp="* *.SampleAspect::SampleTarget(*)" 	        targetRegExp="* Org.NMonitoring.SampleTarget.SampleTarget::*(*)"/>
-      <AroundBody aspectRegExp="* *.SampleAspect::SimpleLogger(*)" 	        targetRegExp="* Org.NMonitoring.SampleTargetLibrary.SimpleLogger::log(*)"/>
-
     </Advice>
 </AspectDngConfig>

@@ -2,16 +2,16 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using Org.NMonitoring.Core.Common;
 
 namespace Org.NMonitoring.Core.Dao
 {
     public class DaoHelper : IDaoHelper
 
     {
-        private static bool mInitialized = false;
-        private static string mConnectionString;
-        private static DbProviderFactory mDbFactory;
-
+        private static bool DefaultClassParametersInitialized = false;
+        private static string connectionString;
+        private static DbProviderFactory dbFactory;
 
         [ThreadStatic]
         private static DaoHelper _instance;
@@ -37,20 +37,25 @@ namespace Org.NMonitoring.Core.Dao
             get { return _transaction; }
         }
 		
-        public static void Initialize(DbProviderFactory dbFactory, 
-                                      string connectionString)
+        /// <summary>
+        /// Initialize class parameters
+        /// </summary>
+        /// <param name="dbFactoryToUse">The DBFactory to use (SQLServer or other)</param>
+        /// <param name="connectionStringToUse">The Connection String (depending of which DBFactory is used)</param>
+        public static void Initialize(DbProviderFactory dbFactoryToUse, 
+                               string connectionstringToUse)
         {
-            mDbFactory = dbFactory;
-            mConnectionString = connectionString;
-            mInitialized = true;
+            dbFactory         = dbFactoryToUse;
+            connectionString = connectionstringToUse;
+            DefaultClassParametersInitialized = true;
         }
         
        
         public IDbDataParameter CreateParameter(String name, Object value)
         {
-            if (!mInitialized)
-                throw new Exception("Please call Initialize() before");
-            IDbDataParameter parameter = mDbFactory.CreateParameter();
+            if (!DefaultClassParametersInitialized)
+                throw new NMonitoringException("Please call Initialize() before");
+            IDbDataParameter parameter = dbFactory.CreateParameter();
             parameter.ParameterName = name;
             if (value == null)
             {
@@ -87,7 +92,7 @@ namespace Org.NMonitoring.Core.Dao
         }
         public IDbCommand CreateCommand()
         {
-            IDbCommand cmd = mDbFactory.CreateCommand();
+            IDbCommand cmd = dbFactory.CreateCommand();
             cmd.Connection = this.Connection;
             return cmd;
         }
@@ -100,10 +105,13 @@ namespace Org.NMonitoring.Core.Dao
 
         private DaoHelper()
         {
-            if (!mInitialized)
-                throw new Exception("Please call Initialize() before");
-            this._connection = mDbFactory.CreateConnection();
-            this._connection.ConnectionString = mConnectionString;
+            if (!DefaultClassParametersInitialized)
+            {
+                //Use default paramaters if not Explici
+                throw new NMonitoringException("Please call Initialize() before");
+            }
+            this._connection = dbFactory.CreateConnection();
+            this._connection.ConnectionString = connectionString;
         }
     }
 }

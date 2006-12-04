@@ -15,9 +15,9 @@ namespace Org.NMonitoring.Core.Store.Tests
 
         [TestFixtureSetUp]
         public void initialize()
-        {
-            DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance,
-                   "Data Source=.\\SQLEXPRESS;Initial Catalog=jmonitoring;User ID=jmonitoring;Password=jmonitoring");
+        {   
+            DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance, 
+                                          Configuration.ConfigurationManager.Instance.ConnexionString);
             UtilTest.DeleteAllData();
         }
 
@@ -30,8 +30,8 @@ namespace Org.NMonitoring.Core.Store.Tests
             
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
 
-            SynchroneDbWriter writer = new SynchroneDbWriter();
-            writer.writeExecutionFlow(flow);
+            SynchroneDBWriter writer = new SynchroneDBWriter();
+            writer.WriteExecutionFlow(flow);
 
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             

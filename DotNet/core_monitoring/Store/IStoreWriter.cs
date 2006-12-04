@@ -6,6 +6,6 @@ namespace Org.NMonitoring.Core.Store
 {
     public interface IStoreWriter
     {
-        void writeExecutionFlow(ExecutionFlowPO pExecutionFlow);
+        void WriteExecutionFlow(ExecutionFlowPO executionFlow);
     }
 }
