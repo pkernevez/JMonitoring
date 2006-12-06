@@ -378,7 +378,7 @@ public class MethodCallDTO implements Serializable
     {
         MethodCallDTO[] tNewMeth = new MethodCallDTO[mChildren.length - 1];
         System.arraycopy(mChildren, 0, tNewMeth, 0, pIndex);
-        System.arraycopy(mChildren, pIndex+1, tNewMeth, pIndex , mChildren.length - pIndex-1);
+        System.arraycopy(mChildren, pIndex + 1, tNewMeth, pIndex, mChildren.length - pIndex - 1);
         mChildren = tNewMeth;
     }
 
@@ -410,13 +410,15 @@ public class MethodCallDTO implements Serializable
         {
             if (mParent == null)
             {
-                tDuration = mFlow.getBeginTime().getTime()-mBeginTime.getTime();
-            } else {
-                tDuration = mBeginTime.getTime()-mParent.getBeginTime().getTime();
+                tDuration = mFlow.getBeginTime().getTime() - mBeginTime.getTime();
+            } else
+            {
+                tDuration = mBeginTime.getTime() - mParent.getBeginTime().getTime();
             }
-        } else {
-            MethodCallDTO tPrecedentMethodCall = mParent.getChild(mChildPosition-1);
-            tDuration = mBeginTime.getTime()-tPrecedentMethodCall.getEndTime().getTime();
+        } else
+        {
+            MethodCallDTO tPrecedentMethodCall = mParent.getChild(mChildPosition - 1);
+            tDuration = mBeginTime.getTime() - tPrecedentMethodCall.getEndTime().getTime();
         }
         return tDuration;
     }
@@ -433,7 +435,7 @@ public class MethodCallDTO implements Serializable
 
     public String getRuntimeClassName()
     {
-        return (mRuntimeClassName!=null?mRuntimeClassName:mClassName);
+        return (mRuntimeClassName != null ? mRuntimeClassName : mClassName);
     }
 
     public void setRuntimeClassName(String pRuntimeClassName)

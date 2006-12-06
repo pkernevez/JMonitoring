@@ -18,6 +18,7 @@ import org.jmonitoring.core.configuration.Configuration;
  */
 public class ExecutionFlowDTO implements Serializable
 {
+
     /** Thread name. */
     private String mThreadName;
 

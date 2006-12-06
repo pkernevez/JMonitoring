@@ -25,18 +25,19 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-
 /**
  * @author pke
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
+ * Templates
  */
 public class MockPreparedStatement implements PreparedStatement
 {
 
     private static final int TEMPO2 = 17;
+
     private static final int TEMPO = 13;
+
     /**
      * @see java.sql.Statement#executeQuery(java.lang.String)
      */
@@ -49,7 +50,7 @@ public class MockPreparedStatement implements PreparedStatement
         {
             throw new RuntimeException("Can't sleep in MockConnection", e);
         }
-        
+
         return null;
     }
 
@@ -58,7 +59,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int executeUpdate(String pSql) throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -67,7 +68,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void close() throws SQLException
     {
-        
 
     }
 
@@ -76,7 +76,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getMaxFieldSize() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -85,7 +85,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setMaxFieldSize(int pMax) throws SQLException
     {
-        
 
     }
 
@@ -94,7 +93,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getMaxRows() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -103,7 +102,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setMaxRows(int pMax) throws SQLException
     {
-        
 
     }
 
@@ -112,7 +110,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setEscapeProcessing(boolean pEnable) throws SQLException
     {
-        
 
     }
 
@@ -121,7 +118,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getQueryTimeout() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -130,7 +127,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setQueryTimeout(int pSeconds) throws SQLException
     {
-        
 
     }
 
@@ -139,7 +135,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void cancel() throws SQLException
     {
-        
 
     }
 
@@ -148,7 +143,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public SQLWarning getWarnings() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -157,7 +152,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void clearWarnings() throws SQLException
     {
-        
 
     }
 
@@ -166,7 +160,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setCursorName(String pName) throws SQLException
     {
-        
 
     }
 
@@ -175,7 +168,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public boolean execute(String pSql) throws SQLException
     {
-        
+
         return false;
     }
 
@@ -184,7 +177,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public ResultSet getResultSet() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -193,7 +186,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getUpdateCount() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -202,7 +195,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public boolean getMoreResults() throws SQLException
     {
-        
+
         return false;
     }
 
@@ -211,7 +204,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setFetchDirection(int pDirection) throws SQLException
     {
-        
 
     }
 
@@ -220,7 +212,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getFetchDirection() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -229,7 +221,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setFetchSize(int pRows) throws SQLException
     {
-        
 
     }
 
@@ -238,7 +229,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getFetchSize() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -247,7 +238,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getResultSetConcurrency() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -256,7 +247,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getResultSetType() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -265,7 +256,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void addBatch(String pSql) throws SQLException
     {
-        
 
     }
 
@@ -274,7 +264,6 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void clearBatch() throws SQLException
     {
-        
 
     }
 
@@ -283,7 +272,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int[] executeBatch() throws SQLException
     {
-        
+
         return new int[0];
     }
 
@@ -292,7 +281,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public Connection getConnection() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -301,7 +290,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public boolean getMoreResults(int pCurrent) throws SQLException
     {
-        
+
         return false;
     }
 
@@ -310,7 +299,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public ResultSet getGeneratedKeys() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -319,7 +308,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int executeUpdate(String pSql, int pAutoGeneratedKeys) throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -328,7 +317,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int executeUpdate(String pSql, int[] pColumnIndexes) throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -337,7 +326,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int executeUpdate(String pSql, String[] pColumnNames) throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -346,7 +335,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public boolean execute(String pSql, int pAutoGeneratedKeys) throws SQLException
     {
-        
+
         return false;
     }
 
@@ -355,7 +344,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public boolean execute(String pSql, int[] pColumnIndexes) throws SQLException
     {
-        
+
         return false;
     }
 
@@ -364,7 +353,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public boolean execute(String pSql, String[] pColumnNames) throws SQLException
     {
-        
+
         return false;
     }
 
@@ -373,7 +362,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int getResultSetHoldability() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -397,7 +386,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public int executeUpdate() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -406,8 +395,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setNull(int pParameterIndex, int pSqlType) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -415,8 +403,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setBoolean(int pParameterIndex, boolean pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -424,8 +411,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setByte(int pParameterIndex, byte pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -433,8 +419,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setShort(int pParameterIndex, short pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -442,8 +427,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setInt(int pParameterIndex, int pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -451,8 +435,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setLong(int pParameterIndex, long pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -460,8 +443,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setFloat(int pParameterIndex, float pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -469,8 +451,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setDouble(int pParameterIndex, double pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -478,8 +459,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setBigDecimal(int pParameterIndex, BigDecimal pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -487,8 +467,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setString(int pParameterIndex, String pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -496,8 +475,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setBytes(int pParameterIndex, byte[] pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -505,8 +483,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setDate(int pParameterIndex, Date pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -514,8 +491,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setTime(int pParameterIndex, Time pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -523,8 +499,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setTimestamp(int pParameterIndex, Timestamp pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -532,8 +507,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setAsciiStream(int pParameterIndex, InputStream pX, int pLength) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -541,8 +515,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setUnicodeStream(int pParameterIndex, InputStream pX, int pLength) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -550,8 +523,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setBinaryStream(int pParameterIndex, InputStream pX, int pLength) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -559,8 +531,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void clearParameters() throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -568,8 +539,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setObject(int pParameterIndex, Object pX, int pTargetSqlType, int pScale) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -577,8 +547,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setObject(int pParameterIndex, Object pX, int pTargetSqlType) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -586,8 +555,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setObject(int pParameterIndex, Object pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -595,7 +563,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public boolean execute() throws SQLException
     {
-        
+
         return false;
     }
 
@@ -604,8 +572,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void addBatch() throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -613,8 +580,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setCharacterStream(int pParameterIndex, Reader pReader, int pLength) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -622,8 +588,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setRef(int pIndex, Ref pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -631,8 +596,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setBlob(int pIndex, Blob pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -640,8 +604,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setClob(int pIndex, Clob pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -649,8 +612,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setArray(int pIndex, Array pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -658,7 +620,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public ResultSetMetaData getMetaData() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -667,8 +629,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setDate(int pParameterIndex, Date pX, Calendar pCal) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -676,8 +637,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setTime(int pParameterIndex, Time pX, Calendar pCal) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -685,8 +645,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setTimestamp(int pParameterIndex, Timestamp pX, Calendar pCal) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -694,8 +653,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setNull(int pParamIndex, int pSqlType, String pTypeName) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -703,8 +661,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public void setURL(int pParameterIndex, URL pX) throws SQLException
     {
-        
-        
+
     }
 
     /**
@@ -712,7 +669,7 @@ public class MockPreparedStatement implements PreparedStatement
      */
     public ParameterMetaData getParameterMetaData() throws SQLException
     {
-        
+
         return null;
     }
 

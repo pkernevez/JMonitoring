@@ -116,7 +116,7 @@ public class StoreManager
         } catch (Throwable tT)
         {
             String tClassName = (pResult == null ? "" : pResult.getClass().getName());
-            String tTracerClassName = (pTracer == null ? "" : pTracer.getClass().getName());
+            String tTracerClassName = pTracer.getClass().getName();
             sLog.error("Unable to trace class=[" + tClassName + "] with tracer=[" + tTracerClassName + "]", tT);
             tResultAsString = "";
         }

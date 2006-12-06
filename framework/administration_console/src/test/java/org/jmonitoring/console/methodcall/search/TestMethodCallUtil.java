@@ -30,7 +30,7 @@ public class TestMethodCallUtil extends PersistanceTestCase
 
         // Now insert the TestFlow
         ExecutionFlowPO tFlow = buildNewFullFlow();
-        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        tFlowDAO.insertFullExecutionFlow(tFlow);
 
         List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
         MethodCallExtractDTO curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(0);
@@ -113,16 +113,13 @@ public class TestMethodCallUtil extends PersistanceTestCase
         MethodCallPO tSubPoint;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, TestMethodCallUtil.class.getName(), "builNewFullFlow", "GrDefault",
-            "[]");
+        tPoint = new MethodCallPO(null, TestMethodCallUtil.class.getName(), "builNewFullFlow", "GrDefault", "[]");
         tPoint.setBeginTime(tStartTime);
 
-        tSubPoint = new MethodCallPO(tPoint, TestMethodCallUtil.class.getName(), "builNewFullFlow2", "GrChild1",
-            "[]");
+        tSubPoint = new MethodCallPO(tPoint, TestMethodCallUtil.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
         tSubPoint.setEndTime(System.currentTimeMillis());
 
-        new MethodCallPO(tPoint, TestMethodCallUtil.class.getName(), "builNewFullFlow3", "GrChild2",
-            "[]");
+        new MethodCallPO(tPoint, TestMethodCallUtil.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tPoint.setEndTime(tStartTime + 20);
         tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
         return tFlow;

@@ -40,7 +40,7 @@ public class FlowRenderer extends GanttRenderer
 
     /**
      * Pour la serialisation.
-     */ 
+     */
     private static final long serialVersionUID = 3258413911081431864L;
 
     /** More than 7 parameters, because of JFreeChart. */

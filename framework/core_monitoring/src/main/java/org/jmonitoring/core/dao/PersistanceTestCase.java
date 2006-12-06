@@ -57,7 +57,7 @@ public abstract class PersistanceTestCase extends TestCase
         assertEquals("Invalid UPDATE statistics", pUpdateCount, tStat.getUpdateCount());
         assertEquals("Invalid LOAD statistics", pLoadCount, tStat.getLoadCount());
         assertEquals("Invalid FECTH statistics", pFetchCount, tStat.getFetchCount());
-        
+
     }
 
     protected void createDataSet(String pDataSetFileName)

@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -233,8 +232,8 @@ public final class TreeTracerHelper
                             boolean tIsBizClass = !tReturnClass.getName().startsWith("sun.")
                                 && !tReturnClass.getName().startsWith("java");
                             tIsBizClass = tIsBizClass
-                                || (Collection.class.isAssignableFrom(tReturnClass) || Map.class.isAssignableFrom(tReturnClass) || Object.class
-                                    .equals(tReturnClass));
+                                || (Collection.class.isAssignableFrom(tReturnClass)
+                                    || Map.class.isAssignableFrom(tReturnClass) || Object.class.equals(tReturnClass));
                             if (tIsBizClass)
                             {
                                 tResult.add(curMethod);

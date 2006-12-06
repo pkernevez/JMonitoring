@@ -16,24 +16,32 @@ import org.jmonitoring.sample.driver.MockConnection;
 /**
  * 
  * @author pke
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
+ * Templates
  */
 public class ShoppingCart
 {
 
     private static final int TEMPO7 = 9;
+
     private static final int TEMPO6 = 11;
+
     private static final int TEMPO5 = 17;
+
     private static final int TEMPO4 = 16;
+
     private static final int TEMPO3 = 15;
+
     private static final int TEMPO2 = 13;
+
     private static final int TEMPO = 7;
+
     private List mItems = new Vector();
 
     /**
-     * For the Sample 
+     * For the Sample
+     * 
      * @param pItem For the Sample
      */
     public void addItem(Item pItem)
@@ -105,12 +113,13 @@ public class ShoppingCart
 
     /**
      * For the Sample
+     * 
      * @param pItem For the Sample
      */
     public void removeItem(Item pItem)
     {
         try
-        {            
+        {
             Thread.sleep(TEMPO3);
         } catch (InterruptedException e)
         {
@@ -122,7 +131,7 @@ public class ShoppingCart
 
     /**
      * For the Sample
-     *
+     * 
      */
     public void empty()
     {
@@ -139,6 +148,7 @@ public class ShoppingCart
 
     /**
      * For the Sample
+     * 
      * @return For the Sample
      */
     public float totalValue()

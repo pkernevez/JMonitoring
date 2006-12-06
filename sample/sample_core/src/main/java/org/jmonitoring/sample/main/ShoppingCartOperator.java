@@ -8,19 +8,23 @@ package org.jmonitoring.sample.main;
 /**
  * 
  * @author pke
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
+ * Templates
  */
 public final class ShoppingCartOperator
 {
     private static final int TEMPO2 = 19;
+
     private static final int TEMPO = 18;
+
     private ShoppingCartOperator()
     {
     }
+
     /**
      * For the Sample
+     * 
      * @param pSc For the Sample
      * @param pInventory For the Sample
      * @param pItem For the Sample
@@ -43,6 +47,7 @@ public final class ShoppingCartOperator
 
     /**
      * For the Sample
+     * 
      * @param pSc For the Sample
      * @param pInventory For the Sample
      * @param pItem For the Sample

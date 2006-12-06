@@ -193,7 +193,7 @@ public class TestFlowEditActionIn extends MockStrutsTestCase
         curPoint.setBeginTime(new Date(tCurrentTime));
         curPoint.setEndTime(new Date(tCurrentTime + 2 + 1)); // Duration=3
         curPoint.setChildren(tChildren2);
-        
+
         // This local variable is indireclty used by its parent
         MethodCallDTO tOldPoint = curPoint;
         curPoint = new MethodCallDTO();

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jmonitoring.console.flow.FlowBuilderUtil;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 
 import servletunit.struts.MockStrutsTestCase;

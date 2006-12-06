@@ -1,11 +1,9 @@
 package org.jmonitoring.core.persistence;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -17,12 +15,10 @@ import org.apache.commons.logging.LogFactory;
  * @todo voir pour utiliser un composant hibernate MethodCallId pour la clé composite
  * @author pke
  */
-public class MethodCallPO
+public class MethodCallPO implements Serializable 
 {
 
     private static final int MAX_STRING_SIZE = 65000;
-
-    private static Log sLog = LogFactory.getLog(MethodCallPO.class);
 
     private MethodCallPK mId;
 
@@ -336,7 +332,7 @@ public class MethodCallPO
      */
     public void setParams(String pParams)
     {
-        if (pParams!=null && pParams.length() > MAX_STRING_SIZE)
+        if (pParams != null && pParams.length() > MAX_STRING_SIZE)
         {
             mParams = pParams.substring(MAX_STRING_SIZE);
         } else

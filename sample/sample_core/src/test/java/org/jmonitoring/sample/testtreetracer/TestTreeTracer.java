@@ -9,9 +9,6 @@ import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.impl.SynchroneJdbcStore;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;
-import org.springframework.beans.factory.support.ChildBeanDefinition;
-
-import junit.framework.TestCase;
 
 public class TestTreeTracer extends PersistanceTestCase
 {
@@ -79,6 +76,6 @@ public class TestTreeTracer extends PersistanceTestCase
         ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         assertEquals(ToBeCall.class.getName(), tFlow.getFirstMethodCall().getClassName());
-        assertTrue(tFlow.getFirstMethodCall().getParams().length()>20);
+        assertTrue(tFlow.getFirstMethodCall().getParams().length() > 20);
     }
 }

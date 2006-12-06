@@ -1,8 +1,8 @@
 package org.jmonitoring.core.configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 public class ConfigurationDAO
@@ -27,33 +27,25 @@ public class ConfigurationDAO
         return (GeneralConfigurationPO) mSession.load(GeneralConfigurationPO.class, new Integer(UNIQUE_CONF_ID));
     }
 
-    // // public void updateConfiguration(GeneralConfigurationPO pConf)
-    // // {
-    // //
-    // }
-
-    public void insertGroupConfiguration()
+    public void saveGroupConfiguration(GroupConfigurationPO pConf)
     {
-
-    }
-
-    public void updateGroupConfiguration(GroupConfigurationPO pConf)
-    {
-
+        mSession.save(pConf);
     }
 
     public GroupConfigurationPO getGroupConfiguration(String pGroupName)
     {
-        return null;
+        Query tQuery = mSession.createQuery("from GroupConfigurationPO where groupName=:pGroupName");
+        tQuery.setString("pGroupName", pGroupName);
+        return (GroupConfigurationPO) tQuery.uniqueResult();
     }
 
-    public void deleteGroupConfiguration(String pGroupName)
+    public void deleteGroupConfiguration(int pId)
     {
 
     }
 
     public List getListOfGroupConfiguration()
     {
-        return new ArrayList();
+        return mSession.createQuery("from GroupConfigurationPO").list();
     }
 }

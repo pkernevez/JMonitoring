@@ -1,10 +1,5 @@
 package org.jmonitoring.core.info.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 
@@ -33,7 +28,7 @@ public class StackTraceTracer implements IParamaterTracer, IResultTracer
         StackTraceElement[] tElements = tException.getStackTrace();
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("Stacktrace for this call:\n");
-        for (int i=0; i<tElements.length; i++)
+        for (int i = 0; i < tElements.length; i++)
         {
             tBuffer.append("    at ").append(tElements[i]).append("\n");
         }

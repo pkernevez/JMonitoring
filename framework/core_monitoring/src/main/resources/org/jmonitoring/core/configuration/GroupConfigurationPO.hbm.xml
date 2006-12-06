@@ -8,7 +8,7 @@
       </id>
 
       <property name="groupName" unique="true" column="GROUP_NAME" type="java.lang.String" length="145"/>
-      <property name="color" column="COLOR" type="java.lang.String" length="15"/>
+      <property name="colorAsString" column="COLOR" type="java.lang.String" length="15"/>
       
 	</class>	
 </hibernate-mapping>

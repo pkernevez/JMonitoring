@@ -5,6 +5,7 @@ package org.jmonitoring.core.persistence;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import java.util.Date;
  * @todo Coder les méthodes equals et hashcode
  * @author pke
  */
-public class ExecutionFlowPO
+public class ExecutionFlowPO implements Serializable
 {
     /** Thread name. */
     private String mThreadName;

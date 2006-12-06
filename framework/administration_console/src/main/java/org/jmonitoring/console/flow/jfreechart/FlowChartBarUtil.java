@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -112,7 +111,7 @@ public class FlowChartBarUtil
         String tGroupName = pCurMeasure.getGroupName();
         TaskForGroupName tTask = getTaskForGroupName(pCurMeasure, tGroupName);
 
-        //List tListOfClidren = pCurMeasure.getChildren();
+        // List tListOfClidren = pCurMeasure.getChildren();
         Date tBeginDate;
         Date tEndDate = pCurMeasure.getBeginTime();
         MethodCallDTO curChild;

@@ -19,7 +19,8 @@ public class DisplayTagDecorator extends TableDecorator
         StringBuffer tResult = new StringBuffer();
         tResult.append("<A href=\"");
         tResult.append("MethodCallEditIn.do?flowId=").append(tMeth.getFlowId()).append("&position=");
-        tResult.append(tMeth.getPosition()).append("\" title=\"View this method call\"><IMG src=\"images/edit.png\"/></A>");
+        tResult.append(tMeth.getPosition()).append(
+            "\" title=\"View this method call\"><IMG src=\"images/edit.png\"/></A>");
         return tResult.toString();
     }
 

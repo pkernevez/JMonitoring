@@ -1,5 +1,7 @@
 package org.jmonitoring.core.configuration;
 
+import java.awt.Color;
+
 import org.hibernate.Hibernate;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.SQLQuery;
@@ -45,7 +47,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
             assertTrue(e.getMessage().length() > 0);
         }
         assertEquals(1, countGeneralConf());
-        
+
     }
 
     public void testGetGeneralConfiguration()
@@ -75,7 +77,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
         assertEquals(tConf.getTimeFormat(), tConf2.getTimeFormat());
         assertEquals(1, countGeneralConf());
 
-        //Check update
+        // Check update
         tConf = tConf2;
         tConf.setLoggerClass("TheNewClass");
         tDao.saveGeneralConfiguration(tConf);
@@ -88,51 +90,62 @@ public class TestConfigurationDAO extends PersistanceTestCase
         assertEquals(tConf.getId(), tConf2.getId());
         assertEquals("TheNewClass", tConf2.getLoggerClass());
         assertEquals(1, countGeneralConf());
-        
+
     }
 
-//    public void testInsertGroupConfiguration()
-//    {
-//        GroupConfigurationPO tConf = new GroupConfigurationPO();
-//        ConfigurationDAO tDao = new ConfigurationDAO(getSession());
-//        assertEquals(0, tDao.getListOfGroupConfiguration().size());
-//
-////        GeneralConfigurationPO tConf = new GeneralConfigurationPO();
-//     
-//        fail("Not yet implemented");
-//        
-//    }
-//
-//    public void testUpdateGroupConfiguration()
-//    {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testGetGroupConfiguration()
-//    {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testDeleteGroupConfiguration()
-//    {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testGetListOfGroupConfiguration()
-//    {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testGeneralConfigurationCacheLevel2()
-//    {
-//        fail("Not yet implemented");
-//    }
-//
-//    public void testGroupConfigurationCacheLevel2()
-//    {
-//        fail("Not yet implemented");
-//    }
-//
+    public void testSaveGroupConfiguration()
+    {
+        GroupConfigurationPO tConf = new GroupConfigurationPO("groupName", new Color(12, 13, 14));
+        ConfigurationDAO tDao = new ConfigurationDAO(getSession());
+        assertEquals(0, tDao.getListOfGroupConfiguration().size());
+        tDao.saveGroupConfiguration(tConf);
+        getSession().flush();
+        assertEquals(1, tDao.getListOfGroupConfiguration().size());
+
+        tConf.setColor(new Color(15, 16, 17));
+        tDao.saveGroupConfiguration(tConf);
+    }
+
+    public void testGetGroupConfiguration()
+    {
+        GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
+        GroupConfigurationPO tConf2 = new GroupConfigurationPO("groupName2", new Color(15, 16, 17));
+        ConfigurationDAO tDao = new ConfigurationDAO(getSession());
+        assertEquals(0, tDao.getListOfGroupConfiguration().size());
+        tDao.saveGroupConfiguration(tConf);
+        tDao.saveGroupConfiguration(tConf2);
+        getSession().flush();
+        assertEquals(2, tDao.getListOfGroupConfiguration().size());
+
+        GroupConfigurationPO tNewConf = tDao.getGroupConfiguration("groupName1");
+        assertNotNull(tNewConf);
+        assertEquals(12, tNewConf.getColor().getRed());
+
+        assertNotNull(tDao.getGroupConfiguration("groupName2"));
+        assertNull(tDao.getGroupConfiguration("groupName3"));
+
+    }
+
+    // public void testDeleteGroupConfiguration()
+    // {
+    // fail("Not yet implemented");
+    // }
+    //
+    // public void testGetListOfGroupConfiguration()
+    // {
+    // fail("Not yet implemented");
+    // }
+    //
+    // public void testGeneralConfigurationCacheLevel2()
+    // {
+    // fail("Not yet implemented");
+    // }
+    //
+    // public void testGroupConfigurationCacheLevel2()
+    // {
+    // fail("Not yet implemented");
+    // }
+    //
     private int countGeneralConf()
     {
         SQLQuery tQuery = getSession().createSQLQuery("Select Count(*) as myCount From CONFIGURATION_GENERAL");

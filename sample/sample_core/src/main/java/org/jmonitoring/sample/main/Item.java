@@ -8,21 +8,24 @@ package org.jmonitoring.sample.main;
 /**
  * 
  * @author pke
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
+ * Templates
  */
 public class Item
 {
 
     private static final int TEMPO2 = 4;
+
     private static final int TEMPO = 3;
+
     private String mId;
 
     private float mPrice;
 
     /**
      * For the Sample
+     * 
      * @param pId For the Sample
      * @param pPrice For the Sample
      */
@@ -42,6 +45,7 @@ public class Item
 
     /**
      * For the Sample
+     * 
      * @return For the Sample
      */
     public String getID()
@@ -51,6 +55,7 @@ public class Item
 
     /**
      * For the Sample
+     * 
      * @return For the Sample
      */
     public float getPrice()
@@ -68,6 +73,7 @@ public class Item
 
     /**
      * For the Sample
+     * 
      * @return For the Sample
      */
     public String toString()

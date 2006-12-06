@@ -21,7 +21,7 @@ public class ImportFlowActionOut extends Action
 
         FormFile myFile = tForm.getTheFile();
         byte[] tFileData = myFile.getFileData();
-        
+
         JMonitoringProcess tProc = ProcessFactory.getInstance();
         ExecutionFlowDTO tNewFlow = tProc.insertFlowFromXml(tFileData);
         tForm.setNewExecutionFlow(tNewFlow);

@@ -6,7 +6,6 @@ package org.jmonitoring.core.process;
 
 public final class ProcessFactory
 {
-    
 
     // /**
     // * Use for test.

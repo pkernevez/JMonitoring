@@ -18,8 +18,8 @@ public class FlowExportServlet extends HttpServlet
 
     private static final long serialVersionUID = 2393628229673694881L;
 
-    private static Log sLog = LogFactory.getLog(FlowExportServlet.class); 
-    
+    private static Log sLog = LogFactory.getLog(FlowExportServlet.class);
+
     protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
@@ -29,9 +29,10 @@ public class FlowExportServlet extends HttpServlet
         ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tFlowId);
         sLog.debug("End Read from database of Flow, Id=[" + tFlowId + "]");
         pResp.setContentType("application/x-zip");
-        String tFileName = "ExecutionFlow_"+tFlow.getJvmIdentifier()+"_Id"+tFlowId+"_"+tFlow.getBeginDateAsString()+".gzip";
-        pResp.setHeader("Content-Disposition", "attachment; filename=\""+tFileName+"\"");
-        byte[] tFlowAsBytes=tProcess.getFlowAsXml(tFlow);
+        String tFileName = "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_"
+            + tFlow.getBeginDateAsString() + ".gzip";
+        pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
+        byte[] tFlowAsBytes = tProcess.getFlowAsXml(tFlow);
         pResp.setContentLength(tFlowAsBytes.length);
         pResp.getOutputStream().write(tFlowAsBytes);
         pResp.getOutputStream().flush();

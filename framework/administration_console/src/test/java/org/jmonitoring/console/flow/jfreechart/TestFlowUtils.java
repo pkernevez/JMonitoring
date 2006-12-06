@@ -37,10 +37,10 @@ public class TestFlowUtils extends TestCase
         tPoint.setEndTime(new Date(tRefDate.getTime() + 106));
         MethodCallDTO[] tChildren1 = new MethodCallDTO[2];
         MethodCallDTO[] tChildren2 = new MethodCallDTO[2];
-        
+
         MethodCallDTO tChild1 = new MethodCallDTO();
         tChild1.setParent(tPoint);
-        tChildren1[0]=tChild1;
+        tChildren1[0] = tChild1;
         tChild1.setClassName(TestFlowUtils.class.getName());
         tChild1.setMethodName("builNewFullFlow2");
         tChild1.setGroupName("GrChild1");
@@ -50,7 +50,7 @@ public class TestFlowUtils extends TestCase
 
         MethodCallDTO tChild3 = new MethodCallDTO();
         tChild3.setParent(tChild1);
-        tChildren2[0]=tChild3;
+        tChildren2[0] = tChild3;
         tChild3.setClassName(TestFlowUtils.class.getName());
         tChild3.setMethodName("builNewFullFlow4");
         tChild3.setGroupName("GrChild2");
@@ -60,18 +60,18 @@ public class TestFlowUtils extends TestCase
 
         MethodCallDTO tChild4 = new MethodCallDTO();
         tChild4.setParent(tChild1);
-        tChildren2[1]=tChild4;
+        tChildren2[1] = tChild4;
         tChild4.setClassName(TestFlowUtils.class.getName());
         tChild4.setMethodName("builNewFullFlow4");
         tChild4.setGroupName("GrDefault");
         tChild4.setParams("[]");
         tChild4.setBeginTime(new Date(tRefDate.getTime() + 23));
         tChild4.setEndTime(new Date(tRefDate.getTime() + 27));
-tChild1.setChildren(tChildren2);
+        tChild1.setChildren(tChildren2);
 
         MethodCallDTO tChild2 = new MethodCallDTO();
         tChild2.setParent(tPoint);
-        tChildren1[1]=tChild2;
+        tChildren1[1] = tChild2;
         tChild2.setClassName(TestFlowUtils.class.getName());
         tChild2.setMethodName("builNewFullFlow3");
         tChild2.setGroupName("GrChild2");
@@ -79,7 +79,7 @@ tChild1.setChildren(tChildren2);
         tChild2.setBeginTime(new Date(tRefDate.getTime() + 48));
         tChild2.setEndTime(new Date(tRefDate.getTime() + 75));
         tPoint.setChildren(tChildren1);
-        
+
         return tPoint;
     }
 

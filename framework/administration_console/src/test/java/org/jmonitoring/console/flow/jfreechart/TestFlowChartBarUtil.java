@@ -174,7 +174,7 @@ public class TestFlowChartBarUtil extends TestCase
         MethodCallDTO tChild1 = new MethodCallDTO();
         tChild1.setPosition(2);
         tChild1.setParent(tPoint);
-        tChildren[0]=tChild1;
+        tChildren[0] = tChild1;
         tChild1.setClassName(TestFlowUtils.class.getName());
         tChild1.setMethodName("builNewFullFlow2");
         tChild1.setGroupName("GrChild1");
@@ -185,7 +185,7 @@ public class TestFlowChartBarUtil extends TestCase
         MethodCallDTO tChild2 = new MethodCallDTO();
         tChild2.setPosition(3);
         tChild2.setParent(tPoint);
-        tChildren[1]=tChild2;
+        tChildren[1] = tChild2;
         tChild2.setClassName(TestFlowUtils.class.getName());
         tChild2.setMethodName("builNewFullFlow2");
         tChild2.setGroupName("GrChild1");

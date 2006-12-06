@@ -17,6 +17,7 @@ public class UnknownFlowException extends Exception
 
     /**
      * Inherit constructor.
+     * 
      * @param pMsg The error message.
      */
     public UnknownFlowException(String pMsg)

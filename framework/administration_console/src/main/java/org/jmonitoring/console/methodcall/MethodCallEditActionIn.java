@@ -27,7 +27,6 @@ public class MethodCallEditActionIn extends Action
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse)
     {
-        ActionForward tForward;
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         // List tList = new ArrayList();
         MethodCallEditForm tForm = (MethodCallEditForm) pForm;

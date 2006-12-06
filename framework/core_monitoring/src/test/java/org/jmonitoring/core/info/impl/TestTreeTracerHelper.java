@@ -156,11 +156,11 @@ public class TestTreeTracerHelper extends TestCase
             return this.getClass().getClassLoader();
         }
 
-        private Child2 getChildPrivate()
-        {
-            return mChild2;
-        }
-
+//        private Child2 getChildPrivate()
+//        {
+//            return mChild2;
+//        }
+//
         protected Child2 getChildProtected()
         {
             return mChild2;
@@ -416,7 +416,6 @@ public class TestTreeTracerHelper extends TestCase
         tSet.add(tChild);
         tChild.setChildren2Bis(tSet);
         StringBuffer tBuffer = new StringBuffer();
-        tBuffer = new StringBuffer();
         TreeTracerHelper tHelper = new TreeTracerHelper();
         tHelper.traceSet("", tBuffer, tSet);
         String tExpectedResultL1 = Set.class.getName();
@@ -447,7 +446,6 @@ public class TestTreeTracerHelper extends TestCase
         tMap.put("key1", tMother);
         tMother.setChildren2Bis(tMap);
         StringBuffer tBuffer = new StringBuffer();
-        tBuffer = new StringBuffer();
         TreeTracerHelper tHelper = new TreeTracerHelper();
         tHelper.traceMap("", tBuffer, tMap);
         String tExpectedResultL1 = Map.class.getName() + "\n";

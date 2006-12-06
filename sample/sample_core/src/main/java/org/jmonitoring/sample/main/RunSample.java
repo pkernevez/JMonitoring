@@ -5,7 +5,6 @@ package org.jmonitoring.sample.main;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-
 /**
  * @author pke
  * 
@@ -15,11 +14,16 @@ package org.jmonitoring.sample.main;
 public class RunSample
 {
     private static final int SLEEP_TEST_TIME = 5000;
+
     private static final int NB3 = 32;
+
     private static final int NB2 = 31;
+
     private static final int NB1 = 30;
+
     /**
      * For the Sample
+     * 
      * @param pArgs For the Sample
      */
     public static void main(String[] pArgs)
@@ -28,7 +32,7 @@ public class RunSample
         // On attend pour être sur de l'insertion
         try
         {
-            //Empirique
+            // Empirique
             Thread.sleep(SLEEP_TEST_TIME);
         } catch (InterruptedException e)
         {
@@ -38,7 +42,7 @@ public class RunSample
 
     /**
      * For the Sample
-     *
+     * 
      */
     public void run()
     {

@@ -15,10 +15,12 @@ public class Inventory
 {
 
     private static final int TEMPO = 5;
+
     private List mItems = new Vector();
 
     /**
      * For the Sample.
+     * 
      * @param pItem For the Sample
      */
     public void addItem(Item pItem)
@@ -36,6 +38,7 @@ public class Inventory
 
     /**
      * For the Sample
+     * 
      * @param pItem For the Sample
      */
     public void removeItem(Item pItem)

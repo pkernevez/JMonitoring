@@ -9,6 +9,7 @@ import org.jmonitoring.core.common.MeasureException;
 
 public class AbstractMethodCallForm extends ActionForm
 {
+
     /** Flow technical identifier. */
     private int mFlowId = -1;
 

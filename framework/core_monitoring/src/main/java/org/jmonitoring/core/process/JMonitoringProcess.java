@@ -271,6 +271,7 @@ public class JMonitoringProcess
 
     /**
      * Serialize a full ExecutionFlow as Xml/GZip bytes.
+     * 
      * @param pFlow The flow to serialize.
      * @return The bytes of a GZip.
      */
@@ -292,7 +293,8 @@ public class JMonitoringProcess
     }
 
     /**
-     * Concert an GZip/Xml serialized ExecutionFlow as an ExecutionFLow Object. 
+     * Concert an GZip/Xml serialized ExecutionFlow as an ExecutionFLow Object.
+     * 
      * @param pFlowAsXml The GZip bytes.
      * @return The ExecutionFLow.
      */
@@ -323,14 +325,14 @@ public class JMonitoringProcess
             ExecutionFlowPO tFlowPO = DtoHelper.getDeepCopy(tFlowDto);
             tFlowPO.setId(-1);
             tDao.insertFullExecutionFlow(tFlowPO);
-            return  DtoHelper.getDeepCopy(tFlowPO);
+            return DtoHelper.getDeepCopy(tFlowPO);
         } finally
         {
             if (tSession != null)
             {
                 tSession.close();
             }
-        }        
+        }
     }
 
 }

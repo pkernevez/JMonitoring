@@ -124,5 +124,4 @@ public class FlowEditActionIn extends Action
         return sMaxFlowToShow;
     }
 
-
 }

@@ -17,9 +17,9 @@ import java.util.Map;
 
 /**
  * @author pke
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
+ * Templates
  */
 public class MockConnection implements Connection
 {
@@ -29,7 +29,7 @@ public class MockConnection implements Connection
      */
     public Statement createStatement() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -38,7 +38,7 @@ public class MockConnection implements Connection
      */
     public PreparedStatement prepareStatement(String pSql) throws SQLException
     {
-        
+
         return new MockPreparedStatement();
     }
 
@@ -47,7 +47,7 @@ public class MockConnection implements Connection
      */
     public CallableStatement prepareCall(String pSql) throws SQLException
     {
-        
+
         return null;
     }
 
@@ -56,7 +56,7 @@ public class MockConnection implements Connection
      */
     public String nativeSQL(String pSql) throws SQLException
     {
-        
+
         return null;
     }
 
@@ -65,7 +65,6 @@ public class MockConnection implements Connection
      */
     public void setAutoCommit(boolean pAutoCommit) throws SQLException
     {
-        
 
     }
 
@@ -74,7 +73,7 @@ public class MockConnection implements Connection
      */
     public boolean getAutoCommit() throws SQLException
     {
-        
+
         return false;
     }
 
@@ -83,7 +82,6 @@ public class MockConnection implements Connection
      */
     public void commit() throws SQLException
     {
-        
 
     }
 
@@ -92,7 +90,6 @@ public class MockConnection implements Connection
      */
     public void rollback() throws SQLException
     {
-        
 
     }
 
@@ -101,7 +98,6 @@ public class MockConnection implements Connection
      */
     public void close() throws SQLException
     {
-        
 
     }
 
@@ -110,7 +106,7 @@ public class MockConnection implements Connection
      */
     public boolean isClosed() throws SQLException
     {
-        
+
         return false;
     }
 
@@ -119,7 +115,7 @@ public class MockConnection implements Connection
      */
     public DatabaseMetaData getMetaData() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -128,7 +124,6 @@ public class MockConnection implements Connection
      */
     public void setReadOnly(boolean pReadOnly) throws SQLException
     {
-        
 
     }
 
@@ -137,7 +132,7 @@ public class MockConnection implements Connection
      */
     public boolean isReadOnly() throws SQLException
     {
-        
+
         return false;
     }
 
@@ -146,7 +141,6 @@ public class MockConnection implements Connection
      */
     public void setCatalog(String pCatalog) throws SQLException
     {
-        
 
     }
 
@@ -155,7 +149,7 @@ public class MockConnection implements Connection
      */
     public String getCatalog() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -164,7 +158,6 @@ public class MockConnection implements Connection
      */
     public void setTransactionIsolation(int pLevel) throws SQLException
     {
-        
 
     }
 
@@ -173,7 +166,7 @@ public class MockConnection implements Connection
      */
     public int getTransactionIsolation() throws SQLException
     {
-        
+
         return 0;
     }
 
@@ -182,7 +175,7 @@ public class MockConnection implements Connection
      */
     public SQLWarning getWarnings() throws SQLException
     {
-        
+
         return null;
     }
 
@@ -191,7 +184,6 @@ public class MockConnection implements Connection
      */
     public void clearWarnings() throws SQLException
     {
-        
 
     }
 
@@ -216,9 +208,10 @@ public class MockConnection implements Connection
     /**
      * @see java.sql.Connection#prepareCall(java.lang.String, int, int)
      */
-    public CallableStatement prepareCall(String pSql, int pResultSetType, int pResultSetConcurrency) throws SQLException
+    public CallableStatement prepareCall(String pSql, int pResultSetType, int pResultSetConcurrency)
+                    throws SQLException
     {
-        
+
         return null;
     }
 
@@ -237,7 +230,6 @@ public class MockConnection implements Connection
     public void setTypeMap(Map pArg0) throws SQLException
     {
 
-
     }
 
     /**
@@ -245,7 +237,6 @@ public class MockConnection implements Connection
      */
     public void setHoldability(int pHoldability) throws SQLException
     {
-
 
     }
 
@@ -282,7 +273,6 @@ public class MockConnection implements Connection
     public void rollback(Savepoint pSavepoint) throws SQLException
     {
 
-
     }
 
     /**
@@ -290,7 +280,6 @@ public class MockConnection implements Connection
      */
     public void releaseSavepoint(Savepoint pSavepoint) throws SQLException
     {
-
 
     }
 
@@ -350,7 +339,5 @@ public class MockConnection implements Connection
 
         return null;
     }
-
-    
 
 }

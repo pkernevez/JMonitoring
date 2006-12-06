@@ -46,16 +46,14 @@ public final class DtoHelper
     public static ExecutionFlowDTO getDeepCopy(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = getSimpleCopy(pFlowPO);
-        DtoHelper tHelper = new DtoHelper();
-        tResult.setFirstMethodCall(tHelper.getMethodCallDto(pFlowPO.getFirstMethodCall(), tResult, 0));
+        tResult.setFirstMethodCall(DtoHelper.getMethodCallDto(pFlowPO.getFirstMethodCall(), tResult, 0));
         return tResult;
     }
 
     public static ExecutionFlowPO getDeepCopy(ExecutionFlowDTO pFlowDto)
     {
         ExecutionFlowPO tResult = getSimpleCopy(pFlowDto);
-        DtoHelper tHelper = new DtoHelper();
-        tResult.setFirstMethodCall(tHelper.getMethodCallPO(pFlowDto.getFirstMethodCall(), tResult));
+        tResult.setFirstMethodCall(DtoHelper.getMethodCallPO(pFlowDto.getFirstMethodCall(), tResult));
         return tResult;
     }
 
@@ -181,10 +179,9 @@ public final class DtoHelper
     public static List copyListOfMethodPO(List pResult)
     {
         List tResult = new ArrayList(pResult.size());
-        DtoHelper tHelper = new DtoHelper();
         for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
         {
-            tResult.add(tHelper.getMethodCallDto((MethodCallPO) tIt.next()));
+            tResult.add(DtoHelper.getMethodCallDto((MethodCallPO) tIt.next()));
         }
         return tResult;
     }
@@ -192,7 +189,7 @@ public final class DtoHelper
     public static List simpleCopyListOfMethodPO(List pResult)
     {
         List tResult = new ArrayList(pResult.size());
-        int i=0;
+        int i = 0;
         for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
         {
             tResult.add(simpleCopy((MethodCallPO) tIt.next(), i++));

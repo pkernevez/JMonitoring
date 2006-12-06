@@ -46,7 +46,7 @@ public class ExecutionFlowDAO
     private PreparedStatement mMethodCallInsertStatement;
 
     private static final int BATCH_SIZE = 100;
-    
+
     /**
      * Default constructor.
      * 
@@ -148,7 +148,8 @@ public class ExecutionFlowDAO
         int tChildIndex = 0;
         for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
         {
-            tNewBatchBufferSize = saveAllMethodCall((MethodCallPO) tChildIt.next(), tChildIndex++, tNewBatchBufferSize++);
+            tNewBatchBufferSize = saveAllMethodCall((MethodCallPO) tChildIt.next(), tChildIndex++,
+                tNewBatchBufferSize+1);
         }
         return tNewBatchBufferSize;
     }
@@ -165,7 +166,8 @@ public class ExecutionFlowDAO
         {
             if (sLog.isDebugEnabled())
             {
-                sLog.debug("Interting MethodCall(FlowId=["+pMethodCall.getFlow().getId()+"Index=["+pMethodCall.getPosition()+"] and NewBatchSize=["+pBatchBufferSize);
+                sLog.debug("Interting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "Index=["
+                    + pMethodCall.getPosition() + "] and NewBatchSize=[" + pBatchBufferSize);
             }
             int curIndex = 1;
             if (mMethodCallInsertStatement == null)
@@ -173,13 +175,13 @@ public class ExecutionFlowDAO
                 mMethodCallInsertStatement = mSession.connection().prepareStatement(SQL_INSERT_METHOD_CALL);
             }
             int tNewBatchBufferSize = pBatchBufferSize;
-            if ( tNewBatchBufferSize%BATCH_SIZE == 0)
+            if (tNewBatchBufferSize % BATCH_SIZE == 0)
             {
                 tNewBatchBufferSize = 0;
                 int tFlushSize = mMethodCallInsertStatement.executeBatch().length;
                 if (sLog.isDebugEnabled())
                 {
-                sLog.debug("Flush MethodCall, flushsize=["+tFlushSize+"]");
+                    sLog.debug("Flush MethodCall, flushsize=[" + tFlushSize + "]");
                 }
             }
             mMethodCallInsertStatement.setInt(curIndex++, pMethodCall.getFlow().getId());

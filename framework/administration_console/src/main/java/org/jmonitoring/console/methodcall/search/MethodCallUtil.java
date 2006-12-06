@@ -155,14 +155,5 @@ public class MethodCallUtil
         return tResult;
     }
 
-    private String getListAsString(List pList)
-    {
-        StringBuffer tBuffer = new StringBuffer();
-        for (Iterator tIt = pList.iterator(); tIt.hasNext();)
-        {
-            tBuffer.append(tIt.next());
-        }
-        return tBuffer.toString();
-    }
 
 }
