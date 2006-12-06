@@ -10,6 +10,9 @@
     	<!-- mapping files -->
 		<mapping resource="org/jmonitoring/core/persistence/ExecutionFlowPO.hbm.xml"/>
         <mapping resource="org/jmonitoring/core/persistence/MethodCallPO.hbm.xml"/>
+		<!--  Configuration -->
+        <mapping resource="org/jmonitoring/core/configuration/GeneralConfigurationPO.hbm.xml"/>
+        <mapping resource="org/jmonitoring/core/configuration/GroupConfigurationPO.hbm.xml"/>
 	  
     	
     </session-factory>

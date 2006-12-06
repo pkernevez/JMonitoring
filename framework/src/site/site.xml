@@ -10,7 +10,7 @@
   </bannerRight>
   <body>
 
-
+    <menu ref="modules" />
     ${reports}
 
   </body>

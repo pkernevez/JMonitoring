@@ -230,6 +230,7 @@ public final class Configuration
      * @param pGroupName The name of the the group.
      * @return The Color.
      * @see Configuration.calculColor(String)
+     * @deprecated
      */
     public Color getColor(String pGroupName)
     {
