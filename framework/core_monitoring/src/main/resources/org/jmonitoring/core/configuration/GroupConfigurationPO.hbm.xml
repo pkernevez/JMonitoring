@@ -3,11 +3,16 @@
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
    	<class name="org.jmonitoring.core.configuration.GroupConfigurationPO" table="CONFIGURATION_GROUP">
-      <id name="id" column="ID" unsaved-value="-1">
+	  <cache usage="nonstrict-read-write" region="Conf"/>
+	    
+	    <composite-id >
+      	    <key-property name="groupName" column="GROUP_NAME" type="java.lang.String" length="145"/>
+        </composite-id>
+      <!-- id name="id" column="ID" unsaved-value="-1">
          <generator class="native" />
-      </id>
-
-      <property name="groupName" unique="true" column="GROUP_NAME" type="java.lang.String" length="145"/>
+      </id-->
+      
+      <!--property name="groupName" unique="true" column="GROUP_NAME" type="java.lang.String" length="145"/-->
       <property name="colorAsString" column="COLOR" type="java.lang.String" length="15"/>
       
 	</class>	

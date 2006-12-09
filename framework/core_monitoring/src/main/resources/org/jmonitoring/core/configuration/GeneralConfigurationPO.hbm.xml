@@ -7,11 +7,9 @@
          <generator class="assigned" />
       </id>
 
-      <property name="asynchroneThreadPoolSize" column="ASYNCHRONE_THREAD_POOL_SIZE" type="java.lang.Integer" />
       <property name="maxExecutionDuringFlowEdition" column="MAX_EXECUTION__DURING_FLOW_EDITION" type="java.lang.Integer" />
       <property name="dateFormat" column="DATE_FORMAT" type="java.lang.String" length="30"/>
       <property name="timeFormat" column="TIME_FORMAT" type="java.lang.String" length="30"/>
-      <property name="loggerClass" column="LOGGER_CLASS_NAME" type="java.lang.String" length="160"/>
       
 	</class>	
 </hibernate-mapping>

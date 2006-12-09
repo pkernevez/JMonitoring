@@ -1,6 +1,7 @@
 package org.jmonitoring.core.configuration;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.StringTokenizer;
 
 /**
@@ -9,9 +10,9 @@ import java.util.StringTokenizer;
  * @author pke
  * 
  */
-public class GroupConfigurationPO
+public class GroupConfigurationPO implements Serializable
 {
-    private int mId = -1;
+    private static final long serialVersionUID = -8206014416776157737L;
 
     private String mGroupName;
 
@@ -36,7 +37,7 @@ public class GroupConfigurationPO
 
     public String getColorAsString()
     {
-        return ""+mColor.getRed()+", "+mColor.getGreen()+", "+mColor.getBlue();
+        return "" + mColor.getRed() + ", " + mColor.getGreen() + ", " + mColor.getBlue();
     }
 
     public void setColorAsString(String pColor)
@@ -45,7 +46,7 @@ public class GroupConfigurationPO
         int tRed = Integer.parseInt(tTok.nextToken().trim());
         int tGreen = Integer.parseInt(tTok.nextToken().trim());
         int tBlue = Integer.parseInt(tTok.nextToken().trim());
-        
+
         mColor = new Color(tRed, tGreen, tBlue);
     }
 
@@ -59,16 +60,6 @@ public class GroupConfigurationPO
         mGroupName = pGroupName;
     }
 
-    public int getId()
-    {
-        return mId;
-    }
-
-    public void setId(int pId)
-    {
-        mId = pId;
-    }
-
     public Color getColor()
     {
         return mColor;
@@ -77,5 +68,31 @@ public class GroupConfigurationPO
     public void setColor(Color pColor)
     {
         mColor = pColor;
+    }
+
+    public int hashCode()
+    {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((mGroupName == null) ? 0 : mGroupName.hashCode());
+        return result;
+    }
+
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final GroupConfigurationPO other = (GroupConfigurationPO) obj;
+        if (mGroupName == null)
+        {
+            if (other.mGroupName != null)
+                return false;
+        } else if (!mGroupName.equals(other.mGroupName))
+            return false;
+        return true;
     }
 }

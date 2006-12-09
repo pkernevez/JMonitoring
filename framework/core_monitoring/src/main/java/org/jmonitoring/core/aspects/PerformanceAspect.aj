@@ -106,7 +106,7 @@ public abstract aspect PerformanceAspect
             tManager.logEndOfMethodWithException(mThowableTracer, t);
         } catch (Throwable tT)
         {
-            mLog.error("Unable to log execution Throwable");
+            mLog.error("Unable to log execution Throwable",tT);
         }
     }
 

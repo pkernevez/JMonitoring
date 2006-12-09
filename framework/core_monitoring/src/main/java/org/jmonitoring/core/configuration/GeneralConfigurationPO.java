@@ -10,14 +10,8 @@ public class GeneralConfigurationPO
     private int mId = ConfigurationDAO.UNIQUE_CONF_ID;
 
     /**
-     * ThreadPool Size for AsynchroneLogger
-     */
-    private int mAsynchroneThreadPoolSize = 1;
-
-    /**
-     * Max number of execution for displaying an ExecutionFlow. 
-     * log. If there is more MethodCall for this ExecutionFlow, the user had to choose the action: ignore this number or
-     * filter the MethodCall list.
+     * Max number of execution for displaying an ExecutionFlow. log. If there is more MethodCall for this ExecutionFlow,
+     * the user had to choose the action: ignore this number or filter the MethodCall list.
      * 
      */
     private int mMaxExecutionDuringFlowEdition = 2000;
@@ -27,21 +21,6 @@ public class GeneralConfigurationPO
 
     /** Time configuration for user rendered */
     private String mTimeFormat = "HH:mm:ss";
-
-    /**
-     * Class to use for logging MeasurePoint
-     */
-    private String mLoggerClass = org.jmonitoring.core.store.impl.AsynchroneJdbcLogger.class.getName();
-
-    public int getAsynchroneThreadPoolSize()
-    {
-        return mAsynchroneThreadPoolSize;
-    }
-
-    public void setAsynchroneThreadPoolSize(int pAsynchroneThreadPoolSize)
-    {
-        mAsynchroneThreadPoolSize = pAsynchroneThreadPoolSize;
-    }
 
     public String getDateFormat()
     {
@@ -73,14 +52,26 @@ public class GeneralConfigurationPO
         mTimeFormat = pTimeFormat;
     }
 
-    public String getLoggerClass()
+    public int hashCode()
     {
-        return mLoggerClass;
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + mId;
+        return result;
     }
 
-    public void setLoggerClass(String pLoggerClass)
+    public boolean equals(Object obj)
     {
-        mLoggerClass = pLoggerClass;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final GeneralConfigurationPO other = (GeneralConfigurationPO) obj;
+        if (mId != other.mId)
+            return false;
+        return true;
     }
 
     public int getId()
