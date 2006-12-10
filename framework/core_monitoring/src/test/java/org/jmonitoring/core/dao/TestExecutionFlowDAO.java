@@ -8,6 +8,7 @@ package org.jmonitoring.core.dao;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.stat.Statistics;
@@ -373,6 +374,16 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
         assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
         assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+        try
+        {
+            tFlowDAO.readMethodCall(13, 34);
+            fail("Should not append");
+        } catch (ObjectNotFoundException e)
+        {
+            assertEquals(
+                "No row with the given identifier exists: [org.jmonitoring.core.persistence.MethodCallPO#FlowId=13 and Position=34]",
+                e.getMessage());
+        }
     }
 
     public void testGetListOfMethodCallExtract()

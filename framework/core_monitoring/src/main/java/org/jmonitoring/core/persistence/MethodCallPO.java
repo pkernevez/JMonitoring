@@ -15,8 +15,10 @@ import java.util.List;
  * @todo voir pour utiliser un composant hibernate MethodCallId pour la clé composite
  * @author pke
  */
-public class MethodCallPO implements Serializable 
+public class MethodCallPO implements Serializable
 {
+
+    private static final long serialVersionUID = -3127062002122955735L;
 
     private static final int MAX_STRING_SIZE = 65000;
 

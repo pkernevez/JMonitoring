@@ -19,6 +19,8 @@ import org.jmonitoring.core.configuration.Configuration;
 public class ExecutionFlowDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 6701199516068044627L;
+
     /** Thread name. */
     private String mThreadName;
 

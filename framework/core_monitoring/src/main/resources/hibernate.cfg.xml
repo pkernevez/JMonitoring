@@ -14,7 +14,6 @@
         <mapping resource="org/jmonitoring/core/configuration/GeneralConfigurationPO.hbm.xml"/>
         <mapping resource="org/jmonitoring/core/configuration/GroupConfigurationPO.hbm.xml"/>
 	  
-    	
     </session-factory>
 </hibernate-configuration>
 

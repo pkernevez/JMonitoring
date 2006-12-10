@@ -17,6 +17,8 @@ import java.util.Date;
  */
 public class ExecutionFlowPO implements Serializable
 {
+    private static final long serialVersionUID = -5320683232717386139L;
+
     /** Thread name. */
     private String mThreadName;
 

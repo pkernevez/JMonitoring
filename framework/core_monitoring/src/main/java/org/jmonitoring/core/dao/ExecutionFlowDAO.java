@@ -18,6 +18,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -149,7 +150,7 @@ public class ExecutionFlowDAO
         for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
         {
             tNewBatchBufferSize = saveAllMethodCall((MethodCallPO) tChildIt.next(), tChildIndex++,
-                tNewBatchBufferSize+1);
+                tNewBatchBufferSize + 1);
         }
         return tNewBatchBufferSize;
     }
@@ -411,8 +412,8 @@ public class ExecutionFlowDAO
         MethodCallPO tMeth = (MethodCallPO) tQuery.uniqueResult();
         if (tMeth == null)
         {
-            throw new DataBaseException("Unable to find a MethodCall for FlowId=" + pFlowId + " and Position="
-                + pMethodId);
+            throw new ObjectNotFoundException("FlowId=" + pFlowId + " and Position=" + pMethodId, MethodCallPO.class
+                .getName());
         } else
         {
             return tMeth;

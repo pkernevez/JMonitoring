@@ -5,14 +5,11 @@
    	<class name="org.jmonitoring.core.configuration.GroupConfigurationPO" table="CONFIGURATION_GROUP">
 	  <cache usage="nonstrict-read-write" region="Conf"/>
 	    
-	    <composite-id >
+	    <composite-id name="id" class="org.jmonitoring.core.configuration.GroupConfigurationPK" 
+	    	unsaved-value="undefined">
       	    <key-property name="groupName" column="GROUP_NAME" type="java.lang.String" length="145"/>
         </composite-id>
-      <!-- id name="id" column="ID" unsaved-value="-1">
-         <generator class="native" />
-      </id-->
-      
-      <!--property name="groupName" unique="true" column="GROUP_NAME" type="java.lang.String" length="145"/-->
+
       <property name="colorAsString" column="COLOR" type="java.lang.String" length="15"/>
       
 	</class>	

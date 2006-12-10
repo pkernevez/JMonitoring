@@ -156,11 +156,11 @@ public class TestTreeTracerHelper extends TestCase
             return this.getClass().getClassLoader();
         }
 
-//        private Child2 getChildPrivate()
-//        {
-//            return mChild2;
-//        }
-//
+        // private Child2 getChildPrivate()
+        // {
+        // return mChild2;
+        // }
+        //
         protected Child2 getChildProtected()
         {
             return mChild2;

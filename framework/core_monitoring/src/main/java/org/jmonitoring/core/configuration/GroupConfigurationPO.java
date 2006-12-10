@@ -1,7 +1,6 @@
 package org.jmonitoring.core.configuration;
 
 import java.awt.Color;
-import java.io.Serializable;
 import java.util.StringTokenizer;
 
 /**
@@ -10,11 +9,9 @@ import java.util.StringTokenizer;
  * @author pke
  * 
  */
-public class GroupConfigurationPO implements Serializable
+public class GroupConfigurationPO
 {
-    private static final long serialVersionUID = -8206014416776157737L;
-
-    private String mGroupName;
+    private GroupConfigurationPK mId;
 
     private Color mColor;
 
@@ -25,13 +22,13 @@ public class GroupConfigurationPO implements Serializable
 
     public GroupConfigurationPO(String pGroupName)
     {
-        mGroupName = pGroupName;
+        mId = new GroupConfigurationPK(pGroupName);
         mColor = Configuration.calculColor(pGroupName);
     }
 
     public GroupConfigurationPO(String pGroupName, Color pColor)
     {
-        mGroupName = pGroupName;
+        mId = new GroupConfigurationPK(pGroupName);
         mColor = pColor;
     }
 
@@ -52,12 +49,12 @@ public class GroupConfigurationPO implements Serializable
 
     public String getGroupName()
     {
-        return mGroupName;
+        return (mId == null ? null : mId.getGroupName());
     }
 
     public void setGroupName(String pGroupName)
     {
-        mGroupName = pGroupName;
+        mId.setGroupName(pGroupName);
     }
 
     public Color getColor()
@@ -74,7 +71,7 @@ public class GroupConfigurationPO implements Serializable
     {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((mGroupName == null) ? 0 : mGroupName.hashCode());
+        result = PRIME * result + ((mId == null) ? 0 : mId.hashCode());
         return result;
     }
 
@@ -87,12 +84,22 @@ public class GroupConfigurationPO implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final GroupConfigurationPO other = (GroupConfigurationPO) obj;
-        if (mGroupName == null)
+        if (mId == null)
         {
-            if (other.mGroupName != null)
+            if (other.mId != null)
                 return false;
-        } else if (!mGroupName.equals(other.mGroupName))
+        } else if (!mId.equals(other.mId))
             return false;
         return true;
+    }
+
+    public GroupConfigurationPK getId()
+    {
+        return mId;
+    }
+
+    public void setId(GroupConfigurationPK pId)
+    {
+        mId = pId;
     }
 }

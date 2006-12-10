@@ -3,6 +3,8 @@
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
    	<class name="org.jmonitoring.core.configuration.GeneralConfigurationPO" table="CONFIGURATION_GENERAL">
+	  <cache usage="nonstrict-read-write" region="Conf"/>
+
       <id name="id" column="ID" unsaved-value="undefined">
          <generator class="assigned" />
       </id>

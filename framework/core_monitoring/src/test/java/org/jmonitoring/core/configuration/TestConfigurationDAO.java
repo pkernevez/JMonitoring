@@ -3,19 +3,14 @@ package org.jmonitoring.core.configuration;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import org.hibernate.Hibernate;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.SQLQuery;
 import org.hibernate.exception.GenericJDBCException;
-import org.hibernate.stat.Statistics;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
 
 public class TestConfigurationDAO extends PersistanceTestCase
 {
@@ -120,14 +115,27 @@ public class TestConfigurationDAO extends PersistanceTestCase
         tDao.saveGroupConfiguration(tConf);
         tDao.saveGroupConfiguration(tConf2);
         getSession().flush();
+        getSession().clear();
         assertEquals(2, tDao.getAllGroupConfigurations().size());
 
         GroupConfigurationPO tNewConf = tDao.getGroupConfiguration("groupName1");
         assertNotNull(tNewConf);
+        assertNotSame(tConf, tNewConf);
         assertEquals(12, tNewConf.getColor().getRed());
+        assertEquals("groupName1", tNewConf.getGroupName());
 
         assertNotNull(tDao.getGroupConfiguration("groupName2"));
-        assertNull(tDao.getGroupConfiguration("groupName3"));
+
+        try
+        {
+            tDao.getGroupConfiguration("groupName3");
+            fail("Should not be retreive...");
+        } catch (ObjectNotFoundException e)
+        {
+            assertEquals(
+                "No row with the given identifier exists: [org.jmonitoring.core.configuration.GroupConfigurationPO#groupName3]",
+                e.getMessage());
+        }
 
     }
 
@@ -140,9 +148,10 @@ public class TestConfigurationDAO extends PersistanceTestCase
         tDao.saveGroupConfiguration(tConf);
         tDao.saveGroupConfiguration(tConf2);
         getSession().flush();
+        getSession().clear();
         assertEquals(2, tDao.getAllGroupConfigurations().size());
 
-        tDao.deleteGroupConfiguration(tConf.getGroupName());
+        tDao.deleteGroupConfiguration("groupName1");
         getSession().flush();
         assertEquals(1, tDao.getAllGroupConfigurations().size());
 
@@ -171,10 +180,11 @@ public class TestConfigurationDAO extends PersistanceTestCase
         assertEquals(0, tDao.getAllGroupConfigurations().size());
         tDao.saveGroupConfiguration(tConf);
         tDao.saveGroupConfiguration(tConf2);
+
+        TestExecutionFlowDAO.buildAndSaveNewFullFlow(getSession());
         getSession().flush();
         getSession().clear();
 
-        TestExecutionFlowDAO.buildAndSaveNewFullFlow(getSession());
         Collection tGroups = tDao.getAllGroupConfigurations();
         assertEquals(5, tGroups.size());
         Iterator tIt = tGroups.iterator();
@@ -184,14 +194,34 @@ public class TestConfigurationDAO extends PersistanceTestCase
         assertEquals("groupName1", ((GroupConfigurationPO) tIt.next()).getGroupName());
         assertEquals("GrChild2", ((GroupConfigurationPO) tIt.next()).getGroupName());
 
-        assertEquals(1 + 2, getStats().getQueries().length);
+        assertEquals(2, getStats().getQueries().length);
         assertEquals(0, getStats().getEntityFetchCount());
+        assertEquals(2, getStats().getEntityLoadCount());
 
     }
 
     public void testGeneralConfigurationCacheLevel2()
     {
-        fail("Not yet implemented");
+        GeneralConfigurationPO tConf = new GeneralConfigurationPO();
+
+        ConfigurationDAO tDao = new ConfigurationDAO(getSession());
+        tDao.saveGeneralConfiguration(tConf);
+        getSession().flush();
+        getSession().clear();
+        getSession().getSessionFactory().evict(GeneralConfigurationPO.class);
+
+        GeneralConfigurationPO tNewConf = tDao.getGeneralConfiguration();
+        assertNotSame(tConf, tNewConf);
+        assertEquals(0, getStats().getQueries().length);
+        assertEquals(1, getStats().getEntityLoadCount());
+        getSession().clear();
+
+        tConf = tNewConf;
+        tNewConf = tDao.getGeneralConfiguration();
+        assertNotSame(tConf, tNewConf);
+        assertEquals(0, getStats().getQueries().length);
+        assertEquals(1, getStats().getEntityLoadCount());
+
     }
 
     public void testGroupConfigurationCacheLevel2()
@@ -200,29 +230,29 @@ public class TestConfigurationDAO extends PersistanceTestCase
         GroupConfigurationPO tConf2 = new GroupConfigurationPO("groupName2", new Color(15, 16, 17));
         GroupConfigurationPO tConf3 = new GroupConfigurationPO("groupName3", new Color(15, 16, 17));
         ConfigurationDAO tDao = new ConfigurationDAO(getSession());
-        // assertEquals(0, tDao.getAllGroupConfigurations().size());
         tDao.saveGroupConfiguration(tConf);
         tDao.saveGroupConfiguration(tConf2);
         tDao.saveGroupConfiguration(tConf3);
         getSession().flush();
         getSession().clear();
+        getSession().getSessionFactory().evict(GroupConfigurationPO.class);
 
         tConf = tDao.getGroupConfiguration(tConf.getGroupName());
         tConf2 = tDao.getGroupConfiguration(tConf2.getGroupName());
         tConf3 = tDao.getGroupConfiguration(tConf3.getGroupName());
-        assertEquals(1, getStats().getQueries().length);
+
+        assertEquals(0, getStats().getQueries().length);
         assertEquals(3, getStats().getEntityLoadCount());
         getSession().clear();
-        tConf = tDao.getGroupConfiguration(tConf.getGroupName());
-        tConf2 = tDao.getGroupConfiguration(tConf2.getGroupName());
-        tConf3 = tDao.getGroupConfiguration(tConf3.getGroupName());
+        tDao.getGroupConfiguration(tConf.getGroupName());
+        tDao.getGroupConfiguration(tConf2.getGroupName());
+        tDao.getGroupConfiguration(tConf3.getGroupName());
         assertEquals(0, getStats().getQueryCacheHitCount());
         assertEquals(1, getStats().getSecondLevelCacheRegionNames().length);
-
         assertEquals(3, getStats().getSecondLevelCacheStatistics("Conf").getEntries().size());
         assertEquals(3, getStats().getSecondLevelCacheStatistics("Conf").getElementCountInMemory());
-        assertEquals(1, getStats().getQueries().length);
-        assertEquals(6, getStats().getEntityLoadCount());
+        assertEquals(0, getStats().getQueries().length);
+        assertEquals(3, getStats().getEntityLoadCount());
         assertEquals(0, getStats().getEntityFetchCount());
         assertEquals(3, getStats().getSecondLevelCacheHitCount());
     }
