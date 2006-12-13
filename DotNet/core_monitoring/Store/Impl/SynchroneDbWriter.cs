@@ -11,11 +11,20 @@ namespace Org.NMonitoring.Core.Store.Impl
 
         public void WriteExecutionFlow(ExecutionFlowPO executionFlow)
         {
-            ExecutionFlowDao dao = new ExecutionFlowDao();
+            try
+            {
+                ExecutionFlowDao dao = new ExecutionFlowDao();
 
-            dao.InsertFullExecutionFlow(executionFlow);
-            System.Console.WriteLine("SynchroneDbWriter:writeExecutionFlow Added new ExecutionFlow to List " + executionFlow);
-            sLog.Info("Added new ExecutionFlow to List " + executionFlow);
+                System.Console.WriteLine("PKE Avant SynchroneDbWriter:writeExecutionFlow Added new ExecutionFlow to List ");
+                dao.InsertFullExecutionFlow(executionFlow);
+                System.Console.WriteLine("SynchroneDbWriter:writeExecutionFlow Added new ExecutionFlow to List " + executionFlow);
+                sLog.Info("Added new ExecutionFlow to List " + executionFlow);
+            } catch (Exception internalException)
+            {               
+                //TODO FCH      
+                  System.Console.WriteLine("AsynchroneDBWriter::AsynchroneWrite UNABLE TO STORE Flow, "+ internalException);
+                sLog.Error("AsynchroneDBWriter::AsynchroneWrite UNABLE TO STORE Flow, "+ internalException);
+            }
 
         }
     }

@@ -21,11 +21,18 @@ namespace Org.NMonitoring.Core.Store.Impl
         }
         private static void AsynchroneWrite(Object data)
         {
-            ExecutionFlowPO executionFlow = (ExecutionFlowPO)data;
-            ExecutionFlowDao dao = new ExecutionFlowDao();
-            dao.InsertFullExecutionFlow(executionFlow);
-            sLog.Info("Added new ExecutionFlow to List " + executionFlow);
-            System.Console.WriteLine("ASynchroneDbWriter:AsynchroneWrite Added new ExecutionFlow to List " + executionFlow);
+            try
+            {
+                ExecutionFlowPO executionFlow = (ExecutionFlowPO)data;
+                ExecutionFlowDao dao = new ExecutionFlowDao();
+                dao.InsertFullExecutionFlow(executionFlow);
+                sLog.Info("Added new ExecutionFlow to List " + executionFlow);
+                System.Console.WriteLine("ASynchroneDbWriter:AsynchroneWrite Added new ExecutionFlow to List " + executionFlow);
+            } catch (Exception internalException)
+            {               
+                //TODO FCH      
+                sLog.Error("AsynchroneDBWriter::AsynchroneWrite UNABLE TO STORE Flow, "+ internalException);
+            }
 
         }
     }

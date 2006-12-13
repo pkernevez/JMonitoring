@@ -4,7 +4,7 @@
 	debug="true">
 
 	<Variables>
-		<Variable name="path" value="E:\MES_DOCUMENTS\Visual Studio 2005\Projects\JMonitoring\DotNet\sample_target\bin\Debug"/>
+		<Variable name="path" value="bin\Debug"/>
 	</Variables>
 	
     <TargetAssembly>$(path)\sample_target.exe</TargetAssembly>

@@ -66,9 +66,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>../../CmdWeave.cmd
+    <PostBuildEvent>..\..\CmdWeave.cmd
 
 </PostBuildEvent>
-    <PreBuildEvent>../../CmdCopyLib.cmd</PreBuildEvent>
+    <PreBuildEvent>..\..\CmdCopyLib.cmd
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

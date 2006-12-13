@@ -140,13 +140,13 @@ namespace Org.NMonitoring.Core.Store
                 ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
                 try
                 {
-                    Console.WriteLine("StoreManager::storeWriter.writeExecutionFlow(Dernier Appel)");
+                    sLog.Debug("StoreManager::storeWriter.writeExecutionFlow(Dernier Appel)");
                     storeWriter.WriteExecutionFlow(tFlow);
                 }
                 catch (NMonitoringException internalException)
-                {                    
-                    //TODO : LOG
-                    throw;
+                {               
+                    //TODO FCH      
+                    sLog.Error("StoreManager::storeWriter.writeExecutionFlow UNABLE TO STORE Flow, "+ internalException);
                 }
                 currentLogPoint = null;
             }
@@ -195,6 +195,7 @@ namespace Org.NMonitoring.Core.Store
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 
                 ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
+                Console.WriteLine("PKE Log avec Exception");
                 storeWriter.WriteExecutionFlow(tFlow);
                 currentLogPoint = null;
             }
