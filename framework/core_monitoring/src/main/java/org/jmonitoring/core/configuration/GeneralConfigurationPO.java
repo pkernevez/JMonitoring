@@ -1,5 +1,10 @@
 package org.jmonitoring.core.configuration;
 
+/***************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved.                   *
+ * Please look at license.txt for more license detail.                     *
+ **************************************************************************/
+
 /**
  * General configuration of JMonitoring. This class is supposed to have only one instance in database.
  * 

@@ -1,14 +1,14 @@
 package org.jmonitoring.core.persistence;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
+
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @todo Coder les méthodes equals et hashcode cf p54

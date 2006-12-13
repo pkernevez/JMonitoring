@@ -1,5 +1,10 @@
 package org.jmonitoring.core.info.impl;
 
+/***************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved.                   *
+ * Please look at license.txt for more license detail.                     *
+ **************************************************************************/
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -156,11 +161,6 @@ public class TestTreeTracerHelper extends TestCase
             return this.getClass().getClassLoader();
         }
 
-        // private Child2 getChildPrivate()
-        // {
-        // return mChild2;
-        // }
-        //
         protected Child2 getChildProtected()
         {
             return mChild2;
@@ -193,8 +193,6 @@ public class TestTreeTracerHelper extends TestCase
         tHelper.traceObjectTree(tBuffer, tList);
 
         tBuffer.append("\n \n");
-        System.out.println("---------------------------");
-        System.out.println(tBuffer.toString());
         assertEquals(-1, tBuffer.indexOf("[ALREADY DONE!]"));
         assertEquals(3, tHelper.getNbEntity());
         assertEquals(2, tHelper.getMaxDepth());
@@ -318,10 +316,6 @@ public class TestTreeTracerHelper extends TestCase
 
         tBuffer.append("\n \n");
         StringTokenizer tTok = new StringTokenizer(tBuffer.toString(), "\n");
-        System.out.println(tExpectedResultL1 + "\n" + tExpectedResultL2 + "\n" + tExpectedResultL3 + "\n"
-            + tExpectedResultL4);
-        System.out.println("---------------------------");
-        System.out.println(tBuffer.toString());
         assertEquals(tExpectedResultL1, tTok.nextToken());
         assertEquals(tExpectedResultL2, tTok.nextToken());
         assertEquals(tExpectedResultL3, tTok.nextToken());
@@ -425,10 +419,6 @@ public class TestTreeTracerHelper extends TestCase
         String tExpectedResultL5 = "  |              |  |-- pos1 --> [ALREADY DONE!] " + Child1.class.getName();
         tBuffer.append("\n \n");
         StringTokenizer tTok = new StringTokenizer(tBuffer.toString(), "\n");
-        System.out.println(tExpectedResultL1 + "\n" + tExpectedResultL2 + "\n" + tExpectedResultL3 + "\n"
-            + tExpectedResultL4 + "\n" + tExpectedResultL5);
-        System.out.println("---------------------------");
-        System.out.println(tBuffer.toString());
         assertEquals(tExpectedResultL1, tTok.nextToken());
         assertEquals(tExpectedResultL2, tTok.nextToken());
         assertEquals(tExpectedResultL3, tTok.nextToken());
@@ -454,11 +444,7 @@ public class TestTreeTracerHelper extends TestCase
         String tExpectedResultL4 = "  |              |-- getChildren2Bis --> [ALREADY DONE!] " + Map.class.getName()
             + "\n";
         String tExpectedResultL5 = "  |              |-- getChildren2Ter --> " + Set.class.getName() + "\n";
-        System.out.println(tExpectedResultL1 + tExpectedResultL2 + tExpectedResultL3 + tExpectedResultL4
-            + tExpectedResultL5);
-        System.out.println("---------------------------");
         String tResultString = tBuffer.toString();
-        System.out.println(tResultString);
         assertEquals(5, StringUtils.countMatches(tResultString, "\n"));
         assertEquals(2, StringUtils.countMatches(tResultString, tExpectedResultL1));
         assertEquals(1, StringUtils.countMatches(tResultString, tExpectedResultL2));
@@ -485,9 +471,6 @@ public class TestTreeTracerHelper extends TestCase
 
         tBuffer.append("\n \n");
         StringTokenizer tTok = new StringTokenizer(tBuffer.toString(), "\n");
-        System.out.println(tExpectedResultL1 + "\n" + tExpectedResultL2 + "\n" + tExpectedResultL3);
-        System.out.println("---------------------------");
-        System.out.println(tBuffer.toString());
         assertEquals(tExpectedResultL1, tTok.nextToken());
         assertEquals(tExpectedResultL2, tTok.nextToken());
         assertEquals(tExpectedResultL3, tTok.nextToken());

@@ -12,7 +12,7 @@ import org.jmonitoring.core.info.IResultTracer;
 public class StackTraceTracer implements IParamaterTracer, IResultTracer
 {
 
-    public String convertToString(Object[] pParameterObjects)
+    public String convertToString(Object pTarget, Object[] pParameterObjects)
     {
         return getStackTrace();
     }

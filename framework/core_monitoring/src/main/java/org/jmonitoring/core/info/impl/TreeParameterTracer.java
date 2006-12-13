@@ -5,7 +5,7 @@ import org.jmonitoring.core.info.IParamaterTracer;
 public class TreeParameterTracer extends Object implements IParamaterTracer
 {
 
-    public String convertToString(Object[] pParameterObjects)
+    public String convertToString(Object pTarget, Object[] pParameterObjects)
     {
         long tStartTime = System.currentTimeMillis();
         StringBuffer[] tBuffer = new StringBuffer[pParameterObjects.length];

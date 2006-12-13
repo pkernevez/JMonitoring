@@ -21,7 +21,7 @@ public class ToStringParametersTracer implements IParamaterTracer
         mMaxLength = pMaxLength;
     }
 
-    public String convertToString(Object[] pParameterObjects)
+    public String convertToString(Object pTarget, Object[] pParameterObjects)
     {
         StringBuffer tBuffer = new StringBuffer();
         if (pParameterObjects != null)

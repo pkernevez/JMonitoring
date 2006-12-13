@@ -69,7 +69,7 @@ public class StoreManager
         String tArgs;
         try
         {
-            tArgs = (pTracer == null ? null : pTracer.convertToString(pArgs));
+            tArgs = (pTracer == null ? null : pTracer.convertToString(pTarget, pArgs));
         } catch (Throwable tT)
         {
             String tClassName = pSignature.getDeclaringTypeName();
