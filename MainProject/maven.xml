@@ -51,7 +51,7 @@
 	<goal name="buildSite" prereqs="multiproject:clean,exclude-sample">
             <!-- @todo Utiliser Cargo -->
             <echo>Build Site</echo>
-	        <attainGoal name="build"/>
+	        <attainGoal name="buildRelease"/>
             <attainGoal name="multiproject:clean"/>
             <attainGoal name="clean"/>
             
