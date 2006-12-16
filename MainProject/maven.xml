@@ -94,12 +94,12 @@
 
 	    <mkdir dir="${release.dir}"/>
 	    <!-- main artifacts -->
-	    <copy file="${maven.repo.local}/jmonitoring/jars/core_monitoring-${monitoring.version}.jar" todir="${release.dir}"/>
-	    <copy file="${maven.repo.local}/jmonitoring/wars/administration_console-${monitoring.version}.war" todir="${release.dir}"/>
+	    <copy file="${maven.repo.local}/${pom.groupId}/jars/core_monitoring-${monitoring.version}.jar" todir="${release.dir}"/>
+	    <copy file="${maven.repo.local}/${pom.groupId}/wars/administration_console-${monitoring.version}.war" todir="${release.dir}"/>
 	
 	    <!-- sample artifacts -->
-	    <copy file="${maven.repo.local}/jmonitoring/jars/sample_core-${monitoring.version}.jar" todir="${release.dir}"/>
-	    <copy file="${maven.repo.local}/jmonitoring/wars/sample_webapp-${monitoring.version}.war" todir="${release.dir}"/>
+	    <copy file="${maven.repo.local}/${pom.groupId}/jars/sample_core-${monitoring.version}.jar" todir="${release.dir}"/>
+	    <copy file="${maven.repo.local}/${pom.groupId}/wars/sample_webapp-${monitoring.version}.war" todir="${release.dir}"/>
 	    
 	    <!-- Annoucement -->
 	    <copy file="${maven.build.dir}/generated-xdocs/announcements/announcement-${monitoring.version}.txt" todir="${release.dir}"/>
@@ -107,10 +107,7 @@
 	    <!-- license -->
 	    <copy file="${basedir}/LICENSE.txt" todir="${release.dir}"/>
 	    
-	    <!-- MySql create script -->
-	    <copy file="${basedir}/../framework/core_monitoring/src/main/sql/createMySqlDB.sql" todir="${release.dir}"/>
-	    
-	    <!-- MySql create script -->
+	    <!-- conf file -->
 	    <copy file="${basedir}/../framework/core_monitoring/src/test/resources/jmonitoring.properties" todir="${release.dir}"/>
 	    
 	    <!-- Now build the Zip release file -->
