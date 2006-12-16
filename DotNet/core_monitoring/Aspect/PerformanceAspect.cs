@@ -16,7 +16,7 @@ namespace Org.NMonitoring.Core.Aspect
     public class PerformanceAspect
     {
         /** Log instance. */
-        private static ILog sLog = LogManager.GetLogger("SynchroneDbWriter");
+        private static ILog sLog = LogManager.GetLogger("PerformanceAspect");
 
         /** Allow the parameter log. */
         private static bool logParameter = false;
@@ -38,51 +38,62 @@ namespace Org.NMonitoring.Core.Aspect
         //Used to implement child classes
         protected PerformanceAspect()
         {
+            //Create the Manager instance
+            Configuration.ConfigurationManager Manager = Configuration.ConfigurationManager.Instance; // Initialize the constructor
         }
 
 
         public static object ExecutionToLogInternal(OperationJoinPoint jp)
         {
             object result = null;
-
-            if (jp == null)
-            {
-                sLog.Error("Unable to log a null joinpoint");
-                return result;
-            }
-
-            StoreManager storeManager = StoreManager.GetManager();
-
-            Object[] tArgs = null;
-            if (logParameter)
-            {
-                // On log les paramètres d'appel, de retour et les exceptions
-                tArgs = jp.Arguments;
-            }
-
+            StoreManager storeManager = null;
             try
             {
+
+                if (jp == null)
+                {
+                    sLog.Error("Unable to log a null joinpoint");
+                    return result;
+                }
+
+                storeManager = StoreManager.GetManager();
+
+                Object[] tArgs = null;
+                if (logParameter)
+                {
+                    // On log les paramètres d'appel, de retour et les exceptions
+                    tArgs = jp.Arguments;
+                }
+
+
                 if (storeManager != null)
                 {
                     storeManager.LogBeginOfMethod(jp, tArgs, groupName);
                 }
                 else
                 {
-                    sLog.Error("executionToLogInternal Impossible de logger l'entrée de la methode");
+                    //sLog.Error("executionToLogInternal Impossible de logger l'entrée de la methode");
                 }
             }
-            catch (NMonitoringException e) 
+
+            //Impossible de laisser remonter une erreur de NMonitoring vers l'appli !
+            // TODO : Voir s'il ne faudrait pas courcircuiter l'appel a LogEndOfMethod 
+            //dans le cas ou on arrive pas à logger le debut
+            catch (NMonitoringException e)
             {
                 sLog.Error("NMonitoringException : Unable to log", e);
             }
+            catch (Exception e)
+            {
+                sLog.Error("Unknown Exception : Unable to log", e);
+            }
 
-
-
-            // En cas d'exception le code est dans le trigger "after()throwing..."
             try
             {
+                //Execution du code à auditer
                 result = jp.Proceed();
 
+                //Fin normale (sans exception) du code audité
                 try
                 {
                     if (storeManager != null)
@@ -101,36 +112,40 @@ namespace Org.NMonitoring.Core.Aspect
                         sLog.Error("executionToLogInternal Impossible de logger la sortie de la methode");
                     }
                 }
+                //Impossible de laisser remonter une erreur de NMonitoring vars l'appli !
                 catch (NMonitoringException e)
                 {
                     sLog.Error("NMonitoringException : Unable to log", e);
-                    throw;
-                    //LogFactory.getLog(this.getClass()).error("Unable to log", e); FCH :cf PKE
+                }
+                catch (Exception e)
+                {
+                    sLog.Error("Unknown Exception : Unable to log", e);
                 }
             }
+            //Une exception s'est produite dans l'application auditée
             catch (Exception externalException)
             {
                 try
                 {
+                    //In log la fin de la methode en marquant l'exception
                     storeManager.LogEndOfMethodWithException(externalException);
                 }
+                //Impossible de laisser remonter une erreur de NMonitoring vars l'appli !
                 catch (NMonitoringException internalException)
                 {
                     sLog.Error("NMonitoringException : Unable to log execution Throwable", internalException);
-                    //LogFactory.getLog(this.getClass()).error("Unable to log", e); FCH :cf PKE
-                    throw;
                 }
+                catch (Exception e)
+                {
+                    sLog.Error("Unknown Exception : Unable to log", e);
+                }
+
+                //On propage l'exception issue de l'application auditée
                 throw;
             }
 
 
             return result;
         }
-
-        /*
-            after() throwing (Throwable t): executionToLogInternal() {
-                
-            }
-         * */
     }
 }

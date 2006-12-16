@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Text;
-using log4net;
 
 using Org.NMonitoring.Core.Common;
 
@@ -9,8 +8,6 @@ namespace Org.NMonitoring.Core.Persistence
 {
     public class MethodCallPO
     {
-
-        private static ILog sLog = LogManager.GetLogger("MethodCallPO");
 
         /** Flow Technical Id. */
         private ExecutionFlowPO mFlow;
@@ -156,7 +153,6 @@ namespace Org.NMonitoring.Core.Persistence
             catch (Exception externalException)
             {
                 String message = "Unable to get arguments of class=[" + pClassName + "] and method=[" + pMethodName + "]";
-                sLog.Error(message, externalException);
                 throw new NMonitoringException(message,externalException);
             }
             return buffer.ToString();

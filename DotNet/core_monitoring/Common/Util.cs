@@ -12,7 +12,7 @@ namespace Org.NMonitoring.Core.Common
         }
 
         
-        private static DateTime premierJanvier1970 = new DateTime(1970, 01, 01, 0, 0, 0, 0);
+        private static DateTime firstOfJanuary1970 = new DateTime(1970, 01, 01, 0, 0, 0, 0);
 
         static public long CurrentTimeMillis()
         {
@@ -21,13 +21,13 @@ namespace Org.NMonitoring.Core.Common
 
         static public long DateToTimeMillis(DateTime date)
         {
-            TimeSpan ellapsedTIme = (date - premierJanvier1970);
+            TimeSpan ellapsedTIme = (date - firstOfJanuary1970);
             return (long)ellapsedTIme.TotalMilliseconds;
         }
 
         static public DateTime TimeMillisToDate(long milliseconds)
         {
-            return premierJanvier1970.AddMilliseconds(milliseconds); 
+            return firstOfJanuary1970.AddMilliseconds(milliseconds); 
         }
 
     }

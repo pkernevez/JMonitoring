@@ -10,6 +10,7 @@ namespace Org.NMonitoring.Core.Common
         {
         }
 
+
         public NMonitoringException(String message)
             : base(message)
         {

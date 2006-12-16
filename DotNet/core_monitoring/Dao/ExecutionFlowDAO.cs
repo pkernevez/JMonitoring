@@ -129,10 +129,7 @@ SELECT SCOPE_IDENTITY()";
 
                 //TODO FCH : Faire le test qui casse si on enleve cette ligne
                 object tobject = cmd.ExecuteScalar();
-                System.Console.WriteLine("CLASS="+tobject.GetType());
                 executionFlow.Id = decimal.ToInt32((decimal)tobject);
-                System.Console.WriteLine("ExecutionFlowDAO:saveExecutionFlow, ID="+executionFlow.Id);
-
             }
         }
 
@@ -146,7 +143,6 @@ SELECT SCOPE_IDENTITY()";
                 IDbCommand cmd = _dao.CreateCommand(sCommandText, CommandType.Text);
                 cmd.Transaction = _dao.CurrentTransaction;
 
-                Console.WriteLine( "PKE Id="+firstMethodCall.Id);
                 cmd.Parameters.Add(_dao.CreateParameter("@FLOW_ID", executionFlow.Id));
                 //TODO FCH : Faire le test qui casse si on passe un mauvais ID
                 cmd.Parameters.Add(_dao.CreateParameter("@FIRST_METHOD_CALL_INDEX_IN_FLOW", firstMethodCall.Id));

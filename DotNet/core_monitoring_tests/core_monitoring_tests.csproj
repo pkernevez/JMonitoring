@@ -42,7 +42,7 @@
     <Compile Include="Persistence\TestMethodCallPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Store\TestAsynchroneDbWriter.cs" />
-    <Compile Include="Store\TestStoreManage.cs" />
+    <Compile Include="Store\TestStoreManager.cs" />
     <Compile Include="Store\TestSynchroneDbWriter.cs" />
   </ItemGroup>
   <ItemGroup>

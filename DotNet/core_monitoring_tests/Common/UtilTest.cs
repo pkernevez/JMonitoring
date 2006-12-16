@@ -11,7 +11,11 @@ namespace Org.NMonitoring.Core.Common.Tests
         public static void DeleteAllData()
         {
             DaoHelper dao = DaoHelper.Instance;
-            String sCommandText = @"UPDATE [EXECUTION_FLOW] SET  [FIRST_METHOD_CALL_ID] = NULL;DELETE FROM [METHOD_CALL];DELETE FROM [EXECUTION_FLOW];";
+            String sCommandText = @"UPDATE [EXECUTION_FLOW] set [FIRST_METHOD_CALL_INDEX_IN_FLOW] = NULL;
+                     UPDATE [METHOD_CALL] set [PARENT_INDEX_IN_FLOW] = NULL;
+                     DELETE FROM [METHOD_CALL];DELETE FROM [EXECUTION_FLOW];";
+                //@"UPDATE [METHOD_CALL] SET  [FLOW_ID] = -1;DELETE FROM [METHOD_CALL];DELETE FROM [EXECUTION_FLOW];";
+
             IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
 
             dao.Connection.Open();
@@ -19,6 +23,11 @@ namespace Org.NMonitoring.Core.Common.Tests
             try
             {
                 cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                dao.Connection.Close();
+                throw;
             }
             finally
             {

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aspect\PerformanceAspect.cs" />
+    <Compile Include="Common\InternalLogger.cs" />
     <Compile Include="Common\NMonitoringException.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
@@ -73,4 +74,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>aspectdng.dll -debug $(TargetFileName)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

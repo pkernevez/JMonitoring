@@ -7,8 +7,8 @@ namespace Org.NMonitoring.Core.Store.Impl
         public StoreFactory()
         {
             //TODO FCH : Use a configuration parametrer
-            writer =  new SynchroneDBWriter();
-            //writer = new AsynchroneDbWriter();
+            //writer =  new SynchroneDBWriter();
+            writer = new AsynchroneDBWriter();
 
         }
 

@@ -19,7 +19,7 @@
       <AroundBody aspectRegExp="* *.SampleAspect::Inventory(*)" 	          targetRegExp="* Org.NMonitoring.SampleTarget.Inventory::*(*)"/>
       <AroundBody aspectRegExp="* *.SampleAspect::Item(*)" 	                targetRegExp="* Org.NMonitoring.SampleTarget.Item::*(*)"/>
       <AroundBody aspectRegExp="* *.SampleAspect::ShoppingCart(*)" 	        targetRegExp="* Org.NMonitoring.SampleTarget.ShoppingCart::*(*)"/>
-      <AroundBody aspectRegExp="* *.SampleAspect::ShoppingCartOperator(*)" 	targetRegExp="* Org.NMonitoring.SampleTarget.ShoppingCartOperator::*(*)"/>
-      <AroundBody aspectRegExp="* *.SampleAspect::SampleTarget(*)" 	        targetRegExp="* Org.NMonitoring.SampleTarget.SampleTarget::*(*)"/>
+      <AroundBody aspectRegExp="* *.SampleAspect::ShoppingCartOperator(*)" 	targetRegExp="* ShoppingCartOperator::*(*)"/>
+      <AroundBody aspectRegExp="* *.SampleAspect::SampleTarget(*)" 	        targetXPath="//Type[match('Org.NMonitoring.SampleTarget.SampleTarget')]/Method[not(match('::Main'))]"/>
     </Advice>
 </AspectDngConfig>

@@ -6,8 +6,6 @@ using Org.NMonitoring.Core.Configuration;
 using Org.NMonitoring.Core.Store.Impl;
 using Org.NMonitoring.Core.Dao;
 
-using log4net;
-
 using DotNetGuru.AspectDNG.Joinpoints;
 
 
@@ -15,37 +13,34 @@ namespace Org.NMonitoring.Core.Store
 {
     public class StoreManager
     {
-
 		#region ThreadStatic Singleton
 		[ThreadStatic]
 		private static StoreManager storeManager;
 
-		public static StoreManager GetManager()
-		{
-			try
-			{
-				if (storeManager == null)
-				{
-                    DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance, ConfigurationManager.Instance.ConnexionString);                           
+        public static StoreManager GetManager()
+        {
+            if (storeManager == null)
+            {
+                try
+                {
+                    DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance, ConfigurationManager.Instance.ConnexionString);
                     storeManager = new StoreManager();
-				}
+                }
+                catch (Exception externalException)
+                {
+                    // Impossible de laisser remonter l'erreur car elle se confond avec l'erreur
+                    // de la méthode fonctionelle invoquée.
+                    throw new NMonitoringException("Unable to create a new StoreManager ", externalException);
+                }
+            }
 
-			}
-			catch (Exception e)
-			{
-				// Impossible de laisser remonter l'erreur car elle se confond avec l'erreur
-				// de la méthode fonctionelle invoquée.
-				sLog.Error("Impossible d'instancier un logger pour tracer les appels", e);
-			}
 
-			return storeManager;
-		}
+            return storeManager;
+        }
         #endregion ThreadStatic Singleton
 
         private MethodCallPO currentLogPoint;
 
-        /** <code>CommonsLog</code> instance. */
-        static ILog sLog = LogManager.GetLogger("StoreManager");
 
         private IStoreWriter storeWriter;
 
@@ -56,7 +51,6 @@ namespace Org.NMonitoring.Core.Store
         protected StoreManager()
             : this(new StoreFactory().Writer)
         {
-            Console.WriteLine("StoreManager::StoreManager(Vide)");
         }
 
         /**
@@ -67,7 +61,6 @@ namespace Org.NMonitoring.Core.Store
         protected StoreManager(IStoreWriter storeWriter)
         {
             this.storeWriter = storeWriter;
-            Console.WriteLine("StoreManager::StoreManager(IStoreWriter,Configuration )");
         }
 
         /**
@@ -93,22 +86,12 @@ namespace Org.NMonitoring.Core.Store
 
 		public void LogBeginOfMethod(string className, string operationName, Object [] args, String groupName)
 		{
-			Console.WriteLine("StoreManager::logBeginOfMethod()");
-
 			if (currentLogPoint == null)
 			{ // Premier appel du Thread
-				if (sLog.IsDebugEnabled)
-				{
-					//sLog.Debug("logBeginOfMethod First Time" + opJoinPoint.ToString());
-				}
 				currentLogPoint = new MethodCallPO(null, className, operationName, groupName, args);
 			}
 			else
 			{
-				if (sLog.IsDebugEnabled)
-				{
-					//sLog.Debug("logBeginOfMethod Any Time" + opJoinPoint.ToString());
-				}
 				MethodCallPO tOldPoint = currentLogPoint;
 				currentLogPoint = new MethodCallPO(tOldPoint, className, operationName,  groupName, args);
 			}
@@ -121,41 +104,24 @@ namespace Org.NMonitoring.Core.Store
          */
         public void LogEndOfMethodNormal(Object result)
         {
-            Console.WriteLine("StoreManager::logEndOfMethodNormal()");
-
+  
             // To limit call to toString on business object, that could be expensive
             String tResultAsString = EndMethod(currentLogPoint, result);
             if (currentLogPoint.Parent == null)
             { // Dernier appel du Thread
-                if (sLog.IsDebugEnabled)
-                {
-                    sLog.Debug("logEndOfMethodNormal Last Time" + tResultAsString);
-                }
                 String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
                 String threadName2 = System.Threading.Thread.CurrentThread.GetHashCode().ToString(System.Globalization.CultureInfo.CurrentCulture.NumberFormat);
                 if (System.Threading.Thread.CurrentThread.Name != null)
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 
-                Console.WriteLine("StoreManager::logEndOfMethodNormal(Dernier Appel)");
                 ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
-                try
-                {
-                    sLog.Debug("StoreManager::storeWriter.writeExecutionFlow(Dernier Appel)");
-                    storeWriter.WriteExecutionFlow(tFlow);
-                }
-                catch (NMonitoringException internalException)
-                {               
-                    //TODO FCH      
-                    sLog.Error("StoreManager::storeWriter.writeExecutionFlow UNABLE TO STORE Flow, "+ internalException);
-                }
+
+                storeWriter.WriteExecutionFlow(tFlow);
+
                 currentLogPoint = null;
             }
             else
             {
-                if (sLog.IsDebugEnabled)
-                {
-                    sLog.Debug("logEndOfMethodNormal Any Time" + tResultAsString);
-                }
                 currentLogPoint = currentLogPoint.Parent;
             }
         }
@@ -168,10 +134,7 @@ namespace Org.NMonitoring.Core.Store
         public void LogEndOfMethodWithException(Exception exception)
         {
             string externalExceptionMessage = "";
-            if (sLog.IsDebugEnabled)
-            {
-                sLog.Debug("logEndOfMethodWithException " + (exception == null ? "" : exception.Message));
-            }
+
             if (exception == null)
             { // On ne logue pas le détail
                 EndMethodWithException(currentLogPoint, null, null);
@@ -184,10 +147,6 @@ namespace Org.NMonitoring.Core.Store
 
             if (currentLogPoint.Parent == null)
             { // Dernier appel du Thread
-                if (sLog.IsDebugEnabled)
-                {
-                    sLog.Debug("logEndOfMethodWithException Last Time" + externalExceptionMessage);
-                }
 				
                 //String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
 				String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
@@ -195,16 +154,11 @@ namespace Org.NMonitoring.Core.Store
                     threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
 
                 ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
-                Console.WriteLine("PKE Log avec Exception");
                 storeWriter.WriteExecutionFlow(tFlow);
                 currentLogPoint = null;
             }
             else
             {
-                if (sLog.IsDebugEnabled)
-                {
-                    sLog.Debug("logEndOfMethodWithException Any Time" + (exception == null ? "" : exception.Message));
-                }
                 currentLogPoint = currentLogPoint.Parent;
             }
 
@@ -234,9 +188,9 @@ namespace Org.NMonitoring.Core.Store
                     returnValueAsString = returnValue.ToString();
                     methodCall.ReturnValue = returnValueAsString;
                 }
-                catch (NMonitoringException internalException)
+                catch (Exception externalException)                
                 {
-                    sLog.Error("Unable to trace return value of call.", internalException);
+                    throw new NMonitoringException("Unable to trace return value of call.",externalException);
                 }
             }
             return returnValueAsString;

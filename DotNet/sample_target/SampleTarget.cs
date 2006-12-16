@@ -17,7 +17,10 @@ namespace Org.NMonitoring.SampleTarget
         static void Main(string[] args)
         {
             MyMain(null);
-            Thread.Sleep(1000); //Wait for log to be dumped
+            Console.WriteLine("Wait for log to be dumped (is asynchronous)");
+            Thread.Sleep(10000); 
+            Console.WriteLine("Press any key to end");
+            Console.ReadLine();
          }
 
         public static void MyMain(Object data)
@@ -31,7 +34,7 @@ namespace Org.NMonitoring.SampleTarget
             }
             catch (ThreadInterruptedException e)
             {
-                e.StackTrace.ToString();
+                Console.WriteLine(e.StackTrace.ToString());
             }
         }
 
