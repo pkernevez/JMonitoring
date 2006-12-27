@@ -15,6 +15,7 @@
      <modules>
         <module>core_monitoring</module>
         <module>administration_console</module>
+        <module>hibernate-aspect</module>
     </modules>
 
     <name>JMonitoring: framework, master module.</name>

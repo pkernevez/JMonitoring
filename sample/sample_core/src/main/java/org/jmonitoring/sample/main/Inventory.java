@@ -23,7 +23,7 @@ public class Inventory
      * 
      * @param pItem For the Sample
      */
-    public void addItem(Item pItem)
+    public void addItem(ItemPO pItem)
     {
         try
         {
@@ -41,7 +41,7 @@ public class Inventory
      * 
      * @param pItem For the Sample
      */
-    public void removeItem(Item pItem)
+    public void removeItem(ItemPO pItem)
     {
         try
         {

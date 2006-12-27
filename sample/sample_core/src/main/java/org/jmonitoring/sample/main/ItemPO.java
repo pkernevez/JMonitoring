@@ -12,14 +12,14 @@ package org.jmonitoring.sample.main;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class Item
+public class ItemPO
 {
 
     private static final int TEMPO2 = 4;
 
     private static final int TEMPO = 3;
 
-    private String mId;
+    private int mId=-1;
 
     private float mPrice;
 
@@ -29,9 +29,8 @@ public class Item
      * @param pId For the Sample
      * @param pPrice For the Sample
      */
-    public Item(String pId, float pPrice)
+    public ItemPO(float pPrice)
     {
-        mId = pId;
         mPrice = pPrice;
         try
         {
@@ -41,16 +40,6 @@ public class Item
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
-    }
-
-    /**
-     * For the Sample
-     * 
-     * @return For the Sample
-     */
-    public String getID()
-    {
-        return mId;
     }
 
     /**
@@ -87,6 +76,21 @@ public class Item
             e.printStackTrace();
         }
         return "Item: " + mId;
+    }
+
+    public int getId()
+    {
+        return mId;
+    }
+
+    public void setId(int pId)
+    {
+        mId = pId;
+    }
+
+    public void setPrice(float pPrice)
+    {
+        mPrice = pPrice;
     }
 
 }

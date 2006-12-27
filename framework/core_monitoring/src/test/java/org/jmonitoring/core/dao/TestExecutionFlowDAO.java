@@ -28,13 +28,13 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testCountOk()
     {
-        assertEquals(0, new ExecutionFlowDAO(getSession()).countFlows());
+        assertEquals(0, ExecutionFlowDaoFactory.getExecutionFlowDao(getSession()).countFlows());
         assertEquals(0, countMethods());
     }
 
     public void testInsertSimpleFlow()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         int tOldNbFlow = tFlowDAO.countFlows();
         int tOldNbMethodCall = countMethods();
 
@@ -64,7 +64,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testInsertNewFlows()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         int tOldNbFlow = tFlowDAO.countFlows();
         int tOldNbMeth = countMethods();
 
@@ -84,7 +84,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testReadNewFlows()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
 
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
@@ -223,7 +223,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
     public static ExecutionFlowPO buildAndSaveNewFullFlow(Session pSession)
     {
         ExecutionFlowPO tExecFlow = buildNewFullFlow();
-        ExecutionFlowDAO tDao = new ExecutionFlowDAO(pSession);
+        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(pSession);
         tDao.insertFullExecutionFlow(tExecFlow);
         pSession.flush();
         return tExecFlow;
@@ -279,7 +279,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
      */
     public void testGetMethodCallOfTheFlow()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
 
         int tOldResult = tFlowDAO.countFlows();
         int tOldResultM = countMethods();
@@ -353,7 +353,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testReadMethodCall()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
@@ -388,7 +388,7 @@ public class TestExecutionFlowDAO extends PersistanceTestCase
 
     public void testGetListOfMethodCallExtract()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
 
         // First delete all flow, we don't use the DeleteAll Method of the
         // Dao Object because, it doesn't support transactions.

@@ -104,15 +104,15 @@ public class StoreManager
 
     /**
      * Trace the result of a method ended normally.
-     * 
+     * @param pTarget The target instance on which the Method was called.
      * @param pResult The result of the execution of the method.
      */
-    public void logEndOfMethodNormal(IResultTracer pTracer, Object pResult)
+    public void logEndOfMethodNormal(IResultTracer pTracer, Object pTarget, Object pResult)
     {
         String tResultAsString;
         try
         {
-            tResultAsString = (pTracer == null ? null : pTracer.convertToString(pResult));
+            tResultAsString = (pTracer == null ? null : pTracer.convertToString(pTarget, pResult));
         } catch (Throwable tT)
         {
             String tClassName = (pResult == null ? "" : pResult.getClass().getName());
@@ -197,7 +197,7 @@ public class StoreManager
     }
 
     /**
-     * Define the return value of the method associated with this <code>MethodCallDTO</code> when it didn't throw a
+     * Define the return value of the method associated with this <code>MethodCallPO</code> when it didn't throw a
      * <code>Throwable</code>.
      * 
      * @param pMethodCall the current methodcall to manage.

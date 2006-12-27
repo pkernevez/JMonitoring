@@ -16,7 +16,7 @@ public class TestStackTraceTracer extends TestCase
     public void testConvertToStringObject()
     {
         StackTraceTracer tTracer = new StackTraceTracer();
-        assertTrue(tTracer.convertToString(new Integer(4)).length() > 10);
+        assertTrue(tTracer.convertToString(null, new Integer(4)).length() > 10);
     }
 
     public void testGetStackTrace()

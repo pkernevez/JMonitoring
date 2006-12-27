@@ -20,7 +20,7 @@ public class ToStringResultTracer implements IResultTracer
         mMaxLength = pMaxLength;
     }
 
-    public String convertToString(Object pResultObject)
+    public String convertToString(Object pTarget, Object pResultObject)
     {
         String tResult = (pResultObject == null ? "" : pResultObject.toString());
         boolean tNeedToBeCut = (mMaxLength > -1) && (tResult.length() > mMaxLength);

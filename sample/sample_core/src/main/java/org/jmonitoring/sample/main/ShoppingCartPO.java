@@ -5,13 +5,8 @@ package org.jmonitoring.sample.main;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
-
-import org.jmonitoring.sample.driver.MockConnection;
 
 /**
  * 
@@ -20,9 +15,11 @@ import org.jmonitoring.sample.driver.MockConnection;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class ShoppingCart
+public class ShoppingCartPO
 {
 
+    private int mId=-1;
+    
     private static final int TEMPO7 = 9;
 
     private static final int TEMPO6 = 11;
@@ -39,12 +36,19 @@ public class ShoppingCart
 
     private List mItems = new Vector();
 
+    private static int sCounter = 0;
+
+    public static void setCounter(int pCounter)
+    {
+        sCounter = pCounter;
+    }
+
     /**
      * For the Sample
      * 
      * @param pItem For the Sample
      */
-    public void addItem(Item pItem)
+    public void addItem(ItemPO pItem)
     {
         try
         {
@@ -54,60 +58,62 @@ public class ShoppingCart
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
-        if ("3".equals(pItem.getID()))
+        sCounter++;
+        if (3 == sCounter)
         {
             throw new RuntimeException("Pour declancher une exception sur item3");
         }
         mItems.add(pItem);
-        Connection tCon = new MockConnection();
-        PreparedStatement tState = null;
-        try
-        {
-            tState = tCon.prepareStatement("lk");
-            try
-            {
-                Thread.sleep(TEMPO7);
-            } catch (InterruptedException e)
-            {
-                // @todo Auto-generated catch block
-                e.printStackTrace();
-            }
-            tState.setString(0, "Param0");
-            try
-            {
-                Thread.sleep(TEMPO6);
-            } catch (InterruptedException e)
-            {
-                // @todo Auto-generated catch block
-                e.printStackTrace();
-            }
-            tState.setInt(1, 0);
-            tState.executeQuery();
-        } catch (SQLException e)
-        {
-            throw new RuntimeException("Impossible de créer un statement !", e);
-        } finally
-        {
-            if (tState != null)
-            {
-                try
-                {
-                    try
-                    {
-                        Thread.sleep(TEMPO2);
-                    } catch (InterruptedException e)
-                    {
-                        // @todo Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    tState.close();
-                } catch (SQLException e)
-                {
-                    throw new RuntimeException("Impossible de fermer un statement !", e);
-
-                }
-            }
-        }
+        //TODO Refactor this code
+//        Connection tCon = new MockConnection();
+//        PreparedStatement tState = null;
+//        try
+//        {
+//            tState = tCon.prepareStatement("lk");
+//            try
+//            {
+//                Thread.sleep(TEMPO7);
+//            } catch (InterruptedException e)
+//            {
+//                // @todo Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            tState.setString(0, "Param0");
+//            try
+//            {
+//                Thread.sleep(TEMPO6);
+//            } catch (InterruptedException e)
+//            {
+//                // @todo Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            tState.setInt(1, 0);
+//            tState.executeQuery();
+//        } catch (SQLException e)
+//        {
+//            throw new RuntimeException("Impossible de créer un statement !", e);
+//        } finally
+//        {
+//            if (tState != null)
+//            {
+//                try
+//                {
+//                    try
+//                    {
+//                        Thread.sleep(TEMPO2);
+//                    } catch (InterruptedException e)
+//                    {
+//                        // @todo Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                    tState.close();
+//                } catch (SQLException e)
+//                {
+//                    throw new RuntimeException("Impossible de fermer un statement !", e);
+//
+//                }
+//            }
+//        }
 
     }
 
@@ -116,7 +122,7 @@ public class ShoppingCart
      * 
      * @param pItem For the Sample
      */
-    public void removeItem(Item pItem)
+    public void removeItem(ItemPO pItem)
     {
         try
         {
@@ -163,6 +169,27 @@ public class ShoppingCart
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public int getId()
+    {
+        return mId;
+    }
+
+    public void setId(int pId)
+    {
+        mId = pId;
+    }
+
+    public List getItems()
+    {
+        new RuntimeException().printStackTrace();
+        return mItems;
+    }
+
+    public void setItems(List pItems)
+    {
+        mItems = pItems;
     }
 
 }

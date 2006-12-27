@@ -29,7 +29,7 @@ public final class ShoppingCartOperator
      * @param pInventory For the Sample
      * @param pItem For the Sample
      */
-    public static void addShoppingCartItem(ShoppingCart pSc, Inventory pInventory, Item pItem)
+    public static void addShoppingCartItem(ShoppingCartPO pSc, Inventory pInventory, ItemPO pItem)
     {
         try
         {
@@ -52,7 +52,7 @@ public final class ShoppingCartOperator
      * @param pInventory For the Sample
      * @param pItem For the Sample
      */
-    public static void removeShoppingCartItem(ShoppingCart pSc, Inventory pInventory, Item pItem)
+    public static void removeShoppingCartItem(ShoppingCartPO pSc, Inventory pInventory, ItemPO pItem)
     {
         try
         {

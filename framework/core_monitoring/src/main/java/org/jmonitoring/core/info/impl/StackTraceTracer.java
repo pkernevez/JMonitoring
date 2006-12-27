@@ -17,7 +17,7 @@ public class StackTraceTracer implements IParamaterTracer, IResultTracer
         return getStackTrace();
     }
 
-    public String convertToString(Object pResultObject)
+    public String convertToString(Object pTarget, Object pResultObject)
     {
         return getStackTrace();
     }

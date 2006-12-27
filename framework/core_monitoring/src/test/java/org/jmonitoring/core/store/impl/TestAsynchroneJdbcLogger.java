@@ -2,7 +2,8 @@ package org.jmonitoring.core.store.impl;
 
 import java.sql.SQLException;
 
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
+import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.store.AspectLoggerEmulator;
 
@@ -19,7 +20,7 @@ import org.jmonitoring.core.store.AspectLoggerEmulator;
  */
 public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 {
-    private static final int TIME_TO_WAIT = 1500;
+    private static final int TIME_TO_WAIT = 5000;
 
     // private int mInitialMaxFlowId;
 
@@ -35,7 +36,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
         int tInitialFlowCount;
         // We check the result into DB
         int tFinalFlowCount;
-        ExecutionFlowDAO tFlowDao = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         tInitialFlowCount = tFlowDao.countFlows();
 
         MockAbstractAsynchroneLogger.resetNbLog();

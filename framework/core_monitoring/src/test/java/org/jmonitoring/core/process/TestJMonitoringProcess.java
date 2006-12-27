@@ -7,8 +7,9 @@ import java.util.List;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.common.UnknownFlowException;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
+import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.dto.DtoHelper;
@@ -44,7 +45,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     public void testDeleteFlow() throws UnknownFlowException
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         int tNbFlow = tFlowDAO.countFlows();
 
         // First instert a flow
@@ -70,7 +71,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testDeleteAllFlows()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         int tNbFlow = tFlowDAO.countFlows();
 
         // First instert 2 flows
@@ -90,7 +91,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testReadFullExecutionFlow()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlowPO = TestExecutionFlowDAO.buildNewFullFlow();
         int tId = tFlowDAO.insertFullExecutionFlow(tFlowPO);
         getSession().flush();
@@ -155,7 +156,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithoutCriteria()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
 
         int tExpectedResult = tFlowDAO.countFlows();
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
@@ -175,7 +176,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
      */
     public void testGetListOfExecutionFlowWithThreadName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         ExecutionFlowPO tExecPo = TestExecutionFlowDAO.buildNewFullFlow();
         tExecPo.setThreadName("TEST-13main");
@@ -207,7 +208,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithDurationMin()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         getSession().flush();
 
@@ -223,7 +224,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithBeginDate()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
@@ -240,17 +241,17 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertEquals(1, tProcess.getListOfExecutionFlowDto(tCriterion).size());
 
         // Yesterday
-        tCriterion.setBeginDate(new Date(tToday.getTime() - ExecutionFlowDAO.ONE_DAY));
+        tCriterion.setBeginDate(new Date(tToday.getTime() - IExecutionFlowDAO.ONE_DAY));
         assertEquals(0, tProcess.getListOfExecutionFlowDto(tCriterion).size());
 
         // Tomorrow
-        tCriterion.setBeginDate(new Date(tToday.getTime() + ExecutionFlowDAO.ONE_DAY));
+        tCriterion.setBeginDate(new Date(tToday.getTime() + IExecutionFlowDAO.ONE_DAY));
         assertEquals(0, tProcess.getListOfExecutionFlowDto(tCriterion).size());
     }
 
     public void testGetListOfExecutionFlowWithGroupName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
@@ -270,7 +271,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithClassName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
@@ -292,7 +293,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfExecutionFlowWithMethodName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
@@ -312,7 +313,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetListOfMethodCallFromClassAndMethodName()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         getSession().flush();
 
@@ -352,7 +353,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     public void testGetMethodCallFullExtract()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         tFlowDAO.insertFullExecutionFlow(TestExecutionFlowDAO.buildNewFullFlow());
         getSession().flush();
 
@@ -379,7 +380,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     public void testGetFlowAsXml()
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
 
         // Firstt instert a flow
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
@@ -396,7 +397,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     public void testSerialisationConversion()
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
 
         // Firstt instert a flow
         ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
@@ -442,7 +443,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     public void testInsertFlowFromXml()
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tFlowDAO = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
 
         // Firstt instert a flow
         ExecutionFlowPO tFlowPo = TestExecutionFlowDAO.buildNewFullFlow();
