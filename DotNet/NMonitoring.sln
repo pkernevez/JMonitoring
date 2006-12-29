@@ -16,6 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_target", "sample_tar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_target_library", "sample_target_library\sample_target_library.csproj", "{1676A77C-41D5-4323-99C9-F150F522FADB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CEF69480-5542-4821-BF75-A9CC5D9F2BBC}"
+	ProjectSection(SolutionItems) = preProject
+		NMonitoring.msbuild = NMonitoring.msbuild
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET

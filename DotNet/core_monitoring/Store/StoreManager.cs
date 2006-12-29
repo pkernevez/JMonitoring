@@ -23,7 +23,8 @@ namespace Org.NMonitoring.Core.Store
             {
                 try
                 {
-                    DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance, ConfigurationManager.Instance.ConnexionString);
+                    //TODO FCH : Add a configuration parameter to create the client type
+                    SqlDaoHelper.Initialize(ConfigurationManager.Instance.ConnexionString);
                     storeManager = new StoreManager();
                 }
                 catch (Exception externalException)

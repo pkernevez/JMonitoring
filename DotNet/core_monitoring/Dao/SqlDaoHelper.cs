@@ -2,25 +2,22 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using Org.NMonitoring.Core.Common;
 
 namespace Org.NMonitoring.Core.Dao
 {
-    public class DaoHelper : IDaoHelper
-
+    public class SqlDaoHelper : IDaoHelper
     {
-        private static bool DefaultClassParametersInitialized = false;
-        private static string connectionString;
-        private static DbProviderFactory dbFactory;
+        private static bool mInitialized = false;
+        private static string mConnectionString;
 
         [ThreadStatic]
-        private static DaoHelper _instance;
-        public static DaoHelper Instance
+        private static SqlDaoHelper _instance;
+        public static SqlDaoHelper Instance
         {
             get
             {
                 if (_instance == null)
-                    _instance = new DaoHelper();
+                    _instance = new SqlDaoHelper();
                 return _instance;
             }
         }
@@ -31,31 +28,24 @@ namespace Org.NMonitoring.Core.Dao
             get { return _connection; }
         }
 
-        IDbTransaction _transaction = null;
-        public IDbTransaction CurrentTransaction
-        {
-            get { return _transaction; }
-        }
+		IDbTransaction _transaction = null;
+		public IDbTransaction CurrentTransaction
+		{
+			get { return _transaction; }
+		}
 		
-        /// <summary>
-        /// Initialize class parameters
-        /// </summary>
-        /// <param name="dbFactoryToUse">The DBFactory to use (SQLServer or other)</param>
-        /// <param name="connectionStringToUse">The Connection String (depending of which DBFactory is used)</param>
-        public static void Initialize(DbProviderFactory dbFactoryToUse, 
-                               string connectionstringToUse)
+
+        public static void Initialize(string connectionString)
         {
-            dbFactory         = dbFactoryToUse;
-            connectionString = connectionstringToUse;
-            DefaultClassParametersInitialized = true;
+            mConnectionString = connectionString;
+            mInitialized = true;
         }
-        
-       
+
         public IDbDataParameter CreateParameter(String name, Object value)
         {
-            if (!DefaultClassParametersInitialized)
-                throw new NMonitoringException("Please call Initialize() before");
-            IDbDataParameter parameter = dbFactory.CreateParameter();
+            if (!mInitialized)
+                throw new Exception("Please call Initialize() before");
+            IDbDataParameter parameter = new SqlParameter();
             parameter.ParameterName = name;
             if (value == null)
             {
@@ -65,7 +55,6 @@ namespace Org.NMonitoring.Core.Dao
                 parameter.Value = value;
             return parameter;
         }
-
 
         public IDbDataParameter CreateParameter(string parameterName, DbType dbType,
                                             int size, ParameterDirection direction,
@@ -92,26 +81,32 @@ namespace Org.NMonitoring.Core.Dao
         }
         public IDbCommand CreateCommand()
         {
-            IDbCommand cmd = dbFactory.CreateCommand();
+            IDbCommand cmd = new SqlCommand();
             cmd.Connection = this.Connection;
             return cmd;
         }
 
-        public IDbTransaction BeginTransaction()
+		public IDbTransaction BeginTransaction()
+		{
+			 _transaction = this.Connection.BeginTransaction();
+			return	_transaction;		
+		}
+
+        public SqlDaoHelper()
         {
-            _transaction = this.Connection.BeginTransaction();
-            return _transaction;
+            if (!mInitialized)
+                throw new Exception("Please call Initialize() before");
+            this._connection = new SqlConnection();
+            this._connection.ConnectionString = mConnectionString;
         }
 
-        private DaoHelper()
-        {
-            if (!DefaultClassParametersInitialized)
-            {
-                //Use default paramaters if not Explici
-                throw new NMonitoringException("Please call Initialize() before");
-            }
-            this._connection = dbFactory.CreateConnection();
-            this._connection.ConnectionString = connectionString;
-        }
+		public void Dispose ()
+		{
+			if (this._connection != null)
+			{
+				this._connection.Close();
+				this._connection.Dispose();
+			}	
+		}
     }
 }

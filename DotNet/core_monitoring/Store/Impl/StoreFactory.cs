@@ -1,4 +1,5 @@
 using System;
+using Org.NMonitoring.Core.Dao;
 
 namespace Org.NMonitoring.Core.Store.Impl
 {
@@ -8,7 +9,7 @@ namespace Org.NMonitoring.Core.Store.Impl
         {
             //TODO FCH : Use a configuration parametrer
             //writer =  new SynchroneDBWriter();
-            writer = new AsynchroneDBWriter();
+            writer = new AsynchroneDBWriter(new ExecutionFlowDao());
 
         }
 

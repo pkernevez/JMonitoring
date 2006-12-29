@@ -10,7 +10,7 @@ namespace Org.NMonitoring.Core.Common.Tests
 
         public static void DeleteAllData()
         {
-            DaoHelper dao = DaoHelper.Instance;
+            SqlDaoHelper dao = SqlDaoHelper.Instance;
             String sCommandText = @"UPDATE [EXECUTION_FLOW] set [FIRST_METHOD_CALL_INDEX_IN_FLOW] = NULL;
                      UPDATE [METHOD_CALL] set [PARENT_INDEX_IN_FLOW] = NULL;
                      DELETE FROM [METHOD_CALL];DELETE FROM [EXECUTION_FLOW];";
@@ -38,7 +38,7 @@ namespace Org.NMonitoring.Core.Common.Tests
 
         public static int CountMethods()
         {
-            DaoHelper dao = DaoHelper.Instance;
+            SqlDaoHelper dao = SqlDaoHelper.Instance;
             String sCommandText = @"SELECT COUNT(*) FROM [METHOD_CALL];";
             IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
 
@@ -59,7 +59,7 @@ namespace Org.NMonitoring.Core.Common.Tests
 
         public static int CountFlows()
         {
-            DaoHelper dao = DaoHelper.Instance;
+            SqlDaoHelper dao = SqlDaoHelper.Instance;
             String sCommandText = @"SELECT COUNT(*) FROM [EXECUTION_FLOW];";
             IDbCommand cmd = dao.CreateCommand(sCommandText, CommandType.Text);
 

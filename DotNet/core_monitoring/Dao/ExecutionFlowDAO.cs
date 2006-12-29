@@ -4,10 +4,11 @@ using System.Text;
 
 using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Common;
+using Org.NMonitoring.Core.Store;
 
 namespace Org.NMonitoring.Core.Dao
 {
-    public class ExecutionFlowDao
+    public class ExecutionFlowDao : IExecutionFlowWriter
     {
 
         private IDaoHelper _dao;
@@ -15,7 +16,7 @@ namespace Org.NMonitoring.Core.Dao
         public ExecutionFlowDao()
         {
             //TODO : Injecter la dépendance
-            _dao = DaoHelper.Instance;
+            _dao = SqlDaoHelper.Instance;
         }
 
         public void InsertFullExecutionFlow(ExecutionFlowPO executionFlow)

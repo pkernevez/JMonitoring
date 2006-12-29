@@ -8,21 +8,37 @@ namespace Org.NMonitoring.Core.Store.Impl
 {
     public sealed class AsynchroneDBWriter : IStoreWriter
     {
+        private IExecutionFlowWriter dao;
+
+        private struct ThreadData
+        {
+            public ExecutionFlowPO flow;
+            public IExecutionFlowWriter dao;
+        }
+        
+        public AsynchroneDBWriter(IExecutionFlowWriter dao)
+        {
+            this.dao = dao;    
+        }
+
         public void WriteExecutionFlow(ExecutionFlowPO executionFlow)
         {
             //TODO FCH : Parametrer
             ThreadPool.SetMinThreads(1, 0);
             ThreadPool.SetMaxThreads(2, 0);
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback(AsynchroneDBWriter.AsynchroneWrite), executionFlow);
+            ThreadData data = new ThreadData();
+            data.flow = executionFlow;
+            data.dao = dao;
+            
+            ThreadPool.QueueUserWorkItem(new WaitCallback(AsynchroneDBWriter.AsynchroneWrite), data);
         }
         private static void AsynchroneWrite(Object data)
         {
             try
             {
-                ExecutionFlowPO executionFlow = (ExecutionFlowPO)data;
-                ExecutionFlowDao dao = new ExecutionFlowDao();
-                dao.InsertFullExecutionFlow(executionFlow);
+                ThreadData threadData = (ThreadData)data;
+                threadData.dao.InsertFullExecutionFlow(threadData.flow);
             } 
             catch (Exception internalException)
             {

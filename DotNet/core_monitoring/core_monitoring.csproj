@@ -48,9 +48,10 @@
     <Compile Include="Common\NMonitoringException.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
-    <Compile Include="Dao\DaoHelper.cs" />
     <Compile Include="Dao\ExecutionFlowDao.cs" />
     <Compile Include="Dao\IDaoHelper.cs" />
+    <Compile Include="Dao\SqlDaoHelper.cs" />
+    <Compile Include="Store\IExecutionFlowWriter.cs" />
     <Compile Include="Persitence\ExecutionFlowPO.cs" />
     <Compile Include="Persitence\MethodCallPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,7 +65,6 @@
     <None Include="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

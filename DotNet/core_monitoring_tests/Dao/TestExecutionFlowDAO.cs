@@ -6,6 +6,7 @@ using Org.NMonitoring.Core.Dao;
 using Org.NMonitoring.Core.Persistence;
 
 using Org.NMonitoring.Core.Common.Tests;
+using Org.NMonitoring.Core.Store;
 
 namespace Org.NMonitoring.Core.Dao.Tests
 {
@@ -17,8 +18,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
         [TestFixtureSetUp]
         public void initialize()
         {
-            DaoHelper.Initialize(System.Data.SqlClient.SqlClientFactory.Instance,
-                                  Configuration.ConfigurationManager.Instance.ConnexionString);
+            SqlDaoHelper.Initialize(Configuration.ConfigurationManager.Instance.ConnexionString);
             UtilTest.DeleteAllData();
         }
 
@@ -27,7 +27,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
         {
 
              ExecutionFlowPO flow= new ExecutionFlowPO("TEST-main", null, "myCLR");
-             ExecutionFlowDao dao = new ExecutionFlowDao();
+             IExecutionFlowWriter dao = new ExecutionFlowDao();
              int nbMethodsCallBeforeDao = UtilTest.CountMethods();
              dao.InsertFullExecutionFlow(flow);
              System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
@@ -48,7 +48,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
 
             ExecutionFlowPO flow = new ExecutionFlowPO("TEST-main", point, "myCLR");
 
-            ExecutionFlowDao dao = new ExecutionFlowDao();
+            IExecutionFlowWriter dao = new ExecutionFlowDao();
 
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.InsertFullExecutionFlow(flow);
@@ -64,7 +64,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
         public void insertExecutionFlowWithRecursiveMethodCallPO()
         {
             ExecutionFlowPO flow = UtilTest.buildNewFullFlow();
-            ExecutionFlowDao dao = new ExecutionFlowDao();
+            IExecutionFlowWriter dao = new ExecutionFlowDao();
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.InsertFullExecutionFlow(flow);
             System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
@@ -79,7 +79,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
         {
             ExecutionFlowPO flow  = UtilTest.buildNewFullFlow();
             ExecutionFlowPO flow2 = UtilTest.buildNewFullFlow();
-            ExecutionFlowDao dao  = new ExecutionFlowDao();
+            IExecutionFlowWriter dao  = new ExecutionFlowDao();
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.InsertFullExecutionFlow(flow);
             dao.InsertFullExecutionFlow(flow2);
