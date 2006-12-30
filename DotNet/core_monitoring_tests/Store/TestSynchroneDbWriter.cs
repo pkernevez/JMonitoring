@@ -17,6 +17,7 @@ namespace Org.NMonitoring.Core.Store.Tests
         public void initialize()
         {   
             SqlDaoHelper.Initialize(Configuration.ConfigurationManager.Instance.ConnexionString);
+            //TODO : Configure Factories
             UtilTest.DeleteAllData();
         }
 
@@ -29,7 +30,7 @@ namespace Org.NMonitoring.Core.Store.Tests
             
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
 
-            SynchroneDBWriter writer = new SynchroneDBWriter(new ExecutionFlowDao());
+            SynchroneDBWriter writer = new SynchroneDBWriter();
             writer.WriteExecutionFlow(flow);
 
             int nbMethodsCallAfterDao = UtilTest.CountMethods();

@@ -4,10 +4,7 @@ using System.Data.Common;
 
 namespace Org.NMonitoring.Core.Dao
 {
-	/// <summary>
-	/// Description résumée de Class1.
-	/// </summary>
-	public interface IDaoHelper
+	public interface IDaoHelper : IDisposable
 	{
 		IDbConnection Connection 
 		{
@@ -26,5 +23,5 @@ namespace Org.NMonitoring.Core.Dao
 		IDbCommand CreateCommand(String commandText, CommandType commandType);
 		IDbCommand CreateCommand();
 		IDbTransaction BeginTransaction();
-	}
+    }
 }

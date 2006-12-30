@@ -15,8 +15,7 @@ namespace Org.NMonitoring.Core.Dao
 
         public ExecutionFlowDao()
         {
-            //TODO : Injecter la dépendance
-            _dao = SqlDaoHelper.Instance;
+            _dao = Factory<IDaoHelper>.Instance.GetNewObject();
         }
 
         public void InsertFullExecutionFlow(ExecutionFlowPO executionFlow)

@@ -7,38 +7,29 @@ using Org.NMonitoring.Core.Common;
 namespace Org.NMonitoring.Core.Store.Impl
 {
     public sealed class AsynchroneDBWriter : IStoreWriter
-    {
-        private IExecutionFlowWriter dao;
-
-        private struct ThreadData
-        {
-            public ExecutionFlowPO flow;
-            public IExecutionFlowWriter dao;
-        }
-        
-        public AsynchroneDBWriter(IExecutionFlowWriter dao)
-        {
-            this.dao = dao;    
+    {        
+        public AsynchroneDBWriter()
+        {  
         }
 
         public void WriteExecutionFlow(ExecutionFlowPO executionFlow)
         {
-            //TODO FCH : Parametrer
-            ThreadPool.SetMinThreads(1, 0);
-            ThreadPool.SetMaxThreads(2, 0);
-
-            ThreadData data = new ThreadData();
-            data.flow = executionFlow;
-            data.dao = dao;
-            
-            ThreadPool.QueueUserWorkItem(new WaitCallback(AsynchroneDBWriter.AsynchroneWrite), data);
+            //TODO FCH : Parametrer le nombre de thread
+            //Let the old IOC parameters as they were.
+            int unUsed, minIOC, maxIOC;
+            ThreadPool.GetMinThreads(out unUsed, out minIOC);
+            ThreadPool.GetMaxThreads(out unUsed, out maxIOC);
+            ThreadPool.SetMinThreads(1, minIOC);
+            ThreadPool.SetMaxThreads(1, maxIOC); // Use only 1 thread
+          
+            ThreadPool.QueueUserWorkItem(new WaitCallback(AsynchroneDBWriter.AsynchroneWrite), executionFlow);
         }
         private static void AsynchroneWrite(Object data)
         {
             try
             {
-                ThreadData threadData = (ThreadData)data;
-                threadData.dao.InsertFullExecutionFlow(threadData.flow);
+                IExecutionFlowWriter ExecutionflowWriter= Factory<IExecutionFlowWriter>.Instance.GetNewObject();
+                ExecutionflowWriter.InsertFullExecutionFlow((ExecutionFlowPO)data);               
             } 
             catch (Exception internalException)
             {

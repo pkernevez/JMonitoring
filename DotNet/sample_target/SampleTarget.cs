@@ -18,14 +18,6 @@ namespace Org.NMonitoring.SampleTarget
         {
             MyMain(null);
             Console.WriteLine("Wait for log to be dumped (is asynchronous)");
-            Thread.Sleep(10000); 
-            Console.WriteLine("Press any key to end");
-            Console.ReadLine();
-         }
-
-        public static void MyMain(Object data)
-        {
-            new SampleTarget().Run();
             // On attend pour être sur de l'insertion
             try
             {
@@ -36,6 +28,12 @@ namespace Org.NMonitoring.SampleTarget
             {
                 Console.WriteLine(e.StackTrace.ToString());
             }
+         }
+
+        public static void MyMain(Object data)
+        {
+            new SampleTarget().Run();
+
         }
 
 

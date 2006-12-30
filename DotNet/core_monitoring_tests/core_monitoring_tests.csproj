@@ -38,6 +38,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\SharpHSqlDaoHelper.cs" />
+    <Compile Include="Common\TestFactory.cs" />
     <Compile Include="Common\TestUtil.cs" />
     <Compile Include="Common\UtilTest.cs" />
     <Compile Include="Configuration\TestConfiguration.cs" />

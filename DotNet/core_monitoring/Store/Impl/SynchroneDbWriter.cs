@@ -7,18 +7,17 @@ namespace Org.NMonitoring.Core.Store.Impl
 {
     public sealed class SynchroneDBWriter : IStoreWriter
     {
-        private IExecutionFlowWriter dao;
 
-        public SynchroneDBWriter(IExecutionFlowWriter dao)
-        {
-            this.dao = dao;    
+        public SynchroneDBWriter()
+        {   
         }
         
         public void WriteExecutionFlow(ExecutionFlowPO executionFlow)
         {
             try
             {
-                dao.InsertFullExecutionFlow(executionFlow);
+                IExecutionFlowWriter ExecutionflowWriter = Factory<IExecutionFlowWriter>.Instance.GetNewObject();
+                ExecutionflowWriter.InsertFullExecutionFlow(executionFlow);
               }
             catch (Exception internalException)
             {

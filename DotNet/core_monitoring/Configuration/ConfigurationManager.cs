@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 using Org.NMonitoring.Core.Common;
 
+using Org.NMonitoring.Core.Dao;
+using Org.NMonitoring.Core.Store;
+using Org.NMonitoring.Core.Store.Impl;
+
 namespace Org.NMonitoring.Core.Configuration
 {
     public class ConfigurationManager
@@ -37,6 +41,18 @@ namespace Org.NMonitoring.Core.Configuration
                 message += config.FilePath + "\"";
                 throw new NMonitoringException(message);     
             }
+
+            //Set default types parameter for the factories
+            if (Factory<IDaoHelper>.Instance.TypeToCreate == null)
+            {
+                SqlDaoHelper.Initialize(ConnexionString);
+                Factory<IDaoHelper>.Instance.TypeToCreate = typeof(SqlDaoHelper);
+            }
+            if (Factory<IExecutionFlowWriter>.Instance.TypeToCreate == null)
+                Factory<IExecutionFlowWriter>.Instance.TypeToCreate = typeof(ExecutionFlowDao);
+            if (Factory<IStoreWriter>.Instance.TypeToCreate == null)
+                Factory<IStoreWriter>.Instance.TypeToCreate = typeof(AsynchroneDBWriter);
+            
         }
 
         static internal string getServerName()

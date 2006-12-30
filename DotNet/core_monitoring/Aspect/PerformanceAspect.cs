@@ -37,9 +37,7 @@ namespace Org.NMonitoring.Core.Aspect
 
         //Used to implement child classes
         protected PerformanceAspect()
-        {
-            //Create the Manager instance
-            Configuration.ConfigurationManager Manager = Configuration.ConfigurationManager.Instance; // Initialize the constructor
+        {           
         }
 
 

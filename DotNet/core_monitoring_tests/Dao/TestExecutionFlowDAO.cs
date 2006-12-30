@@ -19,6 +19,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
         public void initialize()
         {
             SqlDaoHelper.Initialize(Configuration.ConfigurationManager.Instance.ConnexionString);
+            //TODO : Configure Factories
             UtilTest.DeleteAllData();
         }
 
@@ -79,7 +80,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
         {
             ExecutionFlowPO flow  = UtilTest.buildNewFullFlow();
             ExecutionFlowPO flow2 = UtilTest.buildNewFullFlow();
-            IExecutionFlowWriter dao  = new ExecutionFlowDao();
+            IExecutionFlowWriter dao = new ExecutionFlowDao();
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.InsertFullExecutionFlow(flow);
             dao.InsertFullExecutionFlow(flow2);

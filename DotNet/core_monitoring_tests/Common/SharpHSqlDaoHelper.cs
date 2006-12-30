@@ -1,25 +1,25 @@
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
+using System.Data.Hsql;
 
-using Org.NMonitoring.Core.Common;
+using Org.NMonitoring.Core.Dao;
 
-namespace Org.NMonitoring.Core.Dao
+namespace Org.NMonitoring.Core.Common.Tests
 {
-    public class SqlDaoHelper : IDaoHelper
+    public class SharpHSqlDaoHelper : IDaoHelper
     {
         private static bool mInitialized = false;
         private static string mConnectionString;
 
         [ThreadStatic]
-        private static SqlDaoHelper _instance;
-        public static SqlDaoHelper Instance
+        private static SharpHSqlDaoHelper _instance;
+        public static SharpHSqlDaoHelper Instance
         {
             get
             {
                 if (_instance == null)
-                    _instance = new SqlDaoHelper();
+                    _instance = new SharpHSqlDaoHelper();
                 return _instance;
             }
         }
@@ -46,8 +46,8 @@ namespace Org.NMonitoring.Core.Dao
         public IDbDataParameter CreateParameter(String name, Object value)
         {
             if (!mInitialized)
-                throw new NMonitoringException("Please call Initialize() before");
-            IDbDataParameter parameter = new SqlParameter();
+                throw new Exception("Please call Initialize() before");
+            IDbDataParameter parameter = new SharpHsqlParameter();
             parameter.ParameterName = name;
             if (value == null)
             {
@@ -83,7 +83,7 @@ namespace Org.NMonitoring.Core.Dao
         }
         public IDbCommand CreateCommand()
         {
-            IDbCommand cmd = new SqlCommand();
+            IDbCommand cmd = new SharpHsqlCommand();
             cmd.Connection = this.Connection;
             return cmd;
         }
@@ -94,12 +94,11 @@ namespace Org.NMonitoring.Core.Dao
 			return	_transaction;		
 		}
 
-        public SqlDaoHelper()
+        public SharpHSqlDaoHelper()
         {
             if (!mInitialized)
-                throw new NMonitoringException("Please call Initialize() before");
-
-            this._connection = new SqlConnection();
+                throw new Exception("Please call Initialize() before");
+            this._connection = new SharpHsqlConnection();
             this._connection.ConnectionString = mConnectionString;
         }
 
@@ -111,5 +110,14 @@ namespace Org.NMonitoring.Core.Dao
 				this._connection.Dispose();
 			}	
 		}
+
+        public void OpenConnection()
+        {
+            Connection.Open();
+        }
+        public void CloseConnection()
+        {
+            Connection.Close();
+        }
     }
 }

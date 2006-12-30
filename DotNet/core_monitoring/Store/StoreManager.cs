@@ -22,9 +22,7 @@ namespace Org.NMonitoring.Core.Store
             if (storeManager == null)
             {
                 try
-                {
-                    //TODO FCH : Add a configuration parameter to create the client type
-                    SqlDaoHelper.Initialize(ConfigurationManager.Instance.ConnexionString);
+                {                   
                     storeManager = new StoreManager();
                 }
                 catch (Exception externalException)
@@ -49,19 +47,12 @@ namespace Org.NMonitoring.Core.Store
          * Default constructor.
          * 
          */
-        protected StoreManager()
-            : this(new StoreFactory().Writer)
+        protected StoreManager()            
         {
-        }
+            //Create the Configuration Manager (to initialized it)
+            Configuration.ConfigurationManager confManager = Configuration.ConfigurationManager.Instance; 
 
-        /**
-         * Constructor for testing purpose.
-         * 
-         * @param pStoreWriter The <code>IStoreWriter</code> to use.
-         */
-        protected StoreManager(IStoreWriter storeWriter)
-        {
-            this.storeWriter = storeWriter;
+            storeWriter = Factory<IStoreWriter>.Instance.GetNewObject();
         }
 
         /**
