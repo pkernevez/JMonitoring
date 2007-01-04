@@ -30,7 +30,7 @@
 		</CreateItem>
 		<Zip Files="@(NMonitoring)" ZipFileName="NMonitoring.zip" Flatten="true"/>
 		<Copy SourceFiles="NMonitoring.zip" DestinationFolder="NMonitoring_release" />
-		<Delete Files="NMonitoring.zip" />
+		<Delete Files="NMonitoring.zip"/>
 
 		<CreateItem Include="core_monitoring_tests\bin\Release\*.*" Exclude="@(File)">
 			<Output TaskParameter="Include" ItemName="NMonitoring_tests" />
