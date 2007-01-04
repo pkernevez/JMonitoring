@@ -1,5 +1,3 @@
-using System;
-
 using Org.NMonitoring.Core.Persistence;
 
 namespace Org.NMonitoring.Core.Store

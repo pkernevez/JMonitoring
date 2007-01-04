@@ -1,8 +1,6 @@
 using System;
 using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
-
 using Org.NMonitoring.Core.Common;
 
 namespace Org.NMonitoring.Core.Dao
@@ -35,7 +33,14 @@ namespace Org.NMonitoring.Core.Dao
 		{
 			get { return _transaction; }
 		}
-		
+
+        public string IdentityRequest
+        {
+            get
+            {
+                return "SELECT SCOPE_IDENTITY();";
+            }
+        }
 
         public static void Initialize(string connectionString)
         {

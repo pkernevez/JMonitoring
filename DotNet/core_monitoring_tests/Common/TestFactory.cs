@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 using NUnit.Framework;
-
-using Org.NMonitoring.Core.Common;
 
 namespace Org.NMonitoring.Core.Common.Tests
 {

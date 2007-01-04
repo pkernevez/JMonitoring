@@ -1,8 +1,5 @@
 using System;
 using System.Threading;
-using System.Text;
-
-//using Org.NMonitoring.SampleTarget;
 
 namespace Org.NMonitoring.SampleTarget
 {

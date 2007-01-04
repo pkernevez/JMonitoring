@@ -10,7 +10,6 @@ namespace Org.NMonitoring.Core.Common
         private Util()
         {
         }
-
         
         private static DateTime firstOfJanuary1970 = new DateTime(1970, 01, 01, 0, 0, 0, 0);
 
@@ -27,8 +26,7 @@ namespace Org.NMonitoring.Core.Common
 
         static public DateTime TimeMillisToDate(long milliseconds)
         {
-            return firstOfJanuary1970.AddMilliseconds(milliseconds); 
+            return firstOfJanuary1970.AddMilliseconds(milliseconds);
         }
-
     }
 }

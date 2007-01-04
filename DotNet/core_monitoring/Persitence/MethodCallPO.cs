@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Text;
-
 using Org.NMonitoring.Core.Common;
 
 namespace Org.NMonitoring.Core.Persistence
@@ -123,7 +122,7 @@ namespace Org.NMonitoring.Core.Persistence
             }
             mClassName = className;
             mMethodName = methodName;
-            mBeginTime = Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
+            mBeginTime = Util.CurrentTimeMillis();
             mParams = getParamsAsString(parameters, className, methodName);
             mGroupName = groupName;
         }

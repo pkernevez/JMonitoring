@@ -1,6 +1,6 @@
-using System;
-using System.Threading;
 using System.Collections;
+using System.Threading;
+using Org.NMonitoring.SampleTargetLibrary;
 
 namespace Org.NMonitoring.SampleTarget
 {
@@ -16,7 +16,7 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void addItem(Item pItem)
         {
-            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("Inventory:addItem");
+            SimpleLogger.Instance.log("Inventory:addItem");
 
             try
             {
@@ -36,7 +36,7 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void removeItem(Item pItem)
         {
-            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("Inventory:RemoveItem");
+            SimpleLogger.Instance.log("Inventory:RemoveItem");
             try
             {
                 Thread.Sleep(TEMPO);

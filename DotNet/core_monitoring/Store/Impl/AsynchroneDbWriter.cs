@@ -1,8 +1,7 @@
 using System;
 using System.Threading;
-using Org.NMonitoring.Core.Persistence;
-using Org.NMonitoring.Core.Dao;
 using Org.NMonitoring.Core.Common;
+using Org.NMonitoring.Core.Persistence;
 
 namespace Org.NMonitoring.Core.Store.Impl
 {
@@ -22,7 +21,7 @@ namespace Org.NMonitoring.Core.Store.Impl
             ThreadPool.SetMinThreads(1, minIOC);
             ThreadPool.SetMaxThreads(1, maxIOC); // Use only 1 thread
           
-            ThreadPool.QueueUserWorkItem(new WaitCallback(AsynchroneDBWriter.AsynchroneWrite), executionFlow);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(AsynchroneWrite), executionFlow);
         }
         private static void AsynchroneWrite(Object data)
         {

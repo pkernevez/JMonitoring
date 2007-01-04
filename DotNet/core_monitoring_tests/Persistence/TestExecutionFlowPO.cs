@@ -1,7 +1,3 @@
-using System;
-using System.Text;
-using NUnit.Framework;
-
 namespace Org.NMonitoring.Core.Persistence.Tests
 {
 

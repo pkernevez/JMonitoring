@@ -1,6 +1,5 @@
 using System;
 using System.Data;
-using System.Data.Common;
 
 namespace Org.NMonitoring.Core.Dao
 {
@@ -15,6 +14,11 @@ namespace Org.NMonitoring.Core.Dao
 			get;
 		}
 
+        string IdentityRequest
+        {
+            get;
+        }
+	    
 		IDbDataParameter CreateParameter(String name, Object value);
 		IDbDataParameter CreateParameter(string parameterName, DbType dbType,
 												int size, ParameterDirection direction,

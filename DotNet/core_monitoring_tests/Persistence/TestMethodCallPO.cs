@@ -1,8 +1,5 @@
-using System;
-using System.Text;
+using System.Reflection;
 using NUnit.Framework;
-
-using Org.NMonitoring.Core.Persistence;
 
 namespace Org.NMonitoring.Core.Persistence.Tests
 {
@@ -14,10 +11,10 @@ namespace Org.NMonitoring.Core.Persistence.Tests
         public void testUpdateChildrenWhenCreateWithParent()
         {
             MethodCallPO tParent = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow", "GrDefault",
-                            new System.Reflection.ParameterInfo[0]);
+                            new ParameterInfo[0]);
 
             MethodCallPO tChild = new MethodCallPO(tParent, this.GetType().FullName, "builNewFullFlow2",
-                            "GrChild1", new System.Reflection.ParameterInfo[0]);
+                            "GrChild1", new ParameterInfo[0]);
 
             Assert.IsNull(tParent.Parent);
             Assert.AreEqual(1, tParent.Children.Count);
@@ -33,10 +30,10 @@ namespace Org.NMonitoring.Core.Persistence.Tests
         public void testUpdateChildrenWhenAddParent()
         {
            MethodCallPO tParent = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow", "GrDefault",
-                            new System.Reflection.ParameterInfo[0]);
+                            new ParameterInfo[0]);
 
             MethodCallPO tChild = new MethodCallPO(null, this.GetType().FullName, "builNewFullFlow2",
-                            "GrChild1", new System.Reflection.ParameterInfo[0]);
+                            "GrChild1", new ParameterInfo[0]);
 
             Assert.IsNull(tParent.Parent);
             Assert.AreEqual(0, tParent.Children.Count);

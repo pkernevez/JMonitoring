@@ -1,9 +1,7 @@
 using System;
 using System.Data;
-using System.Text;
-
-using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Common;
+using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Store;
 
 namespace Org.NMonitoring.Core.Dao
@@ -47,9 +45,6 @@ namespace Org.NMonitoring.Core.Dao
 
         }
 
-
-
-
         private int saveRecursMethodCall(MethodCallPO currentMethodCall, int currentIndex, int totalIndex)
         {
             int newTotalIndex = totalIndex;
@@ -75,7 +70,7 @@ namespace Org.NMonitoring.Core.Dao
             //select @@id pour recuperer identifiant et updater l'objet + setId
 
 
-            String sCommandText = @"INSERT INTO METHOD_CALL ([INDEX_IN_FLOW], [PARAMETERS], [BEGIN_TIME], [END_TIME], [FULL_CLASS_NAME], [METHOD_NAME], [THROWABLE_CLASS_NAME], [THROWABLE_MESSAGE], [RESULT], [GROUP_NAME], [PARENT_INDEX_IN_FLOW], [FLOW_ID], [SUB_METH_INDEX]) VALUES (@INDEX_IN_FLOW, @PARAMETERS, @BEGIN_TIME, @END_TIME, @FULL_CLASS_NAME, @METHOD_NAME, @THROWABLE_CLASS_NAME, @THROWABLE_MESSAGE, @RESULT, @GROUP_NAME, @PARENT_INDEX_IN_FLOW, @FLOW_ID, @SUB_METH_INDEX)";
+            String sCommandText = "INSERT INTO METHOD_CALL (INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, FLOW_ID, SUB_METH_INDEX) VALUES (@INDEX_IN_FLOW, @PARAMETERS, @BEGIN_TIME, @END_TIME, @FULL_CLASS_NAME, @METHOD_NAME, @THROWABLE_CLASS_NAME, @THROWABLE_MESSAGE, @RESULT, @GROUP_NAME, @PARENT_INDEX_IN_FLOW, @FLOW_ID, @SUB_METH_INDEX)";
             // ;SELECT  * FROM METHOD_CALL WHERE (INDEX_IN_FLOW = SCOPE_IDENTITY())";
 
             IDbCommand cmd = _dao.CreateCommand(sCommandText, CommandType.Text);
@@ -110,12 +105,11 @@ namespace Org.NMonitoring.Core.Dao
             if (executionFlow != null)
             {
                 //insertion bd (sans 1st methodCall (existe pas)
-                //select @@id pour recuperer identifiant et updater l'objet
+                String sCommandText =
+                    "INSERT INTO EXECUTION_FLOW(THREAD_NAME, JVM, BEGIN_TIME, END_TIME, BEGIN_TIME_AS_DATE, DURATION) VALUES(@THREAD_NAME, @JVM, @BEGIN_TIME, @END_TIME, @BEGIN_DATE, @DURATION);";
 
-                String sCommandText = @"INSERT INTO EXECUTION_FLOW ([THREAD_NAME], [JVM], [BEGIN_TIME], [END_TIME], [BEGIN_TIME_AS_DATE], [DURATION]) VALUES (@THREAD_NAME, @JVM, @BEGIN_TIME, @END_TIME, @BEGIN_TIME_AS_DATE, @DURATION);
-SELECT SCOPE_IDENTITY()";
-//SELECT ID, THREAD_NAME, JVM, BEGIN_TIME, END_TIME, BEGIN_TIME_AS_DATE, DURATION, FIRST_METHOD_CALL_INDEX_IN_FLOW FROM EXECUTION_FLOW WHERE (ID = SCOPE_IDENTITY())";
-
+                sCommandText += _dao.IdentityRequest;
+                
                 IDbCommand cmd = _dao.CreateCommand(sCommandText, CommandType.Text);
                 cmd.Transaction = _dao.CurrentTransaction;
 
@@ -123,13 +117,14 @@ SELECT SCOPE_IDENTITY()";
                 cmd.Parameters.Add(_dao.CreateParameter("@JVM", executionFlow.ServerIdentifier));
                 cmd.Parameters.Add(_dao.CreateParameter("@BEGIN_TIME", executionFlow.BeginTime));
                 cmd.Parameters.Add(_dao.CreateParameter("@END_TIME", executionFlow.EndTime));
-                cmd.Parameters.Add(_dao.CreateParameter("@BEGIN_TIME_AS_DATE", Org.NMonitoring.Core.Common.Util.TimeMillisToDate(executionFlow.BeginTime)));
+                cmd.Parameters.Add(_dao.CreateParameter("@BEGIN_DATE", Util.TimeMillisToDate(executionFlow.BeginTime)));
                 cmd.Parameters.Add(_dao.CreateParameter("@DURATION", executionFlow.Duration));
                 //cmd.Parameters.Add(_dao.CreateParameter("@FIRST_METHOD_CALL_ID", null));
 
                 //TODO FCH : Faire le test qui casse si on enleve cette ligne
                 object tobject = cmd.ExecuteScalar();
-                executionFlow.Id = decimal.ToInt32((decimal)tobject);
+                
+                executionFlow.Id = Convert.ToInt32(tobject);
             }
         }
 
@@ -139,7 +134,7 @@ SELECT SCOPE_IDENTITY()";
             {
                 //updater le lien de pExecution Flow vers son fils (il est nul jusque la)
 
-                String sCommandText = @"UPDATE EXECUTION_FLOW SET  [FIRST_METHOD_CALL_INDEX_IN_FLOW] = @FIRST_METHOD_CALL_INDEX_IN_FLOW WHERE (([ID] = @FLOW_ID))";
+                String sCommandText = @"UPDATE EXECUTION_FLOW SET FIRST_METHOD_CALL_INDEX_IN_FLOW = @FIRST_METHOD_CALL_INDEX_IN_FLOW WHERE ((ID = @FLOW_ID))";
                 IDbCommand cmd = _dao.CreateCommand(sCommandText, CommandType.Text);
                 cmd.Transaction = _dao.CurrentTransaction;
 
@@ -149,7 +144,7 @@ SELECT SCOPE_IDENTITY()";
 
                 cmd.ExecuteNonQuery();
                 if (cmd.ExecuteNonQuery() != 1)
-                    throw new NMonitoringException("The count of updated rows is not equal to 1");
+                    throw new NMonitoringException("The count of updated rows is not equal to 1 flow id = "+executionFlow.Id);
 
             }
         }

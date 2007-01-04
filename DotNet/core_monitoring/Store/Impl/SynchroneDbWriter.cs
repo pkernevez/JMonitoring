@@ -1,7 +1,6 @@
 using System;
-using Org.NMonitoring.Core.Persistence;
-using Org.NMonitoring.Core.Dao;
 using Org.NMonitoring.Core.Common;
+using Org.NMonitoring.Core.Persistence;
 
 namespace Org.NMonitoring.Core.Store.Impl
 {

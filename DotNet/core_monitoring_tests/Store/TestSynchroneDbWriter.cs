@@ -1,26 +1,20 @@
-using System;
 using NUnit.Framework;
+using Org.NMonitoring.Core.Common.Tests;
 using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Store.Impl;
-
-using Org.NMonitoring.Core.Common.Tests;
-using Org.NMonitoring.Core.Dao;
-
+using Org.NMonitoring.Core.Tests.Common;
 
 namespace Org.NMonitoring.Core.Store.Tests
 {
     [TestFixture]
     public class TestSynchroneDbWriter
     {
-
         [TestFixtureSetUp]
         public void initialize()
-        {   
-            SqlDaoHelper.Initialize(Configuration.ConfigurationManager.Instance.ConnexionString);
-            //TODO : Configure Factories
+        {
+            InMemoryDBCreation.Create();
             UtilTest.DeleteAllData();
         }
-
 
         [Test]
         public void insertExecutionFlowWithRecursiveMethodCallPO()

@@ -1,6 +1,5 @@
 using System;
 using NUnit.Framework;
-using Org.NMonitoring.Core.Common;
 
 namespace Org.NMonitoring.Core.Common.Tests
 {
@@ -57,7 +56,6 @@ namespace Org.NMonitoring.Core.Common.Tests
             Assert.AreEqual(expectedDate, Util.TimeMillisToDate(duration), "Day in corresponding to 1136077323000 ms should be " + expectedDate.ToString());
 
         }
-
 
         [Test]
         public void ConvertDateToMillisToDate()

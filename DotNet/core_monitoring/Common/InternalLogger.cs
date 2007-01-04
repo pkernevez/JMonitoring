@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using log4net;
 using DotNetGuru.AspectDNG.Joinpoints;
+using log4net;
+using log4net.Config;
+using Org.NMonitoring.Core.Configuration;
 
 namespace Org.NMonitoring.Core.Common
 {
@@ -31,8 +31,8 @@ namespace Org.NMonitoring.Core.Common
         protected InternalLogger()
         {
             //TODO : Supprimer
-            Configuration.ConfigurationManager confManager = Configuration.ConfigurationManager.Instance;
-            log4net.Config.XmlConfigurator.Configure();
+            ConfigurationManager confManager = ConfigurationManager.Instance;
+            XmlConfigurator.Configure();
 
             ILog logger = LogManager.GetLogger("NMonitoring");
             logInfoEnable = logger.IsInfoEnabled;
@@ -51,7 +51,7 @@ namespace Org.NMonitoring.Core.Common
         private static readonly ILog wLOG = LogManager.GetLogger("NMonitoring");
 
         [Insert(TYPE_TO_LOG)]
-        private static bool wlogInfoEnable = InternalLogger.Instance.LogInfoEnable;
+        private static bool wlogInfoEnable = Instance.LogInfoEnable;
 
         [AroundBody(TYPE_TO_LOG +  "/Method[not(match('get_*'))][not(match('set_*'))]")]    
         private static object LogIt(OperationJoinPoint jp)

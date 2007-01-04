@@ -1,15 +1,8 @@
 using System;
-using System.IO;
-using System.Threading;
-
-
-using log4net;
 using DotNetGuru.AspectDNG.Joinpoints;
-
-using Org.NMonitoring.Core.Store;
-using Org.NMonitoring.Core.Dao;
+using log4net;
 using Org.NMonitoring.Core.Common;
-
+using Org.NMonitoring.Core.Store;
 
 namespace Org.NMonitoring.Core.Aspect
 {

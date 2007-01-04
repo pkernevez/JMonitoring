@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-
+using System.Configuration;
 using Org.NMonitoring.Core.Common;
-
 using Org.NMonitoring.Core.Dao;
 using Org.NMonitoring.Core.Store;
 using Org.NMonitoring.Core.Store.Impl;
@@ -28,7 +25,7 @@ namespace Org.NMonitoring.Core.Configuration
         {
             System.Configuration.Configuration config =
                System.Configuration.ConfigurationManager.OpenExeConfiguration(
-                 System.Configuration.ConfigurationUserLevel.None);
+                 ConfigurationUserLevel.None);
             try
             {
                 ConnexionString = config.ConnectionStrings.ConnectionStrings[_CONNECTION_STRING_NAME].ConnectionString;

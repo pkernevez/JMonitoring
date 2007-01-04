@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Threading;
+using Org.NMonitoring.SampleTargetLibrary;
 
 namespace Org.NMonitoring.SampleTarget
 {
@@ -22,7 +23,7 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void addItem(Item pItem)
         {
-            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("ShoppingCart:addItem");
+            SimpleLogger.Instance.log("ShoppingCart:addItem");
 
             try
             {
@@ -107,7 +108,7 @@ namespace Org.NMonitoring.SampleTarget
          */
         public void removeItem(Item pItem)
         {
-            Org.NMonitoring.SampleTargetLibrary.SimpleLogger.Instance.log("ShoppingCart:removeItem");
+            SimpleLogger.Instance.log("ShoppingCart:removeItem");
 
             try
             {

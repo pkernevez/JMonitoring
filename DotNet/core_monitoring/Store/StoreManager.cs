@@ -1,13 +1,10 @@
 using System;
-
-using Org.NMonitoring.Core.Common;
-using Org.NMonitoring.Core.Persistence;
-using Org.NMonitoring.Core.Configuration;
-using Org.NMonitoring.Core.Store.Impl;
-using Org.NMonitoring.Core.Dao;
-
+using System.Globalization;
+using System.Threading;
 using DotNetGuru.AspectDNG.Joinpoints;
-
+using Org.NMonitoring.Core.Common;
+using Org.NMonitoring.Core.Configuration;
+using Org.NMonitoring.Core.Persistence;
 
 namespace Org.NMonitoring.Core.Store
 {
@@ -50,7 +47,7 @@ namespace Org.NMonitoring.Core.Store
         protected StoreManager()            
         {
             //Create the Configuration Manager (to initialized it)
-            Configuration.ConfigurationManager confManager = Configuration.ConfigurationManager.Instance; 
+            ConfigurationManager confManager = ConfigurationManager.Instance; 
 
             storeWriter = Factory<IStoreWriter>.Instance.GetNewObject();
         }
@@ -101,10 +98,10 @@ namespace Org.NMonitoring.Core.Store
             String tResultAsString = EndMethod(currentLogPoint, result);
             if (currentLogPoint.Parent == null)
             { // Dernier appel du Thread
-                String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
-                String threadName2 = System.Threading.Thread.CurrentThread.GetHashCode().ToString(System.Globalization.CultureInfo.CurrentCulture.NumberFormat);
-                if (System.Threading.Thread.CurrentThread.Name != null)
-                    threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
+                String threadName = Thread.CurrentThread.GetHashCode().ToString();
+                String threadName2 = Thread.CurrentThread.GetHashCode().ToString(CultureInfo.CurrentCulture.NumberFormat);
+                if (Thread.CurrentThread.Name != null)
+                    threadName += " (" + Thread.CurrentThread.Name + ")";
 
                 ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
 
@@ -141,9 +138,9 @@ namespace Org.NMonitoring.Core.Store
             { // Dernier appel du Thread
 				
                 //String threadName = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
-				String threadName = System.Threading.Thread.CurrentThread.GetHashCode().ToString();
-                if (System.Threading.Thread.CurrentThread.Name != null)
-                    threadName += " (" + System.Threading.Thread.CurrentThread.Name + ")";
+				String threadName = Thread.CurrentThread.GetHashCode().ToString();
+                if (Thread.CurrentThread.Name != null)
+                    threadName += " (" + Thread.CurrentThread.Name + ")";
 
                 ExecutionFlowPO tFlow = new ExecutionFlowPO(threadName, currentLogPoint, ConfigurationManager.getServerName());
                 storeWriter.WriteExecutionFlow(tFlow);
@@ -171,7 +168,7 @@ namespace Org.NMonitoring.Core.Store
             }
 
             String returnValueAsString = null;
-            methodCall.EndTime = Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
+            methodCall.EndTime = Util.CurrentTimeMillis();
             
             if (returnValue != null)
             {
@@ -197,7 +194,7 @@ namespace Org.NMonitoring.Core.Store
          */
         private static void EndMethodWithException(MethodCallPO methodCall, String exceptionClassName, String exceptionMessage)
         {
-            methodCall.EndTime =  Org.NMonitoring.Core.Common.Util.CurrentTimeMillis();
+            methodCall.EndTime =  Util.CurrentTimeMillis();
             methodCall.ThrowableClass =  exceptionClassName;
             methodCall.ThrowableMessage =  exceptionMessage;
         }

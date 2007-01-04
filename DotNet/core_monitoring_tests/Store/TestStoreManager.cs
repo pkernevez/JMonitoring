@@ -1,6 +1,4 @@
-using System;
 using NUnit.Framework;
-using Org.NMonitoring.Core.Store;
 
 namespace Org.NMonitoring.Core.Tests.Store
 {

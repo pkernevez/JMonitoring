@@ -1,7 +1,5 @@
 using System;
 using System.Threading;
-using System.Text;
-using System.IO;
 
 namespace Org.NMonitoring.SampleTargetLibrary
 {

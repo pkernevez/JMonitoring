@@ -1,17 +1,16 @@
-using System;
-using Org.NMonitoring.Core.Aspect;
 using DotNetGuru.AspectDNG.Joinpoints;
+using Org.NMonitoring.Core.Aspect;
 
 namespace sample_aspects
 {
-    public class SampleAspect : Org.NMonitoring.Core.Aspect.PerformanceAspect 
+    public class SampleAspect : PerformanceAspect 
     {
         public static object Inventory(OperationJoinPoint jp)
         {
             GroupName = "GpeInventory";
             LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
+            return ExecutionToLogInternal(jp);
         }
 
         public static object Item(OperationJoinPoint jp)
@@ -19,7 +18,7 @@ namespace sample_aspects
             GroupName = "GpeItem";
             LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
+            return ExecutionToLogInternal(jp);
         }
 
         public static object ShoppingCart(OperationJoinPoint jp)
@@ -27,7 +26,7 @@ namespace sample_aspects
             GroupName = "GpeShoppingCart";
             LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
+            return ExecutionToLogInternal(jp);
         }
 
 
@@ -36,7 +35,7 @@ namespace sample_aspects
             GroupName = "GpeShoppingCartOperator";
             LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
+            return ExecutionToLogInternal(jp);
         }
 
         public static object SampleTarget(OperationJoinPoint jp)
@@ -44,7 +43,7 @@ namespace sample_aspects
             GroupName = "GpeSampleTarget";
             LogParameter = true;
 
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
+            return ExecutionToLogInternal(jp);
         }
 
         public static object SimpleLogger(OperationJoinPoint jp)
@@ -52,7 +51,7 @@ namespace sample_aspects
             GroupName = "GpeSimpleLogger";
             LogParameter = true;
             
-            return Org.NMonitoring.Core.Aspect.PerformanceAspect.ExecutionToLogInternal(jp);
+            return ExecutionToLogInternal(jp);
         }
 
     }

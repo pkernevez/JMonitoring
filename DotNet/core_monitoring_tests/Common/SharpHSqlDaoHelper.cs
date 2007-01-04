@@ -1,8 +1,6 @@
 using System;
 using System.Data;
-using System.Data.Common;
 using System.Data.Hsql;
-
 using Org.NMonitoring.Core.Dao;
 
 namespace Org.NMonitoring.Core.Common.Tests
@@ -43,6 +41,14 @@ namespace Org.NMonitoring.Core.Common.Tests
             mInitialized = true;
         }
 
+        public string IdentityRequest
+        {
+            get
+            {
+                return "CALL IDENTITY();";
+            }
+        }
+        
         public IDbDataParameter CreateParameter(String name, Object value)
         {
             if (!mInitialized)
@@ -54,7 +60,9 @@ namespace Org.NMonitoring.Core.Common.Tests
                 parameter.Value = DBNull.Value;
             }
             else
+            {
                 parameter.Value = value;
+            }
             return parameter;
         }
 

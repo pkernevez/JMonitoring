@@ -1,6 +1,4 @@
-using System;
 using NUnit.Framework;
-using Org.NMonitoring.Core.Configuration;
 
 namespace Org.NMonitoring.Core.Configuration.Tests
 {

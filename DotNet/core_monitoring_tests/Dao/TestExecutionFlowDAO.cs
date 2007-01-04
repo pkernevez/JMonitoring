@@ -1,12 +1,11 @@
-using System;
-using System.Data;
+using System.Reflection;
+using System.Threading;
 using NUnit.Framework;
-
-using Org.NMonitoring.Core.Dao;
-using Org.NMonitoring.Core.Persistence;
-
+using Org.NMonitoring.Core.Common;
 using Org.NMonitoring.Core.Common.Tests;
+using Org.NMonitoring.Core.Persistence;
 using Org.NMonitoring.Core.Store;
+using Org.NMonitoring.Core.Tests.Common;
 
 namespace Org.NMonitoring.Core.Dao.Tests
 {
@@ -18,20 +17,18 @@ namespace Org.NMonitoring.Core.Dao.Tests
         [TestFixtureSetUp]
         public void initialize()
         {
-            SqlDaoHelper.Initialize(Configuration.ConfigurationManager.Instance.ConnexionString);
-            //TODO : Configure Factories
+            InMemoryDBCreation.Create();
             UtilTest.DeleteAllData();
         }
 
         [Test]
         public void insertExecutionFlowWithNoMethodCallPO()
         {
-
              ExecutionFlowPO flow= new ExecutionFlowPO("TEST-main", null, "myCLR");
              IExecutionFlowWriter dao = new ExecutionFlowDao();
              int nbMethodsCallBeforeDao = UtilTest.CountMethods();
              dao.InsertFullExecutionFlow(flow);
-             System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
+             Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
              int nbMethodsCallAfterDao = UtilTest.CountMethods();
              UtilTest.DeleteAllData();
              Assert.AreEqual(nbMethodsCallAfterDao, nbMethodsCallBeforeDao);
@@ -40,10 +37,8 @@ namespace Org.NMonitoring.Core.Dao.Tests
         [Test]
         public void insertExecutionFlowWithOneMethodCallPOUsingConstructor()
         {
-
-            
-            long tStartTime = Common.Util.CurrentTimeMillis();
-            MethodCallPO    point=  new MethodCallPO(null, "TestExecutionFlowDAO", "builNewFlow", "GrDefault", new System.Reflection.ParameterInfo[0]);
+            long tStartTime = Util.CurrentTimeMillis();
+            MethodCallPO    point=  new MethodCallPO(null, "TestExecutionFlowDAO", "builNewFlow", "GrDefault", new ParameterInfo[0]);
             point.BeginTime = tStartTime;
             point.EndTime = tStartTime + 2;
 
@@ -53,7 +48,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
 
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.InsertFullExecutionFlow(flow);
-            System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
+            Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 1;
             UtilTest.DeleteAllData();
@@ -68,7 +63,7 @@ namespace Org.NMonitoring.Core.Dao.Tests
             IExecutionFlowWriter dao = new ExecutionFlowDao();
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.InsertFullExecutionFlow(flow);
-            System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
+            Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 3;
             UtilTest.DeleteAllData();
@@ -84,12 +79,11 @@ namespace Org.NMonitoring.Core.Dao.Tests
             int nbMethodsCallBeforeDao = UtilTest.CountMethods();
             dao.InsertFullExecutionFlow(flow);
             dao.InsertFullExecutionFlow(flow2);
-            System.Threading.Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
+            Thread.Sleep(SLEEP_DURATION_FOR_ASYNC_WRITE);
             int nbMethodsCallAfterDao = UtilTest.CountMethods();
             int nbExpextedMethodsCall = 6;
             UtilTest.DeleteAllData();
             Assert.AreEqual(nbExpextedMethodsCall, nbMethodsCallAfterDao - nbMethodsCallBeforeDao);
         }
-    
     }
 }
