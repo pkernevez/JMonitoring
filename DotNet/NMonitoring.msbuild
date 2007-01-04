@@ -9,6 +9,12 @@
 		<File Include="core_monitoring_tests\bin\Release\*.pdb"/>
 	</ItemGroup>
 
+	<ItemGroup>
+		<FileToAnalyze Include="core_monitoring\bin\Release\core_monitoring.dll"/>
+		<FileToAnalyze Include="core_monitoring_tests\bin\Release\core_monitoring_tests.dll"/>
+		<FileToAnalyze Include="sample_target\bin\Release\sample_target.exe"/>
+	</ItemGroup>
+
 	<Target Name="Build">
 		<MSBuild Projects="NMonitoring.sln" Properties="Configuration=Release" ContinueOnError="false" RebaseOutputs="true"></MSBuild>
 	</Target>
@@ -20,8 +26,12 @@
 		</CreateItem>
 		<NUnit Assemblies="@(TestAssembly)" ContinueOnError="false" />
 	</Target>
+
+	<Target Name="FxCop" DependsOnTargets="Run Tests">
+		<FxCop ProjectFile="NMonitoring.FxCop" TargetAssemblies="@(FileToAnalyze)" AnalysisReportFileName="NMonitoringFxCopAnalysis.xml" ContinueOnError="true" />
+	</Target>
 	
-	<Target Name="Package" DependsOnTargets="Run Tests">
+	<Target Name="Package" DependsOnTargets="FxCop">
 		<RemoveDir Directories="NMonitoring_release" />
 		<MakeDir Directories="NMonitoring_release" />
 		
