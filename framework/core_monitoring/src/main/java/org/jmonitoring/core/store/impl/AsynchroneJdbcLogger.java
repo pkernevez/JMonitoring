@@ -58,21 +58,32 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
             try
             {
                 long tStartTime = System.currentTimeMillis();
-                Session tPManager = (Session) HibernateManager.getSession();
-                Transaction tTransaction = tPManager.getTransaction();
-                tTransaction.begin();
-                IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tPManager);
-                tDao.insertFullExecutionFlow(mExecutionFlowToLog);
-                if (mAutoflush)
+                Session tPManager = null;
+                try
                 {
-                    tPManager.flush();
-                } else
+                    tPManager = (Session) HibernateManager.getSession();
+                    Transaction tTransaction = tPManager.getTransaction();
+                    tTransaction.begin();
+                    IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tPManager);
+                    tDao.insertFullExecutionFlow(mExecutionFlowToLog);
+                    if (mAutoflush)
+                    {
+                        tPManager.flush();
+                    } else
+                    {
+                        tTransaction.commit();
+                        tPManager.close();
+                    }
+                    long tEndTime = System.currentTimeMillis();
+                    sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog + " in " + (tEndTime - tStartTime)
+                        + " ms.");
+                } finally
                 {
-                    tTransaction.commit();
-                    tPManager.close();
+                    if (tPManager != null)
+                    {
+                        tPManager.close();
+                    }
                 }
-                long tEndTime = System.currentTimeMillis();
-                sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog + " in " + (tEndTime - tStartTime) + " ms.");
             } catch (RuntimeException e)
             {
                 sLog.error("Unable to insert ExecutionFlow into database", e);

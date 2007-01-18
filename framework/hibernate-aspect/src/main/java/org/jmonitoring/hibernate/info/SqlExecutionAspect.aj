@@ -15,11 +15,10 @@ public aspect SqlExecutionAspect extends PerformanceAspect
     || execution( * junit.framework.TestCase+.check*(..))
     || execution( * org.jmonitoring.hibernate.dao.ExecutionFlowHibernateDAO.*(..));
     
-//    private pointcut jmonitoring() : execution( * org.jmonitoring.core.*.*.*(..))
-//    || execution(* org.jmonitoring.hibernate.info.JMonitoringPreparedStatement.*(..));
-    
     public SqlExecutionAspect()
     {
+        mGroupName = "HibernateSql";
+        mParamTracer = null;
         mResultTracer = new SqlStatementTracer();
     }
     

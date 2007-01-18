@@ -51,7 +51,6 @@ public interface IExecutionFlowDAO
      * 
      * @param pId The <code>ExecutionFlowDTO</code> identifier.
      * @throws UnknownFlowException If the flow can't be find in db.
-     * @todo menage
      */
     void deleteFlow(int pId) throws UnknownFlowException;
 

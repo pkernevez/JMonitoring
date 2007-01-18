@@ -29,7 +29,7 @@ public class BadExecutionflowDao implements IExecutionFlowDAO
     {
     }
 
-    public void deleteFlow(int pId) throws UnknownFlowException
+    public void deleteFlow(int pId) 
     {
     }
 

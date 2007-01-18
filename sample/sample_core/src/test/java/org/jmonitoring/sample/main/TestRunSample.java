@@ -31,7 +31,7 @@ public class TestRunSample extends SamplePersistenceTestcase
     private void checkRun()
     {
         IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        assertEquals(1, tDao.countFlows());
+        assertEquals(3, tDao.countFlows());
         ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
         assertEquals("org.jmonitoring.sample.main.RunSample", tFlow.getFirstMethodCall().getClassName());
         assertEquals("run", tFlow.getFirstMethodCall().getMethodName());
@@ -68,7 +68,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         tCurMeth = tFlow.getFirstMethodCall().getChild(7);
         assertEquals("org.jmonitoring.sample.persistence.SampleDao", tCurMeth.getClassName());
         assertEquals("save", tCurMeth.getMethodName());
-        assertEquals(6, tCurMeth.getChildren().size());
+        assertEquals(4, tCurMeth.getChildren().size());
 
         checkSqlMethodCall(tFlow);
 
@@ -90,9 +90,11 @@ public class TestRunSample extends SamplePersistenceTestcase
     private void checkSqlMethodCall(ExecutionFlowPO tFlow)
     {
         MethodCallPO tCurMeth;
+        MethodCallPO tCurParent = tFlow.getFirstMethodCall().getChild(7).getChild(0); 
+        assertEquals(6, tCurParent.getChildren().size());
         // Start of the Sql Request
         StringBuffer tTrace = new StringBuffer();
-        tCurMeth = tFlow.getFirstMethodCall().getChild(7).getChild(0);
+        tCurMeth = tCurParent.getChild(0);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
         tTrace.append("PrepareStatement with Sql=[insert into SHOPPING_CART (ID) values (null)]\n");
@@ -100,7 +102,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(7).getChild(1);
+        tCurMeth = tCurParent.getChild(1);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeQuery", tCurMeth.getMethodName());
         tTrace = new StringBuffer();
@@ -109,7 +111,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(7).getChild(2);
+        tCurMeth = tCurParent.getChild(2);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
         tTrace = new StringBuffer();
@@ -119,7 +121,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(7).getChild(3);
+        tCurMeth = tCurParent.getChild(3);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeQuery", tCurMeth.getMethodName());
         tTrace = new StringBuffer();
@@ -128,7 +130,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(7).getChild(4);
+        tCurMeth = tCurParent.getChild(4);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
         tTrace = new StringBuffer();
@@ -138,7 +140,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(7).getChild(5);
+        tCurMeth = tCurParent.getChild(5);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeQuery", tCurMeth.getMethodName());
         tTrace = new StringBuffer();
@@ -146,6 +148,32 @@ public class TestRunSample extends SamplePersistenceTestcase
         tTrace.append("Execute query\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
+        
+        tCurParent = tFlow.getFirstMethodCall().getChild(7); 
+        assertEquals(4, tCurParent.getChildren().size());
+        tCurMeth = tCurParent.getChild(1);
+        assertEquals("org.hibernate.Session", tCurMeth.getClassName());
+        assertEquals("connection", tCurMeth.getMethodName());
+        assertEquals("org.hsqldb.jdbc.jdbcConnection", tCurMeth.getReturnValue().substring(0,30));
+        assertEquals(0, tCurMeth.getChildren().size());
+        
+        tCurMeth = tCurParent.getChild(2);
+        assertEquals("java.sql.Statement", tCurMeth.getClassName());
+        assertEquals("execute", tCurMeth.getMethodName());
+        tTrace = new StringBuffer();
+        tTrace.append("Sql=[Select count(*) from SHOPPING_CART]\n");
+        assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
+        assertEquals(0, tCurMeth.getChildren().size());
+        
+        tCurMeth = tCurParent.getChild(3);
+        assertEquals("java.sql.Statement", tCurMeth.getClassName());
+        assertEquals("execute", tCurMeth.getMethodName());
+        tTrace = new StringBuffer();
+        tTrace.append("Sql=[Select * from SHOPPING_CART]\n");
+        assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
+        assertEquals(0, tCurMeth.getChildren().size());
+        
+        
     }
 
 }

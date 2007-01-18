@@ -42,7 +42,9 @@ public class JMonitoringStatement implements Statement, IProxyStatement
 
     public String getTrace()
     {
-        return mTrace.toString();
+        String tResult = mTrace.toString();
+        mTrace = new StringBuffer();
+        return tResult;
     }
 
     public void addBatch(String pSql) throws SQLException

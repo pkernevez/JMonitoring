@@ -62,7 +62,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
 
     private static final String UPDATE_FLOW_WITH_FIRST_METHOD_CALL = "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?";
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#insertFullExecutionFlow(org.jmonitoring.core.persistence.ExecutionFlowPO)
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
@@ -163,8 +165,8 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         {
             if (sLog.isDebugEnabled())
             {
-                    sLog.debug("Interting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "] Index=["
-                    + pMethodCall.getPosition() + "] and NewBatchSize=[" + pBatchBufferSize+"]");
+                sLog.debug("Interting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "] Index=["
+                    + pMethodCall.getPosition() + "] and NewBatchSize=[" + pBatchBufferSize + "]");
             }
             int curIndex = 1;
             if (mMethodCallInsertStatement == null)
@@ -212,7 +214,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#getListOfExecutionFlowPO(org.jmonitoring.core.dao.FlowSearchCriterion)
      */
     public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
@@ -263,7 +267,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         return tCriteria.list();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#readExecutionFlow(int)
      */
     public ExecutionFlowPO readExecutionFlow(int pFlowId)
@@ -285,7 +291,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
     // return (ExecutionFlowPO) mSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
     // }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#deleteAllFlows()
      */
     public void deleteAllFlows()
@@ -297,24 +305,12 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         tDdlexport.create(true, true);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#deleteFlow(int)
      */
     public void deleteFlow(int pId) throws UnknownFlowException
-    {
-        ExecutionFlowPO tFlow = (ExecutionFlowPO) mSession.get(ExecutionFlowPO.class, new Integer(pId));
-        if (tFlow == null)
-        {
-            throw new UnknownFlowException("Flow with Id=" + pId
-                + " could not be retreive from database, and can't be delete");
-        } else
-        {
-            deleteAllFlow(tFlow);
-        }
-
-    }
-
-    private void deleteAllFlow(ExecutionFlowPO pFlow)
     {
         PreparedStatement tStat = null;
         try
@@ -324,7 +320,7 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
                 tStat = mSession.connection().prepareStatement(
                     "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
                 tStat.setNull(1, Types.INTEGER);
-                tStat.setInt(2, pFlow.getId());
+                tStat.setInt(2, pId);
                 tStat.execute();
                 tStat.close();
                 tStat = null;
@@ -332,22 +328,28 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
                 tStat = mSession.connection().prepareStatement(
                     "UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
                 tStat.setNull(1, Types.INTEGER);
-                tStat.setInt(2, pFlow.getId());
+                tStat.setInt(2, pId);
                 tStat.execute();
                 tStat.close();
                 tStat = null;
 
                 tStat = mSession.connection().prepareStatement("DELETE FROM METHOD_CALL Where FLOW_ID=?");
-                tStat.setInt(1, pFlow.getId());
+                tStat.setInt(1, pId);
                 tStat.execute();
                 tStat.close();
                 tStat = null;
 
                 tStat = mSession.connection().prepareStatement("DELETE FROM EXECUTION_FLOW Where ID=?");
-                tStat.setInt(1, pFlow.getId());
+                tStat.setInt(1, pId);
                 tStat.execute();
+                int tResultCount = tStat.getUpdateCount();
                 tStat.close();
                 tStat = null;
+                if (tResultCount != 1)
+                {
+                    throw new UnknownFlowException("Flow with Id=" + pId
+                        + " could not be retreive from database, and can't be delete");
+                }
 
             } finally
             {
@@ -361,10 +363,11 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
             sLog.error("Unable to UPDATE the link of ExecutionFlowPO in DataBase", e);
             throw new MeasureException("Unable to delete the ExecutionFlowPO in DataBase");
         }
-
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#getListOfMethodCall(java.lang.String, java.lang.String)
      */
     public List getListOfMethodCall(String pClassName, String pMethodName)
@@ -375,7 +378,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         return tCriteria.list();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#readMethodCall(int, int)
      */
     public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
@@ -408,7 +413,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
 
     private static final int EXTRACT_CLASSNAME_POS = 0;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#getListOfMethodCallExtract()
      */
     public List getListOfMethodCallExtract()
@@ -427,7 +434,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         return tResult;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#countFlows()
      */
     public int countFlows()
@@ -444,7 +453,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#createDataBase()
      */
     public void createDataBase()
@@ -456,7 +467,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         sLog.info("End of the Schema creation for the DataBase");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jmonitoring.core.dao.IExecutionFlowDao#getMethodCallList(java.lang.String, java.lang.String, long, long)
      */
     public List getMethodCallList(String pClassName, String pMethodName, long pDurationMin, long pDurationMax)

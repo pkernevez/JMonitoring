@@ -24,7 +24,17 @@
         <system>jira</system>
         <url>http://forge.octo.com/jira/browse/JMO</url>
     </issueManagement>
-
+  <mailingLists>
+    <mailingList>
+      <name>jmonitoring-user@lists.sourceforge.net</name>
+      <subscribe/>
+      <unsubscribe/>
+      <post/>
+      <archive/>
+      <otherArchives/>
+    </mailingList>
+  </mailingLists>
+  
     <developers>
         <developer>
             <name>Philippe Kernevez</name>

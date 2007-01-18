@@ -95,6 +95,7 @@
 	    <mkdir dir="${release.dir}"/>
 	    <!-- main artifacts -->
 	    <copy file="${maven.repo.local}/${pom.groupId}/jars/core_monitoring-${monitoring.version}.jar" todir="${release.dir}"/>
+	    <copy file="${maven.repo.local}/${pom.groupId}/jars/hibernate-aspect-${monitoring.version}.jar" todir="${release.dir}"/>
 	    <copy file="${maven.repo.local}/${pom.groupId}/wars/administration_console-${monitoring.version}.war" todir="${release.dir}"/>
 	
 	    <!-- sample artifacts -->
@@ -109,6 +110,7 @@
 	    
 	    <!-- conf file -->
 	    <copy file="${basedir}/../framework/core_monitoring/src/test/resources/jmonitoring.properties" todir="${release.dir}"/>
+	    <copy file="${basedir}/../framework/core_monitoring/src/test/resources/hibernate.cfg.properties" todir="${release.dir}"/>
 	    
 	    <!-- Now build the Zip release file -->
 	    <ant:zip destfile="${release.file}" basedir="${release.dir}/"/>

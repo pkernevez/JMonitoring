@@ -11,7 +11,13 @@ import java.sql.Time;
 import java.sql.Types;
 
 import org.hibernate.HibernateException;
+import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
+import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.store.impl.SynchroneJdbcStore;
 import org.jmonitoring.hibernate.info.JMonitoringPreparedStatement;
 import org.jmonitoring.hibernate.info.JMonitoringStatement;
 import org.jmonitoring.hibernate.info.SqlStatementTracer;
@@ -38,12 +44,14 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersStatement() throws HibernateException, SQLException
     {
+        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
         Statement tStat = getSession().connection().createStatement();
         assertEquals(JMonitoringStatement.class, tStat.getClass());
         SqlStatementTracer tTracer = new SqlStatementTracer();
         tStat.execute("select * from EXECUTION_FLOW");
-        String tTrace = tTracer.convertToString(tStat, new Object[] {Boolean.TRUE });
-        assertEquals("Sql=[select * from EXECUTION_FLOW]\n", tTrace.toString());
+        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
+        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        assertEquals("Sql=[select * from EXECUTION_FLOW]\n", tFlow.getFirstMethodCall().getReturnValue());
     }
 
     public void testTraceStatementParametersPreparedStatement() throws HibernateException, SQLException
@@ -87,10 +95,13 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
     {
+        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+
         defineStoredProcedure();
         checkDataStoredProcedure();
 
         CallableStatement tCallStat = getSession().connection().prepareCall("call SQRT(?)");
+        assertEquals(JMonitoringCallableStatement.class, tCallStat.getClass());
 
         // This is not the real StoredProcedure syntax due to the limitations of HsqlDB support
         tCallStat.setDouble(1, 2.0);
@@ -99,14 +110,15 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tResult.next();
         assertEquals(1.41, tResult.getDouble(1), 0.01);
 
-        SqlStatementTracer tTracer = new SqlStatementTracer();
-        String tTrace = tTracer.convertToString(tCallStat, null);
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("CallableStatement with Sql=[call SQRT(?)]\n");
         tBuffer.append("Add Double parameter, pos=[1], value=[2.0]\n");
         tBuffer.append("Execute query\n");
 
-        assertEquals(tBuffer.toString(), tTrace);
+        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
+        //We only want to chack the latest ExecutionFlow
+        ExecutionFlowPO tFlow = tDao.readExecutionFlow(5);
+        assertEquals(tBuffer.toString(), tFlow.getFirstMethodCall().getReturnValue());
     }
 
     private void checkDataStoredProcedure() throws SQLException
