@@ -11,10 +11,10 @@
     <extend>${basedir}/../../MainProject/maven/project.xml</extend>
   
     <!-- identifiant du projet -->
-    <id>core_monitoring</id>
+    <id>console-core</id>
   
     <!-- libellé du projet -->
-    <name>Core framework.</name>
+    <name>Console core.</name>
     
     <description>
          This project provides Monitring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.

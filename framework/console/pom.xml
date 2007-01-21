@@ -12,10 +12,8 @@
     <packaging>pom</packaging>
 
      <modules>
-        <!--module>agent</module>
-        <module>console</module>
-        <module>server</module>
-        <module>extensions</module-->
+        <module>console-core</module>
+        <module>console-web</module>
     </modules>
 
     <name>JMonitoring: framework, master module.</name>

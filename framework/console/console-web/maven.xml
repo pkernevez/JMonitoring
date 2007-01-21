@@ -7,7 +7,7 @@
 
     <!-- target perso pour redéployer -->
     <goal name="copy">
-        <copy file="target/administration_console.war" todir="${application.server.deploy.dir}"/>
+        <copy file="target/console-web.war" todir="${application.server.deploy.dir}"/>
 	</goal>  
 
    	   <postGoal name="war:install">
