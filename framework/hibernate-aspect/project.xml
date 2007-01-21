@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+  ************************************************************************
+  Projet Test OCTO Technology
+  
+  ************************************************************************
+-->
+     
+<project>
+    <extend>${basedir}/../../MainProject/maven/project.xml</extend>
+      <!-- identifiant du projet -->
+    <id>hibernate-aspect</id>
+  
+    <!-- libellé du projet -->
+    <name>Hibernate tracer</name>
+    
+    <description>
+         This jar allow to trace Hibernate Access and Sql access
+    </description>
+  
+    <build>
+        <aspectSourceDirectory>src/main/java</aspectSourceDirectory>
+    </build>
+
+    <!-- dépendances -->
+    <dependencies>
+    
+        <dependency>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
+          <artifactId>core_monitoring</artifactId>
+          <version>${monitoring.version}</version>
+          <url>http://octo.dnalias.com/maven</url>
+            <properties>
+                <eclipse.dependency>true</eclipse.dependency>
+                <war.bundle>true</war.bundle>
+                 <aspectj.weaveWith>true</aspectj.weaveWith>
+            </properties>
+        </dependency>
+
+        <dependency>
+          <id>junit</id>
+          <version>${depends.junit.version}</version>
+          <url>http://www.junit.org/</url>
+        </dependency>
+
+        <dependency>
+          <id>dbunit</id>
+          <version>${depends.dbunit.version}</version>
+          <url>http://www.dbunit.org/</url>
+        </dependency>
+
+        <dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-core</artifactId>
+          <version>${depends.spring.core.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <id>hibernate</id>
+          <version>${depends.hibernate.version}</version>
+          <url>http://www.hibernate.org</url>
+        </dependency>
+
+        <dependency>
+          <id>antlr</id>
+          <version>${depends.antlr.version}</version>
+          <url>http://www.ant.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${depends.hsqldb.version}</version>
+            <type>jar</type>
+            <url>http://www.hsqldb.org</url>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${depends.dom4j.version}</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${depends.ehcache.version}</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>j2ee</groupId>
+            <artifactId>j2ee</artifactId>
+            <version>${depends.j2ee.version}</version>
+            <type>jar</type>
+            <url>http://java.sun.com</url>
+        </dependency>
+        
+        <dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-context</artifactId>
+          <version>${depends.spring.core.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <groupId>springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+          <version>${depends.spring.core.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <id>concurrent</id>
+          <version>${depends.concurrent.version}</version>
+          <url>http://gee.cs.oswego.edu/dl//</url>
+        </dependency>
+
+        <dependency>
+          <id>jmock</id>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+        <dependency>
+          <groupId>jmock</groupId>
+          <artifactId>jmock-cglib</artifactId>
+          <version>${depends.jmock.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+        
+        <dependency>
+          <groupId>cglib</groupId>
+          <artifactId>cglib-nodep</artifactId>
+          <version>${depends.cglib.version}</version>
+          <url>http://jmock.codehaus.org</url>
+        </dependency>
+
+        <dependency>
+          <id>log4j</id>
+          <version>${depends.log4j.version}</version>
+          <url>http://www.log4j.org/</url>
+        </dependency>
+        
+        <dependency>
+          <id>commons-logging</id>
+          <version>${depends.commonslogging.version}</version>
+          <url>http://www.apache.org/</url>
+        </dependency>
+
+        <dependency>
+          <groupId>aspectj</groupId>
+          <artifactId>aspectjrt</artifactId>
+          <version>${depends.aspectj.version}</version>
+          <url>http://eclipse.org/aspectj/</url>
+        </dependency>
+
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>${depends.mysql.version}</version>
+          <url>http://www.mysql.com/</url>
+        </dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${depends.commonsconfiguration.version}</version>
+            <url>http://www.apache.org/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+          <id>commons-lang</id>
+          <version>${depends.commonslang.version}</version>
+          <url>http://www.apache.org/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+        <dependency>
+          <id>commons-collections</id>
+          <version>${depends.commonscollections.version}</version>
+          <url>http://www.apache.org/</url>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+
+    </dependencies>
+    
+</project>
+

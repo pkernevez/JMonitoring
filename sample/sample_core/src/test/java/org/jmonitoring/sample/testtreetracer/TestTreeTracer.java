@@ -4,18 +4,24 @@ import java.util.StringTokenizer;
 
 import org.jmonitoring.core.configuration.Configuration;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
+import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.store.impl.SynchroneJdbcStore;
+import org.jmonitoring.hibernate.info.SqlExecutionAspect;
+import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;
 
-public class TestTreeTracer extends PersistanceTestCase
+public class TestTreeTracer extends SamplePersistenceTestcase
 {
 
     public void testParameterTracer()
     {
-        ExecutionFlowDAO tDao = new ExecutionFlowDAO(getSession());
+        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
+        assertEquals(0, tDao.countFlows());
+        assertEquals(0, tDao.countFlows());
         Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
 
         Mother tMother = new Mother();
@@ -25,6 +31,16 @@ public class TestTreeTracer extends PersistanceTestCase
         new ToBeCall().callWithParam(tMother, new Child());
 
         getSession().flush();
+        getSession().clear();
+        assertEquals(1, tDao.countFlows());
+        checkParameterTracer();
+        assertEquals(1, tDao.countFlows());
+        
+    }
+
+    private void checkParameterTracer()
+    {
+        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         String tParams = tFlow.getFirstMethodCall().getParams();
@@ -44,12 +60,19 @@ public class TestTreeTracer extends PersistanceTestCase
 
     public void testReturnValueTracer()
     {
-        ExecutionFlowDAO tDao = new ExecutionFlowDAO(getSession());
         Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
 
         new ToBeCall().callWithReturn();
 
         getSession().flush();
+        getSession().clear();
+        
+        checkReturnValueTracer();
+    }
+
+    private void checkReturnValueTracer()
+    {
+        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         String tParams = tFlow.getFirstMethodCall().getReturnValue();
@@ -67,12 +90,19 @@ public class TestTreeTracer extends PersistanceTestCase
 
     public void testStaticCall()
     {
-        ExecutionFlowDAO tDao = new ExecutionFlowDAO(getSession());
         Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
 
         ToBeCall.callStaticMethod(new Mother());
 
         getSession().flush();
+        getSession().clear();
+        
+        checkStaticCall();
+    }
+
+    private void checkStaticCall()
+    {
+        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
         ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         assertEquals(ToBeCall.class.getName(), tFlow.getFirstMethodCall().getClassName());

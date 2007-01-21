@@ -1,5 +1,9 @@
 package org.jmonitoring.sample.main;
 
+import org.hibernate.Session;
+import org.jmonitoring.sample.persistence.SampleDao;
+import org.jmonitoring.sample.persistence.SampleHibernateManager;
+
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
@@ -20,6 +24,18 @@ public class RunSample
     private static final int NB2 = 31;
 
     private static final int NB1 = 30;
+
+    private Session mSession;
+    
+    public RunSample(Session pSampleSession)
+    {
+        mSession = pSampleSession;
+    }
+
+    public RunSample()
+    {
+        mSession = SampleHibernateManager.getSession();
+    }
 
     /**
      * For the Sample
@@ -48,27 +64,23 @@ public class RunSample
     {
 
         Inventory inventory = new Inventory();
-
-        Item item1 = new Item("1", NB1);
-
-        Item item2 = new Item("2", NB2);
-
-        Item item3 = new Item("3", NB3);
+        ItemPO item1 = new ItemPO(NB1);
+        ItemPO item2 = new ItemPO(NB2);
+        ItemPO item3 = new ItemPO(NB3);
 
         inventory.addItem(item1);
-
         inventory.addItem(item2);
-
         inventory.addItem(item3);
-        ShoppingCart sc = new ShoppingCart();
 
-        ShoppingCartOperator.addShoppingCartItem(sc, inventory, item1);
-
-        ShoppingCartOperator.addShoppingCartItem(sc, inventory, item2);
-
+        ShoppingCartPO tShopCart = new ShoppingCartPO();
+        ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item1);
+        ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item2);
+        new SampleDao(mSession).save(tShopCart);
+        
+        
         try
         {
-            ShoppingCartOperator.addShoppingCartItem(sc, inventory, item3);
+            ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item3);
         } catch (RuntimeException e)
         {
             // C'est juste pour tester la remontée d'exception

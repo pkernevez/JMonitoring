@@ -5,7 +5,7 @@ import org.jmonitoring.core.info.IResultTracer;
 public class TreeResultTracer implements IResultTracer
 {
 
-    public String convertToString(Object pResultObject)
+    public String convertToString(Object pTarget, Object pResultObject)
     {
         long tStartTime = System.currentTimeMillis();
         TreeTracerHelper tHelper = new TreeTracerHelper();

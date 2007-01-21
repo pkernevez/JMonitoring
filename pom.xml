@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.octo.opensource.jmonitoring</groupId>
     <artifactId>main</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -16,15 +15,29 @@
     <name>JMonitoring: master module.</name>
     <description>This project provides JMonitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/</connection>
-        <url>https://forge.octo.com/svn</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/1.0.1</connection>
+        <url>http://forge.octo.com/svn/jmonitoring/tags/1.0.1</url>
     </scm>
   
     <issueManagement>
         <system>jira</system>
         <url>http://forge.octo.com/jira/browse/JMO</url>
     </issueManagement>
-
+  <mailingLists>
+    <mailingList>
+      <name>jmonitoring-user@lists.sourceforge.net</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-user</archive>
+    </mailingList>
+    <mailingList>
+      <name>jmonitoring-developer@lists.sourceforge.net</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-developer</archive>
+    </mailingList>
+  </mailingLists>
+  
     <developers>
         <developer>
             <name>Philippe Kernevez</name>
@@ -61,7 +74,29 @@
             </plugins>
         </pluginManagement>
         <plugins>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                  <tagBase>http://forge.octo.com/svn/jmonitoring/tags</tagBase>
+                </configuration>
+              </plugin>
             <plugin>
+                <inherited>true</inherited>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <inherited>true</inherited>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <dependencies>
                     <dependency>
@@ -73,10 +108,12 @@
             </plugin>
       
             <plugin>
+                <inherited>true</inherited>
                 <artifactId>maven-pmd-plugin</artifactId>
             </plugin>
       
             <plugin>
+                <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <dependencies>
@@ -133,16 +170,15 @@
             </plugin-->            
             
             <plugin>
+                <inherited>true</inherited>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.0</version>
                 <configuration>
                     <!--check branchrate="80" linerate="70" haltonerror="true"
                         totalbranchrate="80" totallinerate="70">
-                      <regex pattern="com.example.reallyimportant.*" 
-                               branchrate="80" linerate="90"/>
-                        <regex pattern="com.example.boringcode.*" 
-                               branchrate="40" linerate="30"/-->
+                      <regex pattern="com.example.reallyimportant.*" branchrate="80" linerate="90" />
+                        <regex pattern="com.example.boringcode.*" branchrate="40" linerate="30"/-->
                     <!--/check-->
                 </configuration>
                 <executions>

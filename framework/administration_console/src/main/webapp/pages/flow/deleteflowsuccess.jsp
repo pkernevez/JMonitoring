@@ -6,7 +6,7 @@
 <%@page import="org.jmonitoring.console.flow.edit.FlowEditForm"%>
 
 <%
-	FlowEditForm tForm = (FlowEditForm)request.getAttribute("floweditform");
+	FlowEditForm tForm = (FlowEditForm)request.getAttribute("flowidform");
 	if (tForm != null && tForm.getId() != -1 )
 	{
 %>	

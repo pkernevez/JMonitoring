@@ -16,6 +16,8 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 
 /**
@@ -47,6 +49,9 @@ public final class Configuration
     /** Name of the server. */
     private String mServerName;
 
+    /** Class of the ExecutionFlowDao class. */
+    private Class mExecutionFlowDaoClass;
+
     /** Format for date rendering. */
     private String mDateFormat;
 
@@ -76,19 +81,7 @@ public final class Configuration
         {
             PropertiesConfiguration tConfig = loadConfig();
 
-            loadStoreClass(tConfig);
-            mXmlOutputDir = tConfig.getString("xml.logger.dir", "/temp/log");
-
-            mLogMethodParameter = tConfig.getBoolean("log.parameter.defaultvalue", true);
-            mServerName = tConfig.getString("server.name", "Babasse");
-            mDateFormat = tConfig.getString("format.ihm.date", "dd/MM/yy");
-            mTimeFormat = tConfig.getString("format.ihm.time", "HH:mm:ss.SSS");
-            mDateTimeFormat = mDateFormat + " " + mTimeFormat;
-            mMaxExecutionDuringFlowEdition = tConfig.getInt("maxExecutionDuringFlowEdition");
-
-            mAsynchroneStoreThreadPoolSize = tConfig.getInt("asynchronelogger.threadpool.size", 1);
-
-            initColor(tConfig);
+            loadConfiguration(tConfig);
         } catch (Error e)
         {
             sLog.error("Error during the loading of the configuration file \"jmonitoring.properties\"", e);
@@ -98,6 +91,24 @@ public final class Configuration
             sLog.error("Error during the loading of the configuration file " + "\"jmonitoring.properties\"", e2);
             throw e2;
         }
+    }
+
+    void loadConfiguration(PropertiesConfiguration tConfig)
+    {
+        loadStoreClass(tConfig);
+        loadExecutionFlowClass(tConfig);
+        mXmlOutputDir = tConfig.getString("xml.logger.dir", "/temp/log");
+
+        mLogMethodParameter = tConfig.getBoolean("log.parameter.defaultvalue", true);
+        mServerName = tConfig.getString("server.name", "Babasse");
+        mDateFormat = tConfig.getString("format.ihm.date", "dd/MM/yy");
+        mTimeFormat = tConfig.getString("format.ihm.time", "HH:mm:ss.SSS");
+        mDateTimeFormat = mDateFormat + " " + mTimeFormat;
+        mMaxExecutionDuringFlowEdition = tConfig.getInt("maxExecutionDuringFlowEdition");
+
+        mAsynchroneStoreThreadPoolSize = tConfig.getInt("asynchronelogger.threadpool.size", 1);
+
+        initColor(tConfig);
     }
 
     private void loadStoreClass(PropertiesConfiguration pConfig)
@@ -118,6 +129,30 @@ public final class Configuration
             tResultClass = AsynchroneJdbcLogger.class;
         }
         mMeasurePointStoreClass = tResultClass;
+    }
+
+    private void loadExecutionFlowClass(PropertiesConfiguration pConfig)
+    {
+        Class tResultClass;
+        try
+        {
+            String tDaoClassName = pConfig.getString("execution.dao.class", ExecutionFlowDAO.class.getName());
+            tResultClass = Class.forName(tDaoClassName);
+        } catch (ClassNotFoundException e1)
+        {
+            sLog.error("Unable to create IExecutionFlowDAO, using default class : ExecutionFlowDAO");
+            tResultClass = ExecutionFlowDAO.class;
+        } catch (NoClassDefFoundError e2)
+        {
+            sLog.error("Unable to create IExecutionFlowDAO, using default class : ExecutionFlowDAO");
+            tResultClass = ExecutionFlowDAO.class;
+        }
+        if (!IExecutionFlowDAO.class.isAssignableFrom(tResultClass))
+        {
+            sLog.error("The specified DaoClass isn't an instance of IExecutionFlowDAO, using default class : ExecutionFlowDAO");
+            tResultClass = ExecutionFlowDAO.class;
+        }
+        mExecutionFlowDaoClass = tResultClass;
     }
 
     private PropertiesConfiguration loadConfig()
@@ -382,6 +417,16 @@ public final class Configuration
     public void setMeasurePointStoreClass(Class pMeasurePointStoreClass)
     {
         mMeasurePointStoreClass = pMeasurePointStoreClass;
+    }
+
+    public Class getExecutionFlowDaoClass()
+    {
+        return mExecutionFlowDaoClass;
+    }
+
+    public void setExecutionFlowDaoClass(Class pExecutionFlowDaoClass)
+    {
+        mExecutionFlowDaoClass = pExecutionFlowDaoClass;
     }
 
     public int getMaxExecutionDuringFlowEdition()

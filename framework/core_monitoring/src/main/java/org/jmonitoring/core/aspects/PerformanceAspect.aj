@@ -85,7 +85,7 @@ public abstract aspect PerformanceAspect
         {
             if (tManager != null)
             {
-                tManager.logEndOfMethodNormal(mResultTracer, tResult);
+                tManager.logEndOfMethodNormal(mResultTracer, thisJoinPoint.getTarget(), tResult);
 
             } else
             {

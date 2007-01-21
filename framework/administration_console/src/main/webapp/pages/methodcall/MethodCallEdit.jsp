@@ -89,7 +89,8 @@
 			<td colSpan="2"><b><bean:write name="methodcallform" property="methodCall.throwableMessage"/></b></td>
 		</tr>
 	</logic:empty> 
-	
+	</table>
+	<table border="0" >
 	<tr>
 		<td colSpan="3">
 			Children:

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
    <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>main</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>framework</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
 
      <modules>
         <module>core_monitoring</module>
         <module>administration_console</module>
+        <module>hibernate-aspect</module>
     </modules>
 
     <name>JMonitoring: framework, master module.</name>
     <description>This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework</connection>
-        <url>https://forge.octo.com/</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/1.0.1</connection>
+        <url>http://forge.octo.com/svn/jmonitoring/tags/1.0.1</url>
     </scm>
     <!--reporting>
         <plugins>

@@ -1,58 +1,71 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <groupId>com.octo.opensource.jmonitoring</groupId>
-        <artifactId>sample</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>sample_core</artifactId>
-    <name>JMonitoring: sample, application code.</name>
-    <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
-    <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_core</connection>
-        <url>http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_core</url>
-    </scm>
-  
-    <packaging>jar</packaging>
-    <dependencies>
-    	<dependency>
-      	<groupId>com.octo.opensource.jmonitoring</groupId>
-      	<artifactId>sample_aspects</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-
- 			<!--dependency>
-            <groupId>aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.5.2</version>
-        </dependency-->
-
-    </dependencies>
-    <build>
-    <!-- For weaving this artifact at compile time  See: http://mojo.codehaus.org/aspectj-maven-plugin/usage.html -->
-     <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal> 
-                            <goal>test-compile</goal>  
-                        </goals>
-                    </execution>
-               </executions>
-               <!--configuration> 
-                    <aspectLibraries>
-                        <aspectLibrary>
-                            <groupId>com.octo.opensource.jmonitoring</groupId>
-                            <artifactId>sample_aspects</artifactId>
-                        </aspectLibrary>
-                    </aspectLibraries>
-               </configuration--> 
-           </plugin>
-       </plugins>
-     </build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>sample</artifactId>
+    <groupId>com.octo.opensource.jmonitoring</groupId>
+    <version>1.0.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>sample_core</artifactId>
+  <name>JMonitoring: sample, application code.</name>
+  <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
+  <scm>
+    <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/1.0.1</connection>
+    <url>http://forge.octo.com/svn/jmonitoring/tags/1.0.1</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <aspectLibraries>
+            <aspectLibrary>
+              <groupId>com.octo.opensource.jmonitoring</groupId>
+              <artifactId>hibernate-aspect</artifactId>
+            </aspectLibrary>
+            <aspectLibrary>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate</artifactId>
+            </aspectLibrary>
+          </aspectLibraries>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>sample_aspects</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>core_monitoring</artifactId>
+      <version>1.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>hibernate-aspect</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>3.1rc2Weaved</version>
+    </dependency>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>core_monitoring</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 </project>

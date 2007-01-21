@@ -4,7 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
+import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.core.store.IStoreWriter;
@@ -35,7 +36,7 @@ public class SynchroneJdbcStore implements IStoreWriter
             Session tPManager = (Session) HibernateManager.getSession();
             Transaction tTransaction = tPManager.getTransaction();
             tTransaction.begin();
-            ExecutionFlowDAO tDao = new ExecutionFlowDAO(tPManager);
+            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tPManager);
             tDao.insertFullExecutionFlow(pExecutionFlow);
             // if (mAutoflush)
             // {
