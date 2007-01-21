@@ -27,11 +27,15 @@
   <mailingLists>
     <mailingList>
       <name>jmonitoring-user@lists.sourceforge.net</name>
-      <subscribe/>
-      <unsubscribe/>
-      <post/>
-      <archive/>
-      <otherArchives/>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-user</archive>
+    </mailingList>
+    <mailingList>
+      <name>jmonitoring-developer@lists.sourceforge.net</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-developer</archive>
     </mailingList>
   </mailingLists>
   
