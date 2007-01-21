@@ -12,9 +12,10 @@
     <packaging>pom</packaging>
 
      <modules>
-        <module>core_monitoring</module>
-        <module>administration_console</module>
-        <module>hibernate-aspect</module>
+        <module>agent</module>
+        <module>console</module>
+        <module>server</module>
+        <module>extensions</module>
     </modules>
 
     <name>JMonitoring: framework, master module.</name>
