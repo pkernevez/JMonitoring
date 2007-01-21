@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+   <parent>
+        <groupId>com.octo.opensource.jmonitoring</groupId>
+        <artifactId>main</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>extensions</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+     <modules>
+        <!--module>core_monitoring</module>
+        <module>console</module>
+        <module>extensions</module>
+        <module>hibernate-aspect</module-->
+    </modules>
+
+    <name>JMonitoring: framework, extensions.</name>
+    <description>This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.</description>
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/extension</connection>
+        <url>https://forge.octo.com/</url>
+    </scm>
+    <!--reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>javancss-maven-plugin</artifactId>
+                <version>2.0-beta-1</version>
+            </plugin>
+        </plugins>
+    </reporting-->
+  
+    
+    <dependencies>
+
+ 
+    </dependencies>
+ 
+</project>
