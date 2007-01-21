@@ -2,7 +2,7 @@
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>sample</artifactId>
-        <version>1.0.1</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
@@ -10,8 +10,8 @@
     <name>JMonitoring: sample, aspects libraries.</name>
     <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/1.0.1</connection>
-        <url>http://forge.octo.com/svn/jmonitoring/tags/1.0.1</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_aspects</connection>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_aspects</url>
     </scm>
   
     <packaging>jar</packaging>

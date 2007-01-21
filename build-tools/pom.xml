@@ -5,14 +5,14 @@
   <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>main</artifactId>
-        <version>1.0.1</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
     <artifactId>jmonitoring-build-tools</artifactId>
     <name>JMonitoring Build Tools</name>
     <packaging>jar</packaging>
     <description>JMonitoring Build Tools</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/1.0.1</connection>
-        <url>http://forge.octo.com/svn/jmonitoring/tags/1.0.1</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/build-tools</connection>
+        <url>http://forge.octo.com/</url>
     </scm>
 </project>
