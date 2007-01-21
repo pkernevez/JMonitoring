@@ -20,7 +20,7 @@
         <dependency>
           <groupId>com.octo.opensource.jmonitoring</groupId>
           <artifactId>server</artifactId>
-          <version>${monitoring.version}</version>
+          <version>1.1-SNAPSHOT</version>
         </dependency>
 
     	<dependency>
