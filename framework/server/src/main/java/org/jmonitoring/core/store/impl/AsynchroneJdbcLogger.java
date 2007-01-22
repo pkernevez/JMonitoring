@@ -5,13 +5,14 @@ package org.jmonitoring.core.store.impl;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
 import org.jmonitoring.core.dao.IExecutionFlowDAO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
 
 /**

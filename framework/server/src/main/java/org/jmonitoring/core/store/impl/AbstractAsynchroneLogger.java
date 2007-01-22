@@ -1,9 +1,11 @@
 package org.jmonitoring.core.store.impl;
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.core.ConfigurationFactory;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.store.IStoreWriter;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
@@ -20,13 +22,15 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  */
 public abstract class AbstractAsynchroneLogger implements IStoreWriter
 {
+    private static final String THREAD_POOL_KEY = "asynchronelogger.threadpool.size";
+
     private static Log sLog = LogFactory.getLog(AbstractAsynchroneLogger.class);
 
     private static PooledExecutor sExecutor;
 
     static
     {
-        int tAsynchroneLoggerThreadPoolSize = Configuration.getInstance().getAsynchroneStoreThreadPoolSize();
+        int tAsynchroneLoggerThreadPoolSize = ConfigurationFactory.getInstance().getInt(THREAD_POOL_KEY);
         sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
         sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
     }
@@ -36,22 +40,7 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
      */
     public AbstractAsynchroneLogger()
     {
-        // if (sLog == null)
-        // {
-        // initStatic();
-        // }
     }
-
-    // /**
-    // * Initialisation of all threads shared ressources.
-    // */
-    // private static synchronized void initStatic()
-    // {
-    // int tAsynchroneLoggerThreadPoolSize = Configuration.getInstance().getAsynchroneStoreThreadPoolSize();
-    // sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
-    // sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
-    // sLog =
-    // }
 
     /**
      * Get the log Task that will be executed by the asynchrone logger with the ThreadPool.
@@ -66,12 +55,6 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
      */
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        // Test because of ClassLoader and hotdeploy in some container...
-        // if (sExecutor == null)
-        // {
-        // sLog.error("No more actif thread for this logger, restart another one...");
-        // initStatic();
-        // }
         try
         {
             sExecutor.execute(getAsynchroneLogTask(pExecutionFlow));

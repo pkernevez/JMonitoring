@@ -5,6 +5,7 @@ package org.jmonitoring.core.store.impl;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,8 +18,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.common.MeasureException;
 import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.MethodCallPO;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.store.IStoreWriter;
 
 /**
