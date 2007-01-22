@@ -2,7 +2,6 @@ package org.jmonitoring.core.store;
 
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
-
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
