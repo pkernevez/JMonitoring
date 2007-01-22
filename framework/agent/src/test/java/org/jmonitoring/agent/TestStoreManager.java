@@ -1,11 +1,17 @@
-package org.jmonitoring.core.store;
+package org.jmonitoring.agent;
+
 
 import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.store.AspectLoggerEmulator;
+import org.jmonitoring.core.store.AspectLoggerEmulator.Child1;
+import org.jmonitoring.core.store.AspectLoggerEmulator.Child2;
 import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
+import org.jmonitoring.core.store.AspectLoggerEmulator.Param;
+import org.jmonitoring.core.store.AspectLoggerEmulator.Parent;
 import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.store.impl.StoreFactory;

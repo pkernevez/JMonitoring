@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.SQLGrammarException;
-import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.MeasureException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
 import org.jmonitoring.core.dao.FlowSearchCriterion;

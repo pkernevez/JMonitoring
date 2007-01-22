@@ -15,7 +15,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.MeasureException;
 import org.jmonitoring.core.dao.ExecutionFlowDAO;
 import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;

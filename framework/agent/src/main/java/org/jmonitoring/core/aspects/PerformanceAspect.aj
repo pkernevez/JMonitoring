@@ -8,14 +8,14 @@ package org.jmonitoring.core.aspects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
-import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.agent.StoreManager;
+import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
 import org.jmonitoring.core.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.core.info.impl.ToStringParametersTracer;
 import org.jmonitoring.core.info.impl.ToStringResultTracer;
-import org.jmonitoring.core.store.StoreManager;
 
 /**
  * Cet aspect permet d'activer le log de toutes les exécutions de méthodes/constructeurs dans une application. Il permet
