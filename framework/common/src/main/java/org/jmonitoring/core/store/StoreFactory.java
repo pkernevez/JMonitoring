@@ -10,9 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.ConfigurationException;
-import org.jmonitoring.core.ConfigurationFactory;
-import org.jmonitoring.core.MeasureException;
+import org.jmonitoring.core.configuration.ConfigurationException;
+import org.jmonitoring.core.configuration.ConfigurationFactory;
+import org.jmonitoring.core.configuration.MeasureException;
 
 /**
  * Permet d'obtenir un IMeasurePointLogger en focntion de la configuration.
