@@ -5,6 +5,8 @@ package org.jmonitoring.core.configuration;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import PersistanceTestCase;
+
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,7 +16,6 @@ import org.hibernate.NonUniqueObjectException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.SQLQuery;
 import org.hibernate.exception.GenericJDBCException;
-import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 
 public class TestConfigurationDAO extends PersistanceTestCase

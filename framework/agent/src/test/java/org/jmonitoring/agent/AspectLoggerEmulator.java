@@ -1,15 +1,15 @@
-package org.jmonitoring.core.store;
+package org.jmonitoring.agent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.aspectj.lang.Signature;
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.core.info.impl.ToStringParametersTracer;
 import org.jmonitoring.core.info.impl.ToStringResultTracer;
-import org.jmonitoring.core.utils.MockSignature;
+import org.jmonitoring.core.store.IStoreWriter;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -46,7 +46,7 @@ public class AspectLoggerEmulator
      */
     public void simulateExecutionFlow(boolean pWithLog)
     {
-        StoreManager tManager = new StoreManager(mStoreWriter, Configuration.getInstance());
+        StoreManager tManager = new StoreManager(mStoreWriter, ConfigurationHelper.getInstance());
         StoreManager.setLog(new ErrorLogTracer(pWithLog));
         AspectLoggerEmulator.resetCounters();
 
@@ -70,7 +70,7 @@ public class AspectLoggerEmulator
 
     public void simulateExecutionFlowWithExceptioninMain(boolean pWithLog)
     {
-        StoreManager tManager = new StoreManager(mStoreWriter, Configuration.getInstance());
+        StoreManager tManager = new StoreManager(mStoreWriter, ConfigurationHelper.getInstance());
         StoreManager.setLog(new ErrorLogTracer(pWithLog));
         AspectLoggerEmulator.resetCounters();
 

@@ -1,6 +1,7 @@
 package org.jmonitoring.core.persistence;
 
-import org.jmonitoring.core.dao.PersistanceTestCase;
+import PersistanceTestCase;
+
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 
 /***********************************************************************************************************************

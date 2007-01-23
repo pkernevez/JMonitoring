@@ -2,7 +2,7 @@ package org.jmonitoring.core.store.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

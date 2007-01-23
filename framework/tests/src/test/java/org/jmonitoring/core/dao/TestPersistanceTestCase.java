@@ -1,5 +1,8 @@
 package org.jmonitoring.core.dao;
 
+
+import PersistanceTestCase;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

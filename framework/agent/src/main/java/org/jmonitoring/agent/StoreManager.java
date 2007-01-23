@@ -9,7 +9,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
-import org.jmonitoring.core.configuration.ConfigurationFactory;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.info.IParamaterTracer;
@@ -42,7 +42,7 @@ public class StoreManager
      */
     public StoreManager()
     {
-        this(StoreFactory.getWriter(), ConfigurationFactory.getInstance());
+        this(StoreFactory.getWriter(), ConfigurationHelper.getInstance());
     }
 
     /**

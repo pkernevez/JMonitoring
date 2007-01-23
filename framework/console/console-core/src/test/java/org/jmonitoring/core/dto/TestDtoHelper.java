@@ -1,8 +1,9 @@
 package org.jmonitoring.core.dto;
 
+import PersistanceTestCase;
+
 import java.util.List;
 
-import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.MethodCallPO;

@@ -9,18 +9,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.configuration.ConfigurationFactory;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.utils.DateHelper;
 
 /**
  * This class allow the logging with an XMLFile. This class is not ThreadSafe when multiple file is used.
@@ -51,7 +48,7 @@ public class XmlFileLogger implements IStoreWriter
     {
         if (!sIsInitialized)
         {
-            String tDirName = ConfigurationFactory.getInstance().getString(XML_DIR_NAME, ".");
+            String tDirName = ConfigurationHelper.getInstance().getString(XML_DIR_NAME, ".");
             File tLogDir = new File(tDirName);
             // On netoie tous les fichiers du repertoire
             if (!tLogDir.isDirectory())
@@ -66,7 +63,7 @@ public class XmlFileLogger implements IStoreWriter
                     throw new MeasureException("Unable to delete file[" + tFileList[i].getAbsolutePath() + "]");
                 }
             }
-            if (!ConfigurationFactory.getInstance().getBoolean(XML_FILE_PER_THREAD))
+            if (!ConfigurationHelper.getInstance().getBoolean(XML_FILE_PER_THREAD))
             { // On initalise le fichier commun
                 File tCommonFile = new File(tDirName + "/AllThread.xml");
                 try
@@ -106,9 +103,9 @@ public class XmlFileLogger implements IStoreWriter
         { // Premier passage
             init();
         }
-        if (ConfigurationFactory.getInstance().getBoolean(XML_FILE_PER_THREAD))
+        if (ConfigurationHelper.getInstance().getBoolean(XML_FILE_PER_THREAD))
         { // On initalise un fichier pour ce Thread
-            File tFile = new File(ConfigurationFactory.getInstance().getString(XML_DIR_NAME, ".") + "/Thread."
+            File tFile = new File(ConfigurationHelper.getInstance().getString(XML_DIR_NAME, ".") + "/Thread."
                 + Thread.currentThread().getName() + ".xml");
             try
             {
@@ -136,7 +133,7 @@ public class XmlFileLogger implements IStoreWriter
 
     private void writeToFile(String pMessage)
     {
-        if (!ConfigurationFactory.getInstance().getBoolean(XML_FILE_PER_THREAD))
+        if (!ConfigurationHelper.getInstance().getBoolean(XML_FILE_PER_THREAD))
         {
             writeToAllThreadFile(pMessage);
         } else
@@ -189,7 +186,7 @@ public class XmlFileLogger implements IStoreWriter
         mCurrentBuffer.append("\" server=\"").append(pExecutionFlow).append("\" duration=\"");
         mCurrentBuffer.append(pExecutionFlow.getEndTime() - pExecutionFlow.getBeginTime());
         mCurrentBuffer.append("\" startTime=\"");
-        mCurrentBuffer.append(DateHelper.formatDateTime(pExecutionFlow.getBeginTime()));
+        mCurrentBuffer.append(ConfigurationHelper.formatDateTime(pExecutionFlow.getBeginTime()));
         mCurrentBuffer.append("\" >\n");
         fillStringBuffer(pExecutionFlow.getFirstMethodCall());
         mCurrentBuffer.append("</Thread>");
@@ -214,9 +211,9 @@ public class XmlFileLogger implements IStoreWriter
         mCurrentBuffer.append("duration=\"");
         mCurrentBuffer.append(pCurrentMethodCall.getEndTime() - pCurrentMethodCall.getBeginTime());
         mCurrentBuffer.append("\" ").append("startTime=\"");
-        mCurrentBuffer.append(DateHelper.formatDateTime(pCurrentMethodCall.getBeginTime()));
+        mCurrentBuffer.append(ConfigurationHelper.formatDateTime(pCurrentMethodCall.getBeginTime()));
         mCurrentBuffer.append("\" ");
-        if (ConfigurationFactory.getInstance().getBoolean("log.parameter.defaultvalue", true))
+        if (ConfigurationHelper.getInstance().getBoolean("log.parameter.defaultvalue", true))
         { // On log tous les paramètres
             mCurrentBuffer.append("parameter=\"").append(pCurrentMethodCall.getParams()).append("\" ");
             if (pCurrentMethodCall.getThrowableClass() == null)

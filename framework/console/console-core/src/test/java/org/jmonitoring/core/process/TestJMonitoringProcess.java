@@ -1,5 +1,7 @@
 package org.jmonitoring.core.process;
 
+import PersistanceTestCase;
+
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +12,6 @@ import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dao.IExecutionFlowDAO;
-import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;

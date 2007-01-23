@@ -1,11 +1,11 @@
 package org.jmonitoring.core.store;
 
-
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.store.IStoreWriter;
+import org.apache.xerces.impl.msg.XMLMessageFormatter;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.store.impl.XmlFileLogger;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -18,59 +18,58 @@ public class TestStoreFactory extends TestCase
     {
         IStoreWriter tWriter = StoreFactory.getWriter();
         assertNotNull(tWriter);
-        assertEquals("org.jmonitoring.core.store.impl.AsynchroneJdbcLogger", tWriter.getClass().getName());
+        assertEquals(XmlFileLogger.class.getName(), tWriter.getClass().getName());
         IStoreWriter tWriterBis = StoreFactory.getWriter();
         assertNotNull(tWriterBis);
-        assertEquals("org.jmonitoring.core.store.impl.AsynchroneJdbcLogger", tWriterBis.getClass().getName());
+        assertEquals(XmlFileLogger.class.getName(), tWriterBis.getClass().getName());
         assertNotSame(tWriter, tWriterBis);
     }
 
     public void testDefaultStoreFactoryBadConstructor()
     {
-        Configuration tConfiguration = Configuration.getInstance();
-        tConfiguration.setMeasurePointStoreClass(BadStoreClassWithoutConstructor.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,
+            BadStoreClassWithoutConstructor.class.getName());
         try
         {
             StoreFactory.getWriter();
             fail("Should not had a writer");
         } catch (Exception e)
         {
-            assertEquals("org.jmonitoring.core.common.MeasureException", e.getClass().getName());
+            assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
             assertEquals(
-                "Unable to find constructor without parameter for class [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassWithoutConstructor]",
+                "Unable to find constructor without parameter for class [class org.jmonitoring.core.store.TestStoreFactory$BadStoreClassWithoutConstructor]",
                 e.getMessage());
         }
     }
 
     public void testDefaultStoreFactoryWithPrivateConstructor()
     {
-        Configuration tConfiguration = Configuration.getInstance();
-        tConfiguration.setMeasurePointStoreClass(BadStoreClassWithPrivateConstructor.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,
+            BadStoreClassWithPrivateConstructor.class.getName());
         try
         {
             StoreFactory.getWriter();
             fail("Should not had a writer");
         } catch (Exception e)
         {
-            assertEquals("org.jmonitoring.core.common.MeasureException", e.getClass().getName());
+            assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
             assertEquals(
-                "Unable to find constructor without parameter for class [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassWithPrivateConstructor]",
+                "Unable to find constructor without parameter for class [class org.jmonitoring.core.store.TestStoreFactory$BadStoreClassWithPrivateConstructor]",
                 e.getMessage());
         }
     }
 
     public void testDefaultStoreFactoryBadInterface()
     {
-        Configuration tConfiguration = Configuration.getInstance();
-        tConfiguration.setMeasurePointStoreClass(BadStoreClassNotWriter.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, BadStoreClassNotWriter.class.getName());
         try
         {
             StoreFactory.getWriter();
             fail("Should not had a writer");
         } catch (Exception e)
         {
-            assertEquals("org.jmonitoring.core.common.MeasureException", e.getClass().getName());
-            assertEquals("The writer : [class org.jmonitoring.core.store.impl.TestStoreFactory$BadStoreClassNotWriter]"
+            assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
+            assertEquals("The writer : [class org.jmonitoring.core.store.TestStoreFactory$BadStoreClassNotWriter]"
                 + " is not an instance of IStoreWriter", e.getMessage());
         }
     }

@@ -1,4 +1,4 @@
-package org.jmonitoring.core.dao;
+
 
 import junit.framework.TestCase;
 
@@ -15,7 +15,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.stat.EntityStatistics;
 import org.hibernate.stat.Statistics;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.jmonitoring.core.persistence.HibernateManager;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *

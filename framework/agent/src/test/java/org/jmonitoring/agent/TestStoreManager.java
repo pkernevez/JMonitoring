@@ -3,18 +3,14 @@ package org.jmonitoring.agent;
 
 import java.util.List;
 
+import javax.security.auth.login.Configuration;
+
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.store.AspectLoggerEmulator;
-import org.jmonitoring.core.store.AspectLoggerEmulator.Child1;
-import org.jmonitoring.core.store.AspectLoggerEmulator.Child2;
-import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
-import org.jmonitoring.core.store.AspectLoggerEmulator.Param;
-import org.jmonitoring.core.store.AspectLoggerEmulator.Parent;
-import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
+import org.jmonitoring.agent.AspectLoggerEmulator.ErrorLogTracer;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.store.StoreFactory;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
-import org.jmonitoring.core.store.impl.StoreFactory;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -80,7 +76,7 @@ public class TestStoreManager extends TestCase
         List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult] "
+        assertEquals("Unable to trace class=[org.jmonitoring.agent.AspectLoggerEmulator$ExceptionResult] "
             + "with tracer=[org.jmonitoring.core.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
             (String) tErrors.get(0));
     }
@@ -95,7 +91,6 @@ public class TestStoreManager extends TestCase
     {
         callOneExecutionFlow(false);
 
-        Configuration.getInstance().setLogMethodParameter(false);
         // Now check the number of toString called
         assertEquals(3, AspectLoggerEmulator.Param.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
@@ -105,7 +100,7 @@ public class TestStoreManager extends TestCase
         List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult]"
+        assertEquals("Unable to trace class=[org.jmonitoring.agent.AspectLoggerEmulator$ExceptionResult]"
             + " with tracer=[org.jmonitoring.core.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
             (String) tErrors.get(0));
     }
@@ -150,12 +145,32 @@ public class TestStoreManager extends TestCase
         assertEquals(0, tErrors.size());
     }
 
-    public void testFactory()
-    {
-        Configuration.getInstance().setMeasurePointStoreClass(AsynchroneJdbcLogger.class);
-        StoreFactory.clear();
-        new StoreManager();
-        new StoreManager(null, null);
-    }
+    private static final int TIME_TO_WAIT2 = 5000;
 
+    private static final int NB_FLOW_TO_LOG = 100;
+
+ 
+    /**
+     * Test asynhrone publication.
+     * 
+     * @throws InterruptedException ff
+     */
+    public void testAsynchronePublication() throws InterruptedException
+    {
+        MockAbstractAsynchroneLogger.resetNbLog();
+        MockAbstractAsynchroneLogger.resetNbPublish();
+        // Check the count
+        assertEquals(0, MockAbstractAsynchroneLogger.getNbPublish());
+        assertEquals(0, MockAbstractAsynchroneLogger.getNbLog());
+
+        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockAbstractAsynchroneLogger());
+        // Log NB_FLOW_TO_LOG
+        for (int i = 0; i < NB_FLOW_TO_LOG; i++)
+        {
+            tEmulator.simulateExecutionFlow(true);
+        }
+        assertEquals(NB_FLOW_TO_LOG, MockAbstractAsynchroneLogger.getNbPublish());
+        Thread.sleep(TIME_TO_WAIT2);
+        assertEquals(NB_FLOW_TO_LOG, MockAbstractAsynchroneLogger.getNbLog());
+    }
 }

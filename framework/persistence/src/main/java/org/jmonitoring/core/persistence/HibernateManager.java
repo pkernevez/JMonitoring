@@ -17,9 +17,9 @@ import org.hibernate.stat.Statistics;
 public final class HibernateManager
 {
 
-    private static final String HIBERNATE_CFG_XML = "hibernate.cfg.xml";
+    private static final String HIBERNATE_CFG_XML = "jmonitoring.hibernate.xml";
 
-    private static final String HIBERNATE_CFG_PROPERTIES = "hibernate.cfg.properties";
+    private static final String HIBERNATE_CFG_PROPERTIES = "jmonitoring.hibernate.properties";
 
     private HibernateManager()
     {

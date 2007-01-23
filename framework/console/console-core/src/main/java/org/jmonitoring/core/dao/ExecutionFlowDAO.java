@@ -5,6 +5,8 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import DataBaseException;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -26,7 +28,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.MeasureException;
-import org.jmonitoring.core.common.DataBaseException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.ExecutionFlowPO;

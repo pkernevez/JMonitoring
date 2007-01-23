@@ -1,9 +1,9 @@
-package org.jmonitoring.core.store.impl;
+
 
 import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
 import org.jmonitoring.core.dao.IExecutionFlowDAO;
 import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.store.AspectLoggerEmulator;
+import org.jmonitoring.core.store.MockAbstractAsynchroneLogger;
 
 public class TestSynchroneJdbcStore extends PersistanceTestCase
 {

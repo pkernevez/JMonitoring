@@ -3,7 +3,7 @@ package org.jmonitoring.core.store.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.configuration.ConfigurationFactory;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.store.IStoreWriter;
 
@@ -29,7 +29,7 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
 
     static
     {
-        int tAsynchroneLoggerThreadPoolSize = ConfigurationFactory.getInstance().getInt(THREAD_POOL_KEY);
+        int tAsynchroneLoggerThreadPoolSize = ConfigurationHelper.getInstance().getInt(THREAD_POOL_KEY);
         sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
         sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
     }

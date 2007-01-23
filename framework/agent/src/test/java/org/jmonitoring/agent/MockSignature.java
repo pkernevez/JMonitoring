@@ -1,6 +1,7 @@
-package org.jmonitoring.core.utils;
+package org.jmonitoring.agent;
 
 import org.aspectj.lang.Signature;
+
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

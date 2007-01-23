@@ -1,0 +1,19 @@
+<project 
+        xmlns:j="jelly:core"
+        xmlns:maven="jelly:maven"
+        xmlns:util="jelly:util"
+        xmlns:ant="jelly:ant"
+        xmlns:x="jelly:xml">
+ 
+   	   <postGoal name="jar:install">
+   	         <delete dir="${maven.build.dir}/classes"/>
+   	         <delete dir="${maven.build.dir}/test-classes"/>
+       </postGoal>
+
+   	   <postGoal name="site">
+   	         <delete dir="${maven.build.dir}/classes"/>
+   	         <delete dir="${maven.build.dir}/test-classes"/>
+       </postGoal>
+
+ </project>
+        

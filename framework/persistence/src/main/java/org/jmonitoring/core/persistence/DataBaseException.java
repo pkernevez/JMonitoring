@@ -1,6 +1,7 @@
-package org.jmonitoring.core.common;
+package org.jmonitoring.core.persistence;
 
-import org.jmonitoring.core.MeasureException;
+
+import org.jmonitoring.core.configuration.MeasureException;
 
 public class DataBaseException extends MeasureException
 {
