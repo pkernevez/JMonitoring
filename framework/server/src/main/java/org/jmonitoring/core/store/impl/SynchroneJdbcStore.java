@@ -7,26 +7,16 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.core.store.IStoreWriter;
+
 
 public class SynchroneJdbcStore implements IStoreWriter
 {
 
     private static Log sLog = LogFactory.getLog(SynchroneJdbcStore.class);;
 
-    // private boolean mAutoflush = false;
 
-    // public SynchroneJdbcStore()
-    // {
-    // this(false);
-    // }
-    //
-    // public SynchroneJdbcStore(boolean pAutoflush)
-    // {
-    // super();
-    // mAutoflush = pAutoflush;
-    // }
-    //
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
         try
@@ -35,16 +25,12 @@ public class SynchroneJdbcStore implements IStoreWriter
             Session tPManager = (Session) HibernateManager.getSession();
             Transaction tTransaction = tPManager.getTransaction();
             tTransaction.begin();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tPManager);
+            InsertionDao tDao = new InsertionDao(tPManager);
             tDao.insertFullExecutionFlow(pExecutionFlow);
-            // if (mAutoflush)
-            // {
-            // tPManager.flush();
-            // } else
-            // {
+
             tTransaction.commit();
             tPManager.close();
-            // }
+
             long tEndTime = System.currentTimeMillis();
             sLog.info("Inserted ExecutionFlow " + pExecutionFlow + " in " + (tEndTime - tStartTime) + " ms.");
         } catch (RuntimeException e)

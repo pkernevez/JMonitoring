@@ -14,8 +14,8 @@
      <modules>
         <!--module>core_monitoring</module>
         <module>console</module>
-        <module>extensions</module>
-        <module>hibernate-aspect</module-->
+        <module>extensions</module-->
+        <module>hibernate-aspect</module>
     </modules>
 
     <name>JMonitoring: framework, extensions.</name>

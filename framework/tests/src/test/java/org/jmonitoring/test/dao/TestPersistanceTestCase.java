@@ -1,7 +1,5 @@
-package org.jmonitoring.core.dao;
+package org.jmonitoring.test.dao;
 
-
-import PersistanceTestCase;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

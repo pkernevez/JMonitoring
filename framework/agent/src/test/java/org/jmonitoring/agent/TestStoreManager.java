@@ -1,15 +1,11 @@
 package org.jmonitoring.agent;
 
-
+import java.sql.SQLException;
 import java.util.List;
-
-import javax.security.auth.login.Configuration;
 
 import junit.framework.TestCase;
 
 import org.jmonitoring.agent.AspectLoggerEmulator.ErrorLogTracer;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
-import org.jmonitoring.core.store.StoreFactory;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 
 /***************************************************************************
@@ -149,7 +145,6 @@ public class TestStoreManager extends TestCase
 
     private static final int NB_FLOW_TO_LOG = 100;
 
- 
     /**
      * Test asynhrone publication.
      * 
@@ -173,4 +168,31 @@ public class TestStoreManager extends TestCase
         Thread.sleep(TIME_TO_WAIT2);
         assertEquals(NB_FLOW_TO_LOG, MockAbstractAsynchroneLogger.getNbLog());
     }
+
+    /**
+     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because
+     * of the cost of a toString method on complexe objects.
+     * 
+     * @throws InterruptedException no doc
+     * @throws SQLException no doc
+     */
+    public void testNbToStringMethodCall() throws InterruptedException
+    {
+
+        MockAbstractAsynchroneLogger.resetNbLog();
+        MockAbstractAsynchroneLogger.resetNbPublish();
+
+        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockAbstractAsynchroneLogger());
+        tEmulator.simulateExecutionFlow(true);
+        Thread.sleep(TIME_TO_WAIT);
+
+        // Now check the number of toString called
+        assertEquals(3, AspectLoggerEmulator.Param.getNbToString());
+        assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
+        assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
+        assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
+
+        assertEquals(1, MockAbstractAsynchroneLogger.getNbPublish());
+    }
+
 }

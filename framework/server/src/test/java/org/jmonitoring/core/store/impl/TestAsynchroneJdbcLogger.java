@@ -1,11 +1,12 @@
+package org.jmonitoring.core.store.impl;
 
 
 import java.sql.SQLException;
 
-import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
-import org.jmonitoring.core.dao.IExecutionFlowDAO;
-import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.store.MockAbstractAsynchroneLogger;
+import org.jmonitoring.core.persistence.InsertionDao;
+import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
+import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
+import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -23,39 +24,6 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
     private static final int TIME_TO_WAIT = 1500;
 
     // private int mInitialMaxFlowId;
-
-    /**
-     * Check the number of toString() method called on the object associated to MethodCallDTO. This is important because
-     * of the cost of a toString method on complexe objects.
-     * 
-     * @throws InterruptedException no doc
-     * @throws SQLException no doc
-     */
-    public void testNbToStringMethodCall() throws InterruptedException
-    {
-        int tInitialFlowCount;
-        // We check the result into DB
-        int tFinalFlowCount;
-        IExecutionFlowDAO tFlowDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        tInitialFlowCount = tFlowDao.countFlows();
-
-        MockAbstractAsynchroneLogger.resetNbLog();
-        MockAbstractAsynchroneLogger.resetNbPublish();
-        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new AsynchroneJdbcLogger(true));
-        tEmulator.simulateExecutionFlow(true);
-        Thread.sleep(TIME_TO_WAIT);
-
-        // Now check the number of toString called
-        assertEquals(3, AspectLoggerEmulator.Param.getNbToString());
-        assertEquals(0, AspectLoggerEmulator.Parent.getNbToString());
-        assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
-        assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
-
-        tFinalFlowCount = tFlowDao.countFlows();
-
-        getSession().flush();
-        assertEquals(tInitialFlowCount + 1, tFinalFlowCount);
-    }
 
     // /**
     // * no doc

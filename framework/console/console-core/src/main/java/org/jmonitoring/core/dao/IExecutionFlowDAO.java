@@ -17,14 +17,7 @@ public interface IExecutionFlowDAO
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
 
 
-    /**
-     * Insert la totalité d'un flux en base.
-     * 
-     * @param pExecutionFlow The <code>ExecutionFlow</code> to write into the database.
-     * @return The primary key of the inserted <code>ExecutionFlow</code>.
-     * @todo Revoir les étapes de l'enregistrement
-     */
-    int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow);
+//    int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow);
 
     /**
      * Return the database <code>ExecutionFlowDTO</code>s.

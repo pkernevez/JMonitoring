@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.core.persistence.InsertionDao;
 
 /**
  * @author pke
@@ -63,7 +64,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
                     tPManager = (Session) HibernateManager.getSession();
                     Transaction tTransaction = tPManager.getTransaction();
                     tTransaction.begin();
-                    IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tPManager);
+                    InsertionDao tDao = new InsertionDao(tPManager);
                     tDao.insertFullExecutionFlow(mExecutionFlowToLog);
                     if (mAutoflush)
                     {
