@@ -4,7 +4,7 @@
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="displaytag.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.methodcall.MethodCallEditForm"%>
-<%@page import="org.jmonitoring.core.configuration.Configuration"%>
+<%@page import="org.jmonitoring.core.configuration.ColorHelper"%>
 
 
 <!-- Begin Body -->

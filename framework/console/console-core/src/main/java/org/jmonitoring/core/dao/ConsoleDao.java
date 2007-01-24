@@ -5,8 +5,6 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import DataBaseException;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -18,48 +16,50 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.jmonitoring.core.MeasureException;
 import org.jmonitoring.core.common.UnknownFlowException;
+import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
-import org.jmonitoring.core.persistence.MethodCallPK;
-import org.jmonitoring.core.persistence.MethodCallPO;
+import org.jmonitoring.core.persistence.InsertionDao;
 
 /**
  * Manage the persistance
  * 
  * @author pke
  */
-public class ExecutionFlowDAO implements IExecutionFlowDAO
+public class ConsoleDao extends InsertionDao
 {
+    public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
 
-    private static Log sLog = LogFactory.getLog(ExecutionFlowDAO.class);
+    private Session mSession;
+    
+    private static Log sLog = LogFactory.getLog(ConsoleDao.class);
 
     /**
      * Default constructor.
      * 
      * @param pSession The hibrnate Session to use for DataBase access.
      */
-    public ExecutionFlowDAO(Session pSession)
+    public ConsoleDao(Session pSession)
     {
+        super(pSession);
         mSession = pSession;
     }
 
  
-    /*
-     * (non-Javadoc)
+    /**
+     * Return the database <code>ExecutionFlowDTO</code>s.
      * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#getListOfExecutionFlowPO(org.jmonitoring.core.dao.FlowSearchCriterion)
+     * @param pCriterion The criterions for the search.
+     * @return The <code>ExecutionFlowDTO</code> list matching the criterion.
      */
     public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
     { // On construit la requête
@@ -109,10 +109,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         return tCriteria.list();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#readExecutionFlow(int)
+    /**
+     * @param pFlowId The execution flow identifier to read.
+     * @return The corresponding ExecutionFlowDTO.
      */
     public ExecutionFlowPO readExecutionFlow(int pFlowId)
     {
@@ -123,20 +122,9 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         return tFlow;
     }
 
-    // /**
-    // * @param flowId
-    // * @return
-    // * @throws SQLException
-    // */
-    // private ExecutionFlowPO readExecutionFlow(int pFlowId)
-    // {
-    // return (ExecutionFlowPO) mSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
-    // }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#deleteAllFlows()
+    /**
+     * Delete all flows and linked objects. This method, drop and recreate the schema that is faster than the deletion
+     * of all instances.
      */
     public void deleteAllFlows()
     {
@@ -147,10 +135,11 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         tDdlexport.create(true, true);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Delete an <code>ExcecutionFlow</code> an its nested <code>MethodCallDTO</code>.
      * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#deleteFlow(int)
+     * @param pId The <code>ExecutionFlowDTO</code> identifier.
+     * @throws UnknownFlowException If the flow can't be find in db.
      */
     public void deleteFlow(int pId) throws UnknownFlowException
     {
@@ -207,10 +196,12 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         }
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Get the list of <code>MethodCallDTO</code> with the same classname and methodname.
      * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#getListOfMethodCall(java.lang.String, java.lang.String)
+     * @param pClassName The classname mask.
+     * @param pMethodName The methodname mask.
+     * @return The list of <code>MethodCallPO</code> that math the criteria.
      */
     public List getListOfMethodCall(String pClassName, String pMethodName)
     {
@@ -220,10 +211,14 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         return tCriteria.list();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Read a single <code>MethodCallDTO</code>.
      * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#readMethodCall(int, int)
+     * @param pFlow
+     * 
+     * @param pFlow The ExecutionFlow of this <code>MethodCall</code>.
+     * @param pMethodId The flow identifier.
+     * @return The <code>MethodCallDTO</code>.
      */
     public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
     {
@@ -255,10 +250,10 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
 
     private static final int EXTRACT_CLASSNAME_POS = 0;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Find the <code>List</code> of Measure from the database.
      * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#getListOfMethodCallExtract()
+     * @return The <code>List</code> of all Measure.
      */
     public List getListOfMethodCallExtract()
     {
@@ -276,18 +271,6 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         return tResult;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#countFlows()
-     */
-
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#createDataBase()
-     */
     public void createDataBase()
     {
         sLog.info("Creating new Schema for the DataBase");
@@ -297,10 +280,13 @@ public class ExecutionFlowDAO implements IExecutionFlowDAO
         sLog.info("End of the Schema creation for the DataBase");
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.jmonitoring.core.dao.IExecutionFlowDao#getMethodCallList(java.lang.String, java.lang.String, long, long)
+     * @param pClassName The matching classname
+     * @param pMethodName The mathing method name
+     * @param pDurationMin The minimum duration of <code>MethodCall</code>
+     * @param pDurationMax The maximimu duration of the <code>MethodCall</code>
+     * @return La liste d'objet <code>MethodCallFullExtractPO</code> correspondant aux critères.
      */
     public List getMethodCallList(String pClassName, String pMethodName, long pDurationMin, long pDurationMax)
     {

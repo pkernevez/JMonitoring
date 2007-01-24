@@ -1,8 +1,7 @@
 package org.jmonitoring.core.persistence;
 
-import PersistanceTestCase;
-
 import org.jmonitoring.core.dao.TestExecutionFlowDAO;
+import org.jmonitoring.core.domain.MethodCallPO;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *

@@ -9,7 +9,8 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ColorHelper;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /**
  * This instance is the entry of of a flow. It has a list of MeasurePoint and some properties.
@@ -176,7 +177,7 @@ public class ExecutionFlowDTO implements Serializable
      */
     public String getBeginDateAsString()
     {
-        return (mBeginTime == null ? null : Configuration.getInstance().getDateTimeFormater().format(mBeginTime));
+        return (mBeginTime == null ? null : ConfigurationHelper.formatDateTime(mBeginTime));
     }
 
     /**
@@ -187,7 +188,7 @@ public class ExecutionFlowDTO implements Serializable
      */
     public void setBeginDateAsString(String pBeginTime) throws ParseException
     {
-        mBeginTime = Configuration.getInstance().getDateTimeFormater().parse(pBeginTime);
+        mBeginTime = ConfigurationHelper.parseDateTime(pBeginTime);
     }
 
     /**
@@ -217,7 +218,7 @@ public class ExecutionFlowDTO implements Serializable
      */
     public String getEndTimeAsString()
     {
-        return Configuration.getInstance().getTimeFormater().format(mEndTime);
+        return ConfigurationHelper.formatTime(mEndTime);
     }
 
     /**
@@ -226,7 +227,7 @@ public class ExecutionFlowDTO implements Serializable
      */
     public void setEndTimeAsString(String pEndTime) throws ParseException
     {
-        mEndTime = Configuration.getInstance().getTimeFormater().parse(pEndTime);
+        mEndTime = ConfigurationHelper.parseTime(pEndTime);
     }
 
     /**

@@ -28,7 +28,7 @@ public class GroupConfigurationPO
     public GroupConfigurationPO(String pGroupName)
     {
         mId = new GroupConfigurationPK(pGroupName);
-        mColor = Configuration.calculColor(pGroupName);
+        mColor = ColorHelper.calculColor(pGroupName);
     }
 
     public GroupConfigurationPO(String pGroupName, Color pColor)

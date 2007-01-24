@@ -1,6 +1,7 @@
 package org.jmonitoring.core.configuration;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,6 +18,8 @@ public final class ConfigurationHelper
     private static PropertiesConfiguration sConfiguration;
 
     private static Log sLog = LogFactory.getLog(ConfigurationHelper.class);
+
+    private static final ThreadLocal sTimeFormater = new ThreadLocal();
 
     private static final ThreadLocal sDateFormater = new ThreadLocal();
 
@@ -68,6 +71,23 @@ public final class ConfigurationHelper
     }
 
     /**
+     * Synchronized access to the <code>DateFormater</code> for only Date.
+     * 
+     * @return The <code>DateFormat</code> to use in the application.
+     */
+    private static SimpleDateFormat getTimeFormater()
+    {
+        Object tResult = sTimeFormater.get();
+        if (tResult == null)
+        {
+            String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.time");
+            tResult = new SimpleDateFormat(tDateFormat);
+            sTimeFormater.set(tResult);
+        }
+        return (SimpleDateFormat) tResult;
+    }
+
+    /**
      * Synchronized access to the <code>DateFormater</code> for only time.
      * 
      * @return The <code>DateFormat</code> to use in the application.
@@ -85,10 +105,33 @@ public final class ConfigurationHelper
         return (SimpleDateFormat) tResult;
     }
 
-    public static String formatDateTime(long tTime)
+    public static Date parseTime(String tTime) throws ParseException
+    {
+        DateFormat tFormat = (DateFormat) sTimeFormater.get();
+        return tFormat.parse(tTime);
+    }
+
+    public static String formatTime(Date tTime)
+    {
+        DateFormat tFormat = (DateFormat) sTimeFormater.get();
+        return tFormat.format(tTime);
+    }
+
+    public static Date parseDateTime(String tTime) throws ParseException
     {
         DateFormat tFormat = (DateFormat) sDateTimeFormater.get();
-        return tFormat.format(new Date(tTime));
+        return tFormat.parse(tTime);
+    }
+
+    public static String formatDateTime(Date tTime)
+    {
+        DateFormat tFormat = (DateFormat) sDateTimeFormater.get();
+        return tFormat.format(tTime);
+    }
+
+    public static String formatDateTime(long tTime)
+    {
+        return formatDateTime(new Date(tTime));
     }
 
 }

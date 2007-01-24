@@ -2,7 +2,7 @@ package org.jmonitoring.core.dto;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.core.dao.TestExecutionFlowDAO;
+import org.jmonitoring.core.dao.TestConsoleDao;
 
 public class TestMethodCallDTO extends TestCase
 {
@@ -44,7 +44,7 @@ public class TestMethodCallDTO extends TestCase
 
     public void testDurationFromPreviousCall()
     {
-        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
+        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestConsoleDao.buildNewFullFlow());
         MethodCallDTO tParentMeth = tFlow.getFirstMethodCall();
 
         assertEquals(0, tParentMeth.getDurationFromPreviousCall());

@@ -5,8 +5,6 @@ package org.jmonitoring.core.configuration;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import PersistanceTestCase;
-
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,7 +14,8 @@ import org.hibernate.NonUniqueObjectException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.SQLQuery;
 import org.hibernate.exception.GenericJDBCException;
-import org.jmonitoring.core.dao.TestExecutionFlowDAO;
+import org.jmonitoring.core.dao.TestConsoleDao;
+import org.jmonitoring.test.dao.PersistanceTestCase;
 
 public class TestConfigurationDAO extends PersistanceTestCase
 {
@@ -37,7 +36,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
         tConf = new GeneralConfigurationPO();
         try
-        {
+        { 
             tDao.saveGeneralConfiguration(tConf);
             fail("Can't save 2 instances of General configuration");
         } catch (NonUniqueObjectException e)
@@ -187,7 +186,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
         tDao.saveGroupConfiguration(tConf);
         tDao.saveGroupConfiguration(tConf2);
 
-        TestExecutionFlowDAO.buildAndSaveNewFullFlow(getSession());
+        TestConsoleDao.buildAndSaveNewFullFlow(getSession());
         getSession().flush();
         getSession().clear();
 

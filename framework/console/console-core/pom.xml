@@ -15,7 +15,22 @@
     </scm>
   
     <packaging>jar</packaging>
+
     <dependencies>
+
+        <dependency>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
+          <artifactId>tests</artifactId>
+          <scope>test</scope>
+          <version>1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+          <groupId>com.octo.opensource.jmonitoring</groupId>
+          <artifactId>persistence</artifactId>
+          <version>1.1-SNAPSHOT</version>
+        </dependency>
+
     	<dependency>
       	<groupId>org.hibernate</groupId>
       	<artifactId>hibernate</artifactId>
@@ -39,6 +54,7 @@
           <artifactId>spring-beans</artifactId>
           <version>1.2.6</version>
         </dependency>
+        
           <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>

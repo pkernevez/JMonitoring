@@ -8,7 +8,8 @@ package org.jmonitoring.core.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ColorHelper;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /**
  * @author pke
@@ -309,7 +310,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getBeginTimeAsString()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(mBeginTime);
+        return ConfigurationHelper.formatDateTime(mBeginTime);
     }
 
     /**
@@ -319,7 +320,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getEndTimeAsString()
     {
-        return Configuration.getInstance().getDateTimeFormater().format(mEndTime);
+        return ConfigurationHelper.formatDateTime(mEndTime);
     }
 
     /**

@@ -17,17 +17,16 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.SQLGrammarException;
-import org.jmonitoring.core.MeasureException;
 import org.jmonitoring.core.common.UnknownFlowException;
-import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
+import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
-import org.jmonitoring.core.dao.IExecutionFlowDAO;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.HibernateManager;
-import org.jmonitoring.core.persistence.MethodCallPO;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -47,7 +46,7 @@ public class JMonitoringProcess
         try
         {
             tSession = HibernateManager.getSession();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             tDao.countFlows();
             return true;
         } catch (SQLGrammarException t)
@@ -71,7 +70,7 @@ public class JMonitoringProcess
         {
             tSession = HibernateManager.getSession();
             tTransaction = tSession.beginTransaction();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             tDao.deleteFlow(pId);
             tTransaction.commit();
 
@@ -100,7 +99,7 @@ public class JMonitoringProcess
         {
             tSession = HibernateManager.getSession();
             tTransaction = tSession.beginTransaction();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             tDao.deleteAllFlows();
             tTransaction.commit();
 
@@ -127,7 +126,7 @@ public class JMonitoringProcess
         {
             tSession = HibernateManager.getSession();
             sLog.debug("Read method call from database, Id=[" + pId + "]");
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             MethodCallPO tMethodCallPo = tDao.readMethodCall(pFlowId, pId);
             return DtoHelper.getFullMethodCallDto(tMethodCallPo, -1);
         } finally
@@ -146,7 +145,7 @@ public class JMonitoringProcess
         {
             tSession = HibernateManager.getSession();
             sLog.debug("Read flow from database, Id=[" + pId + "]");
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             ExecutionFlowPO tFlowPo = tDao.readExecutionFlow(pId);
             return DtoHelper.getDeepCopy(tFlowPo);
         } finally
@@ -165,7 +164,7 @@ public class JMonitoringProcess
         {
             tSession = HibernateManager.getSession();
             List tList = new ArrayList();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             for (Iterator tIt = tDao.getListOfExecutionFlowPO(pCriterion).iterator(); tIt.hasNext();)
             {
                 tList.add(DtoHelper.getSimpleCopy((ExecutionFlowPO) tIt.next()));
@@ -186,7 +185,7 @@ public class JMonitoringProcess
         try
         {
             tSession = HibernateManager.getSession();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             MethodCallPO tMethod = tDao.readMethodCall(pFlowId, pMethodCallId);
             return DtoHelper.simpleCopy(tMethod, -1);
         } finally
@@ -205,7 +204,7 @@ public class JMonitoringProcess
         try
         {
             tSession = HibernateManager.getSession();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
             return DtoHelper.simpleCopyListOfMethodPO(tResult);
         } finally
@@ -223,7 +222,7 @@ public class JMonitoringProcess
         try
         {
             tSession = HibernateManager.getSession();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             return tDao.getListOfMethodCallExtract();
         } finally
         {
@@ -241,7 +240,7 @@ public class JMonitoringProcess
         try
         {
             tSession = HibernateManager.getSession();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             List tListOfMethodCall = tDao.getMethodCallList(pClassName, pMethodName, pDurationMin, pDurationMax);
             return DtoHelper.copyListMethodCallFullExtract(tListOfMethodCall);
         } finally
@@ -259,7 +258,7 @@ public class JMonitoringProcess
         try
         {
             tSession = HibernateManager.getSession();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             tDao.createDataBase();
         } finally
         {
@@ -321,7 +320,7 @@ public class JMonitoringProcess
         try
         {
             tSession = HibernateManager.getSession();
-            IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(tSession);
+            ConsoleDao tDao = new ConsoleDao(tSession);
             ExecutionFlowDTO tFlowDto = getFlowFromXml(pFlowAsXml);
             ExecutionFlowPO tFlowPO = DtoHelper.getDeepCopy(tFlowDto);
             tFlowPO.setId(-1);

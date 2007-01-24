@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.MethodCallPK;
-import org.jmonitoring.core.persistence.MethodCallPO;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPK;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.springframework.beans.BeanUtils;
 
 /***********************************************************************************************************************

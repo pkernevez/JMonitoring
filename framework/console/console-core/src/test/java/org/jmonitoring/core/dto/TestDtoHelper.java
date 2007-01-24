@@ -1,12 +1,11 @@
 package org.jmonitoring.core.dto;
 
-import PersistanceTestCase;
-
 import java.util.List;
 
-import org.jmonitoring.core.dao.TestExecutionFlowDAO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.MethodCallPO;
+import org.jmonitoring.core.dao.TestConsoleDao;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -16,7 +15,7 @@ public class TestDtoHelper extends PersistanceTestCase
 {
     public void testGetExecutionFlowDto()
     {
-        ExecutionFlowPO tFlowPO = TestExecutionFlowDAO.buildAndSaveNewFullFlow(getSession());
+        ExecutionFlowPO tFlowPO = TestConsoleDao.buildAndSaveNewFullFlow(getSession());
         tFlowPO.setId(45);
 
         ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(tFlowPO);
@@ -35,14 +34,14 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testGetMethodCallDto()
     {
-        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
         assertNull(tMeth.getParent());
-        assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getClassName());
-        assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getRuntimeClassName());
+        assertEquals(TestConsoleDao.class.getName(), tMeth.getClassName());
+        assertEquals(TestConsoleDao.class.getName(), tMeth.getRuntimeClassName());
 
-        assertEquals(TestExecutionFlowDAO.class.getName(), tMeth.getChild(0).getClassName());
-        assertEquals(TestExecutionFlowDAO.class.getName() + "iuiu", tMeth.getChild(0).getRuntimeClassName());
+        assertEquals(TestConsoleDao.class.getName(), tMeth.getChild(0).getClassName());
+        assertEquals(TestConsoleDao.class.getName() + "iuiu", tMeth.getChild(0).getRuntimeClassName());
 
         assertEquals("builNewFullFlow", tMeth.getMethodName());
         assertEquals("GrDefault", tMeth.getGroupName());
@@ -54,7 +53,7 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testGetFullMethodCallDto()
     {
-        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall(), 0);
         assertNotNull(tMeth);
         assertEquals(2, tMeth.getChildren().length);
@@ -64,7 +63,7 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testGetExecutionFlowPO()
     {
-        ExecutionFlowPO tFlowPO = TestExecutionFlowDAO.buildAndSaveNewFullFlow(getSession());
+        ExecutionFlowPO tFlowPO = TestConsoleDao.buildAndSaveNewFullFlow(getSession());
         tFlowPO.setId(45);
 
         ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(tFlowPO);
@@ -85,11 +84,11 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testGetMethodCallPO()
     {
-        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
         MethodCallPO tNewMeth = DtoHelper.getMethodCallPO(tMeth, null);
         assertNull(tNewMeth.getParentMethodCall());
-        assertEquals(TestExecutionFlowDAO.class.getName(), tNewMeth.getClassName());
+        assertEquals(TestConsoleDao.class.getName(), tNewMeth.getClassName());
         assertEquals("builNewFullFlow", tNewMeth.getMethodName());
         assertEquals("GrDefault", tNewMeth.getGroupName());
         assertEquals("[]", tNewMeth.getParams());
@@ -100,7 +99,7 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testGetFullMethodCallPO()
     {
-        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall(), 0);
         MethodCallPO tNewMeth = DtoHelper.getFullMethodCallPO(tMeth, null);
         assertNotNull(tNewMeth);
@@ -111,7 +110,7 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testCopyListMethodCallFullExtract()
     {
-        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallPO tMeth = tFlow.getFirstMethodCall();
         List tList = DtoHelper.copyListMethodCallFullExtract(tMeth.getChildren());
         assertEquals(2, tList.size());
@@ -121,7 +120,7 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testCopyMethodCallFullExtract()
     {
-        ExecutionFlowPO tFlow = TestExecutionFlowDAO.buildNewFullFlow();
+        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallFullExtractDTO tMeth = DtoHelper.copyMethodCallFullExtract(tFlow.getFirstMethodCall().getChild(0));
         assertEquals(tFlow.getJvmIdentifier(), tMeth.getJvmName());
         assertEquals(tFlow.getThreadName(), tMeth.getThreadName());
@@ -133,7 +132,7 @@ public class TestDtoHelper extends PersistanceTestCase
 
     public void testGetDeepCopy()
     {
-        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestExecutionFlowDAO.buildNewFullFlow());
+        ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestConsoleDao.buildNewFullFlow());
         MethodCallDTO tParent = tFlow.getFirstMethodCall();
 
         assertEquals(0, tParent.getChildPosition());

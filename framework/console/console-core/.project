@@ -1,36 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>console-core</name>
-  <comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
-  <projects/>
-  <buildSpec>
-    <buildCommand>
-      <name>org.eclipse.ajdt.core.ajbuilder</name>
-      <arguments/>
-    </buildCommand>
-    <buildCommand>
-      <name>org.hibernate.eclipse.console.hibernateBuilder</name>
-      <arguments/>
-    </buildCommand>
-    <buildCommand>
-      <name>org.jboss.ide.eclipse.jdt.aop.core.AopProjectBuilder</name>
-      <arguments/>
-    </buildCommand>
-    <buildCommand>
-      <name>org.maven.ide.eclipse.maven2Builder</name>
-      <arguments/>
-    </buildCommand>
-    <buildCommand>
-      <name>org.eclipse.jdt.core.javabuilder</name>
-      <arguments/>
-    </buildCommand>
-  </buildSpec>
-  <natures>
-    <nature>org.eclipse.ajdt.ui.ajnature</nature>
-    <nature>org.eclipse.jdt.core.javanature</nature>
-    <nature>org.maven.ide.eclipse.maven2Nature</nature>
-    <nature>org.jboss.ide.eclipse.jdt.aop.core.AopProjectNature</nature>
-    <nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
-    <nature>org.hibernate.eclipse.console.hibernateNature</nature>
-    <nature>org.eclipse.jem.beaninfo.BeanInfoNature</nature>
-  </natures>
+	<name>console-core</name>
+	<comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.ajdt.core.ajbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.hibernate.eclipse.console.hibernateBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.maven.ide.eclipse.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.ajdt.ui.ajnature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.maven.ide.eclipse.maven2Nature</nature>
+		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
+	</natures>
 </projectDescription>
