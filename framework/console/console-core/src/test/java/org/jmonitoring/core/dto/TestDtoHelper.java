@@ -37,11 +37,11 @@ public class TestDtoHelper extends PersistanceTestCase
         ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
         assertNull(tMeth.getParent());
-        assertEquals(TestConsoleDao.class.getName(), tMeth.getClassName());
-        assertEquals(TestConsoleDao.class.getName(), tMeth.getRuntimeClassName());
+        assertEquals(PersistanceTestCase.class.getName(), tMeth.getClassName());
+        assertEquals(PersistanceTestCase.class.getName(), tMeth.getRuntimeClassName());
 
-        assertEquals(TestConsoleDao.class.getName(), tMeth.getChild(0).getClassName());
-        assertEquals(TestConsoleDao.class.getName() + "iuiu", tMeth.getChild(0).getRuntimeClassName());
+        assertEquals(PersistanceTestCase.class.getName(), tMeth.getChild(0).getClassName());
+        assertEquals(PersistanceTestCase.class.getName() + "iuiu", tMeth.getChild(0).getRuntimeClassName());
 
         assertEquals("builNewFullFlow", tMeth.getMethodName());
         assertEquals("GrDefault", tMeth.getGroupName());
@@ -88,7 +88,7 @@ public class TestDtoHelper extends PersistanceTestCase
         MethodCallDTO tMeth = DtoHelper.getMethodCallDto(tFlow.getFirstMethodCall());
         MethodCallPO tNewMeth = DtoHelper.getMethodCallPO(tMeth, null);
         assertNull(tNewMeth.getParentMethodCall());
-        assertEquals(TestConsoleDao.class.getName(), tNewMeth.getClassName());
+        assertEquals(PersistanceTestCase.class.getName(), tNewMeth.getClassName());
         assertEquals("builNewFullFlow", tNewMeth.getMethodName());
         assertEquals("GrDefault", tNewMeth.getGroupName());
         assertEquals("[]", tNewMeth.getParams());

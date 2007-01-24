@@ -15,10 +15,9 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
 
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
+/***********************************************************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
+ **********************************************************************************************************************/
 
 public class InsertionDao
 {
@@ -40,7 +39,6 @@ public class InsertionDao
         mSession = pSession;
     }
 
-
     /**
      * Insert la totalité d'un flux en base.
      * 
@@ -60,7 +58,7 @@ public class InsertionDao
         {
             try
             {
-                saveAllMethodCall(tMeth, 0, 0);
+                saveAllMethodCall(tMeth, 0, 1);
                 mMethodCallInsertStatement.executeBatch();
             } finally
             {
@@ -84,6 +82,7 @@ public class InsertionDao
         pExecutionFlow.setFirstMethodCall(tMeth);
         return pExecutionFlow.getId();
     }
+
     private static final String UPDATE_FLOW_WITH_FIRST_METHOD_CALL = "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?";
 
     private void updateExecutionFlowLink(ExecutionFlowPO pExecutionFlow)
@@ -147,7 +146,7 @@ public class InsertionDao
         {
             if (sLog.isDebugEnabled())
             {
-                sLog.debug("Interting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "] Index=["
+                sLog.debug("Inserting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "] Index=["
                     + pMethodCall.getPosition() + "] and NewBatchSize=[" + pBatchBufferSize + "]");
             }
             int curIndex = 1;
@@ -207,6 +206,11 @@ public class InsertionDao
         {
             return 0;
         }
-
     }
+
+    public Session getSession()
+    {
+        return mSession;
+    }
+
 }

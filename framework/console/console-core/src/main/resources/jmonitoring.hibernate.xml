@@ -11,8 +11,8 @@
 		<mapping resource="org/jmonitoring/core/domain/ExecutionFlowPO.hbm.xml"/>
         <mapping resource="org/jmonitoring/core/domain/MethodCallPO.hbm.xml"/>
 		<!--  Configuration -->
-        <!-- mapping resource="org/jmonitoring/core/configuration/GeneralConfigurationPO.hbm.xml"/>
-        <mapping resource="org/jmonitoring/core/configuration/GroupConfigurationPO.hbm.xml"/-->
+        <mapping resource="org/jmonitoring/core/configuration/GeneralConfigurationPO.hbm.xml"/>
+        <mapping resource="org/jmonitoring/core/configuration/GroupConfigurationPO.hbm.xml"/>
 	  
     </session-factory>
 </hibernate-configuration>

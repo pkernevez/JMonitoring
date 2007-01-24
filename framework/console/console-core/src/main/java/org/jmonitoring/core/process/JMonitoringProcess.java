@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.exception.SQLGrammarException;
+import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dao.ConsoleDao;
@@ -26,7 +27,6 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.persistence.HibernateManager;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -40,6 +40,15 @@ public class JMonitoringProcess
     {
     }
 
+    /**
+     * For testing purpose.
+     * @return A nHibernate Session.
+     */
+    Session getASession()
+    {
+        return HibernateManager.getSession();
+    }
+    
     public boolean doDatabaseExist()
     {
         Session tSession = null;

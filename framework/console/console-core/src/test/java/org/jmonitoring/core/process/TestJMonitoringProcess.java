@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.common.UnknownFlowException;
-import org.jmonitoring.core.configuration.ColorHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dao.TestConsoleDao;
@@ -16,7 +16,6 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.persistence.HibernateManager;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***********************************************************************************************************************
@@ -25,6 +24,12 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
 
 public class TestJMonitoringProcess extends PersistanceTestCase
 {
+    public void testThereIsOnlyOneSession()
+    {
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        assertSame(getSession(), tProcess.getASession());
+    }
+
     public void testDoDatabaseExist()
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
@@ -325,8 +330,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestConsoleDao.class.getName(), "");
         assertEquals(6, tMethodsDto.size());
 
-        tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(TestConsoleDao.class.getName()
-            .substring(0, 5), "");
+        tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(
+            TestConsoleDao.class.getName().substring(0, 5), "");
         assertEquals(6, tMethodsDto.size());
 
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName("3333", "");

@@ -1,20 +1,19 @@
-package org.jmonitoring.core.persistence;
+package org.jmonitoring.core.domain;
 
-import org.jmonitoring.core.dao.TestExecutionFlowDAO;
-import org.jmonitoring.core.domain.MethodCallPO;
+import junit.framework.TestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallPO extends PersistanceTestCase
+public class TestMethodCallPO extends TestCase
 {
     public void testUpdateChildrenWhenCreateWithParent()
     {
-        MethodCallPO tParent = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
+        MethodCallPO tParent = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow",
             "GrDefault", "");
 
-        MethodCallPO tChild = new MethodCallPO(tParent, TestExecutionFlowDAO.class.getName(), "builNewFullFlow2",
+        MethodCallPO tChild = new MethodCallPO(tParent, TestMethodCallPO.class.getName(), "builNewFullFlow2",
             "GrChild1", "");
         assertNull(tParent.getParentMethodCall());
         assertEquals(1, tParent.getChildren().size());
@@ -29,10 +28,10 @@ public class TestMethodCallPO extends PersistanceTestCase
 
     public void testUpdateChildrenWhenAddParent()
     {
-        MethodCallPO tParent = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow",
+        MethodCallPO tParent = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow",
             "GrDefault", "");
 
-        MethodCallPO tChild = new MethodCallPO(null, TestExecutionFlowDAO.class.getName(), "builNewFullFlow2",
+        MethodCallPO tChild = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow2",
             "GrChild1", "");
 
         assertNull(tParent.getParentMethodCall());

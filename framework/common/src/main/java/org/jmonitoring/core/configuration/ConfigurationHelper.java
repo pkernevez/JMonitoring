@@ -21,7 +21,7 @@ public final class ConfigurationHelper
 
     private static final ThreadLocal sTimeFormater = new ThreadLocal();
 
-    private static final ThreadLocal sDateFormater = new ThreadLocal();
+//    private static final ThreadLocal sDateFormater = new ThreadLocal();
 
     private static final ThreadLocal sDateTimeFormater = new ThreadLocal();
 
@@ -53,22 +53,22 @@ public final class ConfigurationHelper
         return tConfig;
     }
 
-    /**
-     * Synchronized access to the <code>DateFormater</code> for only Date.
-     * 
-     * @return The <code>DateFormat</code> to use in the application.
-     */
-    private static SimpleDateFormat getDateFormater()
-    {
-        Object tResult = sDateFormater.get();
-        if (tResult == null)
-        {
-            String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.date");
-            tResult = new SimpleDateFormat(tDateFormat);
-            sDateFormater.set(tResult);
-        }
-        return (SimpleDateFormat) tResult;
-    }
+//    /**
+//     * Synchronized access to the <code>DateFormater</code> for only Date.
+//     * 
+//     * @return The <code>DateFormat</code> to use in the application.
+//     */
+//    private static SimpleDateFormat getDateFormater()
+//    {
+//        Object tResult = sDateFormater.get();
+//        if (tResult == null)
+//        {
+//            String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.date");
+//            tResult = new SimpleDateFormat(tDateFormat);
+//            sDateFormater.set(tResult);
+//        }
+//        return (SimpleDateFormat) tResult;
+//    }
 
     /**
      * Synchronized access to the <code>DateFormater</code> for only Date.
@@ -107,26 +107,22 @@ public final class ConfigurationHelper
 
     public static Date parseTime(String tTime) throws ParseException
     {
-        DateFormat tFormat = (DateFormat) sTimeFormater.get();
-        return tFormat.parse(tTime);
+        return getTimeFormater().parse(tTime);
     }
 
     public static String formatTime(Date tTime)
     {
-        DateFormat tFormat = (DateFormat) sTimeFormater.get();
-        return tFormat.format(tTime);
+        return getTimeFormater().format(tTime);
     }
 
     public static Date parseDateTime(String tTime) throws ParseException
     {
-        DateFormat tFormat = (DateFormat) sDateTimeFormater.get();
-        return tFormat.parse(tTime);
+        return getDateTimeFormater().parse(tTime);
     }
 
     public static String formatDateTime(Date tTime)
     {
-        DateFormat tFormat = (DateFormat) sDateTimeFormater.get();
-        return tFormat.format(tTime);
+        return getDateTimeFormater().format(tTime);
     }
 
     public static String formatDateTime(long tTime)

@@ -1,4 +1,4 @@
-package org.jmonitoring.core.persistence;
+package org.jmonitoring.common.hibernate;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -82,8 +82,8 @@ public final class HibernateManager
      */
     public static Session getSession()
     {
-        Session tSession = getSessionFactory().openSession();
-        // getSessionFactory().getCurrentSession();
+//        Session tSession = getSessionFactory().openSession();
+        Session tSession =  getSessionFactory().getCurrentSession();
         sLogger.info("Hibernate Session Opened");
         return tSession;
 
