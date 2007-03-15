@@ -1,17 +1,17 @@
 <projectDescription>
-  <name>sample_webapp</name>
-  <comment>This project provides a Sample console for Monitoring infrastructure.</comment>
+  <name>sample_core</name>
+  <comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
   <projects>
-    <project>sample_core</project>
+    <project>hibernate-aspect</project>
     <project>sample_aspects</project>
   </projects>
   <buildSpec>
     <buildCommand>
-      <name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
+      <name>org.eclipse.ajdt.core.ajbuilder</name>
       <arguments/>
     </buildCommand>
     <buildCommand>
-      <name>org.eclipse.ajdt.core.ajbuilder</name>
+      <name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
       <arguments/>
     </buildCommand>
     <buildCommand>

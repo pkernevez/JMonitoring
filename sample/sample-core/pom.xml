@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <artifactId>sample</artifactId>
-    <groupId>com.octo.opensource.jmonitoring</groupId>
-    <version>1.1-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>com.octo.opensource.jmonitoring</groupId>
+        <artifactId>common-module-pom</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>sample_core</artifactId>
   <name>JMonitoring: sample, application code.</name>
@@ -43,12 +43,12 @@
   <dependencies>
     <dependency>
       <groupId>com.octo.opensource.jmonitoring</groupId>
-      <artifactId>sample_aspects</artifactId>
+      <artifactId>sample-aspects</artifactId>
       <version>1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.octo.opensource.jmonitoring</groupId>
-      <artifactId>core_monitoring</artifactId>
+      <artifactId>agent</artifactId>
       <version>1.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
@@ -61,11 +61,6 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate</artifactId>
       <version>3.1rc2Weaved</version>
-    </dependency>
-    <dependency>
-      <groupId>com.octo.opensource.jmonitoring</groupId>
-      <artifactId>core_monitoring</artifactId>
-      <version>1.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
