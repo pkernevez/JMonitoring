@@ -13,7 +13,7 @@ public aspect SqlExecutionAspect extends PerformanceAspect
     private pointcut jmonitoring() :  execution( * junit.framework.TestCase+.setUp())
     || execution( * junit.framework.TestCase+.tearDown())
     || execution( * junit.framework.TestCase+.check*(..))
-    || execution( * org.jmonitoring.hibernate.dao.ExecutionFlowHibernateDAO.*(..));
+    || execution( * org.jmonitoring.hibernate.dao.InsertionHibernateDAO.*(..));
     
     public SqlExecutionAspect()
     {

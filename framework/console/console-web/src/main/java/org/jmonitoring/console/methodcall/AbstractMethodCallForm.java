@@ -1,7 +1,7 @@
 package org.jmonitoring.console.methodcall;
 
 import org.apache.struts.action.ActionForm;
-import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.configuration.MeasureException;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *

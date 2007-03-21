@@ -1,5 +1,6 @@
 package org.jmonitoring.console.methodcall.list;
 
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
@@ -11,7 +12,7 @@ import servletunit.struts.MockStrutsTestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallListActionIn extends MockStrutsTestCase
+public class TestMethodCallListActionIn extends JMonitoringMockStrustTestCase
 {
     public void testOk()
     {

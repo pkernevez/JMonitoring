@@ -36,19 +36,24 @@ public final class HibernateManager
 
     private static synchronized SessionFactory getSessionFactory()
     {
+        return getSessionFactory(HIBERNATE_CFG_XML, HIBERNATE_CFG_PROPERTIES);
+    }
+
+    static synchronized SessionFactory getSessionFactory(String pMappingFileName, String pPropertiesFileName)
+    {
         if (sSessionFactory == null)
         {
             sHConfig = new Configuration();
             Properties properties = new Properties();
             try
             {
-                properties.load(HibernateManager.class.getClassLoader().getResourceAsStream(HIBERNATE_CFG_PROPERTIES));
+                properties.load(HibernateManager.class.getClassLoader().getResourceAsStream(pPropertiesFileName));
             } catch (IOException e)
             {
-                sLogger.error("Le fichier " + HIBERNATE_CFG_PROPERTIES + " n'existe pas.");
+                sLogger.error("Le fichier " + pPropertiesFileName + " n'existe pas.");
             }
             sHConfig.setProperties(properties);
-            sHConfig.configure(HIBERNATE_CFG_XML);
+            sHConfig.configure(pMappingFileName);
             sSessionFactory = sHConfig.buildSessionFactory();
             sLogger.info("Hibernate SessionFactory loaded with configuration");
         }
@@ -82,8 +87,8 @@ public final class HibernateManager
      */
     public static Session getSession()
     {
-//        Session tSession = getSessionFactory().openSession();
-        Session tSession =  getSessionFactory().getCurrentSession();
+        // Session tSession = getSessionFactory().openSession();
+        Session tSession = getSessionFactory().getCurrentSession();
         sLogger.info("Hibernate Session Opened");
         return tSession;
 

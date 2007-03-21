@@ -8,7 +8,7 @@ package org.jmonitoring.console.methodcall;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ColorHelper;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
 /**
@@ -92,7 +92,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
 
     public String getGroupColor()
     {
-        return Configuration.getInstance().getGroupAsColorString(mMethodCall.getGroupName());
+        return ColorHelper.getColor(mMethodCall.getGroupName());
     }
 
     /**

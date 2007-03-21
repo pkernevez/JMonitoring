@@ -18,12 +18,11 @@ public aspect HibernateApiAspect extends PerformanceAspect
            || call( * org.hibernate.Query+.list())
            || call( * org.hibernate.Query+.scroll(..))
            || call( * org.hibernate.Query+.uniqueResult())
-           
            || call( * org.hibernate.Criteria.list())
            || call( * org.hibernate.Criteria.scroll(..))
            || call( * org.hibernate.Criteria.uniqueResult())
         ) && !within(org.hibernate.*) && !within(org.hibernate.*.*) 
-          && !within(org.hibernate.*.*.*) && !within(org.jmonitoring.core.dao.PersistanceTestCase+);
+          && !within(org.hibernate.*.*.*) && !within(org.jmonitoring.test.dao.PersistanceTestCase+);
 
     public HibernateApiAspect()
     {

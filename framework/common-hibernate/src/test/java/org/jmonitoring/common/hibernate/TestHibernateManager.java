@@ -13,6 +13,7 @@ public class TestHibernateManager extends TestCase
 
     public void testGetSession()
     {
+        HibernateManager.getSessionFactory("test.hibernate.xml", "test.hibernate.properties");
         Session tSession = HibernateManager.getSession();
         assertNotNull(tSession);
         assertSame(tSession, HibernateManager.getSession());

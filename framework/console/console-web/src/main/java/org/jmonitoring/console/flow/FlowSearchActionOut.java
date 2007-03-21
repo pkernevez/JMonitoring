@@ -15,7 +15,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
@@ -55,14 +55,13 @@ public class FlowSearchActionOut extends Action
         Date tBeginDate = null;
         if (pForm.getBeginDate() != null && pForm.getBeginDate().length() != 0)
         {
-            tBeginDate = new Date(Configuration.getInstance().getDateFormater().parse(pForm.getBeginDate()).getTime());
+            tBeginDate = new Date(ConfigurationHelper.parseDate(pForm.getBeginDate()).getTime());
             tResult.setBeginDate(tBeginDate);
         }
         Date tBeginTime = null;
         if (pForm.getBeginTimeMin() != null && pForm.getBeginTimeMin().length() != 0)
         {
-            tBeginTime = new Date(Configuration.getInstance().getTimeFormater().parse(pForm.getBeginTimeMin())
-                .getTime());
+            tBeginTime = new Date(ConfigurationHelper.parseTime(pForm.getBeginTimeMin()).getTime());
             tResult.setBeginTimeMin(tBeginTime);
         }
         if (pForm.getDurationMin() != null && pForm.getDurationMin().length() != 0)

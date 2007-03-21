@@ -33,6 +33,9 @@ public class StoreManager
     /** <code>CommonsLog</code> instance. */
     private static Log sLog = LogFactory.getLog(StoreManager.class);
 
+    /** End of Parameters */
+    private static ThreadLocal sManager = new ThreadLocal();
+
     private IStoreWriter mStoreWriter;
 
     private PropertiesConfiguration mConfiguration;
@@ -245,4 +248,33 @@ public class StoreManager
         return sLog;
     }
 
+    /**
+     * Permet d'obtenir un logger par Thread.
+     * 
+     * @return Une instance de la classe de logger parametrée par mLoggerClass. <code>numm</code> si un erreur se
+     *         produit pendant l'initalisation.
+     */
+    public static StoreManager getManager()
+    {
+        StoreManager tResult = (StoreManager) sManager.get();
+        if (tResult == null)
+        {
+            try
+            {
+                tResult = new StoreManager();
+                sManager.set(tResult);
+            } catch (Exception e)
+            {
+                // Impossible de laisser remonter l'erreur car elle se confond avec l'erreur
+                // de la méthode fonctionelle invoquée.
+                sLog.error("Impossible d'instancier un logger pour tracer les appels", e);
+            }
+        }
+        return tResult;
+    }
+
+    public static void clear()
+    {
+        sManager = new ThreadLocal();
+    }
 }

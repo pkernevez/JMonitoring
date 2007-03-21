@@ -1,17 +1,28 @@
-package org.jmonitoring.core.store.impl;
+package org.jmonitoring.server.store.impl;
 
 
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Iterator;
+
+import javax.servlet.jsp.tagext.IterationTag;
+
+import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.core.store.IStoreWriter;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
-import org.jmonitoring.core.store.impl.SynchroneJdbcStore;
+import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 public class TestSynchroneJdbcStore extends PersistanceTestCase
 {
-    public void testNbToStringMethodCall() throws InterruptedException
+    /**
+     * @todo Check the name of this method.
+     * @throws InterruptedException
+     * @throws IOException 
+     */
+    public void testNbToStringMethodCall() throws InterruptedException, IOException
     {
-
         InsertionDao tFlowDao = new InsertionDao(getSession());
         assertEquals(0, tFlowDao.countFlows());
         
@@ -19,7 +30,10 @@ public class TestSynchroneJdbcStore extends PersistanceTestCase
         
         tWriter.writeExecutionFlow(buildNewFullFlow());
         
-        getSession().flush();
+        closeAndRestartSession();
+        
+        tFlowDao = new InsertionDao(getSession());
         assertEquals(1, tFlowDao.countFlows());
     }
+
 }

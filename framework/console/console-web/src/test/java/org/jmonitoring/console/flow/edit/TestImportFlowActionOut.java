@@ -1,12 +1,14 @@
 package org.jmonitoring.console.flow.edit;
 
+import org.hibernate.Transaction;
+import org.jmonitoring.common.hibernate.HibernateManager;
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 
 import servletunit.struts.MockStrutsTestCase;
 
-public class TestImportFlowActionOut extends MockStrutsTestCase
+public class TestImportFlowActionOut extends JMonitoringMockStrustTestCase
 {
-
     public void testActionIn()
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
@@ -23,8 +25,8 @@ public class TestImportFlowActionOut extends MockStrutsTestCase
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(10);
 
-//        ImportFlowForm tForm = new ImportFlowForm();
-//        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        // ImportFlowForm tForm = new ImportFlowForm();
+        // JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
         // Delete First Flow
         setRequestPathInfo("/ImportFlowOut");
@@ -36,4 +38,5 @@ public class TestImportFlowActionOut extends MockStrutsTestCase
         // assertNotNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
 
     }
+
 }

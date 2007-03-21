@@ -42,24 +42,32 @@ public class JMonitoringProcess
 
     /**
      * For testing purpose.
+     * 
      * @return A nHibernate Session.
      */
     Session getASession()
     {
         return HibernateManager.getSession();
     }
-    
+
     public boolean doDatabaseExist()
     {
         Session tSession = null;
+        Transaction tTransaction = null;
         try
         {
             tSession = HibernateManager.getSession();
+            tTransaction = tSession.beginTransaction();
             ConsoleDao tDao = new ConsoleDao(tSession);
             tDao.countFlows();
+            tTransaction.commit();
             return true;
         } catch (SQLGrammarException t)
         {
+            if (tTransaction != null)
+            {
+                tTransaction.rollback();
+            }
             return false;
         } finally
         {
@@ -191,16 +199,23 @@ public class JMonitoringProcess
     public MethodCallDTO readMethodCall(int pFlowId, int pMethodCallId)
     {
         Session tSession = null;
+        Transaction tTx = null;
         try
         {
             tSession = HibernateManager.getSession();
+            tTx = tSession.beginTransaction();
             ConsoleDao tDao = new ConsoleDao(tSession);
             MethodCallPO tMethod = tDao.readMethodCall(pFlowId, pMethodCallId);
+            tTx.commit();
             return DtoHelper.simpleCopy(tMethod, -1);
         } finally
         {
             if (tSession != null)
             {
+                if (tTx != null && tTx.isActive())
+                {
+                    tTx.rollback();
+                }
                 tSession.close();
             }
         }
@@ -210,9 +225,11 @@ public class JMonitoringProcess
     public List getListOfMethodCallFromClassAndMethodName(String pClassName, String pMethodName)
     {
         Session tSession = null;
+        Transaction tTx = null;
         try
         {
             tSession = HibernateManager.getSession();
+            tTx = tSession.beginTransaction();
             ConsoleDao tDao = new ConsoleDao(tSession);
             List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
             return DtoHelper.simpleCopyListOfMethodPO(tResult);
@@ -220,6 +237,10 @@ public class JMonitoringProcess
         {
             if (tSession != null)
             {
+                if (tTx != null && tTx.isActive())
+                {
+                    tTx.rollback();
+                }
                 tSession.close();
             }
         }

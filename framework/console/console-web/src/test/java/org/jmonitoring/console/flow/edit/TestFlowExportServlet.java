@@ -4,12 +4,13 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 import servletunit.struts.MockStrutsTestCase;
 
-public class TestFlowExportServlet extends MockStrutsTestCase
+public class TestFlowExportServlet extends JMonitoringMockStrustTestCase
 {
 
     public void testDoGet() throws ServletException, IOException

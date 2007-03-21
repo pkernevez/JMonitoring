@@ -2,11 +2,10 @@ package org.jmonitoring.console.flow;
 
 import java.text.ParseException;
 
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-
-import servletunit.struts.MockStrutsTestCase;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -17,7 +16,7 @@ import servletunit.struts.MockStrutsTestCase;
  * @author pke
  * 
  */
-public class TestFlowSearchAction extends MockStrutsTestCase
+public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
 {
     /**
      * Test class.
@@ -37,8 +36,9 @@ public class TestFlowSearchAction extends MockStrutsTestCase
         tForm.setThreadName("MainThread");
 
         FlowSearchCriterion tCrit = FlowSearchActionOut.copyBeanFormToCriterion(tForm);
-        assertEquals("27/09/05", Configuration.getInstance().getDateFormater().format(tCrit.getBeginDate()));
-        assertEquals("11:30:34", Configuration.getInstance().getTimeFormater().format(tCrit.getBeginTimeMin()));
+        assertEquals("27/09/05", ConfigurationHelper.formatDate(tCrit.getBeginDate()));
+        //Format Date only ??
+        assertEquals("11:30:34", ConfigurationHelper.formatTime(tCrit.getBeginTimeMin()));
         assertEquals(new Long(2 + 1), tCrit.getDurationMin());
         assertEquals(tForm.getFirstMeasureClassName(), tCrit.getClassName());
         assertEquals(tForm.getFirstMeasureGroupName(), tCrit.getGroupName());

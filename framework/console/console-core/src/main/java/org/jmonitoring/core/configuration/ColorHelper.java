@@ -2,6 +2,8 @@ package org.jmonitoring.core.configuration;
 
 import java.awt.Color;
 
+import org.hibernate.util.GetGeneratedKeysHelper;
+
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
@@ -274,7 +276,7 @@ public final class ColorHelper
      * @param pGroupName The name of the group.
      * @return The genrated <code>Color</code>.
      */
-    static Color calculColor(String pGroupName)
+    public static Color calculColor(String pGroupName)
     {
         Color tColor;
         if (pGroupName == null || pGroupName.length() == 0)
@@ -292,33 +294,43 @@ public final class ColorHelper
         return tColor;
     }
 
-//    /**
-//     * Get the <code>Color</code> of a group as <code>String</code>.
-//     * 
-//     * @param pGroupName The group name.
-//     * @return The RGB format like "#00FF88" of the <code>Color</code>.
-//     */
-//    public String getGroupAsColorString(String pGroupName)
-//    {
-//        Color tColor = getColor(pGroupName);
-//        String tRed = Integer.toHexString(tColor.getRed());
-//        if (tRed.length() == 1)
-//        {
-//            tRed = "0" + tRed;
-//        }
-//        String tGreen = Integer.toHexString(tColor.getGreen());
-//        if (tGreen.length() == 1)
-//        {
-//            tGreen = "0" + tGreen;
-//        }
-//        String tBlue = Integer.toHexString(tColor.getBlue());
-//        if (tBlue.length() == 1)
-//        {
-//            tBlue = "0" + tBlue;
-//        }
-//        return "#" + tRed + tGreen + tBlue;
-//    }
-//
+    /**
+     * Get the <code>Color</code> of a group as <code>String</code>.
+     * 
+     * @param pGroupName The group name.
+     * @return The RGB format like "#00FF88" of the <code>Color</code>.
+     */
+    public static String getGroupAsColorString(Color pColor)
+    {
+        String tRed = Integer.toHexString(pColor.getRed());
+        if (tRed.length() == 1)
+        {
+            tRed = "0" + tRed;
+        }
+        String tGreen = Integer.toHexString(pColor.getGreen());
+        if (tGreen.length() == 1)
+        {
+            tGreen = "0" + tGreen;
+        }
+        String tBlue = Integer.toHexString(pColor.getBlue());
+        if (tBlue.length() == 1)
+        {
+            tBlue = "0" + tBlue;
+        }
+        return "#" + tRed + tGreen + tBlue;
+    }
+
+    public static String getColor(String pGroupName)
+    {
+        String tColor =ConfigurationHelper.getInstance().getString("group.color." + pGroupName); 
+        if (tColor==null)
+        {
+            tColor =getGroupAsColorString(calculColor(pGroupName)); 
+        }
+        return tColor;
+            
+    }
+
 //    /**
 //     * Factory's method for the <code>Configuration</code>. This method is not synchrnoized because there isn't any
 //     * trouble if we load the configuration twice.

@@ -10,18 +10,13 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Types;
 
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
-import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
-import org.jmonitoring.core.dao.IExecutionFlowDAO;
-import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.store.impl.SynchroneJdbcStore;
-import org.jmonitoring.hibernate.info.JMonitoringPreparedStatement;
-import org.jmonitoring.hibernate.info.JMonitoringStatement;
-import org.jmonitoring.hibernate.info.SqlStatementTracer;
-import org.omg.CORBA.TCKind;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.store.StoreFactory;
+import org.jmonitoring.test.dao.PersistanceTestCase;
+import org.jmonitoring.test.store.MemoryStoreWriter;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -29,6 +24,12 @@ import org.omg.CORBA.TCKind;
 
 public class TestSqlStatementTracer extends PersistanceTestCase
 {
+
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        MemoryStoreWriter.clear();
+    }
 
     public void testConvertToString() throws SQLException
     {
@@ -44,13 +45,14 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersStatement() throws HibernateException, SQLException
     {
-        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, MemoryStoreWriter.class.getName());
         Statement tStat = getSession().connection().createStatement();
         assertEquals(JMonitoringStatement.class, tStat.getClass());
         SqlStatementTracer tTracer = new SqlStatementTracer();
         tStat.execute("select * from EXECUTION_FLOW");
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        closeAndRestartSession();
+        assertEquals(1, MemoryStoreWriter.countFlow());
+        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\n", tFlow.getFirstMethodCall().getReturnValue());
     }
 
@@ -95,7 +97,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
     {
-        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, MemoryStoreWriter.class.getName());
 
         defineStoredProcedure();
         checkDataStoredProcedure();
@@ -107,6 +109,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tCallStat.setDouble(1, 2.0);
         ResultSet tResult;
         tResult = tCallStat.executeQuery();
+        closeAndRestartSession();
         tResult.next();
         assertEquals(1.41, tResult.getDouble(1), 0.01);
 
@@ -115,9 +118,12 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tBuffer.append("Add Double parameter, pos=[1], value=[2.0]\n");
         tBuffer.append("Execute query\n");
 
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        //We only want to chack the latest ExecutionFlow
-        ExecutionFlowPO tFlow = tDao.readExecutionFlow(5);
+        // We only want to chack the latest ExecutionFlow
+        LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow="+MemoryStoreWriter.countFlow());
+        assertEquals(5, MemoryStoreWriter.countFlow());
+        
+        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(4);
+        LogFactory.getLog(TestSqlStatementTracer.class).info("Writer="+tFlow.getFirstMethodCall().getReturnValue());
         assertEquals(tBuffer.toString(), tFlow.getFirstMethodCall().getReturnValue());
     }
 
@@ -142,6 +148,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tStat.execute("INSERT INTO TEST_PROC (ID, MYVALUE) values (1, 2)");
         tStat.execute("INSERT INTO TEST_PROC (ID, MYVALUE) values (2, 4)");
         tStat.execute("CREATE ALIAS SQRT FOR \"java.lang.Math.sqrt\"");
+        closeAndRestartSession();
         // tStat.executeQuery(sql)
         // TODO Auto-generated method stub
 

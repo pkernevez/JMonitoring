@@ -52,6 +52,21 @@ public abstract class PersistanceTestCase extends TestCase
 
     }
 
+    public void closeAndRestartSession()
+    {
+        if (mSession.isOpen())
+        {
+            if (mTransaction.isActive())
+            {
+                mTransaction.commit();
+            }
+            mSession.close();
+        }
+
+        mSession = HibernateManager.getSession();
+        mTransaction = mSession.beginTransaction();
+    }
+
     protected void assertStatistics(Class pEntity, int pInsertCount, int pUpdateCount, int pLoadCount, int pFetchCount)
     {
         EntityStatistics tStat = mStats.getEntityStatistics(pEntity.getName());
@@ -97,14 +112,14 @@ public abstract class PersistanceTestCase extends TestCase
             SchemaExport tDdlexport = new SchemaExport(tConfig);
 
             tDdlexport.drop(true, true);
-            if (mTransaction.isActive())
-            {
-                mTransaction.rollback();
-            }
         } finally
         {
             if (mSession.isOpen())
             {
+                if (mTransaction.isActive())
+                {
+                    mTransaction.rollback();
+                }
                 mSession.close();
             }
             sLog.info("Hibernate Session Closed");

@@ -1,14 +1,13 @@
 package org.jmonitoring.console.flow;
 
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-
-import servletunit.struts.MockStrutsTestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestDeleteOneFlowActionIn extends MockStrutsTestCase
+public class TestDeleteOneFlowActionIn extends JMonitoringMockStrustTestCase
 {
     public void testDeleteAllFlowsInOk()
     {
@@ -29,6 +28,7 @@ public class TestDeleteOneFlowActionIn extends MockStrutsTestCase
         actionPerform();
         verifyForwardPath("/pages/layout/layout.jsp");
 
+        closeAndRestartSession();
         assertEquals(1, tUtil.countFlows());
     }
 
@@ -52,6 +52,7 @@ public class TestDeleteOneFlowActionIn extends MockStrutsTestCase
         verifyForwardPath("/pages/functionalError.jsp");
         verifyActionErrors(new String[] {"errors.executionflow.notfound" });
 
+        closeAndRestartSession();
         assertEquals(2, tUtil.countFlows());
     }
 

@@ -1,5 +1,6 @@
 package org.jmonitoring.core.configuration;
 
+import java.lang.reflect.Constructor;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,15 +16,19 @@ import org.apache.commons.logging.LogFactory;
 
 public final class ConfigurationHelper
 {
+    public  static final String DAO_STORE_KEY = "execution.dao.class";
+
     private static PropertiesConfiguration sConfiguration;
 
     private static Log sLog = LogFactory.getLog(ConfigurationHelper.class);
 
     private static final ThreadLocal sTimeFormater = new ThreadLocal();
 
-//    private static final ThreadLocal sDateFormater = new ThreadLocal();
+    // private static final ThreadLocal sDateFormater = new ThreadLocal();
 
     private static final ThreadLocal sDateTimeFormater = new ThreadLocal();
+
+    private static final ThreadLocal sDateFormater = new ThreadLocal();
 
     private ConfigurationHelper()
     {
@@ -34,7 +39,7 @@ public final class ConfigurationHelper
         sConfiguration = null;
         sConfiguration = getInstance();
     }
-    
+
     public static PropertiesConfiguration getInstance()
     {
         PropertiesConfiguration tConfig = sConfiguration;
@@ -53,22 +58,22 @@ public final class ConfigurationHelper
         return tConfig;
     }
 
-//    /**
-//     * Synchronized access to the <code>DateFormater</code> for only Date.
-//     * 
-//     * @return The <code>DateFormat</code> to use in the application.
-//     */
-//    private static SimpleDateFormat getDateFormater()
-//    {
-//        Object tResult = sDateFormater.get();
-//        if (tResult == null)
-//        {
-//            String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.date");
-//            tResult = new SimpleDateFormat(tDateFormat);
-//            sDateFormater.set(tResult);
-//        }
-//        return (SimpleDateFormat) tResult;
-//    }
+    // /**
+    // * Synchronized access to the <code>DateFormater</code> for only Date.
+    // *
+    // * @return The <code>DateFormat</code> to use in the application.
+    // */
+    // private static SimpleDateFormat getDateFormater()
+    // {
+    // Object tResult = sDateFormater.get();
+    // if (tResult == null)
+    // {
+    // String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.date");
+    // tResult = new SimpleDateFormat(tDateFormat);
+    // sDateFormater.set(tResult);
+    // }
+    // return (SimpleDateFormat) tResult;
+    // }
 
     /**
      * Synchronized access to the <code>DateFormater</code> for only Date.
@@ -105,6 +110,23 @@ public final class ConfigurationHelper
         return (SimpleDateFormat) tResult;
     }
 
+    public static Date parseDate(String pDate) throws ParseException
+    {
+        return getDateFormater().parse(pDate);
+    }
+
+    private static DateFormat getDateFormater()
+    {
+        Object tResult = sDateFormater.get();
+        if (tResult == null)
+        {
+            String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.date");
+            tResult = new SimpleDateFormat(tDateFormat);
+            sDateFormater.set(tResult);
+        }
+        return (SimpleDateFormat) tResult;
+    }
+
     public static Date parseTime(String tTime) throws ParseException
     {
         return getTimeFormater().parse(tTime);
@@ -130,4 +152,35 @@ public final class ConfigurationHelper
         return formatDateTime(new Date(tTime));
     }
 
+    public static Object formatDate(Date pDate)
+    {
+        return getDateFormater().format(pDate);
+    }
+
+    public static Constructor getDaoDefaultConstructor()
+    {
+        String tClassName = getInstance().getString(DAO_STORE_KEY);
+        if (tClassName == null)
+        {
+            throw new MeasureException("Unable to find DAO classname, add a property [execution.dao.class] "
+                + "to your [jmonitoring.properties] file");
+        }
+        try
+        {
+            Class tClass = Class.forName(tClassName);
+            return tClass.getConstructor(new Class[0]);
+        } catch (ClassNotFoundException e)
+        {
+            throw new MeasureException("Unable to load the class define with the property [execution.dao.class] "
+                + "check your [jmonitoring.properties] file", e);
+        } catch (SecurityException e)
+        {
+            throw new MeasureException("Unable to access to the default constructor of the class defined by the "
+                + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
+        } catch (NoSuchMethodException e)
+        {
+            throw new MeasureException("Unable to access to the default constructor of the class defined by the "
+                + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
+        }
+    }
 }

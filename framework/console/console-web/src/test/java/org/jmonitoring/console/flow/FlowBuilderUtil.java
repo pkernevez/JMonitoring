@@ -3,14 +3,15 @@ package org.jmonitoring.console.flow;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
+import org.jmonitoring.common.hibernate.HibernateManager;
+import org.jmonitoring.core.dao.ConsoleDao;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.HibernateManager;
-import org.jmonitoring.core.persistence.MethodCallPO;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -18,12 +19,9 @@ import org.jmonitoring.core.persistence.MethodCallPO;
 
 public class FlowBuilderUtil
 {
-    /** @todo replace this with thread visibility for Session. */
-    private Session mSession = HibernateManager.getSession();
-
     public void clear()
     {
-        mSession.clear();
+        HibernateManager.getSession().clear();
     }
 
     public void createSchema()
@@ -38,15 +36,14 @@ public class FlowBuilderUtil
     public ExecutionFlowDTO buildAndSaveNewDto(int pNbMethods)
     {
         ExecutionFlowPO tExecPO = buildNewFullFlow(pNbMethods);
-        ExecutionFlowDAO tDao = new ExecutionFlowDAO(mSession);
+        ConsoleDao tDao = new ConsoleDao(HibernateManager.getSession());
         tDao.insertFullExecutionFlow(tExecPO);
-        mSession.flush();
         return DtoHelper.getDeepCopy(tExecPO);
     }
 
     public int countFlows()
     {
-        SQLQuery tQuery = mSession.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+        SQLQuery tQuery = HibernateManager.getSession().createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         if (tResult != null)
         {

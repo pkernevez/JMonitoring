@@ -34,7 +34,7 @@ import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jmonitoring.console.flow.edit.FlowEditForm;
-import org.jmonitoring.core.common.MeasureException;
+import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
 public class FlowChartBarUtil

@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
@@ -31,12 +32,22 @@ public class InsertionDao
 
     /**
      * Default constructor.
-     * 
+     * @todo remove this constuctor
      * @param pSession The hibrnate Session to use for DataBase access.
      */
     public InsertionDao(Session pSession)
     {
         mSession = pSession;
+    }
+
+    /**
+     * Default constructor.
+     * @todo remove this constuctor
+     * @param pSession The hibrnate Session to use for DataBase access.
+     */
+    public InsertionDao()
+    {
+        mSession = HibernateManager.getSession();
     }
 
     /**

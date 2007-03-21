@@ -1,12 +1,13 @@
 package org.jmonitoring.console.flow;
 
-import servletunit.struts.MockStrutsTestCase;
+import org.jmonitoring.common.hibernate.HibernateManager;
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestDeleteAllFlowsActionIn extends MockStrutsTestCase
+public class TestDeleteAllFlowsActionIn extends JMonitoringMockStrustTestCase
 {
     public void testDeleteAllFlowsConfirmIn()
     {
@@ -31,6 +32,9 @@ public class TestDeleteAllFlowsActionIn extends MockStrutsTestCase
         actionPerform();
         verifyForwardPath("/pages/layout/layout.jsp");
 
+        HibernateManager.getSession().close();
+        HibernateManager.getSession().beginTransaction();
+        tUtil = new FlowBuilderUtil();
         assertEquals(0, tUtil.countFlows());
 
     }

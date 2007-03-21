@@ -11,17 +11,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
-import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.core.dao.ConsoleDao;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.MethodCallPO;
+import org.jmonitoring.test.dao.PersistanceTestCase;
 
 public class TestMethodCallUtil extends PersistanceTestCase
 {
     public void testGetListAsTree()
     {
-        ExecutionFlowDAO tFlowDAO = new ExecutionFlowDAO(getSession());
+        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
 
         // First delete all flow, we don't use the DeleteAll Method of the
         // Dao Object because, it doesn't support transactions.

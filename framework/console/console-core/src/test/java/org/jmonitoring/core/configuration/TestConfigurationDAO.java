@@ -6,7 +6,10 @@ package org.jmonitoring.core.configuration;
  **************************************************************************/
 
 import java.awt.Color;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
 
 import org.hibernate.Hibernate;
@@ -20,8 +23,17 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
 public class TestConfigurationDAO extends PersistanceTestCase
 {
 
-    public void testSaveGeneralConfiguration()
+    /**
+     * @todo clear comments
+     * @throws IOException
+     */
+    public void testSaveGeneralConfiguration() throws IOException
     {
+//        for (Enumeration tEnum = this.getClass().getClassLoader().getResources("jmonitoring.hibernate.xml");tEnum.hasMoreElements();)
+//        {
+//            URL tUrl = (URL) tEnum.nextElement();
+//            System.out.println("PKE "+tUrl.getPath());
+//        }
         assertEquals(0, countGeneralConf());
 
         GeneralConfigurationPO tConf = new GeneralConfigurationPO();

@@ -1,4 +1,4 @@
-package org.jmonitoring.core.store.impl;
+package org.jmonitoring.server.store.impl;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -6,13 +6,19 @@ package org.jmonitoring.core.store.impl;
  **************************************************************************/
 
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jmonitoring.common.hibernate.HibernateManager;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.InsertionDao;
+import org.jmonitoring.core.store.impl.AbstractAsynchroneLogger;
 
 /**
  * @author pke
@@ -23,6 +29,8 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
 {
 
     private static Log sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);;
+
+    private static Constructor sConstructor;
 
     private boolean mAutoflush = false;
 
@@ -64,8 +72,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
                     tPManager = (Session) HibernateManager.getSession();
                     Transaction tTransaction = tPManager.getTransaction();
                     tTransaction.begin();
-                    InsertionDao tDao = new InsertionDao(tPManager);
-                    tDao.insertFullExecutionFlow(mExecutionFlowToLog);
+                    getDao().insertFullExecutionFlow(mExecutionFlowToLog);
                     if (mAutoflush)
                     {
                         tPManager.flush();
@@ -98,4 +105,32 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
     {
         return new AsynchroneJdbcLoggerRunnable(pFlow);
     }
+    
+    private InsertionDao getDao()
+    {
+        Constructor tCon = sConstructor;
+        if (tCon == null)
+        {
+            tCon = ConfigurationHelper.getDaoDefaultConstructor();
+            sConstructor = tCon;
+        }
+        try
+        {
+            return (InsertionDao) tCon.newInstance(new Object[0]);
+        } catch (IllegalArgumentException e)
+        {
+            throw new MeasureException("Unable to Call the default constructor of the DAO", e);
+        } catch (InstantiationException e)
+        {
+            throw new MeasureException("Unable to Call the default constructor of the DAO", e);
+        } catch (IllegalAccessException e)
+        {
+            throw new MeasureException("Unable to Call the default constructor of the DAO", e);
+        } catch (InvocationTargetException e)
+        {
+            throw new MeasureException("Unable to Call the default constructor of the DAO", e);
+        }
+    }
+
+
 }

@@ -3,7 +3,7 @@ package org.jmonitoring.hibernate.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.stat.Statistics;
-import org.jmonitoring.core.dao.PersistanceTestCase;
+import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -14,6 +14,7 @@ import org.jmonitoring.core.dao.PersistanceTestCase;
  * This class is exactly the same than <code>org.jmonitoring.core.dao.HibernatePersistanceTestCase</code>.
  * But it overrides all its method for exclusion weaving, because we don't want to weave 
  * the JMonitoring internal sql requests. 
+ * @deprecated
  */
 public class HibernatePersistanceTestCase extends PersistanceTestCase
 {
@@ -53,4 +54,11 @@ public class HibernatePersistanceTestCase extends PersistanceTestCase
         super.tearDown();
     }
 
+    /**
+     * Only because Maven fail without any test.
+     */
+    public void testBidon()
+    {
+        
+    }
 }

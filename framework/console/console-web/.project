@@ -1,7 +1,13 @@
 <projectDescription>
   <name>console-web</name>
   <comment>This project provides an Administration console for Monitoring infrastructure.</comment>
-  <projects/>
+  <projects>
+    <project>common</project>
+    <project>common-hibernate</project>
+    <project>persistence</project>
+    <project>tests</project>
+    <project>console-core</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
@@ -11,13 +17,8 @@
       <name>org.jboss.ide.eclipse.xdoclet.run.XDocletRunBuilder</name>
       <arguments/>
     </buildCommand>
-    <buildCommand>
-      <name>org.maven.ide.eclipse.maven2Builder</name>
-      <arguments/>
-    </buildCommand>
   </buildSpec>
   <natures>
     <nature>org.eclipse.jdt.core.javanature</nature>
-    <nature>org.maven.ide.eclipse.maven2Nature</nature>
   </natures>
 </projectDescription>

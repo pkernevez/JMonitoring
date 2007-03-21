@@ -43,7 +43,7 @@ public class ConsoleDao extends InsertionDao
 
     /**
      * Default constructor.
-     * 
+     * @todo remove this constructor
      * @param pSession The hibrnate Session to use for DataBase access.
      */
     public ConsoleDao(Session pSession)

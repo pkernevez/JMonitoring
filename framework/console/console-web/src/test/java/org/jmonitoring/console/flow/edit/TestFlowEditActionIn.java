@@ -1,13 +1,14 @@
 package org.jmonitoring.console.flow.edit;
 
+import java.net.URL;
 import java.util.Date;
+import java.util.Enumeration;
 
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.console.flow.jfreechart.FlowUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-
-import servletunit.struts.MockStrutsTestCase;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -18,7 +19,7 @@ import servletunit.struts.MockStrutsTestCase;
  * @author pke
  * 
  */
-public class TestFlowEditActionIn extends MockStrutsTestCase
+public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase
 {
 
     /*

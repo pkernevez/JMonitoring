@@ -1,5 +1,6 @@
 package org.jmonitoring.console.action;
 
+import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
 
@@ -23,6 +24,8 @@ public class TestInitActionIn extends MockStrutsTestCase
 
         verifyTilesForward("success", "homepage");
 
+        HibernateManager.getSession().close();
+        HibernateManager.getSession().beginTransaction();
         assertTrue(tProcess.doDatabaseExist());
 
     }

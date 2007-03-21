@@ -14,13 +14,15 @@ public aspect HibernateInterceptorAspect
         || execution( * junit.framework.TestCase+.tearDown())
         || execution( * junit.framework.TestCase+.check*(..))
         || execution( * junit.framework.TestCase+.define*(..))
-        || execution( * org.jmonitoring.hibernate.dao.ExecutionFlowHibernateDAO.*(..));
+        || execution( * org.jmonitoring.hibernate.dao.InsertionHibernateDAO.*(..));
 
     // || execution(* org.jmonitoring.sample.testtreetracer.TestTreeTracer.*(..));
 
     pointcut callStat() : call(java.sql.Statement java.sql.Connection.createStatement(..))
         && !cflow( jHIAmonitoring() );
 
+//    declare warning : callStat() : "YES!";
+    
     Object around() : callStat() {
         Object tResult = proceed();
         Statement tStat = new JMonitoringStatement((Statement) tResult);

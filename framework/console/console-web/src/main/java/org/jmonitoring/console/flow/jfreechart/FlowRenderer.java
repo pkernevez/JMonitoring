@@ -24,7 +24,7 @@ import org.jfree.chart.renderer.category.GanttRenderer;
 import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ColorHelper;
 
 /**
  * Custom Rendere for Flows.
@@ -247,7 +247,7 @@ public class FlowRenderer extends GanttRenderer
         List tTaskSeriesList = pDataset.getRowKeys();
         TaskSeries tSeries = (TaskSeries) tTaskSeriesList.get(pRow);
         Task tTask = tSeries.get(pColumn);
-        Paint tSeriesPaint = (Paint) Configuration.getInstance().getColor(tTask.getDescription());
+        Paint tSeriesPaint = (Paint) ColorHelper.calculColor(tTask.getDescription());
         if (tSeriesPaint == null)
         {
             tSeriesPaint = getItemPaint(pRow, pColumn);

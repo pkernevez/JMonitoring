@@ -29,8 +29,8 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jmonitoring.core.common.MeasureException;
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ColorHelper;
+import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
 /**
@@ -69,7 +69,7 @@ public class FlowUtil
         {
             curValue = (String) tIter.next();
             dataset.setValue(curValue, ((Long) tFlow.mListOfGroup.get(curValue)).longValue());
-            tColors[tPos] = (Paint) Configuration.getInstance().getColor(curValue);
+            tColors[tPos] = (Paint) ColorHelper.calculColor(curValue);
             tPos++;
         }
         DefaultDrawingSupplier tSupplier = new DefaultDrawingSupplier(tColors, new Paint[0], new Stroke[0],

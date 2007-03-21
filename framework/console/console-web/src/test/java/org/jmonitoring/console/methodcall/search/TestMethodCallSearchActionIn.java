@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 
 import servletunit.struts.MockStrutsTestCase;
 
-public class TestMethodCallSearchActionIn extends MockStrutsTestCase
+public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase
 {
 
     public void testExecuteActionMappingActionFormHttpServletRequestHttpServletResponse()

@@ -1,12 +1,12 @@
-package org.jmonitoring.core.store.impl;
+package org.jmonitoring.server.store.impl;
 
 
 import java.sql.SQLException;
 
 import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
+import org.jmonitoring.server.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***************************************************************************
@@ -24,6 +24,11 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 {
     private static final int TIME_TO_WAIT = 1500;
 
+    /**
+     * @todo Check the name of this method.
+     * @todo check that NbToString is really tested
+     * @throws InterruptedException
+     */
     public void testNbToStringMethodCall() throws InterruptedException
     {
 

@@ -6,10 +6,9 @@ package org.jmonitoring.console.flow.stack;
  **************************************************************************/
 
 import java.io.IOException;
-import java.text.DateFormat;
 
 import org.apache.taglibs.standard.lang.jpath.encoding.HtmlEncoder;
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
@@ -27,8 +26,6 @@ public class FlowAsStackUtil
      */
     private ExecutionFlowDTO mFlow;
 
-    private DateFormat mFormater;
-
     /**
      * Private constructor. Not to use.
      * 
@@ -36,7 +33,6 @@ public class FlowAsStackUtil
      */
     public FlowAsStackUtil(ExecutionFlowDTO pFlow)
     {
-        mFormater = Configuration.getInstance().getDateTimeFormater();
         mFlow = pFlow;
     }
 
@@ -160,7 +156,7 @@ public class FlowAsStackUtil
     {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("Start Date=");
-        tBuffer.append(mFormater.format(pMeasure.getBeginTime()));
+        tBuffer.append(ConfigurationHelper.formatDateTime(pMeasure.getBeginTime()));
         if (pMeasure.getParams() != null)
         {
             tBuffer.append("\n PARAM=[").append(pMeasure.getParams()).append("]");

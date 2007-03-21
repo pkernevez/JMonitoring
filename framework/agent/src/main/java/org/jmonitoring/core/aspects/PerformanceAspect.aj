@@ -34,9 +34,6 @@ public abstract aspect PerformanceAspect
     /** Log instance. */
     private Log mLog;
 
-    /** End of Parameters */
-    private static ThreadLocal sManager = new ThreadLocal();
-
     /** Allow to trace the parameter of a method. */
     protected IParamaterTracer mParamTracer;
 
@@ -65,13 +62,14 @@ public abstract aspect PerformanceAspect
     Object around() : executionToLogInternal()
     {
         Object tResult = null;
-        StoreManager tManager = getManager();
+        StoreManager tManager = StoreManager.getManager();
         Signature tSig = thisJoinPointStaticPart.getSignature();
         try
         {
             if (tManager != null)
             {
-                tManager.logBeginOfMethod(tSig, mParamTracer, thisJoinPoint.getArgs(), mGroupName, thisJoinPoint.getTarget());
+                tManager.logBeginOfMethod(tSig, mParamTracer, thisJoinPoint.getArgs(), mGroupName, thisJoinPoint
+                    .getTarget());
             } else
             {
                 mLog.error("executionToLogInternal Impossible de logger l'entrée de la methode");
@@ -102,37 +100,11 @@ public abstract aspect PerformanceAspect
     after() throwing (Throwable t): executionToLogInternal() {
         try
         {
-            StoreManager tManager = getManager();
+            StoreManager tManager = StoreManager.getManager();
             tManager.logEndOfMethodWithException(mThowableTracer, t);
         } catch (Throwable tT)
         {
-            mLog.error("Unable to log execution Throwable",tT);
+            mLog.error("Unable to log execution Throwable", tT);
         }
     }
-
-    /**
-     * Permet d'obtenir un logger par Thread.
-     * 
-     * @return Une instance de la classe de logger parametrée par mLoggerClass. <code>numm</code> si un erreur se
-     *         produit pendant l'initalisation.
-     */
-    private StoreManager getManager()
-    {
-        StoreManager tResult = (StoreManager) sManager.get();
-        if (tResult == null)
-        {
-            try
-            {
-                tResult = new StoreManager();
-                sManager.set(tResult);
-            } catch (Exception e)
-            {
-                // Impossible de laisser remonter l'erreur car elle se confond avec l'erreur
-                // de la méthode fonctionelle invoquée.
-                mLog.error("Impossible d'instancier un logger pour tracer les appels", e);
-            }
-        }
-        return tResult;
-    }
-
 }

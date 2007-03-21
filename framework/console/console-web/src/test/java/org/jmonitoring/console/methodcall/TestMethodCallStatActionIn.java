@@ -1,10 +1,11 @@
 package org.jmonitoring.console.methodcall;
 
 import org.hibernate.stat.Statistics;
+import org.jmonitoring.common.hibernate.HibernateManager;
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.persistence.HibernateManager;
 
 import servletunit.struts.MockStrutsTestCase;
 
@@ -12,8 +13,9 @@ import servletunit.struts.MockStrutsTestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallStatActionIn extends MockStrutsTestCase
+public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase
 {
+    
     public void testOkDefaultInterval()
     {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();

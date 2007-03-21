@@ -102,7 +102,7 @@ public final class StoreFactory
      }
 
     /** For test purpose. */
-    public static void clear()
+    public static synchronized void clear()
     {
         sConstructor = null;
     }

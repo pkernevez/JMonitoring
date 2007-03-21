@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil;
 import org.jmonitoring.console.flow.jfreechart.FlowUtil;
-import org.jmonitoring.core.configuration.Configuration;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
@@ -31,6 +31,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  */
 public class FlowEditActionIn extends Action
 {
+    private static final String MAX_FLOW_FOR_EDITION = "maxExecutionDuringFlowEdition";
     private static Log sLog = LogFactory.getLog(FlowEditActionIn.class);
 
     /**
@@ -43,7 +44,7 @@ public class FlowEditActionIn extends Action
     /**
      * Max number of measure to show in one flow. If this number is exceed, then the user is asked to choose an action.
      */
-    private static int sMaxFlowToShow = Configuration.getInstance().getMaxExecutionDuringFlowEdition();
+    private static int sMaxFlowToShow = ConfigurationHelper.getInstance().getInt(MAX_FLOW_FOR_EDITION);
 
     /*
      * (non-Javadoc)

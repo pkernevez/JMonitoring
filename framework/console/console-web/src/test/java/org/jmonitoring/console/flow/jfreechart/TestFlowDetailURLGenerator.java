@@ -2,8 +2,8 @@ package org.jmonitoring.console.flow.jfreechart;
 
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
-import org.jmonitoring.core.dao.PersistanceTestCase;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
