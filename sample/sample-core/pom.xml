@@ -29,6 +29,14 @@
           <aspectLibraries>
             <aspectLibrary>
               <groupId>com.octo.opensource.jmonitoring</groupId>
+              <artifactId>common</artifactId>
+            </aspectLibrary>
+            <aspectLibrary>
+              <groupId>com.octo.opensource.jmonitoring</groupId>
+              <artifactId>agent</artifactId>
+            </aspectLibrary>
+            <aspectLibrary>
+              <groupId>com.octo.opensource.jmonitoring</groupId>
               <artifactId>hibernate-aspect</artifactId>
             </aspectLibrary>
             <aspectLibrary>
@@ -50,12 +58,34 @@
       <groupId>com.octo.opensource.jmonitoring</groupId>
       <artifactId>agent</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.octo.opensource.jmonitoring</groupId>
       <artifactId>hibernate-aspect</artifactId>
       <version>1.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>server</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>common</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>tests</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.octo.opensource.jmonitoring</groupId>
+      <artifactId>console-core</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>

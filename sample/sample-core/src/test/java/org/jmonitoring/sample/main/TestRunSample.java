@@ -1,13 +1,14 @@
 package org.jmonitoring.sample.main;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
-import org.jmonitoring.core.dao.IExecutionFlowDAO;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.MethodCallPO;
-import org.jmonitoring.core.store.impl.SynchroneJdbcStore;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.dao.ConsoleDao;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.core.persistence.InsertionDao;
+import org.jmonitoring.core.store.StoreFactory;
+import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
-import org.jmonitoring.sample.persistence.SampleHibernateManager;
+import org.jmonitoring.test.store.MemoryStoreWriter;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -16,81 +17,113 @@ import org.jmonitoring.sample.persistence.SampleHibernateManager;
 public class TestRunSample extends SamplePersistenceTestcase
 {
 
-    public void testRun()
+    public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory()
     {
         ShoppingCartPO.setCounter(0);
-        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        StoreFactory.clear();
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, MemoryStoreWriter.class.getName());
         new RunSample(getSampleSession()).run();
-        SampleHibernateManager.flush();
-        SampleHibernateManager.clear();
 
-        checkRun();
+        // assertEquals(3, MemoryStoreWriter.countFlow());
+        assertEquals(1, MemoryStoreWriter.countFlow());
+        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
+        checkRun(tFlow);
 
+        // Now check the save and load
+        InsertionDao tDao = new InsertionHibernateDAO(getSession());
+        assertEquals(1, MemoryStoreWriter.countFlow());
+        tDao.insertFullExecutionFlow(tFlow);
+        assertEquals(1, MemoryStoreWriter.countFlow());
+
+        closeAndRestartSession();
+        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
+        //Now check that no more Flow were captured
+        assertEquals(1, MemoryStoreWriter.countFlow());
+
+        
+        ExecutionFlowPO tNewFlow = tConsoleDao.readExecutionFlow(tFlow.getId());
+        //Now we should captured the readExecutionFlow
+        assertEquals(2, MemoryStoreWriter.countFlow());
+        checkReadFlow(MemoryStoreWriter.getFlow(1));
+        
+        assertNotSame(tFlow, tNewFlow);
+        checkRun(tNewFlow);
+        assertEquals(MemoryStoreWriter.class.getName(), ConfigurationHelper.getInstance().getString(
+            StoreFactory.STORE_CLASS));
     }
 
-    private void checkRun()
+    private void checkReadFlow(ExecutionFlowPO pFlow)
     {
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        assertEquals(3, tDao.countFlows());
-        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
-        assertEquals("org.jmonitoring.sample.main.RunSample", tFlow.getFirstMethodCall().getClassName());
-        assertEquals("run", tFlow.getFirstMethodCall().getMethodName());
-        assertEquals(10, tFlow.getFirstMethodCall().getChildren().size());
+        MethodCallPO tMeth =pFlow.getFirstMethodCall(); 
+        assertNotNull(tMeth);
+        assertEquals("java.sql.PreparedStatement", tMeth.getClassName());
+        assertEquals("executeQuery", tMeth.getMethodName());
+    }
 
-        MethodCallPO tCurMeth = tFlow.getFirstMethodCall().getChild(0);
+
+    /**
+     * @todo check if we need 3 or 1 on the next test.
+     * 
+     */
+    private void checkRun(ExecutionFlowPO pFlow)
+    {
+        assertEquals("org.jmonitoring.sample.main.RunSample", pFlow.getFirstMethodCall().getClassName());
+        assertEquals("run", pFlow.getFirstMethodCall().getMethodName());
+        assertEquals(10, pFlow.getFirstMethodCall().getChildren().size());
+
+        MethodCallPO tCurMeth = pFlow.getFirstMethodCall().getChild(0);
         assertEquals("org.jmonitoring.sample.main.Inventory", tCurMeth.getClassName());
         assertEquals("addItem", tCurMeth.getMethodName());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(1);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(1);
         assertEquals("org.jmonitoring.sample.main.Inventory", tCurMeth.getClassName());
         assertEquals("addItem", tCurMeth.getMethodName());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(2);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(2);
         assertEquals("org.jmonitoring.sample.main.Inventory", tCurMeth.getClassName());
         assertEquals("addItem", tCurMeth.getMethodName());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(3);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(3);
         assertEquals("org.jmonitoring.sample.main.Inventory", tCurMeth.getClassName());
         assertEquals("removeItem", tCurMeth.getMethodName());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(4);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(4);
         assertEquals("org.jmonitoring.sample.main.ShoppingCartPO", tCurMeth.getClassName());
         assertEquals("addItem", tCurMeth.getMethodName());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(5);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(5);
         assertEquals("org.jmonitoring.sample.main.Inventory", tCurMeth.getClassName());
         assertEquals("removeItem", tCurMeth.getMethodName());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(6);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(6);
         assertEquals("org.jmonitoring.sample.main.ShoppingCartPO", tCurMeth.getClassName());
         assertEquals("addItem", tCurMeth.getMethodName());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(7);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(7);
         assertEquals("org.jmonitoring.sample.persistence.SampleDao", tCurMeth.getClassName());
         assertEquals("save", tCurMeth.getMethodName());
         assertEquals(4, tCurMeth.getChildren().size());
 
-        checkSqlMethodCall(tFlow);
+        checkSqlMethodCall(pFlow);
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(8);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(8);
         assertEquals("org.jmonitoring.sample.main.Inventory", tCurMeth.getClassName());
         assertEquals("removeItem", tCurMeth.getMethodName());
         // Remove Item3
         assertEquals("[Item: -1]", tCurMeth.getParams());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = tFlow.getFirstMethodCall().getChild(9);
+        tCurMeth = pFlow.getFirstMethodCall().getChild(9);
         assertEquals("org.jmonitoring.sample.main.ShoppingCartPO", tCurMeth.getClassName());
         assertEquals("addItem", tCurMeth.getMethodName());
         // Add Item3
         assertEquals("[Item: -1]", tCurMeth.getParams());
         assertEquals(0, tCurMeth.getChildren().size());
     }
-
     private void checkSqlMethodCall(ExecutionFlowPO tFlow)
     {
         MethodCallPO tCurMeth;
-        MethodCallPO tCurParent = tFlow.getFirstMethodCall().getChild(7).getChild(0); 
+        MethodCallPO tCurParent = tFlow.getFirstMethodCall().getChild(7).getChild(0);
         assertEquals(6, tCurParent.getChildren().size());
         // Start of the Sql Request
         StringBuffer tTrace = new StringBuffer();
@@ -148,15 +181,15 @@ public class TestRunSample extends SamplePersistenceTestcase
         tTrace.append("Execute query\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
-        
-        tCurParent = tFlow.getFirstMethodCall().getChild(7); 
+
+        tCurParent = tFlow.getFirstMethodCall().getChild(7);
         assertEquals(4, tCurParent.getChildren().size());
         tCurMeth = tCurParent.getChild(1);
         assertEquals("org.hibernate.Session", tCurMeth.getClassName());
         assertEquals("connection", tCurMeth.getMethodName());
-        assertEquals("org.hsqldb.jdbc.jdbcConnection", tCurMeth.getReturnValue().substring(0,30));
+        assertEquals("org.hsqldb.jdbc.jdbcConnection", tCurMeth.getReturnValue().substring(0, 30));
         assertEquals(0, tCurMeth.getChildren().size());
-        
+
         tCurMeth = tCurParent.getChild(2);
         assertEquals("java.sql.Statement", tCurMeth.getClassName());
         assertEquals("execute", tCurMeth.getMethodName());
@@ -164,7 +197,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         tTrace.append("Sql=[Select count(*) from SHOPPING_CART]\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
-        
+
         tCurMeth = tCurParent.getChild(3);
         assertEquals("java.sql.Statement", tCurMeth.getClassName());
         assertEquals("execute", tCurMeth.getMethodName());
@@ -172,8 +205,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         tTrace.append("Sql=[Select * from SHOPPING_CART]\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
-        
-        
+
     }
 
 }

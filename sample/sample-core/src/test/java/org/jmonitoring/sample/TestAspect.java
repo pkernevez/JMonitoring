@@ -1,9 +1,8 @@
 package org.jmonitoring.sample;
 
-import org.aspectj.runtime.internal.cflowstack.ThreadCounter;
-import org.jmonitoring.hibernate.info.SqlExecutionAspect;
-
 import junit.framework.TestCase;
+
+import org.jmonitoring.hibernate.info.SqlExecutionAspect;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

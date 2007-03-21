@@ -12,9 +12,9 @@
     <packaging>pom</packaging>
 
      <modules>
-        <module>sample_aspects</module>
-        <module>sample_core</module>
-        <module>sample_webapp</module>
+        <module>sample-aspects</module>
+        <module>sample-core</module>
+        <module>sample-webapp</module>
     </modules>
 
     <name>JMonitoring: sample, master module.</name>

@@ -5,9 +5,14 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.stat.Statistics;
-import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.persistence.HibernateManager;
+import org.jmonitoring.agent.StoreManager;
+import org.jmonitoring.common.hibernate.HibernateManager;
+import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.store.StoreFactory;
 import org.jmonitoring.sample.persistence.SampleHibernateManager;
+import org.jmonitoring.test.dao.PersistanceTestCase;
+
+import sun.misc.PerformanceLogger;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -26,6 +31,8 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
+        StoreFactory.clear();
+        StoreManager.clear();
         mSampleSession = SampleHibernateManager.getSession();
         mSampleTransaction = mSampleSession.beginTransaction();
 
@@ -51,6 +58,21 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase
         {
             super.tearDown();
         }
+    }
+
+    public void closeAndRestartSampleSession()
+    {
+        if (mSampleSession.isOpen())
+        {
+            if (mSampleTransaction.isActive())
+            {
+                mSampleTransaction.commit();
+            }
+            mSampleSession.close();
+        }
+
+        mSampleSession = HibernateManager.getSession();
+        mSampleTransaction = mSampleSession.beginTransaction();
     }
 
     public Session getSampleSession()

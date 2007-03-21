@@ -20,17 +20,11 @@ public class ShoppingCartPO
 
     private int mId=-1;
     
-    private static final int TEMPO7 = 9;
-
-    private static final int TEMPO6 = 11;
-
     private static final int TEMPO5 = 17;
 
     private static final int TEMPO4 = 16;
 
     private static final int TEMPO3 = 15;
-
-    private static final int TEMPO2 = 13;
 
     private static final int TEMPO = 7;
 

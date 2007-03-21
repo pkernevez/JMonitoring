@@ -1,34 +1,32 @@
 package org.jmonitoring.sample.testtraceparameter;
 
-import org.jmonitoring.core.configuration.Configuration;
-import org.jmonitoring.core.dao.ExecutionFlowDAO;
-import org.jmonitoring.core.dao.ExecutionFlowDaoFactory;
-import org.jmonitoring.core.dao.IExecutionFlowDAO;
-import org.jmonitoring.core.dao.PersistanceTestCase;
-import org.jmonitoring.core.persistence.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.MethodCallPO;
-import org.jmonitoring.core.store.impl.SynchroneJdbcStore;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.dao.ConsoleDao;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.core.store.StoreFactory;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
+import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 
 public class TestTraceOfParameters extends SamplePersistenceTestcase
 {
 
     public void testWithoutAnyTrace()
     {
-        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithoutTrace(3, "pString");
 
-        getSession().flush();
+        closeAndRestartSession();
 
         checkWithoutAnyTrace();
     }
 
     private void checkWithoutAnyTrace()
     {
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
+        ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         MethodCallPO tMethodCall = tFlow.getFirstMethodCall();
         assertNotNull(tMethodCall);
@@ -40,20 +38,20 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfParameter()
     {
-        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameter(3, "pString");
 
-        getSession().flush();
+        closeAndRestartSession();
 
         checkWithTraceOfParameter();
     }
 
     private void checkWithTraceOfParameter()
     {
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
+        ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         MethodCallPO tMethodCall = tFlow.getFirstMethodCall();
         assertNotNull(tMethodCall);
@@ -65,19 +63,19 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfParamAndResult()
     {
-         Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameterAndResult(3, "pString");
 
-        getSession().flush();
+        closeAndRestartSession();
         checkWithTraceOfParamAndResult();
     }
 
     private void checkWithTraceOfParamAndResult()
     {
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-       ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
+       ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         MethodCallPO tMethodCall = tFlow.getFirstMethodCall();
         assertNotNull(tMethodCall);
@@ -89,19 +87,20 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfResult()
     {
-        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithResult(3, "pString");
 
-        getSession().flush();
+        closeAndRestartSession();
+
         checkWithTraceOfResult();
     }
 
     private void checkWithTraceOfResult()
     {
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
+        ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
 
         assertNotNull(tFlow);
         MethodCallPO tMethodCall = tFlow.getFirstMethodCall();
@@ -114,7 +113,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithDefaultTraceOfException()
     {
-        Configuration.getInstance().setMeasurePointStoreClass(SynchroneJdbcStore.class);
+        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         try
@@ -123,14 +122,14 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         } catch (RuntimeException e)
         {
         }
-        getSession().flush();
+        closeAndRestartSession();
         checkWithDefaultTraceOfException();
     }
 
     private void checkWithDefaultTraceOfException()
     {
-        IExecutionFlowDAO tDao = ExecutionFlowDaoFactory.getExecutionFlowDao(getSession());
-        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
+        ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         MethodCallPO tMethodCall = tFlow.getFirstMethodCall();
         assertNotNull(tMethodCall);
