@@ -5,15 +5,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.stat.Statistics;
-import org.jmonitoring.agent.StoreManager;
 import org.jmonitoring.common.hibernate.HibernateManager;
-import org.jmonitoring.core.configuration.MeasureException;
-import org.jmonitoring.core.store.StoreFactory;
+import org.jmonitoring.core.store.StoreManager;
+import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.sample.persistence.SampleHibernateManager;
 import org.jmonitoring.test.dao.PersistanceTestCase;
-import org.jmonitoring.test.store.MemoryStoreWriter;
-
-import sun.misc.PerformanceLogger;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -32,7 +28,6 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        StoreFactory.clear();
         StoreManager.clear();
         MemoryStoreWriter.clear();
         mSampleSession = SampleHibernateManager.getSession();

@@ -271,6 +271,11 @@ public class StoreManager
         return tResult;
     }
 
+    public static void clear()
+    {
+        sManager = new ThreadLocal();
+    }
+
     public static void changeStoreManagerClass(Class pClass)
     {
         ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, pClass.getName());

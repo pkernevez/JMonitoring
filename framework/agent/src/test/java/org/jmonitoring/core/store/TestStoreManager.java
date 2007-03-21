@@ -6,10 +6,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import net.sf.ehcache.store.MemoryStore;
 
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.StoreManager;
 import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;

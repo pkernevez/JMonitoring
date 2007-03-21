@@ -5,19 +5,19 @@ import java.util.StringTokenizer;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.InsertionDao;
+import org.jmonitoring.core.store.StoreManager;
+import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
-import org.jmonitoring.test.store.MemoryStoreWriter;
 
 public class TestTreeTracer extends SamplePersistenceTestcase
 {
 
     public void testParameterTracer()
     {
-        ConfigurationHelper.getInstance().addProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         Mother tMother = new Mother();
         tMother.setChild1(new Child());
@@ -25,9 +25,9 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
         new ToBeCall().callWithParam(tMother, new Child());
 
-        assertEquals(1, MemoryStoreWriter.countFlow());
+        assertEquals(1, MemoryStoreWriter.countFlows());
         checkParameterTracer();
-        assertEquals(1, MemoryStoreWriter.countFlow());
+        assertEquals(1, MemoryStoreWriter.countFlows());
 
     }
 
@@ -52,7 +52,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testReturnValueTracer()
     {
-        ConfigurationHelper.getInstance().addProperty(ConfigurationHelper.STORE_CLASS, SynchroneJdbcStore.class.getName());
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         new ToBeCall().callWithReturn();
 
@@ -63,8 +63,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     private void checkReturnValueTracer()
     {
-        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
-        ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
+        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertNotNull(tFlow);
         String tParams = tFlow.getFirstMethodCall().getReturnValue();
         StringTokenizer tTok = new StringTokenizer(tParams, "\n");
@@ -81,7 +80,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testStaticCall()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, SynchroneJdbcStore.class.getName());
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         ToBeCall.callStaticMethod(new Mother());
 
@@ -92,8 +91,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     private void checkStaticCall()
     {
-        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
-        ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
+        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertNotNull(tFlow);
         assertEquals(ToBeCall.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertTrue(tFlow.getFirstMethodCall().getParams().length() > 20);

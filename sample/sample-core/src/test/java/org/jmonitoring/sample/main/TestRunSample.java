@@ -6,9 +6,10 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.core.store.StoreFactory;
+import org.jmonitoring.core.store.StoreManager;
+import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
-import org.jmonitoring.test.store.MemoryStoreWriter;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -20,32 +21,30 @@ public class TestRunSample extends SamplePersistenceTestcase
     public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory()
     {
         ShoppingCartPO.setCounter(0);
-        StoreFactory.clear();
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
         new RunSample(getSampleSession()).run();
 
         // assertEquals(3, MemoryStoreWriter.countFlow());
-        assertEquals(1, MemoryStoreWriter.countFlow());
+        assertEquals(1, MemoryStoreWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         checkRun(tFlow);
 
         // Now check the save and load
         InsertionDao tDao = new InsertionHibernateDAO(getSession());
-        assertEquals(1, MemoryStoreWriter.countFlow());
+        assertEquals(1, MemoryStoreWriter.countFlows());
         tDao.insertFullExecutionFlow(tFlow);
-        assertEquals(1, MemoryStoreWriter.countFlow());
+        assertEquals(1, MemoryStoreWriter.countFlows());
 
         closeAndRestartSession();
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
-        //Now check that no more Flow were captured
-        assertEquals(1, MemoryStoreWriter.countFlow());
+        // Now check that no more Flow were captured
+        assertEquals(1, MemoryStoreWriter.countFlows());
 
-        
         ExecutionFlowPO tNewFlow = tConsoleDao.readExecutionFlow(tFlow.getId());
-        //Now we should captured the readExecutionFlow
-        assertEquals(2, MemoryStoreWriter.countFlow());
+        // Now we should captured the readExecutionFlow
+        assertEquals(2, MemoryStoreWriter.countFlows());
         checkReadFlow(MemoryStoreWriter.getFlow(1));
-        
+
         assertNotSame(tFlow, tNewFlow);
         checkRun(tNewFlow);
         assertEquals(MemoryStoreWriter.class.getName(), ConfigurationHelper.getInstance().getString(
@@ -54,12 +53,11 @@ public class TestRunSample extends SamplePersistenceTestcase
 
     private void checkReadFlow(ExecutionFlowPO pFlow)
     {
-        MethodCallPO tMeth =pFlow.getFirstMethodCall(); 
+        MethodCallPO tMeth = pFlow.getFirstMethodCall();
         assertNotNull(tMeth);
         assertEquals("java.sql.PreparedStatement", tMeth.getClassName());
         assertEquals("executeQuery", tMeth.getMethodName());
     }
-
 
     /**
      * @todo check if we need 3 or 1 on the next test.
@@ -120,6 +118,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertEquals("[Item: -1]", tCurMeth.getParams());
         assertEquals(0, tCurMeth.getChildren().size());
     }
+
     private void checkSqlMethodCall(ExecutionFlowPO tFlow)
     {
         MethodCallPO tCurMeth;

@@ -29,7 +29,7 @@ public class MemoryStoreWriter implements IStoreWriter
         sListOfExecutionFlow.clear();
     }
 
-    public static int countFlow()
+    public static int countFlows()
     {
         return sListOfExecutionFlow.size();
     }

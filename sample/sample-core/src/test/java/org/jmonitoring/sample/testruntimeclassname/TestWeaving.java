@@ -4,6 +4,8 @@ import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.InsertionDao;
+import org.jmonitoring.core.store.StoreManager;
+import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 
@@ -12,61 +14,49 @@ public class TestWeaving extends SamplePersistenceTestcase
 
     public void testWeaving() throws InterruptedException
     {
-        InsertionDao tDao = new InsertionDao(getSession());
-        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
-        assertEquals(0, tDao.countFlows());
-        assertEquals(0, tDao.countFlows());
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, SynchroneJdbcStore.class.getName());
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         AbstractSample tMother = new AbstractSample();
         tMother.methodATester();
         closeAndRestartSession();
-        tDao = new InsertionDao(getSession());
-        tConsoleDao = new ConsoleDao(getSession());
-        
-        checkWeaving1(tDao, tConsoleDao);
+
+        checkWeaving1();
 
         ChildSample tChild = new ChildSample();
         tChild.methodATester();
-        closeAndRestartSession();
-        tDao = new InsertionDao(getSession());
-        tConsoleDao = new ConsoleDao(getSession());
-        
-        checkWeaving2(tDao, tConsoleDao);
+
+        checkWeaving2();
 
         tChild.methodWithOverride();
         closeAndRestartSession();
-        tDao = new InsertionDao(getSession());
-        
-        tConsoleDao = new ConsoleDao(getSession());
-        
-        checkWeaving3(tDao, tConsoleDao);
+
+        checkWeaving3();
     }
 
-    private void checkWeaving1(InsertionDao pDao, ConsoleDao pConsoleDao)
+    private void checkWeaving1()
     {
-        assertEquals(1, pDao.countFlows());
-        ExecutionFlowPO tFlow = pConsoleDao.readExecutionFlow(1);
+        assertEquals(1, MemoryStoreWriter.countFlows());
+        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertEquals("methodATester", tFlow.getFirstMethodCall().getMethodName());
         assertNull(tFlow.getFirstMethodCall().getRuntimeClassName());
-        assertEquals(1, pDao.countFlows());
+        assertEquals(1, MemoryStoreWriter.countFlows());
     }
 
-    private void checkWeaving2(InsertionDao pDao, ConsoleDao pConsoleDao)
+    private void checkWeaving2()
     {
         ExecutionFlowPO tFlow;
-        tFlow = pConsoleDao.readExecutionFlow(2);
+        tFlow = MemoryStoreWriter.getFlow(1);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertEquals("methodATester", tFlow.getFirstMethodCall().getMethodName());
         assertEquals(ChildSample.class.getName(), tFlow.getFirstMethodCall().getRuntimeClassName());
     }
 
-    private void checkWeaving3(InsertionDao pDao, ConsoleDao pConsoleDao)
+    private void checkWeaving3()
     {
         ExecutionFlowPO tFlow;
-        assertEquals(3, pDao.countFlows());
-        tFlow = pConsoleDao.readExecutionFlow(3);
+        assertEquals(3, MemoryStoreWriter.countFlows());
+        tFlow = MemoryStoreWriter.getFlow(2);
         assertEquals(ChildSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertEquals("methodWithOverride", tFlow.getFirstMethodCall().getMethodName());
         assertNull(tFlow.getFirstMethodCall().getRuntimeClassName());

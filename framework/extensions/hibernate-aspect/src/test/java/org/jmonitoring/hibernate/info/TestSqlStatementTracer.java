@@ -50,7 +50,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         SqlStatementTracer tTracer = new SqlStatementTracer();
         tStat.execute("select * from EXECUTION_FLOW");
         closeAndRestartSession();
-        assertEquals(1, MemoryStoreWriter.countFlow());
+        assertEquals(1, MemoryStoreWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\n", tFlow.getFirstMethodCall().getReturnValue());
     }
@@ -118,8 +118,8 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tBuffer.append("Execute query\n");
 
         // We only want to chack the latest ExecutionFlow
-        LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow="+MemoryStoreWriter.countFlow());
-        assertEquals(5, MemoryStoreWriter.countFlow());
+        LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow="+MemoryStoreWriter.countFlows());
+        assertEquals(5, MemoryStoreWriter.countFlows());
         
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(4);
         LogFactory.getLog(TestSqlStatementTracer.class).info("Writer="+tFlow.getFirstMethodCall().getReturnValue());

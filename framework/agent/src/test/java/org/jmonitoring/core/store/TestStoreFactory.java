@@ -117,6 +117,9 @@ public class TestStoreFactory extends TestCase
 
     public void testClear()
     {
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, TestStoreManager.MyWriter.class.getName());
+        StoreFactory.clear();
+        IStoreWriter tWriter = StoreFactory.getWriter();
         ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
         StoreFactory.clear();
         assertNotSame(tWriter, StoreFactory.getWriter());
