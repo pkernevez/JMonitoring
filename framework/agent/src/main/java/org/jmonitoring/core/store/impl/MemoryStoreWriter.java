@@ -1,4 +1,4 @@
-package org.jmonitoring.test.store;
+package org.jmonitoring.core.store.impl;
 
 import java.util.ArrayList;
 import java.util.List;

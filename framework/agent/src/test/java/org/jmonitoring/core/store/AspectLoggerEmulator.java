@@ -1,4 +1,4 @@
-package org.jmonitoring.agent;
+package org.jmonitoring.core.store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.jmonitoring.core.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.core.info.impl.ToStringParametersTracer;
 import org.jmonitoring.core.info.impl.ToStringResultTracer;
 import org.jmonitoring.core.store.IStoreWriter;
+import org.jmonitoring.core.store.StoreManager;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

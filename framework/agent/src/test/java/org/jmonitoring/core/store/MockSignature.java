@@ -1,4 +1,4 @@
-package org.jmonitoring.agent;
+package org.jmonitoring.core.store;
 
 import org.aspectj.lang.Signature;
 

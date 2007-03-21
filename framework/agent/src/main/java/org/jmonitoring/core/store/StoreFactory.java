@@ -21,8 +21,6 @@ import org.jmonitoring.core.configuration.MeasureException;
  */
 public final class StoreFactory
 {
-    public static final String STORE_CLASS = "measurepoint.logger.class";
-
     /** Mise en cache du constructeur du <code>IMeasurePointTreeLogger</code> à utiliser. */
     private static Constructor sConstructor;
 
@@ -85,7 +83,7 @@ public final class StoreFactory
     private static Class getMeasurePointStoreClass()
     {
         Class tResultClass;
-        String tLoggerClassName = ConfigurationHelper.getInstance().getString(STORE_CLASS);
+        String tLoggerClassName = ConfigurationHelper.getInstance().getString(ConfigurationHelper.STORE_CLASS);
         try
         {
             tResultClass = Class.forName(tLoggerClassName);
@@ -102,7 +100,7 @@ public final class StoreFactory
      }
 
     /** For test purpose. */
-    public static synchronized void clear()
+    static synchronized void clear()
     {
         sConstructor = null;
     }

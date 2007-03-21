@@ -2,9 +2,9 @@ package org.jmonitoring.core.store;
 
 import junit.framework.TestCase;
 
-import org.apache.xerces.impl.msg.XMLMessageFormatter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.store.impl.XmlFileLogger;
 
 /***********************************************************************************************************************
@@ -27,7 +27,7 @@ public class TestStoreFactory extends TestCase
 
     public void testDefaultStoreFactoryBadConstructor()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
             BadStoreClassWithoutConstructor.class.getName());
         try
         {
@@ -44,7 +44,7 @@ public class TestStoreFactory extends TestCase
 
     public void testDefaultStoreFactoryWithPrivateConstructor()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
             BadStoreClassWithPrivateConstructor.class.getName());
         try
         {
@@ -61,7 +61,8 @@ public class TestStoreFactory extends TestCase
 
     public void testDefaultStoreFactoryBadInterface()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, BadStoreClassNotWriter.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
+            BadStoreClassNotWriter.class.getName());
         try
         {
             StoreFactory.getWriter();
@@ -112,5 +113,14 @@ public class TestStoreFactory extends TestCase
     {
         super.setUp();
         StoreFactory.clear();
+    }
+
+    public void testClear()
+    {
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
+        StoreFactory.clear();
+        assertNotSame(tWriter, StoreFactory.getWriter());
+        assertEquals(MemoryStoreWriter.class.getName(), StoreFactory.getWriter().getClass().getName());
+
     }
 }

@@ -11,6 +11,7 @@ import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.store.StoreFactory;
 import org.jmonitoring.sample.persistence.SampleHibernateManager;
 import org.jmonitoring.test.dao.PersistanceTestCase;
+import org.jmonitoring.test.store.MemoryStoreWriter;
 
 import sun.misc.PerformanceLogger;
 
@@ -33,6 +34,7 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase
         super.setUp();
         StoreFactory.clear();
         StoreManager.clear();
+        MemoryStoreWriter.clear();
         mSampleSession = SampleHibernateManager.getSession();
         mSampleTransaction = mSampleSession.beginTransaction();
 

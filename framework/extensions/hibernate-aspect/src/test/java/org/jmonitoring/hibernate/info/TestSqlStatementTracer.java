@@ -14,9 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.store.StoreFactory;
+import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.test.dao.PersistanceTestCase;
-import org.jmonitoring.test.store.MemoryStoreWriter;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -45,7 +44,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersStatement() throws HibernateException, SQLException
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, MemoryStoreWriter.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
         Statement tStat = getSession().connection().createStatement();
         assertEquals(JMonitoringStatement.class, tStat.getClass());
         SqlStatementTracer tTracer = new SqlStatementTracer();
@@ -97,7 +96,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, MemoryStoreWriter.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
 
         defineStoredProcedure();
         checkDataStoredProcedure();

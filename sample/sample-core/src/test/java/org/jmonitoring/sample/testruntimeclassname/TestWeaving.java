@@ -4,7 +4,6 @@ import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.core.store.StoreFactory;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 
@@ -17,7 +16,7 @@ public class TestWeaving extends SamplePersistenceTestcase
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
         assertEquals(0, tDao.countFlows());
         assertEquals(0, tDao.countFlows());
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, SynchroneJdbcStore.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, SynchroneJdbcStore.class.getName());
 
         AbstractSample tMother = new AbstractSample();
         tMother.methodATester();

@@ -12,6 +12,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  * 
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
+ *       @todo change the namespace of this package
  */
 public interface IStoreWriter
 {

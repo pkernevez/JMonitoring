@@ -1,11 +1,17 @@
-package org.jmonitoring.agent;
+package org.jmonitoring.core.store;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import junit.framework.TestCase;
+import net.sf.ehcache.store.MemoryStore;
 
-import org.jmonitoring.agent.AspectLoggerEmulator.ErrorLogTracer;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.store.IStoreWriter;
+import org.jmonitoring.core.store.StoreManager;
+import org.jmonitoring.core.store.AspectLoggerEmulator.ErrorLogTracer;
+import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 
 /***************************************************************************
@@ -72,7 +78,7 @@ public class TestStoreManager extends TestCase
         List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace class=[org.jmonitoring.agent.AspectLoggerEmulator$ExceptionResult] "
+        assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult] "
             + "with tracer=[org.jmonitoring.core.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
             (String) tErrors.get(0));
     }
@@ -96,7 +102,7 @@ public class TestStoreManager extends TestCase
         List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace class=[org.jmonitoring.agent.AspectLoggerEmulator$ExceptionResult]"
+        assertEquals("Unable to trace class=[org.jmonitoring.core.store.AspectLoggerEmulator$ExceptionResult]"
             + " with tracer=[org.jmonitoring.core.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
             (String) tErrors.get(0));
     }
@@ -193,6 +199,35 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
 
         assertEquals(1, MockAbstractAsynchroneLogger.getNbPublish());
+    }
+
+    public void testClearChangeManager()
+    {
+        StoreManager tManager = StoreManager.getManager();
+        assertSame(tManager, StoreManager.getManager());
+        StoreManager.changeStoreManagerClass(MemoryStore.class);
+        assertNotSame(tManager, StoreManager.getManager());
+    }
+
+    public void testClearChangeManagerConfiguration()
+    {
+        
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        assertNotNull(StoreManager.getManager());
+        assertNotNull(StoreManager.getManager().getStoreWriter());
+        
+        assertEquals(MemoryStoreWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
+        
+        StoreManager.changeStoreManagerClass(MyWriter.class);
+        assertEquals(MyWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
+    }
+    
+    public static class MyWriter implements IStoreWriter {
+
+        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+        {
+        }
+        
     }
 
 }

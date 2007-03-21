@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public final class ConfigurationHelper
+public final class ConfigurationHelper 
 {
     public  static final String DAO_STORE_KEY = "execution.dao.class";
 
@@ -30,14 +30,17 @@ public final class ConfigurationHelper
 
     private static final ThreadLocal sDateFormater = new ThreadLocal();
 
+    public static final String STORE_CLASS = "measurepoint.logger.class";
+
     private ConfigurationHelper()
     {
     }
 
-    public static void reload()
+    public static PropertiesConfiguration reload()
     {
         sConfiguration = null;
         sConfiguration = getInstance();
+        return sConfiguration;
     }
 
     public static PropertiesConfiguration getInstance()
@@ -57,23 +60,6 @@ public final class ConfigurationHelper
         }
         return tConfig;
     }
-
-    // /**
-    // * Synchronized access to the <code>DateFormater</code> for only Date.
-    // *
-    // * @return The <code>DateFormat</code> to use in the application.
-    // */
-    // private static SimpleDateFormat getDateFormater()
-    // {
-    // Object tResult = sDateFormater.get();
-    // if (tResult == null)
-    // {
-    // String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.date");
-    // tResult = new SimpleDateFormat(tDateFormat);
-    // sDateFormater.set(tResult);
-    // }
-    // return (SimpleDateFormat) tResult;
-    // }
 
     /**
      * Synchronized access to the <code>DateFormater</code> for only Date.

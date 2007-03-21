@@ -4,7 +4,6 @@ import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
-import org.jmonitoring.core.store.StoreFactory;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 
@@ -13,7 +12,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithoutAnyTrace()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithoutTrace(3, "pString");
@@ -38,7 +37,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfParameter()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameter(3, "pString");
@@ -63,7 +62,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfParamAndResult()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameterAndResult(3, "pString");
@@ -87,7 +86,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfResult()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithResult(3, "pString");
@@ -113,7 +112,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithDefaultTraceOfException()
     {
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         try

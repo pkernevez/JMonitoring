@@ -21,7 +21,7 @@ public class TestRunSample extends SamplePersistenceTestcase
     {
         ShoppingCartPO.setCounter(0);
         StoreFactory.clear();
-        ConfigurationHelper.getInstance().setProperty(StoreFactory.STORE_CLASS, MemoryStoreWriter.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
         new RunSample(getSampleSession()).run();
 
         // assertEquals(3, MemoryStoreWriter.countFlow());
@@ -49,7 +49,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertNotSame(tFlow, tNewFlow);
         checkRun(tNewFlow);
         assertEquals(MemoryStoreWriter.class.getName(), ConfigurationHelper.getInstance().getString(
-            StoreFactory.STORE_CLASS));
+            ConfigurationHelper.STORE_CLASS));
     }
 
     private void checkReadFlow(ExecutionFlowPO pFlow)

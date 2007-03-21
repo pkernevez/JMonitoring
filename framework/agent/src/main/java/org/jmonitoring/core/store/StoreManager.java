@@ -1,4 +1,4 @@
-package org.jmonitoring.agent;
+package org.jmonitoring.core.store;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -15,8 +15,6 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
-import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.StoreFactory;
 
 /**
  * Permet de logger sous forme XML l'ensemble des appels avec les signature et les temps d'exécution dans un fichier XML
@@ -273,8 +271,15 @@ public class StoreManager
         return tResult;
     }
 
-    public static void clear()
+    public static void changeStoreManagerClass(Class pClass)
     {
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, pClass.getName());
+        StoreFactory.clear();
         sManager = new ThreadLocal();
+    }
+
+    IStoreWriter getStoreWriter()
+    {
+        return mStoreWriter;
     }
 }

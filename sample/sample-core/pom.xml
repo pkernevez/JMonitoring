@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>sample_core</artifactId>
   <name>JMonitoring: sample, application code.</name>
-  <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
+  <description>This project provides Monitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
   <scm>
     <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_core</connection>
     <url>http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_core</url>
