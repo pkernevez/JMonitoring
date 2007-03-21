@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.octo.opensource.jmonitoring</groupId>
+    <artifactId>common-pom</artifactId>
+    <version>1</version>
+    <packaging>pom</packaging>
+
+    <name>JMonitoring: common module for all artifacts.</name>
+
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/</connection>
+        <url>https://forge.octo.com/svn</url>
+    </scm>
+  
+    <issueManagement>
+        <system>jira</system>
+        <url>http://forge.octo.com/jira/browse/JMO</url>
+    </issueManagement>
+  <mailingLists>
+    <mailingList>
+      <name>jmonitoring-user@lists.sourceforge.net</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-user</archive>
+    </mailingList>
+    <mailingList>
+      <name>jmonitoring-developer@lists.sourceforge.net</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-developer</archive>
+    </mailingList>
+  </mailingLists>
+    <developers>
+        <developer>
+            <name>Philippe Kernevez</name>
+            <id>pke</id>
+            <email>pkernevez@octo.com</email>
+            <organization>OCTO</organization>
+            <roles>
+                <role>Java Developer</role>
+                <role>Release Manager</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+    </developers>
+    
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+            <url>http://forge.octo.com/svn/jmonitoring/trunk/build-tools/src/main/resources/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <repositories>
+        <repository>
+            <id>octo</id>
+            <name>OCTO Technology</name>
+            <url>http://forge.octo.com/mavenrepository/</url>
+            <layout>legacy</layout>
+        </repository>
+        <!--repository>
+            <id>ibiblio</id>
+            <name>ibiblio</name>
+            <url>http://http://www.ibiblio.org/maven2/</url>
+        </repository-->
+        <!--repository>
+            <id>maven1_local</id>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <name>kerny</name>
+            <url>file:///D:/maven/repository</url>
+            <layout>legacy</layout>
+        </repository-->
+    </repositories>
+
+</project>

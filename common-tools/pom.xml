@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+   <parent>
+        <groupId>com.octo.opensource.jmonitoring</groupId>
+        <artifactId>common-pom</artifactId>
+        <version>1</version>
+    </parent>
+
+    <artifactId>common-tools</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+     <modules>
+        <module>common-pom</module>
+        <module>common-module-pom</module>
+        <module>build-tools</module>
+    </modules>
+
+    <name>JMonitoring: framework, master module.</name>
+    <description>This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.</description>
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework</connection>
+        <url>https://forge.octo.com/</url>
+    </scm>
+    <build>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clover-plugin</artifactId>
+        <configuration>
+          <!--targetPercentage>50%</targetPercentage-->
+            <generateHistorical>true</generateHistorical>
+            <historyDir>${jmonitoring.clover.db}</historyDir>
+            <generateHtml>true</generateHtml>
+            <generatePdf>true</generatePdf>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>instrument</goal>
+              <goal>aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+    <reporting>
+        <plugins>
+            <!--plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>javancss-maven-plugin</artifactId>
+                <version>2.0-beta-1</version>
+            </plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clover-plugin</artifactId>
+                <configuration>
+                    <generateHistorical>true</generateHistorical>
+                    <historyDir>${jmonitoring.clover.db}</historyDir>
+                    <generateHtml>true</generateHtml>
+                    <generatePdf>true</generatePdf>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+  
+    
+    <dependencies>
+
+ 
+    </dependencies>
+ 
+</project>
