@@ -1,9 +1,9 @@
 package org.jmonitoring.sample;
 
+import org.jmonitoring.agent.store.StoreManager;
+import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.core.store.StoreManager;
-import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.main.ItemPO;
 import org.jmonitoring.sample.main.ShoppingCartPO;

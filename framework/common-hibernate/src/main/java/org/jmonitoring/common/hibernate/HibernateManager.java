@@ -1,6 +1,8 @@
 package org.jmonitoring.common.hibernate;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -47,6 +49,8 @@ public final class HibernateManager
             Properties properties = new Properties();
             try
             {
+                checkUniquenessOfConfigurationFile(pMappingFileName);
+                checkUniquenessOfConfigurationFile(pPropertiesFileName);
                 properties.load(HibernateManager.class.getClassLoader().getResourceAsStream(pPropertiesFileName));
             } catch (IOException e)
             {
@@ -58,6 +62,32 @@ public final class HibernateManager
             sLogger.info("Hibernate SessionFactory loaded with configuration");
         }
         return sSessionFactory;
+    }
+
+    private static void checkUniquenessOfConfigurationFile(String pMappingFileName)
+    {
+        int tCount = 0;
+        StringBuffer tBuffer = new StringBuffer();
+        tBuffer.append("The configuration file [").append(pMappingFileName).append(
+            "]has been found in multiple copy:\n");
+        try
+        {
+            for (Enumeration tEnum = HibernateManager.class.getClassLoader().getResources(pMappingFileName); tEnum
+                .hasMoreElements();)
+            {
+                tCount++;
+                tBuffer.append(((URL) tEnum.nextElement()).getPath()).append("\n");
+            }
+            if (tCount > 1)
+            {
+                sLogger.warn(tBuffer.toString());
+            }
+        } catch (IOException e)
+        {
+            sLogger.fatal("Unable to find any file [" + pMappingFileName + "]");
+            throw new RuntimeException("Unable to find any file [" + pMappingFileName + "]");
+        }
+
     }
 
     /**

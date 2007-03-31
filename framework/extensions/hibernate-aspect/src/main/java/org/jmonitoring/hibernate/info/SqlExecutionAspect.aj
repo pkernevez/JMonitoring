@@ -1,6 +1,6 @@
 package org.jmonitoring.hibernate.info;
 
-import org.jmonitoring.core.aspects.PerformanceAspect;
+import org.jmonitoring.agent.aspect.PerformanceAspect;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

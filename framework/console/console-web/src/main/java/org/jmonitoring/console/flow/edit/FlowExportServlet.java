@@ -32,7 +32,7 @@ public class FlowExportServlet extends HttpServlet
         String tFileName = "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_"
             + tFlow.getBeginDateAsString() + ".gzip";
         pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
-        byte[] tFlowAsBytes = tProcess.getFlowAsXml(tFlow);
+        byte[] tFlowAsBytes = tProcess.convertFlowToXml(tFlow);
         pResp.setContentLength(tFlowAsBytes.length);
         pResp.getOutputStream().write(tFlowAsBytes);
         pResp.getOutputStream().flush();

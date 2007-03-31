@@ -14,6 +14,7 @@ public aspect HibernateInterceptorAspect
         || execution( * junit.framework.TestCase+.tearDown())
         || execution( * junit.framework.TestCase+.check*(..))
         || execution( * junit.framework.TestCase+.define*(..))
+        || execution( * junit.framework.TestCase+.close*(..))
         || execution( * org.jmonitoring.hibernate.dao.InsertionHibernateDAO.*(..));
 
     // || execution(* org.jmonitoring.sample.testtreetracer.TestTreeTracer.*(..));

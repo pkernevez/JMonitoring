@@ -1,5 +1,9 @@
 package org.jmonitoring.sample.testtraceparameter;
 
+import org.hibernate.MappingException;
+import org.hibernate.exception.SQLGrammarException;
+import org.jmonitoring.sample.persistence.SampleHibernateManager;
+
 public class ClassToBeCall
 {
 
@@ -8,7 +12,20 @@ public class ClassToBeCall
         return "Toto";
     }
 
-    public String toBeCallWithoutTrace(int pInteger, String pString)
+    public String toBeCallOther(int pInteger, String pString)
+    {
+        String tResult = toBeCallWithoutTrace();
+        try
+        {
+            SampleHibernateManager.getSession().save(this);
+        } catch (MappingException e)
+        {
+            // Nothing to to
+        }
+        return tResult;
+    }
+
+    public String toBeCallWithoutTrace()
     {
         return "Toto";
     }

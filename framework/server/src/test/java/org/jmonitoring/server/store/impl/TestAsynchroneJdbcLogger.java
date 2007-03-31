@@ -3,9 +3,9 @@ package org.jmonitoring.server.store.impl;
 
 import java.sql.SQLException;
 
+import org.jmonitoring.agent.store.IStoreWriter;
+import org.jmonitoring.agent.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.server.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 

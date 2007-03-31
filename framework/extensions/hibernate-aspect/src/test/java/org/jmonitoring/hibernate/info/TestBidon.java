@@ -1,5 +1,8 @@
 package org.jmonitoring.hibernate.info;
 
+import org.jmonitoring.agent.store.StoreManager;
+import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
+
 import junit.framework.TestCase;
 
 /***********************************************************************************************************************
@@ -11,12 +14,10 @@ public class TestBidon extends TestCase
 
     public void testTest1()
     {
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
         Bidon tBid = new Bidon();
-        System.out.println("Test1");
         tBid.method1();
-        System.out.println("Test2");
         tBid.method2();
-        System.out.println("Test3");
         tBid.method3();
     }
 }

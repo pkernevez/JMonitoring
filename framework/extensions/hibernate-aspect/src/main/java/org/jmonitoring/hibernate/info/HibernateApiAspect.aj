@@ -1,6 +1,6 @@
 package org.jmonitoring.hibernate.info;
 
-import org.jmonitoring.core.aspects.PerformanceAspect;
+import org.jmonitoring.agent.aspect.PerformanceAspect;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -22,7 +22,9 @@ public aspect HibernateApiAspect extends PerformanceAspect
            || call( * org.hibernate.Criteria.scroll(..))
            || call( * org.hibernate.Criteria.uniqueResult())
         ) && !within(org.hibernate.*) && !within(org.hibernate.*.*) 
-          && !within(org.hibernate.*.*.*) && !within(org.jmonitoring.test.dao.PersistanceTestCase+);
+          && !within(org.hibernate.*.*.*) 
+          && !within(org.jmonitoring.hibernate.dao.InsertionHibernateDAO) 
+          && !within(org.jmonitoring.test.dao.PersistanceTestCase+);
 
     public HibernateApiAspect()
     {

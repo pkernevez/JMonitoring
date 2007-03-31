@@ -7,10 +7,10 @@ import java.util.Iterator;
 
 import javax.servlet.jsp.tagext.IterationTag;
 
+import org.jmonitoring.agent.store.IStoreWriter;
+import org.jmonitoring.agent.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.core.store.IStoreWriter;
-import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 

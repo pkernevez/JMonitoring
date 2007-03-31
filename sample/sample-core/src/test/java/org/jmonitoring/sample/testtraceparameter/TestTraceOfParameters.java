@@ -1,21 +1,68 @@
 package org.jmonitoring.sample.testtraceparameter;
 
+import org.hibernate.Session;
+import org.jmonitoring.agent.store.StoreFactory;
+import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 
 public class TestTraceOfParameters extends SamplePersistenceTestcase
 {
 
-    public void testWithoutAnyTrace()
+    public void testWithoutAnyTraceAndHibernate()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
+            InsertionHibernateDAO.class.getName());
+        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
-        tCallObject.toBeCallWithoutTrace(3, "pString");
+        tCallObject.toBeCallOther(3, "AB");
+
+        closeAndRestartSession();
+
+        InsertionHibernateDAO tDao = new InsertionHibernateDAO(getSession());
+        ExecutionFlowPO tFlow = tDao.readExecutionFlow(1);
+        assertNotNull(tFlow);
+        MethodCallPO tMethodCall = tFlow.getFirstMethodCall();
+        assertNotNull(tMethodCall);
+        assertEquals(ClassToBeCall.class.getName(), tMethodCall.getClassName());
+        assertEquals("toBeCallOther", tMethodCall.getMethodName());
+        assertEquals("Other", tMethodCall.getGroupName());
+        assertEquals("[3, AB]", tMethodCall.getParams());
+        assertNotNull(tMethodCall.getFlow());
+
+        assertEquals(2, tMethodCall.getChildren().size());
+        tMethodCall = tMethodCall.getChild(0);
+        assertNotNull(tMethodCall);
+        assertEquals(ClassToBeCall.class.getName(), tMethodCall.getClassName());
+        assertEquals("toBeCallWithoutTrace", tMethodCall.getMethodName());
+        assertEquals("WithoutTrace", tMethodCall.getGroupName());
+        assertEquals(null, tMethodCall.getParams());
+        assertNotNull(tMethodCall.getFlow());
+        assertEquals(0, tMethodCall.getChildren().size());
+
+        tMethodCall = tMethodCall.getParentMethodCall().getChild(1);
+        assertNotNull(tMethodCall);
+        assertEquals(Session.class.getName(), tMethodCall.getClassName());
+        assertEquals("save", tMethodCall.getMethodName());
+        assertEquals("Hibernate", tMethodCall.getGroupName());
+        assertTrue(tMethodCall.getParams().startsWith("[" + ClassToBeCall.class.getName()));
+        assertNotNull(tMethodCall.getFlow());
+        assertEquals(0, tMethodCall.getChildren().size());
+
+    }
+
+    public void testWithoutAnyTrace()
+    {
+        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
+
+        ClassToBeCall tCallObject = new ClassToBeCall();
+        tCallObject.toBeCallWithoutTrace();
 
         closeAndRestartSession();
 
@@ -37,7 +84,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfParameter()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameter(3, "pString");
@@ -62,7 +109,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfParamAndResult()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameterAndResult(3, "pString");
@@ -74,7 +121,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
     private void checkWithTraceOfParamAndResult()
     {
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
-       ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
+        ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
         MethodCallPO tMethodCall = tFlow.getFirstMethodCall();
         assertNotNull(tMethodCall);
@@ -86,7 +133,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithTraceOfResult()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithResult(3, "pString");
@@ -112,7 +159,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithDefaultTraceOfException()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,SynchroneJdbcStore.class.getName());
+        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         try

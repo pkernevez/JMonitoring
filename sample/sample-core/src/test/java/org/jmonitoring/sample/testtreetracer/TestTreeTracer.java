@@ -2,11 +2,11 @@ package org.jmonitoring.sample.testtreetracer;
 
 import java.util.StringTokenizer;
 
+import org.jmonitoring.agent.store.StoreManager;
+import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.store.StoreManager;
-import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;

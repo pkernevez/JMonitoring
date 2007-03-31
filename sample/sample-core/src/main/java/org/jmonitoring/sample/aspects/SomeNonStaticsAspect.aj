@@ -5,7 +5,7 @@ package org.jmonitoring.sample.aspects;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.jmonitoring.core.aspects.PerformanceAspect;
+import org.jmonitoring.agent.aspect.PerformanceAspect;
 
 /**
  * @author pke
@@ -24,6 +24,7 @@ public aspect SomeNonStaticsAspect extends PerformanceAspect
     && !execution( * org.jmonitoring.sample.main.ShoppingCartPO.set*(..) )
     && !execution( * org.jmonitoring.sample.main.ItemPO.get*() )
     && !execution( * org.jmonitoring.sample.main.ItemPO.set*(..) )
+    && !within( org.jmonitoring.sample.testtraceparameter.ClassToBeCall )
     && !cflow(execution(* org.jmonitoring.sample.SamplePersistenceTestcase.setUp()));
 
     public SomeNonStaticsAspect()

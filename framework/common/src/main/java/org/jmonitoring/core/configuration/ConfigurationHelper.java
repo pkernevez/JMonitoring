@@ -101,7 +101,7 @@ public final class ConfigurationHelper
         return getDateFormater().parse(pDate);
     }
 
-    private static DateFormat getDateFormater()
+    public static SimpleDateFormat getDateFormater()
     {
         Object tResult = sDateFormater.get();
         if (tResult == null)

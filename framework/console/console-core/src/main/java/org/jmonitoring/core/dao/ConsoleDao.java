@@ -43,6 +43,7 @@ public class ConsoleDao extends InsertionDao
 
     /**
      * Default constructor.
+     * 
      * @todo remove this constructor
      * @param pSession The hibrnate Session to use for DataBase access.
      */
@@ -51,7 +52,16 @@ public class ConsoleDao extends InsertionDao
         super(pSession);
     }
 
- 
+    /**
+     * Default constructor.
+     * 
+     * @todo remove this constructor
+     */
+    public ConsoleDao()
+    {
+        super(HibernateManager.getSession());
+    }
+
     /**
      * Return the database <code>ExecutionFlowDTO</code>s.
      * 
@@ -129,6 +139,7 @@ public class ConsoleDao extends InsertionDao
         SchemaExport tDdlexport = new SchemaExport(tConfig);
 
         tDdlexport.drop(true, true);
+        HibernateManager.getSession().flush();
         tDdlexport.create(true, true);
     }
 
@@ -219,8 +230,8 @@ public class ConsoleDao extends InsertionDao
      */
     public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
     {
-        Query tQuery = getSession()
-            .createQuery("from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
+        Query tQuery = getSession().createQuery(
+            "from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
         tQuery.setInteger("flowId", pFlowId);
         tQuery.setInteger("pid", pMethodId);
         MethodCallPO tMeth = (MethodCallPO) tQuery.uniqueResult();

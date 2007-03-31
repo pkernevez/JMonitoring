@@ -1,8 +1,8 @@
 package org.jmonitoring.sample.testtreetracer;
 
-import org.jmonitoring.core.aspects.PerformanceAspect;
-import org.jmonitoring.core.info.impl.TreeParameterTracer;
-import org.jmonitoring.core.info.impl.TreeResultTracer;
+import org.jmonitoring.agent.aspect.PerformanceAspect;
+import org.jmonitoring.agent.info.impl.TreeParameterTracer;
+import org.jmonitoring.agent.info.impl.TreeResultTracer;
 
 public aspect TreeTracerAspect extends PerformanceAspect
 {

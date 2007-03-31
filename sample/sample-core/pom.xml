@@ -5,7 +5,7 @@
         <version>1.1-SNAPSHOT</version>
     </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>sample_core</artifactId>
+  <artifactId>sample-core</artifactId>
   <name>JMonitoring: sample, application code.</name>
   <description>This project provides Monitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
   <scm>

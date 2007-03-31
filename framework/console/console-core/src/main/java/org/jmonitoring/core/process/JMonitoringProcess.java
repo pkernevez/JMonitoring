@@ -52,251 +52,103 @@ public class JMonitoringProcess
 
     public boolean doDatabaseExist()
     {
-        Session tSession = null;
-        Transaction tTransaction = null;
         try
         {
-            tSession = HibernateManager.getSession();
-            tTransaction = tSession.beginTransaction();
-            ConsoleDao tDao = new ConsoleDao(tSession);
+            ConsoleDao tDao = new ConsoleDao();
             tDao.countFlows();
-            tTransaction.commit();
             return true;
         } catch (SQLGrammarException t)
         {
-            if (tTransaction != null)
-            {
-                tTransaction.rollback();
-            }
             return false;
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
         }
 
     }
 
     public void deleteFlow(int pId) throws UnknownFlowException
     {
-        Session tSession = null;
-        Transaction tTransaction = null;
         try
         {
-            tSession = HibernateManager.getSession();
-            tTransaction = tSession.beginTransaction();
-            ConsoleDao tDao = new ConsoleDao(tSession);
+            ConsoleDao tDao = new ConsoleDao();
             tDao.deleteFlow(pId);
-            tTransaction.commit();
-
         } catch (RuntimeException t)
         {
             LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
-            if (tTransaction != null)
-            {
-                tTransaction.rollback();
-            }
             throw t;
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
         }
     }
 
     public void deleteAllFlows()
     {
-        Session tSession = null;
-        Transaction tTransaction = null;
         try
         {
-            tSession = HibernateManager.getSession();
-            tTransaction = tSession.beginTransaction();
-            ConsoleDao tDao = new ConsoleDao(tSession);
+            ConsoleDao tDao = new ConsoleDao();
             tDao.deleteAllFlows();
-            tTransaction.commit();
-
         } catch (Throwable t)
         {
             LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
-            if (tTransaction != null)
-            {
-                tTransaction.rollback();
-            }
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
         }
     }
 
     public MethodCallDTO readFullMethodCall(int pFlowId, int pId)
     {
-        Session tSession = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            sLog.debug("Read method call from database, Id=[" + pId + "]");
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            MethodCallPO tMethodCallPo = tDao.readMethodCall(pFlowId, pId);
-            return DtoHelper.getFullMethodCallDto(tMethodCallPo, -1);
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
-        }
+        sLog.debug("Read method call from database, Id=[" + pId + "]");
+        ConsoleDao tDao = new ConsoleDao();
+        MethodCallPO tMethodCallPo = tDao.readMethodCall(pFlowId, pId);
+        return DtoHelper.getFullMethodCallDto(tMethodCallPo, -1);
     }
 
     public ExecutionFlowDTO readFullExecutionFlow(int pId)
     {
-        Session tSession = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            sLog.debug("Read flow from database, Id=[" + pId + "]");
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            ExecutionFlowPO tFlowPo = tDao.readExecutionFlow(pId);
-            return DtoHelper.getDeepCopy(tFlowPo);
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
-        }
+        sLog.debug("Read flow from database, Id=[" + pId + "]");
+        ConsoleDao tDao = new ConsoleDao();
+        ExecutionFlowPO tFlowPo = tDao.readExecutionFlow(pId);
+        return DtoHelper.getDeepCopy(tFlowPo);
     }
 
     public List getListOfExecutionFlowDto(FlowSearchCriterion pCriterion)
     {
-        Session tSession = null;
-        try
+        List tList = new ArrayList();
+        ConsoleDao tDao = new ConsoleDao();
+        for (Iterator tIt = tDao.getListOfExecutionFlowPO(pCriterion).iterator(); tIt.hasNext();)
         {
-            tSession = HibernateManager.getSession();
-            List tList = new ArrayList();
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            for (Iterator tIt = tDao.getListOfExecutionFlowPO(pCriterion).iterator(); tIt.hasNext();)
-            {
-                tList.add(DtoHelper.getSimpleCopy((ExecutionFlowPO) tIt.next()));
-            }
-            return tList;
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
+            tList.add(DtoHelper.getSimpleCopy((ExecutionFlowPO) tIt.next()));
         }
+        return tList;
     }
 
     public MethodCallDTO readMethodCall(int pFlowId, int pMethodCallId)
     {
-        Session tSession = null;
-        Transaction tTx = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            tTx = tSession.beginTransaction();
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            MethodCallPO tMethod = tDao.readMethodCall(pFlowId, pMethodCallId);
-            tTx.commit();
-            return DtoHelper.simpleCopy(tMethod, -1);
-        } finally
-        {
-            if (tSession != null)
-            {
-                if (tTx != null && tTx.isActive())
-                {
-                    tTx.rollback();
-                }
-                tSession.close();
-            }
-        }
-
+        ConsoleDao tDao = new ConsoleDao();
+        MethodCallPO tMethod = tDao.readMethodCall(pFlowId, pMethodCallId);
+        return DtoHelper.simpleCopy(tMethod, -1);
     }
 
     public List getListOfMethodCallFromClassAndMethodName(String pClassName, String pMethodName)
     {
-        Session tSession = null;
-        Transaction tTx = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            tTx = tSession.beginTransaction();
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
-            return DtoHelper.simpleCopyListOfMethodPO(tResult);
-        } finally
-        {
-            if (tSession != null)
-            {
-                if (tTx != null && tTx.isActive())
-                {
-                    tTx.rollback();
-                }
-                tSession.close();
-            }
-        }
+        ConsoleDao tDao = new ConsoleDao();
+        List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
+        return DtoHelper.simpleCopyListOfMethodPO(tResult);
     }
 
     public List getListOfMethodCallExtract()
     {
-        Session tSession = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            return tDao.getListOfMethodCallExtract();
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
-        }
+        ConsoleDao tDao = new ConsoleDao();
+        List tList = tDao.getListOfMethodCallExtract();
+        return tList;
     }
 
     public List getListOfMethodCallFullExtract(String pClassName, String pMethodName, long pDurationMin,
                     long pDurationMax)
     {
-        Session tSession = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            List tListOfMethodCall = tDao.getMethodCallList(pClassName, pMethodName, pDurationMin, pDurationMax);
-            return DtoHelper.copyListMethodCallFullExtract(tListOfMethodCall);
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
-        }
+        ConsoleDao tDao = new ConsoleDao();
+        List tListOfMethodCall = tDao.getMethodCallList(pClassName, pMethodName, pDurationMin, pDurationMax);
+        return DtoHelper.copyListMethodCallFullExtract(tListOfMethodCall);
     }
 
     public void createDataBase()
     {
-        Session tSession = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            tDao.createDataBase();
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
-        }
+        ConsoleDao tDao = new ConsoleDao();
+        tDao.createDataBase();
     }
 
     /**
@@ -305,7 +157,7 @@ public class JMonitoringProcess
      * @param pFlow The flow to serialize.
      * @return The bytes of a GZip.
      */
-    public byte[] getFlowAsXml(ExecutionFlowDTO pFlow)
+    public byte[] convertFlowToXml(ExecutionFlowDTO pFlow)
     {
         ByteArrayOutputStream tOutput = new ByteArrayOutputStream(10000);
         GZIPOutputStream tZipStream;
@@ -328,7 +180,7 @@ public class JMonitoringProcess
      * @param pFlowAsXml The GZip bytes.
      * @return The ExecutionFLow.
      */
-    public ExecutionFlowDTO getFlowFromXml(byte[] pFlowAsXml)
+    public ExecutionFlowDTO convertFlowFromXml(byte[] pFlowAsXml)
     {
         InputStream tInput = new ByteArrayInputStream(pFlowAsXml);
         try
@@ -346,23 +198,11 @@ public class JMonitoringProcess
 
     public ExecutionFlowDTO insertFlowFromXml(byte[] pFlowAsXml)
     {
-        Session tSession = null;
-        try
-        {
-            tSession = HibernateManager.getSession();
-            ConsoleDao tDao = new ConsoleDao(tSession);
-            ExecutionFlowDTO tFlowDto = getFlowFromXml(pFlowAsXml);
-            ExecutionFlowPO tFlowPO = DtoHelper.getDeepCopy(tFlowDto);
-            tFlowPO.setId(-1);
-            tDao.insertFullExecutionFlow(tFlowPO);
-            return DtoHelper.getDeepCopy(tFlowPO);
-        } finally
-        {
-            if (tSession != null)
-            {
-                tSession.close();
-            }
-        }
+        ConsoleDao tDao = new ConsoleDao();
+        ExecutionFlowDTO tFlowDto = convertFlowFromXml(pFlowAsXml);
+        ExecutionFlowPO tFlowPO = DtoHelper.getDeepCopy(tFlowDto);
+        tFlowPO.setId(-1);
+        tDao.insertFullExecutionFlow(tFlowPO);
+        return DtoHelper.getDeepCopy(tFlowPO);
     }
-
 }

@@ -1,11 +1,11 @@
 package org.jmonitoring.sample.testruntimeclassname;
 
+import org.jmonitoring.agent.store.StoreManager;
+import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.core.store.StoreManager;
-import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 

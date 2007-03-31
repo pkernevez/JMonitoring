@@ -417,22 +417,22 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
     }
 
-    public void testGetFlowAsXml()
-    {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-
-        // Firstt instert a flow
-        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
-
-        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
-        getSession().flush();
-        assertTrue(tFlowId > 0);
-
-        ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
-        byte[] tFlowAsXml = tProcess.getFlowAsXml(tFlowDto);
-        assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
-    }
+    public void testConvertFlowToXml()
+        {
+            JMonitoringProcess tProcess = ProcessFactory.getInstance();
+            ConsoleDao tFlowDAO = new ConsoleDao(getSession());
+    
+            // Firstt instert a flow
+            ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
+    
+            int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+            getSession().flush();
+            assertTrue(tFlowId > 0);
+    
+            ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
+            byte[] tFlowAsXml = tProcess.convertFlowToXml(tFlowDto);
+            assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
+        }
 
     public void testSerialisationConversion()
     {
@@ -449,9 +449,9 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         getSession().flush();
 
         ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
-        byte[] tFlowAsXml = tProcess.getFlowAsXml(tFlowDto);
+        byte[] tFlowAsXml = tProcess.convertFlowToXml(tFlowDto);
 
-        ExecutionFlowDTO tNewFlow = tProcess.getFlowFromXml(tFlowAsXml);
+        ExecutionFlowDTO tNewFlow = tProcess.convertFlowFromXml(tFlowAsXml);
         assertNotSame(tFlowDto, tNewFlow);
         assertEquals(tFlowDto.getDuration(), tNewFlow.getDuration());
         assertEquals(tFlowDto.getBeginDateAsString(), tNewFlow.getBeginDateAsString());
@@ -494,7 +494,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlowPo);
 
         // ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
-        byte[] tFlowAsBytes = tProcess.getFlowAsXml(tFlowDto);
+        byte[] tFlowAsBytes = tProcess.convertFlowToXml(tFlowDto);
         ExecutionFlowDTO tNewFlow = tProcess.insertFlowFromXml(tFlowAsBytes);
         assertTrue("The Id must be different [" + tFlowId + "]", tFlowId != tNewFlow.getId());
     }

@@ -19,9 +19,9 @@ import org.jmonitoring.common.hibernate.HibernateManager;
 public final class SampleHibernateManager
 {
 
-    private static final String HIBERNATE_CFG_XML = "hibernate.sample.cfg.xml";
+    private static final String HIBERNATE_CFG_XML = "jmonitoring-sample.hibernate.xml";
 
-    private static final String HIBERNATE_CFG_PROPERTIES = "hibernate.sample.cfg.properties";
+    private static final String HIBERNATE_CFG_PROPERTIES = "jmonitoring-sample.hibernate.properties";
 
     private SampleHibernateManager()
     {

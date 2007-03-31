@@ -7,9 +7,9 @@ import java.sql.Statement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
-import org.jmonitoring.core.info.impl.ToStringParametersTracer;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *

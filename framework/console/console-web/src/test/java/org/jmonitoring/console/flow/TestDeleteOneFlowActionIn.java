@@ -40,6 +40,8 @@ public class TestDeleteOneFlowActionIn extends JMonitoringMockStrustTestCase
         tUtil.buildAndSaveNewDto(2);
         tUtil.buildAndSaveNewDto(2);
 
+        closeAndRestartSession();
+
         assertEquals(2, tUtil.countFlows());
 
         FlowIdForm tForm = new FlowIdForm();

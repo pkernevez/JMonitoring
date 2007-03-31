@@ -1,10 +1,12 @@
 package org.jmonitoring.sample.testtraceparameter;
 
-import org.jmonitoring.core.aspects.PerformanceAspect;
+import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
+
+import org.jmonitoring.agent.aspect.PerformanceAspect;
 
 public aspect SampleAspectWithoutTrace extends PerformanceAspect
 {
-    public pointcut executionToLog() : execution(* org.jmonitoring.sample.testtraceparameter.ClassToBeCall.toBeCallWithoutTrace(..));
+    public pointcut executionToLog() : execution(* org.jmonitoring.sample.testtraceparameter.ClassToBeCall.toBeCallWithoutTrace());
 
     public SampleAspectWithoutTrace()
     {
@@ -12,6 +14,7 @@ public aspect SampleAspectWithoutTrace extends PerformanceAspect
         mParamTracer = null;
         mResultTracer = null;
         mThowableTracer = null;
+        mGroupName = "WithoutTrace";
     }
 
 }

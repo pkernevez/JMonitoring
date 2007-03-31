@@ -13,12 +13,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.jmonitoring.agent.store.impl.AbstractAsynchroneLogger;
 import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.core.store.impl.AbstractAsynchroneLogger;
 
 /**
  * @author pke

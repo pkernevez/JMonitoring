@@ -2,6 +2,7 @@ package org.jmonitoring.hibernate.info;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +13,11 @@ import java.sql.Types;
 
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.jmonitoring.agent.store.StoreManager;
+import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***********************************************************************************************************************
@@ -44,8 +47,10 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersStatement() throws HibernateException, SQLException
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
-        Statement tStat = getSession().connection().createStatement();
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        Session tSession = getSession();
+        Connection tCon = tSession.connection();
+        Statement tStat = tCon.createStatement();
         assertEquals(JMonitoringStatement.class, tStat.getClass());
         SqlStatementTracer tTracer = new SqlStatementTracer();
         tStat.execute("select * from EXECUTION_FLOW");
@@ -96,7 +101,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         defineStoredProcedure();
         checkDataStoredProcedure();
@@ -118,11 +123,11 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tBuffer.append("Execute query\n");
 
         // We only want to chack the latest ExecutionFlow
-        LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow="+MemoryStoreWriter.countFlows());
+        LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow=" + MemoryStoreWriter.countFlows());
         assertEquals(5, MemoryStoreWriter.countFlows());
-        
+
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(4);
-        LogFactory.getLog(TestSqlStatementTracer.class).info("Writer="+tFlow.getFirstMethodCall().getReturnValue());
+        LogFactory.getLog(TestSqlStatementTracer.class).info("Writer=" + tFlow.getFirstMethodCall().getReturnValue());
         assertEquals(tBuffer.toString(), tFlow.getFirstMethodCall().getReturnValue());
     }
 

@@ -1,13 +1,13 @@
 package org.jmonitoring.sample.main;
 
+import org.jmonitoring.agent.store.StoreFactory;
+import org.jmonitoring.agent.store.StoreManager;
+import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.core.store.StoreFactory;
-import org.jmonitoring.core.store.StoreManager;
-import org.jmonitoring.core.store.impl.MemoryStoreWriter;
 import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 

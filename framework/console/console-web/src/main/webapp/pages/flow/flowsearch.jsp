@@ -4,9 +4,7 @@
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="displaytag.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.flow.FlowSearchForm"%>
-<%@page import="org.jmonitoring.core.configuration.ColorHelper"%>
-
-<!-- Begin Body -->
+<%@page import="org.jmonitoring.core.configuration.ConfigurationHelper;"%>
 <h1>Flow Search new</h1>
 <%
 FlowSearchForm tForm = (FlowSearchForm)request.getAttribute("flowsearchform");
@@ -25,7 +23,7 @@ FlowSearchForm tForm = (FlowSearchForm)request.getAttribute("flowsearchform");
 		<tr>
 			<td>Group name</td>
 			<td><html:text property="firstMeasureGroupName" size="20" maxlength="20"/></td>
-			<td>Begin date (<%=ColorHelper.getInstance().getDateFormater().toPattern()%>)</td>
+			<td>Begin date (<%=ConfigurationHelper.getDateFormater().toPattern()%>)</td>
 			<td>
 				<html:text property="beginDate" size="8" maxlength="8"/>
 				<img class="mycalendar" src="images/img.gif" id="f_trigger_c" 

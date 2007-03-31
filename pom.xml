@@ -4,6 +4,7 @@
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>common-pom</artifactId>
         <version>1</version>
+        <relativePath>common-tools/common-pom/pom.xml</relativePath>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
@@ -15,7 +16,7 @@
     <modules>
         <module>common-tools</module>
         <module>framework</module>
-        <!--module>sample</module-->
+        <module>sample</module>
     </modules>
 
     <name>JMonitoring: master module.</name>
