@@ -4,10 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.sf.ehcache.store.MemoryStore;
 
-import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.agent.store.impl.MockAbstractAsynchroneLogger;
@@ -204,29 +201,30 @@ public class TestStoreManager extends TestCase
     {
         StoreManager tManager = StoreManager.getManager();
         assertSame(tManager, StoreManager.getManager());
-        StoreManager.changeStoreManagerClass(MemoryStore.class);
+        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
         assertNotSame(tManager, StoreManager.getManager());
     }
 
     public void testClearChangeManagerConfiguration()
     {
-        
+
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
         assertNotNull(StoreManager.getManager());
         assertNotNull(StoreManager.getManager().getStoreWriter());
-        
+
         assertEquals(MemoryStoreWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
-        
+
         StoreManager.changeStoreManagerClass(MyWriter.class);
         assertEquals(MyWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
     }
-    
-    public static class MyWriter implements IStoreWriter {
+
+    public static class MyWriter implements IStoreWriter
+    {
 
         public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
         {
         }
-        
+
     }
 
 }

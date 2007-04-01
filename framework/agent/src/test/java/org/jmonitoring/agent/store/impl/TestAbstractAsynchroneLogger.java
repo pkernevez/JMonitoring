@@ -3,7 +3,6 @@ package org.jmonitoring.agent.store.impl;
 import junit.framework.TestCase;
 
 import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.agent.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;

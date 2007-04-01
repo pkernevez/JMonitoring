@@ -1,6 +1,5 @@
 package org.jmonitoring.test.dao;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +18,7 @@ public class TestPersistanceTestCase extends PersistanceTestCase
         ResultSet tResult = tStat.getResultSet();
         assertFalse(tResult.next());
     }
-    
+
     public void testTransaction() throws Exception
     {
         getSession().close();

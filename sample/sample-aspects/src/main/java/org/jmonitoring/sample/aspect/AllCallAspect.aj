@@ -8,8 +8,6 @@ package org.jmonitoring.sample.aspect;
 import org.jmonitoring.agent.aspect.PerformanceAspect;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
-import org.jmonitoring.agent.info.impl.TreeParameterTracer;
-import org.jmonitoring.agent.info.impl.TreeResultTracer;
 
 /**
  * @author pke
@@ -24,7 +22,7 @@ public aspect AllCallAspect extends PerformanceAspect
 
     public AllCallAspect()
     {
-        mGroupName = "All";
+        mGroupName = "AllCalls";
         mParamTracer = new ToStringParametersTracer();
         mResultTracer = new ToStringResultTracer();
     }

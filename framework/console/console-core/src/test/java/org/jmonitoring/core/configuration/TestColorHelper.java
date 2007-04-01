@@ -29,7 +29,7 @@ public class TestColorHelper extends TestCase
         assertEquals("#da0e3e", ColorHelper.getColor(tGroup));
         ConfigurationHelper.getInstance().setProperty("group.color."+tGroup, "#456789");
         assertEquals("#456789", ColorHelper.getColor(tGroup));
-        ConfigurationHelper.getInstance().clearProperty("group.color."+tGroup);
+        ConfigurationHelper.clearProperty("group.color."+tGroup);
         assertEquals("#da0e3e", ColorHelper.getColor(tGroup));
     }
 

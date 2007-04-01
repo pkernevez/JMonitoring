@@ -1,7 +1,5 @@
 package org.jmonitoring.sample.persistence;
 
-import org.jmonitoring.sample.persistence.SampleHibernateManager;
-
 import junit.framework.TestCase;
 
 /***************************************************************************

@@ -8,9 +8,6 @@ import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
-import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -47,7 +44,7 @@ public class AspectLoggerEmulator
      */
     public void simulateExecutionFlow(boolean pWithLog)
     {
-        StoreManager tManager = new StoreManager(mStoreWriter, ConfigurationHelper.getInstance());
+        StoreManager tManager = new StoreManager(mStoreWriter);
         StoreManager.setLog(new ErrorLogTracer(pWithLog));
         AspectLoggerEmulator.resetCounters();
 
@@ -71,7 +68,7 @@ public class AspectLoggerEmulator
 
     public void simulateExecutionFlowWithExceptioninMain(boolean pWithLog)
     {
-        StoreManager tManager = new StoreManager(mStoreWriter, ConfigurationHelper.getInstance());
+        StoreManager tManager = new StoreManager(mStoreWriter);
         StoreManager.setLog(new ErrorLogTracer(pWithLog));
         AspectLoggerEmulator.resetCounters();
 

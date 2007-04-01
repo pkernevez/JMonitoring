@@ -4,13 +4,10 @@ import java.util.StringTokenizer;
 
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
-import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;
-import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 
 public class TestTreeTracer extends SamplePersistenceTestcase
 {

@@ -1,10 +1,5 @@
 package org.jmonitoring.hibernate.info;
 
-import java.sql.ParameterMetaData;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
@@ -24,7 +19,7 @@ public class SqlStatementTracer implements IResultTracer
     public String convertToString(Object pTarget, Object pResult)
     {
         String tResult;
-        if (pTarget == null) 
+        if (pTarget == null)
         {
             tResult = "Unable to log this Statement class= NULL";
             sLog.warn(tResult);

@@ -29,7 +29,7 @@ public class TestHibernateAspectAreWeaved extends SamplePersistenceTestcase
 
     public void testSpecialHibernateAspectAreWeaved()
     {
-        ConfigurationHelper.getInstance().addProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
         InsertionDao tDao = new InsertionHibernateDAO(getSession());
         assertEquals(0, tDao.countFlows());
         assertEquals(0, tDao.countFlows());
@@ -39,7 +39,7 @@ public class TestHibernateAspectAreWeaved extends SamplePersistenceTestcase
     public void testSpecialHibernateAspectAreWeavedWithJdbc()
     {
         assertEquals(0, MemoryStoreWriter.countFlows());
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.DAO_STORE_KEY, InsertionHibernateDAO.class.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.DAO_STORE_KEY, InsertionHibernateDAO.class.getName());
         StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
         
         ShoppingCartPO tSc = new ShoppingCartPO();

@@ -10,8 +10,8 @@ public class TestMethodCallPO extends TestCase
 {
     public void testUpdateChildrenWhenCreateWithParent()
     {
-        MethodCallPO tParent = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow",
-            "GrDefault", "");
+        MethodCallPO tParent = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow", "GrDefault",
+            "");
 
         MethodCallPO tChild = new MethodCallPO(tParent, TestMethodCallPO.class.getName(), "builNewFullFlow2",
             "GrChild1", "");
@@ -28,11 +28,11 @@ public class TestMethodCallPO extends TestCase
 
     public void testUpdateChildrenWhenAddParent()
     {
-        MethodCallPO tParent = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow",
-            "GrDefault", "");
+        MethodCallPO tParent = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow", "GrDefault",
+            "");
 
-        MethodCallPO tChild = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow2",
-            "GrChild1", "");
+        MethodCallPO tChild = new MethodCallPO(null, TestMethodCallPO.class.getName(), "builNewFullFlow2", "GrChild1",
+            "");
 
         assertNull(tParent.getParentMethodCall());
         assertEquals(0, tParent.getChildren().size());

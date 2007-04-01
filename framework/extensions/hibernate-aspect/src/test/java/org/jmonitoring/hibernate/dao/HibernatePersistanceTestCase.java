@@ -11,9 +11,9 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  **************************************************************************/
 
 /**
- * This class is exactly the same than <code>org.jmonitoring.core.dao.HibernatePersistanceTestCase</code>.
- * But it overrides all its method for exclusion weaving, because we don't want to weave 
- * the JMonitoring internal sql requests. 
+ * This class is exactly the same than <code>org.jmonitoring.core.dao.HibernatePersistanceTestCase</code>. But it
+ * overrides all its method for exclusion weaving, because we don't want to weave the JMonitoring internal sql requests.
+ * 
  * @deprecated
  */
 public class HibernatePersistanceTestCase extends PersistanceTestCase
@@ -59,6 +59,6 @@ public class HibernatePersistanceTestCase extends PersistanceTestCase
      */
     public void testBidon()
     {
-        
+
     }
 }

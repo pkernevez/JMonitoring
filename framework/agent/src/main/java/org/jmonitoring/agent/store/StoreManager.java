@@ -5,7 +5,6 @@ package org.jmonitoring.agent.store;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
@@ -36,25 +35,21 @@ public class StoreManager
 
     private IStoreWriter mStoreWriter;
 
-    private PropertiesConfiguration mConfiguration;
-
     /**
      * Default constructor.
      */
     public StoreManager()
     {
-        this(StoreFactory.getWriter(), ConfigurationHelper.getInstance());
+        this(StoreFactory.getWriter());
     }
 
     /**
      * Constructor for testing purpose.
      * 
      * @param pStoreWriter The <code>IStoreWriter</code> to use.
-     * @param pConfiguration The configuration instance to use.
      */
-    public StoreManager(IStoreWriter pStoreWriter, PropertiesConfiguration pConfiguration)
+    public StoreManager(IStoreWriter pStoreWriter)
     {
-        mConfiguration = pConfiguration;
         mStoreWriter = pStoreWriter;
     }
 
@@ -133,7 +128,7 @@ public class StoreManager
                 sLog.debug("logEndOfMethodNormal Last Time" + tResultAsString);
             }
             ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
-                mConfiguration.getString("server.name", "Babasse"));
+                ConfigurationHelper.getString("server.name", "Babasse"));
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
@@ -185,7 +180,7 @@ public class StoreManager
                 sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
             }
             ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
-                mConfiguration.getString("server.name", "Babasse"));
+                ConfigurationHelper.getString("server.name", "Babasse"));
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
@@ -278,7 +273,7 @@ public class StoreManager
 
     public static void changeStoreManagerClass(Class pClass)
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, pClass.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, pClass.getName());
         StoreFactory.clear();
         sManager = new ThreadLocal();
     }

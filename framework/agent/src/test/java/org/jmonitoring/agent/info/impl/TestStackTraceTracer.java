@@ -2,8 +2,6 @@ package org.jmonitoring.agent.info.impl;
 
 import java.util.StringTokenizer;
 
-import org.jmonitoring.agent.info.impl.StackTraceTracer;
-
 import junit.framework.TestCase;
 
 public class TestStackTraceTracer extends TestCase

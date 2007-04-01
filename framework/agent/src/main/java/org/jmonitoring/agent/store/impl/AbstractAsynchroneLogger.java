@@ -1,6 +1,5 @@
 package org.jmonitoring.agent.store.impl;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
@@ -29,7 +28,7 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
 
     static
     {
-        int tAsynchroneLoggerThreadPoolSize = ConfigurationHelper.getInstance().getInt(THREAD_POOL_KEY);
+        int tAsynchroneLoggerThreadPoolSize = ConfigurationHelper.getInt(THREAD_POOL_KEY);
         sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
         sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
     }

@@ -14,8 +14,8 @@ import org.jmonitoring.core.persistence.InsertionDao;
  **************************************************************************/
 
 /**
- * This class is exactly the same than <code>org.jmonitoring.core.persistence.InsertionDao</code>. But it overrides all
- * its method for exclusion weaving, because we don't want to weave the JMonitoring internal sql requests.
+ * This class is exactly the same than <code>org.jmonitoring.core.persistence.InsertionDao</code>. But it overrides
+ * all its method for exclusion weaving, because we don't want to weave the JMonitoring internal sql requests.
  */
 public class InsertionHibernateDAO extends InsertionDao
 {
@@ -61,6 +61,5 @@ public class InsertionHibernateDAO extends InsertionDao
         tCriteria.list();
         return tFlow;
     }
-
 
 }

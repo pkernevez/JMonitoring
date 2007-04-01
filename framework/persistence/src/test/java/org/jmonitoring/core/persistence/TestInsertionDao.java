@@ -7,8 +7,6 @@ import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
-import junit.framework.TestCase;
-
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/

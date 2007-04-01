@@ -17,13 +17,13 @@ public class MemoryStoreWriter implements IStoreWriter
     private static List sListOfExecutionFlow = new ArrayList();
 
     private static Log sLog = LogFactory.getLog(MemoryStoreWriter.class);
-    
+
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
         sLog.info("Add new ExecutionFlow to memory");
         sListOfExecutionFlow.add(pExecutionFlow);
     }
-    
+
     public static void clear()
     {
         sListOfExecutionFlow.clear();
@@ -33,7 +33,7 @@ public class MemoryStoreWriter implements IStoreWriter
     {
         return sListOfExecutionFlow.size();
     }
-    
+
     public static ExecutionFlowPO getFlow(int pPosition)
     {
         return (ExecutionFlowPO) sListOfExecutionFlow.get(pPosition);

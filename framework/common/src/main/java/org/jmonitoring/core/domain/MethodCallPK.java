@@ -1,6 +1,5 @@
 package org.jmonitoring.core.domain;
 
-
 import java.io.Serializable;
 
 public class MethodCallPK implements Serializable

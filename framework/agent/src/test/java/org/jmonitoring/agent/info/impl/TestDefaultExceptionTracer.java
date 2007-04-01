@@ -2,7 +2,6 @@ package org.jmonitoring.agent.info.impl;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
 
 public class TestDefaultExceptionTracer extends TestCase

@@ -2,7 +2,6 @@ package org.jmonitoring.agent.info.impl;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.agent.info.impl.ToStringResultTracer;
 import org.jmonitoring.core.info.IResultTracer;
 
 public class TestToStringResultTracer extends TestCase

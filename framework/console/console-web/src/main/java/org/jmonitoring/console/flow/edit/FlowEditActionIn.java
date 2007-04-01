@@ -44,7 +44,7 @@ public class FlowEditActionIn extends Action
     /**
      * Max number of measure to show in one flow. If this number is exceed, then the user is asked to choose an action.
      */
-    private static int sMaxFlowToShow = ConfigurationHelper.getInstance().getInt(MAX_FLOW_FOR_EDITION);
+    private static int sMaxFlowToShow = ConfigurationHelper.getInt(MAX_FLOW_FOR_EDITION);
 
     /*
      * (non-Javadoc)

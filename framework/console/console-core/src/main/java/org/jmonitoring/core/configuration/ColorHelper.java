@@ -72,7 +72,7 @@ public final class ColorHelper
 
     public static String getColor(String pGroupName)
     {
-        String tColor =ConfigurationHelper.getInstance().getString("group.color." + pGroupName); 
+        String tColor =ConfigurationHelper.getString("group.color." + pGroupName); 
         if (tColor==null)
         {
             tColor =getGroupAsColorString(calculColor(pGroupName)); 

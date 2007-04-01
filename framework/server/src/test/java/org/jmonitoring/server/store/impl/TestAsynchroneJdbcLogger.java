@@ -1,12 +1,7 @@
 package org.jmonitoring.server.store.impl;
 
-
-import java.sql.SQLException;
-
 import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.agent.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.persistence.InsertionDao;
-import org.jmonitoring.server.store.impl.AsynchroneJdbcLogger;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***************************************************************************
@@ -34,12 +29,12 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
 
         InsertionDao tFlowDao = new InsertionDao(getSession());
         assertEquals(0, tFlowDao.countFlows());
-        
+
         IStoreWriter tWriter = new AsynchroneJdbcLogger();
-        
+
         tWriter.writeExecutionFlow(buildNewFullFlow());
         Thread.sleep(TIME_TO_WAIT);
-        
+
         getSession().flush();
         assertEquals(1, tFlowDao.countFlows());
     }

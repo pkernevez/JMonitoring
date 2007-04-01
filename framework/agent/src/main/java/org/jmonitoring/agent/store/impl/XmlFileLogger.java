@@ -48,7 +48,7 @@ public class XmlFileLogger implements IStoreWriter
     {
         if (!sIsInitialized)
         {
-            String tDirName = ConfigurationHelper.getInstance().getString(XML_DIR_NAME, ".");
+            String tDirName = ConfigurationHelper.getString(XML_DIR_NAME, ".");
             File tLogDir = new File(tDirName);
             // On netoie tous les fichiers du repertoire
             if (!tLogDir.isDirectory())
@@ -63,7 +63,7 @@ public class XmlFileLogger implements IStoreWriter
                     throw new MeasureException("Unable to delete file[" + tFileList[i].getAbsolutePath() + "]");
                 }
             }
-            if (!ConfigurationHelper.getInstance().getBoolean(XML_FILE_PER_THREAD))
+            if (!ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD))
             { // On initalise le fichier commun
                 File tCommonFile = new File(tDirName + "/AllThread.xml");
                 try
@@ -103,9 +103,9 @@ public class XmlFileLogger implements IStoreWriter
         { // Premier passage
             init();
         }
-        if (ConfigurationHelper.getInstance().getBoolean(XML_FILE_PER_THREAD))
+        if (ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD))
         { // On initalise un fichier pour ce Thread
-            File tFile = new File(ConfigurationHelper.getInstance().getString(XML_DIR_NAME, ".") + "/Thread."
+            File tFile = new File(ConfigurationHelper.getString(XML_DIR_NAME, ".") + "/Thread."
                 + Thread.currentThread().getName() + ".xml");
             try
             {
@@ -133,7 +133,7 @@ public class XmlFileLogger implements IStoreWriter
 
     private void writeToFile(String pMessage)
     {
-        if (!ConfigurationHelper.getInstance().getBoolean(XML_FILE_PER_THREAD))
+        if (!ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD))
         {
             writeToAllThreadFile(pMessage);
         } else
@@ -213,7 +213,7 @@ public class XmlFileLogger implements IStoreWriter
         mCurrentBuffer.append("\" ").append("startTime=\"");
         mCurrentBuffer.append(ConfigurationHelper.formatDateTime(pCurrentMethodCall.getBeginTime()));
         mCurrentBuffer.append("\" ");
-        if (ConfigurationHelper.getInstance().getBoolean("log.parameter.defaultvalue", true))
+        if (ConfigurationHelper.getBoolean("log.parameter.defaultvalue", true))
         { // On log tous les paramètres
             mCurrentBuffer.append("parameter=\"").append(pCurrentMethodCall.getParams()).append("\" ");
             if (pCurrentMethodCall.getThrowableClass() == null)

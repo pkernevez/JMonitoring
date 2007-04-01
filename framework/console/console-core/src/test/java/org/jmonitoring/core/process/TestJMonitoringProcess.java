@@ -438,8 +438,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-        ConfigurationHelper.getInstance().addProperty("format.ihm.date", "dd/MM/yy");
-        ConfigurationHelper.getInstance().addProperty("format.ihm.time", "HH:mm:ss");
+        ConfigurationHelper.setProperty("format.ihm.date", "dd/MM/yy");
+        ConfigurationHelper.setProperty("format.ihm.time", "HH:mm:ss");
         
         // Firstt instert a flow
         ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();

@@ -1,7 +1,6 @@
 package org.jmonitoring.sample.testtraceparameter;
 
 import org.hibernate.MappingException;
-import org.hibernate.exception.SQLGrammarException;
 import org.jmonitoring.sample.persistence.SampleHibernateManager;
 
 public class ClassToBeCall

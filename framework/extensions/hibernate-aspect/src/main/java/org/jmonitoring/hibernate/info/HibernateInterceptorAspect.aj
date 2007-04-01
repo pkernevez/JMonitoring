@@ -22,7 +22,7 @@ public aspect HibernateInterceptorAspect
     pointcut callStat() : call(java.sql.Statement java.sql.Connection.createStatement(..))
         && !cflow( jHIAmonitoring() );
 
-//    declare warning : callStat() : "YES!";
+// declare warning : callStat() : "YES!";
     
     Object around() : callStat() {
         Object tResult = proceed();

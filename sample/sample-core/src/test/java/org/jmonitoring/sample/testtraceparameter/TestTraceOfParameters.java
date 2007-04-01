@@ -1,7 +1,6 @@
 package org.jmonitoring.sample.testtraceparameter;
 
 import org.hibernate.Session;
-import org.jmonitoring.agent.store.StoreFactory;
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.dao.ConsoleDao;
@@ -16,7 +15,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     public void testWithoutAnyTraceAndHibernate()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS,
             InsertionHibernateDAO.class.getName());
         StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
 

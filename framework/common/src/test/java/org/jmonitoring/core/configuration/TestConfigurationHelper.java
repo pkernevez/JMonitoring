@@ -1,7 +1,6 @@
 package org.jmonitoring.core.configuration;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -14,28 +13,27 @@ public class TestConfigurationHelper extends TestCase
 
     public void testReload()
     {
-        PropertiesConfiguration tConf = ConfigurationHelper.getInstance();
-        assertEquals("1", tConf.getString("asynchronelogger.threadpool.size"));
+        Properties tConf = ConfigurationHelper.getInstance();
+        assertEquals("1", tConf.getProperty("asynchronelogger.threadpool.size"));
         tConf.setProperty("asynchronelogger.threadpool.size", "2");
         tConf.setProperty("asynchronelogger", "3");
-        assertEquals("2", tConf.getString("asynchronelogger.threadpool.size"));
-        assertEquals("3", tConf.getString("asynchronelogger"));
+        assertEquals("2", tConf.getProperty("asynchronelogger.threadpool.size"));
+        assertEquals("3", tConf.getProperty("asynchronelogger"));
         tConf = ConfigurationHelper.reload();
-        assertEquals("1", tConf.getString("asynchronelogger.threadpool.size"));
-        assertNull(tConf.getString("asynchronelogger"));
-        
+        assertEquals("1", tConf.getProperty("asynchronelogger.threadpool.size"));
+        assertNull(tConf.getProperty("asynchronelogger"));
+
     }
 
-    public void testGetParam() throws ConfigurationException
+    public void testGetParam() throws MeasureException
     {
         ConfigurationHelper.reload();
-        PropertiesConfiguration tConf = ConfigurationHelper.getInstance();
-        assertEquals("1", tConf.getString("asynchronelogger.threadpool.size"));
-        assertTrue(tConf.getInt("asynchronelogger.threadpool.size") >= 1);
-        assertNotNull(tConf.getString("format.ihm.date"));
-        assertNotNull(tConf.getString("format.ihm.time"));
-        assertNotNull(tConf.getString("xml.logger.dir"));
-        assertFalse(tConf.getBoolean("xml.file.per.thread"));
+        assertEquals("1", ConfigurationHelper.getString("asynchronelogger.threadpool.size"));
+        assertTrue(ConfigurationHelper.getInt("asynchronelogger.threadpool.size") >= 1);
+        assertNotNull(ConfigurationHelper.getString("format.ihm.date"));
+        assertNotNull(ConfigurationHelper.getString("format.ihm.time"));
+        assertNotNull(ConfigurationHelper.getString("xml.logger.dir"));
+        assertFalse(ConfigurationHelper.getBoolean("xml.file.per.thread"));
     }
 
 }

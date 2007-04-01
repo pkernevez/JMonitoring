@@ -2,7 +2,6 @@ package org.jmonitoring.agent.info.impl;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.core.info.IParamaterTracer;
 
 public class TestToStringParametersTracer extends TestCase
@@ -20,5 +19,5 @@ public class TestToStringParametersTracer extends TestCase
         IParamaterTracer tTracer = new ToStringParametersTracer(2);
         assertEquals("[3", tTracer.convertToString(this, tParam));
     }
-    
+
 }

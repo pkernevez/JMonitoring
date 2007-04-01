@@ -83,21 +83,21 @@ public final class StoreFactory
     private static Class getMeasurePointStoreClass()
     {
         Class tResultClass;
-        String tLoggerClassName = ConfigurationHelper.getInstance().getString(ConfigurationHelper.STORE_CLASS);
+        String tLoggerClassName = ConfigurationHelper.getString(ConfigurationHelper.STORE_CLASS);
         try
         {
             tResultClass = Class.forName(tLoggerClassName);
         } catch (ClassNotFoundException e)
         {
-            sLog.error("Unable to create LogClass ["+tLoggerClassName+"]", e);
-            throw new ConfigurationException("Unable to create LogClass ["+tLoggerClassName+"]", e);
+            sLog.error("Unable to create LogClass [" + tLoggerClassName + "]", e);
+            throw new ConfigurationException("Unable to create LogClass [" + tLoggerClassName + "]", e);
         } catch (NoClassDefFoundError e)
         {
-            sLog.error("Unable to create LogClass ["+tLoggerClassName+"]", e);
-            throw new ConfigurationException("Unable to create LogClass ["+tLoggerClassName+"]", e);
+            sLog.error("Unable to create LogClass [" + tLoggerClassName + "]", e);
+            throw new ConfigurationException("Unable to create LogClass [" + tLoggerClassName + "]", e);
         }
         return tResultClass;
-     }
+    }
 
     /** For test purpose. */
     static synchronized void clear()

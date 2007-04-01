@@ -4,9 +4,6 @@ import java.util.StringTokenizer;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.agent.info.impl.MultipleTracer;
-import org.jmonitoring.agent.info.impl.StackTraceTracer;
-import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.core.info.IParamaterTracer;
 
 public class TestMultipleTracer extends TestCase

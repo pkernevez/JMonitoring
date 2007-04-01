@@ -1,12 +1,15 @@
 package org.jmonitoring.core.configuration;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.PropertyResourceBundle;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,11 +17,11 @@ import org.apache.commons.logging.LogFactory;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public final class ConfigurationHelper 
+public final class ConfigurationHelper
 {
-    public  static final String DAO_STORE_KEY = "execution.dao.class";
+    public static final String DAO_STORE_KEY = "execution.dao.class";
 
-    private static PropertiesConfiguration sConfiguration;
+    private static Properties sConfiguration = getInstance();
 
     private static Log sLog = LogFactory.getLog(ConfigurationHelper.class);
 
@@ -36,25 +39,38 @@ public final class ConfigurationHelper
     {
     }
 
-    public static PropertiesConfiguration reload()
+    public static synchronized Properties reload()
     {
         sConfiguration = null;
         sConfiguration = getInstance();
         return sConfiguration;
     }
 
-    public static PropertiesConfiguration getInstance()
+    static synchronized Properties getInstance()
     {
-        PropertiesConfiguration tConfig = sConfiguration;
+        Properties tConfig = sConfiguration;
         if (tConfig == null)
         {
-            try
-            {
-                tConfig = new PropertiesConfiguration("jmonitoring.properties");
-            } catch (org.apache.commons.configuration.ConfigurationException e)
+            InputStream tStream = ConfigurationHelper.class.getResourceAsStream("/jmonitoring.properties");
+            if (tStream == null)
             {
                 sLog.fatal("The file [jmonitoring.properties] can't be found in classpath");
-                throw new ConfigurationException("The file [jmonitoring.properties] can't be found in classpath");
+                throw new MeasureException("The file [jmonitoring.properties] can't be found in classpath");
+            }
+            try
+            {
+                PropertyResourceBundle tBundle = new PropertyResourceBundle(tStream);
+                tConfig = new Properties();
+                String tCurKey;
+                for (Enumeration tEnum = tBundle.getKeys(); tEnum.hasMoreElements();)
+                {
+                    tCurKey = (String) tEnum.nextElement();
+                    tConfig.setProperty(tCurKey, tBundle.getString(tCurKey));
+                }
+
+            } catch (IOException e)
+            {
+                throw new MeasureException("Unable to load properties from  [jmonitoring.properties].");
             }
             sConfiguration = tConfig;
         }
@@ -71,7 +87,7 @@ public final class ConfigurationHelper
         Object tResult = sTimeFormater.get();
         if (tResult == null)
         {
-            String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.time");
+            String tDateFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.time");
             tResult = new SimpleDateFormat(tDateFormat);
             sTimeFormater.set(tResult);
         }
@@ -88,8 +104,8 @@ public final class ConfigurationHelper
         Object tResult = sDateTimeFormater.get();
         if (tResult == null)
         {
-            String tDateTimeFormat = ConfigurationHelper.getInstance().getString("format.ihm.date") + " "
-                + ConfigurationHelper.getInstance().getString("format.ihm.time");
+            String tDateTimeFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.date") + " "
+                + ConfigurationHelper.getInstance().getProperty("format.ihm.time");
             tResult = new SimpleDateFormat(tDateTimeFormat);
             sDateTimeFormater.set(tResult);
         }
@@ -106,7 +122,7 @@ public final class ConfigurationHelper
         Object tResult = sDateFormater.get();
         if (tResult == null)
         {
-            String tDateFormat = ConfigurationHelper.getInstance().getString("format.ihm.date");
+            String tDateFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.date");
             tResult = new SimpleDateFormat(tDateFormat);
             sDateFormater.set(tResult);
         }
@@ -145,7 +161,7 @@ public final class ConfigurationHelper
 
     public static Constructor getDaoDefaultConstructor()
     {
-        String tClassName = getInstance().getString(DAO_STORE_KEY);
+        String tClassName = getInstance().getProperty(DAO_STORE_KEY);
         if (tClassName == null)
         {
             throw new MeasureException("Unable to find DAO classname, add a property [execution.dao.class] "
@@ -168,5 +184,42 @@ public final class ConfigurationHelper
             throw new MeasureException("Unable to access to the default constructor of the class defined by the "
                 + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
         }
+    }
+
+    public static int getInt(String pKey)
+    {
+        return Integer.parseInt(sConfiguration.getProperty(pKey));
+    }
+
+    public static boolean getBoolean(String pKey)
+    {
+        return getBoolean(pKey, false);
+    }
+
+    public static boolean getBoolean(String pKey, boolean pDefault)
+    {
+        String tString = sConfiguration.getProperty(pKey);
+        return (tString == null ? pDefault : Boolean.getBoolean(tString));
+    }
+
+    public static void setProperty(String pKey, String pNewValue)
+    {
+        sConfiguration.setProperty(pKey, pNewValue);
+    }
+
+    public static String getString(String pKey)
+    {
+        return getString(pKey, null);
+    }
+
+    public static String getString(String pKey, String pDefault)
+    {
+        String tResult = sConfiguration.getProperty(pKey);
+        return (tResult == null ? pDefault : tResult);
+    }
+
+    public static void clearProperty(String pKey)
+    {
+        sConfiguration.remove(pKey);
     }
 }

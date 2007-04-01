@@ -1,6 +1,13 @@
 package org.jmonitoring.sample.main;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.SQLGrammarException;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.sample.persistence.SampleDao;
 import org.jmonitoring.sample.persistence.SampleHibernateManager;
 
@@ -17,6 +24,8 @@ import org.jmonitoring.sample.persistence.SampleHibernateManager;
  */
 public class RunSample
 {
+    private static Log sLog = LogFactory.getLog(RunSample.class);
+    
     private static final int SLEEP_TEST_TIME = 5000;
 
     private static final int NB3 = 32;
@@ -26,7 +35,7 @@ public class RunSample
     private static final int NB1 = 30;
 
     private Session mSession;
-    
+
     public RunSample(Session pSampleSession)
     {
         mSession = pSampleSession;
@@ -62,7 +71,8 @@ public class RunSample
      */
     public void run()
     {
-
+        ShoppingCartPO.setCounter(0);
+        checkDataBase();
         Inventory inventory = new Inventory();
         ItemPO item1 = new ItemPO(NB1);
         ItemPO item2 = new ItemPO(NB2);
@@ -76,8 +86,7 @@ public class RunSample
         ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item1);
         ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item2);
         new SampleDao(mSession).save(tShopCart);
-        
-        
+
         try
         {
             ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item3);
@@ -89,4 +98,22 @@ public class RunSample
 
     }
 
+    private void checkDataBase()
+    {
+        try
+        {
+            sLog.info("Check Schema try to count Items...");
+            SQLQuery tQuery = SampleHibernateManager.getSession().createSQLQuery("Select Count(*) as myCount From ITEM");
+            tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
+        } catch (SQLGrammarException t)
+        {
+            sLog.info("Creating new Schema for the DataBase");
+            Configuration tConfig = SampleHibernateManager.getConfig();
+            SchemaExport tDdlexport = new SchemaExport(tConfig);
+            tDdlexport.create(true, true);
+            sLog.info("End of the Schema creation for the DataBase");
+        }
+
+        
+    }
 }

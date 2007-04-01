@@ -32,6 +32,7 @@ public class InsertionDao
 
     /**
      * Default constructor.
+     * 
      * @todo remove this constuctor
      * @param pSession The hibrnate Session to use for DataBase access.
      */
@@ -42,6 +43,7 @@ public class InsertionDao
 
     /**
      * Default constructor.
+     * 
      * @todo remove this constuctor
      * @param pSession The hibrnate Session to use for DataBase access.
      */

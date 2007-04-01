@@ -19,7 +19,6 @@ import java.util.StringTokenizer;
 import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
-import org.jmonitoring.agent.info.impl.TreeTracerHelper;
 
 public class TestTreeTracerHelper extends TestCase
 {

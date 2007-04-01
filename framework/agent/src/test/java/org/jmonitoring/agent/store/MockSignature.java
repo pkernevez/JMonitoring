@@ -2,7 +2,6 @@ package org.jmonitoring.agent.store;
 
 import org.aspectj.lang.Signature;
 
-
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *

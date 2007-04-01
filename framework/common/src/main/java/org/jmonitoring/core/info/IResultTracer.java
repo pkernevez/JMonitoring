@@ -5,6 +5,7 @@ public interface IResultTracer
 
     /**
      * Convert an object to String.
+     * 
      * @param pTarget The taget instance on which the Method was called.
      * @param pResultObject The object return by the intercepted method.
      * 

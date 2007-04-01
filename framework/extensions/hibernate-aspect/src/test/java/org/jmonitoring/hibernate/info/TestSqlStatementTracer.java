@@ -16,7 +16,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 

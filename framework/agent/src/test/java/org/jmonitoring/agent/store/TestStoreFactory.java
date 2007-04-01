@@ -2,8 +2,6 @@ package org.jmonitoring.agent.store;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.agent.store.StoreFactory;
 import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.agent.store.impl.XmlFileLogger;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
@@ -30,8 +28,8 @@ public class TestStoreFactory extends TestCase
 
     public void testDefaultStoreFactoryBadConstructor()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
-            BadStoreClassWithoutConstructor.class.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassWithoutConstructor.class
+            .getName());
         try
         {
             StoreFactory.getWriter();
@@ -47,8 +45,8 @@ public class TestStoreFactory extends TestCase
 
     public void testDefaultStoreFactoryWithPrivateConstructor()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
-            BadStoreClassWithPrivateConstructor.class.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassWithPrivateConstructor.class
+            .getName());
         try
         {
             StoreFactory.getWriter();
@@ -64,8 +62,7 @@ public class TestStoreFactory extends TestCase
 
     public void testDefaultStoreFactoryBadInterface()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS,
-            BadStoreClassNotWriter.class.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassNotWriter.class.getName());
         try
         {
             StoreFactory.getWriter();
@@ -120,10 +117,10 @@ public class TestStoreFactory extends TestCase
 
     public void testClear()
     {
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, TestStoreManager.MyWriter.class.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, TestStoreManager.MyWriter.class.getName());
         StoreFactory.clear();
         IStoreWriter tWriter = StoreFactory.getWriter();
-        ConfigurationHelper.getInstance().setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
         StoreFactory.clear();
         assertNotSame(tWriter, StoreFactory.getWriter());
         assertEquals(MemoryStoreWriter.class.getName(), StoreFactory.getWriter().getClass().getName());

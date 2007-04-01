@@ -1,7 +1,6 @@
 package org.jmonitoring.sample;
 
 import junit.framework.TestCase;
-
 import org.jmonitoring.hibernate.info.SqlExecutionAspect;
 
 /***************************************************************************

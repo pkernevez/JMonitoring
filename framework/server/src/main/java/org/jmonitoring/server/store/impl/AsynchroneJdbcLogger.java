@@ -5,7 +5,6 @@ package org.jmonitoring.server.store.impl;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -105,7 +104,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
     {
         return new AsynchroneJdbcLoggerRunnable(pFlow);
     }
-    
+
     private InsertionDao getDao()
     {
         Constructor tCon = sConstructor;
@@ -131,6 +130,5 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
         }
     }
-
 
 }
