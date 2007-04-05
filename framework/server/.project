@@ -2,10 +2,11 @@
   <name>server</name>
   <comment>This artifact provide a server that collect other JVM ExecutionFlows and insert them into the DataBase .</comment>
   <projects>
-    <project>common</project>
     <project>common-hibernate</project>
-    <project>tests</project>
+    <project>agent</project>
+    <project>common</project>
     <project>persistence</project>
+    <project>tests</project>
   </projects>
   <buildSpec>
     <buildCommand>

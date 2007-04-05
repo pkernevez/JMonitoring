@@ -6,7 +6,7 @@
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>sample-webapp</artifactId>
+    <artifactId>sample-web</artifactId>
     <name>JMonitoring: sample, web application.</name>
     <description>This project provides a Sample console for Monitoring infrastructure.</description>
     <scm>

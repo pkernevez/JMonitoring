@@ -14,7 +14,7 @@
      <modules>
         <module>sample-aspects</module>
         <module>sample-core</module>
-        <module>sample-webapp</module>
+        <module>sample-web</module>
     </modules>
 
     <name>JMonitoring: sample, master module.</name>

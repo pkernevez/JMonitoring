@@ -2,13 +2,13 @@
   <name>hibernate-aspect</name>
   <comment>This jar allow to trace Hibernate Access and Sql access</comment>
   <projects>
-    <project>common</project>
-    <project>common-hibernate</project>
     <project>server</project>
-    <project>persistence</project>
     <project>agent</project>
+    <project>common</project>
     <project>tests</project>
     <project>console-core</project>
+    <project>common-hibernate</project>
+    <project>persistence</project>
   </projects>
   <buildSpec>
     <buildCommand>

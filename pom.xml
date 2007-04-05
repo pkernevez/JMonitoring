@@ -9,7 +9,7 @@
     
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.octo.opensource.jmonitoring</groupId>
-    <artifactId>main</artifactId>
+    <artifactId>jmonitoring</artifactId>
     <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -21,5 +21,45 @@
 
     <name>JMonitoring: master module.</name>
     <description>This project provides JMonitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-changes-plugin</artifactId>
+            <configuration>
+              <xmlPath>${basedir}/src/site/changes.xml</xmlPath>
+            </configuration>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>changes-report</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+        </plugins>
+      </reporting>
+      
+      <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/src.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal> 
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> 
+        </plugins>
+     </build>       
 
 </project>

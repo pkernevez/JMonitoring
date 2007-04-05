@@ -59,8 +59,10 @@ public abstract class PersistanceTestCase extends TestCase
             if (mTransaction.isActive())
             {
                 mTransaction.commit();
+            } else
+            {
+                mSession.close();
             }
-            mSession.close();
         }
 
         mSession = HibernateManager.getSession();
@@ -119,8 +121,10 @@ public abstract class PersistanceTestCase extends TestCase
                 if (mTransaction.isActive())
                 {
                     mTransaction.rollback();
+                } else
+                {
+                    mSession.close();
                 }
-                mSession.close();
             }
             sLog.info("Hibernate Session Closed");
         }

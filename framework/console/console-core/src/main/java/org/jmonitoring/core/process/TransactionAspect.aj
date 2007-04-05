@@ -43,7 +43,7 @@ public aspect TransactionAspect
                 }
             } finally
             {
-                if (tSession != null)
+                if (tSession != null && tSession.isOpen())
                 {
                     tSession.close();
                     sLog.info("Session closed...");

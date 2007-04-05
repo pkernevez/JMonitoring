@@ -23,22 +23,28 @@ public class SynchroneJdbcStore implements IStoreWriter
 
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
+        Session tPManager = null;
         try
         {
             long tStartTime = System.currentTimeMillis();
-            Session tPManager = (Session) HibernateManager.getSession();
+            tPManager = (Session) HibernateManager.getSession();
             Transaction tTransaction = tPManager.getTransaction();
             tTransaction.begin();
             getDao().insertFullExecutionFlow(pExecutionFlow);
 
             tTransaction.commit();
-            tPManager.close();
 
             long tEndTime = System.currentTimeMillis();
             sLog.info("Inserted ExecutionFlow " + pExecutionFlow + " in " + (tEndTime - tStartTime) + " ms.");
         } catch (RuntimeException e)
         {
             sLog.error("Unable to insert ExecutionFlow into database", e);
+        } finally
+        {
+            if (tPManager != null && tPManager.isOpen())
+            {
+                tPManager.close();
+            }
         }
     }
 

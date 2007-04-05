@@ -78,14 +78,13 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
                     } else
                     {
                         tTransaction.commit();
-                        tPManager.close();
                     }
                     long tEndTime = System.currentTimeMillis();
                     sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog + " in " + (tEndTime - tStartTime)
                         + " ms.");
                 } finally
                 {
-                    if (tPManager != null)
+                    if (tPManager != null && tPManager.isOpen())
                     {
                         tPManager.close();
                     }
