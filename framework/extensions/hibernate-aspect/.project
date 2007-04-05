@@ -1,15 +1,7 @@
 <projectDescription>
   <name>hibernate-aspect</name>
   <comment>This jar allow to trace Hibernate Access and Sql access</comment>
-  <projects>
-    <project>server</project>
-    <project>agent</project>
-    <project>common</project>
-    <project>tests</project>
-    <project>console-core</project>
-    <project>common-hibernate</project>
-    <project>persistence</project>
-  </projects>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.ajdt.core.ajbuilder</name>
