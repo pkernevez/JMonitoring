@@ -31,7 +31,10 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase
             {
                 mTx.commit();
             }
-            mSession.close();
+            if (mSession.isOpen())
+            {
+                mSession.close();
+            }
         }
 
         mSession = HibernateManager.getSession();
