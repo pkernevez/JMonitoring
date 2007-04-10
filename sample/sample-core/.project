@@ -1,18 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>sample_core</name>
-	<comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
-	<projects>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>org.eclipse.ajdt.core.ajbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
-	<natures>
-		<nature>org.eclipse.ajdt.ui.ajnature</nature>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-	</natures>
+  <name>sample-core</name>
+  <comment>This project provides Monitoring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
+  <projects>
+    <project>server</project>
+    <project>agent</project>
+    <project>hibernate-aspect</project>
+    <project>sample-aspects</project>
+    <project>persistence</project>
+    <project>common-hibernate</project>
+    <project>console-core</project>
+    <project>common</project>
+    <project>tests</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.ajdt.core.ajbuilder</name>
+      <arguments/>
+    </buildCommand>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+      <arguments/>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.ajdt.ui.ajnature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
 </projectDescription>

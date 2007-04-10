@@ -1,32 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>sample_webapp</name>
-	<comment>This project provides a Sample console for Monitoring infrastructure.</comment>
-	<projects>
-		<project>sample_core</project>
-		<project>sample_aspects</project>
-		<project>hibernate-aspect</project>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.ajdt.core.ajbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
-	<natures>
-		<nature>org.eclipse.ajdt.ui.ajnature</nature>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
-	</natures>
+  <name>sample-web</name>
+  <comment>This project provides a Sample console for Monitoring infrastructure.</comment>
+  <projects>
+    <project>agent</project>
+    <project>server</project>
+    <project>sample-aspects</project>
+    <project>common</project>
+    <project>persistence</project>
+    <project>hibernate-aspect</project>
+    <project>common-hibernate</project>
+    <project>sample-core</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
+      <arguments/>
+    </buildCommand>
+    <buildCommand>
+      <name>org.eclipse.ajdt.core.ajbuilder</name>
+      <arguments/>
+    </buildCommand>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+      <arguments/>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.ajdt.ui.ajnature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
+  </natures>
 </projectDescription>

@@ -6,6 +6,7 @@
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>common-module-pom</artifactId>
         <version>1.1-SNAPSHOT</version>
+        <relativePath>../common-module-pom/pom.xml</relativePath>
     </parent>
     <artifactId>jmonitoring-build-tools</artifactId>
     <name>JMonitoring Build Tools</name>

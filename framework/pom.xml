@@ -5,6 +5,7 @@
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>common-pom</artifactId>
         <version>1</version>
+        <relativePath>../common-tools/common-module-pom/pom.xml</relativePath>
     </parent>
     
     <artifactId>framework</artifactId>
@@ -12,14 +13,14 @@
     <packaging>pom</packaging>
 
      <modules>
+        <module>agent</module>
         <module>common</module>
         <module>common-hibernate</module>
-        <module>agent</module>
-        <module>tests</module>
+        <module>console</module>
+        <module>extensions</module>
         <module>persistence</module>
         <module>server</module>
-        <module>extensions</module>
-        <module>console</module>
+        <module>tests</module>
     </modules>
 
     <name>JMonitoring: framework, master module.</name>

@@ -2,11 +2,11 @@
   <name>console-web</name>
   <comment>This project provides an Administration console for Monitoring infrastructure.</comment>
   <projects>
-    <project>persistence</project>
+    <project>common</project>
     <project>console-core</project>
     <project>common-hibernate</project>
-    <project>common</project>
     <project>tests</project>
+    <project>persistence</project>
   </projects>
   <buildSpec>
     <buildCommand>

@@ -2,10 +2,10 @@
   <name>console-core</name>
   <comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
   <projects>
-    <project>persistence</project>
-    <project>common</project>
-    <project>common-hibernate</project>
     <project>tests</project>
+    <project>persistence</project>
+    <project>common-hibernate</project>
+    <project>common</project>
   </projects>
   <buildSpec>
     <buildCommand>
