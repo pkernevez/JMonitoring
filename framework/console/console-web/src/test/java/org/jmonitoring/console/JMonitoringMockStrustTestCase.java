@@ -46,7 +46,6 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase
             {
                 mTx.rollback();
             }
-            mSession.close();
         }
         if (HibernateManager.getSession().isOpen())
         {
