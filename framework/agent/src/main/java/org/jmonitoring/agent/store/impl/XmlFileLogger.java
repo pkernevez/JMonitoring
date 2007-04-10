@@ -50,6 +50,10 @@ public class XmlFileLogger implements IStoreWriter
         {
             String tDirName = ConfigurationHelper.getString(XML_DIR_NAME, ".");
             File tLogDir = new File(tDirName);
+            if (!tLogDir.exists())
+            {
+                tLogDir.mkdir();
+            }
             // On netoie tous les fichiers du repertoire
             if (!tLogDir.isDirectory())
             { // Repertoire invalide
@@ -121,6 +125,8 @@ public class XmlFileLogger implements IStoreWriter
                     });
             } catch (IOException e)
             {
+                sLog.error("Unable to create LogFile for Thread [" + Thread.currentThread().getName()
+                    + "] [" + tFile.getAbsolutePath() + "]");
                 throw new MeasureException("Unable to create LogFile for Thread [" + Thread.currentThread().getName()
                     + "] [" + tFile.getAbsolutePath() + "]");
             }
