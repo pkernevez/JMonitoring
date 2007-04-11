@@ -7,8 +7,8 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.agent.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
-import org.jmonitoring.agent.store.impl.MockAbstractAsynchroneLogger;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *

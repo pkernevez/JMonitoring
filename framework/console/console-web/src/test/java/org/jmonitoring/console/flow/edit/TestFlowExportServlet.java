@@ -1,5 +1,6 @@
 package org.jmonitoring.console.flow.edit;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -22,11 +23,14 @@ public class TestFlowExportServlet extends JMonitoringMockStrustTestCase
         int tFlowId = tFirstDto.getId();
         request.addParameter("id", "" + tFlowId);
         FlowExportServlet tServlet = new FlowExportServlet();
+        ByteArrayOutputStream tOut = new ByteArrayOutputStream();
+        response.setOutputStream(tOut);
         tServlet.doGet(request, response);
         assertEquals("application/x-zip", response.getContentType());
         assertTrue(response.getHeader("Content-Disposition").startsWith("attachment; filename="));
         assertTrue("No response in servet. (length=" + response.getContentLength() + ")",
             response.getContentLength() > 100);
+        assertTrue(tOut.size() > 100);
     }
 
 }

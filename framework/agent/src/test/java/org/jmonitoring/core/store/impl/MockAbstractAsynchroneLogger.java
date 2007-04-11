@@ -1,7 +1,8 @@
-package org.jmonitoring.agent.store.impl;
+package org.jmonitoring.core.store.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.agent.store.impl.AbstractAsynchroneLogger;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
 /***************************************************************************

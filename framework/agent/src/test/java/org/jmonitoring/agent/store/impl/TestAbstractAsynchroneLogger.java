@@ -6,6 +6,7 @@ import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
