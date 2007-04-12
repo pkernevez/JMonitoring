@@ -6,7 +6,7 @@
         <version>1</version>
         <relativePath>common-tools/common-pom/pom.xml</relativePath>
     </parent>
-    
+     
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.octo.opensource.jmonitoring</groupId>
     <artifactId>jmonitoring</artifactId>
