@@ -2,7 +2,7 @@ package org.jmonitoring.core.store.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.agent.store.impl.AbstractAsynchroneLogger;
+import org.jmonitoring.agent.store.impl.AbstractAsynchroneWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
 /***************************************************************************
@@ -14,7 +14,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  * @author pke
  * 
  */
-public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
+public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter
 {
 
     private static Log sLog = LogFactory.getLog(MockAbstractAsynchroneLogger.class);
@@ -78,7 +78,7 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneLogger
     }
 
     /**
-     * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlowPO)
+     * @see AbstractAsynchroneWriter#getAsynchroneLogTask(ExecutionFlowPO)
      */
     protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
     {

@@ -18,11 +18,11 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  * 
  * @author pke
  */
-public abstract class AbstractAsynchroneLogger implements IStoreWriter
+public abstract class AbstractAsynchroneWriter implements IStoreWriter
 {
     private static final String THREAD_POOL_KEY = "asynchronelogger.threadpool.size";
 
-    private static Log sLog = LogFactory.getLog(AbstractAsynchroneLogger.class);
+    private static Log sLog = LogFactory.getLog(AbstractAsynchroneWriter.class);
 
     private static PooledExecutor sExecutor;
 
@@ -36,7 +36,7 @@ public abstract class AbstractAsynchroneLogger implements IStoreWriter
     /**
      * Defautl constructor.
      */
-    public AbstractAsynchroneLogger()
+    public AbstractAsynchroneWriter()
     {
     }
 

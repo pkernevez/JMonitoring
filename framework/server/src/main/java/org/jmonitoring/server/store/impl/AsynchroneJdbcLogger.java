@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.jmonitoring.agent.store.impl.AbstractAsynchroneLogger;
+import org.jmonitoring.agent.store.impl.AbstractAsynchroneWriter;
 import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.configuration.MeasureException;
@@ -24,7 +24,7 @@ import org.jmonitoring.core.persistence.InsertionDao;
  * 
  * @todo implémenter un maxfail si la base n'est pas dispo
  */
-public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
+public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter
 {
 
     private static Log sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);;
@@ -97,7 +97,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneLogger
     }
 
     /**
-     * @see AbstractAsynchroneLogger#getAsynchroneLogTask(ExecutionFlowPO)
+     * @see AbstractAsynchroneWriter#getAsynchroneLogTask(ExecutionFlowPO)
      */
     protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
     {
