@@ -3,10 +3,11 @@
   <comment>This project provides an Administration console for Monitoring infrastructure.</comment>
   <projects>
     <project>common</project>
-    <project>console-core</project>
-    <project>common-hibernate</project>
-    <project>tests</project>
     <project>persistence</project>
+    <project>console-core</project>
+    <project>tests</project>
+    <project>agent</project>
+    <project>common-hibernate</project>
   </projects>
   <buildSpec>
     <buildCommand>

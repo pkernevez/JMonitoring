@@ -23,6 +23,10 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+	<servlet>
+		<servlet-name>Store</servlet-name>
+		<servlet-class>org.jmonitoring.console.persistence.StoreServlet</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
@@ -37,6 +41,11 @@
 	<servlet-mapping>
 		<servlet-name>DynamicImageServlet</servlet-name>
 		<url-pattern>/DynamicImageServlet.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Store</servlet-name>
+		<url-pattern>/Store.do</url-pattern>
 	</servlet-mapping>
 
     <mime-mapping>
