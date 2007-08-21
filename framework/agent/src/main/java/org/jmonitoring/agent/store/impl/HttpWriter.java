@@ -7,6 +7,11 @@ import java.io.ObjectOutputStream;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
+import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
@@ -25,11 +30,41 @@ public class HttpWriter extends AbstractAsynchroneWriter
 
     public static final String CONTENT_TYPE = "JMonitoring/flow";
 
-    public static final String URL_PARAM_NAME = "measurepoint.writer.httpwriter.url";
+    public static final String HOSTNAME = "httpwriter.hostname";
 
-    public static final String CONTENT_BINARY = "binary";
+    public static final String PORT = "httpwriter.port";
 
-    private Log sLog = LogFactory.getLog(HttpWriter.class);
+    public static final String PROTOCOLE = "httpwriter.protocol";
+
+    public static final String URI = "httpwriter.uri";
+
+    public static final String sUri = ConfigurationHelper.getString(URI);
+
+    private static Log sLog = LogFactory.getLog(HttpWriter.class);
+
+    private static HttpClient sClient;
+
+    private static MultiThreadedHttpConnectionManager sManager;
+
+    private static String sUrl;
+
+    static
+    {
+        configure();
+    }
+
+    static void configure()
+    {
+        MultiThreadedHttpConnectionManager.shutdownAll();
+        sManager = new MultiThreadedHttpConnectionManager();
+        sClient = new HttpClient(sManager);
+        String tHost = ConfigurationHelper.getString(HOSTNAME);
+        int tPort = ConfigurationHelper.getInt(PORT);
+        String tProtocole = ConfigurationHelper.getString(PROTOCOLE);
+        sClient.getHostConfiguration().setHost(tHost, tPort, tProtocole);
+
+        String sUrl = ConfigurationHelper.getString(URI);
+    }
 
     private class AsynchroneHttpWriterRunnable implements Runnable
     {
@@ -42,12 +77,6 @@ public class HttpWriter extends AbstractAsynchroneWriter
 
         public void run()
         {
-            // multipart/form-data
-            // TODO Auto-generated method stub
-            // ObjectWriter tWriter = new ObjectWriter();
-            // tWriter.
-            // 
-            // Content-Type=
             try
             {
                 long tStartTime = System.currentTimeMillis();
@@ -55,19 +84,19 @@ public class HttpWriter extends AbstractAsynchroneWriter
                 ByteArrayOutputStream tBytes = new ByteArrayOutputStream();
                 ObjectOutputStream tStream = new ObjectOutputStream(tBytes);
                 tStream.writeObject(mExecutionFlowToLog);
-                String tUrl = ConfigurationHelper.getString(URL_PARAM_NAME);
-                PostMethod tHttpPost = new PostMethod(tUrl);
-                byte[] tByteArray = tBytes.toByteArray();
-                tHttpPost.setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(tByteArray), CONTENT_TYPE));
-                tHttpPost.setContentChunked(true);
-                HttpClient client = new HttpClient();
 
+                PostMethod tHttpPost = new PostMethod(sUri);
+                tHttpPost.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
+                byte[] tByteArray = tBytes.toByteArray();
+                tHttpPost.setRequestEntity(new ByteArrayRequestEntity(tByteArray));
+                tHttpPost.setContentChunked(true);
+                tHttpPost.addRequestHeader("Content-Type", "JMonitoring/flow");
                 try
                 {
-                    client.executeMethod(tHttpPost);
+                    sClient.executeMethod(tHttpPost);
                     long tEndTime = System.currentTimeMillis();
-                    sLog.info("Inserted vith Http ExecutionFlow " + mExecutionFlowToLog + " in " + (tEndTime - tStartTime)
-                        + " ms.");
+                    sLog.info("Inserted vith Http ExecutionFlow " + mExecutionFlowToLog + " in "
+                        + (tEndTime - tStartTime) + " ms.");
 
                     if (tHttpPost.getStatusCode() != HttpStatus.SC_OK)
                     {
@@ -81,7 +110,7 @@ public class HttpWriter extends AbstractAsynchroneWriter
             } catch (IOException e)
             {
                 sLog.error("Unable to Write Flow to Http Server the ExecutionFlow has been lost. Cause is "
-                    + e.getMessage());
+                    + e.getMessage() + " Serveur is " + sClient.getHostConfiguration());
             }
         }
     }

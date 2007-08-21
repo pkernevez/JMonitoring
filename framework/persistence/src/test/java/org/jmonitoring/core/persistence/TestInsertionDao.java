@@ -1,5 +1,9 @@
 package org.jmonitoring.core.persistence;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -126,6 +130,31 @@ public class TestInsertionDao extends PersistanceTestCase
             "Select Count(*) as myCount From METHOD_CALL Where PARENT_INDEX_IN_FLOW IS NOT NULL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();
+    }
+
+    public void testBidonPKE() throws SQLException
+    {
+        int tOldResult = countMethods();
+
+        ExecutionFlowPO tFlow = new ExecutionFlowPO();
+        getSession().save(tFlow);
+        MethodCallPO tMethodCall = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
+            "GrDefault", "[]");
+        tMethodCall.setMethId(new MethodCallPK(tFlow, 0));
+        getSession().save(tMethodCall);
+        getSession().flush();
+
+        int tNewResult = countMethods();
+        assertEquals(tOldResult + 1, tNewResult);
+        assertStatistics(MethodCallPO.class, 1, 0, 0, 0);
+        
+        
+        Statement tStat = getSession().connection().createStatement();
+        ResultSet tSet = tStat.executeQuery("SELECT CONVERT(123, int),DATEDIFF('ss', BEGIN_TIME_AS_DATE, BEGIN_TIME_AS_DATE)+1 As MonCalcul FROM EXECUTION_FLOW "+
+            "WHERE SUBSTR('AZERTY', MonCalcul, 4)='AZER'");
+        tSet.next();
+        assertEquals( 123, tSet.getInt(1));
+        assertEquals( 1, tSet.getInt(2));
     }
 
 }
