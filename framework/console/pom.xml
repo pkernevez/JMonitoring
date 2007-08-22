@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>common-pom</artifactId>
-        <version>1</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
     
     <artifactId>console</artifactId>

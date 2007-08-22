@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>common-pom</artifactId>
-        <version>1</version>
+        <version>1.1-SNAPSHOT</version>
         <relativePath>common-tools/common-pom/pom.xml</relativePath>
     </parent>
       

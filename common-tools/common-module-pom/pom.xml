@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>common-pom</artifactId>
-        <version>1</version>
+        <version>1.1-SNAPSHOT</version>
         <relativePath>../common-pom/pom.xml</relativePath>
     </parent>
     
@@ -53,6 +53,9 @@
             <plugin>
                 <inherited>true</inherited>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>jmonitoring_checks_eclipse.xml</configLocation>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>com.octo.opensource.jmonitoring</groupId>
@@ -111,12 +114,15 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>surefire-report-maven-plugin</artifactId>
             </plugin>
-            <!--plugin>
+            
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clover-plugin</artifactId>
                 <configuration>
                     <targetPercentage>30%</targetPercentage>
+                    <licenseLocation>${settings.localRepository}/com/cenqua/clover/clover/1.3.13/myclover.license</licenseLocation>
                 </configuration>        
+                <!--
                 <executions>
                     <execution>
                         <phase>pre-site</phase>
@@ -125,8 +131,8 @@
                             <goal>aggregate</goal>
                         </goals>
                     </execution>
-                </executions>
-            </plugin-->            
+                </executions-->
+            </plugin>            
             
             <!--plugin>
                 <inherited>true</inherited>
@@ -199,7 +205,7 @@
             <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <configLocation>jmonitoring_checks_eclipse.xml</configLocation>
+                    <!--configLocation>jmonitoring_checks_eclipse.xml</configLocation-->
                     <headerLocation>LICENSE.txt</headerLocation>
                     <linkXref>on</linkXref>
                 </configuration>
