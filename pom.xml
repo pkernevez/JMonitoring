@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>com.octo.opensource.jmonitoring</groupId>
-        <artifactId>common-pom</artifactId>
-        <version>1.1-SNAPSHOT</version>
-        <relativePath>common-tools/common-pom/pom.xml</relativePath>
+        <groupId>com.octo.forge</groupId>
+        <artifactId>parent-jdk14</artifactId>
+        <version>4</version>
     </parent>
       
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.octo.opensource.jmonitoring</groupId>
-    <artifactId>jmonitoring</artifactId>
+    <artifactId>common-pom</artifactId>
     <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -21,27 +20,85 @@
 
     <name>JMonitoring: master module.</name>
     <description>This project provides JMonitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-changes-plugin</artifactId>
-            <configuration>
-              <xmlPath>${basedir}/src/site/changes.xml</xmlPath>
-            </configuration>
-            <reportSets>
-              <reportSet>
-                <reports>
-                  <report>changes-report</report>
-                </reports>
-              </reportSet>
-            </reportSets>
-          </plugin>
-        </plugins>
-      </reporting>
-      
+
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/</connection>
+        <url>https://forge.octo.com/svn</url>
+    </scm>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://forge.octo.com/jira/browse/JMO</url>
+    </issueManagement>
+    <distributionManagement>
+  	    <site>
+  		    <url>file:///${jmonitoring.site.deploy}</url>
+  	    </site> 
+    </distributionManagement>
+  <mailingLists>
+    <mailingList>
+      <name>jmonitoring-user@lists.sourceforge.net</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-user</archive>
+    </mailingList>
+    <mailingList>
+      <name>jmonitoring-developer@lists.sourceforge.net</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-developer</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=jmonitoring-developer</archive>
+    </mailingList>
+  </mailingLists>
+    <developers>
+        <developer>
+            <name>Philippe Kernevez</name>
+            <id>pke</id>
+            <email>pkernevez@octo.com</email>
+            <organization>OCTO</organization>
+            <roles>
+                <role>Java Developer</role>
+                <role>Release Manager</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+    </developers>
+    
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+            <url>http://forge.octo.com/svn/jmonitoring/trunk/build-tools/src/main/resources/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <repositories>
+        <repository>
+            <id>octo</id>
+            <name>OCTO Technology</name>
+            <url>http://forge.octo.com/mavenrepository/</url>
+            <layout>legacy</layout>
+        </repository>
+        <repository>
+            <id>forge-release</id>
+            <name>forge-release</name>
+            <url>http://forge.octo.com/archiva/repository/forge-releases/</url>
+        </repository>
+        <repository>
+            <id>forge.snapshots</id>
+            <name>Forge Snapshot Repository</name>
+            <url>http://forge.octo.com/archiva/repository/forge-snapshots</url>
+        </repository>
+    </repositories>
+
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+          	<artifactId>dashboard-maven-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+          </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -61,5 +118,48 @@
             </plugin> 
         </plugins>
      </build>       
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+          	<artifactId>dashboard-maven-plugin</artifactId>
+            <configuration>
+              <m1LikeRendering>true</m1LikeRendering>
+            </configuration>
+          </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+            </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-changes-plugin</artifactId>
+            <configuration>
+              <xmlPath>${basedir}/src/site/changes.xml</xmlPath>
+            </configuration>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>changes-report</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
 
 </project>

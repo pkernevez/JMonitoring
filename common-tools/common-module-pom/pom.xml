@@ -121,6 +121,7 @@
                 <configuration>
                     <targetPercentage>30%</targetPercentage>
                     <licenseLocation>${settings.localRepository}/com/cenqua/clover/clover/1.3.13/myclover.license</licenseLocation>
+                    <generateXml>true</generateXml>
                 </configuration>        
                 <!--
                 <executions>

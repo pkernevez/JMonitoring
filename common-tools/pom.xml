@@ -15,7 +15,6 @@
      <modules>
         <module>build-tools</module>
         <module>common-module-pom</module>
-        <module>common-pom</module>
     </modules>
 
     <name>JMonitoring: framework, master module.</name>
