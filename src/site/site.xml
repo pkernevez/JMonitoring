@@ -3,30 +3,21 @@
     <publishDate format="dd MMM yyyy" />
     <bannerLeft>
         <name>JMonitoring</name>
-        <src>jmonitoring.png</src>
+        <src>images/jmonitoring.png</src>
         <href>http://forge.octo.com</href>
     </bannerLeft>
     <bannerRight>
-        <src>octo.png</src>
+        <src>images/octo.png</src>
         <href>http://www.octo.com</href>
     </bannerRight>
 
     <body>
-        <menu name="Modules">
-            <item name="fwk-agent" href="../common-module-pom/agent/index.html"/>
-            <item name="fwk-common-hibernate" href="../common-module-pom/common-hibernate/index.html"/>
-            <item name="fwk-persistence" href="../common-module-pom/persistence/index.html"/>
-            <item name="fwk-server" href="../common-module-pom/server/index.html"/>
-            <item name="fwk-tests" href="../common-module-pom/tests/index.html"/>
-            <item name="console-core" href="../common-module-pom/console-core/index.html"/>
-            <item name="console-web" href="../common-module-pom/console-web/index.html"/>
-            <item name="sample-aspects" href="../common-module-pom/sample-aspects/index.html"/>
-            <item name="sample-core" href="../common-module-pom/sample-core/index.html"/>
-            <item name="sample-web" href="../common-module-pom/sample-web/index.html"/>
-        </menu>
+        <menu ref="modules" />
         <menu name="Documentation">
-            <item name="online" href="http://forge.octo.com/confluence/display/JMO/Home"/>
-            <item name="screen shot" href="sample/Index.do.htm"/>
+            <item name="Quick start" href="http://forge.octo.com/confluence/display/JMO/Home"/>
+            <item name="screenshot" href="screenshot.html"/>
+            <item name="schemas" href="schemas.html"/>
+            
         </menu>
         <menu ref="reports" />
     </body>

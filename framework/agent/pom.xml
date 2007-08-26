@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
-        <artifactId>common-module-pom</artifactId>
+        <artifactId>framework</artifactId>
         <version>1.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>agent</artifactId>
-    <name>Agent framework.</name>
+    <name>Fwk-agent</name>
+    <packaging>jar</packaging>
+
     <description>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact for persistence.</description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/agent</connection>
         <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/agent</url>
     </scm>
-  
-    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -75,6 +75,11 @@
                     </execution>
                </executions>
            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <inherited>true</inherited>
+            </plugin>
        </plugins>
      </build>
 </project>

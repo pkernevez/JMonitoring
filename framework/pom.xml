@@ -23,7 +23,7 @@
         <module>tests</module>
     </modules>
 
-    <name>JMonitoring: framework, frameworks.</name>
+    <name>Fwk-main</name>
     <description>This project provides Monitoring infrastrcture for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework</connection>
