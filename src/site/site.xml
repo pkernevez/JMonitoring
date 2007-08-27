@@ -3,11 +3,11 @@
     <publishDate format="dd MMM yyyy" />
     <bannerLeft>
         <name>JMonitoring</name>
-        <src>images/jmonitoring.png</src>
+        <src>http://forge.octo.com/maven/sites/jmonitoring/images/jmonitoring.png</src>
         <href>http://forge.octo.com</href>
     </bannerLeft>
     <bannerRight>
-        <src>images/octo.png</src>
+        <src>http://forge.octo.com/maven/sites/jmonitoring/images/octo.png</src>
         <href>http://www.octo.com</href>
     </bannerRight>
 
