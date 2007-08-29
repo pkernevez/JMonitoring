@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+
+    <properties>
+        <title>Quick start of JMonitoring Project.</title>
+        <author email="pke@octo.com">Philippe Kernevez</author>
+    </properties>
+
+    <body>
+        <section name="Quick start">
+            Quick start and tutorials are located in the <a href="http://forge.octo.com/confluence/display/JMO/Home">Confluence documentation</a>.
+        </section>
+    </body>
+</document>    

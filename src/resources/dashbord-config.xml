@@ -3,7 +3,7 @@
 	<sections>
 		<section id="cobertura.summary" title="Cobertura Report Summary"
 			groupId="org.codehaus.mojo" artifactId="cobertura-maven-plugin">
-		    <historicgraphs>
+			<historicgraphs>
 				<graph id="cobertura.currentweek"
 					title="Cobertura current Week" timeUnit="day"
 					startPeriod="Startof_thisweek" endPeriod="Endof_thisweek" />
@@ -18,7 +18,7 @@
 		<section id="surefire.summary" title="Surefire Report Summary"
 			groupId="org.apache.maven.plugins"
 			artifactId="maven-surefire-report-plugin">
-		    <historicgraphs>
+			<historicgraphs>
 				<graph id="surefire.currentweek"
 					title="Surefire current Week" timeUnit="day"
 					startPeriod="Startof_thisweek" endPeriod="Endof_thisweek" />
@@ -62,4 +62,4 @@
 			</historicgraphs>
 		</section>
 	</sections>
-</configuration>      
+</configuration> 

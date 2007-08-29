@@ -14,7 +14,7 @@
     <body>
         <menu ref="modules" />
         <menu name="Documentation">
-            <item name="Quick start" href="http://forge.octo.com/confluence/display/JMO/Home"/>
+            <item name="Quick start" href="quickstart.html"/>
             <item name="screenshot" href="screenshot.html"/>
             <item name="schemas" href="schemas.html"/>
             
