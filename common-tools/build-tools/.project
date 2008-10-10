@@ -1,11 +1,10 @@
 <projectDescription>
-  <name>jmonitoring-build-tools</name>
-  <comment>JMonitoring Build Tools</comment>
+  <name>build-tools</name>
+  <comment>Tools-build</comment>
   <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
-      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>

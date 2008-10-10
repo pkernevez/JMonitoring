@@ -2,21 +2,20 @@
   <name>console-web</name>
   <comment>This project provides an Administration console for Monitoring infrastructure.</comment>
   <projects>
-    <project>common</project>
-    <project>persistence</project>
-    <project>console-core</project>
-    <project>tests</project>
     <project>agent</project>
+    <project>common</project>
     <project>common-hibernate</project>
+    <project>console-core</project>
+    <project>persistence</project>
+    <project>server</project>
+    <project>tests</project>
   </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
-      <arguments/>
     </buildCommand>
     <buildCommand>
       <name>org.jboss.ide.eclipse.xdoclet.run.XDocletRunBuilder</name>
-      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>
