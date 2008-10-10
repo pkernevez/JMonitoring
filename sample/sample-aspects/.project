@@ -1,18 +1,13 @@
 <projectDescription>
   <name>sample-aspects</name>
   <comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
-  <projects>
-    <project>agent</project>
-    <project>common</project>
-  </projects>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.ajdt.core.ajbuilder</name>
-      <arguments/>
     </buildCommand>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
-      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>

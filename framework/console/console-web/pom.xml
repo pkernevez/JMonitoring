@@ -7,6 +7,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>console-web</artifactId>
+    <version>1.1-SNAPSHOT</version>
     <name>Fwk-console-web</name>
     <description>This project provides an Administration console for Monitoring infrastructure.</description>
     <scm>
