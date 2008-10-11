@@ -17,34 +17,28 @@ import org.jmonitoring.core.persistence.InsertionDao;
  * This class is exactly the same than <code>org.jmonitoring.core.persistence.InsertionDao</code>. But it overrides
  * all its method for exclusion weaving, because we don't want to weave the JMonitoring internal sql requests.
  */
-public class InsertionHibernateDAO extends InsertionDao
-{
+public class InsertionHibernateDAO extends InsertionDao {
     private InsertionDao mRealDao;
 
-    public InsertionHibernateDAO(Session pSession)
-    {
+    public InsertionHibernateDAO(Session pSession) {
         super(pSession);
         mRealDao = new InsertionDao(pSession);
     }
 
-    public InsertionHibernateDAO()
-    {
+    public InsertionHibernateDAO() {
         super();
         mRealDao = new InsertionDao(getSession());
     }
 
-    public Session getSession()
-    {
+    public Session getSession() {
         return super.getSession();
     }
 
-    public int countFlows()
-    {
+    public int countFlows() {
         return mRealDao.countFlows();
     }
 
-    public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
-    {
+    public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow) {
         return mRealDao.insertFullExecutionFlow(pExecutionFlow);
     }
 
@@ -52,8 +46,7 @@ public class InsertionHibernateDAO extends InsertionDao
      * @param pFlowId The execution flow identifier to read.
      * @return The corresponding ExecutionFlowDTO.
      */
-    public ExecutionFlowPO readExecutionFlow(int pFlowId)
-    {
+    public ExecutionFlowPO readExecutionFlow(int pFlowId) {
         Session tSession = getSession();
         ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.get(ExecutionFlowPO.class, new Integer(pFlowId));
         Criteria tCriteria = tSession.createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
