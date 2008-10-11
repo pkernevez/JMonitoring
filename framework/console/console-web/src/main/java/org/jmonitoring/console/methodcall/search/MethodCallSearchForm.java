@@ -4,31 +4,26 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
 
-public class MethodCallSearchForm extends ActionForm
-{
+public class MethodCallSearchForm extends ActionForm {
     private static final long serialVersionUID = 469269872309634958L;
 
     private Map mTreeOfMethodCallExtract;
 
     private Map mMapOfMethodCallExtractByFullName;
 
-    public Map getTreeOfMethodCallExtract()
-    {
+    public Map getTreeOfMethodCallExtract() {
         return mTreeOfMethodCallExtract;
     }
 
-    public void setTreeOfMethodCallExtract(Map pTreeOfMethodCallExtract)
-    {
+    public void setTreeOfMethodCallExtract(Map pTreeOfMethodCallExtract) {
         mTreeOfMethodCallExtract = pTreeOfMethodCallExtract;
     }
 
-    public Map getMapOfMethodCallExtractByFullName()
-    {
+    public Map getMapOfMethodCallExtractByFullName() {
         return mMapOfMethodCallExtractByFullName;
     }
 
-    public void setMapOfMethodCallExtractByFullName(Map pMapOfMethodCallExtractByFullName)
-    {
+    public void setMapOfMethodCallExtractByFullName(Map pMapOfMethodCallExtractByFullName) {
         mMapOfMethodCallExtractByFullName = pMapOfMethodCallExtractByFullName;
     }
 

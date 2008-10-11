@@ -21,8 +21,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class DeleteAllFlowsActionIn extends Action
-{
+public class DeleteAllFlowsActionIn extends Action {
 
     /*
      * (non-Javadoc)
@@ -32,8 +31,7 @@ public class DeleteAllFlowsActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
-    {
+            HttpServletResponse pResponse) throws Exception {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         tProcess.deleteAllFlows();
         return pMapping.findForward("success");

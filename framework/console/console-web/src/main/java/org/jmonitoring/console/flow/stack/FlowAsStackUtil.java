@@ -18,8 +18,7 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * @todo refactor this class as taglib.
  * @author pke
  */
-public class FlowAsStackUtil
-{
+public class FlowAsStackUtil {
 
     /**
      * The execution flow to work with.
@@ -31,8 +30,7 @@ public class FlowAsStackUtil
      * 
      * @param pFlow The flow to use for graphique.
      */
-    public FlowAsStackUtil(ExecutionFlowDTO pFlow)
-    {
+    public FlowAsStackUtil(ExecutionFlowDTO pFlow) {
         mFlow = pFlow;
     }
 
@@ -44,8 +42,7 @@ public class FlowAsStackUtil
      * @todo Option undeply only those with exception or duration upper XXX.
      * @return The Html code of this flow.
      */
-    public StringBuffer writeFlowAsHtml()
-    {
+    public StringBuffer writeFlowAsHtml() {
         StringBuffer tBuffer = new StringBuffer();
 
         tBuffer.append("<A onclick=\"\">Deploy All</A>");
@@ -74,35 +71,31 @@ public class FlowAsStackUtil
      * @param pCurrentMethod The Measure to write.
      * @param pHtmlBuffer The Html buffer for this measure.
      * @todo Use background color with item.
-     * @todo Mettre les titles des durées dans une feuille de style pour diminuer le volume de la page
+     * @todo Mettre les titles des durï¿½es dans une feuille de style pour diminuer le volume de la page
      */
-    private void writeMethodCallAsHtml(MethodCallDTO pCurrentMethod, StringBuffer pHtmlBuffer)
-    {
+    private void writeMethodCallAsHtml(MethodCallDTO pCurrentMethod, StringBuffer pHtmlBuffer) {
         // Gestion de l'exception
         String tReturnImage;
-        if (pCurrentMethod.isReturnCallException())
-        {
+        if (pCurrentMethod.isReturnCallException()) {
             tReturnImage = "<IMG title=\"Throwable thrown\" src=\"images/warn.png\"/>";
-        } else
-        {
+        } else {
             tReturnImage = "";
         }
         // String tBgColor = getColorAsString(Configuration.getColor(pCurrentMeasure.getGroupName()));
-        // Génération du lien vers les statistiques
+        // Gï¿½nï¿½ration du lien vers les statistiques
         StringBuffer tLinkStat = new StringBuffer();
         tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=" + pCurrentMethod.getFlowId()
-            + "&position=" + pCurrentMethod.getPosition() + "\">");
+                + "&position=" + pCurrentMethod.getPosition() + "\">");
         tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
 
         StringBuffer tLinkDetail = new StringBuffer();
         tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId="
-            + pCurrentMethod.getFlowId() + "&position=" + pCurrentMethod.getPosition() + "\">");
+                + pCurrentMethod.getFlowId() + "&position=" + pCurrentMethod.getPosition() + "\">");
         tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
 
         long tDuration = pCurrentMethod.getEndTime().getTime() - pCurrentMethod.getBeginTime().getTime();
-        // Maintenant on créer le le html associé au MethodCallDTO
-        if (pCurrentMethod.getChildren().length > 0)
-        { // On crée un sous menu
+        // Maintenant on crï¿½er le le html associï¿½ au MethodCallDTO
+        if (pCurrentMethod.getChildren().length > 0) { // On crï¿½e un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
             pHtmlBuffer.append("<li>\n");
             pHtmlBuffer.append("<a href=\"#\" id=\"");
@@ -115,19 +108,17 @@ public class FlowAsStackUtil
             pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMethod) + "</a>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "\n");
             pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getPosition() + "Menu\" class=\"submenu\">\n");
-            for (int i = 0; i < pCurrentMethod.getChildren().length; i++)
-            {
+            for (int i = 0; i < pCurrentMethod.getChildren().length; i++) {
                 writeMethodCallAsHtml(pCurrentMethod.getChild(i), pHtmlBuffer);
             }
             pHtmlBuffer.append("  </ul>\n</li>\n");
-        } else
-        {
+        } else {
             pHtmlBuffer.append("<li><span class=\"prevDuration\" title=\"Duration since the prev MethodCall\">[->");
             pHtmlBuffer.append(pCurrentMethod.getDurationFromPreviousCall() + "]</span>");
             pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
             pHtmlBuffer.append(tDuration + "]</span>");
             pHtmlBuffer.append("<span title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">" + tReturnImage
-                + getMeasurePointText(pCurrentMethod) + "</span>");
+                    + getMeasurePointText(pCurrentMethod) + "</span>");
             pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "</li>\n");
         }
     }
@@ -138,11 +129,10 @@ public class FlowAsStackUtil
      * @param pMeasure The measure point to use.
      * @return the Html <code>String</code> for Html rendering.
      */
-    private String getMeasurePointText(MethodCallDTO pMeasure)
-    {
+    private String getMeasurePointText(MethodCallDTO pMeasure) {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append(pMeasure.getGroupName()).append(" -> ").append(pMeasure.getClassName()).append(".").append(
-            pMeasure.getMethodName());
+                pMeasure.getMethodName());
         return tBuffer.toString();
     }
 
@@ -152,25 +142,20 @@ public class FlowAsStackUtil
      * @param pMeasure The measure point to use.
      * @return the Html <code>String</code> to use in the <code>title</code> Html attribute.
      */
-    private String getMeasurePointTitle(MethodCallDTO pMeasure)
-    {
+    private String getMeasurePointTitle(MethodCallDTO pMeasure) {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("Start Date=");
         tBuffer.append(ConfigurationHelper.formatDateTime(pMeasure.getBeginTime()));
-        if (pMeasure.getParams() != null)
-        {
+        if (pMeasure.getParams() != null) {
             tBuffer.append("\n PARAM=[").append(pMeasure.getParams()).append("]");
         }
-        if (pMeasure.getReturnValue() != null)
-        {
+        if (pMeasure.getReturnValue() != null) {
             tBuffer.append("\n ReturnValue=[").append(pMeasure.getReturnValue()).append("]");
         }
-        if (pMeasure.getThrowableClassName() != null)
-        {
+        if (pMeasure.getThrowableClassName() != null) {
             tBuffer.append("\n ThrowableClassName=[").append(pMeasure.getThrowableClassName()).append("]");
         }
-        if (pMeasure.getThrowableMessage() != null)
-        {
+        if (pMeasure.getThrowableMessage() != null) {
             tBuffer.append("\n ThrowableMesssage=[").append(pMeasure.getThrowableMessage()).append("]");
         }
         return HtmlEncoder.encode(tBuffer.toString());

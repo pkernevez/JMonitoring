@@ -20,8 +20,7 @@ import org.jmonitoring.core.process.ProcessFactory;
 /**
  * @author pke
  */
-public class MethodCallListActionIn extends Action
-{
+public class MethodCallListActionIn extends Action {
     /**
      * (non-Javadoc)
      * 
@@ -30,12 +29,14 @@ public class MethodCallListActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
-    {
+            HttpServletResponse pResponse) throws Exception {
         MethodCallListForm tListForm = (MethodCallListForm) pForm;
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        List tResult = tProcess.getListOfMethodCallFullExtract(tListForm.getClassName(), tListForm.getMethodName(),
-            tListForm.getDurationMin(), tListForm.getDurationMax());
+        List tResult = tProcess.getListOfMethodCallFullExtract(
+                tListForm.getClassName(),
+                tListForm.getMethodName(),
+                tListForm.getDurationMin(),
+                tListForm.getDurationMax());
         tListForm.setSearchResult(tResult);
         return pMapping.findForward("success");
     }

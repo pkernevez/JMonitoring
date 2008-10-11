@@ -14,11 +14,9 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestFlowChartBarUtil extends TestCase
-{
+public class TestFlowChartBarUtil extends TestCase {
 
-    public void testChainAllMethodCallToMainTaskOfGroup()
-    {
+    public void testChainAllMethodCallToMainTaskOfGroup() {
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
@@ -81,8 +79,7 @@ public class TestFlowChartBarUtil extends TestCase
     // }
     // }
 
-    public void testFillListOfGroup()
-    {
+    public void testFillListOfGroup() {
         MethodCallDTO tFirstMethod = TestFlowUtils.getSampleMeasurePoint();
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
@@ -155,8 +152,7 @@ public class TestFlowChartBarUtil extends TestCase
 
     public static final long START_TIME = 1149282668046L;
 
-    static MethodCallDTO getVerySimpleMeasurePoint()
-    {
+    static MethodCallDTO getVerySimpleMeasurePoint() {
         MethodCallDTO tPoint;
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);
@@ -196,25 +192,24 @@ public class TestFlowChartBarUtil extends TestCase
         return tPoint;
     }
 
-    public void testComputeStatForThisFlow()
-    {
+    public void testComputeStatForThisFlow() {
         // Cas simple
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
-        // Un seul group à 2 entrées
+        // Un seul group ï¿½ 2 entrï¿½es
         tFirstMethod.removeChild(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
         tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
-        // 1 groupe à une entrée
+        // 1 groupe ï¿½ une entrï¿½e
         tFirstMethod = tFirstMethod.getChild(0);
         tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
 
-        // 2 groupe à une entrée
+        // 2 groupe ï¿½ une entrï¿½e
         tFirstMethod = getVerySimpleMeasurePoint();
         tFirstMethod.removeChild(0);
         tUtil = new FlowChartBarUtil(tFirstMethod);

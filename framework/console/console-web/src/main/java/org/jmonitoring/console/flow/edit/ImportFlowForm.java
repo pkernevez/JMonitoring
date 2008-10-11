@@ -4,35 +4,30 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
-public class ImportFlowForm extends ActionForm
-{
+public class ImportFlowForm extends ActionForm {
     private FormFile mFile;
 
     private ExecutionFlowDTO mNewExecutionFlow;
 
-    public String getNewExecutionFlowId()
-    {
+    public String getNewExecutionFlowId() {
         return "" + mNewExecutionFlow.getId();
     }
 
-    public void setNewExecutionFlow(ExecutionFlowDTO pNewExecutionFlow)
-    {
+    public void setNewExecutionFlow(ExecutionFlowDTO pNewExecutionFlow) {
         mNewExecutionFlow = pNewExecutionFlow;
     }
 
     /**
      * @return Returns the theFile.
      */
-    public FormFile getTheFile()
-    {
+    public FormFile getTheFile() {
         return mFile;
     }
 
     /**
      * @param theFile The FormFile to set.
      */
-    public void setTheFile(FormFile theFile)
-    {
+    public void setTheFile(FormFile theFile) {
         this.mFile = theFile;
     }
 

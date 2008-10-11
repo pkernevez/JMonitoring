@@ -9,11 +9,9 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallEditActionIn extends JMonitoringMockStrustTestCase
-{
+public class TestMethodCallEditActionIn extends JMonitoringMockStrustTestCase {
 
-    public void testOk()
-    {
+    public void testOk() {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
@@ -39,8 +37,7 @@ public class TestMethodCallEditActionIn extends JMonitoringMockStrustTestCase
 
     }
 
-    public void testKo()
-    {
+    public void testKo() {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
 

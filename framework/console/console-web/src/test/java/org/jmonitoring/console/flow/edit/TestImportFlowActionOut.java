@@ -7,10 +7,8 @@ import org.jmonitoring.console.flow.FlowBuilderUtil;
 
 import servletunit.struts.MockStrutsTestCase;
 
-public class TestImportFlowActionOut extends JMonitoringMockStrustTestCase
-{
-    public void testActionIn()
-    {
+public class TestImportFlowActionOut extends JMonitoringMockStrustTestCase {
+    public void testActionIn() {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(10);
@@ -19,8 +17,7 @@ public class TestImportFlowActionOut extends JMonitoringMockStrustTestCase
         verifyForwardPath("/pages/layout/layout.jsp");
     }
 
-    public void testActionOut()
-    {
+    public void testActionOut() {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(10);

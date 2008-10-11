@@ -14,36 +14,30 @@ import java.util.StringTokenizer;
  * @author pke
  * 
  */
-public class GroupConfigurationPO
-{
+public class GroupConfigurationPO {
     private GroupConfigurationPK mId;
 
     private Color mColor;
 
     /** Hibernate purpose. */
-    GroupConfigurationPO()
-    {
+    GroupConfigurationPO() {
     }
 
-    public GroupConfigurationPO(String pGroupName)
-    {
+    public GroupConfigurationPO(String pGroupName) {
         mId = new GroupConfigurationPK(pGroupName);
         mColor = ColorHelper.calculColor(pGroupName);
     }
 
-    public GroupConfigurationPO(String pGroupName, Color pColor)
-    {
+    public GroupConfigurationPO(String pGroupName, Color pColor) {
         mId = new GroupConfigurationPK(pGroupName);
         mColor = pColor;
     }
 
-    public String getColorAsString()
-    {
+    public String getColorAsString() {
         return "" + mColor.getRed() + ", " + mColor.getGreen() + ", " + mColor.getBlue();
     }
 
-    public void setColorAsString(String pColor)
-    {
+    public void setColorAsString(String pColor) {
         StringTokenizer tTok = new StringTokenizer(pColor, ",");
         int tRed = Integer.parseInt(tTok.nextToken().trim());
         int tGreen = Integer.parseInt(tTok.nextToken().trim());
@@ -52,36 +46,30 @@ public class GroupConfigurationPO
         mColor = new Color(tRed, tGreen, tBlue);
     }
 
-    public String getGroupName()
-    {
+    public String getGroupName() {
         return (mId == null ? null : mId.getGroupName());
     }
 
-    public void setGroupName(String pGroupName)
-    {
+    public void setGroupName(String pGroupName) {
         mId.setGroupName(pGroupName);
     }
 
-    public Color getColor()
-    {
+    public Color getColor() {
         return mColor;
     }
 
-    public void setColor(Color pColor)
-    {
+    public void setColor(Color pColor) {
         mColor = pColor;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         final int PRIME = 31;
         int result = 1;
         result = PRIME * result + ((mId == null) ? 0 : mId.hashCode());
         return result;
     }
 
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -89,8 +77,7 @@ public class GroupConfigurationPO
         if (getClass() != obj.getClass())
             return false;
         final GroupConfigurationPO other = (GroupConfigurationPO) obj;
-        if (mId == null)
-        {
+        if (mId == null) {
             if (other.mId != null)
                 return false;
         } else if (!mId.equals(other.mId))
@@ -98,13 +85,11 @@ public class GroupConfigurationPO
         return true;
     }
 
-    public GroupConfigurationPK getId()
-    {
+    public GroupConfigurationPK getId() {
         return mId;
     }
 
-    public void setId(GroupConfigurationPK pId)
-    {
+    public void setId(GroupConfigurationPK pId) {
         mId = pId;
     }
 }

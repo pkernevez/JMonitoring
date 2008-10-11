@@ -16,8 +16,7 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * 
  * @author pke
  */
-public class MethodCallEditForm extends AbstractMethodCallForm
-{
+public class MethodCallEditForm extends AbstractMethodCallForm {
     private static final long serialVersionUID = 3618705218511058994L;
 
     /** The measure point assoiciate to this request. */
@@ -28,8 +27,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The measure point associated with this parameters.
      */
-    public MethodCallDTO getMethodCall()
-    {
+    public MethodCallDTO getMethodCall() {
         return mMethodCall;
     }
 
@@ -38,8 +36,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @param pMeasurePoint The measure associated with this parameters.
      */
-    public void setMethodCall(MethodCallDTO pMeasurePoint)
-    {
+    public void setMethodCall(MethodCallDTO pMeasurePoint) {
         mMethodCall = pMeasurePoint;
     }
 
@@ -49,11 +46,9 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The list of attributes to use for the link.
      */
-    public Map getParentIdsMap()
-    {
+    public Map getParentIdsMap() {
         Map tHashMap = new HashMap();
-        if (mMethodCall.getParent() != null)
-        {
+        if (mMethodCall.getParent() != null) {
             tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
             tHashMap.put("position", new Integer(mMethodCall.getParent().getPosition()));
         }
@@ -66,8 +61,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The list of attributes to use for the link.
      */
-    public Map getMethodCallIdsMap()
-    {
+    public Map getMethodCallIdsMap() {
         Map tHashMap = new HashMap();
         tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
         tHashMap.put("position", new Integer(mMethodCall.getPosition()));
@@ -81,8 +75,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * @param pPosition The index of the <code>MethodCallDTO</code>.
      * @return The list of attributes to use for the link.
      */
-    public Map getChildMethodCallIdsMap(int pPosition)
-    {
+    public Map getChildMethodCallIdsMap(int pPosition) {
         Map tHashMap = new HashMap();
         MethodCallDTO tMeasure = (MethodCallDTO) mMethodCall.getChild(pPosition);
         tHashMap.put("flowId", new Integer(tMeasure.getFlowId()));
@@ -90,8 +83,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
         return tHashMap;
     }
 
-    public String getGroupColor()
-    {
+    public String getGroupColor() {
         return ColorHelper.getColor(mMethodCall.getGroupName());
     }
 
@@ -100,11 +92,9 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The name of the method.
      */
-    public String getMethodName()
-    {
+    public String getMethodName() {
         String tResult = super.getMethodName();
-        if (tResult == null)
-        {
+        if (tResult == null) {
             tResult = mMethodCall.getMethodName();
         }
         return tResult;
@@ -115,11 +105,9 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The name of the <code>Class</code>.
      */
-    public String getClassName()
-    {
+    public String getClassName() {
         String tResult = super.getClassName();
-        if (tResult == null)
-        {
+        if (tResult == null) {
             tResult = mMethodCall.getClassName();
         }
         return tResult;

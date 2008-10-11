@@ -10,8 +10,7 @@ import java.util.List;
 
 import org.jfree.data.general.DefaultPieDataset;
 
-public class FlowPieDataset extends DefaultPieDataset
-{
+public class FlowPieDataset extends DefaultPieDataset {
     private static final long serialVersionUID = 4049643377807145267L;
 
     /** Storage for the data. */
@@ -23,8 +22,7 @@ public class FlowPieDataset extends DefaultPieDataset
      * @param pItem The index of the group.
      * @return The name of the group.
      */
-    public String getGroupName(int pItem)
-    {
+    public String getGroupName(int pItem) {
         return (String) mGroupData.get(pItem);
     }
 
@@ -35,8 +33,7 @@ public class FlowPieDataset extends DefaultPieDataset
      * @param pValue the value.
      * @param pGroupName Name of the Group.
      */
-    public void setValue(Comparable pKey, Number pValue, String pGroupName)
-    {
+    public void setValue(Comparable pKey, Number pValue, String pGroupName) {
         // mGroupData.add( pKey, pValue );
         super.setValue(pKey, pValue);
     }
@@ -48,8 +45,7 @@ public class FlowPieDataset extends DefaultPieDataset
      * @param pValue the value.
      * @param pGroupName Name of the Group.
      */
-    public void setValue(Comparable pKey, double pValue, String pGroupName)
-    {
+    public void setValue(Comparable pKey, double pValue, String pGroupName) {
         // mGroupName = pGroupName;
         super.setValue(pKey, new Double(pValue));
     }

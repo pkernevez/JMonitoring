@@ -35,8 +35,7 @@ import org.jmonitoring.core.persistence.InsertionDao;
  * 
  * @author pke
  */
-public class ConsoleDao extends InsertionDao
-{
+public class ConsoleDao extends InsertionDao {
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
 
     private static Log sLog = LogFactory.getLog(ConsoleDao.class);
@@ -47,8 +46,7 @@ public class ConsoleDao extends InsertionDao
      * @todo remove this constructor
      * @param pSession The hibrnate Session to use for DataBase access.
      */
-    public ConsoleDao(Session pSession)
-    {
+    public ConsoleDao(Session pSession) {
         super(pSession);
     }
 
@@ -57,8 +55,7 @@ public class ConsoleDao extends InsertionDao
      * 
      * @todo remove this constructor
      */
-    public ConsoleDao()
-    {
+    public ConsoleDao() {
         super(HibernateManager.getSession());
     }
 
@@ -68,20 +65,16 @@ public class ConsoleDao extends InsertionDao
      * @param pCriterion The criterions for the search.
      * @return The <code>ExecutionFlowDTO</code> list matching the criterion.
      */
-    public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
-    { // On construit la requête
+    public List getListOfExecutionFlowPO(FlowSearchCriterion pCriterion) { // On construit la requï¿½te
 
         Criteria tCriteria = getSession().createCriteria(ExecutionFlowPO.class);
-        if (pCriterion.getThreadName() != null && pCriterion.getThreadName().length() > 0)
-        {
+        if (pCriterion.getThreadName() != null && pCriterion.getThreadName().length() > 0) {
             tCriteria = tCriteria.add(Restrictions.like("threadName", pCriterion.getThreadName() + "%"));
         }
-        if (pCriterion.getDurationMin() != null)
-        {
+        if (pCriterion.getDurationMin() != null) {
             tCriteria = tCriteria.add(Restrictions.gt("duration", pCriterion.getDurationMin()));
         }
-        if (pCriterion.getBeginDate() != null)
-        {
+        if (pCriterion.getBeginDate() != null) {
             long tBeginTime = pCriterion.getBeginDate().getTime();
             tCriteria = tCriteria.add(Restrictions.gt("beginTime", new Long(tBeginTime)));
             tCriteria = tCriteria.add(Restrictions.lt("beginTime", new Long(tBeginTime + ONE_DAY)));
@@ -94,22 +87,18 @@ public class ConsoleDao extends InsertionDao
         tNeedJoinOnMeasure = (tNeedJoinOnMeasure || ((curString != null) && (curString.length() != 0)));
         curString = pCriterion.getMethodName();
         tNeedJoinOnMeasure = (tNeedJoinOnMeasure || ((curString != null) && (curString.length() != 0)));
-        if (tNeedJoinOnMeasure)
-        {
+        if (tNeedJoinOnMeasure) {
             Criteria tMethodCallCriteria = tCriteria.createCriteria("firstMethodCall");
             String curCriteriaValue = pCriterion.getClassName();
-            if (curCriteriaValue != null)
-            {
+            if (curCriteriaValue != null) {
                 tMethodCallCriteria = tMethodCallCriteria.add(Restrictions.like("className", curCriteriaValue + "%"));
             }
             curCriteriaValue = pCriterion.getMethodName();
-            if (curCriteriaValue != null)
-            {
+            if (curCriteriaValue != null) {
                 tMethodCallCriteria = tMethodCallCriteria.add(Restrictions.like("methodName", curCriteriaValue + "%"));
             }
             curCriteriaValue = pCriterion.getGroupName();
-            if (curCriteriaValue != null)
-            {
+            if (curCriteriaValue != null) {
                 tMethodCallCriteria = tMethodCallCriteria.add(Restrictions.like("groupName", curCriteriaValue + "%"));
             }
         }
@@ -120,8 +109,7 @@ public class ConsoleDao extends InsertionDao
      * @param pFlowId The execution flow identifier to read.
      * @return The corresponding ExecutionFlowDTO.
      */
-    public ExecutionFlowPO readExecutionFlow(int pFlowId)
-    {
+    public ExecutionFlowPO readExecutionFlow(int pFlowId) {
         ExecutionFlowPO tFlow = (ExecutionFlowPO) getSession().load(ExecutionFlowPO.class, new Integer(pFlowId));
         Criteria tCriteria = getSession().createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
         tCriteria.add(Restrictions.eq("flow.id", new Integer(pFlowId)));
@@ -133,8 +121,7 @@ public class ConsoleDao extends InsertionDao
      * Delete all flows and linked objects. This method, drop and recreate the schema that is faster than the deletion
      * of all instances.
      */
-    public void deleteAllFlows()
-    {
+    public void deleteAllFlows() {
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
 
@@ -149,15 +136,12 @@ public class ConsoleDao extends InsertionDao
      * @param pId The <code>ExecutionFlowDTO</code> identifier.
      * @throws UnknownFlowException If the flow can't be find in db.
      */
-    public void deleteFlow(int pId) throws UnknownFlowException
-    {
+    public void deleteFlow(int pId) throws UnknownFlowException {
         PreparedStatement tStat = null;
-        try
-        {
-            try
-            {
+        try {
+            try {
                 tStat = getSession().connection().prepareStatement(
-                    "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
+                        "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
                 tStat.setNull(1, Types.INTEGER);
                 tStat.setInt(2, pId);
                 tStat.execute();
@@ -165,7 +149,7 @@ public class ConsoleDao extends InsertionDao
                 tStat = null;
 
                 tStat = getSession().connection().prepareStatement(
-                    "UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
+                        "UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
                 tStat.setNull(1, Types.INTEGER);
                 tStat.setInt(2, pId);
                 tStat.execute();
@@ -184,21 +168,17 @@ public class ConsoleDao extends InsertionDao
                 int tResultCount = tStat.getUpdateCount();
                 tStat.close();
                 tStat = null;
-                if (tResultCount != 1)
-                {
+                if (tResultCount != 1) {
                     throw new UnknownFlowException("Flow with Id=" + pId
-                        + " could not be retreive from database, and can't be delete");
+                            + " could not be retreive from database, and can't be delete");
                 }
 
-            } finally
-            {
-                if (tStat != null)
-                {
+            } finally {
+                if (tStat != null) {
                     tStat.close();
                 }
             }
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             sLog.error("Unable to UPDATE the link of ExecutionFlowPO in DataBase", e);
             throw new MeasureException("Unable to delete the ExecutionFlowPO in DataBase");
         }
@@ -211,8 +191,7 @@ public class ConsoleDao extends InsertionDao
      * @param pMethodName The methodname mask.
      * @return The list of <code>MethodCallPO</code> that math the criteria.
      */
-    public List getListOfMethodCall(String pClassName, String pMethodName)
-    {
+    public List getListOfMethodCall(String pClassName, String pMethodName) {
         Criteria tCriteria = getSession().createCriteria(MethodCallPO.class);
         tCriteria.add(Restrictions.like("className", pClassName + "%"));
         tCriteria.add(Restrictions.like("methodName", pMethodName + "%"));
@@ -228,27 +207,24 @@ public class ConsoleDao extends InsertionDao
      * @param pMethodId The flow identifier.
      * @return The <code>MethodCallDTO</code>.
      */
-    public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
-    {
+    public MethodCallPO readMethodCall(int pFlowId, int pMethodId) {
         Query tQuery = getSession().createQuery(
-            "from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
+                "from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
         tQuery.setInteger("flowId", pFlowId);
         tQuery.setInteger("pid", pMethodId);
         MethodCallPO tMeth = (MethodCallPO) tQuery.uniqueResult();
-        if (tMeth == null)
-        {
-            throw new ObjectNotFoundException("FlowId=" + pFlowId + " and Position=" + pMethodId, MethodCallPO.class
-                .getName());
-        } else
-        {
+        if (tMeth == null) {
+            throw new ObjectNotFoundException("FlowId=" + pFlowId + " and Position=" + pMethodId,
+                    MethodCallPO.class.getName());
+        } else {
             return tMeth;
         }
     }
 
     private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ,"
-        + " MethodCallPO.groupName, COUNT(MethodCallPO.id.position) As NB" + " FROM MethodCallPO MethodCallPO "
-        + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
-        + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
+            + " MethodCallPO.groupName, COUNT(MethodCallPO.id.position) As NB" + " FROM MethodCallPO MethodCallPO "
+            + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
+            + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
 
     private static final int EXTRACT_NB_POS = 3;
 
@@ -263,24 +239,21 @@ public class ConsoleDao extends InsertionDao
      * 
      * @return The <code>List</code> of all Measure.
      */
-    public List getListOfMethodCallExtract()
-    {
+    public List getListOfMethodCallExtract() {
         // List tResult = new ArrayList();
         Query tQuery = getSession().createQuery(SELECT_LIST_OF_MEASURE);
         List tResult = new ArrayList();
         Object[] tExtract;
-        for (Iterator tIt = tQuery.list().iterator(); tIt.hasNext();)
-        {
+        for (Iterator tIt = tQuery.list().iterator(); tIt.hasNext();) {
             tExtract = (Object[]) tIt.next();
             tResult.add(new MethodCallExtractDTO((String) tExtract[EXTRACT_CLASSNAME_POS],
-                (String) tExtract[EXTRACT_METHODNAME_POS], (String) tExtract[EXTRACT_GROUPNAME_POS],
-                (Integer) tExtract[EXTRACT_NB_POS]));
+                    (String) tExtract[EXTRACT_METHODNAME_POS], (String) tExtract[EXTRACT_GROUPNAME_POS],
+                    (Integer) tExtract[EXTRACT_NB_POS]));
         }
         return tResult;
     }
 
-    public void createDataBase()
-    {
+    public void createDataBase() {
         sLog.info("Creating new Schema for the DataBase");
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
@@ -294,10 +267,9 @@ public class ConsoleDao extends InsertionDao
      * @param pMethodName The mathing method name
      * @param pDurationMin The minimum duration of <code>MethodCall</code>
      * @param pDurationMax The maximimu duration of the <code>MethodCall</code>
-     * @return La liste d'objet <code>MethodCallFullExtractPO</code> correspondant aux critères.
+     * @return La liste d'objet <code>MethodCallFullExtractPO</code> correspondant aux critï¿½res.
      */
-    public List getMethodCallList(String pClassName, String pMethodName, long pDurationMin, long pDurationMax)
-    {
+    public List getMethodCallList(String pClassName, String pMethodName, long pDurationMin, long pDurationMax) {
         Query tQuery = getSession().getNamedQuery("GetMethodCallList");
         tQuery.setString("className", pClassName);
         tQuery.setString("methodName", pMethodName);

@@ -20,44 +20,36 @@ import junit.framework.TestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestStoreServlet extends MockStrutsTestCase
-{
+public class TestStoreServlet extends MockStrutsTestCase {
 
-    public void testDoPostInvalidContentType() throws ServletException, IOException
-    {
-        try
-        {
+    public void testDoPostInvalidContentType() throws ServletException, IOException {
+        try {
             checkPostStore();
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             assertEquals("Invalid content type=[null]", e.getMessage());
         }
-        try
-        {
+        try {
             request.setContentType("Toto");
             checkPostStore();
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             assertEquals("Invalid content type=[Toto]", e.getMessage());
         }
     }
 
-    public void testDoPostOk() throws ServletException, IOException
-    {
+    public void testDoPostOk() throws ServletException, IOException {
         request.setContentType(HttpWriter.CONTENT_TYPE);
         checkPostStore();
     }
 
-    private void checkPostStore() throws ServletException, IOException
-    {
+    private void checkPostStore() throws ServletException, IOException {
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
         ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow();
-//        request.(HttpWriter.FLOW_ATTR, tFlow);
-//        StoreServlet tServlet = new StoreServlet();
-//        tServlet.init();
-//        tServlet.doPost(request, response);
-//        assertEquals(1, MemoryStoreWriter.countFlows());
-//        assertEquals(tFlow, MemoryStoreWriter.getFlow(0));
+        // request.(HttpWriter.FLOW_ATTR, tFlow);
+        // StoreServlet tServlet = new StoreServlet();
+        // tServlet.init();
+        // tServlet.doPost(request, response);
+        // assertEquals(1, MemoryStoreWriter.countFlows());
+        // assertEquals(tFlow, MemoryStoreWriter.getFlow(0));
     }
 
 }

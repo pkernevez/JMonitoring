@@ -15,53 +15,44 @@ import java.util.Set;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 
-public class ConfigurationDAO
-{
+public class ConfigurationDAO {
 
     private Session mSession;
 
-    public ConfigurationDAO(Session pSession)
-    {
+    public ConfigurationDAO(Session pSession) {
         mSession = pSession;
     }
 
     static final int UNIQUE_CONF_ID = 1;
 
-    public void saveGeneralConfiguration(GeneralConfigurationPO pConf)
-    {
+    public void saveGeneralConfiguration(GeneralConfigurationPO pConf) {
         mSession.save(pConf);
     }
 
-    public GeneralConfigurationPO getGeneralConfiguration()
-    {
+    public GeneralConfigurationPO getGeneralConfiguration() {
         return (GeneralConfigurationPO) mSession.get(GeneralConfigurationPO.class, new Integer(UNIQUE_CONF_ID));
     }
 
-    public void saveGroupConfiguration(GroupConfigurationPO pConf)
-    {
+    public void saveGroupConfiguration(GroupConfigurationPO pConf) {
         mSession.save(pConf);
     }
 
-    public GroupConfigurationPO getGroupConfiguration(String pGroupName)
-    {
-        GroupConfigurationPO tConf = (GroupConfigurationPO) mSession.get(GroupConfigurationPO.class,
-            new GroupConfigurationPK(pGroupName));
-        if (tConf != null)
-        {
+    public GroupConfigurationPO getGroupConfiguration(String pGroupName) {
+        GroupConfigurationPO tConf = (GroupConfigurationPO) mSession.get(
+                GroupConfigurationPO.class,
+                new GroupConfigurationPK(pGroupName));
+        if (tConf != null) {
             return tConf;
-        } else
-        {
+        } else {
             throw new ObjectNotFoundException(pGroupName, GroupConfigurationPO.class.getName());
         }
     }
 
-    public void deleteGroupConfiguration(String pGroupName)
-    {
+    public void deleteGroupConfiguration(String pGroupName) {
         mSession.delete(getGroupConfiguration(pGroupName));
     }
 
-    public Collection getAllGroupConfigurations()
-    {
+    public Collection getAllGroupConfigurations() {
         List tListFromMeth = mSession.createQuery("select distinct m.groupName from MethodCallPO m").list();
         List tListFromConf = mSession.createQuery("select g.id.groupName from GroupConfigurationPO g").list();
         tListFromConf.addAll(tListFromMeth);
@@ -70,16 +61,13 @@ public class ConfigurationDAO
         // Query tQuery = mSession.createQuery("from GroupConfigurationPO where id.groupName=:pGroupName");
         GroupConfigurationPO curConf;
         String curGroupName;
-        for (Iterator tIt = tSetOfGroupName.iterator(); tIt.hasNext();)
-        {
+        for (Iterator tIt = tSetOfGroupName.iterator(); tIt.hasNext();) {
             curGroupName = (String) tIt.next();
             // tQuery.setString("pGroupName", curGroupName);
             // curConf = (GroupConfigurationPO) tQuery.uniqueResult();
-            try
-            {
+            try {
                 curConf = getGroupConfiguration(curGroupName);
-            } catch (ObjectNotFoundException e)
-            {
+            } catch (ObjectNotFoundException e) {
                 curConf = new GroupConfigurationPO(curGroupName);
             }
             tResult.add(curConf);

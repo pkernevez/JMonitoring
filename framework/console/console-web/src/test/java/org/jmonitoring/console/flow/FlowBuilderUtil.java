@@ -17,15 +17,12 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class FlowBuilderUtil
-{
-    public void clear()
-    {
+public class FlowBuilderUtil {
+    public void clear() {
         HibernateManager.getSession().clear();
     }
 
-    public void createSchema()
-    {
+    public void createSchema() {
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
 
@@ -33,29 +30,24 @@ public class FlowBuilderUtil
 
     }
 
-    public ExecutionFlowDTO buildAndSaveNewDto(int pNbMethods)
-    {
+    public ExecutionFlowDTO buildAndSaveNewDto(int pNbMethods) {
         ExecutionFlowPO tExecPO = buildNewFullFlow(pNbMethods);
         ConsoleDao tDao = new ConsoleDao(HibernateManager.getSession());
         tDao.insertFullExecutionFlow(tExecPO);
         return DtoHelper.getDeepCopy(tExecPO);
     }
 
-    public int countFlows()
-    {
+    public int countFlows() {
         SQLQuery tQuery = HibernateManager.getSession().createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
-        if (tResult != null)
-        {
+        if (tResult != null) {
             return ((Integer) tResult).intValue();
-        } else
-        {
+        } else {
             return 0;
         }
     }
 
-    public ExecutionFlowPO buildNewFullFlow(int pNbMethods)
-    {
+    public ExecutionFlowPO buildNewFullFlow(int pNbMethods) {
         ExecutionFlowPO tFlow;
         MethodCallPO tPoint;
         MethodCallPO tSubPoint;
@@ -64,8 +56,7 @@ public class FlowBuilderUtil
         tPoint = new MethodCallPO(null, FlowBuilderUtil.class.getName(), "builNewFullFlow", "GrDefault", "[]");
         tPoint.setBeginTime(currentTime);
 
-        for (int i = 0; i < pNbMethods; i++)
-        {
+        for (int i = 0; i < pNbMethods; i++) {
             tSubPoint = new MethodCallPO(tPoint, FlowBuilderUtil.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
             tSubPoint.setBeginTime(currentTime + 1);
             currentTime = currentTime + 5;

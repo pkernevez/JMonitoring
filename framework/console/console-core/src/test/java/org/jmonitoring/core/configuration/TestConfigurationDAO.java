@@ -20,20 +20,19 @@ import org.hibernate.exception.GenericJDBCException;
 import org.jmonitoring.core.dao.TestConsoleDao;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
-public class TestConfigurationDAO extends PersistanceTestCase
-{
+public class TestConfigurationDAO extends PersistanceTestCase {
 
     /**
      * @todo clear comments
      * @throws IOException
      */
-    public void testSaveGeneralConfiguration() throws IOException
-    {
-//        for (Enumeration tEnum = this.getClass().getClassLoader().getResources("jmonitoring.hibernate.xml");tEnum.hasMoreElements();)
-//        {
-//            URL tUrl = (URL) tEnum.nextElement();
-//            System.out.println("PKE "+tUrl.getPath());
-//        }
+    public void testSaveGeneralConfiguration() throws IOException {
+        // for (Enumeration tEnum =
+        // this.getClass().getClassLoader().getResources("jmonitoring.hibernate.xml");tEnum.hasMoreElements();)
+        // {
+        // URL tUrl = (URL) tEnum.nextElement();
+        // System.out.println("PKE "+tUrl.getPath());
+        // }
         assertEquals(0, countGeneralConf());
 
         GeneralConfigurationPO tConf = new GeneralConfigurationPO();
@@ -47,32 +46,27 @@ public class TestConfigurationDAO extends PersistanceTestCase
         assertEquals(1, countGeneralConf());
 
         tConf = new GeneralConfigurationPO();
-        try
-        { 
+        try {
             tDao.saveGeneralConfiguration(tConf);
             fail("Can't save 2 instances of General configuration");
-        } catch (NonUniqueObjectException e)
-        {
+        } catch (NonUniqueObjectException e) {
             assertTrue(e.getMessage().length() > 0);
         }
         assertEquals(1, countGeneralConf());
 
         getSession().clear();
-        try
-        {
+        try {
             tDao.saveGeneralConfiguration(tConf);
             getSession().flush();
             fail("Can't save 2 instances of General configuration");
-        } catch (GenericJDBCException e)
-        {
+        } catch (GenericJDBCException e) {
             assertTrue(e.getMessage().length() > 0);
         }
         assertEquals(1, countGeneralConf());
 
     }
 
-    public void testGetGeneralConfiguration()
-    {
+    public void testGetGeneralConfiguration() {
         assertEquals(0, countGeneralConf());
 
         GeneralConfigurationPO tConf = new GeneralConfigurationPO();
@@ -110,8 +104,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
-    public void testSaveGroupConfiguration()
-    {
+    public void testSaveGroupConfiguration() {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName", new Color(12, 13, 14));
         ConfigurationDAO tDao = new ConfigurationDAO(getSession());
         assertEquals(0, tDao.getAllGroupConfigurations().size());
@@ -123,8 +116,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
         tDao.saveGroupConfiguration(tConf);
     }
 
-    public void testGetGroupConfiguration()
-    {
+    public void testGetGroupConfiguration() {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
         GroupConfigurationPO tConf2 = new GroupConfigurationPO("groupName2", new Color(15, 16, 17));
         ConfigurationDAO tDao = new ConfigurationDAO(getSession());
@@ -143,21 +135,18 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
         assertNotNull(tDao.getGroupConfiguration("groupName2"));
 
-        try
-        {
+        try {
             tDao.getGroupConfiguration("groupName3");
             fail("Should not be retreive...");
-        } catch (ObjectNotFoundException e)
-        {
+        } catch (ObjectNotFoundException e) {
             assertEquals(
-                "No row with the given identifier exists: [org.jmonitoring.core.configuration.GroupConfigurationPO#groupName3]",
-                e.getMessage());
+                    "No row with the given identifier exists: [org.jmonitoring.core.configuration.GroupConfigurationPO#groupName3]",
+                    e.getMessage());
         }
 
     }
 
-    public void testDeleteGroupConfiguration()
-    {
+    public void testDeleteGroupConfiguration() {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
         GroupConfigurationPO tConf2 = new GroupConfigurationPO("groupName2", new Color(15, 16, 17));
         ConfigurationDAO tDao = new ConfigurationDAO(getSession());
@@ -172,12 +161,10 @@ public class TestConfigurationDAO extends PersistanceTestCase
         getSession().flush();
         assertEquals(1, tDao.getAllGroupConfigurations().size());
 
-        try
-        {
+        try {
             tDao.deleteGroupConfiguration("uyuyy");
             fail("Object shoul not be found");
-        } catch (ObjectNotFoundException e)
-        {
+        } catch (ObjectNotFoundException e) {
             assertEquals(GroupConfigurationPO.class.getName(), e.getEntityName());
         }
         getSession().flush();
@@ -189,8 +176,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
-    public void testGetAllGroupConfigurations()
-    {
+    public void testGetAllGroupConfigurations() {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
         GroupConfigurationPO tConf2 = new GroupConfigurationPO("groupName2", new Color(15, 16, 17));
         ConfigurationDAO tDao = new ConfigurationDAO(getSession());
@@ -217,8 +203,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
-    public void testGeneralConfigurationCacheLevel2()
-    {
+    public void testGeneralConfigurationCacheLevel2() {
         GeneralConfigurationPO tConf = new GeneralConfigurationPO();
 
         ConfigurationDAO tDao = new ConfigurationDAO(getSession());
@@ -241,8 +226,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
-    public void testGroupConfigurationCacheLevel2()
-    {
+    public void testGroupConfigurationCacheLevel2() {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
         GroupConfigurationPO tConf2 = new GroupConfigurationPO("groupName2", new Color(15, 16, 17));
         GroupConfigurationPO tConf3 = new GroupConfigurationPO("groupName3", new Color(15, 16, 17));
@@ -274,8 +258,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
         assertEquals(3, getStats().getSecondLevelCacheHitCount());
     }
 
-    private int countGeneralConf()
-    {
+    private int countGeneralConf() {
         SQLQuery tQuery = getSession().createSQLQuery("Select Count(*) as myCount From CONFIGURATION_GENERAL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();

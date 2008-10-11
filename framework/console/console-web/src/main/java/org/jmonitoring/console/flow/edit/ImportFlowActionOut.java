@@ -12,11 +12,9 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
 
-public class ImportFlowActionOut extends Action
-{
+public class ImportFlowActionOut extends Action {
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
-    {
+            HttpServletResponse pResponse) throws Exception {
         ImportFlowForm tForm = (ImportFlowForm) pForm;
 
         FormFile myFile = tForm.getTheFile();

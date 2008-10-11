@@ -13,11 +13,9 @@ import servletunit.struts.MockStrutsTestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase
-{
-    
-    public void testOkDefaultInterval()
-    {
+public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase {
+
+    public void testOkDefaultInterval() {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(5);
@@ -51,7 +49,7 @@ public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase
         assertNotNull(tByte);
         assertTrue(tByte.length > 10);
 
-        // On vérifie les accès en base.
+        // On vÃ©rifie les accÃ¨s en base.
         // System.out.println("Statistiques:");
         // for (StringTokenizer tToken = new StringTokenizer(tStats.toString(), ","); tToken.hasMoreTokens();)
         // {
@@ -60,7 +58,7 @@ public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase
         assertEquals(0, tStats.getCollectionFetchCount());
         assertEquals(0, tStats.getCollectionLoadCount());
         assertEquals(0, tStats.getEntityFetchCount());
-        assertEquals(6, tStats.getEntityLoadCount());
+        assertTrue(tStats.getEntityLoadCount()>=5);
         assertEquals(2, tStats.getQueryExecutionCount());
         assertEquals(2, tStats.getPrepareStatementCount());
 

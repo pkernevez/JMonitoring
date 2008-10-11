@@ -15,8 +15,7 @@ import org.jfree.data.gantt.TaskSeriesCollection;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class FlowDetailURLGenerator implements CategoryURLGenerator
-{
+public class FlowDetailURLGenerator implements CategoryURLGenerator {
 
     private int mCurrentMainTaskPosition = -1;
 
@@ -24,8 +23,7 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
 
     private static Log sLog = LogFactory.getLog(FlowDetailURLGenerator.class);
 
-    public FlowDetailURLGenerator()
-    {
+    public FlowDetailURLGenerator() {
         super();
     }
 
@@ -34,14 +32,11 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
      * 
      * @see XYURLGenerator#generateURL(org.jfree.data.xy.XYDataset, int, int)
      */
-    public String generateURL(CategoryDataset categorydataset, int i, int j)
-    {
-        if (j != mCurrentMainTaskPosition)
-        { // Changent de group
+    public String generateURL(CategoryDataset categorydataset, int i, int j) {
+        if (j != mCurrentMainTaskPosition) { // Changent de group
             mCurrentPositionForThisTask = 0;
             mCurrentMainTaskPosition = j;
-        } else
-        {
+        } else {
             mCurrentPositionForThisTask++;
         }
         TaskSeriesCollection tCollection = (TaskSeriesCollection) categorydataset;
@@ -51,7 +46,7 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
         MethodCallTask tCurrentTask = (MethodCallTask) tMainTask.getSubtask(mCurrentPositionForThisTask);
 
         String tUrl = "MethodCallEditIn.do?flowId=" + tCurrentTask.getFlowId() + "&position="
-            + tCurrentTask.getMethodCallId();
+                + tCurrentTask.getMethodCallId();
         sLog.debug("Generate URL:" + tUrl);
         return tUrl;
     }

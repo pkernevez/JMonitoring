@@ -24,17 +24,14 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class TestConsoleDao extends PersistanceTestCase
-{
+public class TestConsoleDao extends PersistanceTestCase {
 
-    public void testCountOk()
-    {
+    public void testCountOk() {
         assertEquals(0, new ConsoleDao(getSession()).countFlows());
         assertEquals(0, countMethods());
     }
 
-    public void testInsertSimpleFlow()
-    {
+    public void testInsertSimpleFlow() {
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
         int tOldNbFlow = tFlowDAO.countFlows();
         int tOldNbMethodCall = countMethods();
@@ -49,8 +46,7 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(tOldNbMethodCall + 1, tNewNbMethodCall);
     }
 
-    public static ExecutionFlowPO buildNewSimpleFlow()
-    {
+    public static ExecutionFlowPO buildNewSimpleFlow() {
         ExecutionFlowPO tFlow;
         MethodCallPO tPoint;
         long tStartTime = System.currentTimeMillis();
@@ -63,8 +59,7 @@ public class TestConsoleDao extends PersistanceTestCase
         return tFlow;
     }
 
-    public void testInsertNewFlows()
-    {
+    public void testInsertNewFlows() {
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
         int tOldNbFlow = tFlowDAO.countFlows();
         int tOldNbMeth = countMethods();
@@ -83,8 +78,7 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(tFlow.getId(), curMeth.getChild(1).getFlow().getId());
     }
 
-    public void testReadNewFlows()
-    {
+    public void testReadNewFlows() {
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
 
         ExecutionFlowPO tFlow = buildNewFullFlow();
@@ -106,8 +100,7 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(0, tStat.getCollectionFetchCount());
     }
 
-    public static ExecutionFlowPO buildAndSaveNewFullFlow(Session pSession)
-    {
+    public static ExecutionFlowPO buildAndSaveNewFullFlow(Session pSession) {
         ExecutionFlowPO tExecFlow = buildNewFullFlow();
         ConsoleDao tDao = new ConsoleDao(pSession);
         tDao.insertFullExecutionFlow(tExecFlow);
@@ -161,10 +154,9 @@ public class TestConsoleDao extends PersistanceTestCase
     // }
     //
     /**
-     * @todo S'assurer qu'une méthode VOID est bien loguée comme une méthode void.
+     * @todo S'assurer qu'une mï¿½thode VOID est bien loguï¿½e comme une mï¿½thode void.
      */
-    public void testGetMethodCallOfTheFlow()
-    {
+    public void testGetMethodCallOfTheFlow() {
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
 
         int tOldResult = tFlowDAO.countFlows();
@@ -237,8 +229,7 @@ public class TestConsoleDao extends PersistanceTestCase
 
     }
 
-    public void testReadMethodCall()
-    {
+    public void testReadMethodCall() {
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tFlowDAO.insertFullExecutionFlow(tFlow);
@@ -260,20 +251,17 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginTime());
         assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndTime());
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
-        try
-        {
+        try {
             tFlowDAO.readMethodCall(13, 34);
             fail("Should not append");
-        } catch (ObjectNotFoundException e)
-        {
+        } catch (ObjectNotFoundException e) {
             assertEquals(
-                "No row with the given identifier exists: [org.jmonitoring.core.domain.MethodCallPO#FlowId=13 and Position=34]",
-                e.getMessage());
+                    "No row with the given identifier exists: [org.jmonitoring.core.domain.MethodCallPO#FlowId=13 and Position=34]",
+                    e.getMessage());
         }
     }
 
-    public void testGetListOfMethodCallExtract()
-    {
+    public void testGetListOfMethodCallExtract() {
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
 
         // First delete all flow, we don't use the DeleteAll Method of the
@@ -304,8 +292,7 @@ public class TestConsoleDao extends PersistanceTestCase
 
     }
 
-    private int countMethods()
-    {
+    private int countMethods() {
         SQLQuery tQuery = getSession().createSQLQuery("Select Count(*) as myCount From METHOD_CALL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();

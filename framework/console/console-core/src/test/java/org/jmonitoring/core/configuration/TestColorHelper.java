@@ -12,11 +12,9 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.jmonitoring.core.dao.ConsoleDao;
 
-public class TestColorHelper extends TestCase
-{
+public class TestColorHelper extends TestCase {
 
-    public void testCalculColor()
-    {
+    public void testCalculColor() {
         assertNotNull(ColorHelper.calculColor(""));
         assertNotNull(ColorHelper.calculColor("ldkfmlkfs"));
         assertNotNull(ColorHelper.calculColor(null));
@@ -27,9 +25,9 @@ public class TestColorHelper extends TestCase
         String tGroup = "MyGroup";
         assertEquals("#da0e3e", ColorHelper.getColor(tGroup));
         assertEquals("#da0e3e", ColorHelper.getColor(tGroup));
-        ConfigurationHelper.getInstance().setProperty("group.color."+tGroup, "#456789");
+        ConfigurationHelper.getInstance().setProperty("group.color." + tGroup, "#456789");
         assertEquals("#456789", ColorHelper.getColor(tGroup));
-        ConfigurationHelper.clearProperty("group.color."+tGroup);
+        ConfigurationHelper.clearProperty("group.color." + tGroup);
         assertEquals("#da0e3e", ColorHelper.getColor(tGroup));
     }
 

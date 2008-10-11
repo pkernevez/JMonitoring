@@ -4,11 +4,9 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.dao.TestConsoleDao;
 
-public class TestMethodCallDTO extends TestCase
-{
+public class TestMethodCallDTO extends TestCase {
 
-    private MethodCallDTO buildMethodCall()
-    {
+    private MethodCallDTO buildMethodCall() {
         MethodCallDTO tParent = new MethodCallDTO();
         MethodCallDTO[] tChildren = new MethodCallDTO[3];
         tChildren[0] = new MethodCallDTO();
@@ -21,8 +19,7 @@ public class TestMethodCallDTO extends TestCase
         return tParent;
     }
 
-    public void testRemoveChild()
-    {
+    public void testRemoveChild() {
         MethodCallDTO tParent = buildMethodCall();
         tParent.removeChild(0);
         assertEquals(2, tParent.getChildren().length);
@@ -42,8 +39,7 @@ public class TestMethodCallDTO extends TestCase
         assertEquals("2", tParent.getChild(1).getClassName());
     }
 
-    public void testDurationFromPreviousCall()
-    {
+    public void testDurationFromPreviousCall() {
         ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestConsoleDao.buildNewFullFlow());
         MethodCallDTO tParentMeth = tFlow.getFirstMethodCall();
 

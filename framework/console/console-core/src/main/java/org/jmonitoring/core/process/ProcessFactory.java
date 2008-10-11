@@ -4,8 +4,7 @@ package org.jmonitoring.core.process;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public final class ProcessFactory
-{
+public final class ProcessFactory {
 
     // /**
     // * Use for test.
@@ -17,12 +16,10 @@ public final class ProcessFactory
     // sMockProcess = pProcess;
     // }
 
-    private ProcessFactory()
-    {
+    private ProcessFactory() {
     }
 
-    public static JMonitoringProcess getInstance()
-    {
+    public static JMonitoringProcess getInstance() {
         // return (sMockProcess == null ? new JMonitoringProcess() : sMockProcess);
         return new JMonitoringProcess();
     }

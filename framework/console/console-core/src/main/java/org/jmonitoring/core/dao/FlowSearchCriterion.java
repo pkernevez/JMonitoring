@@ -12,8 +12,7 @@ import java.util.Date;
  * 
  * @author pke
  */
-public class FlowSearchCriterion
-{
+public class FlowSearchCriterion {
     /** The name of the Thread. */
     private String mThreadName;
 
@@ -41,96 +40,84 @@ public class FlowSearchCriterion
     /**
      * @return Returns the firstMeasureClassName.
      */
-    public String getClassName()
-    {
+    public String getClassName() {
         return mFirstMeasureClassName;
     }
 
     /**
      * @param pFirstMeasureClassName The firstMeasureClassName to set.
      */
-    public void setClassName(String pFirstMeasureClassName)
-    {
+    public void setClassName(String pFirstMeasureClassName) {
         mFirstMeasureClassName = pFirstMeasureClassName;
     }
 
     /**
      * @return Returns the firstMeasureGroupName.
      */
-    public String getGroupName()
-    {
+    public String getGroupName() {
         return mFirstMeasureGroupName;
     }
 
     /**
      * @param pFirstMeasureGroupName The firstMeasureGroupName to set.
      */
-    public void setGroupName(String pFirstMeasureGroupName)
-    {
+    public void setGroupName(String pFirstMeasureGroupName) {
         mFirstMeasureGroupName = pFirstMeasureGroupName;
     }
 
     /**
      * @return Returns the firstMeasureMethodName.
      */
-    public String getMethodName()
-    {
+    public String getMethodName() {
         return mFirstMeasureMethodName;
     }
 
     /**
      * @param pFirstMeasureMethodName The firstMeasureMethodName to set.
      */
-    public void setMethodName(String pFirstMeasureMethodName)
-    {
+    public void setMethodName(String pFirstMeasureMethodName) {
         mFirstMeasureMethodName = pFirstMeasureMethodName;
     }
 
     /**
      * @return Returns the jVM.
      */
-    public String getJVM()
-    {
+    public String getJVM() {
         return mJVM;
     }
 
     /**
      * @param pJvm The jVM to set.
      */
-    public void setJVM(String pJvm)
-    {
+    public void setJVM(String pJvm) {
         mJVM = pJvm;
     }
 
     /**
      * @return Returns the threadName.
      */
-    public String getThreadName()
-    {
+    public String getThreadName() {
         return mThreadName;
     }
 
     /**
      * @param pThreadName The threadName to set.
      */
-    public void setThreadName(String pThreadName)
-    {
+    public void setThreadName(String pThreadName) {
         mThreadName = pThreadName;
     }
 
     /**
      * @return Returns the beginDate.
      */
-    public Date getBeginDate()
-    {
+    public Date getBeginDate() {
         return mBeginDate;
     }
 
     /**
      * @param pBeginDate The beginDate to set.
      */
-    public void setBeginDate(Date pBeginDate)
-    {
+    public void setBeginDate(Date pBeginDate) {
         mBeginDate = new Date(pBeginDate.getTime());
     }
 
@@ -138,8 +125,7 @@ public class FlowSearchCriterion
      * @todo menage
      * @return Returns the beginTime.
      */
-    public Date getBeginTimeMin()
-    {
+    public Date getBeginTimeMin() {
         return mBeginTimeMin;
     }
 
@@ -147,24 +133,21 @@ public class FlowSearchCriterion
      * @todo menage
      * @param pBeginTimeMin The beginTime to set.
      */
-    public void setBeginTimeMin(java.util.Date pBeginTimeMin)
-    {
+    public void setBeginTimeMin(java.util.Date pBeginTimeMin) {
         mBeginTimeMin = new Date(pBeginTimeMin.getTime());
     }
 
     /**
      * @return Returns the duration.
      */
-    public Long getDurationMin()
-    {
+    public Long getDurationMin() {
         return mDurationMin;
     }
 
     /**
      * @param pDuration The duration to set.
      */
-    public void setDurationMin(Long pDuration)
-    {
+    public void setDurationMin(Long pDuration) {
         mDurationMin = pDuration;
     }
 }

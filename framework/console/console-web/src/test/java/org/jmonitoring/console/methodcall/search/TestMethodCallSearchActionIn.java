@@ -11,11 +11,9 @@ import org.jmonitoring.core.dto.MethodCallExtractDTO;
 
 import servletunit.struts.MockStrutsTestCase;
 
-public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase
-{
+public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase {
 
-    public void testExecuteActionMappingActionFormHttpServletRequestHttpServletResponse()
-    {
+    public void testExecuteActionMappingActionFormHttpServletRequestHttpServletResponse() {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(2);
@@ -49,8 +47,7 @@ public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase
 
     }
 
-    public void testConvertListAsTree()
-    {
+    public void testConvertListAsTree() {
         List tList = new ArrayList();
         tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto", "getToto", "Grp1", new Integer(1)));
         tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto", "getTotoBis", "Grp1", new Integer(2)));

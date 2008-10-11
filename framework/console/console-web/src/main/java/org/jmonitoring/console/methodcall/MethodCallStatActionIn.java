@@ -43,8 +43,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo refactor this class into a JFreeChart / ChartBarUtil class
  * @todo remove FindBugs exclusion after
  */
-public class MethodCallStatActionIn extends Action
-{
+public class MethodCallStatActionIn extends Action {
 
     private static final int NB_DEFAULT_INTERVAL_VALUE = 50;
 
@@ -64,8 +63,7 @@ public class MethodCallStatActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
-    {
+            HttpServletResponse pResponse) throws Exception {
         MethodCallStatForm tForm = (MethodCallStatForm) pForm;
         List tMeasures = readMeasure(tForm);
         tForm.setNbMeasures(tMeasures.size());
@@ -75,11 +73,9 @@ public class MethodCallStatActionIn extends Action
     }
 
     /** @todo Refactorer cette couche avec des DTO propre... */
-    private List readMeasure(MethodCallStatForm pForm)
-    {
+    private List readMeasure(MethodCallStatForm pForm) {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        if (!pForm.isParametersByName())
-        {
+        if (!pForm.isParametersByName()) {
             MethodCallDTO tMeth = tProcess.readMethodCall(pForm.getFlowId(), pForm.getPosition());
             pForm.setClassName(tMeth.getClassName());
             pForm.setMethodName(tMeth.getMethodName());
@@ -87,21 +83,16 @@ public class MethodCallStatActionIn extends Action
         return tProcess.getListOfMethodCallFromClassAndMethodName(pForm.getClassName(), pForm.getMethodName());
     }
 
-    private void computeStat(List pMeasures, MethodCallStatForm pForm)
-    {
-        if (pMeasures.size() != 0)
-        {
+    private void computeStat(List pMeasures, MethodCallStatForm pForm) {
+        if (pMeasures.size() != 0) {
             MethodCallDTO curMeasure = (MethodCallDTO) pMeasures.get(0);
             long tMin = curMeasure.getDuration(), tMax = tMin, tSum = tMin;
-            for (int i = 1; i < pMeasures.size(); i++)
-            {
+            for (int i = 1; i < pMeasures.size(); i++) {
                 curMeasure = (MethodCallDTO) pMeasures.get(i);
                 tSum += curMeasure.getDuration();
-                if (curMeasure.getDuration() > tMax)
-                {
+                if (curMeasure.getDuration() > tMax) {
                     tMax = curMeasure.getDuration();
-                } else if (curMeasure.getDuration() < tMin)
-                {
+                } else if (curMeasure.getDuration() < tMin) {
                     tMin = curMeasure.getDuration();
                 }
             }
@@ -109,8 +100,7 @@ public class MethodCallStatActionIn extends Action
             tAvg = (double) tSum / (double) pMeasures.size();
             // Standard Deviation
             double tDelta, tVar = 0;
-            for (int i = 0; i < pMeasures.size(); i++)
-            {
+            for (int i = 0; i < pMeasures.size(); i++) {
                 curMeasure = (MethodCallDTO) pMeasures.get(i);
                 tDelta = tAvg - curMeasure.getDuration();
                 tVar += tDelta * tDelta;
@@ -122,18 +112,14 @@ public class MethodCallStatActionIn extends Action
         }
     }
 
-    private int computeIntervalValue(List pMeasures, MethodCallStatForm pForm)
-    {
+    private int computeIntervalValue(List pMeasures, MethodCallStatForm pForm) {
         int tIntervalValue = pForm.getInterval();
-        if (tIntervalValue <= 0)
-        { // The Interval has not be specified explicitly
+        if (tIntervalValue <= 0) { // The Interval has not be specified explicitly
             long tDurationMax = 0, curDuration;
             // Get duration max
-            for (int i = 0; i < pMeasures.size(); i++)
-            {
+            for (int i = 0; i < pMeasures.size(); i++) {
                 curDuration = ((MethodCallDTO) pMeasures.get(i)).getDuration();
-                if (curDuration > tDurationMax)
-                {
+                if (curDuration > tDurationMax) {
                     tDurationMax = curDuration;
                 }
             }
@@ -153,8 +139,7 @@ public class MethodCallStatActionIn extends Action
      * @param pMeasures The list of <code>MethodCallDTO</code> to use for image generation.
      * @param pForm The form associated to this Action.
      */
-    public void writeFullDurationStat(HttpSession pSession, List pMeasures, MethodCallStatForm pForm)
-    {
+    public void writeFullDurationStat(HttpSession pSession, List pMeasures, MethodCallStatForm pForm) {
         int tInterval = computeIntervalValue(pMeasures, pForm);
         IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
 
@@ -164,24 +149,21 @@ public class MethodCallStatActionIn extends Action
 
         ByteArrayOutputStream tImageStream = new ByteArrayOutputStream();
         ByteArrayOutputStream tMapStream = new ByteArrayOutputStream();
-        try
-        {
+        try {
             ChartUtilities.writeChartAsPNG(tImageStream, tJFreeChart, 800, 450, tChartRenderingInfo);
             // todo regarder l'API avec FragmentURLGenerator...
             PrintWriter tWriter = new PrintWriter(tMapStream);
             ChartUtilities.writeImageMap(tWriter, "chart", tChartRenderingInfo);
             tWriter.flush();
             pForm.setImageMap(tMapStream.toString());
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new MeasureException("Unable to write Image", e);
         }
         pSession.setAttribute(FULL_DURATION_STAT, tImageStream.toByteArray());
         sLog.debug("Image " + FULL_DURATION_STAT + " add to session");
     }
 
-    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, MethodCallStatForm pForm)
-    {
+    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, MethodCallStatForm pForm) {
         NumberAxis tAxis = new NumberAxis("duration (ms)");
         tAxis.setAutoRangeIncludesZero(false);
         ValueAxis tValueAxis = new NumberAxis("number of occurences");
@@ -189,8 +171,8 @@ public class MethodCallStatActionIn extends Action
         XYBarRenderer renderer = new XYBarRenderer();
         renderer.setToolTipGenerator(new StandardXYToolTipGenerator());
 
-        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(), pForm
-            .getClassName(), pForm.getMethodName()));
+        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(),
+                pForm.getClassName(), pForm.getMethodName()));
 
         XYPlot plot = new XYPlot(dataset, tAxis, tValueAxis, renderer);
         plot.setOrientation(PlotOrientation.VERTICAL);
@@ -200,29 +182,24 @@ public class MethodCallStatActionIn extends Action
         return chart;
     }
 
-    private IntervalXYDataset createFullDurationDataset(List pMeasures, int pInterval)
-    {
+    private IntervalXYDataset createFullDurationDataset(List pMeasures, int pInterval) {
         Map tMap = new HashMap();
         Integer tCurNb;
         Long tCurDurationAsLong;
         long tCurDuration;
         long tDurationMax = 0;
-        for (int i = 0; i < pMeasures.size(); i++)
-        {
+        for (int i = 0; i < pMeasures.size(); i++) {
             tCurDuration = ((MethodCallDTO) pMeasures.get(i)).getDuration();
-            if (tCurDuration > tDurationMax)
-            {
+            if (tCurDuration > tDurationMax) {
                 tDurationMax = tCurDuration;
             }
             // Around the duration with duration groupvalue
             tCurDuration = ((long) tCurDuration / pInterval) * pInterval;
             tCurDurationAsLong = new Long(tCurDuration);
             tCurNb = (Integer) tMap.get(tCurDurationAsLong);
-            if (tCurNb != null)
-            {
+            if (tCurNb != null) {
                 tCurNb = new Integer(tCurNb.intValue() + 1);
-            } else
-            {
+            } else {
                 tCurNb = new Integer(1);
             }
             tMap.put(tCurDurationAsLong, tCurNb);

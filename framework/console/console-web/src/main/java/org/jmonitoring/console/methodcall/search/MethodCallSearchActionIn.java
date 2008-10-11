@@ -17,8 +17,7 @@ import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
 
-public class MethodCallSearchActionIn extends Action
-{
+public class MethodCallSearchActionIn extends Action {
     /**
      * (non-Javadoc)
      * 
@@ -27,8 +26,7 @@ public class MethodCallSearchActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
-    {
+            HttpServletResponse pResponse) throws Exception {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         List tListOfAllExtract = tProcess.getListOfMethodCallExtract();
         Map tListOfExtractByFullClassName = new HashMap();
@@ -48,23 +46,18 @@ public class MethodCallSearchActionIn extends Action
      * @param pListOfMeasure The list of <code>String</code>.
      * @return The Tree has a Map.
      */
-    static Map convertListAsTree(Map pListOfExtractByFullClassName, List pListOfMeasure)
-    {
+    static Map convertListAsTree(Map pListOfExtractByFullClassName, List pListOfMeasure) {
         Map tTree = new HashMap();
         String curString;
         Map curMap;
         MethodCallExtractDTO tExtract;
-        for (Iterator tIt = pListOfMeasure.iterator(); tIt.hasNext();)
-        {
+        for (Iterator tIt = pListOfMeasure.iterator(); tIt.hasNext();) {
             curMap = tTree;
             tExtract = (MethodCallExtractDTO) tIt.next();
             pListOfExtractByFullClassName.put(tExtract.getName() + tExtract.getGroupName(), tExtract);
-            for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(), "."); tTokenizer
-                .hasMoreElements();)
-            {
+            for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(), "."); tTokenizer.hasMoreElements();) {
                 curString = (String) tTokenizer.nextElement();
-                if (curMap.get(curString) == null)
-                {
+                if (curMap.get(curString) == null) {
                     curMap.put(curString, new HashMap());
                 }
                 curMap = (Map) curMap.get(curString);

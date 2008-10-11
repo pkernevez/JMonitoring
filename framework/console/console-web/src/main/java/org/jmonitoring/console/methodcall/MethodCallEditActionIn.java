@@ -15,8 +15,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class MethodCallEditActionIn extends Action
-{
+public class MethodCallEditActionIn extends Action {
     /*
      * (non-Javadoc)
      * 
@@ -25,8 +24,7 @@ public class MethodCallEditActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse)
-    {
+            HttpServletResponse pResponse) {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         // List tList = new ArrayList();
         MethodCallEditForm tForm = (MethodCallEditForm) pForm;
