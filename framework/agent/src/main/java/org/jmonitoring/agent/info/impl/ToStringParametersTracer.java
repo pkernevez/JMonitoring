@@ -2,13 +2,11 @@ package org.jmonitoring.agent.info.impl;
 
 import org.jmonitoring.core.info.IParamaterTracer;
 
-public class ToStringParametersTracer implements IParamaterTracer
-{
+public class ToStringParametersTracer implements IParamaterTracer {
 
     private int mMaxLength = -1;
 
-    public ToStringParametersTracer()
-    {
+    public ToStringParametersTracer() {
     }
 
     /**
@@ -16,22 +14,17 @@ public class ToStringParametersTracer implements IParamaterTracer
      * 
      * @param pMaxLength The max lenght of the String.
      */
-    public ToStringParametersTracer(int pMaxLength)
-    {
+    public ToStringParametersTracer(int pMaxLength) {
         mMaxLength = pMaxLength;
     }
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects)
-    {
+    public String convertToString(Object pTarget, Object[] pParameterObjects) {
         StringBuffer tBuffer = new StringBuffer();
-        if (pParameterObjects != null)
-        {
+        if (pParameterObjects != null) {
             boolean tFistTime = true;
             tBuffer.append("[");
-            for (int i = 0; i < pParameterObjects.length; i++)
-            {
-                if (!tFistTime)
-                {
+            for (int i = 0; i < pParameterObjects.length; i++) {
+                if (!tFistTime) {
                     tBuffer.append(", ");
                 }
                 tBuffer.append("" + pParameterObjects[i]);

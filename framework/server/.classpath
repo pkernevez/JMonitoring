@@ -5,6 +5,11 @@
   <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/dev/apps/maven/repo/javax/activation/activation/1.1/activation-1.1-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="src" path="/agent"/>
   <classpathentry kind="var" path="M2_REPO/antlr/antlr/2.7.6rc1/antlr-2.7.6rc1.jar"/>
   <classpathentry kind="var" path="M2_REPO/asm/asm/1.5.3/asm-1.5.3.jar" sourcepath="M2_REPO/asm/asm/1.5.3/asm-1.5.3-sources.jar">
@@ -15,11 +20,6 @@
   <classpathentry kind="var" path="M2_REPO/asm/asm-attrs/1.5.3/asm-attrs-1.5.3.jar" sourcepath="M2_REPO/asm/asm-attrs/1.5.3/asm-attrs-1.5.3-sources.jar">
     <attributes>
       <attribute value="jar:file:/C:/dev/apps/maven/repo/asm/asm-attrs/1.5.3/asm-attrs-1.5.3-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/aspectj/aspectjrt/1.5.2/aspectjrt-1.5.2.jar" sourcepath="M2_REPO/aspectj/aspectjrt/1.5.2/aspectjrt-1.5.2-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/C:/dev/apps/maven/repo/aspectj/aspectjrt/1.5.2/aspectjrt-1.5.2-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/aspectj/aspectjrt/1.6.1/aspectjrt-1.6.1.jar"/>
@@ -73,6 +73,21 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/isorelax/isorelax/20020414/isorelax-20020414.jar"/>
   <classpathentry kind="var" path="M2_REPO/jaxen/jaxen/1.0-FCS/jaxen-1.0-FCS.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javax/jms/jms/1.1/jms-1.1.jar" sourcepath="M2_REPO/javax/jms/jms/1.1/jms-1.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/dev/apps/maven/repo/javax/jms/jms/1.1/jms-1.1-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/com/sun/jmx/jmxri/1.2.1/jmxri-1.2.1.jar" sourcepath="M2_REPO/com/sun/jmx/jmxri/1.2.1/jmxri-1.2.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/dev/apps/maven/repo/com/sun/jmx/jmxri/1.2.1/jmxri-1.2.1-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/com/sun/jdmk/jmxtools/1.2.1/jmxtools-1.2.1.jar" sourcepath="M2_REPO/com/sun/jdmk/jmxtools/1.2.1/jmxtools-1.2.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/dev/apps/maven/repo/com/sun/jdmk/jmxtools/1.2.1/jmxtools-1.2.1-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/javax/transaction/jta/1.0.1B/jta-1.0.1B.jar" sourcepath="M2_REPO/javax/transaction/jta/1.0.1B/jta-1.0.1B-sources.jar">
     <attributes>
       <attribute value="jar:file:/C:/dev/apps/maven/repo/javax/transaction/jta/1.0.1B/jta-1.0.1B-javadoc.jar!/" name="javadoc_location"/>
@@ -84,7 +99,16 @@
       <attribute value="jar:file:/C:/dev/apps/maven/repo/junit-addons/junit-addons/1.4/junit-addons-1.4-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.8/log4j-1.2.8.jar" sourcepath="M2_REPO/log4j/log4j/1.2.8/log4j-1.2.8-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15.jar" sourcepath="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/dev/apps/maven/repo/log4j/log4j/1.2.15/log4j-1.2.15-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar" sourcepath="M2_REPO/javax/mail/mail/1.4/mail-1.4-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/dev/apps/maven/repo/javax/mail/mail/1.4/mail-1.4-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/msv/msv/20020414/msv-20020414.jar"/>
   <classpathentry kind="src" path="/persistence"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/poi/poi/3.1-FINAL/poi-3.1-FINAL.jar"/>
@@ -93,8 +117,6 @@
   <classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.3/servlet-api-2.3.jar" sourcepath="M2_REPO/javax/servlet/servlet-api/2.3/servlet-api-2.3-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.4.3/slf4j-api-1.4.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-nop/1.4.3/slf4j-nop-1.4.3.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/1.2.6/spring-beans-1.2.6.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/1.2.6/spring-core-1.2.6.jar"/>
   <classpathentry kind="src" path="/tests"/>
   <classpathentry kind="var" path="M2_REPO/xerces/xercesImpl/2.2.1/xercesImpl-2.2.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"/>

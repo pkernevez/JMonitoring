@@ -9,27 +9,22 @@ import org.jmonitoring.core.info.IResultTracer;
  * @author pke
  * 
  */
-public class StackTraceTracer implements IParamaterTracer, IResultTracer
-{
+public class StackTraceTracer implements IParamaterTracer, IResultTracer {
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects)
-    {
+    public String convertToString(Object pTarget, Object[] pParameterObjects) {
         return getStackTrace();
     }
 
-    public String convertToString(Object pTarget, Object pResultObject)
-    {
+    public String convertToString(Object pTarget, Object pResultObject) {
         return getStackTrace();
     }
 
-    String getStackTrace()
-    {
+    String getStackTrace() {
         Throwable tException = new Throwable();
         StackTraceElement[] tElements = tException.getStackTrace();
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("Stacktrace for this call:\n");
-        for (int i = 0; i < tElements.length; i++)
-        {
+        for (int i = 0; i < tElements.length; i++) {
             tBuffer.append("    at ").append(tElements[i]).append("\n");
         }
         return tBuffer.toString();

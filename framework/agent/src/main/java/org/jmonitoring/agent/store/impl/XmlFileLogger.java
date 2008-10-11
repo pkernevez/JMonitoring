@@ -26,8 +26,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
  * 
  * @author pke
  */
-public class XmlFileLogger implements IStoreWriter
-{
+public class XmlFileLogger implements IStoreWriter {
     private static final String XML_DIR_NAME = "xml.logger.dir";
 
     private static final String XML_FILE_PER_THREAD = "xml.file.per.thread";
@@ -36,61 +35,48 @@ public class XmlFileLogger implements IStoreWriter
 
     private static boolean sIsInitialized = false;
 
-    /** Permet de loguer dans un seul fichier quand il est partagé. */
+    /** Permet de loguer dans un seul fichier quand il est partagï¿½. */
     private static Writer sCommonFileWriter;
 
-    /** Permet de loguer dans un fichier spécifique à chaque instance. */
+    /** Permet de loguer dans un fichier spï¿½cifique ï¿½ chaque instance. */
     private final Writer mLogFile;
 
     private static Log sLog = LogFactory.getLog(XmlFileLogger.class);
 
-    private static synchronized void init()
-    {
-        if (!sIsInitialized)
-        {
+    private static synchronized void init() {
+        if (!sIsInitialized) {
             String tDirName = ConfigurationHelper.getString(XML_DIR_NAME, ".");
             File tLogDir = new File(tDirName);
-            if (!tLogDir.exists())
-            {
+            if (!tLogDir.exists()) {
                 tLogDir.mkdir();
             }
             // On netoie tous les fichiers du repertoire
-            if (!tLogDir.isDirectory())
-            { // Repertoire invalide
+            if (!tLogDir.isDirectory()) { // Repertoire invalide
                 throw new MeasureException("The log directory isn't valid [" + tLogDir.getAbsolutePath() + "]");
             }
             File[] tFileList = tLogDir.listFiles();
-            for (int i = 0; i < tFileList.length; i++)
-            {
-                if (!tFileList[i].delete())
-                {
+            for (int i = 0; i < tFileList.length; i++) {
+                if (!tFileList[i].delete()) {
                     throw new MeasureException("Unable to delete file[" + tFileList[i].getAbsolutePath() + "]");
                 }
             }
-            if (!ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD))
-            { // On initalise le fichier commun
+            if (!ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD)) { // On initalise le fichier commun
                 File tCommonFile = new File(tDirName + "/AllThread.xml");
-                try
-                {
+                try {
                     sCommonFileWriter = new FileWriter(tCommonFile);
                     writeToAllThreadFile("<Threads>");
-                    Runtime.getRuntime().addShutdownHook(new Thread()
-                    { // On
-                            // ferme le tag en sortant
-                            public void run()
-                            {
-                                writeToAllThreadFile("</Threads>");
-                                try
-                                {
-                                    sCommonFileWriter.flush();
-                                } catch (IOException e)
-                                {
-                                    throw new MeasureException("Unable to flush stream for logging.", e);
+                    Runtime.getRuntime().addShutdownHook(new Thread() { // On
+                                // ferme le tag en sortant
+                                public void run() {
+                                    writeToAllThreadFile("</Threads>");
+                                    try {
+                                        sCommonFileWriter.flush();
+                                    } catch (IOException e) {
+                                        throw new MeasureException("Unable to flush stream for logging.", e);
+                                    }
                                 }
-                            }
-                        });
-                } catch (IOException e)
-                {
+                            });
+                } catch (IOException e) {
                     throw new MeasureException("Unable to open stream for logging.", e);
                 }
             }
@@ -101,82 +87,63 @@ public class XmlFileLogger implements IStoreWriter
     /**
      * Default constructor.
      */
-    public XmlFileLogger()
-    {
-        if (!sIsInitialized)
-        { // Premier passage
+    public XmlFileLogger() {
+        if (!sIsInitialized) { // Premier passage
             init();
         }
-        if (ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD))
-        { // On initalise un fichier pour ce Thread
+        if (ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD)) { // On initalise un fichier pour ce Thread
             File tFile = new File(ConfigurationHelper.getString(XML_DIR_NAME, ".") + "/Thread."
-                + Thread.currentThread().getName() + ".xml");
-            try
-            {
+                    + Thread.currentThread().getName() + ".xml");
+            try {
                 mLogFile = new FileWriter(tFile);
                 writeToFile("<Threads>");
-                Runtime.getRuntime().addShutdownHook(new Thread()
-                { // On ferme le tag en sortant
-                        public void run()
-                        {
-                            writeToFile("</Threads>");
-                            flush();
-                        }
-                    });
-            } catch (IOException e)
-            {
-                sLog.error("Unable to create LogFile for Thread [" + Thread.currentThread().getName()
-                    + "] [" + tFile.getAbsolutePath() + "]");
+                Runtime.getRuntime().addShutdownHook(new Thread() { // On ferme le tag en sortant
+                            public void run() {
+                                writeToFile("</Threads>");
+                                flush();
+                            }
+                        });
+            } catch (IOException e) {
+                sLog.error("Unable to create LogFile for Thread [" + Thread.currentThread().getName() + "] ["
+                        + tFile.getAbsolutePath() + "]");
                 throw new MeasureException("Unable to create LogFile for Thread [" + Thread.currentThread().getName()
-                    + "] [" + tFile.getAbsolutePath() + "]");
+                        + "] [" + tFile.getAbsolutePath() + "]");
             }
-        } else
-        {
+        } else {
             mLogFile = null;
         }
 
     }
 
-    private void writeToFile(String pMessage)
-    {
-        if (!ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD))
-        {
+    private void writeToFile(String pMessage) {
+        if (!ConfigurationHelper.getBoolean(XML_FILE_PER_THREAD)) {
             writeToAllThreadFile(pMessage);
-        } else
-        {
-            try
-            {
+        } else {
+            try {
                 mLogFile.write(pMessage);
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 throw new MeasureException("Unable to write into LogFile for Thread ["
-                    + Thread.currentThread().getName() + "]");
+                        + Thread.currentThread().getName() + "]");
             }
         }
     }
 
-    private void flush()
-    {
-        try
-        {
+    private void flush() {
+        try {
             mLogFile.flush();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new MeasureException("Unable to write into LogFile for Thread [" + Thread.currentThread().getName()
-                + "]");
+                    + "]");
         }
 
     }
 
-    private static synchronized void writeToAllThreadFile(String pMessage)
-    {
-        try
-        {
+    private static synchronized void writeToAllThreadFile(String pMessage) {
+        try {
             sCommonFileWriter.write(pMessage);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new MeasureException("Unable to write into LogFile for Thread [" + Thread.currentThread().getName()
-                + "]");
+                    + "]");
         }
     }
 
@@ -185,8 +152,7 @@ public class XmlFileLogger implements IStoreWriter
      * 
      * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow( org.jmonitoring.core.dto.ExecutionFlow)
      */
-    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
-    {
+    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow) {
         mCurrentBuffer = new StringBuffer();
         mCurrentBuffer.append("<Thread name=\"").append(pExecutionFlow.getThreadName());
         mCurrentBuffer.append("\" server=\"").append(pExecutionFlow).append("\" duration=\"");
@@ -197,20 +163,19 @@ public class XmlFileLogger implements IStoreWriter
         fillStringBuffer(pExecutionFlow.getFirstMethodCall());
         mCurrentBuffer.append("</Thread>");
         writeToFile(mCurrentBuffer.toString());
-        // On libère la mémoire
+        // On libï¿½re la mï¿½moire
         mCurrentBuffer = null;
         sLog.info("Wrtit ExecutionFlow to File " + pExecutionFlow);
 
     }
 
     /**
-     * Ecrit le log dans le Buffer pour éviter les probmèmes de multithreading si on écrit dans le même fichier. Cette
-     * méthode est recursive.
+     * Ecrit le log dans le Buffer pour ï¿½viter les probmï¿½mes de multithreading si on ï¿½crit dans le mï¿½me fichier. Cette
+     * mï¿½thode est recursive.
      * 
-     * @param pExecutionFlow La racine courante de l'arbre à logger.
+     * @param pExecutionFlow La racine courante de l'arbre ï¿½ logger.
      */
-    private void fillStringBuffer(MethodCallPO pCurrentMethodCall)
-    {
+    private void fillStringBuffer(MethodCallPO pCurrentMethodCall) {
         mCurrentBuffer.append("<MethodCall ");
         mCurrentBuffer.append("class=\"").append(pCurrentMethodCall.getClassName()).append("\" ");
         mCurrentBuffer.append("method=\"").append(pCurrentMethodCall.getMethodName()).append("\" ");
@@ -219,31 +184,23 @@ public class XmlFileLogger implements IStoreWriter
         mCurrentBuffer.append("\" ").append("startTime=\"");
         mCurrentBuffer.append(ConfigurationHelper.formatDateTime(pCurrentMethodCall.getBeginTime()));
         mCurrentBuffer.append("\" ");
-        if (ConfigurationHelper.getBoolean("log.parameter.defaultvalue", true))
-        { // On log tous les paramètres
+        if (ConfigurationHelper.getBoolean("log.parameter.defaultvalue", true)) { // On log tous les paramï¿½tres
             mCurrentBuffer.append("parameter=\"").append(pCurrentMethodCall.getParams()).append("\" ");
-            if (pCurrentMethodCall.getThrowableClass() == null)
-            { // Le retour de cette méthode s'est bien passé
-                if (pCurrentMethodCall.getReturnValue() == null)
-                { // Méthode de type 'void'
+            if (pCurrentMethodCall.getThrowableClass() == null) { // Le retour de cette mï¿½thode s'est bien passï¿½
+                if (pCurrentMethodCall.getReturnValue() == null) { // Mï¿½thode de type 'void'
                     mCurrentBuffer.append("result=\"void\" ");
-                } else
-                { // On log le retour
+                } else { // On log le retour
                     mCurrentBuffer.append("result=\"").append(pCurrentMethodCall.getReturnValue()).append("\" ");
                 }
-            } else
-            { // On log l'exception
+            } else { // On log l'exception
                 mCurrentBuffer.append("throwable=\"").append(pCurrentMethodCall.getThrowableClass()).append("\" ");
                 mCurrentBuffer.append("throwableMessage=\"").append(pCurrentMethodCall.getThrowableMessage()).append(
-                    "\" ");
+                        "\" ");
             }
-        } else
-        { // On log que le type de retour
-            if (pCurrentMethodCall.getThrowableClass() == null)
-            { // Le retour de cette méthode s'est bien passé
+        } else { // On log que le type de retour
+            if (pCurrentMethodCall.getThrowableClass() == null) { // Le retour de cette mï¿½thode s'est bien passï¿½
                 mCurrentBuffer.append("returnType=\"Ok\"");
-            } else
-            {
+            } else {
                 mCurrentBuffer.append("returnType=\"Throwable\"");
             }
         }
@@ -251,8 +208,7 @@ public class XmlFileLogger implements IStoreWriter
 
         // On fait le recusrif sur les children
         MethodCallPO curChild;
-        for (Iterator tChildIterator = pCurrentMethodCall.getChildren().iterator(); tChildIterator.hasNext();)
-        {
+        for (Iterator tChildIterator = pCurrentMethodCall.getChildren().iterator(); tChildIterator.hasNext();) {
             curChild = (MethodCallPO) tChildIterator.next();
             fillStringBuffer(curChild);
         }

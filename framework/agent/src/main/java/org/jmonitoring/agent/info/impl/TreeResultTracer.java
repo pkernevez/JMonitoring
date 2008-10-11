@@ -2,11 +2,9 @@ package org.jmonitoring.agent.info.impl;
 
 import org.jmonitoring.core.info.IResultTracer;
 
-public class TreeResultTracer implements IResultTracer
-{
+public class TreeResultTracer implements IResultTracer {
 
-    public String convertToString(Object pTarget, Object pResultObject)
-    {
+    public String convertToString(Object pTarget, Object pResultObject) {
         long tStartTime = System.currentTimeMillis();
         TreeTracerHelper tHelper = new TreeTracerHelper();
         StringBuffer tBuffer = new StringBuffer();

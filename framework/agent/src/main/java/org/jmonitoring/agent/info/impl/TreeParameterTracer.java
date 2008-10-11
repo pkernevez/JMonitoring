@@ -2,18 +2,15 @@ package org.jmonitoring.agent.info.impl;
 
 import org.jmonitoring.core.info.IParamaterTracer;
 
-public class TreeParameterTracer extends Object implements IParamaterTracer
-{
+public class TreeParameterTracer extends Object implements IParamaterTracer {
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects)
-    {
+    public String convertToString(Object pTarget, Object[] pParameterObjects) {
         long tStartTime = System.currentTimeMillis();
         StringBuffer[] tBuffer = new StringBuffer[pParameterObjects.length];
         TreeTracerHelper tHelper;
         int tMaxDepth = 0;
         int tNbEntity = 0;
-        for (int i = 0; i < pParameterObjects.length; i++)
-        {
+        for (int i = 0; i < pParameterObjects.length; i++) {
             tBuffer[i] = new StringBuffer();
             tHelper = new TreeTracerHelper();
             tHelper.traceObjectTree(tBuffer[i], pParameterObjects[i]);
@@ -26,9 +23,8 @@ public class TreeParameterTracer extends Object implements IParamaterTracer
         tResult.append("Tracing duration = ").append(tDuration).append(" ms\n");
         tResult.append("Max Depth = ").append(tMaxDepth).append("\n");
         tResult.append("Nb Entity = ").append(tNbEntity).append("\n");
-        for (int i = 0; i < pParameterObjects.length; i++)
-        {
-            tResult.append("\nParameter n°").append(i + 1).append("\n").append(tBuffer[i]);
+        for (int i = 0; i < pParameterObjects.length; i++) {
+            tResult.append("\nParameter nï¿½").append(i + 1).append("\n").append(tBuffer[i]);
         }
         return tResult.toString();
     }

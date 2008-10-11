@@ -22,10 +22,9 @@ import org.jmonitoring.core.persistence.InsertionDao;
 /**
  * @author pke
  * 
- * @todo implémenter un maxfail si la base n'est pas dispo
+ * @todo implï¿½menter un maxfail si la base n'est pas dispo
  */
-public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter
-{
+public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter {
 
     private static Log sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);;
 
@@ -36,8 +35,7 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter
     /**
      * Default constructor.
      */
-    public AsynchroneJdbcLogger()
-    {
+    public AsynchroneJdbcLogger() {
         this(false);
     }
 
@@ -46,51 +44,40 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter
      * 
      * @param pAutoFlush Flush all the jdbc access after the inserts.
      */
-    public AsynchroneJdbcLogger(boolean pAutoFlush)
-    {
+    public AsynchroneJdbcLogger(boolean pAutoFlush) {
         mAutoflush = pAutoFlush;
     }
 
-    private class AsynchroneJdbcLoggerRunnable implements Runnable
-    {
+    private class AsynchroneJdbcLoggerRunnable implements Runnable {
         private ExecutionFlowPO mExecutionFlowToLog;
 
-        public AsynchroneJdbcLoggerRunnable(ExecutionFlowPO pExecutionFlowToLog)
-        {
+        public AsynchroneJdbcLoggerRunnable(ExecutionFlowPO pExecutionFlowToLog) {
             mExecutionFlowToLog = pExecutionFlowToLog;
         }
 
-        public void run()
-        {
-            try
-            {
+        public void run() {
+            try {
                 long tStartTime = System.currentTimeMillis();
                 Session tPManager = null;
-                try
-                {
+                try {
                     tPManager = (Session) HibernateManager.getSession();
                     Transaction tTransaction = tPManager.getTransaction();
                     tTransaction.begin();
                     getDao().insertFullExecutionFlow(mExecutionFlowToLog);
-                    if (mAutoflush)
-                    {
+                    if (mAutoflush) {
                         tPManager.flush();
-                    } else
-                    {
+                    } else {
                         tTransaction.commit();
                     }
                     long tEndTime = System.currentTimeMillis();
                     sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog + " in " + (tEndTime - tStartTime)
-                        + " ms.");
-                } finally
-                {
-                    if (tPManager != null && tPManager.isOpen())
-                    {
+                            + " ms.");
+                } finally {
+                    if (tPManager != null && tPManager.isOpen()) {
                         tPManager.close();
                     }
                 }
-            } catch (RuntimeException e)
-            {
+            } catch (RuntimeException e) {
                 sLog.error("Unable to insert ExecutionFlow into database", e);
             }
         }
@@ -99,33 +86,25 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter
     /**
      * @see AbstractAsynchroneWriter#getAsynchroneLogTask(ExecutionFlowPO)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
-    {
+    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow) {
         return new AsynchroneJdbcLoggerRunnable(pFlow);
     }
 
-    private InsertionDao getDao()
-    {
+    private InsertionDao getDao() {
         Constructor tCon = sConstructor;
-        if (tCon == null)
-        {
+        if (tCon == null) {
             tCon = ConfigurationHelper.getDaoDefaultConstructor();
             sConstructor = tCon;
         }
-        try
-        {
+        try {
             return (InsertionDao) tCon.newInstance(new Object[0]);
-        } catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (InstantiationException e)
-        {
+        } catch (InstantiationException e) {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (IllegalAccessException e)
-        {
+        } catch (IllegalAccessException e) {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (InvocationTargetException e)
-        {
+        } catch (InvocationTargetException e) {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
         }
     }

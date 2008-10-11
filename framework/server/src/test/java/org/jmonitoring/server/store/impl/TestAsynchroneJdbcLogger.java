@@ -15,8 +15,7 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class TestAsynchroneJdbcLogger extends PersistanceTestCase
-{
+public class TestAsynchroneJdbcLogger extends PersistanceTestCase {
     private static final int TIME_TO_WAIT = 1500;
 
     /**
@@ -24,8 +23,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase
      * @todo check that NbToString is really tested
      * @throws InterruptedException
      */
-    public void testNbToStringMethodCall() throws InterruptedException
-    {
+    public void testNbToStringMethodCall() throws InterruptedException {
 
         InsertionDao tFlowDao = new InsertionDao(getSession());
         assertEquals(0, tFlowDao.countFlows());

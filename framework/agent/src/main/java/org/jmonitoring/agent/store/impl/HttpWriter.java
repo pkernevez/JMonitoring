@@ -23,8 +23,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class HttpWriter extends AbstractAsynchroneWriter
-{
+public class HttpWriter extends AbstractAsynchroneWriter {
 
     public static final String FLOW_ATTR = "FlowContent";
 
@@ -48,13 +47,11 @@ public class HttpWriter extends AbstractAsynchroneWriter
 
     private static String sUrl;
 
-    static
-    {
+    static {
         configure();
     }
 
-    static void configure()
-    {
+    static void configure() {
         MultiThreadedHttpConnectionManager.shutdownAll();
         sManager = new MultiThreadedHttpConnectionManager();
         sClient = new HttpClient(sManager);
@@ -66,19 +63,15 @@ public class HttpWriter extends AbstractAsynchroneWriter
         String sUrl = ConfigurationHelper.getString(URI);
     }
 
-    private class AsynchroneHttpWriterRunnable implements Runnable
-    {
+    private class AsynchroneHttpWriterRunnable implements Runnable {
         private ExecutionFlowPO mExecutionFlowToLog;
 
-        public AsynchroneHttpWriterRunnable(ExecutionFlowPO pExecutionFlowToLog)
-        {
+        public AsynchroneHttpWriterRunnable(ExecutionFlowPO pExecutionFlowToLog) {
             mExecutionFlowToLog = pExecutionFlowToLog;
         }
 
-        public void run()
-        {
-            try
-            {
+        public void run() {
+            try {
                 long tStartTime = System.currentTimeMillis();
 
                 ByteArrayOutputStream tBytes = new ByteArrayOutputStream();
@@ -91,26 +84,22 @@ public class HttpWriter extends AbstractAsynchroneWriter
                 tHttpPost.setRequestEntity(new ByteArrayRequestEntity(tByteArray));
                 tHttpPost.setContentChunked(true);
                 tHttpPost.addRequestHeader("Content-Type", "JMonitoring/flow");
-                try
-                {
+                try {
                     sClient.executeMethod(tHttpPost);
                     long tEndTime = System.currentTimeMillis();
                     sLog.info("Inserted vith Http ExecutionFlow " + mExecutionFlowToLog + " in "
-                        + (tEndTime - tStartTime) + " ms.");
+                            + (tEndTime - tStartTime) + " ms.");
 
-                    if (tHttpPost.getStatusCode() != HttpStatus.SC_OK)
-                    {
+                    if (tHttpPost.getStatusCode() != HttpStatus.SC_OK) {
                         sLog.error("Error while transfering Flow to HttpServer, return code was ["
-                            + tHttpPost.getStatusCode() + "]");
+                                + tHttpPost.getStatusCode() + "]");
                     }
-                } finally
-                {
+                } finally {
                     tHttpPost.releaseConnection();
                 }
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 sLog.error("Unable to Write Flow to Http Server the ExecutionFlow has been lost. Cause is "
-                    + e.getMessage() + " Serveur is " + sClient.getHostConfiguration());
+                        + e.getMessage() + " Serveur is " + sClient.getHostConfiguration());
             }
         }
     }
@@ -118,8 +107,7 @@ public class HttpWriter extends AbstractAsynchroneWriter
     /**
      * @see AbstractAsynchroneWriter#getAsynchroneLogTask(ExecutionFlowPO)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
-    {
+    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow) {
         return new AsynchroneHttpWriterRunnable(pFlow);
     }
 

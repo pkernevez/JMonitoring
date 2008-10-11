@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>agent</name>
-	<comment>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact for persistence.</comment>
+	<comment>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact
+        for persistence.</comment>
 	<projects>
 		<project>common</project>
 	</projects>

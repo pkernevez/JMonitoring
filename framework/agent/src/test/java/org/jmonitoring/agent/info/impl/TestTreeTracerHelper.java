@@ -20,11 +20,9 @@ import junit.framework.TestCase;
 
 import org.apache.commons.lang.StringUtils;
 
-public class TestTreeTracerHelper extends TestCase
-{
+public class TestTreeTracerHelper extends TestCase {
 
-    public static class Mother
-    {
+    public static class Mother {
         private List mChildren1 = new ArrayList();
 
         private Child1 mChild1;
@@ -39,140 +37,113 @@ public class TestTreeTracerHelper extends TestCase
 
         private Date mBidon = new Date();
 
-        public static Mother getInstance()
-        {
+        public static Mother getInstance() {
             return new Mother();
         }
 
-        public Date getBidon()
-        {
+        public Date getBidon() {
             return mBidon;
         }
 
-        public void setBidon(Date pBidon)
-        {
+        public void setBidon(Date pBidon) {
             mBidon = pBidon;
         }
 
-        public Child1 getChild1()
-        {
+        public Child1 getChild1() {
             return mChild1;
         }
 
-        public void setChild1(Child1 pChild1)
-        {
+        public void setChild1(Child1 pChild1) {
             mChild1 = pChild1;
         }
 
-        public List getChildren1()
-        {
+        public List getChildren1() {
             return mChildren1;
         }
 
-        public void setChildren1(List pChildren1)
-        {
+        public void setChildren1(List pChildren1) {
             mChildren1 = pChildren1;
         }
 
-        public Child2[] getChildren2()
-        {
+        public Child2[] getChildren2() {
             return mChildren2;
         }
 
-        public void setChildren2(Child2[] pChildren2)
-        {
+        public void setChildren2(Child2[] pChildren2) {
             mChildren2 = pChildren2;
         }
 
-        public Map getChildren2Bis()
-        {
+        public Map getChildren2Bis() {
             return mChildren2Bis;
         }
 
-        public void setChildren2Bis(Map pChildren2Bis)
-        {
+        public void setChildren2Bis(Map pChildren2Bis) {
             mChildren2Bis = pChildren2Bis;
         }
 
-        public Child2[] getChildren2Qua()
-        {
+        public Child2[] getChildren2Qua() {
             return mChildren2Qua;
         }
 
-        public void setChildren2Qua(Child2[] pChildren2Qua)
-        {
+        public void setChildren2Qua(Child2[] pChildren2Qua) {
             mChildren2Qua = pChildren2Qua;
         }
 
-        public Set getChildren2Ter()
-        {
+        public Set getChildren2Ter() {
             return mChildren2Ter;
         }
 
-        public void setChildren2Ter(Set pChildren2Ter)
-        {
+        public void setChildren2Ter(Set pChildren2Ter) {
             mChildren2Ter = pChildren2Ter;
         }
 
     }
 
-    public static class Child1
-    {
+    public static class Child1 {
         private List mChildren2 = new ArrayList();
 
         private Set mChildren2Bis = new HashSet();
 
-        public List getChildren2()
-        {
+        public List getChildren2() {
             return mChildren2;
         }
 
-        public void setChildren2(List pChildren2)
-        {
+        public void setChildren2(List pChildren2) {
             mChildren2 = pChildren2;
         }
 
-        public Child1()
-        {
+        public Child1() {
         }
 
-        public Child1(Child2 pChild2)
-        {
+        public Child1(Child2 pChild2) {
             mChildren2.add(pChild2);
         }
 
-        public Set getChildren2Bis()
-        {
+        public Set getChildren2Bis() {
             return mChildren2Bis;
         }
 
-        public void setChildren2Bis(Set pChidren2Bis)
-        {
+        public void setChildren2Bis(Set pChidren2Bis) {
             mChildren2Bis = pChidren2Bis;
         }
     }
 
-    public static class Child2
-    {
+    public static class Child2 {
         private Child2 mChild2;
 
-        public ClassLoader getMyClassLoader()
-        {
+        public ClassLoader getMyClassLoader() {
             return this.getClass().getClassLoader();
         }
 
-        protected Child2 getChildProtected()
-        {
+        protected Child2 getChildProtected() {
             return mChild2;
         }
 
-        public Child2 getChild2()
-        {
+        public Child2 getChild2() {
             return mChild2;
         }
 
-        public void setChild2(Child2 pChild2)
-        {
+        public void setChild2(Child2 pChild2) {
             mChild2 = pChild2;
         }
     }
@@ -182,8 +153,7 @@ public class TestTreeTracerHelper extends TestCase
      * 'hashcode' method of AbstractSet
      * 
      */
-    public void testNotAlreadyDone()
-    {
+    public void testNotAlreadyDone() {
         List tList = new ArrayList();
         tList.add(new Child1(new Child2()));
         tList.add(new Child1());
@@ -198,8 +168,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(2, tHelper.getMaxDepth());
     }
 
-    public void testTraceObjectTree()
-    {
+    public void testTraceObjectTree() {
         Mother tMother = new Mother();
         tMother.mChild1 = new Child1();
         tMother.mChild1.mChildren2.add(new Child2());
@@ -208,7 +177,7 @@ public class TestTreeTracerHelper extends TestCase
         tMother.mChildren1.add(new Child1());
         Child2 tChild2 = new Child2();
         tChild2.setChild2(new Child2());
-        tMother.setChildren2Qua(new Child2[] {tChild2, new Child2(), new Child2() });
+        tMother.setChildren2Qua(new Child2[] { tChild2, new Child2(), new Child2() });
 
         StringBuffer tBuffer = new StringBuffer();
         TreeTracerHelper tHelper = new TreeTracerHelper();
@@ -264,8 +233,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(3, tHelper.getMaxDepth());
     }
 
-    public void testGetListOfGetters()
-    {
+    public void testGetListOfGetters() {
         List tMeth = TreeTracerHelper.getListOfGetters(Mother.class);
         assertEquals(6, tMeth.size());
 
@@ -276,8 +244,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(1, tMeth.size());
     }
 
-    public void testTraceList()
-    {
+    public void testTraceList() {
         List tList = new ArrayList();
         tList.add(new Child2());
         tList.add(new Child2());
@@ -300,8 +267,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(3, tHelper.getNbEntity());
     }
 
-    public void testTraceSet()
-    {
+    public void testTraceSet() {
         Set tSet = new HashSet();
         tSet.add(new Child2());
         tSet.add(new Child2());
@@ -326,8 +292,7 @@ public class TestTreeTracerHelper extends TestCase
 
     }
 
-    public void testTraceArray()
-    {
+    public void testTraceArray() {
         Object tArray = Array.newInstance(Child2.class, 3);
         Array.set(tArray, 0, new Child2());
         Array.set(tArray, 1, new Child2());
@@ -344,7 +309,7 @@ public class TestTreeTracerHelper extends TestCase
         tBuffer.append("\n \n");
         StringTokenizer tTok = new StringTokenizer(tBuffer.toString(), "\n");
         System.out.println(tExpectedResultL1 + "\n" + tExpectedResultL2 + "\n" + tExpectedResultL3 + "\n"
-            + tExpectedResultL4);
+                + tExpectedResultL4);
         System.out.println("---------------------------");
         System.out.println(tBuffer.toString());
         assertEquals(tExpectedResultL1, tTok.nextToken());
@@ -356,8 +321,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(3, tHelper.getNbEntity());
     }
 
-    public void testTraceMap()
-    {
+    public void testTraceMap() {
         Map tMap = new HashMap();
         tMap.put("key1", new Child2());
         tMap.put("key2", new Child2());
@@ -381,8 +345,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(3, tHelper.getNbEntity());
     }
 
-    public void testTraceCircularyTree()
-    {
+    public void testTraceCircularyTree() {
         Child2 tChild = new Child2();
         Child2 tChild2 = new Child2();
         tChild.setChild2(tChild2);
@@ -403,8 +366,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(2, tHelper.getNbEntity());
     }
 
-    public void testTraceCircularyTreeSet()
-    {
+    public void testTraceCircularyTreeSet() {
         Set tSet = new HashSet();
         Child1 tChild = new Child1();
         tSet.add(tChild);
@@ -429,8 +391,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(1, tHelper.getNbEntity());
     }
 
-    public void testTraceCircularyTreeMap()
-    {
+    public void testTraceCircularyTreeMap() {
         Mother tMother = new Mother();
         Map tMap = new HashMap();
         tMap.put("key1", tMother);
@@ -442,7 +403,7 @@ public class TestTreeTracerHelper extends TestCase
         String tExpectedResultL2 = "  |-- pos1 --> " + Mother.class.getName() + "\n";
         String tExpectedResultL3 = "  |              |-- getChildren1 --> " + List.class.getName() + "\n";
         String tExpectedResultL4 = "  |              |-- getChildren2Bis --> [ALREADY DONE!] " + Map.class.getName()
-            + "\n";
+                + "\n";
         String tExpectedResultL5 = "  |              |-- getChildren2Ter --> " + Set.class.getName() + "\n";
         String tResultString = tBuffer.toString();
         assertEquals(5, StringUtils.countMatches(tResultString, "\n"));
@@ -456,8 +417,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(1, tHelper.getNbEntity());
     }
 
-    public void testTraceCircularyTreeList()
-    {
+    public void testTraceCircularyTreeList() {
         List tList = new ArrayList();
         Child1 tChild = new Child1();
         tList.add(tChild);
@@ -479,8 +439,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals(1, tHelper.getNbEntity());
     }
 
-    public void testGetSpaceInsteadOfInt()
-    {
+    public void testGetSpaceInsteadOfInt() {
         assertEquals(" ", TreeTracerHelper.getSpaceInsteadOfInt(0));
         assertEquals(" ", TreeTracerHelper.getSpaceInsteadOfInt(9));
         assertEquals("  ", TreeTracerHelper.getSpaceInsteadOfInt(31));
@@ -490,8 +449,7 @@ public class TestTreeTracerHelper extends TestCase
         assertEquals("    ", TreeTracerHelper.getSpaceInsteadOfInt(4444));
     }
 
-    public void testModifier()
-    {
+    public void testModifier() {
         int curModifier = Modifier.FINAL;
         assertEquals(0, Modifier.STATIC & curModifier);
         curModifier = curModifier + Modifier.PUBLIC;

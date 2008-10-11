@@ -1,7 +1,6 @@
 package org.jmonitoring.core.info;
 
-public interface IParamaterTracer
-{
+public interface IParamaterTracer {
     /**
      * Convert an object array to String.
      * 

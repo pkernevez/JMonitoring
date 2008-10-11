@@ -17,8 +17,7 @@ import org.apache.commons.logging.LogFactory;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public final class ConfigurationHelper
-{
+public final class ConfigurationHelper {
     public static final String DAO_STORE_KEY = "execution.dao.class";
 
     private static Properties sConfiguration = getInstance();
@@ -35,41 +34,33 @@ public final class ConfigurationHelper
 
     public static final String STORE_CLASS = "measurepoint.logger.class";
 
-    private ConfigurationHelper()
-    {
+    private ConfigurationHelper() {
     }
 
-    public static synchronized Properties reload()
-    {
+    public static synchronized Properties reload() {
         sConfiguration = null;
         sConfiguration = getInstance();
         return sConfiguration;
     }
 
-    static synchronized Properties getInstance()
-    {
+    static synchronized Properties getInstance() {
         Properties tConfig = sConfiguration;
-        if (tConfig == null)
-        {
+        if (tConfig == null) {
             InputStream tStream = ConfigurationHelper.class.getResourceAsStream("/jmonitoring.properties");
-            if (tStream == null)
-            {
+            if (tStream == null) {
                 sLog.fatal("The file [jmonitoring.properties] can't be found in classpath");
                 throw new MeasureException("The file [jmonitoring.properties] can't be found in classpath");
             }
-            try
-            {
+            try {
                 PropertyResourceBundle tBundle = new PropertyResourceBundle(tStream);
                 tConfig = new Properties();
                 String tCurKey;
-                for (Enumeration tEnum = tBundle.getKeys(); tEnum.hasMoreElements();)
-                {
+                for (Enumeration tEnum = tBundle.getKeys(); tEnum.hasMoreElements();) {
                     tCurKey = (String) tEnum.nextElement();
                     tConfig.setProperty(tCurKey, tBundle.getString(tCurKey));
                 }
 
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 throw new MeasureException("Unable to load properties from  [jmonitoring.properties].");
             }
             sConfiguration = tConfig;
@@ -82,11 +73,9 @@ public final class ConfigurationHelper
      * 
      * @return The <code>DateFormat</code> to use in the application.
      */
-    private static SimpleDateFormat getTimeFormater()
-    {
+    private static SimpleDateFormat getTimeFormater() {
         Object tResult = sTimeFormater.get();
-        if (tResult == null)
-        {
+        if (tResult == null) {
             String tDateFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.time");
             tResult = new SimpleDateFormat(tDateFormat);
             sTimeFormater.set(tResult);
@@ -99,29 +88,24 @@ public final class ConfigurationHelper
      * 
      * @return The <code>DateFormat</code> to use in the application.
      */
-    private static SimpleDateFormat getDateTimeFormater()
-    {
+    private static SimpleDateFormat getDateTimeFormater() {
         Object tResult = sDateTimeFormater.get();
-        if (tResult == null)
-        {
+        if (tResult == null) {
             String tDateTimeFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.date") + " "
-                + ConfigurationHelper.getInstance().getProperty("format.ihm.time");
+                    + ConfigurationHelper.getInstance().getProperty("format.ihm.time");
             tResult = new SimpleDateFormat(tDateTimeFormat);
             sDateTimeFormater.set(tResult);
         }
         return (SimpleDateFormat) tResult;
     }
 
-    public static Date parseDate(String pDate) throws ParseException
-    {
+    public static Date parseDate(String pDate) throws ParseException {
         return getDateFormater().parse(pDate);
     }
 
-    public static SimpleDateFormat getDateFormater()
-    {
+    public static SimpleDateFormat getDateFormater() {
         Object tResult = sDateFormater.get();
-        if (tResult == null)
-        {
+        if (tResult == null) {
             String tDateFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.date");
             tResult = new SimpleDateFormat(tDateFormat);
             sDateFormater.set(tResult);
@@ -129,97 +113,78 @@ public final class ConfigurationHelper
         return (SimpleDateFormat) tResult;
     }
 
-    public static Date parseTime(String tTime) throws ParseException
-    {
+    public static Date parseTime(String tTime) throws ParseException {
         return getTimeFormater().parse(tTime);
     }
 
-    public static String formatTime(Date tTime)
-    {
+    public static String formatTime(Date tTime) {
         return getTimeFormater().format(tTime);
     }
 
-    public static Date parseDateTime(String tTime) throws ParseException
-    {
+    public static Date parseDateTime(String tTime) throws ParseException {
         return getDateTimeFormater().parse(tTime);
     }
 
-    public static String formatDateTime(Date tTime)
-    {
+    public static String formatDateTime(Date tTime) {
         return getDateTimeFormater().format(tTime);
     }
 
-    public static String formatDateTime(long tTime)
-    {
+    public static String formatDateTime(long tTime) {
         return formatDateTime(new Date(tTime));
     }
 
-    public static Object formatDate(Date pDate)
-    {
+    public static Object formatDate(Date pDate) {
         return getDateFormater().format(pDate);
     }
 
-    public static Constructor getDaoDefaultConstructor()
-    {
+    public static Constructor getDaoDefaultConstructor() {
         String tClassName = getInstance().getProperty(DAO_STORE_KEY);
-        if (tClassName == null)
-        {
+        if (tClassName == null) {
             throw new MeasureException("Unable to find DAO classname, add a property [execution.dao.class] "
-                + "to your [jmonitoring.properties] file");
+                    + "to your [jmonitoring.properties] file");
         }
-        try
-        {
+        try {
             Class tClass = Class.forName(tClassName);
             return tClass.getConstructor(new Class[0]);
-        } catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             throw new MeasureException("Unable to load the class define with the property [execution.dao.class] "
-                + "check your [jmonitoring.properties] file", e);
-        } catch (SecurityException e)
-        {
+                    + "check your [jmonitoring.properties] file", e);
+        } catch (SecurityException e) {
             throw new MeasureException("Unable to access to the default constructor of the class defined by the "
-                + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
-        } catch (NoSuchMethodException e)
-        {
+                    + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
+        } catch (NoSuchMethodException e) {
             throw new MeasureException("Unable to access to the default constructor of the class defined by the "
-                + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
+                    + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
         }
     }
 
-    public static int getInt(String pKey)
-    {
+    public static int getInt(String pKey) {
         return Integer.parseInt(sConfiguration.getProperty(pKey));
     }
 
-    public static boolean getBoolean(String pKey)
-    {
+    public static boolean getBoolean(String pKey) {
         return getBoolean(pKey, false);
     }
 
-    public static boolean getBoolean(String pKey, boolean pDefault)
-    {
+    public static boolean getBoolean(String pKey, boolean pDefault) {
         String tString = sConfiguration.getProperty(pKey);
         return (tString == null ? pDefault : Boolean.getBoolean(tString));
     }
 
-    public static void setProperty(String pKey, String pNewValue)
-    {
+    public static void setProperty(String pKey, String pNewValue) {
         sConfiguration.setProperty(pKey, pNewValue);
     }
 
-    public static String getString(String pKey)
-    {
+    public static String getString(String pKey) {
         return getString(pKey, null);
     }
 
-    public static String getString(String pKey, String pDefault)
-    {
+    public static String getString(String pKey, String pDefault) {
         String tResult = sConfiguration.getProperty(pKey);
         return (tResult == null ? pDefault : tResult);
     }
 
-    public static void clearProperty(String pKey)
-    {
+    public static void clearProperty(String pKey) {
         sConfiguration.remove(pKey);
     }
 }

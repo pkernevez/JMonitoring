@@ -1,7 +1,6 @@
 package org.jmonitoring.core.info;
 
-public interface IResultTracer
-{
+public interface IResultTracer {
 
     /**
      * Convert an object to String.

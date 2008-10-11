@@ -16,15 +16,13 @@ import org.hibernate.stat.Statistics;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public final class HibernateManager
-{
+public final class HibernateManager {
 
     private static final String HIBERNATE_CFG_XML = "jmonitoring.hibernate.xml";
 
     private static final String HIBERNATE_CFG_PROPERTIES = "jmonitoring.hibernate.properties";
 
-    private HibernateManager()
-    {
+    private HibernateManager() {
     }
 
     /**
@@ -36,24 +34,19 @@ public final class HibernateManager
 
     private static Configuration sHConfig;
 
-    private static synchronized SessionFactory getSessionFactory()
-    {
+    private static synchronized SessionFactory getSessionFactory() {
         return getSessionFactory(HIBERNATE_CFG_XML, HIBERNATE_CFG_PROPERTIES);
     }
 
-    static synchronized SessionFactory getSessionFactory(String pMappingFileName, String pPropertiesFileName)
-    {
-        if (sSessionFactory == null)
-        {
+    static synchronized SessionFactory getSessionFactory(String pMappingFileName, String pPropertiesFileName) {
+        if (sSessionFactory == null) {
             sHConfig = new Configuration();
             Properties properties = new Properties();
-            try
-            {
+            try {
                 checkUniquenessOfConfigurationFile(pMappingFileName);
                 checkUniquenessOfConfigurationFile(pPropertiesFileName);
                 properties.load(HibernateManager.class.getClassLoader().getResourceAsStream(pPropertiesFileName));
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 sLogger.error("Le fichier " + pPropertiesFileName + " n'existe pas.");
             }
             sHConfig.setProperties(properties);
@@ -64,26 +57,20 @@ public final class HibernateManager
         return sSessionFactory;
     }
 
-    private static void checkUniquenessOfConfigurationFile(String pMappingFileName)
-    {
+    private static void checkUniquenessOfConfigurationFile(String pMappingFileName) {
         int tCount = 0;
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("The configuration file [").append(pMappingFileName).append(
-            "]has been found in multiple copy:\n");
-        try
-        {
-            for (Enumeration tEnum = HibernateManager.class.getClassLoader().getResources(pMappingFileName); tEnum
-                .hasMoreElements();)
-            {
+                "]has been found in multiple copy:\n");
+        try {
+            for (Enumeration tEnum = HibernateManager.class.getClassLoader().getResources(pMappingFileName); tEnum.hasMoreElements();) {
                 tCount++;
                 tBuffer.append(((URL) tEnum.nextElement()).getPath()).append("\n");
             }
-            if (tCount > 1)
-            {
+            if (tCount > 1) {
                 sLogger.warn(tBuffer.toString());
             }
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             sLogger.fatal("Unable to find any file [" + pMappingFileName + "]");
             throw new RuntimeException("Unable to find any file [" + pMappingFileName + "]");
         }
@@ -95,17 +82,14 @@ public final class HibernateManager
      * 
      * @return the Hibernate configuration
      */
-    public static Configuration getConfig()
-    {
-        if (sSessionFactory == null)
-        {
+    public static Configuration getConfig() {
+        if (sSessionFactory == null) {
             getSessionFactory();
         }
         return sHConfig;
     }
 
-    public static Statistics getStats()
-    {
+    public static Statistics getStats() {
         return getSessionFactory().getStatistics();
     }
 
@@ -115,8 +99,7 @@ public final class HibernateManager
      * @return The new session.
      * @todo s'appuyer sur SessionFactory.getCurrentSession() et JTA
      */
-    public static Session getSession()
-    {
+    public static Session getSession() {
         // Session tSession = getSessionFactory().openSession();
         Session tSession = getSessionFactory().getCurrentSession();
         sLogger.info("Hibernate Session Opened");

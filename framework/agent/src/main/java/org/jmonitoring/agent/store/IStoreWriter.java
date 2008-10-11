@@ -14,8 +14,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  *       Templates
  * @todo change the namespace of this package
  */
-public interface IStoreWriter
-{
+public interface IStoreWriter {
     /**
      * Write the current MeasurePointTree in a store.
      * 

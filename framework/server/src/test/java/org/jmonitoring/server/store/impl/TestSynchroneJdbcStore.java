@@ -6,15 +6,13 @@ import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
-public class TestSynchroneJdbcStore extends PersistanceTestCase
-{
+public class TestSynchroneJdbcStore extends PersistanceTestCase {
     /**
      * @todo Check the name of this method.
      * @throws InterruptedException
      * @throws IOException
      */
-    public void testNbToStringMethodCall() throws InterruptedException, IOException
-    {
+    public void testNbToStringMethodCall() throws InterruptedException, IOException {
         InsertionDao tFlowDao = new InsertionDao(getSession());
         assertEquals(0, tFlowDao.countFlows());
 
