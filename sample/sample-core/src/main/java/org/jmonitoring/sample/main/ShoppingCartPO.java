@@ -15,11 +15,10 @@ import java.util.Vector;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class ShoppingCartPO
-{
+public class ShoppingCartPO {
 
-    private int mId=-1;
-    
+    private int mId = -1;
+
     private static final int TEMPO5 = 17;
 
     private static final int TEMPO4 = 16;
@@ -32,8 +31,7 @@ public class ShoppingCartPO
 
     private static int sCounter = 0;
 
-    public static void setCounter(int pCounter)
-    {
+    public static void setCounter(int pCounter) {
         sCounter = pCounter;
     }
 
@@ -42,72 +40,68 @@ public class ShoppingCartPO
      * 
      * @param pItem For the Sample
      */
-    public void addItem(ItemPO pItem)
-    {
-        try
-        {
+    public void addItem(ItemPO pItem) {
+        try {
             Thread.sleep(TEMPO);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
         sCounter++;
-        if (3 == sCounter)
-        {
+        if (3 == sCounter) {
             throw new RuntimeException("Pour declancher une exception sur item3");
         }
         mItems.add(pItem);
-        //TODO Refactor this code
-//        Connection tCon = new MockConnection();
-//        PreparedStatement tState = null;
-//        try
-//        {
-//            tState = tCon.prepareStatement("lk");
-//            try
-//            {
-//                Thread.sleep(TEMPO7);
-//            } catch (InterruptedException e)
-//            {
-//                // @todo Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//            tState.setString(0, "Param0");
-//            try
-//            {
-//                Thread.sleep(TEMPO6);
-//            } catch (InterruptedException e)
-//            {
-//                // @todo Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//            tState.setInt(1, 0);
-//            tState.executeQuery();
-//        } catch (SQLException e)
-//        {
-//            throw new RuntimeException("Impossible de créer un statement !", e);
-//        } finally
-//        {
-//            if (tState != null)
-//            {
-//                try
-//                {
-//                    try
-//                    {
-//                        Thread.sleep(TEMPO2);
-//                    } catch (InterruptedException e)
-//                    {
-//                        // @todo Auto-generated catch block
-//                        e.printStackTrace();
-//                    }
-//                    tState.close();
-//                } catch (SQLException e)
-//                {
-//                    throw new RuntimeException("Impossible de fermer un statement !", e);
-//
-//                }
-//            }
-//        }
+        // TODO Refactor this code
+        // Connection tCon = new MockConnection();
+        // PreparedStatement tState = null;
+        // try
+        // {
+        // tState = tCon.prepareStatement("lk");
+        // try
+        // {
+        // Thread.sleep(TEMPO7);
+        // } catch (InterruptedException e)
+        // {
+        // // @todo Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // tState.setString(0, "Param0");
+        // try
+        // {
+        // Thread.sleep(TEMPO6);
+        // } catch (InterruptedException e)
+        // {
+        // // @todo Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // tState.setInt(1, 0);
+        // tState.executeQuery();
+        // } catch (SQLException e)
+        // {
+        // throw new RuntimeException("Impossible de crï¿½er un statement !", e);
+        // } finally
+        // {
+        // if (tState != null)
+        // {
+        // try
+        // {
+        // try
+        // {
+        // Thread.sleep(TEMPO2);
+        // } catch (InterruptedException e)
+        // {
+        // // @todo Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // tState.close();
+        // } catch (SQLException e)
+        // {
+        // throw new RuntimeException("Impossible de fermer un statement !", e);
+        //
+        // }
+        // }
+        // }
 
     }
 
@@ -116,13 +110,10 @@ public class ShoppingCartPO
      * 
      * @param pItem For the Sample
      */
-    public void removeItem(ItemPO pItem)
-    {
-        try
-        {
+    public void removeItem(ItemPO pItem) {
+        try {
             Thread.sleep(TEMPO3);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -133,13 +124,10 @@ public class ShoppingCartPO
      * For the Sample
      * 
      */
-    public void empty()
-    {
-        try
-        {
+    public void empty() {
+        try {
             Thread.sleep(TEMPO4);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -151,38 +139,31 @@ public class ShoppingCartPO
      * 
      * @return For the Sample
      */
-    public float totalValue()
-    {
+    public float totalValue() {
         // unimplemented... free!
-        try
-        {
+        try {
             Thread.sleep(TEMPO5);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
         return 0;
     }
 
-    public int getId()
-    {
+    public int getId() {
         return mId;
     }
 
-    public void setId(int pId)
-    {
+    public void setId(int pId) {
         mId = pId;
     }
 
-    public List getItems()
-    {
+    public List getItems() {
         new RuntimeException().printStackTrace();
         return mItems;
     }
 
-    public void setItems(List pItems)
-    {
+    public void setItems(List pItems) {
         mItems = pItems;
     }
 

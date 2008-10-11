@@ -16,15 +16,13 @@ import org.jmonitoring.common.hibernate.HibernateManager;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public final class SampleHibernateManager
-{
+public final class SampleHibernateManager {
 
     private static final String HIBERNATE_CFG_XML = "jmonitoring-sample.hibernate.xml";
 
     private static final String HIBERNATE_CFG_PROPERTIES = "jmonitoring-sample.hibernate.properties";
 
-    private SampleHibernateManager()
-    {
+    private SampleHibernateManager() {
     }
 
     /**
@@ -36,19 +34,15 @@ public final class SampleHibernateManager
 
     private static Configuration sHConfig;
 
-    private static synchronized SessionFactory getSessionFactory()
-    {
-        if (sSessionFactory == null)
-        {
+    private static synchronized SessionFactory getSessionFactory() {
+        if (sSessionFactory == null) {
             sHConfig = new Configuration();
             Properties properties = new Properties();
-            try
-            {
+            try {
                 properties.load(SampleHibernateManager.class.getClassLoader().getResourceAsStream(
-                    HIBERNATE_CFG_PROPERTIES));
+                        HIBERNATE_CFG_PROPERTIES));
                 sLogger.info("Properties file [" + HIBERNATE_CFG_PROPERTIES + "] Loaded");
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 sLogger.error("Le fichier " + HIBERNATE_CFG_PROPERTIES + " n'existe pas.");
             }
             sHConfig.setProperties(properties);
@@ -64,17 +58,14 @@ public final class SampleHibernateManager
      * 
      * @return the Hibernate configuration
      */
-    public static Configuration getConfig()
-    {
-        if (sSessionFactory == null)
-        {
+    public static Configuration getConfig() {
+        if (sSessionFactory == null) {
             getSessionFactory();
         }
         return sHConfig;
     }
 
-    public static Statistics getStats()
-    {
+    public static Statistics getStats() {
         return getSessionFactory().getStatistics();
     }
 
@@ -84,8 +75,7 @@ public final class SampleHibernateManager
      * @return The new session.
      * @todo s'appuyer sur SessionFactory.getCurrentSession() et JTA
      */
-    public static Session getSession()
-    {
+    public static Session getSession() {
         Session tSession = getSessionFactory().openSession();
         // getSessionFactory().getCurrentSession();
         sLogger.info("Hibernate Session Opened");
@@ -93,28 +83,25 @@ public final class SampleHibernateManager
 
     }
 
-    public static void createSchema()
-    {
+    public static void createSchema() {
         Configuration tConfig = SampleHibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
 
         tDdlexport.create(true, true);
     }
 
-    public static void dropSchema()
-    {
+    public static void dropSchema() {
         Configuration tConfig = HibernateManager.getConfig();
         SchemaExport tDdlexport = new SchemaExport(tConfig);
 
         tDdlexport.drop(true, true);
     }
 
-    public static void flush()
-    {
+    public static void flush() {
         getSession().flush();
     }
-    public static void clear()
-    {
+
+    public static void clear() {
         getSession().clear();
     }
 }

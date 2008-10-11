@@ -13,22 +13,19 @@ import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestHibernateAspectAreWeaved extends SamplePersistenceTestcase
-{
+public class TestHibernateAspectAreWeaved extends SamplePersistenceTestcase {
 
-    public void testStandardHibernateAspectAreWeaved()
-    {
+    public void testStandardHibernateAspectAreWeaved() {
         assertEquals(0, MemoryStoreWriter.countFlows());
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
         InsertionDao tDao = new InsertionDao(getSession());
         assertEquals(0, tDao.countFlows());
         assertEquals(0, tDao.countFlows());
         assertEquals(2, MemoryStoreWriter.countFlows());
-        
+
     }
 
-    public void testSpecialHibernateAspectAreWeaved()
-    {
+    public void testSpecialHibernateAspectAreWeaved() {
         ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, MemoryStoreWriter.class.getName());
         InsertionDao tDao = new InsertionHibernateDAO(getSession());
         assertEquals(0, tDao.countFlows());
@@ -36,17 +33,16 @@ public class TestHibernateAspectAreWeaved extends SamplePersistenceTestcase
         assertEquals(0, MemoryStoreWriter.countFlows());
     }
 
-    public void testSpecialHibernateAspectAreWeavedWithJdbc()
-    {
+    public void testSpecialHibernateAspectAreWeavedWithJdbc() {
         assertEquals(0, MemoryStoreWriter.countFlows());
         ConfigurationHelper.setProperty(ConfigurationHelper.DAO_STORE_KEY, InsertionHibernateDAO.class.getName());
         StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
-        
+
         ShoppingCartPO tSc = new ShoppingCartPO();
         tSc.addItem(new ItemPO((float) 0.5));
 
         closeAndRestartSession();
-        
+
         InsertionDao tDao = new InsertionDao(getSession());
         assertEquals(1, tDao.countFlows());
         closeAndRestartSession();

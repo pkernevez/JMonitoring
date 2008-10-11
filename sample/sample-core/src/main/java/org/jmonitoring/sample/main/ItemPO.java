@@ -12,14 +12,13 @@ package org.jmonitoring.sample.main;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class ItemPO
-{
+public class ItemPO {
 
     private static final int TEMPO2 = 4;
 
     private static final int TEMPO = 3;
 
-    private int mId=-1;
+    private int mId = -1;
 
     private float mPrice;
 
@@ -29,14 +28,11 @@ public class ItemPO
      * @param pId For the Sample
      * @param pPrice For the Sample
      */
-    public ItemPO(float pPrice)
-    {
+    public ItemPO(float pPrice) {
         mPrice = pPrice;
-        try
-        {
+        try {
             Thread.sleep(TEMPO2);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -47,13 +43,10 @@ public class ItemPO
      * 
      * @return For the Sample
      */
-    public float getPrice()
-    {
-        try
-        {
+    public float getPrice() {
+        try {
             Thread.sleep(2);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -65,31 +58,25 @@ public class ItemPO
      * 
      * @return For the Sample
      */
-    public String toString()
-    {
-        try
-        {
+    public String toString() {
+        try {
             Thread.sleep(TEMPO);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
         return "Item: " + mId;
     }
 
-    public int getId()
-    {
+    public int getId() {
         return mId;
     }
 
-    public void setId(int pId)
-    {
+    public void setId(int pId) {
         mId = pId;
     }
 
-    public void setPrice(float pPrice)
-    {
+    public void setPrice(float pPrice) {
         mPrice = pPrice;
     }
 
