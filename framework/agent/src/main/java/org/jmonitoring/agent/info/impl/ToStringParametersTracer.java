@@ -2,11 +2,13 @@ package org.jmonitoring.agent.info.impl;
 
 import org.jmonitoring.core.info.IParamaterTracer;
 
-public class ToStringParametersTracer implements IParamaterTracer {
+public class ToStringParametersTracer implements IParamaterTracer
+{
 
     private int mMaxLength = -1;
 
-    public ToStringParametersTracer() {
+    public ToStringParametersTracer()
+    {
     }
 
     /**
@@ -14,17 +16,22 @@ public class ToStringParametersTracer implements IParamaterTracer {
      * 
      * @param pMaxLength The max lenght of the String.
      */
-    public ToStringParametersTracer(int pMaxLength) {
+    public ToStringParametersTracer(int pMaxLength)
+    {
         mMaxLength = pMaxLength;
     }
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects) {
-        StringBuffer tBuffer = new StringBuffer();
-        if (pParameterObjects != null) {
+    public CharSequence convertToString(Object pTarget, Object[] pParameterObjects)
+    {
+        StringBuilder tBuffer = new StringBuilder();
+        if (pParameterObjects != null)
+        {
             boolean tFistTime = true;
             tBuffer.append("[");
-            for (int i = 0; i < pParameterObjects.length; i++) {
-                if (!tFistTime) {
+            for (int i = 0; i < pParameterObjects.length; i++)
+            {
+                if (!tFistTime)
+                {
                     tBuffer.append(", ");
                 }
                 tBuffer.append("" + pParameterObjects[i]);
@@ -32,7 +39,12 @@ public class ToStringParametersTracer implements IParamaterTracer {
             }
             tBuffer.append("]");
         }
-        boolean tNeedToBeCut = (mMaxLength > -1) && (tBuffer.length() > mMaxLength);
-        return (tNeedToBeCut ? tBuffer.substring(0, mMaxLength) : tBuffer.toString());
+        if ((mMaxLength > -1) && (tBuffer.length() > mMaxLength))
+        {
+            return tBuffer.substring(0, mMaxLength);
+        } else
+        {
+            return tBuffer;
+        }
     }
 }

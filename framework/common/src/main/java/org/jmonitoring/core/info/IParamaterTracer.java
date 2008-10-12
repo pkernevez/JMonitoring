@@ -9,6 +9,6 @@ public interface IParamaterTracer {
      * 
      * @return The objects as String.
      */
-    String convertToString(Object pTarget, Object[] pParameterObjects);
+    CharSequence convertToString(Object pTarget, Object[] pParameterObjects);
 
 }

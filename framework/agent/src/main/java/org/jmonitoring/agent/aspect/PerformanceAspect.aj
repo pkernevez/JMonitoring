@@ -18,17 +18,13 @@ import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
 
 /**
- * Cet aspect permet d'activer le log de toutes les exécutions de méthodes/constructeurs dans une application. Il permet
- * également de tracer toutes les appels à un driver de base de données.
- * 
- * Il contient la configuration des données à logguer.
- * 
- * @author pke
+ * This abstract aspect should be extends by users. 
+ * It provides all the mecanism for logging measure. Children have to describe the pointcuts they want to log, by providing the implementation of executionToLog();
  */
 public abstract aspect PerformanceAspect
 {
 
-    /** Permet de définir la liste des méthodes exécutées à loguer. */
+    /** Pointcuts to log */
     public abstract pointcut executionToLog();
 
     /** Log instance. */
@@ -40,10 +36,10 @@ public abstract aspect PerformanceAspect
     /** Allow to trace the returnValue of a method. */
     protected IResultTracer mResultTracer;
 
-    /** Allow to trace the détail of an Exception. */
+    /** Allow to trace the dï¿½tail of an Exception. */
     protected IThrowableTracer mThowableTracer;
 
-    /** Nom du group associé au pointcut. */
+    /** Nom du group associï¿½ au pointcut. */
     protected String mGroupName = "Default";
 
     /** Default constructor. */
@@ -72,13 +68,13 @@ public abstract aspect PerformanceAspect
                     .getTarget());
             } else
             {
-                mLog.error("executionToLogInternal Impossible de logger l'entrée de la methode");
+                mLog.error("executionToLogInternal Unable to log methode parameters");
             }
         } catch (MeasureException e)
         {
             mLog.error("Unable to log", e);
         }
-        tResult = proceed();// En cas d'exception le code est dans le trigger "after()throwing..."
+        tResult = proceed();// If an error occurs, the code will be in the trigger "after()throwing..."
         try
         {
             if (tManager != null)
@@ -87,7 +83,7 @@ public abstract aspect PerformanceAspect
 
             } else
             {
-                mLog.error("executionToLogInternal Impossible de logger la sortie de la methode");
+                mLog.error("executionToLogInternal Unable to log the method return value");
             }
         } catch (MeasureException e)
         {

@@ -1,5 +1,7 @@
 package org.jmonitoring.agent.store.impl;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;

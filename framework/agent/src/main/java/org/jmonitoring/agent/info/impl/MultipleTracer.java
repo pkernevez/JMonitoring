@@ -15,14 +15,14 @@ public class MultipleTracer implements IParamaterTracer {
         mTracers = tTracers;
     }
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects) {
-        StringBuffer tBuffer = new StringBuffer();
+    public CharSequence convertToString(Object pTarget, Object[] pParameterObjects) {
+        StringBuilder tBuffer = new StringBuilder();
         for (int i = 0; i < mTracers.length; i++) {
             if (mTracers[i] != null) {
                 tBuffer.append(mTracers[i].convertToString(pTarget, pParameterObjects)).append("\n");
             }
         }
-        return tBuffer.toString();
+        return tBuffer;
     }
 
 }

@@ -18,7 +18,7 @@ public class TestStackTraceTracer extends TestCase {
 
     public void testGetStackTrace() {
         StackTraceTracer tTracer = new StackTraceTracer();
-        StringTokenizer tTok = new StringTokenizer(tTracer.getStackTrace(), "\n");
+        StringTokenizer tTok = new StringTokenizer(tTracer.getStackTrace().toString(), "\n");
         assertEquals("Stacktrace for this call:", tTok.nextToken());
         assertEquals(
                 "    at org.jmonitoring.agent.info.impl.StackTraceTracer.getStackTrace(StackTraceTracer.java:",

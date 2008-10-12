@@ -10,6 +10,6 @@ public interface IResultTracer {
      * 
      * @return The object convert to String.
      */
-    String convertToString(Object pTarget, Object pResultObject);
+    CharSequence convertToString(Object pTarget, Object pResultObject);
 
 }

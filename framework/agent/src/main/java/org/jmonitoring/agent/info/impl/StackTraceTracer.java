@@ -11,23 +11,23 @@ import org.jmonitoring.core.info.IResultTracer;
  */
 public class StackTraceTracer implements IParamaterTracer, IResultTracer {
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects) {
+    public CharSequence convertToString(Object pTarget, Object[] pParameterObjects) {
         return getStackTrace();
     }
 
-    public String convertToString(Object pTarget, Object pResultObject) {
+    public CharSequence convertToString(Object pTarget, Object pResultObject) {
         return getStackTrace();
     }
 
-    String getStackTrace() {
+    CharSequence getStackTrace() {
         Throwable tException = new Throwable();
         StackTraceElement[] tElements = tException.getStackTrace();
-        StringBuffer tBuffer = new StringBuffer();
+        StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("Stacktrace for this call:\n");
         for (int i = 0; i < tElements.length; i++) {
             tBuffer.append("    at ").append(tElements[i]).append("\n");
         }
-        return tBuffer.toString();
+        return tBuffer;
     }
 
 }
