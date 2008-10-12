@@ -6,7 +6,6 @@ package org.jmonitoring.console.methodcall.search;
  **************************************************************************/
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +19,10 @@ import org.jmonitoring.core.dto.MethodCallExtractDTO;
  * @author pke
  * 
  */
-public class MethodCallUtil {
+public class MethodCallUtil
+{
 
-    private StringBuffer mWriter;
+    private final StringBuffer mWriter;
 
     private static Log sLog = LogFactory.getLog(MethodCallUtil.class);
 
@@ -31,34 +31,37 @@ public class MethodCallUtil {
      * 
      * @param pWriter The JSP writer.
      */
-    public MethodCallUtil() {
+    public MethodCallUtil()
+    {
         mWriter = new StringBuffer();
     }
 
-    public String toString() {
+    @Override
+    public String toString()
+    {
         return mWriter.toString();
     }
 
     /**
      * Write the list of Measure as an Html Tree.
      */
-    public void writeMeasureListAsMenu(Map pListOfAllExtractByFullName, Map pTreeOfExtract) {
-        if (pTreeOfExtract.size() == 0) {
+    @SuppressWarnings("unchecked")
+    public void writeMeasureListAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
+                    Map<String, Map<String, ?>> pTreeOfExtract)
+    {
+        if (pTreeOfExtract.size() == 0)
+        {
             mWriter.append("No Measure Found");
-        } else {
-            Map.Entry curEntry;
+        } else
+        {
             mWriter.append("<ul id=\"menuList\">");
             int tLastId = 0;
-            for (Iterator tIt = pTreeOfExtract.entrySet().iterator(); tIt.hasNext();) {
-                curEntry = (Map.Entry) tIt.next();
+            for (Map.Entry<String, Map<String, ?>> curEntry : pTreeOfExtract.entrySet())
+            {
                 mWriter.append("<li class=\"menubar\">");
-                tLastId = writeMeasuresAsMenu(
-                        pListOfAllExtractByFullName,
-                        new ArrayList(),
-                        (Map) curEntry.getValue(),
-                        (String) curEntry.getKey(),
-                        true,
-                        tLastId + 1);
+                // TODO Remove this cast with safe type ...
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList<String>(),
+                                (Map<String, Map<String, ?>>) curEntry.getValue(), curEntry.getKey(), true, tLastId + 1);
                 mWriter.append("</li>");
             }
             mWriter.append("</ul>");
@@ -70,23 +73,28 @@ public class MethodCallUtil {
      * 
      * @param pListOfAllExtractByFullName List of all the Extract, the key is <code>FullClassName.methodName</code>.
      * @param pCurrentClassName The name of the class that we are building, the <code>List</code> is compose with the
-     *            package parts.
+     *        package parts.
      * @param pTreeOfMeasure The Tree to write.
      * @param pCurNodeName The name of the current node.
      * @param pFirstLevel True if the current node is the first level of the menu.
      * @param pLastId The technical identifier to use for the next generation.
      * @return The last technical identifier used.
      */
-    int writeMeasuresAsMenu(Map pListOfAllExtractByFullName, List pCurrentClassName, Map pTreeOfMeasure,
-            String pCurNodeName, boolean pFirstLevel, int pLastId) {
+    int writeMeasuresAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
+                    List<String> pCurrentClassName, Map<String, Map<String, ?>> pTreeOfMeasure, String pCurNodeName,
+                    boolean pFirstLevel, int pLastId)
+    {
         int tLastId = pLastId;
-        if (pTreeOfMeasure.size() > 0) { // On cr�e un sous menu
+        if (pTreeOfMeasure.size() > 0)
+        { // Create sub menu
             String tClassName;
-            if (pFirstLevel) { // Firsttime
+            if (pFirstLevel)
+            { // First time
                 tClassName = "menu";
                 // We add the current node to class name
                 pCurrentClassName.add(pCurNodeName);
-            } else {
+            } else
+            {
                 mWriter.append("<li>\n");
                 tClassName = "submenu";
                 // We add the current node to class name
@@ -94,32 +102,28 @@ public class MethodCallUtil {
             }
             mWriter.append("<a href=\"#\" id=\"" + tLastId + "Actuator\"");
             mWriter.append(" class=\"actuator\">" // + tReturnImage
-                    + pCurNodeName + "</a>\n");
+                            + pCurNodeName
+                            + "</a>\n");
             mWriter.append("  <ul id=\"" + tLastId + "Menu\" class=\"" + tClassName + "\">\n");
-            Map.Entry curEntry;
-            for (Iterator tIterator = pTreeOfMeasure.entrySet().iterator(); tIterator.hasNext();) {
-                curEntry = (Map.Entry) tIterator.next();
-                tLastId = writeMeasuresAsMenu(
-                        pListOfAllExtractByFullName,
-                        pCurrentClassName,
-                        (Map) curEntry.getValue(),
-                        (String) curEntry.getKey(),
-                        false,
-                        ++tLastId);
+            for (Map.Entry<String, Map<String, ?>> curEntry : pTreeOfMeasure.entrySet())
+            {
+                // TODO Remove this cast with safe type ...
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName,
+                                (Map<String, Map<String, ?>>) curEntry.getValue(), curEntry.getKey(), false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
-            if (pFirstLevel) { // Secondtime or more
+            if (pFirstLevel)
+            { // Second time or more
                 mWriter.append("</li>\n");
             }
             // Remove the current node to className
             pCurrentClassName.remove(pCurrentClassName.size() - 1);
-        } else {
-            // G�n�ration du lien vers les statistiques
+        } else
+        {
+            // Generation of the hyper-link to the statistics
             StringBuffer tLinkStat = new StringBuffer();
-            MethodCallExtractDTO tExtract = getExtractForThisNode(
-                    pListOfAllExtractByFullName,
-                    pCurrentClassName,
-                    pCurNodeName);
+            MethodCallExtractDTO tExtract = getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName,
+                            pCurNodeName);
             tLinkStat.append("<li><span title=\"GroupName=[").append(tExtract.getGroupName());
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
@@ -134,20 +138,22 @@ public class MethodCallUtil {
         return tLastId++;
     }
 
-    private MethodCallExtractDTO getExtractForThisNode(Map pListOfAllExtractByFullName, List pClassNameAsString,
-            String pCurrentNodeName) {
+    private MethodCallExtractDTO getExtractForThisNode(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
+                    List<String> pClassNameAsString, String pCurrentNodeName)
+    {
         // Calculation of the full name
-        StringBuffer tBuffer = new StringBuffer();
-        for (Iterator tIt = pClassNameAsString.iterator(); tIt.hasNext();) {
-            tBuffer.append(tIt.next());
+        StringBuilder tBuffer = new StringBuilder();
+        for (String tClass : pClassNameAsString)
+        {
+            tBuffer.append(tClass);
         }
         tBuffer.append(".").append(pCurrentNodeName);
         // Now return the extract for this name
-        MethodCallExtractDTO tResult = (MethodCallExtractDTO) pListOfAllExtractByFullName.get(tBuffer.toString());
-        if (tResult == null) {
+        MethodCallExtractDTO tResult = pListOfAllExtractByFullName.get(tBuffer.toString());
+        if (tResult == null)
+        {
             sLog.error("Unable to find Method Call with Key=[" + tBuffer.toString() + "]");
         }
         return tResult;
     }
-
 }
