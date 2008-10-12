@@ -9,9 +9,11 @@ import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;
 
-public class TestTreeTracer extends SamplePersistenceTestcase {
+public class TestTreeTracer extends SamplePersistenceTestcase
+{
 
-    public void testParameterTracer() {
+    public void testParameterTracer()
+    {
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         Mother tMother = new Mother();
@@ -26,7 +28,8 @@ public class TestTreeTracer extends SamplePersistenceTestcase {
 
     }
 
-    private void checkParameterTracer() {
+    private void checkParameterTracer()
+    {
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertNotNull(tFlow);
         String tParams = tFlow.getFirstMethodCall().getParams();
@@ -35,16 +38,17 @@ public class TestTreeTracer extends SamplePersistenceTestcase {
         assertTrue(tTok.nextToken().startsWith("Tracing duration = "));
         assertEquals("Max Depth = 2", tTok.nextToken());
         assertEquals("Nb Entity = 4", tTok.nextToken());
-        assertEquals("Parameter n�1", tTok.nextToken());
+        assertEquals("Parameter n°1", tTok.nextToken());
         assertEquals("org.jmonitoring.sample.testtreetracer.ToBeCall$Mother", tTok.nextToken());
         assertEquals("  |-- getChild1 --> org.jmonitoring.sample.testtreetracer.ToBeCall$Child", tTok.nextToken());
         assertEquals("  |-- getChild2 --> org.jmonitoring.sample.testtreetracer.ToBeCall$Child", tTok.nextToken());
-        assertEquals("Parameter n�2", tTok.nextToken());
+        assertEquals("Parameter n°2", tTok.nextToken());
         assertEquals("org.jmonitoring.sample.testtreetracer.ToBeCall$Child", tTok.nextToken());
         assertFalse(tTok.hasMoreTokens());
     }
 
-    public void testReturnValueTracer() {
+    public void testReturnValueTracer()
+    {
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         new ToBeCall().callWithReturn();
@@ -54,7 +58,8 @@ public class TestTreeTracer extends SamplePersistenceTestcase {
         checkReturnValueTracer();
     }
 
-    private void checkReturnValueTracer() {
+    private void checkReturnValueTracer()
+    {
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertNotNull(tFlow);
         String tParams = tFlow.getFirstMethodCall().getReturnValue();
@@ -70,7 +75,8 @@ public class TestTreeTracer extends SamplePersistenceTestcase {
         assertFalse(tTok.hasMoreTokens());
     }
 
-    public void testStaticCall() {
+    public void testStaticCall()
+    {
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         ToBeCall.callStaticMethod(new Mother());
@@ -80,7 +86,8 @@ public class TestTreeTracer extends SamplePersistenceTestcase {
         checkStaticCall();
     }
 
-    private void checkStaticCall() {
+    private void checkStaticCall()
+    {
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertNotNull(tFlow);
         assertEquals(ToBeCall.class.getName(), tFlow.getFirstMethodCall().getClassName());
