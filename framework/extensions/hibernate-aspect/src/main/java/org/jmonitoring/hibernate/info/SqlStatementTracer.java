@@ -15,8 +15,8 @@ public class SqlStatementTracer implements IResultTracer {
 
     IParamaterTracer mParamTracer = new ToStringParametersTracer();
 
-    public String convertToString(Object pTarget, Object pResult) {
-        String tResult;
+    public CharSequence convertToString(Object pTarget, Object pResult) {
+        CharSequence tResult;
         if (pTarget == null) {
             tResult = "Unable to log this Statement class= NULL";
             sLog.warn(tResult);

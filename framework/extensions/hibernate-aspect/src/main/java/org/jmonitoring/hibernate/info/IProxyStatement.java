@@ -9,5 +9,5 @@ import java.sql.Statement;
 public interface IProxyStatement {
     Statement getRealStatement();
 
-    String getTrace();
+    CharSequence getTrace();
 }

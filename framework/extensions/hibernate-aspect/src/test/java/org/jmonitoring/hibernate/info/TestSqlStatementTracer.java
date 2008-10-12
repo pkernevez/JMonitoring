@@ -23,25 +23,30 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestSqlStatementTracer extends PersistanceTestCase {
+public class TestSqlStatementTracer extends PersistanceTestCase
+{
 
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception
+    {
         super.setUp();
         MemoryStoreWriter.clear();
     }
 
-    public void testConvertToString() throws SQLException {
+    public void testConvertToString() throws SQLException
+    {
         SqlStatementTracer tTracer = new SqlStatementTracer();
         assertEquals("Unable to log this Statement class= NULL", tTracer.convertToString(null, null));
         assertEquals("Unable to log this Statement class=java.lang.String", tTracer.convertToString("bad class", null));
         JMonitoringStatement tStat = new JMonitoringStatement(null);
-        assertEquals("", tTracer.convertToString(tStat, null));
+        assertEquals("", tTracer.convertToString(tStat, null).toString());
 
-        assertEquals("", tTracer.convertToString(tStat, "RTRT"));
+        assertEquals("", tTracer.convertToString(tStat, "RTRT").toString());
 
     }
 
-    public void testTraceStatementParametersStatement() throws HibernateException, SQLException {
+    public void testTraceStatementParametersStatement() throws HibernateException, SQLException
+    {
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
         Session tSession = getSession();
         Connection tCon = tSession.connection();
@@ -55,10 +60,12 @@ public class TestSqlStatementTracer extends PersistanceTestCase {
         assertEquals("Sql=[select * from EXECUTION_FLOW]\n", tFlow.getFirstMethodCall().getReturnValue());
     }
 
-    public void testTraceStatementParametersPreparedStatement() throws HibernateException, SQLException {
-        PreparedStatement tPStat = getSession().connection().prepareStatement(
-                "select * from EXECUTION_FLOW where Id=? and JVM=? and Id=? and Id=? and Id=? and Id=? "
-                        + "and BEGIN_TIME_AS_DATE=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?");
+    public void testTraceStatementParametersPreparedStatement() throws HibernateException, SQLException
+    {
+        PreparedStatement tPStat = getSession()
+                        .connection()
+                        .prepareStatement(
+                                        "select * from EXECUTION_FLOW where Id=? and JVM=? and Id=? and Id=? and Id=? and Id=? " + "and BEGIN_TIME_AS_DATE=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?");
         assertEquals(JMonitoringPreparedStatement.class, tPStat.getClass());
         JMonitoringPreparedStatement tPrepStat = (JMonitoringPreparedStatement) tPStat;
         tPrepStat.setInt(1, 34);
@@ -73,7 +80,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase {
         tPrepStat.setNull(10, Types.BIT);
         tPrepStat.setTime(11, new Time(11, 23, 34));
         SqlStatementTracer tTracer = new SqlStatementTracer();
-        String tTrace = tTracer.convertToString(tPrepStat, new Object[0]);
+        String tTrace = tTracer.convertToString(tPrepStat, new Object[0]).toString();
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("PrepareStatement with Sql=[select * from EXECUTION_FLOW where Id=? and JVM=? ");
         tBuffer.append("and Id=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=? and ");
@@ -93,7 +100,8 @@ public class TestSqlStatementTracer extends PersistanceTestCase {
         assertEquals(tBuffer.toString(), tTrace);
     }
 
-    public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException {
+    public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
+    {
         StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
 
         defineStoredProcedure();
@@ -115,7 +123,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase {
         tBuffer.append("Add Double parameter, pos=[1], value=[2.0]\n");
         tBuffer.append("Execute query\n");
 
-        // We only want to chack the latest ExecutionFlow
+        // We only want to check the latest ExecutionFlow
         LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow=" + MemoryStoreWriter.countFlows());
         assertEquals(5, MemoryStoreWriter.countFlows());
 
@@ -124,7 +132,8 @@ public class TestSqlStatementTracer extends PersistanceTestCase {
         assertEquals(tBuffer.toString(), tFlow.getFirstMethodCall().getReturnValue());
     }
 
-    private void checkDataStoredProcedure() throws SQLException {
+    private void checkDataStoredProcedure() throws SQLException
+    {
         Statement tStat = getSession().connection().createStatement();
         ResultSet tResult;
         tResult = tStat.executeQuery("SELECT MYVALUE , \"java.lang.Math.sqrt\"(MYVALUE) AS SQRT FROM TEST_PROC");
@@ -137,7 +146,8 @@ public class TestSqlStatementTracer extends PersistanceTestCase {
 
     }
 
-    private void defineStoredProcedure() throws SQLException {
+    private void defineStoredProcedure() throws SQLException
+    {
         Statement tStat = getSession().connection().createStatement();
         tStat.execute("CREATE TABLE TEST_PROC (ID integer not null, MYVALUE integer, primary key (ID))");
         tStat.execute("INSERT INTO TEST_PROC (ID, MYVALUE) values (1, 2)");

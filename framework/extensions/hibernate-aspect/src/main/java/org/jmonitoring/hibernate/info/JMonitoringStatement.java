@@ -18,7 +18,7 @@ public class JMonitoringStatement implements Statement, IProxyStatement {
 
     private static Log sLog = LogFactory.getLog(JMonitoringStatement.class);
 
-    protected StringBuffer mTrace = new StringBuffer();
+    protected StringBuilder mTrace = new StringBuilder();
 
     public JMonitoringStatement(Statement pRealStatement) {
         this(pRealStatement, true);
@@ -35,9 +35,9 @@ public class JMonitoringStatement implements Statement, IProxyStatement {
         return mRealStatement;
     }
 
-    public String getTrace() {
-        String tResult = mTrace.toString();
-        mTrace = new StringBuffer();
+    public CharSequence getTrace() {
+        CharSequence tResult = mTrace;
+        mTrace = new StringBuilder();
         return tResult;
     }
 
