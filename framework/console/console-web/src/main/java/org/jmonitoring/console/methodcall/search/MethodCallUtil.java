@@ -6,6 +6,7 @@ package org.jmonitoring.console.methodcall.search;
  **************************************************************************/
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class MethodCallUtil
      */
     @SuppressWarnings("unchecked")
     public void writeMeasureListAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
-                    Map<String, Map<String, ?>> pTreeOfExtract)
+                    MyMap pTreeOfExtract)
     {
         if (pTreeOfExtract.size() == 0)
         {
@@ -56,16 +57,24 @@ public class MethodCallUtil
         {
             mWriter.append("<ul id=\"menuList\">");
             int tLastId = 0;
-            for (Map.Entry<String, Map<String, ?>> curEntry : pTreeOfExtract.entrySet())
+            for (Map.Entry<String, MyMap> curEntry : pTreeOfExtract.entrySet())
             {
                 mWriter.append("<li class=\"menubar\">");
-                // TODO Remove this cast with safe type ...
                 tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList<String>(),
-                                (Map<String, Map<String, ?>>) curEntry.getValue(), curEntry.getKey(), true, tLastId + 1);
+                                curEntry.getValue(), curEntry.getKey(), true, tLastId + 1);
                 mWriter.append("</li>");
             }
             mWriter.append("</ul>");
         }
+    }
+
+    public static interface MyMap extends Map<String, MyMap>
+    {
+    }
+
+    public static class MyHashMap extends HashMap<String, MyMap> implements MyMap
+    {
+        private static final long serialVersionUID = 1L;
     }
 
     /**
@@ -81,8 +90,8 @@ public class MethodCallUtil
      * @return The last technical identifier used.
      */
     int writeMeasuresAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
-                    List<String> pCurrentClassName, Map<String, Map<String, ?>> pTreeOfMeasure, String pCurNodeName,
-                    boolean pFirstLevel, int pLastId)
+                    List<String> pCurrentClassName, MyMap pTreeOfMeasure, String pCurNodeName, boolean pFirstLevel,
+                    int pLastId)
     {
         int tLastId = pLastId;
         if (pTreeOfMeasure.size() > 0)
@@ -105,11 +114,11 @@ public class MethodCallUtil
                             + pCurNodeName
                             + "</a>\n");
             mWriter.append("  <ul id=\"" + tLastId + "Menu\" class=\"" + tClassName + "\">\n");
-            for (Map.Entry<String, Map<String, ?>> curEntry : pTreeOfMeasure.entrySet())
+            for (Map.Entry<String, MyMap> curEntry : pTreeOfMeasure.entrySet())
             {
                 // TODO Remove this cast with safe type ...
-                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName,
-                                (Map<String, Map<String, ?>>) curEntry.getValue(), curEntry.getKey(), false, ++tLastId);
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName, curEntry.getValue(),
+                                curEntry.getKey(), false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
             if (pFirstLevel)
