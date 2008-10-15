@@ -1,6 +1,7 @@
 package org.jmonitoring.server.store.impl;
 
 import org.jmonitoring.agent.store.IStoreWriter;
+import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
@@ -25,7 +26,7 @@ public class TestAsynchroneJdbcLogger extends PersistanceTestCase {
      */
     public void testNbToStringMethodCall() throws InterruptedException {
 
-        InsertionDao tFlowDao = new InsertionDao(getSession());
+        IInsertionDao tFlowDao = new InsertionDao(getSession());
         assertEquals(0, tFlowDao.countFlows());
 
         IStoreWriter tWriter = new AsynchroneJdbcLogger();

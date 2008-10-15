@@ -35,7 +35,7 @@ public class TestHttpWriter extends TestCase {
         ConfigurationHelper.setProperty(HttpWriter.HOSTNAME, "localhost");
         ConfigurationHelper.setProperty(HttpWriter.PORT, "83");
         startServer();
-        StoreManager.changeStoreManagerClass(HttpWriter.class);
+        StoreManager.changeStoreWriterClass(HttpWriter.class);
         HttpWriter.configure();
         ExecutionFlowPO tFlow = buildNewFullFlow();
         // for (int i = 0; i < 200; i++)

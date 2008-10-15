@@ -30,8 +30,9 @@ public class StoreManager
     /** <code>CommonsLog</code> instance. */
     private static Log sLog = LogFactory.getLog(StoreManager.class);
 
+    // TODO Refactorer cette class avec Spring
     /** End of Parameters */
-    private static ThreadLocal sManager = new ThreadLocal();
+    private static ThreadLocal<StoreManager> sManager = new ThreadLocal<StoreManager>();
 
     private final IStoreWriter mStoreWriter;
 
@@ -252,7 +253,7 @@ public class StoreManager
      */
     public static StoreManager getManager()
     {
-        StoreManager tResult = (StoreManager) sManager.get();
+        StoreManager tResult = sManager.get();
         if (tResult == null)
         {
             try
@@ -271,14 +272,14 @@ public class StoreManager
 
     public static void clear()
     {
-        sManager = new ThreadLocal();
+        sManager = new ThreadLocal<StoreManager>();
     }
 
-    public static void changeStoreManagerClass(Class pClass)
+    public static void changeStoreWriterClass(Class<? extends IStoreWriter> pClass)
     {
         ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, pClass.getName());
         StoreFactory.clear();
-        sManager = new ThreadLocal();
+        sManager = new ThreadLocal<StoreManager>();
     }
 
     IStoreWriter getStoreWriter()

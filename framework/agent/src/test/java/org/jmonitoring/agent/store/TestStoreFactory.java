@@ -11,10 +11,12 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestStoreFactory extends TestCase {
+public class TestStoreFactory extends TestCase
+{
 
-    public void testDefaultStoreFactoryOk() {
-        StoreManager.changeStoreManagerClass(XmlFileLogger.class);
+    public void testDefaultStoreFactoryOk()
+    {
+        StoreManager.changeStoreWriterClass(XmlFileLogger.class);
         IStoreWriter tWriter = StoreFactory.getWriter();
         assertNotNull(tWriter);
         assertEquals(XmlFileLogger.class.getName(), tWriter.getClass().getName());
@@ -24,66 +26,79 @@ public class TestStoreFactory extends TestCase {
         assertNotSame(tWriter, tWriterBis);
     }
 
-    public void testDefaultStoreFactoryBadConstructor() {
-        ConfigurationHelper.setProperty(
-                ConfigurationHelper.STORE_CLASS,
-                BadStoreClassWithoutConstructor.class.getName());
-        try {
+    public void testDefaultStoreFactoryBadConstructor()
+    {
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassWithoutConstructor.class
+                        .getName());
+        try
+        {
             StoreFactory.getWriter();
             fail("Should not had a writer");
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
             assertEquals(
-                    "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithoutConstructor]",
-                    e.getMessage());
+                            "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithoutConstructor]",
+                            e.getMessage());
         }
     }
 
-    public void testDefaultStoreFactoryWithPrivateConstructor() {
-        ConfigurationHelper.setProperty(
-                ConfigurationHelper.STORE_CLASS,
-                BadStoreClassWithPrivateConstructor.class.getName());
-        try {
+    public void testDefaultStoreFactoryWithPrivateConstructor()
+    {
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassWithPrivateConstructor.class
+                        .getName());
+        try
+        {
             StoreFactory.getWriter();
             fail("Should not had a writer");
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
             assertEquals(
-                    "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithPrivateConstructor]",
-                    e.getMessage());
+                            "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithPrivateConstructor]",
+                            e.getMessage());
         }
     }
 
-    public void testDefaultStoreFactoryBadInterface() {
+    public void testDefaultStoreFactoryBadInterface()
+    {
         ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassNotWriter.class.getName());
-        try {
+        try
+        {
             StoreFactory.getWriter();
             fail("Should not had a writer");
-        } catch (Exception e) {
-            assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
-            assertEquals("The writer : [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassNotWriter]"
-                    + " is not an instance of IStoreWriter", e.getMessage());
+        } catch (ClassCastException e)
+        {
+            assertEquals("org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassNotWriter", e.getMessage());
         }
     }
 
-    public static class BadStoreClassWithoutConstructor implements IStoreWriter {
-        public BadStoreClassWithoutConstructor(String pString) {
+    public static class BadStoreClassWithoutConstructor implements IStoreWriter
+    {
+        public BadStoreClassWithoutConstructor(String pString)
+        {
         }
 
-        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow) { // Nothing to do, it will never be called
-        }
-    }
-
-    public static class BadStoreClassWithPrivateConstructor implements IStoreWriter {
-        private BadStoreClassWithPrivateConstructor() {
-        }
-
-        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow) { // Nothing to do, it will never be called
+        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+        { // Nothing to do, it will never be called
         }
     }
 
-    public static class BadStoreClassNotWriter {
-        public BadStoreClassNotWriter() {
+    public static class BadStoreClassWithPrivateConstructor implements IStoreWriter
+    {
+        private BadStoreClassWithPrivateConstructor()
+        {
+        }
+
+        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+        { // Nothing to do, it will never be called
+        }
+    }
+
+    public static class BadStoreClassNotWriter
+    {
+        public BadStoreClassNotWriter()
+        {
         }
     }
 
@@ -92,12 +107,15 @@ public class TestStoreFactory extends TestCase {
      * 
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception
+    {
         super.setUp();
         StoreFactory.clear();
     }
 
-    public void testClear() {
+    public void testClear()
+    {
         ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, TestStoreManager.MyWriter.class.getName());
         StoreFactory.clear();
         IStoreWriter tWriter = StoreFactory.getWriter();

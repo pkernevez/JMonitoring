@@ -24,7 +24,8 @@ import org.jmonitoring.core.domain.MethodCallPO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public abstract class PersistanceTestCase extends TestCase {
+public abstract class PersistanceTestCase extends TestCase
+{
 
     private Session mSession;
 
@@ -34,7 +35,9 @@ public abstract class PersistanceTestCase extends TestCase {
 
     private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
 
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception
+    {
         super.setUp();
 
         mSession = HibernateManager.getSession();
@@ -50,11 +53,15 @@ public abstract class PersistanceTestCase extends TestCase {
 
     }
 
-    public void closeAndRestartSession() {
-        if (mSession.isOpen()) {
-            if (mTransaction.isActive()) {
+    public void closeAndRestartSession()
+    {
+        if (mSession.isOpen())
+        {
+            if (mTransaction.isActive())
+            {
                 mTransaction.commit();
-            } else {
+            } else
+            {
                 mSession.close();
             }
         }
@@ -63,48 +70,61 @@ public abstract class PersistanceTestCase extends TestCase {
         mTransaction = mSession.beginTransaction();
     }
 
-    protected void assertStatistics(Class pEntity, int pInsertCount, int pUpdateCount, int pLoadCount, int pFetchCount) {
+    protected void assertStatistics(Class<MethodCallPO> pEntity, int pInserts, int pUpdates, int pLoads, int pFetchs)
+    {
         EntityStatistics tStat = mStats.getEntityStatistics(pEntity.getName());
 
-        assertEquals("Invalid INSERT statistics", pInsertCount, tStat.getInsertCount());
-        assertEquals("Invalid UPDATE statistics", pUpdateCount, tStat.getUpdateCount());
-        assertEquals("Invalid LOAD statistics", pLoadCount, tStat.getLoadCount());
-        assertEquals("Invalid FECTH statistics", pFetchCount, tStat.getFetchCount());
+        assertEquals("Invalid INSERT statistics", pInserts, tStat.getInsertCount());
+        assertEquals("Invalid UPDATE statistics", pUpdates, tStat.getUpdateCount());
+        assertEquals("Invalid LOAD statistics", pLoads, tStat.getLoadCount());
+        assertEquals("Invalid FECTH statistics", pFetchs, tStat.getFetchCount());
 
     }
 
-    protected void createDataSet(String pDataSetFileName) {
+    protected void createDataSet(String pDataSetFileName)
+    {
         Session tSession = HibernateManager.getSession();
 
-        if (pDataSetFileName != null) {
+        if (pDataSetFileName != null)
+        {
             IDataSet tDataSet;
-            try {
+            try
+            {
                 sLog.debug("Before CLEAN INSERT");
                 tDataSet = new XmlDataSet(PersistanceTestCase.class.getResourceAsStream(pDataSetFileName));
                 DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(tSession.connection()), tDataSet);
                 sLog.debug("Now flush data");
                 mSession.flush();
-            } catch (DataSetException e) {
+            } catch (DataSetException e)
+            {
                 throw new RuntimeException(e);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
         sLog.debug("end createDataSet");
     }
 
-    protected void tearDown() throws Exception {
-        try {
+    @Override
+    protected void tearDown() throws Exception
+    {
+        try
+        {
             super.tearDown();
             Configuration tConfig = HibernateManager.getConfig();
             SchemaExport tDdlexport = new SchemaExport(tConfig);
 
             tDdlexport.drop(true, true);
-        } finally {
-            if (mSession.isOpen()) {
-                if (mTransaction.isActive()) {
+        } finally
+        {
+            if (mSession.isOpen())
+            {
+                if (mTransaction.isActive())
+                {
                     mTransaction.rollback();
-                } else {
+                } else
+                {
                     mSession.close();
                 }
             }
@@ -112,19 +132,23 @@ public abstract class PersistanceTestCase extends TestCase {
         }
     }
 
-    public Session getSession() {
+    public Session getSession()
+    {
         return mSession;
     }
 
-    public Transaction getTransaction() {
+    public Transaction getTransaction()
+    {
         return mTransaction;
     }
 
-    public Statistics getStats() {
+    public Statistics getStats()
+    {
         return mStats;
     }
 
-    public static ExecutionFlowPO buildNewFullFlow() {
+    public static ExecutionFlowPO buildNewFullFlow()
+    {
         MethodCallPO tPoint;
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();
@@ -140,16 +164,16 @@ public abstract class PersistanceTestCase extends TestCase {
         tSubPoint2.setBeginTime(tStartTime + 8);// 21
 
         tSubPoint3 = new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-                "[]");
+                        "[]");
         tSubPoint3.setBeginTime(tStartTime + 14);// 1
         tSubPoint3.setEndTime(tStartTime + 15);
 
         tSubPoint4 = new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-                "[]");
+                        "[]");
         tSubPoint4.setBeginTime(tStartTime + 16);// 12
 
         tSubPoint5 = new MethodCallPO(tSubPoint4, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-                "[]");
+                        "[]");
         tSubPoint5.setBeginTime(tStartTime + 26);// 1
         tSubPoint5.setEndTime(tStartTime + 27);
 

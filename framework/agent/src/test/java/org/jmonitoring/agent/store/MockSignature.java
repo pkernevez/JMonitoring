@@ -8,23 +8,26 @@ import org.aspectj.lang.Signature;
  **************************************************************************/
 
 /** Mock AspectJ Signature */
-public class MockSignature implements Signature {
+public class MockSignature implements Signature
+{
     /** No doc for this test. */
-    public MockSignature(String pName, Class pDeclaringType) {
+    public MockSignature(String pName, Class<?> pDeclaringType)
+    {
         mName = pName;
         mDeclaringClass = pDeclaringType;
     }
 
-    private String mName;
+    private final String mName;
 
-    private Class mDeclaringClass;
+    private final Class<?> mDeclaringClass;
 
     /**
      * No doc for this test.
      * 
      * @return no doc
      */
-    public String toShortString() {
+    public String toShortString()
+    {
         return mName;
     }
 
@@ -33,7 +36,8 @@ public class MockSignature implements Signature {
      * 
      * @return no doc
      */
-    public String toLongString() {
+    public String toLongString()
+    {
         return mDeclaringClass.getName() + "." + mName;
     }
 
@@ -42,7 +46,8 @@ public class MockSignature implements Signature {
      * 
      * @return no doc
      */
-    public String getName() {
+    public String getName()
+    {
         return mName;
     }
 
@@ -51,7 +56,8 @@ public class MockSignature implements Signature {
      * 
      * @return no doc
      */
-    public int getModifiers() {
+    public int getModifiers()
+    {
         return 0;
     }
 
@@ -60,7 +66,8 @@ public class MockSignature implements Signature {
      * 
      * @return no doc
      */
-    public Class getDeclaringType() {
+    public Class<?> getDeclaringType()
+    {
         return mDeclaringClass;
     }
 
@@ -69,7 +76,8 @@ public class MockSignature implements Signature {
      * 
      * @return no doc
      */
-    public String getDeclaringTypeName() {
+    public String getDeclaringTypeName()
+    {
         return mDeclaringClass.getName();
     }
 

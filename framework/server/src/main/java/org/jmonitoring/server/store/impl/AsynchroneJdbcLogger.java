@@ -15,27 +15,29 @@ import org.hibernate.Transaction;
 import org.jmonitoring.agent.store.impl.AbstractAsynchroneWriter;
 import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.InsertionDao;
 
 /**
  * @author pke
  * 
  * @todo impl�menter un maxfail si la base n'est pas dispo
  */
-public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter {
+public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter
+{
 
     private static Log sLog = LogFactory.getLog(AsynchroneJdbcLogger.class);;
 
-    private static Constructor sConstructor;
+    private static Constructor<IInsertionDao> sConstructor;
 
     private boolean mAutoflush = false;
 
     /**
      * Default constructor.
      */
-    public AsynchroneJdbcLogger() {
+    public AsynchroneJdbcLogger()
+    {
         this(false);
     }
 
@@ -44,40 +46,53 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter {
      * 
      * @param pAutoFlush Flush all the jdbc access after the inserts.
      */
-    public AsynchroneJdbcLogger(boolean pAutoFlush) {
+    public AsynchroneJdbcLogger(boolean pAutoFlush)
+    {
         mAutoflush = pAutoFlush;
     }
 
-    private class AsynchroneJdbcLoggerRunnable implements Runnable {
-        private ExecutionFlowPO mExecutionFlowToLog;
+    private class AsynchroneJdbcLoggerRunnable implements Runnable
+    {
+        private final ExecutionFlowPO mExecutionFlowToLog;
 
-        public AsynchroneJdbcLoggerRunnable(ExecutionFlowPO pExecutionFlowToLog) {
+        public AsynchroneJdbcLoggerRunnable(ExecutionFlowPO pExecutionFlowToLog)
+        {
             mExecutionFlowToLog = pExecutionFlowToLog;
         }
 
-        public void run() {
-            try {
+        public void run()
+        {
+            try
+            {
                 long tStartTime = System.currentTimeMillis();
                 Session tPManager = null;
-                try {
-                    tPManager = (Session) HibernateManager.getSession();
+                try
+                {
+                    tPManager = HibernateManager.getSession();
                     Transaction tTransaction = tPManager.getTransaction();
                     tTransaction.begin();
                     getDao().insertFullExecutionFlow(mExecutionFlowToLog);
-                    if (mAutoflush) {
+                    if (mAutoflush)
+                    {
                         tPManager.flush();
-                    } else {
+                    } else
+                    {
                         tTransaction.commit();
                     }
                     long tEndTime = System.currentTimeMillis();
-                    sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog + " in " + (tEndTime - tStartTime)
-                            + " ms.");
-                } finally {
-                    if (tPManager != null && tPManager.isOpen()) {
+                    sLog.info("Inserted ExecutionFlow " + mExecutionFlowToLog
+                                    + " in "
+                                    + (tEndTime - tStartTime)
+                                    + " ms.");
+                } finally
+                {
+                    if (tPManager != null && tPManager.isOpen())
+                    {
                         tPManager.close();
                     }
                 }
-            } catch (RuntimeException e) {
+            } catch (RuntimeException e)
+            {
                 sLog.error("Unable to insert ExecutionFlow into database", e);
             }
         }
@@ -86,25 +101,35 @@ public class AsynchroneJdbcLogger extends AbstractAsynchroneWriter {
     /**
      * @see AbstractAsynchroneWriter#getAsynchroneLogTask(ExecutionFlowPO)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow) {
+    @Override
+    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
+    {
         return new AsynchroneJdbcLoggerRunnable(pFlow);
     }
 
-    private InsertionDao getDao() {
-        Constructor tCon = sConstructor;
-        if (tCon == null) {
+    // TODO refactor this part with Spring
+    private IInsertionDao getDao()
+    {
+        Constructor<IInsertionDao> tCon = sConstructor;
+        if (tCon == null)
+        {
             tCon = ConfigurationHelper.getDaoDefaultConstructor();
             sConstructor = tCon;
         }
-        try {
-            return (InsertionDao) tCon.newInstance(new Object[0]);
-        } catch (IllegalArgumentException e) {
+        try
+        {
+            return tCon.newInstance(new Object[0]);
+        } catch (IllegalArgumentException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (InstantiationException e) {
+        } catch (InstantiationException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
         }
     }

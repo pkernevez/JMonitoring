@@ -192,19 +192,19 @@ public class TestStoreManager extends TestCase {
     public void testClearChangeManager() {
         StoreManager tManager = StoreManager.getManager();
         assertSame(tManager, StoreManager.getManager());
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         assertNotSame(tManager, StoreManager.getManager());
     }
 
     public void testClearChangeManagerConfiguration() {
 
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         assertNotNull(StoreManager.getManager());
         assertNotNull(StoreManager.getManager().getStoreWriter());
 
         assertEquals(MemoryStoreWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
 
-        StoreManager.changeStoreManagerClass(MyWriter.class);
+        StoreManager.changeStoreWriterClass(MyWriter.class);
         assertEquals(MyWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
     }
 
