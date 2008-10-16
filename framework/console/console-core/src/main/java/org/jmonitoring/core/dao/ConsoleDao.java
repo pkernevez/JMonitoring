@@ -155,16 +155,18 @@ public class ConsoleDao extends InsertionDao
         {
             try
             {
-                tStat = getSession().connection().prepareStatement(
-                                "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
+                tStat = getSession()
+                                    .connection()
+                                    .prepareStatement(
+                                                      "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
                 tStat.setNull(1, Types.INTEGER);
                 tStat.setInt(2, pId);
                 tStat.execute();
                 tStat.close();
                 tStat = null;
 
-                tStat = getSession().connection().prepareStatement(
-                                "UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
+                tStat = getSession().connection()
+                                    .prepareStatement("UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
                 tStat.setNull(1, Types.INTEGER);
                 tStat.setInt(2, pId);
                 tStat.execute();
@@ -230,15 +232,16 @@ public class ConsoleDao extends InsertionDao
      */
     public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
     {
-        Query tQuery = getSession().createQuery(
-                        "from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
+        Query tQuery = getSession()
+                                   .createQuery(
+                                                "from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
         tQuery.setInteger("flowId", pFlowId);
         tQuery.setInteger("pid", pMethodId);
         MethodCallPO tMeth = (MethodCallPO) tQuery.uniqueResult();
         if (tMeth == null)
         {
-            throw new ObjectNotFoundException("FlowId=" + pFlowId + " and Position=" + pMethodId, MethodCallPO.class
-                            .getName());
+            throw new ObjectNotFoundException("FlowId=" + pFlowId + " and Position=" + pMethodId,
+                                              MethodCallPO.class.getName());
         } else
         {
             return tMeth;
@@ -271,8 +274,9 @@ public class ConsoleDao extends InsertionDao
         for (Object[] tExtract : (List<Object[]>) (tQuery.list()))
         {
             tResult.add(new MethodCallExtractDTO((String) tExtract[EXTRACT_CLASSNAME_POS],
-                            (String) tExtract[EXTRACT_METHODNAME_POS], (String) tExtract[EXTRACT_GROUPNAME_POS],
-                            (Integer) tExtract[EXTRACT_NB_POS]));
+                                                 (String) tExtract[EXTRACT_METHODNAME_POS],
+                                                 (String) tExtract[EXTRACT_GROUPNAME_POS],
+                                                 ((Long) tExtract[EXTRACT_NB_POS]).intValue()));
         }
         return tResult;
     }

@@ -9,16 +9,17 @@ package org.jmonitoring.core.dto;
  * Extract of a king of measure.
  * 
  */
-public class MethodCallExtractDTO {
-    private String mName;
+public class MethodCallExtractDTO
+{
+    private final String mName;
 
-    private String mClassName;
+    private final String mClassName;
 
-    private String mMethodName;
+    private final String mMethodName;
 
-    private int mOccurenceNumber;
+    private final int mOccurenceNumber;
 
-    private String mGroupName;
+    private final String mGroupName;
 
     /**
      * Default constructor.
@@ -28,20 +29,23 @@ public class MethodCallExtractDTO {
      * @param pGroupName The name of the group associated with this measure extract.
      * @param pNb The number of occurrence of this kind of measure.
      */
-    public MethodCallExtractDTO(String pClassName, String pMethodName, String pGroupName, Integer pNb) {
+    public MethodCallExtractDTO(String pClassName, String pMethodName, String pGroupName, int pNb)
+    {
         mName = getFullName(pClassName, pMethodName);
         mClassName = pClassName;
         mMethodName = pMethodName;
         mGroupName = getGroupName(pGroupName);
-        mOccurenceNumber = pNb.intValue();
+        mOccurenceNumber = pNb;
     }
 
-    protected static String getFullName(String pClassName, String pMethodName) {
+    protected static String getFullName(String pClassName, String pMethodName)
+    {
         String tName = pClassName + "." + pMethodName;
         return tName.replaceAll("\\.++", ".");
     }
 
-    protected static String getGroupName(String pGroupName) {
+    protected static String getGroupName(String pGroupName)
+    {
         return pGroupName.replaceAll("\\.++", "");
     }
 
@@ -50,7 +54,8 @@ public class MethodCallExtractDTO {
      * 
      * @return The name of the method of this extract.
      */
-    public String getMethodName() {
+    public String getMethodName()
+    {
         return mMethodName;
     }
 
@@ -59,7 +64,8 @@ public class MethodCallExtractDTO {
      * 
      * @return The name of the measure.
      */
-    public String getName() {
+    public String getName()
+    {
         return mName;
     }
 
@@ -68,7 +74,8 @@ public class MethodCallExtractDTO {
      * 
      * @return The number of occurrence of this kind of measure.
      */
-    public int getOccurenceNumber() {
+    public int getOccurenceNumber()
+    {
         return mOccurenceNumber;
     }
 
@@ -77,11 +84,13 @@ public class MethodCallExtractDTO {
      * 
      * @return The group name assiociated with this kind of measure.
      */
-    public String getGroupName() {
+    public String getGroupName()
+    {
         return mGroupName;
     }
 
-    public String getClassName() {
+    public String getClassName()
+    {
         return mClassName;
     }
 

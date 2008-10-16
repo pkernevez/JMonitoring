@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionMessages;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -24,7 +25,8 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class DeleteOneFlowActionIn extends Action {
+public class DeleteOneFlowActionIn extends Action
+{
 
     /*
      * (non-Javadoc)
@@ -33,14 +35,31 @@ public class DeleteOneFlowActionIn extends Action {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
      *      javax.servlet.http.HttpServletResponse) @todo Manage Exception with a good error message...
      */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-            HttpServletResponse pResponse) {
+                    HttpServletResponse pResponse)
+    {
         FlowIdForm tForm = (FlowIdForm) pForm;
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        try {
-            tProcess.deleteFlow(tForm.getId());
+        try
+        {
+            TransactionHelper tTx = new TransactionHelper();
+            try
+            {
+                tProcess.deleteFlow(tForm.getId());
+                tTx.commit();
+            } catch (UnknownFlowException t)
+            {
+                tTx.rollBack();
+                throw t;
+            } catch (Throwable t)
+            {
+                tTx.rollBack();
+                throw new RuntimeException(t);
+            }
             return pMapping.findForward("success");
-        } catch (UnknownFlowException e) {
+        } catch (UnknownFlowException e)
+        {
             ActionMessages errors = new ActionMessages();
             ActionMessage error = new ActionMessage("errors.executionflow.notfound", new Integer(tForm.getId()));
             errors.add("msg1", error);

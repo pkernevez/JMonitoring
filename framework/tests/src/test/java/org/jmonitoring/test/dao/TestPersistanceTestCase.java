@@ -8,16 +8,19 @@ import java.sql.SQLException;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestPersistanceTestCase extends PersistanceTestCase {
+public class TestPersistanceTestCase extends PersistanceTestCase
+{
 
-    public void testRequestExecution() throws SQLException {
-        PreparedStatement tStat = getSession().connection().prepareStatement("select 1 from METHOD_CALL");
+    public void testRequestExecution() throws SQLException
+    {
+        PreparedStatement tStat = getSession().connection().prepareStatement("select * from METHOD_CALL");
         assertTrue(tStat.execute());
         ResultSet tResult = tStat.getResultSet();
         assertFalse(tResult.next());
     }
 
-    public void testTransaction() throws Exception {
+    public void testTransaction() throws Exception
+    {
         getSession().close();
         tearDown();
     }

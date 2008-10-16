@@ -3,10 +3,10 @@ package org.jmonitoring.sample.main;
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
-import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 
@@ -18,7 +18,7 @@ public class TestRunSample extends SamplePersistenceTestcase {
 
     public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory() {
         ShoppingCartPO.setCounter(0);
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         new RunSample(getSampleSession()).run();
 
         // assertEquals(3, MemoryStoreWriter.countFlow());
@@ -27,7 +27,7 @@ public class TestRunSample extends SamplePersistenceTestcase {
         checkRun(tFlow);
 
         // Now check the save and load
-        InsertionDao tDao = new InsertionHibernateDAO(getSession());
+        IInsertionDao tDao = new InsertionHibernateDAO(getSession());
         assertEquals(1, MemoryStoreWriter.countFlows());
         tDao.insertFullExecutionFlow(tFlow);
         assertEquals(1, MemoryStoreWriter.countFlows());

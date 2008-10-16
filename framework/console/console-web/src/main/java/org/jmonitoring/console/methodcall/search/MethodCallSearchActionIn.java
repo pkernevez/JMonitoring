@@ -17,6 +17,7 @@ import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyMap;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 public class MethodCallSearchActionIn extends Action
 {
@@ -24,16 +25,25 @@ public class MethodCallSearchActionIn extends Action
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse) throws Exception
     {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        List<MethodCallExtractDTO> tListOfAllExtract = tProcess.getListOfMethodCallExtract();
-        Map<String, MethodCallExtractDTO> tListOfExtractByFullClassName = new HashMap<String, MethodCallExtractDTO>();
-        MyMap tTreeOfExtract = convertListAsTree(tListOfExtractByFullClassName, tListOfAllExtract);
+        TransactionHelper tTx = new TransactionHelper();
+        try
+        {
+            JMonitoringProcess tProcess = ProcessFactory.getInstance();
+            List<MethodCallExtractDTO> tListOfAllExtract = tProcess.getListOfMethodCallExtract();
+            Map<String, MethodCallExtractDTO> tListOfExtractByFullClassName = new HashMap<String, MethodCallExtractDTO>();
+            MyMap tTreeOfExtract = convertListAsTree(tListOfExtractByFullClassName, tListOfAllExtract);
 
-        MethodCallSearchForm tForm = (MethodCallSearchForm) pForm;
-        tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
-        tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
+            MethodCallSearchForm tForm = (MethodCallSearchForm) pForm;
+            tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
+            tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
 
-        return pMapping.findForward("success");
+            tTx.commit();
+            return pMapping.findForward("success");
+        } catch (Throwable t)
+        {
+            tTx.rollBack();
+            throw new RuntimeException(t);
+        }
     }
 
     /**
@@ -52,7 +62,7 @@ public class MethodCallSearchActionIn extends Action
             MyMap curMap = tTree;
             pListOfExtractByFullClassName.put(tExtract.getName() + tExtract.getGroupName(), tExtract);
             for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(), "."); tTokenizer
-                            .hasMoreElements();)
+                                                                                                                                .hasMoreElements();)
             {
                 String curString = (String) tTokenizer.nextElement();
                 MyMap tCurrentBranch = curMap.get(curString);

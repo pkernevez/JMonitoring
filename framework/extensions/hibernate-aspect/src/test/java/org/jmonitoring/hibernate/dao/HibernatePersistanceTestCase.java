@@ -3,6 +3,7 @@ package org.jmonitoring.hibernate.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.stat.Statistics;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***************************************************************************
@@ -16,40 +17,57 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * 
  * @deprecated
  */
-public class HibernatePersistanceTestCase extends PersistanceTestCase {
+@Deprecated
+public class HibernatePersistanceTestCase extends PersistanceTestCase
+{
 
-    protected void assertStatistics(Class pEntity, int pInsertCount, int pUpdateCount, int pLoadCount, int pFetchCount) {
-        super.assertStatistics(pEntity, pInsertCount, pUpdateCount, pLoadCount, pFetchCount);
+    @Override
+    protected void assertStatistics(Class<MethodCallPO> pEntity, int pInserts, int pUpdates, int pLoads, int pFetchs)
+    {
+        super.assertStatistics(pEntity, pInserts, pUpdates, pLoads, pFetchs);
     }
 
-    protected void createDataSet(String pDataSetFileName) {
+    @Override
+    protected void createDataSet(String pDataSetFileName)
+    {
         super.createDataSet(pDataSetFileName);
     }
 
-    public Session getSession() {
+    @Override
+    public Session getSession()
+    {
         return super.getSession();
     }
 
-    public Statistics getStats() {
+    @Override
+    public Statistics getStats()
+    {
         return super.getStats();
     }
 
-    public Transaction getTransaction() {
+    @Override
+    public Transaction getTransaction()
+    {
         return super.getTransaction();
     }
 
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception
+    {
         super.setUp();
     }
 
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() throws Exception
+    {
         super.tearDown();
     }
 
     /**
      * Only because Maven fail without any test.
      */
-    public void testBidon() {
+    public void testBidon()
+    {
 
     }
 }

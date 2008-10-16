@@ -7,13 +7,15 @@ import java.util.Map;
 
 import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
+import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyHashMap;
+import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyMap;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 
-import servletunit.struts.MockStrutsTestCase;
+public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase
+{
 
-public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase {
-
-    public void testExecuteActionMappingActionFormHttpServletRequestHttpServletResponse() {
+    public void testExecuteActionMappingActionFormHttpServletRequestHttpServletResponse()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(2);
@@ -25,30 +27,31 @@ public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase 
         actionPerform();
         verifyForward("success");
 
-        Map tTreeOfExtract = ((MethodCallSearchForm) getActionForm()).getTreeOfMethodCallExtract();
+        MyMap tTreeOfExtract = ((MethodCallSearchForm) getActionForm()).getTreeOfMethodCallExtract();
         assertEquals(1, tTreeOfExtract.size());
 
-        tTreeOfExtract = (Map) tTreeOfExtract.get("org");
+        tTreeOfExtract = tTreeOfExtract.get("org");
         assertEquals(1, tTreeOfExtract.size());
 
-        tTreeOfExtract = (Map) tTreeOfExtract.get("jmonitoring");
+        tTreeOfExtract = tTreeOfExtract.get("jmonitoring");
         assertEquals(1, tTreeOfExtract.size());
 
-        tTreeOfExtract = (Map) tTreeOfExtract.get("console");
+        tTreeOfExtract = tTreeOfExtract.get("console");
         assertEquals(1, tTreeOfExtract.size());
 
-        tTreeOfExtract = (Map) tTreeOfExtract.get("flow");
+        tTreeOfExtract = tTreeOfExtract.get("flow");
         assertEquals(1, tTreeOfExtract.size());
 
-        tTreeOfExtract = (Map) tTreeOfExtract.get("FlowBuilderUtil");
+        tTreeOfExtract = tTreeOfExtract.get("FlowBuilderUtil");
         assertEquals(2, tTreeOfExtract.size());
-        assertEquals(new HashMap(), tTreeOfExtract.get("builNewFullFlowGrDefault"));
-        assertEquals(new HashMap(), tTreeOfExtract.get("builNewFullFlow3GrChild2"));
+        assertEquals(new MyHashMap(), tTreeOfExtract.get("builNewFullFlowGrDefault"));
+        assertEquals(new MyHashMap(), tTreeOfExtract.get("builNewFullFlow3GrChild2"));
 
     }
 
-    public void testConvertListAsTree() {
-        List tList = new ArrayList();
+    public void testConvertListAsTree()
+    {
+        List<MethodCallExtractDTO> tList = new ArrayList<MethodCallExtractDTO>();
         tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto", "getToto", "Grp1", new Integer(1)));
         tList.add(new MethodCallExtractDTO("org.monitoring.toto.Toto", "getTotoBis", "Grp1", new Integer(2)));
         tList.add(new MethodCallExtractDTO("org.monitoring.toto.TotoBis", "getToto", "Grp1", new Integer(3)));
@@ -56,43 +59,43 @@ public class TestMethodCallSearchActionIn extends JMonitoringMockStrustTestCase 
         tList.add(new MethodCallExtractDTO("org.monitoring.tata.Toto", "getToto", "Grp1", new Integer(5)));
         tList.add(new MethodCallExtractDTO("com.monitoring.Titi", "getTiti", "Grp2", new Integer(6)));
 
-        Map tFullListOfMap = new HashMap();
-        Map tMap = MethodCallSearchActionIn.convertListAsTree(tFullListOfMap, tList);
+        Map<String, MethodCallExtractDTO> tFullListOfMap = new HashMap<String, MethodCallExtractDTO>();
+        MyMap tMap = MethodCallSearchActionIn.convertListAsTree(tFullListOfMap, tList);
         assertEquals(2, tMap.size());
-        HashMap curMap = (HashMap) tMap.get("org");
+        MyMap curMap = tMap.get("org");
         assertEquals(1, curMap.size());
-        curMap = (HashMap) curMap.get("monitoring");
+        curMap = curMap.get("monitoring");
         assertEquals(2, curMap.size());
-        curMap = (HashMap) curMap.get("toto");
+        curMap = curMap.get("toto");
         assertEquals(2, curMap.size());
-        curMap = (HashMap) curMap.get("Toto");
+        curMap = curMap.get("Toto");
         assertEquals(2, curMap.size());
-        assertEquals(0, ((HashMap) curMap.get("getTotoGrp1")).size());
+        assertEquals(0, curMap.get("getTotoGrp1").size());
 
-        assertEquals(0, ((Map) curMap.get("getTotoBisGrp1")).size());
+        assertEquals(0, curMap.get("getTotoBisGrp1").size());
 
-        curMap = (HashMap) tMap.get("org");
-        curMap = (HashMap) curMap.get("monitoring");
-        curMap = (HashMap) curMap.get("toto");
-        curMap = (HashMap) curMap.get("TotoBis");
+        curMap = tMap.get("org");
+        curMap = curMap.get("monitoring");
+        curMap = curMap.get("toto");
+        curMap = curMap.get("TotoBis");
         assertEquals(1, curMap.size());
-        curMap = (HashMap) curMap.get("getTotoGrp1");
+        curMap = curMap.get("getTotoGrp1");
         assertEquals(0, curMap.size());
 
-        curMap = (HashMap) tMap.get("org");
-        curMap = (HashMap) curMap.get("monitoring");
-        curMap = (HashMap) curMap.get("tata");
+        curMap = tMap.get("org");
+        curMap = curMap.get("monitoring");
+        curMap = curMap.get("tata");
         assertEquals(2, curMap.size());
-        curMap = (HashMap) curMap.get("Tata");
+        curMap = curMap.get("Tata");
         assertEquals(1, curMap.size());
-        curMap = (HashMap) curMap.get("getTataGrp1");
+        curMap = curMap.get("getTataGrp1");
         assertEquals(0, curMap.size());
 
-        curMap = (HashMap) tMap.get("com");
-        curMap = (HashMap) curMap.get("monitoring");
-        curMap = (HashMap) curMap.get("Titi");
+        curMap = tMap.get("com");
+        curMap = curMap.get("monitoring");
+        curMap = curMap.get("Titi");
         assertEquals(1, curMap.size());
-        curMap = (HashMap) curMap.get("getTitiGrp2");
+        curMap = curMap.get("getTitiGrp2");
         assertEquals(0, curMap.size());
 
         assertEquals(6, tFullListOfMap.size());

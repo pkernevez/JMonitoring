@@ -14,17 +14,20 @@ import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
-public class SynchroneJdbcStore implements IStoreWriter {
+public class SynchroneJdbcStore implements IStoreWriter
+{
 
     private static Log sLog = LogFactory.getLog(SynchroneJdbcStore.class);;
 
-    private static Constructor sConstructor;
+    private static Constructor<IInsertionDao> sConstructor;
 
-    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow) {
+    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+    {
         Session tPManager = null;
-        try {
+        try
+        {
             long tStartTime = System.currentTimeMillis();
-            tPManager = (Session) HibernateManager.getSession();
+            tPManager = HibernateManager.getSession();
             Transaction tTransaction = tPManager.getTransaction();
             tTransaction.begin();
             getDao().insertFullExecutionFlow(pExecutionFlow);
@@ -33,30 +36,40 @@ public class SynchroneJdbcStore implements IStoreWriter {
 
             long tEndTime = System.currentTimeMillis();
             sLog.info("Inserted ExecutionFlow " + pExecutionFlow + " in " + (tEndTime - tStartTime) + " ms.");
-        } catch (RuntimeException e) {
+        } catch (RuntimeException e)
+        {
             sLog.error("Unable to insert ExecutionFlow into database", e);
-        } finally {
-            if (tPManager != null && tPManager.isOpen()) {
+        } finally
+        {
+            if (tPManager != null && tPManager.isOpen())
+            {
                 tPManager.close();
             }
         }
     }
 
-    private IInsertionDao getDao() {
-        Constructor tCon = sConstructor;
-        if (tCon == null) {
+    private IInsertionDao getDao()
+    {
+        Constructor<IInsertionDao> tCon = sConstructor;
+        if (tCon == null)
+        {
             tCon = ConfigurationHelper.getDaoDefaultConstructor();
             sConstructor = tCon;
         }
-        try {
-            return (IInsertionDao) tCon.newInstance(new Object[0]);
-        } catch (IllegalArgumentException e) {
+        try
+        {
+            return tCon.newInstance(new Object[0]);
+        } catch (IllegalArgumentException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (InstantiationException e) {
+        } catch (InstantiationException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
-        } catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e)
+        {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);
         }
     }

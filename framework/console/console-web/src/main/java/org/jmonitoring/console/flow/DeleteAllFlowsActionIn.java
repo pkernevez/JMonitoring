@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -21,19 +22,24 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class DeleteAllFlowsActionIn extends Action {
+public class DeleteAllFlowsActionIn extends Action
+{
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-            HttpServletResponse pResponse) throws Exception {
+                    HttpServletResponse pResponse) throws Exception
+    {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        tProcess.deleteAllFlows();
+        TransactionHelper tTx = new TransactionHelper();
+        try
+        {
+            tProcess.deleteAllFlows();
+            tTx.commit();
+        } catch (Throwable t)
+        {
+            tTx.rollBack();
+            throw new RuntimeException(t);
+        }
         return pMapping.findForward("success");
     }
 }

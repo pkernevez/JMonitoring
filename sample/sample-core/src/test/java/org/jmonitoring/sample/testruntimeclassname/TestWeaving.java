@@ -8,7 +8,7 @@ import org.jmonitoring.sample.SamplePersistenceTestcase;
 public class TestWeaving extends SamplePersistenceTestcase {
 
     public void testWeaving() throws InterruptedException {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         AbstractSample tMother = new AbstractSample();
         tMother.methodATester();

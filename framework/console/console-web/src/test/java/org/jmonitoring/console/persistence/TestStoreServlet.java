@@ -42,7 +42,7 @@ public class TestStoreServlet extends MockStrutsTestCase {
     }
 
     private void checkPostStore() throws ServletException, IOException {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow();
         // request.(HttpWriter.FLOW_ATTR, tFlow);
         // StoreServlet tServlet = new StoreServlet();

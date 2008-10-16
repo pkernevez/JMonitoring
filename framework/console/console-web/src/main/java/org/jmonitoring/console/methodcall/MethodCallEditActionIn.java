@@ -10,12 +10,14 @@ import org.apache.struts.action.ActionMapping;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class MethodCallEditActionIn extends Action {
+public class MethodCallEditActionIn extends Action
+{
     /*
      * (non-Javadoc)
      * 
@@ -23,15 +25,26 @@ public class MethodCallEditActionIn extends Action {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
      *      javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-            HttpServletResponse pResponse) {
+                    HttpServletResponse pResponse)
+    {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         // List tList = new ArrayList();
         MethodCallEditForm tForm = (MethodCallEditForm) pForm;
 
-        MethodCallDTO tMeth = tProcess.readFullMethodCall(tForm.getFlowId(), tForm.getPosition());
+        TransactionHelper tTx = new TransactionHelper();
+        try
+        {
+            MethodCallDTO tMeth = tProcess.readFullMethodCall(tForm.getFlowId(), tForm.getPosition());
+            tTx.commit();
+            tForm.setMethodCall(tMeth);
+            return pMapping.findForward("success");
+        } catch (Throwable t)
+        {
+            tTx.rollBack();
+            throw new RuntimeException(t);
+        }
 
-        tForm.setMethodCall(tMeth);
-        return pMapping.findForward("success");
     }
 }

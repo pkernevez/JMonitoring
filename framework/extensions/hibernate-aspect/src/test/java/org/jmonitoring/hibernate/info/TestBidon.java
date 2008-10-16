@@ -12,7 +12,7 @@ import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 public class TestBidon extends TestCase {
 
     public void testTest1() {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         Bidon tBid = new Bidon();
         tBid.method1();
         tBid.method2();

@@ -47,7 +47,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersStatement() throws HibernateException, SQLException
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         Session tSession = getSession();
         Connection tCon = tSession.connection();
         Statement tStat = tCon.createStatement();
@@ -102,7 +102,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         defineStoredProcedure();
         checkDataStoredProcedure();

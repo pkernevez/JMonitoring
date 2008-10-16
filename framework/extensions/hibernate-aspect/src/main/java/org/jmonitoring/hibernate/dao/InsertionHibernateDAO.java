@@ -4,6 +4,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.persistence.InsertionDao;
@@ -18,7 +19,7 @@ import org.jmonitoring.core.persistence.InsertionDao;
  * all its method for exclusion weaving, because we don't want to weave the JMonitoring internal sql requests.
  */
 public class InsertionHibernateDAO extends InsertionDao {
-    private InsertionDao mRealDao;
+    private IInsertionDao mRealDao;
 
     public InsertionHibernateDAO(Session pSession) {
         super(pSession);

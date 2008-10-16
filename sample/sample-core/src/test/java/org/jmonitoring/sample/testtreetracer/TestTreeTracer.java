@@ -14,7 +14,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testParameterTracer()
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         Mother tMother = new Mother();
         tMother.setChild1(new Child());
@@ -49,7 +49,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testReturnValueTracer()
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         new ToBeCall().callWithReturn();
 
@@ -77,7 +77,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testStaticCall()
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         ToBeCall.callStaticMethod(new Mother());
 

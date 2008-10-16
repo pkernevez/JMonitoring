@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -20,7 +21,8 @@ import org.jmonitoring.core.process.ProcessFactory;
 /**
  * @author pke
  */
-public class MethodCallListActionIn extends Action {
+public class MethodCallListActionIn extends Action
+{
     /**
      * (non-Javadoc)
      * 
@@ -28,17 +30,26 @@ public class MethodCallListActionIn extends Action {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
      *      javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-            HttpServletResponse pResponse) throws Exception {
+                    HttpServletResponse pResponse) throws Exception
+    {
         MethodCallListForm tListForm = (MethodCallListForm) pForm;
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        List tResult = tProcess.getListOfMethodCallFullExtract(
-                tListForm.getClassName(),
-                tListForm.getMethodName(),
-                tListForm.getDurationMin(),
-                tListForm.getDurationMax());
-        tListForm.setSearchResult(tResult);
-        return pMapping.findForward("success");
+        TransactionHelper tTx = new TransactionHelper();
+        try
+        {
+            List tResult = tProcess.getListOfMethodCallFullExtract(tListForm.getClassName(), tListForm.getMethodName(),
+                                                                   tListForm.getDurationMin(),
+                                                                   tListForm.getDurationMax());
+            tListForm.setSearchResult(tResult);
+            tTx.commit();
+            return pMapping.findForward("success");
+        } catch (Throwable t)
+        {
+            tTx.rollBack();
+            throw new RuntimeException(t);
+        }
     }
 
 }
