@@ -13,7 +13,6 @@ import java.awt.Stroke;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -36,7 +35,8 @@ import org.jmonitoring.core.dto.MethodCallDTO;
 /**
  * @author pke
  */
-public class FlowUtil {
+public class FlowUtil
+{
 
     /** Constant used for the URL generation of the PieChart representing the number of calls. */
     public static final String NB_CALL_TO_GROUP = "NB_CALL_TO_GROUP";
@@ -46,7 +46,7 @@ public class FlowUtil {
 
     private static Log sLog = LogFactory.getLog(FlowUtil.class);
 
-    private Map mListOfGroup = new HashMap();
+    private Map<String, Integer> mListOfGroup = new HashMap<String, Integer>();
 
     /**
      * Generate 2 Pie Charts for the statistics of the flow and write them in the session. The fisrt is the repartition
@@ -55,45 +55,43 @@ public class FlowUtil {
      * @param pSession The session to use for the image writing as a bytes arrays.
      * @param pFirstMeasure The root of the <code>MethodCallDTO</code> tree.
      */
-    public static void writeImageIntoSession(HttpSession pSession, MethodCallDTO pFirstMeasure) {
+    public static void writeImageIntoSession(HttpSession pSession, MethodCallDTO pFirstMeasure)
+    {
         FlowUtil tFlow = new FlowUtil();
         tFlow.addTimeWith(pFirstMeasure);
 
         DefaultPieDataset dataset = new DefaultPieDataset();
-        String curValue;
         Paint[] tColors = new Paint[tFlow.mListOfGroup.size()];
         int tPos = 0;
-        for (Iterator tIter = tFlow.mListOfGroup.keySet().iterator(); tIter.hasNext();) {
-            curValue = (String) tIter.next();
-            dataset.setValue(curValue, ((Long) tFlow.mListOfGroup.get(curValue)).longValue());
-            tColors[tPos] = (Paint) ColorHelper.calculColor(curValue);
+        for (Map.Entry<String, Integer> curEntry : tFlow.mListOfGroup.entrySet())
+        {
+            String tKey = curEntry.getKey();
+            dataset.setValue(tKey, curEntry.getValue());
+            tColors[tPos] = ColorHelper.calculColor(tKey);
             tPos++;
         }
         DefaultDrawingSupplier tSupplier = new DefaultDrawingSupplier(tColors, new Paint[0], new Stroke[0],
-                new Stroke[0], new Shape[0]);
+                                                                      new Stroke[0], new Shape[0]);
 
         JFreeChart chart = createPieChart("Duration in group", // chart title
-                dataset, // data
-                tSupplier,
-                true, // include legend
-                true,
-                false);
+                                          dataset, // data
+                                          tSupplier, true, // include legend
+                                          true, false);
         addChart(chart, pSession, DURATION_IN_GROUP);
 
         // Maintenant image par nb d'appel
-        tFlow.mListOfGroup = new HashMap();
+        tFlow.mListOfGroup = new HashMap<String, Integer>();
         tFlow.addNbCallWith(pFirstMeasure);
         dataset = new DefaultPieDataset();
-        for (Iterator tIter = tFlow.mListOfGroup.keySet().iterator(); tIter.hasNext();) {
-            curValue = (String) tIter.next();
-            dataset.setValue(curValue, ((Integer) tFlow.mListOfGroup.get(curValue)).intValue());
+        for (Map.Entry<String, Integer> curEntry : tFlow.mListOfGroup.entrySet())
+        {
+            String tKey = curEntry.getKey();
+            dataset.setValue(tKey, curEntry.getValue());
         }
         chart = createPieChart("Nb call of group", // chart title
-                dataset, // data
-                tSupplier,
-                true, // include legend
-                true,
-                false);
+                               dataset, // data
+                               tSupplier, true, // include legend
+                               true, false);
         addChart(chart, pSession, NB_CALL_TO_GROUP);
 
     }
@@ -103,7 +101,8 @@ public class FlowUtil {
      * 
      * @return The list of the group name (<code>Map</code> of <code>String</code>.
      */
-    Map getListOfGroup() {
+    Map<String, Integer> getListOfGroup()
+    {
         return mListOfGroup;
     }
 
@@ -114,7 +113,8 @@ public class FlowUtil {
      * @param pSession The user Session.
      * @param pName The name of the attributes to use for the image.
      */
-    private static void addChart(JFreeChart pChart, HttpSession pSession, String pName) {
+    private static void addChart(JFreeChart pChart, HttpSession pSession, String pName)
+    {
         PiePlot tPlot = (PiePlot) pChart.getPlot();
         tPlot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
         tPlot.setNoDataMessage("No data available");
@@ -122,9 +122,11 @@ public class FlowUtil {
         tPlot.setLabelGap(0.02);
 
         ByteArrayOutputStream tStream = new ByteArrayOutputStream();
-        try {
+        try
+        {
             ChartUtilities.writeChartAsPNG(tStream, pChart, 460, 360);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             sLog.error(e);
             throw new MeasureException("Unable to write Image", e);
         }
@@ -137,23 +139,25 @@ public class FlowUtil {
      * 
      * @param pMeasure The current measure.
      */
-    void addTimeWith(MethodCallDTO pMeasure) {
+    void addTimeWith(MethodCallDTO pMeasure)
+    {
         long tChildDuration = 0;
         MethodCallDTO curPoint;
         // On it�re sur les noeuds fils
-        for (int i = 0; i < pMeasure.getChildren().length; i++) {
-            curPoint = (MethodCallDTO) pMeasure.getChild(i);
+        for (int i = 0; i < pMeasure.getChildren().length; i++)
+        {
+            curPoint = pMeasure.getChild(i);
             addTimeWith(curPoint);
             tChildDuration = tChildDuration + (curPoint.getEndTime().getTime() - curPoint.getBeginTime().getTime());
         }
         String tGroupName = pMeasure.getGroupName();
-        Long tDuration = (Long) mListOfGroup.get(tGroupName);
-        long tLocalDuration = pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime() - tChildDuration;
-        if (tDuration != null) { // On ajoute la dur�e en cours
-            long tLong = tDuration.longValue();
-            tLocalDuration = tLocalDuration + tLong;
+        Integer tDuration = mListOfGroup.get(tGroupName);
+        int tLocalDuration = (int) (pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime() - tChildDuration);
+        if (tDuration != null)
+        { // On ajoute la dur�e en cours
+            tLocalDuration = tLocalDuration + tDuration;
         }
-        mListOfGroup.put(tGroupName, new Long(tLocalDuration));
+        mListOfGroup.put(tGroupName, tLocalDuration);
     }
 
     /**
@@ -161,17 +165,21 @@ public class FlowUtil {
      * 
      * @param pMeasure The current measure.
      */
-    void addNbCallWith(MethodCallDTO pMeasure) {
+    void addNbCallWith(MethodCallDTO pMeasure)
+    {
         String tGroupName = pMeasure.getGroupName();
-        Integer tNbCall = (Integer) mListOfGroup.get(tGroupName);
-        if (tNbCall == null) { // Nouveau groupe ou l'ajoute
+        Integer tNbCall = mListOfGroup.get(tGroupName);
+        if (tNbCall == null)
+        { // Nouveau groupe ou l'ajoute
             mListOfGroup.put(tGroupName, new Integer(1));
-        } else { // On ajoute la dur�e en cours
+        } else
+        { // On ajoute la dur�e en cours
             mListOfGroup.put(tGroupName, new Integer(tNbCall.intValue() + 1));
         }
         // On it�re sur les noeuds fils
-        for (int i = 0; i < pMeasure.getChildren().length; i++) {
-            addNbCallWith((MethodCallDTO) pMeasure.getChild(i));
+        for (int i = 0; i < pMeasure.getChildren().length; i++)
+        {
+            addNbCallWith(pMeasure.getChild(i));
         }
     }
 
@@ -190,7 +198,8 @@ public class FlowUtil {
      * @return A pie chart.
      */
     public static JFreeChart createPieChart(String pTitle, PieDataset pDataset, DrawingSupplier pSupplier,
-            boolean pLegend, boolean pTooltips, boolean pUrls) {
+                    boolean pLegend, boolean pTooltips, boolean pUrls)
+    {
 
         // @todo Tranformer en FlowPiePlot
         // PiePlot plot = new FlowPiePlot(dataset);
@@ -198,11 +207,14 @@ public class FlowUtil {
         plot.setLabelGenerator(new StandardPieItemLabelGenerator());
         plot.setInsets(new Insets(0, 5, 5, 5));
         plot.setDrawingSupplier(pSupplier);
-        if (pTooltips) {
-            plot.setToolTipGenerator(new StandardPieItemLabelGenerator(
-                    StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT));
+        if (pTooltips)
+        {
+            plot
+                .setToolTipGenerator(new StandardPieItemLabelGenerator(
+                                                                       StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT));
         }
-        if (pUrls) {
+        if (pUrls)
+        {
             plot.setURLGenerator(new StandardPieURLGenerator());
         }
         return new JFreeChart(pTitle, JFreeChart.DEFAULT_TITLE_FONT, plot, pLegend);

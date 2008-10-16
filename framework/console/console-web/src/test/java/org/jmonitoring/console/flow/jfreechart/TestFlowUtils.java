@@ -18,10 +18,12 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class TestFlowUtils extends TestCase {
+public class TestFlowUtils extends TestCase
+{
     public static final long START_TIME = 1149282668046L;
 
-    static MethodCallDTO getSampleMeasurePoint() {
+    static MethodCallDTO getSampleMeasurePoint()
+    {
         MethodCallDTO tPoint;
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);
@@ -81,23 +83,25 @@ public class TestFlowUtils extends TestCase {
         return tPoint;
     }
 
-    public void testAddTimeWith() {
+    public void testAddTimeWith()
+    {
         FlowUtil tUtil = new FlowUtil();
         tUtil.addTimeWith(getSampleMeasurePoint());
-        Map tMap = tUtil.getListOfGroup();
-        assertEquals(new Long(40), tMap.get("GrDefault"));
-        assertEquals(new Long(27), tMap.get("GrChild1"));
-        assertEquals(new Long(39), tMap.get("GrChild2"));
+        Map<String, Integer> tMap = tUtil.getListOfGroup();
+        assertEquals(40, (int) tMap.get("GrDefault"));
+        assertEquals(27, (int) tMap.get("GrChild1"));
+        assertEquals(39, (int) tMap.get("GrChild2"));
         assertEquals(106, 40 + 27 + 39);
     }
 
-    public void testAddNbCallWith() {
+    public void testAddNbCallWith()
+    {
         FlowUtil tUtil = new FlowUtil();
         tUtil.addNbCallWith(getSampleMeasurePoint());
-        Map tMap = tUtil.getListOfGroup();
-        assertEquals(new Integer(2), tMap.get("GrDefault"));
-        assertEquals(new Integer(1), tMap.get("GrChild1"));
-        assertEquals(new Integer(2), tMap.get("GrChild2"));
+        Map<String, Integer> tMap = tUtil.getListOfGroup();
+        assertEquals(2, (int) tMap.get("GrDefault"));
+        assertEquals(1, (int) tMap.get("GrChild1"));
+        assertEquals(2, (int) tMap.get("GrChild2"));
     }
 
 }
