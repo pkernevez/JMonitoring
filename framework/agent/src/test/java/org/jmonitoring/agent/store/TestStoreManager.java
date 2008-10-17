@@ -18,11 +18,13 @@ import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
 /**
  * @author pke
  */
-public class TestStoreManager extends TestCase {
+public class TestStoreManager extends TestCase
+{
 
     private static final int TIME_TO_WAIT = 1000;
 
-    private void callOneExecutionFlow(boolean pLogDebugEnabled) throws InterruptedException {
+    private void callOneExecutionFlow(boolean pLogDebugEnabled) throws InterruptedException
+    {
         // Check the count
         MockAbstractAsynchroneLogger.clear();
         AspectLoggerEmulator.clear();
@@ -37,7 +39,8 @@ public class TestStoreManager extends TestCase {
         assertEquals(1, MockAbstractAsynchroneLogger.getNbLog());
     }
 
-    private void callOneExecutionFlowWithExceptionInMain(boolean pLogDebugEnabled) throws InterruptedException {
+    private void callOneExecutionFlowWithExceptionInMain(boolean pLogDebugEnabled) throws InterruptedException
+    {
         // Check the count
         MockAbstractAsynchroneLogger.clear();
         AspectLoggerEmulator.clear();
@@ -58,7 +61,8 @@ public class TestStoreManager extends TestCase {
      * 
      * @throws InterruptedException no doc
      */
-    public void testNbToStringMethodCallWithLogOfParameter() throws InterruptedException {
+    public void testNbToStringMethodCallWithLogOfParameter() throws InterruptedException
+    {
         callOneExecutionFlow(true);
 
         // Now check the number of toString called
@@ -67,13 +71,12 @@ public class TestStoreManager extends TestCase {
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
         assertEquals(
-                "Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult] "
-                        + "with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
-                (String) tErrors.get(0));
+                     "Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult] " + "with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
+                     (String) tErrors.get(0));
     }
 
     /**
@@ -82,7 +85,8 @@ public class TestStoreManager extends TestCase {
      * 
      * @throws InterruptedException no doc
      */
-    public void testNbToStringMethodCallWithoutLogOfParameter() throws InterruptedException {
+    public void testNbToStringMethodCallWithoutLogOfParameter() throws InterruptedException
+    {
         callOneExecutionFlow(false);
 
         // Now check the number of toString called
@@ -91,13 +95,12 @@ public class TestStoreManager extends TestCase {
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
         assertEquals(
-                "Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult]"
-                        + " with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
-                (String) tErrors.get(0));
+                     "Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult]" + " with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
+                     (String) tErrors.get(0));
     }
 
     /**
@@ -106,7 +109,8 @@ public class TestStoreManager extends TestCase {
      * 
      * @throws InterruptedException no doc
      */
-    public void testNbToStringMethodCallWithLogAndExceptionInMain() throws InterruptedException {
+    public void testNbToStringMethodCallWithLogAndExceptionInMain() throws InterruptedException
+    {
         callOneExecutionFlowWithExceptionInMain(true);
 
         // Now check the number of toString called
@@ -115,7 +119,7 @@ public class TestStoreManager extends TestCase {
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
@@ -125,7 +129,8 @@ public class TestStoreManager extends TestCase {
      * 
      * @throws InterruptedException no doc
      */
-    public void testNbToStringMethodCallWithoutLogAndExceptionInMain() throws InterruptedException {
+    public void testNbToStringMethodCallWithoutLogAndExceptionInMain() throws InterruptedException
+    {
         callOneExecutionFlowWithExceptionInMain(false);
 
         // Now check the number of toString called
@@ -134,7 +139,7 @@ public class TestStoreManager extends TestCase {
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
@@ -147,7 +152,8 @@ public class TestStoreManager extends TestCase {
      * 
      * @throws InterruptedException ff
      */
-    public void testAsynchronePublication() throws InterruptedException {
+    public void testAsynchronePublication() throws InterruptedException
+    {
         MockAbstractAsynchroneLogger.resetNbLog();
         MockAbstractAsynchroneLogger.resetNbPublish();
         // Check the count
@@ -156,7 +162,8 @@ public class TestStoreManager extends TestCase {
 
         AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockAbstractAsynchroneLogger());
         // Log NB_FLOW_TO_LOG
-        for (int i = 0; i < NB_FLOW_TO_LOG; i++) {
+        for (int i = 0; i < NB_FLOW_TO_LOG; i++)
+        {
             tEmulator.simulateExecutionFlow(true);
         }
         assertEquals(NB_FLOW_TO_LOG, MockAbstractAsynchroneLogger.getNbPublish());
@@ -171,7 +178,8 @@ public class TestStoreManager extends TestCase {
      * @throws InterruptedException no doc
      * @throws SQLException no doc
      */
-    public void testNbToStringMethodCall() throws InterruptedException {
+    public void testNbToStringMethodCall() throws InterruptedException
+    {
 
         MockAbstractAsynchroneLogger.resetNbLog();
         MockAbstractAsynchroneLogger.resetNbPublish();
@@ -189,14 +197,16 @@ public class TestStoreManager extends TestCase {
         assertEquals(1, MockAbstractAsynchroneLogger.getNbPublish());
     }
 
-    public void testClearChangeManager() {
+    public void testClearChangeManager()
+    {
         StoreManager tManager = StoreManager.getManager();
         assertSame(tManager, StoreManager.getManager());
         StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         assertNotSame(tManager, StoreManager.getManager());
     }
 
-    public void testClearChangeManagerConfiguration() {
+    public void testClearChangeManagerConfiguration()
+    {
 
         StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         assertNotNull(StoreManager.getManager());
@@ -208,9 +218,11 @@ public class TestStoreManager extends TestCase {
         assertEquals(MyWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
     }
 
-    public static class MyWriter implements IStoreWriter {
+    public static class MyWriter implements IStoreWriter
+    {
 
-        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow) {
+        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+        {
         }
 
     }

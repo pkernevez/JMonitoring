@@ -1,7 +1,5 @@
 package org.jmonitoring.agent.store.impl;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
@@ -20,14 +18,16 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  * 
  * @author pke
  */
-public abstract class AbstractAsynchroneWriter implements IStoreWriter {
+public abstract class AbstractAsynchroneWriter implements IStoreWriter
+{
     private static final String THREAD_POOL_KEY = "asynchronelogger.threadpool.size";
 
     private static Log sLog = LogFactory.getLog(AbstractAsynchroneWriter.class);
 
     private static PooledExecutor sExecutor;
 
-    static {
+    static
+    {
         int tAsynchroneLoggerThreadPoolSize = ConfigurationHelper.getInt(THREAD_POOL_KEY);
         sExecutor = new PooledExecutor(tAsynchroneLoggerThreadPoolSize);
         sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + tAsynchroneLoggerThreadPoolSize + " Threads.");
@@ -36,7 +36,8 @@ public abstract class AbstractAsynchroneWriter implements IStoreWriter {
     /**
      * Defautl constructor.
      */
-    public AbstractAsynchroneWriter() {
+    public AbstractAsynchroneWriter()
+    {
     }
 
     /**
@@ -50,11 +51,14 @@ public abstract class AbstractAsynchroneWriter implements IStoreWriter {
     /**
      * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow( ExecutionFlowPO)
      */
-    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow) {
-        try {
+    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+    {
+        try
+        {
             sExecutor.execute(getAsynchroneLogTask(pExecutionFlow));
             sLog.info("Added new ExecutionFlow to List " + pExecutionFlow);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             sLog.error("Unable to add new ExecutionFlow to List " + pExecutionFlow, e);
         }
     }

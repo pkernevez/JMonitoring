@@ -6,7 +6,6 @@ package org.jmonitoring.core.domain;
  **************************************************************************/
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -407,11 +406,9 @@ public class MethodCallPO implements Serializable
 
     public void setFlowRecusivly(ExecutionFlowPO pFlowPO)
     {
-        mFlow = pFlowPO;
-        MethodCallPO curMeth;
-        for (Iterator tIt = mChildren.iterator(); tIt.hasNext();)
+        mFlow = pFlowPO;;
+        for (MethodCallPO curMeth : mChildren)
         {
-            curMeth = (MethodCallPO) tIt.next();
             curMeth.setFlowRecusivly(pFlowPO);
         }
 
