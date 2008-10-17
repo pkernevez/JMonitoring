@@ -5,27 +5,31 @@ package org.jmonitoring.sample.main;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Sample Claas.
  */
-public class Inventory {
+public class Inventory
+{
 
     private static final int TEMPO = 5;
 
-    private List mItems = new Vector();
+    private final List<ItemPO> mItems = new ArrayList<ItemPO>();
 
     /**
      * For the Sample.
      * 
      * @param pItem For the Sample
      */
-    public void addItem(ItemPO pItem) {
-        try {
+    public void addItem(ItemPO pItem)
+    {
+        try
+        {
             Thread.sleep(TEMPO);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -37,10 +41,13 @@ public class Inventory {
      * 
      * @param pItem For the Sample
      */
-    public void removeItem(ItemPO pItem) {
-        try {
+    public void removeItem(ItemPO pItem)
+    {
+        try
+        {
             Thread.sleep(TEMPO);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }

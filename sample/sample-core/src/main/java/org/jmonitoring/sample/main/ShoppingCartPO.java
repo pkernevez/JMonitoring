@@ -5,8 +5,8 @@ package org.jmonitoring.sample.main;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * 
@@ -15,7 +15,8 @@ import java.util.Vector;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class ShoppingCartPO {
+public class ShoppingCartPO
+{
 
     private int mId = -1;
 
@@ -27,11 +28,12 @@ public class ShoppingCartPO {
 
     private static final int TEMPO = 7;
 
-    private List mItems = new Vector();
+    private List<ItemPO> mItems = new ArrayList<ItemPO>();
 
     private static int sCounter = 0;
 
-    public static void setCounter(int pCounter) {
+    public static void setCounter(int pCounter)
+    {
         sCounter = pCounter;
     }
 
@@ -40,15 +42,19 @@ public class ShoppingCartPO {
      * 
      * @param pItem For the Sample
      */
-    public void addItem(ItemPO pItem) {
-        try {
+    public void addItem(ItemPO pItem)
+    {
+        try
+        {
             Thread.sleep(TEMPO);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
         sCounter++;
-        if (3 == sCounter) {
+        if (3 == sCounter)
+        {
             throw new RuntimeException("Pour declancher une exception sur item3");
         }
         mItems.add(pItem);
@@ -110,10 +116,13 @@ public class ShoppingCartPO {
      * 
      * @param pItem For the Sample
      */
-    public void removeItem(ItemPO pItem) {
-        try {
+    public void removeItem(ItemPO pItem)
+    {
+        try
+        {
             Thread.sleep(TEMPO3);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -124,10 +133,13 @@ public class ShoppingCartPO {
      * For the Sample
      * 
      */
-    public void empty() {
-        try {
+    public void empty()
+    {
+        try
+        {
             Thread.sleep(TEMPO4);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -139,31 +151,38 @@ public class ShoppingCartPO {
      * 
      * @return For the Sample
      */
-    public float totalValue() {
+    public float totalValue()
+    {
         // unimplemented... free!
-        try {
+        try
+        {
             Thread.sleep(TEMPO5);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
         return 0;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return mId;
     }
 
-    public void setId(int pId) {
+    public void setId(int pId)
+    {
         mId = pId;
     }
 
-    public List getItems() {
+    public List<ItemPO> getItems()
+    {
         new RuntimeException().printStackTrace();
         return mItems;
     }
 
-    public void setItems(List pItems) {
+    public void setItems(List<ItemPO> pItems)
+    {
         mItems = pItems;
     }
 
