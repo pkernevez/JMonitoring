@@ -52,7 +52,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         Connection tCon = tSession.connection();
         Statement tStat = tCon.createStatement();
         assertEquals(JMonitoringStatement.class, tStat.getClass());
-        SqlStatementTracer tTracer = new SqlStatementTracer();
+        // SqlStatementTracer tTracer = new SqlStatementTracer();
         tStat.execute("select * from EXECUTION_FLOW");
         closeAndRestartSession();
         assertEquals(1, MemoryStoreWriter.countFlows());
@@ -63,9 +63,9 @@ public class TestSqlStatementTracer extends PersistanceTestCase
     public void testTraceStatementParametersPreparedStatement() throws HibernateException, SQLException
     {
         PreparedStatement tPStat = getSession()
-                        .connection()
-                        .prepareStatement(
-                                        "select * from EXECUTION_FLOW where Id=? and JVM=? and Id=? and Id=? and Id=? and Id=? " + "and BEGIN_TIME_AS_DATE=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?");
+                                               .connection()
+                                               .prepareStatement(
+                                                                 "select * from EXECUTION_FLOW where Id=? and JVM=? and Id=? and Id=? and Id=? and Id=? " + "and BEGIN_TIME_AS_DATE=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?");
         assertEquals(JMonitoringPreparedStatement.class, tPStat.getClass());
         JMonitoringPreparedStatement tPrepStat = (JMonitoringPreparedStatement) tPStat;
         tPrepStat.setInt(1, 34);
