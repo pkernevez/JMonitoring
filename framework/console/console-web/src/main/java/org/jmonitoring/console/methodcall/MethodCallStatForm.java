@@ -10,7 +10,10 @@ package org.jmonitoring.console.methodcall;
  * 
  * @author pke
  */
-public class MethodCallStatForm extends AbstractMethodCallForm {
+public class MethodCallStatForm extends AbstractMethodCallForm
+{
+    private static final long serialVersionUID = -1180440506251212007L;
+
     private long mDurationMin;
 
     private long mDurationMax;
@@ -29,70 +32,80 @@ public class MethodCallStatForm extends AbstractMethodCallForm {
     /**
      * @return Returns the nbMeasure.
      */
-    public int getNbMeasures() {
+    public int getNbMeasures()
+    {
         return mNbMeasures;
     }
 
     /**
      * @param pNbMeasures The nbMeasure to set.
      */
-    public void setNbMeasures(int pNbMeasures) {
+    public void setNbMeasures(int pNbMeasures)
+    {
         mNbMeasures = pNbMeasures;
     }
 
     /**
      * @return Returns the durationAvg.
      */
-    public double getDurationAvg() {
+    public double getDurationAvg()
+    {
         return mDurationAvg;
     }
 
     /**
      * @param pDurationAvg The durationAvg to set.
      */
-    public void setDurationAvg(double pDurationAvg) {
+    public void setDurationAvg(double pDurationAvg)
+    {
         mDurationAvg = pDurationAvg;
     }
 
     /**
      * @return Returns the durationDev.
      */
-    public double getDurationDev() {
+    public double getDurationDev()
+    {
         return mDurationDev;
     }
 
     /**
      * @param pDurationDev The durationDev to set.
      */
-    public void setDurationDev(double pDurationDev) {
+    public void setDurationDev(double pDurationDev)
+    {
         mDurationDev = pDurationDev;
     }
 
     /**
      * @return Returns the durationMax.
      */
-    public long getDurationMax() {
+    public long getDurationMax()
+    {
         return mDurationMax;
     }
 
     /**
      * @param pDurationMax The durationMax to set.
      */
-    public void setDurationMax(long pDurationMax) {
+    public void setDurationMax(long pDurationMax)
+    {
         mDurationMax = pDurationMax;
     }
 
     /**
      * @return Returns the durationMin.
      */
-    public long getDurationMin() {
+    public long getDurationMin()
+    {
         return mDurationMin;
     }
 
     /**
      * @param pDurationMin The durationMin to set.
      */
-    public void setDurationMin(long pDurationMin) {
+    public void setDurationMin(long pDurationMin)
+    {
         mDurationMin = pDurationMin;
     }
 
@@ -101,7 +114,8 @@ public class MethodCallStatForm extends AbstractMethodCallForm {
      * 
      * @return The number of milliseconds to use for the statistics consolidation.
      */
-    public int getInterval() {
+    public int getInterval()
+    {
         return mInterval;
     }
 
@@ -110,21 +124,24 @@ public class MethodCallStatForm extends AbstractMethodCallForm {
      * 
      * @param pInterval The number of milliseconds to use for the statistics consolidation.
      */
-    public void setInterval(int pInterval) {
+    public void setInterval(int pInterval)
+    {
         mInterval = pInterval;
     }
 
     /**
      * @return Returns the imageMap.
      */
-    public String getImageMap() {
+    public String getImageMap()
+    {
         return mImageMap;
     }
 
     /**
      * @param pImageMap The imageMap to set.
      */
-    public void setImageMap(String pImageMap) {
+    public void setImageMap(String pImageMap)
+    {
         mImageMap = pImageMap;
     }
 }

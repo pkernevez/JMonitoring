@@ -7,15 +7,15 @@ import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
-import servletunit.struts.MockStrutsTestCase;
-
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase {
+public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase
+{
 
-    public void testOkDefaultInterval() {
+    public void testOkDefaultInterval()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(5);
@@ -58,7 +58,7 @@ public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase {
         assertEquals(0, tStats.getCollectionFetchCount());
         assertEquals(0, tStats.getCollectionLoadCount());
         assertEquals(0, tStats.getEntityFetchCount());
-        assertTrue(tStats.getEntityLoadCount()>=5);
+        assertTrue(tStats.getEntityLoadCount() >= 5);
         assertEquals(2, tStats.getQueryExecutionCount());
         assertEquals(2, tStats.getPrepareStatementCount());
 

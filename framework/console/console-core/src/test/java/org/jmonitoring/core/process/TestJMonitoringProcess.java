@@ -17,6 +17,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***********************************************************************************************************************
@@ -176,7 +177,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         getSession().flush();
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        List tFlows = tProcess.getListOfExecutionFlowDto(new FlowSearchCriterion());
+        List<ExecutionFlowDTO> tFlows = tProcess.getListOfExecutionFlowDto(new FlowSearchCriterion());
         assertEquals(tExpectedResult + 3, tFlows.size());
 
     }
@@ -346,7 +347,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
         closeAndRestartSession();
-        List tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(null, null);
+        List<MethodCallDTO> tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(null, null);
         assertEquals(0, tMethodsDto.size());
 
         closeAndRestartSession();
@@ -397,7 +398,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         String tClassName = PersistanceTestCase.class.getName();
 
-        List tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 5L);
+        List<MethodCallFullExtractDTO> tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow",
+                                                                                         5L, 5L);
         assertEquals(0, tResult.size());
 
         closeAndRestartSession();

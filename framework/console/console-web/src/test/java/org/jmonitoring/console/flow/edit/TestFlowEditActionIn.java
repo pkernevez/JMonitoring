@@ -1,8 +1,6 @@
 package org.jmonitoring.console.flow.edit;
 
-import java.net.URL;
 import java.util.Date;
-import java.util.Enumeration;
 
 import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
@@ -19,19 +17,23 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * @author pke
  * 
  */
-public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase {
+public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase
+{
 
     /*
      * (non-Javadoc)
      * 
      * @see servletunit.struts.MockStrutsTestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception
+    {
         super.setUp();
         FlowEditActionIn.setMaxFlowToShow(5);
     }
 
-    public void testActionWithSmallExecutionFlow() {
+    public void testActionWithSmallExecutionFlow()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
@@ -57,21 +59,20 @@ public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase {
         assertNotNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
 
         assertEquals(
-                ("<MAP NAME=\"ChartBar\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"121,79,140,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"216,79,235,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"311,79,330,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"407,79,426,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"502,79,883,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"140,141,216,180\" href=\"MethodCallEditIn.do?flowId=1&position=2\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"235,141,311,180\" href=\"MethodCallEditIn.do?flowId=1&position=3\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"330,141,406,180\" href=\"MethodCallEditIn.do?flowId=1&position=4\">\r\n"
-                        + "<AREA SHAPE=\"RECT\" COORDS=\"426,141,502,180\" href=\"MethodCallEditIn.do?flowId=1&position=5\">\r\n"
-                        + "</MAP>\r\n"),
-                tForm.getImageMap());
+                     ("<MAP NAME=\"ChartBar\">\r\n" + "<AREA SHAPE=\"RECT\" COORDS=\"121,79,140,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"216,79,235,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"311,79,330,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"407,79,426,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"502,79,883,118\" href=\"MethodCallEditIn.do?flowId=1&position=1\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"140,141,216,180\" href=\"MethodCallEditIn.do?flowId=1&position=2\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"235,141,311,180\" href=\"MethodCallEditIn.do?flowId=1&position=3\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"330,141,406,180\" href=\"MethodCallEditIn.do?flowId=1&position=4\">\r\n"
+                                     + "<AREA SHAPE=\"RECT\" COORDS=\"426,141,502,180\" href=\"MethodCallEditIn.do?flowId=1&position=5\">\r\n"
+                                     + "</MAP>\r\n"), tForm.getImageMap());
     }
 
-    public void testActionWithLongExecutionFlow() {
+    public void testActionWithLongExecutionFlow()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
@@ -95,7 +96,8 @@ public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase {
 
     }
 
-    public void testActionWithLongExecutionFlowAndGraphOnly() {
+    public void testActionWithLongExecutionFlowAndGraphOnly()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
@@ -124,7 +126,8 @@ public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase {
     /**
      * 
      */
-    public void testActionWithLongExecutionFlowAndForce() {
+    public void testActionWithLongExecutionFlowAndForce()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
@@ -153,7 +156,8 @@ public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase {
     /**
      * @return MethodCallDTO.
      */
-    public static MethodCallDTO buildNewFullMeasure() {
+    public static MethodCallDTO buildNewFullMeasure()
+    {
         MethodCallDTO tPoint, curPoint;
         long tCurrentTime = System.currentTimeMillis();
         tPoint = new MethodCallDTO();
@@ -206,41 +210,45 @@ public class TestFlowEditActionIn extends JMonitoringMockStrustTestCase {
         return tPoint;
     }
 
-    public void testLimitMeasureWithDurationNoLimitation() {
+    public void testLimitMeasureWithDurationNoLimitation()
+    {
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(1, tMeasure);
         assertEquals(2, tMeasure.getChildren().length);
-        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChild(0); // Child1
+        MethodCallDTO curMeasure = tMeasure.getChild(0); // Child1
         assertEquals(0, curMeasure.getChildren().length);
-        curMeasure = (MethodCallDTO) tMeasure.getChild(1); // Child2
+        curMeasure = tMeasure.getChild(1); // Child2
         assertEquals(1, curMeasure.getChildren().length);
-        curMeasure = (MethodCallDTO) curMeasure.getChild(0); // Child2_2
+        curMeasure = curMeasure.getChild(0); // Child2_2
         assertEquals(0, curMeasure.getChildren().length);
     }
 
-    public void testLimitMeasureWithDurationLimitation2ndLevel() {
+    public void testLimitMeasureWithDurationLimitation2ndLevel()
+    {
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(2, tMeasure);
         assertEquals(2, tMeasure.getChildren().length);
-        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChild(0); // Child1
+        MethodCallDTO curMeasure = tMeasure.getChild(0); // Child1
         assertEquals(0, curMeasure.getChildren().length);
-        curMeasure = (MethodCallDTO) tMeasure.getChild(1); // Child2
+        curMeasure = tMeasure.getChild(1); // Child2
         assertEquals(0, curMeasure.getChildren().length);
     }
 
-    public void testLimitMeasureWithDurationLimitation2ndChild() {
+    public void testLimitMeasureWithDurationLimitation2ndChild()
+    {
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(2 + 1, tMeasure);
         assertEquals(1, tMeasure.getChildren().length);
-        MethodCallDTO curMeasure = (MethodCallDTO) tMeasure.getChild(0); // Child2
+        MethodCallDTO curMeasure = tMeasure.getChild(0); // Child2
         assertEquals(0, curMeasure.getChildren().length);
         assertEquals("GrChild2", curMeasure.getGroupName());
     }
 
-    public void testLimitMeasureWithDurationLimitationNoChild() {
+    public void testLimitMeasureWithDurationLimitationNoChild()
+    {
         FlowEditActionIn tAction = new FlowEditActionIn();
         MethodCallDTO tMeasure = buildNewFullMeasure();
         tAction.limitMeasureWithDuration(2 + 2 + 2, tMeasure);

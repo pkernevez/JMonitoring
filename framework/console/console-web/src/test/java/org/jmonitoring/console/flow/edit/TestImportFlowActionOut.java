@@ -1,14 +1,12 @@
 package org.jmonitoring.console.flow.edit;
 
-import org.hibernate.Transaction;
-import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 
-import servletunit.struts.MockStrutsTestCase;
-
-public class TestImportFlowActionOut extends JMonitoringMockStrustTestCase {
-    public void testActionIn() {
+public class TestImportFlowActionOut extends JMonitoringMockStrustTestCase
+{
+    public void testActionIn()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(10);
@@ -17,13 +15,11 @@ public class TestImportFlowActionOut extends JMonitoringMockStrustTestCase {
         verifyForwardPath("/pages/layout/layout.jsp");
     }
 
-    public void testActionOut() {
+    public void testActionOut()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(10);
-
-        // ImportFlowForm tForm = new ImportFlowForm();
-        // JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
         // Delete First Flow
         setRequestPathInfo("/ImportFlowOut");

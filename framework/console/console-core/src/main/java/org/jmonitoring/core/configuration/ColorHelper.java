@@ -2,8 +2,6 @@ package org.jmonitoring.core.configuration;
 
 import java.awt.Color;
 
-import org.hibernate.util.GetGeneratedKeysHelper;
-
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
@@ -14,7 +12,8 @@ import org.hibernate.util.GetGeneratedKeysHelper;
  * 
  * @todo URGENT Supprimer l'aspet statique de la configuration.
  */
-public final class ColorHelper {
+public final class ColorHelper
+{
 
     private static final int NB_COLOR_BIT = 128;
 
@@ -24,11 +23,14 @@ public final class ColorHelper {
      * @param pGroupName The name of the group.
      * @return The genrated <code>Color</code>.
      */
-    public static Color calculColor(String pGroupName) {
+    public static Color calculColor(String pGroupName)
+    {
         Color tColor;
-        if (pGroupName == null || pGroupName.length() == 0) {
+        if (pGroupName == null || pGroupName.length() == 0)
+        {
             tColor = Color.BLACK;
-        } else {
+        } else
+        {
             int tInt = Math.abs(pGroupName.hashCode());
             int tR, tG, tB;
             tR = tInt % NB_COLOR_BIT;
@@ -45,25 +47,31 @@ public final class ColorHelper {
      * @param pGroupName The group name.
      * @return The RGB format like "#00FF88" of the <code>Color</code>.
      */
-    public static String getGroupAsColorString(Color pColor) {
+    public static String getGroupAsColorString(Color pColor)
+    {
         String tRed = Integer.toHexString(pColor.getRed());
-        if (tRed.length() == 1) {
+        if (tRed.length() == 1)
+        {
             tRed = "0" + tRed;
         }
         String tGreen = Integer.toHexString(pColor.getGreen());
-        if (tGreen.length() == 1) {
+        if (tGreen.length() == 1)
+        {
             tGreen = "0" + tGreen;
         }
         String tBlue = Integer.toHexString(pColor.getBlue());
-        if (tBlue.length() == 1) {
+        if (tBlue.length() == 1)
+        {
             tBlue = "0" + tBlue;
         }
         return "#" + tRed + tGreen + tBlue;
     }
 
-    public static String getColor(String pGroupName) {
+    public static String getColor(String pGroupName)
+    {
         String tColor = ConfigurationHelper.getString("group.color." + pGroupName);
-        if (tColor == null) {
+        if (tColor == null)
+        {
             tColor = getGroupAsColorString(calculColor(pGroupName));
         }
         return tColor;

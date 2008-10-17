@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.jmonitoring.core.configuration.ColorHelper;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /**
@@ -17,7 +16,8 @@ import org.jmonitoring.core.configuration.ConfigurationHelper;
  * 
  * @author pke
  */
-public class ExecutionFlowDTO implements Serializable {
+public class ExecutionFlowDTO implements Serializable
+{
 
     private static final long serialVersionUID = 6701199516068044627L;
 
@@ -48,7 +48,8 @@ public class ExecutionFlowDTO implements Serializable {
     /**
      * Constructor.
      */
-    public ExecutionFlowDTO() {
+    public ExecutionFlowDTO()
+    {
     }
 
     /**
@@ -60,7 +61,8 @@ public class ExecutionFlowDTO implements Serializable {
      * @param pBeginTime L'heure de d�but de l'appel.
      * @param pEndTime L'heure de fin de l'appel.
      */
-    public ExecutionFlowDTO(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime) {
+    public ExecutionFlowDTO(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    {
         super();
         mId = pId;
         mThreadName = pThreadName;
@@ -102,42 +104,48 @@ public class ExecutionFlowDTO implements Serializable {
     /**
      * @return Returns the mFirstMethodCall.
      */
-    public MethodCallDTO getFirstMethodCall() {
+    public MethodCallDTO getFirstMethodCall()
+    {
         return mFirstMethodCall;
     }
 
     /**
      * @param pFirstMethodCall The mFirstMethodCall to set.
      */
-    public void setFirstMethodCall(MethodCallDTO pFirstMethodCall) {
+    public void setFirstMethodCall(MethodCallDTO pFirstMethodCall)
+    {
         mFirstMethodCall = pFirstMethodCall;
     }
 
     /**
      * @return Returns the mJVMIdentifier.
      */
-    public String getJvmIdentifier() {
+    public String getJvmIdentifier()
+    {
         return mJvmIdentifier;
     }
 
     /**
      * @param pIdentifier The mJVMIdentifier to set.
      */
-    public void setJvmIdentifier(String pIdentifier) {
+    public void setJvmIdentifier(String pIdentifier)
+    {
         mJvmIdentifier = pIdentifier;
     }
 
     /**
      * @return Returns the mThreadName.
      */
-    public String getThreadName() {
+    public String getThreadName()
+    {
         return mThreadName;
     }
 
     /**
      * @param pThreadName The mThreadName to set.
      */
-    public void setThreadName(String pThreadName) {
+    public void setThreadName(String pThreadName)
+    {
         mThreadName = pThreadName;
     }
 
@@ -146,7 +154,8 @@ public class ExecutionFlowDTO implements Serializable {
      * 
      * @return The begin time of the firts measure.
      */
-    public Date getBeginTime() {
+    public Date getBeginTime()
+    {
         return mBeginTime;
     }
 
@@ -155,7 +164,8 @@ public class ExecutionFlowDTO implements Serializable {
      * 
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginTime(Date pBeginTime) {
+    public void setBeginTime(Date pBeginTime)
+    {
         mBeginTime = pBeginTime;
     }
 
@@ -164,7 +174,8 @@ public class ExecutionFlowDTO implements Serializable {
      * 
      * @return The begin time of the firts measure.
      */
-    public String getBeginDateAsString() {
+    public String getBeginDateAsString()
+    {
         return (mBeginTime == null ? null : ConfigurationHelper.formatDateTime(mBeginTime));
     }
 
@@ -174,7 +185,8 @@ public class ExecutionFlowDTO implements Serializable {
      * @param pBeginTime The BeginTime to set.
      * @throws ParseException If the the time is not valid.
      */
-    public void setBeginDateAsString(String pBeginTime) throws ParseException {
+    public void setBeginDateAsString(String pBeginTime) throws ParseException
+    {
         mBeginTime = ConfigurationHelper.parseDateTime(pBeginTime);
     }
 
@@ -183,7 +195,8 @@ public class ExecutionFlowDTO implements Serializable {
      * 
      * @return The end time of the first measure.
      */
-    public Date getEndTime() {
+    public Date getEndTime()
+    {
         return mEndTime;
     }
 
@@ -192,7 +205,8 @@ public class ExecutionFlowDTO implements Serializable {
      * 
      * @param pEndTime The mEndTime to set.
      */
-    public void setEndTime(Date pEndTime) {
+    public void setEndTime(Date pEndTime)
+    {
         mEndTime = pEndTime;
     }
 
@@ -201,7 +215,8 @@ public class ExecutionFlowDTO implements Serializable {
      * 
      * @return The end time of the first measure.
      */
-    public String getEndTimeAsString() {
+    public String getEndTimeAsString()
+    {
         return ConfigurationHelper.formatTime(mEndTime);
     }
 
@@ -209,50 +224,59 @@ public class ExecutionFlowDTO implements Serializable {
      * @param pEndTime The mEndTime to set.
      * @throws ParseException If the time is not valid.
      */
-    public void setEndTimeAsString(String pEndTime) throws ParseException {
+    public void setEndTimeAsString(String pEndTime) throws ParseException
+    {
         mEndTime = ConfigurationHelper.parseTime(pEndTime);
     }
 
     /**
      * @return The duration of the first measure execution in milliseconds.
      */
-    public long getDuration() {
+    public long getDuration()
+    {
         return mEndTime.getTime() - mBeginTime.getTime();
     }
 
     /**
      * @return The duration of the first measure execution in milliseconds.
      */
-    public String getDurationAsString() {
+    public String getDurationAsString()
+    {
         return "" + (mEndTime.getTime() - mBeginTime.getTime());
     }
 
     /**
      * @return Returns the mId.
      */
-    public int getId() {
+    public int getId()
+    {
         return mId;
     }
 
     /**
      * @param pId The mId to set.
      */
-    public void setId(int pId) {
+    public void setId(int pId)
+    {
         mId = pId;
     }
 
     /**
      * @see java.lang.Object.toString()
      */
-    public String toString() {
+    @Override
+    public String toString()
+    {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("FlowId=[").append(mId).append("] ");
-        if (mFirstMethodCall != null) {
+        if (mFirstMethodCall != null)
+        {
             tBuffer.append("SequenceId=[").append(mFirstMethodCall.getPosition()).append("] ");
             tBuffer.append("GroupName=[").append(mFirstMethodCall.getGroupName()).append("] ");
             tBuffer.append("ClassName=[").append(mFirstMethodCall.getClassName()).append("] ");
             tBuffer.append("MethodName=[").append(mFirstMethodCall.getMethodName()).append("] ");
-        } else {
+        } else
+        {
             tBuffer.append("SequenceId=[NULL] ");
         }
         return super.toString();
@@ -263,35 +287,40 @@ public class ExecutionFlowDTO implements Serializable {
      * 
      * @return The number of measure.
      */
-    public int getMeasureCount() {
+    public int getMeasureCount()
+    {
         return mFirstMethodCall.getSubMeasureCount();
     }
 
     /**
      * @return Returns the className.
      */
-    public String getClassName() {
+    public String getClassName()
+    {
         return mClassName;
     }
 
     /**
      * @param pClassName The className to set.
      */
-    public void setClassName(String pClassName) {
+    public void setClassName(String pClassName)
+    {
         mClassName = pClassName;
     }
 
     /**
      * @return Returns the methodName.
      */
-    public String getMethodName() {
+    public String getMethodName()
+    {
         return mMethodName;
     }
 
     /**
      * @param pMethodName The methodName to set.
      */
-    public void setMethodName(String pMethodName) {
+    public void setMethodName(String pMethodName)
+    {
         mMethodName = pMethodName;
     }
 

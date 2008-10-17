@@ -240,18 +240,18 @@ public class TestConsoleDao extends PersistanceTestCase
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
 
-        List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
-        MethodCallExtractDTO curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(0);
+        List<MethodCallExtractDTO> tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
+        MethodCallExtractDTO curExtrat = tMeasureExtracts.get(0);
         assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow", curExtrat.getName());
         assertEquals("GrDefault", curExtrat.getGroupName());
         assertEquals(1, curExtrat.getOccurenceNumber());
 
-        curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(1);
+        curExtrat = tMeasureExtracts.get(1);
         assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow2", curExtrat.getName());
         assertEquals("GrChild1", curExtrat.getGroupName());
         assertEquals(1, curExtrat.getOccurenceNumber());
 
-        curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(2);
+        curExtrat = tMeasureExtracts.get(2);
         assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow3", curExtrat.getName());
         assertEquals("GrChild2", curExtrat.getGroupName());
         assertEquals(4, curExtrat.getOccurenceNumber());

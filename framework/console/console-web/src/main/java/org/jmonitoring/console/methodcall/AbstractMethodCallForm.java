@@ -7,7 +7,10 @@ import org.jmonitoring.core.configuration.MeasureException;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class AbstractMethodCallForm extends ActionForm {
+public class AbstractMethodCallForm extends ActionForm
+{
+
+    private static final long serialVersionUID = -4211188006931205583L;
 
     /** Flow technical identifier. */
     private int mFlowId = -1;
@@ -26,15 +29,19 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @return true if we pass parameters <code>ClassName</code> and <code>MethodName</code>.
      */
-    public boolean isParametersByName() {
+    public boolean isParametersByName()
+    {
         boolean tResult;
-        if (mMethodName != null && mClassName != null) { // We give name parameters
+        if (mMethodName != null && mClassName != null)
+        { // We give name parameters
             tResult = true;
-        } else if (mFlowId != -1 && mPosition != -1) { // We give identifier parameters
+        } else if (mFlowId != -1 && mPosition != -1)
+        { // We give identifier parameters
             tResult = false;
-        } else { // Invalid parameters
-            throw new MeasureException("Invalid parameter expected 'flowId' and 'position' OR "
-                    + "'methodName' and 'className'.");
+        } else
+        { // Invalid parameters
+            throw new MeasureException(
+                                       "Invalid parameter expected 'flowId' and 'position' OR " + "'methodName' and 'className'.");
         }
         return tResult;
     }
@@ -44,7 +51,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @return The Flow identifier.
      */
-    public int getFlowId() {
+    public int getFlowId()
+    {
         return mFlowId;
     }
 
@@ -53,7 +61,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @param pFlowId The Flow identifier.
      */
-    public void setFlowId(int pFlowId) {
+    public void setFlowId(int pFlowId)
+    {
         mFlowId = pFlowId;
     }
 
@@ -62,7 +71,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @return The sequence identifier.
      */
-    public int getPosition() {
+    public int getPosition()
+    {
         return mPosition;
     }
 
@@ -71,7 +81,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @param pSequenceId The sequence identifier.
      */
-    public void setPosition(int pSequenceId) {
+    public void setPosition(int pSequenceId)
+    {
         mPosition = pSequenceId;
     }
 
@@ -80,7 +91,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @return The name of the <code>Class</code>.
      */
-    public String getClassName() {
+    public String getClassName()
+    {
         return mClassName;
     }
 
@@ -89,7 +101,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @param pClassName The name of the <code>Class</code>.
      */
-    public void setClassName(String pClassName) {
+    public void setClassName(String pClassName)
+    {
         mClassName = pClassName;
     }
 
@@ -98,7 +111,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @return The name of the method.
      */
-    public String getMethodName() {
+    public String getMethodName()
+    {
         return mMethodName;
     }
 
@@ -107,7 +121,8 @@ public class AbstractMethodCallForm extends ActionForm {
      * 
      * @param pMethodName The name of the method.
      */
-    public void setMethodName(String pMethodName) {
+    public void setMethodName(String pMethodName)
+    {
         mMethodName = pMethodName;
     }
 

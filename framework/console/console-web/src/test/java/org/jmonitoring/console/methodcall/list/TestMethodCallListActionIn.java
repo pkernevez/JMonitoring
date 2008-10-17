@@ -6,14 +6,14 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 
-import servletunit.struts.MockStrutsTestCase;
-
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallListActionIn extends JMonitoringMockStrustTestCase {
-    public void testOk() {
+public class TestMethodCallListActionIn extends JMonitoringMockStrustTestCase
+{
+    public void testOk()
+    {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
@@ -36,7 +36,7 @@ public class TestMethodCallListActionIn extends JMonitoringMockStrustTestCase {
         tForm = (MethodCallListForm) getActionForm();
         assertEquals(2, tForm.getSearchResult().size());
         assertEquals(MethodCallFullExtractDTO.class.getName(), tForm.getSearchResult().get(0).getClass().getName());
-        MethodCallFullExtractDTO tMeth = (MethodCallFullExtractDTO) tForm.getSearchResult().get(0);
+        MethodCallFullExtractDTO tMeth = tForm.getSearchResult().get(0);
         assertEquals(1, tMeth.getFlowId());
         assertEquals("TEST-main", tMeth.getThreadName());
         assertEquals(30, tMeth.getFlowDuration());

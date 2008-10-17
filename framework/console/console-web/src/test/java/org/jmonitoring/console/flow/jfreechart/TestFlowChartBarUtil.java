@@ -14,19 +14,20 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestFlowChartBarUtil extends TestCase {
+public class TestFlowChartBarUtil extends TestCase
+{
 
-    public void testChainAllMethodCallToMainTaskOfGroup() {
+    public void testChainAllMethodCallToMainTaskOfGroup()
+    {
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
-        // writeChart("c:/temp/toto.gif", tUtil);
 
-        Map tGroups = tUtil.getListOfGroup();
+        Map<String, TaskForGroupName> tGroups = tUtil.getListOfGroup();
         assertEquals(2, tGroups.size());
 
-        TaskForGroupName tTaskEntry = (TaskForGroupName) tGroups.get("GrDefault");
+        TaskForGroupName tTaskEntry = tGroups.get("GrDefault");
         assertNotNull(tTaskEntry);
         Task curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(3, curTask.getSubtaskCount());
@@ -45,7 +46,7 @@ public class TestFlowChartBarUtil extends TestCase {
         assertEquals(54, curDuration.getStart().getTime() - START_TIME);
         assertEquals(106, curDuration.getEnd().getTime() - START_TIME);
 
-        tTaskEntry = (TaskForGroupName) tGroups.get("GrChild1");
+        tTaskEntry = tGroups.get("GrChild1");
         assertNotNull(tTaskEntry);
         curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(2, curTask.getSubtaskCount());
@@ -62,34 +63,17 @@ public class TestFlowChartBarUtil extends TestCase {
 
     }
 
-    // private void writeChart(String pString, FlowChartBarUtil pUtil)
-    // {
-    // IntervalCategoryDataset intervalcategorydataset = pUtil.createDataset();
-    // JFreeChart jfreechart = pUtil.createGanttChart(intervalcategorydataset);
-    // Plot tPlot = jfreechart.getPlot();
-    // tPlot.setNoDataMessage("No data available");
-    // try
-    // {
-    // OutputStream tStream = new FileOutputStream(pString);
-    // ChartUtilities.writeChartAsPNG(tStream, jfreechart, 600, 400);
-    // tStream.close();
-    // } catch (IOException e)
-    // {
-    // throw new MeasureException("Unable to write Image", e);
-    // }
-    // }
-
-    public void testFillListOfGroup() {
+    public void testFillListOfGroup()
+    {
         MethodCallDTO tFirstMethod = TestFlowUtils.getSampleMeasurePoint();
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
 
-        // writeChart("c:/temp/toto2.gif", tUtil);
-        Map tGroups = tUtil.getListOfGroup();
+        Map<String, TaskForGroupName> tGroups = tUtil.getListOfGroup();
         assertEquals(3, tGroups.size());
 
-        TaskForGroupName tTaskEntry = (TaskForGroupName) tGroups.get("GrDefault");
+        TaskForGroupName tTaskEntry = tGroups.get("GrDefault");
         assertNotNull(tTaskEntry);
         Task curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(4, curTask.getSubtaskCount());
@@ -113,7 +97,7 @@ public class TestFlowChartBarUtil extends TestCase {
         assertEquals(75, curDuration.getStart().getTime() - START_TIME);
         assertEquals(106, curDuration.getEnd().getTime() - START_TIME);
 
-        tTaskEntry = (TaskForGroupName) tGroups.get("GrChild1");
+        tTaskEntry = tGroups.get("GrChild1");
         assertNotNull(tTaskEntry);
         curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(3, curTask.getSubtaskCount());
@@ -133,7 +117,7 @@ public class TestFlowChartBarUtil extends TestCase {
         assertEquals(27, curDuration.getStart().getTime() - TestFlowUtils.START_TIME);
         assertEquals(45, curDuration.getEnd().getTime() - TestFlowUtils.START_TIME);
 
-        tTaskEntry = (TaskForGroupName) tGroups.get("GrChild2");
+        tTaskEntry = tGroups.get("GrChild2");
         assertNotNull(tTaskEntry);
         curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(2, curTask.getSubtaskCount());
@@ -152,7 +136,8 @@ public class TestFlowChartBarUtil extends TestCase {
 
     public static final long START_TIME = 1149282668046L;
 
-    static MethodCallDTO getVerySimpleMeasurePoint() {
+    static MethodCallDTO getVerySimpleMeasurePoint()
+    {
         MethodCallDTO tPoint;
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);
@@ -192,7 +177,8 @@ public class TestFlowChartBarUtil extends TestCase {
         return tPoint;
     }
 
-    public void testComputeStatForThisFlow() {
+    public void testComputeStatForThisFlow()
+    {
         // Cas simple
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
