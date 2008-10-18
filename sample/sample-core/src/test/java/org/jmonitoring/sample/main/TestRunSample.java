@@ -3,10 +3,10 @@ package org.jmonitoring.sample.main;
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
-import org.jmonitoring.core.persistence.InsertionDao;
 import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 
@@ -14,13 +14,11 @@ import org.jmonitoring.sample.SamplePersistenceTestcase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestRunSample extends SamplePersistenceTestcase
-{
+public class TestRunSample extends SamplePersistenceTestcase {
 
-    public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory()
-    {
+    public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory() {
         ShoppingCartPO.setCounter(0);
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         new RunSample(getSampleSession()).run();
 
         // assertEquals(3, MemoryStoreWriter.countFlow());
@@ -29,7 +27,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         checkRun(tFlow);
 
         // Now check the save and load
-        InsertionDao tDao = new InsertionHibernateDAO(getSession());
+        IInsertionDao tDao = new InsertionHibernateDAO(getSession());
         assertEquals(1, MemoryStoreWriter.countFlows());
         tDao.insertFullExecutionFlow(tFlow);
         assertEquals(1, MemoryStoreWriter.countFlows());
@@ -46,12 +44,10 @@ public class TestRunSample extends SamplePersistenceTestcase
 
         assertNotSame(tFlow, tNewFlow);
         checkRun(tNewFlow);
-        assertEquals(MemoryStoreWriter.class.getName(), ConfigurationHelper.getString(
-            ConfigurationHelper.STORE_CLASS));
+        assertEquals(MemoryStoreWriter.class.getName(), ConfigurationHelper.getString(ConfigurationHelper.STORE_CLASS));
     }
 
-    private void checkReadFlow(ExecutionFlowPO pFlow)
-    {
+    private void checkReadFlow(ExecutionFlowPO pFlow) {
         MethodCallPO tMeth = pFlow.getFirstMethodCall();
         assertNotNull(tMeth);
         assertEquals("java.sql.PreparedStatement", tMeth.getClassName());
@@ -62,8 +58,7 @@ public class TestRunSample extends SamplePersistenceTestcase
      * @todo check if we need 3 or 1 on the next test.
      * 
      */
-    private void checkRun(ExecutionFlowPO pFlow)
-    {
+    private void checkRun(ExecutionFlowPO pFlow) {
         assertEquals("org.jmonitoring.sample.main.RunSample", pFlow.getFirstMethodCall().getClassName());
         assertEquals("run", pFlow.getFirstMethodCall().getMethodName());
         assertEquals(11, pFlow.getFirstMethodCall().getChildren().size());
@@ -122,8 +117,7 @@ public class TestRunSample extends SamplePersistenceTestcase
         assertEquals(0, tCurMeth.getChildren().size());
     }
 
-    private void checkSqlMethodCall(ExecutionFlowPO tFlow)
-    {
+    private void checkSqlMethodCall(ExecutionFlowPO tFlow) {
         MethodCallPO tCurMeth;
         MethodCallPO tCurParent = tFlow.getFirstMethodCall().getChild(8).getChild(0);
         assertEquals(6, tCurParent.getChildren().size());

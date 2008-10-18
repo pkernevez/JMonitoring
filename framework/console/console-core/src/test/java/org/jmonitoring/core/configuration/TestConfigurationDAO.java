@@ -7,9 +7,7 @@ package org.jmonitoring.core.configuration;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Iterator;
 
 import org.hibernate.Hibernate;
@@ -29,11 +27,12 @@ public class TestConfigurationDAO extends PersistanceTestCase
      */
     public void testSaveGeneralConfiguration() throws IOException
     {
-//        for (Enumeration tEnum = this.getClass().getClassLoader().getResources("jmonitoring.hibernate.xml");tEnum.hasMoreElements();)
-//        {
-//            URL tUrl = (URL) tEnum.nextElement();
-//            System.out.println("PKE "+tUrl.getPath());
-//        }
+        // for (Enumeration tEnum =
+        // this.getClass().getClassLoader().getResources("jmonitoring.hibernate.xml");tEnum.hasMoreElements();)
+        // {
+        // URL tUrl = (URL) tEnum.nextElement();
+        // System.out.println("PKE "+tUrl.getPath());
+        // }
         assertEquals(0, countGeneralConf());
 
         GeneralConfigurationPO tConf = new GeneralConfigurationPO();
@@ -48,7 +47,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
         tConf = new GeneralConfigurationPO();
         try
-        { 
+        {
             tDao.saveGeneralConfiguration(tConf);
             fail("Can't save 2 instances of General configuration");
         } catch (NonUniqueObjectException e)
@@ -150,8 +149,8 @@ public class TestConfigurationDAO extends PersistanceTestCase
         } catch (ObjectNotFoundException e)
         {
             assertEquals(
-                "No row with the given identifier exists: [org.jmonitoring.core.configuration.GroupConfigurationPO#groupName3]",
-                e.getMessage());
+                         "No row with the given identifier exists: [org.jmonitoring.core.configuration.GroupConfigurationPO#groupName3]",
+                         e.getMessage());
         }
 
     }
@@ -202,14 +201,14 @@ public class TestConfigurationDAO extends PersistanceTestCase
         getSession().flush();
         getSession().clear();
 
-        Collection tGroups = tDao.getAllGroupConfigurations();
+        Collection<GroupConfigurationPO> tGroups = tDao.getAllGroupConfigurations();
         assertEquals(5, tGroups.size());
-        Iterator tIt = tGroups.iterator();
-        assertEquals("groupName2", ((GroupConfigurationPO) tIt.next()).getGroupName());
-        assertEquals("GrDefault", ((GroupConfigurationPO) tIt.next()).getGroupName());
-        assertEquals("GrChild1", ((GroupConfigurationPO) tIt.next()).getGroupName());
-        assertEquals("groupName1", ((GroupConfigurationPO) tIt.next()).getGroupName());
-        assertEquals("GrChild2", ((GroupConfigurationPO) tIt.next()).getGroupName());
+        Iterator<GroupConfigurationPO> tIt = tGroups.iterator();
+        assertEquals("groupName2", (tIt.next()).getGroupName());
+        assertEquals("GrDefault", (tIt.next()).getGroupName());
+        assertEquals("GrChild1", (tIt.next()).getGroupName());
+        assertEquals("groupName1", (tIt.next()).getGroupName());
+        assertEquals("GrChild2", (tIt.next()).getGroupName());
 
         assertEquals(2, getStats().getQueries().length);
         assertEquals(0, getStats().getEntityFetchCount());

@@ -37,6 +37,7 @@ import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -56,26 +57,29 @@ public class MethodCallStatActionIn extends Action
     /** Logger. */
     private static Log sLog = LogFactory.getLog(MethodCallStatActionIn.class);
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse) throws Exception
     {
-        MethodCallStatForm tForm = (MethodCallStatForm) pForm;
-        List tMeasures = readMeasure(tForm);
-        tForm.setNbMeasures(tMeasures.size());
-        writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
-        computeStat(tMeasures, tForm);
-        return pMapping.findForward("success");
+        TransactionHelper tTx = new TransactionHelper();
+        try
+        {
+            MethodCallStatForm tForm = (MethodCallStatForm) pForm;
+            List<MethodCallDTO> tMeasures = readMeasure(tForm);
+            tForm.setNbMeasures(tMeasures.size());
+            writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
+            computeStat(tMeasures, tForm);
+            tTx.commit();
+            return pMapping.findForward("success");
+        } catch (Throwable t)
+        {
+            tTx.rollBack();
+            throw new RuntimeException(t);
+        }
     }
 
     /** @todo Refactorer cette couche avec des DTO propre... */
-    private List readMeasure(MethodCallStatForm pForm)
+    private List<MethodCallDTO> readMeasure(MethodCallStatForm pForm)
     {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         if (!pForm.isParametersByName())
@@ -87,15 +91,15 @@ public class MethodCallStatActionIn extends Action
         return tProcess.getListOfMethodCallFromClassAndMethodName(pForm.getClassName(), pForm.getMethodName());
     }
 
-    private void computeStat(List pMeasures, MethodCallStatForm pForm)
+    private void computeStat(List<MethodCallDTO> pMeasures, MethodCallStatForm pForm)
     {
         if (pMeasures.size() != 0)
         {
-            MethodCallDTO curMeasure = (MethodCallDTO) pMeasures.get(0);
+            MethodCallDTO curMeasure = pMeasures.get(0);
             long tMin = curMeasure.getDuration(), tMax = tMin, tSum = tMin;
             for (int i = 1; i < pMeasures.size(); i++)
             {
-                curMeasure = (MethodCallDTO) pMeasures.get(i);
+                curMeasure = pMeasures.get(i);
                 tSum += curMeasure.getDuration();
                 if (curMeasure.getDuration() > tMax)
                 {
@@ -111,7 +115,7 @@ public class MethodCallStatActionIn extends Action
             double tDelta, tVar = 0;
             for (int i = 0; i < pMeasures.size(); i++)
             {
-                curMeasure = (MethodCallDTO) pMeasures.get(i);
+                curMeasure = pMeasures.get(i);
                 tDelta = tAvg - curMeasure.getDuration();
                 tVar += tDelta * tDelta;
             }
@@ -122,7 +126,7 @@ public class MethodCallStatActionIn extends Action
         }
     }
 
-    private int computeIntervalValue(List pMeasures, MethodCallStatForm pForm)
+    private int computeIntervalValue(List<MethodCallDTO> pMeasures, MethodCallStatForm pForm)
     {
         int tIntervalValue = pForm.getInterval();
         if (tIntervalValue <= 0)
@@ -131,7 +135,7 @@ public class MethodCallStatActionIn extends Action
             // Get duration max
             for (int i = 0; i < pMeasures.size(); i++)
             {
-                curDuration = ((MethodCallDTO) pMeasures.get(i)).getDuration();
+                curDuration = (pMeasures.get(i)).getDuration();
                 if (curDuration > tDurationMax)
                 {
                     tDurationMax = curDuration;
@@ -153,7 +157,7 @@ public class MethodCallStatActionIn extends Action
      * @param pMeasures The list of <code>MethodCallDTO</code> to use for image generation.
      * @param pForm The form associated to this Action.
      */
-    public void writeFullDurationStat(HttpSession pSession, List pMeasures, MethodCallStatForm pForm)
+    public void writeFullDurationStat(HttpSession pSession, List<MethodCallDTO> pMeasures, MethodCallStatForm pForm)
     {
         int tInterval = computeIntervalValue(pMeasures, pForm);
         IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
@@ -189,8 +193,8 @@ public class MethodCallStatActionIn extends Action
         XYBarRenderer renderer = new XYBarRenderer();
         renderer.setToolTipGenerator(new StandardXYToolTipGenerator());
 
-        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(), pForm
-            .getClassName(), pForm.getMethodName()));
+        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(),
+                                                             pForm.getClassName(), pForm.getMethodName()));
 
         XYPlot plot = new XYPlot(dataset, tAxis, tValueAxis, renderer);
         plot.setOrientation(PlotOrientation.VERTICAL);
@@ -200,30 +204,30 @@ public class MethodCallStatActionIn extends Action
         return chart;
     }
 
-    private IntervalXYDataset createFullDurationDataset(List pMeasures, int pInterval)
+    private IntervalXYDataset createFullDurationDataset(List<MethodCallDTO> pMeasures, int pInterval)
     {
-        Map tMap = new HashMap();
+        Map<Long, Integer> tMap = new HashMap<Long, Integer>();
         Integer tCurNb;
         Long tCurDurationAsLong;
         long tCurDuration;
         long tDurationMax = 0;
         for (int i = 0; i < pMeasures.size(); i++)
         {
-            tCurDuration = ((MethodCallDTO) pMeasures.get(i)).getDuration();
+            tCurDuration = pMeasures.get(i).getDuration();
             if (tCurDuration > tDurationMax)
             {
                 tDurationMax = tCurDuration;
             }
             // Around the duration with duration groupvalue
-            tCurDuration = ((long) tCurDuration / pInterval) * pInterval;
+            tCurDuration = (tCurDuration / pInterval) * pInterval;
             tCurDurationAsLong = new Long(tCurDuration);
-            tCurNb = (Integer) tMap.get(tCurDurationAsLong);
+            tCurNb = tMap.get(tCurDurationAsLong);
             if (tCurNb != null)
             {
-                tCurNb = new Integer(tCurNb.intValue() + 1);
+                tCurNb = tCurNb.intValue() + 1;
             } else
             {
-                tCurNb = new Integer(1);
+                tCurNb = 1;
             }
             tMap.put(tCurDurationAsLong, tCurNb);
         }

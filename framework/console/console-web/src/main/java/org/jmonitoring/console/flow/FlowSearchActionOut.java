@@ -26,8 +26,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FlowSearchActionOut extends Action
-{
+public class FlowSearchActionOut extends Action {
 
     /**
      * (non-Javadoc)
@@ -37,8 +36,7 @@ public class FlowSearchActionOut extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
-    {
+            HttpServletResponse pResponse) throws Exception {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         FlowSearchForm tForm = (FlowSearchForm) pForm;
 
@@ -48,24 +46,20 @@ public class FlowSearchActionOut extends Action
         return pMapping.findForward("success");
     }
 
-    static FlowSearchCriterion copyBeanFormToCriterion(FlowSearchForm pForm) throws ParseException
-    {
+    static FlowSearchCriterion copyBeanFormToCriterion(FlowSearchForm pForm) throws ParseException {
         FlowSearchCriterion tResult = new FlowSearchCriterion();
         tResult.setThreadName((pForm.getThreadName() == null ? null : pForm.getThreadName()));
         Date tBeginDate = null;
-        if (pForm.getBeginDate() != null && pForm.getBeginDate().length() != 0)
-        {
+        if (pForm.getBeginDate() != null && pForm.getBeginDate().length() != 0) {
             tBeginDate = new Date(ConfigurationHelper.parseDate(pForm.getBeginDate()).getTime());
             tResult.setBeginDate(tBeginDate);
         }
         Date tBeginTime = null;
-        if (pForm.getBeginTimeMin() != null && pForm.getBeginTimeMin().length() != 0)
-        {
+        if (pForm.getBeginTimeMin() != null && pForm.getBeginTimeMin().length() != 0) {
             tBeginTime = new Date(ConfigurationHelper.parseTime(pForm.getBeginTimeMin()).getTime());
             tResult.setBeginTimeMin(tBeginTime);
         }
-        if (pForm.getDurationMin() != null && pForm.getDurationMin().length() != 0)
-        {
+        if (pForm.getDurationMin() != null && pForm.getDurationMin().length() != 0) {
             tResult.setDurationMin(new Long(pForm.getDurationMin()));
         }
         tResult.setJVM(pForm.getJVM());

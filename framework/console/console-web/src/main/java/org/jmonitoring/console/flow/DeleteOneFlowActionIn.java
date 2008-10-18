@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionMessages;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -32,9 +33,9 @@ public class DeleteOneFlowActionIn extends Action
      * 
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     * @todo Manage Exception with a good error message...
+     *      javax.servlet.http.HttpServletResponse) @todo Manage Exception with a good error message...
      */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse)
     {
@@ -42,7 +43,20 @@ public class DeleteOneFlowActionIn extends Action
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         try
         {
-            tProcess.deleteFlow(tForm.getId());
+            TransactionHelper tTx = new TransactionHelper();
+            try
+            {
+                tProcess.deleteFlow(tForm.getId());
+                tTx.commit();
+            } catch (UnknownFlowException t)
+            {
+                tTx.rollBack();
+                throw t;
+            } catch (Throwable t)
+            {
+                tTx.rollBack();
+                throw new RuntimeException(t);
+            }
             return pMapping.findForward("success");
         } catch (UnknownFlowException e)
         {

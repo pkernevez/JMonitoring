@@ -15,7 +15,7 @@ public class FlowPieDataset extends DefaultPieDataset
     private static final long serialVersionUID = 4049643377807145267L;
 
     /** Storage for the data. */
-    private List mGroupData = new ArrayList();
+    private final List<String> mGroupData = new ArrayList<String>();
 
     /**
      * Return the name of the group.
@@ -25,7 +25,7 @@ public class FlowPieDataset extends DefaultPieDataset
      */
     public String getGroupName(int pItem)
     {
-        return (String) mGroupData.get(pItem);
+        return mGroupData.get(pItem);
     }
 
     /**
@@ -35,9 +35,8 @@ public class FlowPieDataset extends DefaultPieDataset
      * @param pValue the value.
      * @param pGroupName Name of the Group.
      */
-    public void setValue(Comparable pKey, Number pValue, String pGroupName)
+    public void setValue(Comparable<String> pKey, Number pValue, String pGroupName)
     {
-        // mGroupData.add( pKey, pValue );
         super.setValue(pKey, pValue);
     }
 
@@ -48,9 +47,8 @@ public class FlowPieDataset extends DefaultPieDataset
      * @param pValue the value.
      * @param pGroupName Name of the Group.
      */
-    public void setValue(Comparable pKey, double pValue, String pGroupName)
+    public void setValue(Comparable<String> pKey, double pValue, String pGroupName)
     {
-        // mGroupName = pGroupName;
         super.setValue(pKey, new Double(pValue));
     }
 

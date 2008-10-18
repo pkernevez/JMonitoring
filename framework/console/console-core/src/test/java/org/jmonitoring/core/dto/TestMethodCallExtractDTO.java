@@ -17,7 +17,7 @@ public class TestMethodCallExtractDTO extends TestCase
 {
     public void testGetMethodName()
     {
-        MethodCallExtractDTO tExtract = new MethodCallExtractDTO("org.kernevez.Test", "getTest", "Grp1", new Integer(3));
+        MethodCallExtractDTO tExtract = new MethodCallExtractDTO("org.kernevez.Test", "getTest", "Grp1", 3);
         assertEquals("getTest", tExtract.getMethodName());
         assertEquals("org.kernevez.Test.getTest", tExtract.getName());
         assertEquals("Grp1", tExtract.getGroupName());
@@ -26,12 +26,12 @@ public class TestMethodCallExtractDTO extends TestCase
 
     public void testGetFullName()
     {
-        assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO
-            .getFullName("net.jmonitoring.Test", "getMeth"));
+        assertEquals("net.jmonitoring.Test.getMeth",
+                     MethodCallExtractDTO.getFullName("net.jmonitoring.Test", "getMeth"));
         assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO.getFullName("net.jmonitoring.Test",
-            ".getMeth"));
+                                                                                      ".getMeth"));
         assertEquals("net.jmonitoring.Test.getMeth", MethodCallExtractDTO.getFullName("net.jmonitoring.Test.",
-            ".getMeth"));
+                                                                                      ".getMeth"));
     }
 
     public void testGetGroupName()

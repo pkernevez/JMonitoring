@@ -2,19 +2,16 @@ package org.jmonitoring.agent.info.impl;
 
 import org.jmonitoring.core.info.IParamaterTracer;
 
-public class TreeParameterTracer extends Object implements IParamaterTracer
-{
+public class TreeParameterTracer extends Object implements IParamaterTracer {
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects)
-    {
+    public CharSequence convertToString(Object pTarget, Object[] pParameterObjects) {
         long tStartTime = System.currentTimeMillis();
-        StringBuffer[] tBuffer = new StringBuffer[pParameterObjects.length];
+        StringBuilder[] tBuffer = new StringBuilder[pParameterObjects.length];
         TreeTracerHelper tHelper;
         int tMaxDepth = 0;
         int tNbEntity = 0;
-        for (int i = 0; i < pParameterObjects.length; i++)
-        {
-            tBuffer[i] = new StringBuffer();
+        for (int i = 0; i < pParameterObjects.length; i++) {
+            tBuffer[i] = new StringBuilder();
             tHelper = new TreeTracerHelper();
             tHelper.traceObjectTree(tBuffer[i], pParameterObjects[i]);
             tNbEntity = tNbEntity + tHelper.getNbEntity();
@@ -22,15 +19,14 @@ public class TreeParameterTracer extends Object implements IParamaterTracer
         }
         long tEndTime = System.currentTimeMillis();
         long tDuration = tEndTime - tStartTime;
-        StringBuffer tResult = new StringBuffer();
+        StringBuilder tResult = new StringBuilder();
         tResult.append("Tracing duration = ").append(tDuration).append(" ms\n");
         tResult.append("Max Depth = ").append(tMaxDepth).append("\n");
         tResult.append("Nb Entity = ").append(tNbEntity).append("\n");
-        for (int i = 0; i < pParameterObjects.length; i++)
-        {
-            tResult.append("\nParameter n°").append(i + 1).append("\n").append(tBuffer[i]);
+        for (int i = 0; i < pParameterObjects.length; i++) {
+            tResult.append("\nParameter nÂ°").append(i + 1).append("\n").append(tBuffer[i]);
         }
-        return tResult.toString();
+        return tResult;
     }
 
 }

@@ -13,7 +13,6 @@ import java.awt.Stroke;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -47,7 +46,7 @@ public class FlowUtil
 
     private static Log sLog = LogFactory.getLog(FlowUtil.class);
 
-    private Map mListOfGroup = new HashMap();
+    private Map<String, Integer> mListOfGroup = new HashMap<String, Integer>();
 
     /**
      * Generate 2 Pie Charts for the statistics of the flow and write them in the session. The fisrt is the repartition
@@ -62,38 +61,37 @@ public class FlowUtil
         tFlow.addTimeWith(pFirstMeasure);
 
         DefaultPieDataset dataset = new DefaultPieDataset();
-        String curValue;
         Paint[] tColors = new Paint[tFlow.mListOfGroup.size()];
         int tPos = 0;
-        for (Iterator tIter = tFlow.mListOfGroup.keySet().iterator(); tIter.hasNext();)
+        for (Map.Entry<String, Integer> curEntry : tFlow.mListOfGroup.entrySet())
         {
-            curValue = (String) tIter.next();
-            dataset.setValue(curValue, ((Long) tFlow.mListOfGroup.get(curValue)).longValue());
-            tColors[tPos] = (Paint) ColorHelper.calculColor(curValue);
+            String tKey = curEntry.getKey();
+            dataset.setValue(tKey, curEntry.getValue());
+            tColors[tPos] = ColorHelper.calculColor(tKey);
             tPos++;
         }
         DefaultDrawingSupplier tSupplier = new DefaultDrawingSupplier(tColors, new Paint[0], new Stroke[0],
-            new Stroke[0], new Shape[0]);
+                                                                      new Stroke[0], new Shape[0]);
 
         JFreeChart chart = createPieChart("Duration in group", // chart title
-            dataset, // data
-            tSupplier, true, // include legend
-            true, false);
+                                          dataset, // data
+                                          tSupplier, true, // include legend
+                                          true, false);
         addChart(chart, pSession, DURATION_IN_GROUP);
 
         // Maintenant image par nb d'appel
-        tFlow.mListOfGroup = new HashMap();
+        tFlow.mListOfGroup = new HashMap<String, Integer>();
         tFlow.addNbCallWith(pFirstMeasure);
         dataset = new DefaultPieDataset();
-        for (Iterator tIter = tFlow.mListOfGroup.keySet().iterator(); tIter.hasNext();)
+        for (Map.Entry<String, Integer> curEntry : tFlow.mListOfGroup.entrySet())
         {
-            curValue = (String) tIter.next();
-            dataset.setValue(curValue, ((Integer) tFlow.mListOfGroup.get(curValue)).intValue());
+            String tKey = curEntry.getKey();
+            dataset.setValue(tKey, curEntry.getValue());
         }
         chart = createPieChart("Nb call of group", // chart title
-            dataset, // data
-            tSupplier, true, // include legend
-            true, false);
+                               dataset, // data
+                               tSupplier, true, // include legend
+                               true, false);
         addChart(chart, pSession, NB_CALL_TO_GROUP);
 
     }
@@ -103,7 +101,7 @@ public class FlowUtil
      * 
      * @return The list of the group name (<code>Map</code> of <code>String</code>.
      */
-    Map getListOfGroup()
+    Map<String, Integer> getListOfGroup()
     {
         return mListOfGroup;
     }
@@ -145,22 +143,21 @@ public class FlowUtil
     {
         long tChildDuration = 0;
         MethodCallDTO curPoint;
-        // On itère sur les noeuds fils
+        // On itï¿½re sur les noeuds fils
         for (int i = 0; i < pMeasure.getChildren().length; i++)
         {
-            curPoint = (MethodCallDTO) pMeasure.getChild(i);
+            curPoint = pMeasure.getChild(i);
             addTimeWith(curPoint);
             tChildDuration = tChildDuration + (curPoint.getEndTime().getTime() - curPoint.getBeginTime().getTime());
         }
         String tGroupName = pMeasure.getGroupName();
-        Long tDuration = (Long) mListOfGroup.get(tGroupName);
-        long tLocalDuration = pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime() - tChildDuration;
+        Integer tDuration = mListOfGroup.get(tGroupName);
+        int tLocalDuration = (int) (pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime() - tChildDuration);
         if (tDuration != null)
-        { // On ajoute la durée en cours
-            long tLong = tDuration.longValue();
-            tLocalDuration = tLocalDuration + tLong;
+        { // On ajoute la durï¿½e en cours
+            tLocalDuration = tLocalDuration + tDuration;
         }
-        mListOfGroup.put(tGroupName, new Long(tLocalDuration));
+        mListOfGroup.put(tGroupName, tLocalDuration);
     }
 
     /**
@@ -171,18 +168,18 @@ public class FlowUtil
     void addNbCallWith(MethodCallDTO pMeasure)
     {
         String tGroupName = pMeasure.getGroupName();
-        Integer tNbCall = (Integer) mListOfGroup.get(tGroupName);
+        Integer tNbCall = mListOfGroup.get(tGroupName);
         if (tNbCall == null)
         { // Nouveau groupe ou l'ajoute
             mListOfGroup.put(tGroupName, new Integer(1));
         } else
-        { // On ajoute la durée en cours
+        { // On ajoute la durï¿½e en cours
             mListOfGroup.put(tGroupName, new Integer(tNbCall.intValue() + 1));
         }
-        // On itère sur les noeuds fils
+        // On itï¿½re sur les noeuds fils
         for (int i = 0; i < pMeasure.getChildren().length; i++)
         {
-            addNbCallWith((MethodCallDTO) pMeasure.getChild(i));
+            addNbCallWith(pMeasure.getChild(i));
         }
     }
 
@@ -212,8 +209,9 @@ public class FlowUtil
         plot.setDrawingSupplier(pSupplier);
         if (pTooltips)
         {
-            plot.setToolTipGenerator(new StandardPieItemLabelGenerator(
-                StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT));
+            plot
+                .setToolTipGenerator(new StandardPieItemLabelGenerator(
+                                                                       StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT));
         }
         if (pUrls)
         {

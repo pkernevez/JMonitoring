@@ -1,7 +1,6 @@
 package org.jmonitoring.console.methodcall.search;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -13,64 +12,67 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyHashMap;
+import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyMap;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 public class MethodCallSearchActionIn extends Action
 {
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse) throws Exception
     {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        List tListOfAllExtract = tProcess.getListOfMethodCallExtract();
-        Map tListOfExtractByFullClassName = new HashMap();
-        Map tTreeOfExtract = convertListAsTree(tListOfExtractByFullClassName, tListOfAllExtract);
+        TransactionHelper tTx = new TransactionHelper();
+        try
+        {
+            JMonitoringProcess tProcess = ProcessFactory.getInstance();
+            List<MethodCallExtractDTO> tListOfAllExtract = tProcess.getListOfMethodCallExtract();
+            Map<String, MethodCallExtractDTO> tListOfExtractByFullClassName = new HashMap<String, MethodCallExtractDTO>();
+            MyMap tTreeOfExtract = convertListAsTree(tListOfExtractByFullClassName, tListOfAllExtract);
 
-        MethodCallSearchForm tForm = (MethodCallSearchForm) pForm;
-        tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
-        tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
+            MethodCallSearchForm tForm = (MethodCallSearchForm) pForm;
+            tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
+            tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
 
-        return pMapping.findForward("success");
+            tTx.commit();
+            return pMapping.findForward("success");
+        } catch (Throwable t)
+        {
+            tTx.rollBack();
+            throw new RuntimeException(t);
+        }
     }
 
     /**
-     * Convert a list of String containing caracter <code>.</code> into a Tree. Each branch is composed with the
+     * Convert a list of String containing character <code>.</code> into a Tree. Each branch is composed with the
      * Token.
      * 
      * @param pListOfMeasure The list of <code>String</code>.
      * @return The Tree has a Map.
      */
-    static Map convertListAsTree(Map pListOfExtractByFullClassName, List pListOfMeasure)
+    static MyMap convertListAsTree(Map<String, MethodCallExtractDTO> pListOfExtractByFullClassName,
+                    List<MethodCallExtractDTO> pListOfMeasure)
     {
-        Map tTree = new HashMap();
-        String curString;
-        Map curMap;
-        MethodCallExtractDTO tExtract;
-        for (Iterator tIt = pListOfMeasure.iterator(); tIt.hasNext();)
+        MyMap tTree = new MyHashMap();
+        for (MethodCallExtractDTO tExtract : pListOfMeasure)
         {
-            curMap = tTree;
-            tExtract = (MethodCallExtractDTO) tIt.next();
+            MyMap curMap = tTree;
             pListOfExtractByFullClassName.put(tExtract.getName() + tExtract.getGroupName(), tExtract);
             for (StringTokenizer tTokenizer = new StringTokenizer(tExtract.getName() + tExtract.getGroupName(), "."); tTokenizer
-                .hasMoreElements();)
+                                                                                                                                .hasMoreElements();)
             {
-                curString = (String) tTokenizer.nextElement();
-                if (curMap.get(curString) == null)
+                String curString = (String) tTokenizer.nextElement();
+                MyMap tCurrentBranch = curMap.get(curString);
+                if (tCurrentBranch == null)
                 {
-                    curMap.put(curString, new HashMap());
+                    curMap.put(curString, tCurrentBranch = new MyHashMap());
                 }
-                curMap = (Map) curMap.get(curString);
+                curMap = tCurrentBranch;
             }
         }
-
         return tTree;
     }
 }

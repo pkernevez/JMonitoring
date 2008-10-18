@@ -35,6 +35,7 @@ public abstract class PersistanceTestCase extends TestCase
 
     private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -69,14 +70,14 @@ public abstract class PersistanceTestCase extends TestCase
         mTransaction = mSession.beginTransaction();
     }
 
-    protected void assertStatistics(Class pEntity, int pInsertCount, int pUpdateCount, int pLoadCount, int pFetchCount)
+    protected void assertStatistics(Class<MethodCallPO> pEntity, int pInserts, int pUpdates, int pLoads, int pFetchs)
     {
         EntityStatistics tStat = mStats.getEntityStatistics(pEntity.getName());
 
-        assertEquals("Invalid INSERT statistics", pInsertCount, tStat.getInsertCount());
-        assertEquals("Invalid UPDATE statistics", pUpdateCount, tStat.getUpdateCount());
-        assertEquals("Invalid LOAD statistics", pLoadCount, tStat.getLoadCount());
-        assertEquals("Invalid FECTH statistics", pFetchCount, tStat.getFetchCount());
+        assertEquals("Invalid INSERT statistics", pInserts, tStat.getInsertCount());
+        assertEquals("Invalid UPDATE statistics", pUpdates, tStat.getUpdateCount());
+        assertEquals("Invalid LOAD statistics", pLoads, tStat.getLoadCount());
+        assertEquals("Invalid FECTH statistics", pFetchs, tStat.getFetchCount());
 
     }
 
@@ -105,6 +106,7 @@ public abstract class PersistanceTestCase extends TestCase
         sLog.debug("end createDataSet");
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         try
@@ -162,16 +164,16 @@ public abstract class PersistanceTestCase extends TestCase
         tSubPoint2.setBeginTime(tStartTime + 8);// 21
 
         tSubPoint3 = new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-            "[]");
+                        "[]");
         tSubPoint3.setBeginTime(tStartTime + 14);// 1
         tSubPoint3.setEndTime(tStartTime + 15);
 
         tSubPoint4 = new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-            "[]");
+                        "[]");
         tSubPoint4.setBeginTime(tStartTime + 16);// 12
 
         tSubPoint5 = new MethodCallPO(tSubPoint4, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-            "[]");
+                        "[]");
         tSubPoint5.setBeginTime(tStartTime + 26);// 1
         tSubPoint5.setEndTime(tStartTime + 27);
 

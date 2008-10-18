@@ -71,12 +71,12 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult] "
-            + "with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
-            (String) tErrors.get(0));
+        assertEquals(
+                     "Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult] " + "with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
+                     (String) tErrors.get(0));
     }
 
     /**
@@ -95,12 +95,12 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(2, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(1, tErrors.size());
         assertEquals(String.class.getName(), tErrors.get(0).getClass().getName());
-        assertEquals("Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult]"
-            + " with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
-            (String) tErrors.get(0));
+        assertEquals(
+                     "Unable to trace class=[org.jmonitoring.agent.store.AspectLoggerEmulator$ExceptionResult]" + " with tracer=[org.jmonitoring.agent.info.impl.ToStringResultTracer]Pour faire planter un appelMain",
+                     (String) tErrors.get(0));
     }
 
     /**
@@ -119,7 +119,7 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
@@ -139,7 +139,7 @@ public class TestStoreManager extends TestCase
         assertEquals(0, AspectLoggerEmulator.Child1.getNbToString());
         assertEquals(0, AspectLoggerEmulator.Child2.getNbToString());
         assertEquals(1, AspectLoggerEmulator.getNbReturnValueToString());
-        List tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
+        List<Object> tErrors = ((ErrorLogTracer) StoreManager.getLog()).mErrors;
         assertEquals(0, tErrors.size());
     }
 
@@ -201,20 +201,20 @@ public class TestStoreManager extends TestCase
     {
         StoreManager tManager = StoreManager.getManager();
         assertSame(tManager, StoreManager.getManager());
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         assertNotSame(tManager, StoreManager.getManager());
     }
 
     public void testClearChangeManagerConfiguration()
     {
 
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         assertNotNull(StoreManager.getManager());
         assertNotNull(StoreManager.getManager().getStoreWriter());
 
         assertEquals(MemoryStoreWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
 
-        StoreManager.changeStoreManagerClass(MyWriter.class);
+        StoreManager.changeStoreWriterClass(MyWriter.class);
         assertEquals(MyWriter.class.getName(), StoreManager.getManager().getStoreWriter().getClass().getName());
     }
 

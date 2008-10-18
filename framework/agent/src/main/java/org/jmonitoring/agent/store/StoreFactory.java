@@ -21,8 +21,8 @@ import org.jmonitoring.core.configuration.MeasureException;
  */
 public final class StoreFactory
 {
-    /** Mise en cache du constructeur du <code>IMeasurePointTreeLogger</code> à utiliser. */
-    private static Constructor sConstructor;
+    /** Mise en cache du constructeur du <code>IMeasurePointTreeLogger</code> ï¿½ utiliser. */
+    private static Constructor<IStoreWriter> sConstructor;
 
     private static Log sLog = LogFactory.getLog(StoreFactory.class);
 
@@ -33,13 +33,13 @@ public final class StoreFactory
     /**
      * Factory.
      * 
-     * @return Une instance de <code>IMeasurePointTreeLogger</code> pour les logs en fonction du paramètrage.
+     * @return Une instance de <code>IMeasurePointTreeLogger</code> pour les logs en fonction du paramï¿½trage.
      */
     public static IStoreWriter getWriter()
     {
-        Class tStoreClass = getMeasurePointStoreClass();
         if (sConstructor == null)
         {
+            Class<IStoreWriter> tStoreClass = getMeasurePointStoreClass();
             try
             {
                 sConstructor = tStoreClass.getConstructor(new Class[0]);
@@ -47,46 +47,43 @@ public final class StoreFactory
             {
                 sLog.error("Unable to get Constructor for the class MEASURE_POINT_LOGGER_CLASS", e);
                 throw new MeasureException("Unable to find constructor without parameter for class [" + tStoreClass
-                    + "]", e);
+                                + "]", e);
             } catch (NoSuchMethodException e)
             {
                 sLog.error("Unable to get Constructor for the class MEASURE_POINT_LOGGER_CLASS", e);
                 throw new MeasureException("Unable to find constructor without parameter for class [" + tStoreClass
-                    + "]", e);
+                                + "]", e);
             }
-
         }
-        Object tResult;
         try
         {
-            tResult = sConstructor.newInstance(new Object[0]);
-            if (!(tResult instanceof IStoreWriter))
-            {
-                throw new MeasureException("The writer : [" + tStoreClass + "] is not an instance of IStoreWriter");
-            }
+            return sConstructor.newInstance(new Object[0]);
         } catch (IllegalArgumentException e)
         {
-            throw new MeasureException("Unable to create an instance of class [" + tStoreClass + "]", e);
+            throw new MeasureException("Unable to create an instance of class [" + sConstructor.getDeclaringClass()
+                            + "]", e);
         } catch (InstantiationException e)
         {
-            throw new MeasureException("Unable to create an instance of class [" + tStoreClass + "]", e);
+            throw new MeasureException("Unable to create an instance of class [" + sConstructor.getDeclaringClass()
+                            + "]", e);
         } catch (IllegalAccessException e)
         {
-            throw new MeasureException("Unable to create an instance of class [" + tStoreClass + "]", e);
+            throw new MeasureException("Unable to create an instance of class [" + sConstructor.getDeclaringClass()
+                            + "]", e);
         } catch (InvocationTargetException e)
         {
-            throw new MeasureException("Unable to create an instance of class [" + tStoreClass + "]", e);
+            throw new MeasureException("Unable to create an instance of class [" + sConstructor.getDeclaringClass()
+                            + "]", e);
         }
-        return (IStoreWriter) tResult;
     }
 
-    private static Class getMeasurePointStoreClass()
+    @SuppressWarnings("unchecked")
+    private static Class<IStoreWriter> getMeasurePointStoreClass()
     {
-        Class tResultClass;
         String tLoggerClassName = ConfigurationHelper.getString(ConfigurationHelper.STORE_CLASS);
         try
         {
-            tResultClass = Class.forName(tLoggerClassName);
+            return (Class<IStoreWriter>) Class.forName(tLoggerClassName);
         } catch (ClassNotFoundException e)
         {
             sLog.error("Unable to create LogClass [" + tLoggerClassName + "]", e);
@@ -96,7 +93,6 @@ public final class StoreFactory
             sLog.error("Unable to create LogClass [" + tLoggerClassName + "]", e);
             throw new ConfigurationException("Unable to create LogClass [" + tLoggerClassName + "]", e);
         }
-        return tResultClass;
     }
 
     /** For test purpose. */

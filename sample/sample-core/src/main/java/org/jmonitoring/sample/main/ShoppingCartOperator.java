@@ -12,14 +12,12 @@ package org.jmonitoring.sample.main;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public final class ShoppingCartOperator
-{
+public final class ShoppingCartOperator {
     private static final int TEMPO2 = 19;
 
     private static final int TEMPO = 18;
 
-    private ShoppingCartOperator()
-    {
+    private ShoppingCartOperator() {
     }
 
     /**
@@ -29,13 +27,10 @@ public final class ShoppingCartOperator
      * @param pInventory For the Sample
      * @param pItem For the Sample
      */
-    public static void addShoppingCartItem(ShoppingCartPO pSc, Inventory pInventory, ItemPO pItem)
-    {
-        try
-        {
+    public static void addShoppingCartItem(ShoppingCartPO pSc, Inventory pInventory, ItemPO pItem) {
+        try {
             Thread.sleep(TEMPO);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
@@ -52,13 +47,10 @@ public final class ShoppingCartOperator
      * @param pInventory For the Sample
      * @param pItem For the Sample
      */
-    public static void removeShoppingCartItem(ShoppingCartPO pSc, Inventory pInventory, ItemPO pItem)
-    {
-        try
-        {
+    public static void removeShoppingCartItem(ShoppingCartPO pSc, Inventory pInventory, ItemPO pItem) {
+        try {
             Thread.sleep(TEMPO2);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // @todo Auto-generated catch block
             e.printStackTrace();
         }

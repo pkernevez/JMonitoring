@@ -22,7 +22,7 @@ import org.jmonitoring.agent.info.impl.ToStringResultTracer;
  */
 public class AspectLoggerEmulator
 {
-    private IStoreWriter mStoreWriter;
+    private final IStoreWriter mStoreWriter;
 
     public static void clear()
     {
@@ -51,17 +51,17 @@ public class AspectLoggerEmulator
         Signature tSignature;
         tSignature = new MockSignature("mainMethod", Parent.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Parent",
-            new Parent());
+                        new Parent());
         tSignature = new MockSignature("child1", Child1.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), null, "Child1", new Child1());
         tSignature = new MockSignature("child2", Child1.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child1",
-            new Child1());
+                        new Child1());
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new Child1(), new NormalResult()); // child1_1
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new Child1(), null); // child1_2
         tSignature = new MockSignature("child1", Child2.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child2",
-            new Child2()); // child2_1
+                        new Child2()); // child2_1
         tManager.logEndOfMethodWithException(new DefaultExceptionTracer(), new Exception("Funny Exception"));
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new Parent(), new ExceptionResult("Main")); // mainMethod
     }
@@ -75,23 +75,24 @@ public class AspectLoggerEmulator
         Signature tSignature;
         tSignature = new MockSignature("mainMethod", Parent.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param(), new Param(),
-            new Param() }, "Parent", new Parent());
+                        new Param() }, "Parent", new Parent());
         tSignature = new MockSignature("child1", Child1.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), null, "Child1", new Child1());
         tSignature = new MockSignature("child2", Child1.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child1",
-            new Child1());
+                        new Child1());
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new Child1(), null); // child1_1
         tManager.logEndOfMethodNormal(new ToStringResultTracer(), new Child1(), new NormalResult()); // child1_2
         tSignature = new MockSignature("child1", Child2.class);
         tManager.logBeginOfMethod(tSignature, new ToStringParametersTracer(), new Object[] {new Param() }, "Child2",
-            new Child2()); // child2_1
+                        new Child2()); // child2_1
         tManager.logEndOfMethodWithException(new DefaultExceptionTracer(), null);
         tManager.logEndOfMethodWithException(new DefaultExceptionTracer(), new Exception("Funny Exception2")); // mainMethod
     }
 
     private static class NormalResult
     {
+        @Override
         public String toString()
         {
             nbReturnValueToStringIncrement();
@@ -101,13 +102,14 @@ public class AspectLoggerEmulator
 
     private static class ExceptionResult
     {
-        private String mMsg;
+        private final String mMsg;
 
         public ExceptionResult(String pMsg)
         {
             mMsg = pMsg;
         }
 
+        @Override
         public String toString()
         {
             nbReturnValueToStringIncrement();
@@ -117,9 +119,9 @@ public class AspectLoggerEmulator
 
     public static class ErrorLogTracer implements Log
     {
-        public List mErrors = new ArrayList();
+        public List<Object> mErrors = new ArrayList<Object>();
 
-        private boolean mLogDebugEnabled;
+        private final boolean mLogDebugEnabled;
 
         public ErrorLogTracer(boolean pLogDebugEnabled)
         {
@@ -240,6 +242,7 @@ public class AspectLoggerEmulator
          * 
          * @return no doc
          */
+        @Override
         public String toString()
         {
             incrementToString();
@@ -279,6 +282,7 @@ public class AspectLoggerEmulator
          * 
          * @return no doc
          */
+        @Override
         public String toString()
         {
             incrementToString();
@@ -330,6 +334,7 @@ public class AspectLoggerEmulator
          * 
          * @return no doc
          */
+        @Override
         public String toString()
         {
             incrementToString();
@@ -383,6 +388,7 @@ public class AspectLoggerEmulator
          * 
          * @return no doc
          */
+        @Override
         public String toString()
         {
             incrementToString();

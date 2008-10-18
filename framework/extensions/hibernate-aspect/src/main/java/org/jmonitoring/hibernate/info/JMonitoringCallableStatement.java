@@ -23,7 +23,7 @@ import java.util.Map;
 public class JMonitoringCallableStatement extends JMonitoringPreparedStatement implements java.sql.CallableStatement
 {
 
-    private CallableStatement mRealCallStat;
+    private final CallableStatement mRealCallStat;
 
     public JMonitoringCallableStatement(CallableStatement pCallStatement, String pSqlRequest)
     {
@@ -166,6 +166,7 @@ public class JMonitoringCallableStatement extends JMonitoringPreparedStatement i
         return mRealCallStat.getLong(parameterName);
     }
 
+    @SuppressWarnings("unchecked")
     public Object getObject(int pI, Map pMap) throws SQLException
     {
         return mRealCallStat.getObject(pI, pMap);
@@ -176,6 +177,7 @@ public class JMonitoringCallableStatement extends JMonitoringPreparedStatement i
         return mRealCallStat.getObject(parameterIndex);
     }
 
+    @SuppressWarnings("unchecked")
     public Object getObject(String parameterName, Map pMap) throws SQLException
     {
         return mRealCallStat.getObject(parameterName, pMap);

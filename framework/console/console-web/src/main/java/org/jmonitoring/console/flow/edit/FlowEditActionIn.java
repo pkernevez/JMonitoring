@@ -22,6 +22,7 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.JMonitoringProcess;
 import org.jmonitoring.core.process.ProcessFactory;
+import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -32,6 +33,7 @@ import org.jmonitoring.core.process.ProcessFactory;
 public class FlowEditActionIn extends Action
 {
     private static final String MAX_FLOW_FOR_EDITION = "maxExecutionDuringFlowEdition";
+
     private static Log sLog = LogFactory.getLog(FlowEditActionIn.class);
 
     /**
@@ -53,41 +55,51 @@ public class FlowEditActionIn extends Action
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
      *      javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
                     HttpServletResponse pResponse)
     {
 
-        ActionForward tForward;
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        // List tList = new ArrayList();
-        FlowEditForm tForm = (FlowEditForm) pForm;
-        sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
-        ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tForm.getId());
-        sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
-        int tNbMeasure = tFlow.getMeasureCount();
-        tForm.setExecutionFlow(tFlow);
-        if ((tNbMeasure > sMaxFlowToShow) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
+        TransactionHelper tTx = new TransactionHelper();
+        try
         {
-            sLog.debug("Need more information to know if we can displayed the next screen...");
-            tForward = pMapping.findForward("required_info");
-        } else
-        {
-            MethodCallDTO tFirstMeasure = tFlow.getFirstMethodCall();
-            // Creation of the associated images.
-            HttpSession tSession = pRequest.getSession();
-            sLog.debug("Write PieCharts into HttpSession");
-            FlowUtil.writeImageIntoSession(tSession, tFirstMeasure);
-            sLog.debug("Write GantBarChart into HttpSession");
-            FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure, tForm);
-            if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
+            ActionForward tForward;
+            JMonitoringProcess tProcess = ProcessFactory.getInstance();
+            // List tList = new ArrayList();
+            FlowEditForm tForm = (FlowEditForm) pForm;
+            sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
+            ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tForm.getId());
+            sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
+            int tNbMeasure = tFlow.getMeasureCount();
+            tForm.setExecutionFlow(tFlow);
+            if ((tNbMeasure > sMaxFlowToShow) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
             {
-                sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());
-                limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
+                sLog.debug("Need more information to know if we can displayed the next screen...");
+                tForward = pMapping.findForward("required_info");
+            } else
+            {
+                MethodCallDTO tFirstMeasure = tFlow.getFirstMethodCall();
+                // Creation of the associated images.
+                HttpSession tSession = pRequest.getSession();
+                sLog.debug("Write PieCharts into HttpSession");
+                FlowUtil.writeImageIntoSession(tSession, tFirstMeasure);
+                sLog.debug("Write GantBarChart into HttpSession");
+                FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure, tForm);
+                if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
+                {
+                    sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());
+                    limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
+                }
+                sLog.debug("Forward success.");
+                tForward = pMapping.findForward("success");
             }
-            sLog.debug("Forward success.");
-            tForward = pMapping.findForward("success");
+            tTx.commit();
+            return tForward;
+        } catch (Throwable t)
+        {
+            tTx.rollBack();
+            throw new RuntimeException(t);
         }
-        return tForward;
     }
 
     /**
@@ -101,7 +113,7 @@ public class FlowEditActionIn extends Action
         MethodCallDTO curChild;
         for (int i = 0; i < pCurrentMeasure.getChildren().length;)
         {
-            curChild = (MethodCallDTO) pCurrentMeasure.getChild(i);
+            curChild = pCurrentMeasure.getChild(i);
             if (curChild.getDuration() < pDurationMin)
             { // We remove this child
                 pCurrentMeasure.removeChild(i);

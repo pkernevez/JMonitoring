@@ -1,6 +1,5 @@
 package org.jmonitoring.sample.testtraceparameter;
 
-import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 
 import org.jmonitoring.agent.aspect.PerformanceAspect;
 

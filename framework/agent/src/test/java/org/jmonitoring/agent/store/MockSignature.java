@@ -11,15 +11,15 @@ import org.aspectj.lang.Signature;
 public class MockSignature implements Signature
 {
     /** No doc for this test. */
-    public MockSignature(String pName, Class pDeclaringType)
+    public MockSignature(String pName, Class<?> pDeclaringType)
     {
         mName = pName;
         mDeclaringClass = pDeclaringType;
     }
 
-    private String mName;
+    private final String mName;
 
-    private Class mDeclaringClass;
+    private final Class<?> mDeclaringClass;
 
     /**
      * No doc for this test.
@@ -66,7 +66,7 @@ public class MockSignature implements Signature
      * 
      * @return no doc
      */
-    public Class getDeclaringType()
+    public Class<?> getDeclaringType()
     {
         return mDeclaringClass;
     }

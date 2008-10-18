@@ -5,8 +5,8 @@ package org.jmonitoring.sample.main;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * 
@@ -18,8 +18,8 @@ import java.util.Vector;
 public class ShoppingCartPO
 {
 
-    private int mId=-1;
-    
+    private int mId = -1;
+
     private static final int TEMPO5 = 17;
 
     private static final int TEMPO4 = 16;
@@ -28,7 +28,7 @@ public class ShoppingCartPO
 
     private static final int TEMPO = 7;
 
-    private List mItems = new Vector();
+    private List<ItemPO> mItems = new ArrayList<ItemPO>();
 
     private static int sCounter = 0;
 
@@ -58,56 +58,56 @@ public class ShoppingCartPO
             throw new RuntimeException("Pour declancher une exception sur item3");
         }
         mItems.add(pItem);
-        //TODO Refactor this code
-//        Connection tCon = new MockConnection();
-//        PreparedStatement tState = null;
-//        try
-//        {
-//            tState = tCon.prepareStatement("lk");
-//            try
-//            {
-//                Thread.sleep(TEMPO7);
-//            } catch (InterruptedException e)
-//            {
-//                // @todo Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//            tState.setString(0, "Param0");
-//            try
-//            {
-//                Thread.sleep(TEMPO6);
-//            } catch (InterruptedException e)
-//            {
-//                // @todo Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//            tState.setInt(1, 0);
-//            tState.executeQuery();
-//        } catch (SQLException e)
-//        {
-//            throw new RuntimeException("Impossible de créer un statement !", e);
-//        } finally
-//        {
-//            if (tState != null)
-//            {
-//                try
-//                {
-//                    try
-//                    {
-//                        Thread.sleep(TEMPO2);
-//                    } catch (InterruptedException e)
-//                    {
-//                        // @todo Auto-generated catch block
-//                        e.printStackTrace();
-//                    }
-//                    tState.close();
-//                } catch (SQLException e)
-//                {
-//                    throw new RuntimeException("Impossible de fermer un statement !", e);
-//
-//                }
-//            }
-//        }
+        // TODO Refactor this code
+        // Connection tCon = new MockConnection();
+        // PreparedStatement tState = null;
+        // try
+        // {
+        // tState = tCon.prepareStatement("lk");
+        // try
+        // {
+        // Thread.sleep(TEMPO7);
+        // } catch (InterruptedException e)
+        // {
+        // // @todo Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // tState.setString(0, "Param0");
+        // try
+        // {
+        // Thread.sleep(TEMPO6);
+        // } catch (InterruptedException e)
+        // {
+        // // @todo Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // tState.setInt(1, 0);
+        // tState.executeQuery();
+        // } catch (SQLException e)
+        // {
+        // throw new RuntimeException("Impossible de crï¿½er un statement !", e);
+        // } finally
+        // {
+        // if (tState != null)
+        // {
+        // try
+        // {
+        // try
+        // {
+        // Thread.sleep(TEMPO2);
+        // } catch (InterruptedException e)
+        // {
+        // // @todo Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // tState.close();
+        // } catch (SQLException e)
+        // {
+        // throw new RuntimeException("Impossible de fermer un statement !", e);
+        //
+        // }
+        // }
+        // }
 
     }
 
@@ -175,13 +175,13 @@ public class ShoppingCartPO
         mId = pId;
     }
 
-    public List getItems()
+    public List<ItemPO> getItems()
     {
         new RuntimeException().printStackTrace();
         return mItems;
     }
 
-    public void setItems(List pItems)
+    public void setItems(List<ItemPO> pItems)
     {
         mItems = pItems;
     }

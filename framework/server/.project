@@ -2,16 +2,15 @@
   <name>server</name>
   <comment>This artifact provide a server that collect other JVM ExecutionFlows and insert them into the DataBase .</comment>
   <projects>
-    <project>tests</project>
     <project>agent</project>
-    <project>persistence</project>
     <project>common</project>
     <project>common-hibernate</project>
+    <project>persistence</project>
+    <project>tests</project>
   </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
-      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>

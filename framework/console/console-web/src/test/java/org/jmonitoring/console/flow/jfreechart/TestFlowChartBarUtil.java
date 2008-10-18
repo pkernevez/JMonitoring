@@ -23,12 +23,11 @@ public class TestFlowChartBarUtil extends TestCase
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
-        // writeChart("c:/temp/toto.gif", tUtil);
 
-        Map tGroups = tUtil.getListOfGroup();
+        Map<String, TaskForGroupName> tGroups = tUtil.getListOfGroup();
         assertEquals(2, tGroups.size());
 
-        TaskForGroupName tTaskEntry = (TaskForGroupName) tGroups.get("GrDefault");
+        TaskForGroupName tTaskEntry = tGroups.get("GrDefault");
         assertNotNull(tTaskEntry);
         Task curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(3, curTask.getSubtaskCount());
@@ -47,7 +46,7 @@ public class TestFlowChartBarUtil extends TestCase
         assertEquals(54, curDuration.getStart().getTime() - START_TIME);
         assertEquals(106, curDuration.getEnd().getTime() - START_TIME);
 
-        tTaskEntry = (TaskForGroupName) tGroups.get("GrChild1");
+        tTaskEntry = tGroups.get("GrChild1");
         assertNotNull(tTaskEntry);
         curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(2, curTask.getSubtaskCount());
@@ -64,23 +63,6 @@ public class TestFlowChartBarUtil extends TestCase
 
     }
 
-    // private void writeChart(String pString, FlowChartBarUtil pUtil)
-    // {
-    // IntervalCategoryDataset intervalcategorydataset = pUtil.createDataset();
-    // JFreeChart jfreechart = pUtil.createGanttChart(intervalcategorydataset);
-    // Plot tPlot = jfreechart.getPlot();
-    // tPlot.setNoDataMessage("No data available");
-    // try
-    // {
-    // OutputStream tStream = new FileOutputStream(pString);
-    // ChartUtilities.writeChartAsPNG(tStream, jfreechart, 600, 400);
-    // tStream.close();
-    // } catch (IOException e)
-    // {
-    // throw new MeasureException("Unable to write Image", e);
-    // }
-    // }
-
     public void testFillListOfGroup()
     {
         MethodCallDTO tFirstMethod = TestFlowUtils.getSampleMeasurePoint();
@@ -88,11 +70,10 @@ public class TestFlowChartBarUtil extends TestCase
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
 
-        // writeChart("c:/temp/toto2.gif", tUtil);
-        Map tGroups = tUtil.getListOfGroup();
+        Map<String, TaskForGroupName> tGroups = tUtil.getListOfGroup();
         assertEquals(3, tGroups.size());
 
-        TaskForGroupName tTaskEntry = (TaskForGroupName) tGroups.get("GrDefault");
+        TaskForGroupName tTaskEntry = tGroups.get("GrDefault");
         assertNotNull(tTaskEntry);
         Task curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(4, curTask.getSubtaskCount());
@@ -116,7 +97,7 @@ public class TestFlowChartBarUtil extends TestCase
         assertEquals(75, curDuration.getStart().getTime() - START_TIME);
         assertEquals(106, curDuration.getEnd().getTime() - START_TIME);
 
-        tTaskEntry = (TaskForGroupName) tGroups.get("GrChild1");
+        tTaskEntry = tGroups.get("GrChild1");
         assertNotNull(tTaskEntry);
         curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(3, curTask.getSubtaskCount());
@@ -136,7 +117,7 @@ public class TestFlowChartBarUtil extends TestCase
         assertEquals(27, curDuration.getStart().getTime() - TestFlowUtils.START_TIME);
         assertEquals(45, curDuration.getEnd().getTime() - TestFlowUtils.START_TIME);
 
-        tTaskEntry = (TaskForGroupName) tGroups.get("GrChild2");
+        tTaskEntry = tGroups.get("GrChild2");
         assertNotNull(tTaskEntry);
         curTask = tTaskEntry.getMainTaskOfGroup();
         assertEquals(2, curTask.getSubtaskCount());
@@ -203,18 +184,18 @@ public class TestFlowChartBarUtil extends TestCase
         FlowChartBarUtil tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
-        // Un seul group à 2 entrées
+        // Un seul group ï¿½ 2 entrï¿½es
         tFirstMethod.removeChild(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
         tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
-        // 1 groupe à une entrée
+        // 1 groupe ï¿½ une entrï¿½e
         tFirstMethod = tFirstMethod.getChild(0);
         tUtil = new FlowChartBarUtil(tFirstMethod);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
 
-        // 2 groupe à une entrée
+        // 2 groupe ï¿½ une entrï¿½e
         tFirstMethod = getVerySimpleMeasurePoint();
         tFirstMethod.removeChild(0);
         tUtil = new FlowChartBarUtil(tFirstMethod);

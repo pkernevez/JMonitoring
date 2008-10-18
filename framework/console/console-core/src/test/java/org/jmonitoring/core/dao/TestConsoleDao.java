@@ -13,7 +13,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.stat.Statistics;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
@@ -115,53 +114,8 @@ public class TestConsoleDao extends PersistanceTestCase
         return tExecFlow;
     }
 
-    // public static ExecutionFlowPO buildNewFullFlow()
-    // {
-    // MethodCallPO tPoint;
-    // MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
-    // long tStartTime = System.currentTimeMillis();
-    //
-    // tPoint = new MethodCallPO(null, TestConsoleDao.class.getName(), "builNewFullFlow", "GrDefault", "[]");
-    // tPoint.setBeginTime(tStartTime); // 35
-    // tSubPoint = new MethodCallPO(tPoint, TestConsoleDao.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
-    // tSubPoint.setBeginTime(tStartTime + 2); // 3
-    // tSubPoint.setEndTime(tStartTime + 5);
-    // tSubPoint.setRuntimeClassName(TestConsoleDao.class.getName() + "iuiu");
-    //
-    // tSubPoint2 = new MethodCallPO(tPoint, TestConsoleDao.class.getName(), "builNewFullFlow3", "GrChild2",
-    // "[]");
-    // tSubPoint2.setBeginTime(tStartTime + 8);// 21
-    //
-    // tSubPoint3 = new MethodCallPO(tSubPoint2, TestConsoleDao.class.getName(), "builNewFullFlow3", "GrChild2",
-    // "[]");
-    // tSubPoint3.setBeginTime(tStartTime + 14);// 1
-    // tSubPoint3.setEndTime(tStartTime + 15);
-    //
-    // tSubPoint4 = new MethodCallPO(tSubPoint2, TestConsoleDao.class.getName(), "builNewFullFlow3", "GrChild2",
-    // "[]");
-    // tSubPoint4.setBeginTime(tStartTime + 16);// 12
-    //
-    // tSubPoint5 = new MethodCallPO(tSubPoint4, TestConsoleDao.class.getName(), "builNewFullFlow3", "GrChild2",
-    // "[]");
-    // tSubPoint5.setBeginTime(tStartTime + 26);// 1
-    // tSubPoint5.setEndTime(tStartTime + 27);
-    //
-    // tSubPoint4.setEndTime(tStartTime + 28);
-    // tSubPoint2.setEndTime(tStartTime + 29);
-    //
-    // tPoint.setEndTime(tStartTime + 35);
-    // ExecutionFlowPO tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
-    // tPoint.setMethId(new MethodCallPK(tFlow, 1));
-    // tSubPoint.setMethId(new MethodCallPK(tFlow, 2));
-    // tSubPoint2.setMethId(new MethodCallPK(tFlow, 3));
-    // tSubPoint3.setMethId(new MethodCallPK(tFlow, 4));
-    // tSubPoint4.setMethId(new MethodCallPK(tFlow, 5));
-    // tSubPoint5.setMethId(new MethodCallPK(tFlow, 6));
-    // return tFlow;
-    // }
-    //
     /**
-     * @todo S'assurer qu'une méthode VOID est bien loguée comme une méthode void.
+     * @todo S'assurer qu'une mï¿½thode VOID est bien loguï¿½e comme une mï¿½thode void.
      */
     public void testGetMethodCallOfTheFlow()
     {
@@ -210,8 +164,8 @@ public class TestConsoleDao extends PersistanceTestCase
         // Check equality of the first child measure point
         assertEquals(2, tInitialPoint.getChildren().size());
         assertEquals(2, tReadPoint.getChildren().size());
-        tInitialPoint = (MethodCallPO) tInitialPoint.getChildren().get(0);
-        tReadPoint = (MethodCallPO) tReadPoint.getChildren().get(0);
+        tInitialPoint = tInitialPoint.getChildren().get(0);
+        tReadPoint = tReadPoint.getChildren().get(0);
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
@@ -223,8 +177,8 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
         // Check equality of the second child measure point
-        tInitialPoint = (MethodCallPO) tInitialPoint.getParentMethodCall().getChildren().get(1);
-        tReadPoint = (MethodCallPO) tReadPoint.getParentMethodCall().getChildren().get(1);
+        tInitialPoint = tInitialPoint.getParentMethodCall().getChildren().get(1);
+        tReadPoint = tReadPoint.getParentMethodCall().getChildren().get(1);
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
@@ -245,7 +199,7 @@ public class TestConsoleDao extends PersistanceTestCase
         getSession().flush();
         getSession().clear();
 
-        MethodCallPO tInitialPoint = (MethodCallPO) tFlow.getFirstMethodCall().getChild(0);
+        MethodCallPO tInitialPoint = tFlow.getFirstMethodCall().getChild(0);
         MethodCallPO tReadPoint = tFlowDAO.readMethodCall(tFlow.getId(), tInitialPoint.getPosition());
         assertNotSame(tInitialPoint, tReadPoint);
 
@@ -267,8 +221,8 @@ public class TestConsoleDao extends PersistanceTestCase
         } catch (ObjectNotFoundException e)
         {
             assertEquals(
-                "No row with the given identifier exists: [org.jmonitoring.core.domain.MethodCallPO#FlowId=13 and Position=34]",
-                e.getMessage());
+                         "No row with the given identifier exists: [org.jmonitoring.core.domain.MethodCallPO#FlowId=13 and Position=34]",
+                         e.getMessage());
         }
     }
 
@@ -286,18 +240,18 @@ public class TestConsoleDao extends PersistanceTestCase
         tFlowDAO.insertFullExecutionFlow(tFlow);
         getSession().flush();
 
-        List tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
-        MethodCallExtractDTO curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(0);
+        List<MethodCallExtractDTO> tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
+        MethodCallExtractDTO curExtrat = tMeasureExtracts.get(0);
         assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow", curExtrat.getName());
         assertEquals("GrDefault", curExtrat.getGroupName());
         assertEquals(1, curExtrat.getOccurenceNumber());
 
-        curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(1);
+        curExtrat = tMeasureExtracts.get(1);
         assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow2", curExtrat.getName());
         assertEquals("GrChild1", curExtrat.getGroupName());
         assertEquals(1, curExtrat.getOccurenceNumber());
 
-        curExtrat = (MethodCallExtractDTO) tMeasureExtracts.get(2);
+        curExtrat = tMeasureExtracts.get(2);
         assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow3", curExtrat.getName());
         assertEquals("GrChild2", curExtrat.getGroupName());
         assertEquals(4, curExtrat.getOccurenceNumber());

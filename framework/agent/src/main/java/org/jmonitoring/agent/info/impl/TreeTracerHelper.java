@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,9 +19,12 @@ public final class TreeTracerHelper
 {
     private static Log sLog = LogFactory.getLog(TreeTracerHelper.class);
 
-    private static Map sListOfGetterCache = new Hashtable();
+    private static Map<Class<?>, List<Method>> sListOfGetterCache = new Hashtable<Class<?>, List<Method>>();
 
-    private Set mObjectAlreadyTrace = new HashSet();
+    /**
+     * The list of all entities that have already been traced by this instance. This is for preventing infinite loops.
+     */
+    private final Set<Object> mObjectAlreadyTrace = new HashSet<Object>();
 
     private int mMaxDepth = 0;
 
@@ -40,24 +42,24 @@ public final class TreeTracerHelper
         return mNbEntity;
     }
 
-    public void traceObjectTree(StringBuffer pBuffer, Object pObject)
+    public void traceObjectTree(StringBuilder pBuffer, Object pObject)
     {
         traceObjectTree("", pBuffer, pObject);
     }
 
-    private void traceObjectTree(String pIndent, StringBuffer pBuffer, Object pObject)
+    private void traceObjectTree(String pIndent, StringBuilder pBuffer, Object pObject)
     {
         if (pObject != null)
         {
             if (pObject instanceof List)
             {
-                traceList(pIndent, pBuffer, (List) pObject);
+                traceList(pIndent, pBuffer, (List<?>) pObject);
             } else if (pObject instanceof Set)
             {
-                traceSet(pIndent, pBuffer, (Set) pObject);
+                traceSet(pIndent, pBuffer, (Set<?>) pObject);
             } else if (pObject instanceof Map)
             {
-                traceMap(pIndent, pBuffer, (Map) pObject);
+                traceMap(pIndent, pBuffer, (Map<?, ?>) pObject);
             } else if (pObject instanceof Collection)
             {
                 sLog.error("Collection type not yet implemented... Class=[" + pObject.getClass().getName());
@@ -71,7 +73,7 @@ public final class TreeTracerHelper
         }
     }
 
-    void traceArray(String pIndent, StringBuffer pBuffer, Object pArray)
+    void traceArray(String pIndent, StringBuilder pBuffer, Object pArray)
     {
         String tNewIndent;
         if (mObjectAlreadyTrace.contains(pArray))
@@ -90,7 +92,7 @@ public final class TreeTracerHelper
         }
     }
 
-    void traceList(String pIndent, StringBuffer pBuffer, List pList)
+    void traceList(String pIndent, StringBuilder pBuffer, List<?> pList)
     {
         String tNewIndent;
         if (mObjectAlreadyTrace.contains(pList))
@@ -109,28 +111,22 @@ public final class TreeTracerHelper
         }
     }
 
-    void traceSet(String pIndent, StringBuffer pBuffer, Set pSet)
+    void traceSet(String pIndent, StringBuilder pBuffer, Set<?> pSet)
     {
         String tNewIndent;
-        // if (mObjectAlreadyTrace.contains(pSet))
-        // {
-        // pBuffer.append("[ALDEADY DONE!] " + Set.class.getName() + "\n");
-        // } else
-        // {
         pBuffer.append(Set.class.getName() + "\n");
         mObjectAlreadyTrace.add(pSet);
         int i = 0;
-        for (Iterator tIt = pSet.iterator(); tIt.hasNext();)
+        for (Object tObject : pSet)
         {
             pBuffer.append(pIndent + "  |-- pos" + (i + 1) + " --> ");
             tNewIndent = pIndent + "  |" + getSpaceInsteadOfInt(i + 1) + "           ";
-            traceObjectTree(tNewIndent, pBuffer, tIt.next());
+            traceObjectTree(tNewIndent, pBuffer, tObject);
             i++;
         }
-        // }
     }
 
-    void traceMap(String pIndent, StringBuffer pBuffer, Map pMap)
+    void traceMap(String pIndent, StringBuilder pBuffer, Map<?, ?> pMap)
     {
         String tNewIndent;
         if (mObjectAlreadyTrace.contains(pMap))
@@ -141,20 +137,21 @@ public final class TreeTracerHelper
             pBuffer.append(Map.class.getName() + "\n");
             mObjectAlreadyTrace.add(pMap);
             int i = 0;
-            for (Iterator tIt = pMap.values().iterator(); tIt.hasNext();)
+            for (Object tObject : pMap.values())
             {
                 pBuffer.append(pIndent + "  |-- pos" + (i + 1) + " --> ");
                 tNewIndent = pIndent + "  |" + getSpaceInsteadOfInt(i + 1) + "           ";
-                traceObjectTree(tNewIndent, pBuffer, tIt.next());
+                traceObjectTree(tNewIndent, pBuffer, tObject);
                 i++;
             }
         }
     }
 
+    // TODO make an optimization with static final field for the 10 first value and computation for others
     static String getSpaceInsteadOfInt(int pI)
     {
         int tSize = ("" + pI).length();
-        StringBuffer tBuf = new StringBuffer();
+        StringBuilder tBuf = new StringBuilder();
         for (int i = 0; i < tSize; i++)
         {
             tBuf.append(" ");
@@ -162,7 +159,7 @@ public final class TreeTracerHelper
         return tBuf.toString();
     }
 
-    void traceBizObject(String pIndent, StringBuffer pBuffer, Object pObject)
+    void traceBizObject(String pIndent, StringBuilder pBuffer, Object pObject)
     {
         if (mObjectAlreadyTrace.contains(pObject))
         {
@@ -176,16 +173,13 @@ public final class TreeTracerHelper
             pBuffer.append(pObject.getClass().getName() + "\n");
             String tNewIndent = pIndent + "  |";
             String tLocalIndent;
-            List tListOfGetters = getListOfGetters(pObject.getClass());
-            Method tMeth;
+            List<Method> tListOfGetters = getListOfGetters(pObject.getClass());
             Object curChild;
-            for (Iterator tIt = tListOfGetters.iterator(); tIt.hasNext();)
+            for (Method tMeth : tListOfGetters)
             {
-                tMeth = (Method) tIt.next();
                 try
                 {
                     tLocalIndent = tNewIndent;
-                    // +getSpaceInsteadOfInt(tMeth.getName().length());
                     curChild = tMeth.invoke(pObject, new Object[0]);
                     if (curChild != null)
                     {
@@ -208,17 +202,19 @@ public final class TreeTracerHelper
     }
 
     /**
-     * @param pClass
-     * @return
+     * Return the list of getter for the specified class.
+     * 
+     * @param pClass The class for which we need accessors.
+     * @return The list of accessors <code>method</code>.
      */
-    static List getListOfGetters(Class pClass)
+    static List<Method> getListOfGetters(Class<?> pClass)
     {
-        List tResult = (List) sListOfGetterCache.get(pClass);
+        List<Method> tResult = sListOfGetterCache.get(pClass);
 
         if (tResult == null)
         {
             Method[] tMethods = pClass.getMethods();
-            tResult = new ArrayList();
+            tResult = new ArrayList<Method>();
             Method curMethod;
             for (int i = 0; i < tMethods.length; i++)
             {
@@ -226,14 +222,13 @@ public final class TreeTracerHelper
                 if ((curMethod.getModifiers() & Modifier.STATIC) == 0)
                     if (curMethod.getName().startsWith("get"))
                     {
-                        Class tReturnClass = curMethod.getReturnType();
+                        Class<?> tReturnClass = curMethod.getReturnType();
                         if (!tReturnClass.isPrimitive() && curMethod.getParameterTypes().length == 0)
                         {
-                            boolean tIsBizClass = !tReturnClass.getName().startsWith("sun.")
-                                && !tReturnClass.getName().startsWith("java");
-                            tIsBizClass = tIsBizClass
-                                || (Collection.class.isAssignableFrom(tReturnClass)
-                                    || Map.class.isAssignableFrom(tReturnClass) || Object.class.equals(tReturnClass));
+                            boolean tIsBizClass = !tReturnClass.getName().startsWith("sun.") && !tReturnClass.getName()
+                                            .startsWith("java");
+                            tIsBizClass = tIsBizClass || (Collection.class.isAssignableFrom(tReturnClass) || Map.class
+                                            .isAssignableFrom(tReturnClass) || Object.class.equals(tReturnClass));
                             if (tIsBizClass)
                             {
                                 tResult.add(curMethod);

@@ -24,7 +24,7 @@ public class TestInsertionDao extends PersistanceTestCase
         ExecutionFlowPO tFlow = new ExecutionFlowPO();
         getSession().save(tFlow);
         MethodCallPO tMethodCall = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
-            "GrDefault", "[]");
+                                                    "GrDefault", "[]");
         tMethodCall.setMethId(new MethodCallPK(tFlow, 0));
         getSession().save(tMethodCall);
         getSession().flush();
@@ -41,13 +41,13 @@ public class TestInsertionDao extends PersistanceTestCase
         ExecutionFlowPO tFlow = new ExecutionFlowPO();
         getSession().save(tFlow);
         MethodCallPO tMethodCall1 = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
-            "GrDefault", "[]");
+                                                     "GrDefault", "[]");
         tMethodCall1.setMethId(new MethodCallPK(tFlow, 1));
         MethodCallPO tMethodCall2 = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
-            "GrDefault", "[]");
+                                                     "GrDefault", "[]");
         tMethodCall2.setMethId(new MethodCallPK(tFlow, 2));
         MethodCallPO tMethodCall3 = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
-            "GrDefault", "[]");
+                                                     "GrDefault", "[]");
         tMethodCall3.setMethId(new MethodCallPK(tFlow, 3));
         tMethodCall1.addChildren(tMethodCall2);
         tMethodCall1.addChildren(tMethodCall3);
@@ -70,13 +70,13 @@ public class TestInsertionDao extends PersistanceTestCase
         ExecutionFlowPO tFlow = new ExecutionFlowPO();
         getSession().save(tFlow);
         MethodCallPO tMethodCall1 = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
-            "GrDefault", "[]");
+                                                     "GrDefault", "[]");
         tMethodCall1.setMethId(new MethodCallPK(tFlow, 0));
         getSession().save(tMethodCall1);
         getSession().flush();
 
         MethodCallPO tMethodCall2 = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
-            "GrDefault", "[]");
+                                                     "GrDefault", "[]");
         tMethodCall2.setMethId(new MethodCallPK(tFlow, 1));
         getSession().save(tMethodCall2);
         getSession().flush();
@@ -102,11 +102,11 @@ public class TestInsertionDao extends PersistanceTestCase
 
         getSession().clear();
         MethodCallPO tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class,
-            new MethodCallPK(tFlow, tMethodCall1.getPosition()));
+                                                                  new MethodCallPK(tFlow, tMethodCall1.getPosition()));
         assertNotSame(tMethodCall1, tTempMeth);
         tMethodCall1 = tTempMeth;
         tTempMeth = (MethodCallPO) getSession().load(MethodCallPO.class,
-            new MethodCallPK(tFlow, tMethodCall2.getPosition()));
+                                                     new MethodCallPK(tFlow, tMethodCall2.getPosition()));
         assertNotSame(tMethodCall2, tTempMeth);
         tMethodCall2 = tTempMeth;
         assertNull(tMethodCall1.getParentMethodCall());
@@ -123,11 +123,12 @@ public class TestInsertionDao extends PersistanceTestCase
         return ((Integer) tResult).intValue();
     }
 
-    /** @todo Passer les requêtes en Query externe */
+    /** @todo Passer les requï¿½tes en Query externe */
     private int countMethodsWithParent()
     {
-        SQLQuery tQuery = getSession().createSQLQuery(
-            "Select Count(*) as myCount From METHOD_CALL Where PARENT_INDEX_IN_FLOW IS NOT NULL");
+        SQLQuery tQuery = getSession()
+                                      .createSQLQuery(
+                                                      "Select Count(*) as myCount From METHOD_CALL Where PARENT_INDEX_IN_FLOW IS NOT NULL");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         return ((Integer) tResult).intValue();
     }
@@ -139,7 +140,7 @@ public class TestInsertionDao extends PersistanceTestCase
         ExecutionFlowPO tFlow = new ExecutionFlowPO();
         getSession().save(tFlow);
         MethodCallPO tMethodCall = new MethodCallPO(null, TestInsertionDao.class.getName(), "builNewFullFlow",
-            "GrDefault", "[]");
+                                                    "GrDefault", "[]");
         tMethodCall.setMethId(new MethodCallPK(tFlow, 0));
         getSession().save(tMethodCall);
         getSession().flush();
@@ -147,14 +148,14 @@ public class TestInsertionDao extends PersistanceTestCase
         int tNewResult = countMethods();
         assertEquals(tOldResult + 1, tNewResult);
         assertStatistics(MethodCallPO.class, 1, 0, 0, 0);
-        
-        
+
         Statement tStat = getSession().connection().createStatement();
-        ResultSet tSet = tStat.executeQuery("SELECT CONVERT(123, int),DATEDIFF('ss', BEGIN_TIME_AS_DATE, BEGIN_TIME_AS_DATE)+1 As MonCalcul FROM EXECUTION_FLOW "+
-            "WHERE SUBSTR('AZERTY', MonCalcul, 4)='AZER'");
+        ResultSet tSet = tStat
+                              .executeQuery("SELECT CONVERT(123, int)," + "DATEDIFF('ss', BEGIN_TIME_AS_DATE, BEGIN_TIME_AS_DATE)+1 "
+                                              + "As MonCalcul FROM EXECUTION_FLOW ");
         tSet.next();
-        assertEquals( 123, tSet.getInt(1));
-        assertEquals( 1, tSet.getInt(2));
+        assertEquals(123, tSet.getInt(1));
+        assertEquals(1, tSet.getInt(2));
     }
 
 }

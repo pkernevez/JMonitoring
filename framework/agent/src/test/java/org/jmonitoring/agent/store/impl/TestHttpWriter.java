@@ -23,8 +23,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestHttpWriter extends TestCase
-{
+public class TestHttpWriter extends TestCase {
 
     protected static final Log sLog = LogFactory.getLog(TestHttpWriter.class);
 
@@ -32,32 +31,27 @@ public class TestHttpWriter extends TestCase
 
     private String mRequest;
 
-    public void testWriteExecutionFlow() throws InterruptedException, IOException
-    {
+    public void testWriteExecutionFlow() throws InterruptedException, IOException {
         ConfigurationHelper.setProperty(HttpWriter.HOSTNAME, "localhost");
         ConfigurationHelper.setProperty(HttpWriter.PORT, "83");
         startServer();
-        StoreManager.changeStoreManagerClass(HttpWriter.class);
+        StoreManager.changeStoreWriterClass(HttpWriter.class);
         HttpWriter.configure();
         ExecutionFlowPO tFlow = buildNewFullFlow();
-//         for (int i = 0; i < 200; i++)
-//         {
+        // for (int i = 0; i < 200; i++)
+        // {
         StoreFactory.getWriter().writeExecutionFlow(tFlow);
-//         }
+        // }
         Thread.sleep(5000);
-        assertEquals("POST /console-web/Store.do HTTP/1.1\r\n" + "Content-Type: JMonitoring/flow\r\n"+ "User-Agent: Jakarta Commons-HttpClient/3.1-rc1\r\n"
-            + "Host: localhost:83\r\n" + "Transfer-Encoding: chunked\r\n\r" ,
-            mRequest);
+        assertEquals("POST /console-web/Store.do HTTP/1.1\r\n" + "Content-Type: JMonitoring/flow\r\n"
+                + "User-Agent: Jakarta Commons-HttpClient/3.1-rc1\r\n" + "Host: localhost:83\r\n"
+                + "Transfer-Encoding: chunked\r\n\r", mRequest);
     }
 
-    private void startServer() throws IOException
-    {
-        Runnable tRun = new Runnable()
-        {
-            public void run()
-            {
-                try
-                {
+    private void startServer() throws IOException {
+        Runnable tRun = new Runnable() {
+            public void run() {
+                try {
                     sLog.info("Server start on port 83");
                     ServerSocket tServerSock;
                     tServerSock = ServerSocketFactory.getDefault().createServerSocket(83);
@@ -67,8 +61,7 @@ public class TestHttpWriter extends TestCase
                     StringBuffer tBuf = new StringBuffer();
                     boolean tIsActive = true;
                     int[] tLastRead = new int[4];
-                    while (tRead != -1 && tIsActive)
-                    {
+                    while (tRead != -1 && tIsActive) {
                         tBuf.append((char) tRead);
                         tRead = tIn.read();
                         tIsActive = checkActive(tRead, tLastRead);
@@ -83,17 +76,14 @@ public class TestHttpWriter extends TestCase
                     tSocket.close();
                     Thread.sleep(100);
                     tServerSock.close();
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     error = e.getMessage();
-                } catch (InterruptedException e)
-                {
+                } catch (InterruptedException e) {
                     error = e.getMessage();
                 }
             }
 
-            private boolean checkActive(int read, int[] lastRead)
-            {
+            private boolean checkActive(int read, int[] lastRead) {
                 lastRead[0] = lastRead[1];
                 lastRead[1] = lastRead[2];
                 lastRead[2] = lastRead[3];
@@ -106,8 +96,7 @@ public class TestHttpWriter extends TestCase
         tThread.start();
     }
 
-    public static ExecutionFlowPO buildNewFullFlow()
-    {
+    public static ExecutionFlowPO buildNewFullFlow() {
         MethodCallPO tPoint;
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();

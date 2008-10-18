@@ -15,8 +15,7 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public abstract class SamplePersistenceTestcase extends PersistanceTestCase
-{
+public abstract class SamplePersistenceTestcase extends PersistanceTestCase {
     protected Session mSampleSession;
 
     private Transaction mSampleTransaction;
@@ -25,8 +24,7 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase
 
     private static Log sLog = LogFactory.getLog(SamplePersistenceTestcase.class);
 
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         StoreManager.clear();
         MemoryStoreWriter.clear();
@@ -38,31 +36,23 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase
         SampleHibernateManager.createSchema();
     }
 
-    protected void tearDown() throws Exception
-    {
-        try
-        {
-            try
-            {
+    protected void tearDown() throws Exception {
+        try {
+            try {
                 SampleHibernateManager.dropSchema();
                 mSampleTransaction.rollback();
-            } finally
-            {
+            } finally {
                 mSampleSession.close();
                 sLog.info("Hibernate Session Closed");
             }
-        } finally
-        {
+        } finally {
             super.tearDown();
         }
     }
 
-    public void closeAndRestartSampleSession()
-    {
-        if (mSampleSession.isOpen())
-        {
-            if (mSampleTransaction.isActive())
-            {
+    public void closeAndRestartSampleSession() {
+        if (mSampleSession.isOpen()) {
+            if (mSampleTransaction.isActive()) {
                 mSampleTransaction.commit();
             }
             mSampleSession.close();
@@ -72,13 +62,11 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase
         mSampleTransaction = mSampleSession.beginTransaction();
     }
 
-    public Session getSampleSession()
-    {
+    public Session getSampleSession() {
         return mSampleSession;
     }
 
-    public Statistics getSampleStats()
-    {
+    public Statistics getSampleStats() {
         return mSampleStats;
     }
 

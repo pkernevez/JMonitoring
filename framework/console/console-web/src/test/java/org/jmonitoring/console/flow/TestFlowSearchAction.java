@@ -16,15 +16,13 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
  * @author pke
  * 
  */
-public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
-{
+public class TestFlowSearchAction extends JMonitoringMockStrustTestCase {
     /**
      * Test class.
      * 
      * @throws ParseException Exception.
      */
-    public void testCopyBeanFormToCriterion() throws ParseException
-    {
+    public void testCopyBeanFormToCriterion() throws ParseException {
         FlowSearchForm tForm = new FlowSearchForm();
         tForm.setBeginDate("27/09/05");
         tForm.setBeginTimeMin("11:30:34");
@@ -32,12 +30,12 @@ public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
         tForm.setFirstMeasureClassName("net.test.Class");
         tForm.setFirstMeasureGroupName("myGroup");
         tForm.setFirstMeasureMethodName("myTest");
-        tForm.setJVM("my server n°2");
+        tForm.setJVM("my server nï¿½2");
         tForm.setThreadName("MainThread");
 
         FlowSearchCriterion tCrit = FlowSearchActionOut.copyBeanFormToCriterion(tForm);
         assertEquals("27/09/05", ConfigurationHelper.formatDate(tCrit.getBeginDate()));
-        //Format Date only ??
+        // Format Date only ??
         assertEquals("11:30:34", ConfigurationHelper.formatTime(tCrit.getBeginTimeMin()));
         assertEquals(new Long(2 + 1), tCrit.getDurationMin());
         assertEquals(tForm.getFirstMeasureClassName(), tCrit.getClassName());
@@ -60,8 +58,7 @@ public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
 
     }
 
-    public void testActionSearchOutWithCriteria()
-    {
+    public void testActionSearchOutWithCriteria() {
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
         tUtil.buildAndSaveNewDto(3);
@@ -85,13 +82,12 @@ public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
         assertEquals(1, tForm.getListOfFlows().size());
         ExecutionFlowDTO tFlow = (ExecutionFlowDTO) tForm.getListOfFlows().get(0);
 
-        // On ne ramène pas les grappes d'objets, mais seulement les ExecutionFlowDto
+        // On ne ramï¿½ne pas les grappes d'objets, mais seulement les ExecutionFlowDto
         assertNull(tFlow.getFirstMethodCall());
         // assertEquals(3, tFlow.getFirstMethodCall().getChildren().size());
     }
 
-    public void testActionSearchIn()
-    {
+    public void testActionSearchIn() {
         setRequestPathInfo("/FlowSearchIn");
         actionPerform();
         verifyForwardPath("/pages/layout/layout.jsp");

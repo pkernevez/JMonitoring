@@ -6,7 +6,7 @@ package org.jmonitoring.console.methodcall.search;
  **************************************************************************/
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ import org.jmonitoring.core.dto.MethodCallExtractDTO;
 public class MethodCallUtil
 {
 
-    private StringBuffer mWriter;
+    private final StringBuffer mWriter;
 
     private static Log sLog = LogFactory.getLog(MethodCallUtil.class);
 
@@ -37,6 +37,7 @@ public class MethodCallUtil
         mWriter = new StringBuffer();
     }
 
+    @Override
     public String toString()
     {
         return mWriter.toString();
@@ -45,26 +46,35 @@ public class MethodCallUtil
     /**
      * Write the list of Measure as an Html Tree.
      */
-    public void writeMeasureListAsMenu(Map pListOfAllExtractByFullName, Map pTreeOfExtract)
+    @SuppressWarnings("unchecked")
+    public void writeMeasureListAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
+                    MyMap pTreeOfExtract)
     {
         if (pTreeOfExtract.size() == 0)
         {
             mWriter.append("No Measure Found");
         } else
         {
-            Map.Entry curEntry;
             mWriter.append("<ul id=\"menuList\">");
             int tLastId = 0;
-            for (Iterator tIt = pTreeOfExtract.entrySet().iterator(); tIt.hasNext();)
+            for (Map.Entry<String, MyMap> curEntry : pTreeOfExtract.entrySet())
             {
-                curEntry = (Map.Entry) tIt.next();
                 mWriter.append("<li class=\"menubar\">");
-                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList(), (Map) curEntry.getValue(),
-                    (String) curEntry.getKey(), true, tLastId + 1);
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList<String>(),
+                                curEntry.getValue(), curEntry.getKey(), true, tLastId + 1);
                 mWriter.append("</li>");
             }
             mWriter.append("</ul>");
         }
+    }
+
+    public static interface MyMap extends Map<String, MyMap>
+    {
+    }
+
+    public static class MyHashMap extends HashMap<String, MyMap> implements MyMap
+    {
+        private static final long serialVersionUID = 1L;
     }
 
     /**
@@ -79,15 +89,16 @@ public class MethodCallUtil
      * @param pLastId The technical identifier to use for the next generation.
      * @return The last technical identifier used.
      */
-    int writeMeasuresAsMenu(Map pListOfAllExtractByFullName, List pCurrentClassName, Map pTreeOfMeasure,
-                    String pCurNodeName, boolean pFirstLevel, int pLastId)
+    int writeMeasuresAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
+                    List<String> pCurrentClassName, MyMap pTreeOfMeasure, String pCurNodeName, boolean pFirstLevel,
+                    int pLastId)
     {
         int tLastId = pLastId;
         if (pTreeOfMeasure.size() > 0)
-        { // On crée un sous menu
+        { // Create sub menu
             String tClassName;
             if (pFirstLevel)
-            { // Firsttime
+            { // First time
                 tClassName = "menu";
                 // We add the current node to class name
                 pCurrentClassName.add(pCurNodeName);
@@ -100,28 +111,28 @@ public class MethodCallUtil
             }
             mWriter.append("<a href=\"#\" id=\"" + tLastId + "Actuator\"");
             mWriter.append(" class=\"actuator\">" // + tReturnImage
-                + pCurNodeName + "</a>\n");
+                            + pCurNodeName
+                            + "</a>\n");
             mWriter.append("  <ul id=\"" + tLastId + "Menu\" class=\"" + tClassName + "\">\n");
-            Map.Entry curEntry;
-            for (Iterator tIterator = pTreeOfMeasure.entrySet().iterator(); tIterator.hasNext();)
+            for (Map.Entry<String, MyMap> curEntry : pTreeOfMeasure.entrySet())
             {
-                curEntry = (Map.Entry) tIterator.next();
-                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName,
-                    (Map) curEntry.getValue(), (String) curEntry.getKey(), false, ++tLastId);
+                // TODO Remove this cast with safe type ...
+                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName, curEntry.getValue(),
+                                curEntry.getKey(), false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
             if (pFirstLevel)
-            { // Secondtime or more
+            { // Second time or more
                 mWriter.append("</li>\n");
             }
             // Remove the current node to className
             pCurrentClassName.remove(pCurrentClassName.size() - 1);
         } else
         {
-            // Génération du lien vers les statistiques
+            // Generation of the hyper-link to the statistics
             StringBuffer tLinkStat = new StringBuffer();
             MethodCallExtractDTO tExtract = getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName,
-                pCurNodeName);
+                            pCurNodeName);
             tLinkStat.append("<li><span title=\"GroupName=[").append(tExtract.getGroupName());
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
@@ -136,24 +147,22 @@ public class MethodCallUtil
         return tLastId++;
     }
 
-    private MethodCallExtractDTO getExtractForThisNode(Map pListOfAllExtractByFullName, List pClassNameAsString,
-                    String pCurrentNodeName)
+    private MethodCallExtractDTO getExtractForThisNode(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
+                    List<String> pClassNameAsString, String pCurrentNodeName)
     {
         // Calculation of the full name
-        StringBuffer tBuffer = new StringBuffer();
-        for (Iterator tIt = pClassNameAsString.iterator(); tIt.hasNext();)
+        StringBuilder tBuffer = new StringBuilder();
+        for (String tClass : pClassNameAsString)
         {
-            tBuffer.append(tIt.next());
+            tBuffer.append(tClass);
         }
         tBuffer.append(".").append(pCurrentNodeName);
         // Now return the extract for this name
-        MethodCallExtractDTO tResult = (MethodCallExtractDTO) pListOfAllExtractByFullName.get(tBuffer.toString());
+        MethodCallExtractDTO tResult = pListOfAllExtractByFullName.get(tBuffer.toString());
         if (tResult == null)
         {
             sLog.error("Unable to find Method Call with Key=[" + tBuffer.toString() + "]");
         }
         return tResult;
     }
-
-
 }

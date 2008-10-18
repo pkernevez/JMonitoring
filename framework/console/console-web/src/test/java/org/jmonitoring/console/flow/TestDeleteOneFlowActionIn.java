@@ -7,10 +7,8 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestDeleteOneFlowActionIn extends JMonitoringMockStrustTestCase
-{
-    public void testDeleteAllFlowsInOk()
-    {
+public class TestDeleteOneFlowActionIn extends JMonitoringMockStrustTestCase {
+    public void testDeleteAllFlowsInOk() {
 
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
@@ -32,8 +30,7 @@ public class TestDeleteOneFlowActionIn extends JMonitoringMockStrustTestCase
         assertEquals(1, tUtil.countFlows());
     }
 
-    public void testDeleteAllFlowsInBadId()
-    {
+    public void testDeleteAllFlowsInBadId() {
 
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();
@@ -52,7 +49,7 @@ public class TestDeleteOneFlowActionIn extends JMonitoringMockStrustTestCase
         setActionForm(tForm);
         actionPerform();
         verifyForwardPath("/pages/functionalError.jsp");
-        verifyActionErrors(new String[] {"errors.executionflow.notfound" });
+        verifyActionErrors(new String[] { "errors.executionflow.notfound" });
 
         closeAndRestartSession();
         assertEquals(2, tUtil.countFlows());

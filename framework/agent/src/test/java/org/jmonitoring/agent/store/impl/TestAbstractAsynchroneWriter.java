@@ -17,49 +17,46 @@ import org.jmonitoring.core.store.impl.MockAbstractAsynchroneLogger;
  * @author pke
  * 
  */
-public class TestAbstractAsynchroneWriter extends TestCase
-{
+public class TestAbstractAsynchroneWriter extends TestCase {
 
     private static final int TIME_TO_WAIT = 5000;
 
     private static final int NB_FLOW_TO_LOG = 100;
 
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         MockAbstractAsynchroneLogger.resetNbLog();
         MockAbstractAsynchroneLogger.resetNbPublish();
     }
 
-    public static ExecutionFlowPO buildNewFullFlow()
-    {
+    public static ExecutionFlowPO buildNewFullFlow() {
         MethodCallPO tPoint;
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();
 
         tPoint = new MethodCallPO(null, TestAbstractAsynchroneWriter.class.getName(), "builNewFullFlow", "GrDefault",
-            "[]");
+                "[]");
         tPoint.setBeginTime(tStartTime); // 35
         tSubPoint = new MethodCallPO(tPoint, TestAbstractAsynchroneWriter.class.getName(), "builNewFullFlow2",
-            "GrChild1", "[]");
+                "GrChild1", "[]");
         tSubPoint.setBeginTime(tStartTime + 2); // 3
         tSubPoint.setEndTime(tStartTime + 5);
         tSubPoint.setRuntimeClassName(TestAbstractAsynchroneWriter.class.getName() + "iuiu");
 
         tSubPoint2 = new MethodCallPO(tPoint, TestAbstractAsynchroneWriter.class.getName(), "builNewFullFlow3",
-            "GrChild2", "[]");
+                "GrChild2", "[]");
         tSubPoint2.setBeginTime(tStartTime + 8);// 21
 
         tSubPoint3 = new MethodCallPO(tSubPoint2, TestAbstractAsynchroneWriter.class.getName(), "builNewFullFlow3",
-            "GrChild2", "[]");
+                "GrChild2", "[]");
         tSubPoint3.setBeginTime(tStartTime + 14);// 1
         tSubPoint3.setEndTime(tStartTime + 15);
 
         tSubPoint4 = new MethodCallPO(tSubPoint2, TestAbstractAsynchroneWriter.class.getName(), "builNewFullFlow3",
-            "GrChild2", "[]");
+                "GrChild2", "[]");
         tSubPoint4.setBeginTime(tStartTime + 16);// 12
 
         tSubPoint5 = new MethodCallPO(tSubPoint4, TestAbstractAsynchroneWriter.class.getName(), "builNewFullFlow3",
-            "GrChild2", "[]");
+                "GrChild2", "[]");
         tSubPoint5.setBeginTime(tStartTime + 26);// 1
         tSubPoint5.setEndTime(tStartTime + 27);
 
@@ -82,16 +79,14 @@ public class TestAbstractAsynchroneWriter extends TestCase
      * 
      * @throws InterruptedException ff
      */
-    public void testAsynchronePublication() throws InterruptedException
-    {
+    public void testAsynchronePublication() throws InterruptedException {
         // Check the count
         assertEquals(0, MockAbstractAsynchroneLogger.getNbPublish());
         assertEquals(0, MockAbstractAsynchroneLogger.getNbLog());
 
         IStoreWriter tWriter = new MockAbstractAsynchroneLogger();
         // Log NB_FLOW_TO_LOG
-        for (int i = 0; i < NB_FLOW_TO_LOG; i++)
-        {
+        for (int i = 0; i < NB_FLOW_TO_LOG; i++) {
             tWriter.writeExecutionFlow(buildNewFullFlow());
         }
         assertEquals(NB_FLOW_TO_LOG, MockAbstractAsynchroneLogger.getNbPublish());

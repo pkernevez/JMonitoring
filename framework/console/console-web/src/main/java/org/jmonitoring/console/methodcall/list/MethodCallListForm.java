@@ -3,6 +3,7 @@ package org.jmonitoring.console.methodcall.list;
 import java.util.List;
 
 import org.apache.struts.action.ActionForm;
+import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -14,6 +15,8 @@ import org.apache.struts.action.ActionForm;
  */
 public class MethodCallListForm extends ActionForm
 {
+    private static final long serialVersionUID = -5052343277856620291L;
+
     private String mClassName;
 
     private String mMethodName;
@@ -22,7 +25,7 @@ public class MethodCallListForm extends ActionForm
 
     private int mDurationMax;
 
-    private List mSearchResult;
+    private List<MethodCallFullExtractDTO> mSearchResult;
 
     /**
      * @return Returns the className.
@@ -91,7 +94,7 @@ public class MethodCallListForm extends ActionForm
     /**
      * @return Returns the searchResult.
      */
-    public List getSearchResult()
+    public List<MethodCallFullExtractDTO> getSearchResult()
     {
         return mSearchResult;
     }
@@ -99,7 +102,7 @@ public class MethodCallListForm extends ActionForm
     /**
      * @param pSearchResult The searchResult to set.
      */
-    public void setSearchResult(List pSearchResult)
+    public void setSearchResult(List<MethodCallFullExtractDTO> pSearchResult)
     {
         mSearchResult = pSearchResult;
     }

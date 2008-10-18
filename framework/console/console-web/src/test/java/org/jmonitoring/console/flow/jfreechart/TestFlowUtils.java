@@ -87,10 +87,10 @@ public class TestFlowUtils extends TestCase
     {
         FlowUtil tUtil = new FlowUtil();
         tUtil.addTimeWith(getSampleMeasurePoint());
-        Map tMap = tUtil.getListOfGroup();
-        assertEquals(new Long(40), tMap.get("GrDefault"));
-        assertEquals(new Long(27), tMap.get("GrChild1"));
-        assertEquals(new Long(39), tMap.get("GrChild2"));
+        Map<String, Integer> tMap = tUtil.getListOfGroup();
+        assertEquals(40, (int) tMap.get("GrDefault"));
+        assertEquals(27, (int) tMap.get("GrChild1"));
+        assertEquals(39, (int) tMap.get("GrChild2"));
         assertEquals(106, 40 + 27 + 39);
     }
 
@@ -98,10 +98,10 @@ public class TestFlowUtils extends TestCase
     {
         FlowUtil tUtil = new FlowUtil();
         tUtil.addNbCallWith(getSampleMeasurePoint());
-        Map tMap = tUtil.getListOfGroup();
-        assertEquals(new Integer(2), tMap.get("GrDefault"));
-        assertEquals(new Integer(1), tMap.get("GrChild1"));
-        assertEquals(new Integer(2), tMap.get("GrChild2"));
+        Map<String, Integer> tMap = tUtil.getListOfGroup();
+        assertEquals(2, (int) tMap.get("GrDefault"));
+        assertEquals(1, (int) tMap.get("GrChild1"));
+        assertEquals(2, (int) tMap.get("GrChild2"));
     }
 
 }

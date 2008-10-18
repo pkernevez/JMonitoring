@@ -8,6 +8,7 @@ package org.jmonitoring.console.flow;
 import java.util.List;
 
 import org.apache.struts.action.ActionForm;
+import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 /**
  * Formbean associated to the search criterion.
@@ -36,8 +37,8 @@ public class FlowSearchForm extends ActionForm
     /** JVM identifier. */
     private String mJVM;
 
-    /** Liste de résultat en cours. */
-    private List mListOfFlows;
+    /** Liste de rï¿½sultat en cours. */
+    private List<ExecutionFlowDTO> mListOfFlows;
 
     /** Name of the class of the first measure. */
     private String mFirstMeasureClassName;
@@ -51,7 +52,7 @@ public class FlowSearchForm extends ActionForm
     /**
      * @return Returns the mListOfFlows.
      */
-    public List getListOfFlows()
+    public List<ExecutionFlowDTO> getListOfFlows()
     {
         return mListOfFlows;
     }
@@ -59,7 +60,7 @@ public class FlowSearchForm extends ActionForm
     /**
      * @param pListOfFlows The mListOfFlows to set.
      */
-    public void setListOfFlows(List pListOfFlows)
+    public void setListOfFlows(List<ExecutionFlowDTO> pListOfFlows)
     {
         mListOfFlows = pListOfFlows;
     }

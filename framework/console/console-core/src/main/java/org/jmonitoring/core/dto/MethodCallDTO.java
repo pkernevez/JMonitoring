@@ -8,7 +8,6 @@ package org.jmonitoring.core.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.jmonitoring.core.configuration.ColorHelper;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /**
@@ -34,19 +33,19 @@ public class MethodCallDTO implements Serializable
     /** Position of the Child. */
     private int mChildPosition;
 
-    /** Lien sur le père de ce point dans la hierachie d'appel. */
+    /** Lien sur le pï¿½re de ce point dans la hierachie d'appel. */
     private MethodCallDTO mParent;
 
-    /** Liste des points de mesure fils dans la chaîne d'appel. */
+    /** Liste des points de mesure fils dans la chaï¿½ne d'appel. */
     private MethodCallDTO[] mChildren = new MethodCallDTO[0];
 
-    /** Représentation sous forme de <code>String</code> des paramètres passés lors de l'appel à la méthode. */
+    /** Reprï¿½sentation sous forme de <code>String</code> des paramï¿½tres passï¿½s lors de l'appel ï¿½ la mï¿½thode. */
     private String mParams;
 
-    /** Date/Heure de début d'appel de la méthode. */
+    /** Date/Heure de dï¿½but d'appel de la mï¿½thode. */
     private Date mBeginTime;
 
-    /** Date/Heure de fin d'appel de la méthode. */
+    /** Date/Heure de fin d'appel de la mï¿½thode. */
     private Date mEndTime;
 
     /** Name of the class on which the Method is defined. */
@@ -55,18 +54,18 @@ public class MethodCallDTO implements Serializable
     /** Name of the class on which the Method is called. Null if it's the same as <code>mClassName</code>. */
     private String mRuntimeClassName;
 
-    /** Nom de la méthode associée à ce point de mesure. */
+    /** Nom de la mï¿½thode associï¿½e ï¿½ ce point de mesure. */
     private String mMethodName;
 
-    /** Exception qui est stockée si l'exécution associée à ce point est levée durant son exécution. */
+    /** Exception qui est stockï¿½e si l'exï¿½cution associï¿½e ï¿½ ce point est levï¿½e durant son exï¿½cution. */
     private String mThrowableClass;
 
     private String mThrowableMessage;
 
-    /** Valeur de retour si la méthode associée à ce point est autre que 'void' . */
+    /** Valeur de retour si la mï¿½thode associï¿½e ï¿½ ce point est autre que 'void' . */
     private String mReturnValue;
 
-    /** Nom du group associé au point de mesure. */
+    /** Nom du group associï¿½ au point de mesure. */
     private String mGroupName;
 
     public MethodCallDTO()
@@ -206,7 +205,7 @@ public class MethodCallDTO implements Serializable
      */
     public MethodCallDTO getChild(int pPos)
     {
-        return (MethodCallDTO) mChildren[pPos];
+        return mChildren[pPos];
     }
 
     /**

@@ -5,12 +5,10 @@ import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 
-public class TestWeaving extends SamplePersistenceTestcase
-{
+public class TestWeaving extends SamplePersistenceTestcase {
 
-    public void testWeaving() throws InterruptedException
-    {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+    public void testWeaving() throws InterruptedException {
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         AbstractSample tMother = new AbstractSample();
         tMother.methodATester();
@@ -29,8 +27,7 @@ public class TestWeaving extends SamplePersistenceTestcase
         checkWeaving3();
     }
 
-    private void checkWeaving1()
-    {
+    private void checkWeaving1() {
         assertEquals(1, MemoryStoreWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
@@ -39,8 +36,7 @@ public class TestWeaving extends SamplePersistenceTestcase
         assertEquals(1, MemoryStoreWriter.countFlows());
     }
 
-    private void checkWeaving2()
-    {
+    private void checkWeaving2() {
         ExecutionFlowPO tFlow;
         tFlow = MemoryStoreWriter.getFlow(1);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
@@ -48,8 +44,7 @@ public class TestWeaving extends SamplePersistenceTestcase
         assertEquals(ChildSample.class.getName(), tFlow.getFirstMethodCall().getRuntimeClassName());
     }
 
-    private void checkWeaving3()
-    {
+    private void checkWeaving3() {
         ExecutionFlowPO tFlow;
         assertEquals(3, MemoryStoreWriter.countFlows());
         tFlow = MemoryStoreWriter.getFlow(2);

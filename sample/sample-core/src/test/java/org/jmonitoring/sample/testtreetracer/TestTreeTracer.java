@@ -14,7 +14,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testParameterTracer()
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         Mother tMother = new Mother();
         tMother.setChild1(new Child());
@@ -38,18 +38,18 @@ public class TestTreeTracer extends SamplePersistenceTestcase
         assertTrue(tTok.nextToken().startsWith("Tracing duration = "));
         assertEquals("Max Depth = 2", tTok.nextToken());
         assertEquals("Nb Entity = 4", tTok.nextToken());
-        assertEquals("Parameter n°1", tTok.nextToken());
+        assertEquals("Parameter nÂ°1", tTok.nextToken());
         assertEquals("org.jmonitoring.sample.testtreetracer.ToBeCall$Mother", tTok.nextToken());
         assertEquals("  |-- getChild1 --> org.jmonitoring.sample.testtreetracer.ToBeCall$Child", tTok.nextToken());
         assertEquals("  |-- getChild2 --> org.jmonitoring.sample.testtreetracer.ToBeCall$Child", tTok.nextToken());
-        assertEquals("Parameter n°2", tTok.nextToken());
+        assertEquals("Parameter nÂ°2", tTok.nextToken());
         assertEquals("org.jmonitoring.sample.testtreetracer.ToBeCall$Child", tTok.nextToken());
         assertFalse(tTok.hasMoreTokens());
     }
 
     public void testReturnValueTracer()
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         new ToBeCall().callWithReturn();
 
@@ -77,7 +77,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testStaticCall()
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         ToBeCall.callStaticMethod(new Mother());
 

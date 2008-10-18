@@ -20,9 +20,9 @@ public class StatisticDataSet extends AbstractIntervalXYDataset implements Inter
 {
     private static final long serialVersionUID = 3257008765268996401L;
 
-    private long[] mDurations;
+    private final long[] mDurations;
 
-    private int mGroupValue;
+    private final int mGroupValue;
 
     /**
      * Default constructor.
@@ -31,7 +31,7 @@ public class StatisticDataSet extends AbstractIntervalXYDataset implements Inter
      * @param pGroupValue The duration to use for the consolidation.
      * @param pDurationMax The maximum duration of this list.
      */
-    public StatisticDataSet(Map pMap, int pGroupValue, long pDurationMax)
+    public StatisticDataSet(Map<Long, Integer> pMap, int pGroupValue, long pDurationMax)
     {
         mGroupValue = pGroupValue;
         int tSize = ((int) pDurationMax / pGroupValue) + 1;
@@ -41,7 +41,7 @@ public class StatisticDataSet extends AbstractIntervalXYDataset implements Inter
         for (int i = 0; i < tSize; i++)
         {
             tKey = new Long(pGroupValue * i);
-            tValue = ((Integer) pMap.get(tKey));
+            tValue = pMap.get(tKey);
             mDurations[i] = (tValue == null ? 0 : tValue.intValue());
         }
     }
@@ -49,6 +49,7 @@ public class StatisticDataSet extends AbstractIntervalXYDataset implements Inter
     /**
      * @see org.jfree.data.general.AbstractSeriesDataset#getSeriesCount()
      */
+    @Override
     public int getSeriesCount()
     {
         return 1;
@@ -57,6 +58,7 @@ public class StatisticDataSet extends AbstractIntervalXYDataset implements Inter
     /**
      * @see org.jfree.data.general.AbstractSeriesDataset#getSeriesName(int)
      */
+    @Override
     public String getSeriesName(int pSeries)
     {
         return "durations (ms)";

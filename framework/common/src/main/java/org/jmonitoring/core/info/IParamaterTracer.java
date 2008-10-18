@@ -1,7 +1,6 @@
 package org.jmonitoring.core.info;
 
-public interface IParamaterTracer
-{
+public interface IParamaterTracer {
     /**
      * Convert an object array to String.
      * 
@@ -10,6 +9,6 @@ public interface IParamaterTracer
      * 
      * @return The objects as String.
      */
-    String convertToString(Object pTarget, Object[] pParameterObjects);
+    CharSequence convertToString(Object pTarget, Object[] pParameterObjects);
 
 }

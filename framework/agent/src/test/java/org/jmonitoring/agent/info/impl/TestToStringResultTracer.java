@@ -4,20 +4,18 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.info.IResultTracer;
 
-public class TestToStringResultTracer extends TestCase
-{
+public class TestToStringResultTracer extends TestCase {
 
-    public void testConvertToString()
-    {
+    public void testConvertToString() {
         IResultTracer tTracer = new ToStringResultTracer();
         assertEquals("4", tTracer.convertToString(null, new Integer(4)));
-        assertEquals("è-è-è-", tTracer.convertToString(null, "è-è-è-"));
+        assertEquals("Ã¨-Ã¨-Ã¨-", tTracer.convertToString(null, "Ã¨-Ã¨-Ã¨-"));
         assertEquals("", tTracer.convertToString(null, null));
     }
 
-    public void testStringLimitation()
-    {
+    public void testStringLimitation() {
         ToStringResultTracer tTracer = new ToStringResultTracer(2);
-        assertEquals("è-", tTracer.convertToString(null, "è-è-"));
-    }
+        assertEquals(4, "Ã¨-Ã¨-".length());
+        assertEquals("Ã¨-", tTracer.convertToString(null, "Ã¨-Ã¨-"));
+        }
 }

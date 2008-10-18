@@ -22,10 +22,9 @@ import org.jmonitoring.sample.persistence.SampleHibernateManager;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class RunSample
-{
+public class RunSample {
     private static Log sLog = LogFactory.getLog(RunSample.class);
-    
+
     private static final int SLEEP_TEST_TIME = 5000;
 
     private static final int NB3 = 32;
@@ -36,13 +35,11 @@ public class RunSample
 
     private Session mSession;
 
-    public RunSample(Session pSampleSession)
-    {
+    public RunSample(Session pSampleSession) {
         mSession = pSampleSession;
     }
 
-    public RunSample()
-    {
+    public RunSample() {
         mSession = SampleHibernateManager.getSession();
     }
 
@@ -51,16 +48,13 @@ public class RunSample
      * 
      * @param pArgs For the Sample
      */
-    public static void main(String[] pArgs)
-    {
+    public static void main(String[] pArgs) {
         new RunSample().run();
-        // On attend pour être sur de l'insertion
-        try
-        {
+        // On attend pour ï¿½tre sur de l'insertion
+        try {
             // Empirique
             Thread.sleep(SLEEP_TEST_TIME);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -69,8 +63,7 @@ public class RunSample
      * For the Sample
      * 
      */
-    public void run()
-    {
+    public void run() {
         ShoppingCartPO.setCounter(0);
         checkDataBase();
         Inventory inventory = new Inventory();
@@ -87,26 +80,21 @@ public class RunSample
         ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item2);
         new SampleDao(mSession).save(tShopCart);
 
-        try
-        {
+        try {
             ShoppingCartOperator.addShoppingCartItem(tShopCart, inventory, item3);
-        } catch (RuntimeException e)
-        {
-            // C'est juste pour tester la remontée d'exception
+        } catch (RuntimeException e) {
+            // C'est juste pour tester la remontï¿½e d'exception
             System.out.print("");
         }
 
     }
 
-    private void checkDataBase()
-    {
-        try
-        {
+    private void checkDataBase() {
+        try {
             sLog.info("Check Schema try to count Items...");
             SQLQuery tQuery = SampleHibernateManager.getSession().createSQLQuery("Select Count(*) as myCount From ITEM");
             tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
-        } catch (SQLGrammarException t)
-        {
+        } catch (SQLGrammarException t) {
             sLog.info("Creating new Schema for the DataBase");
             Configuration tConfig = SampleHibernateManager.getConfig();
             SchemaExport tDdlexport = new SchemaExport(tConfig);
@@ -114,6 +102,5 @@ public class RunSample
             sLog.info("End of the Schema creation for the DataBase");
         }
 
-        
     }
 }

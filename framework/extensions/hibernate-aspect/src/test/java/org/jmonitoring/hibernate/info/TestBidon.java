@@ -9,12 +9,10 @@ import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestBidon extends TestCase
-{
+public class TestBidon extends TestCase {
 
-    public void testTest1()
-    {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+    public void testTest1() {
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         Bidon tBid = new Bidon();
         tBid.method1();
         tBid.method2();

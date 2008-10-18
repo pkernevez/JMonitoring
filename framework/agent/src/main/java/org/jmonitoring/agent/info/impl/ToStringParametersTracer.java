@@ -21,9 +21,9 @@ public class ToStringParametersTracer implements IParamaterTracer
         mMaxLength = pMaxLength;
     }
 
-    public String convertToString(Object pTarget, Object[] pParameterObjects)
+    public CharSequence convertToString(Object pTarget, Object[] pParameterObjects)
     {
-        StringBuffer tBuffer = new StringBuffer();
+        StringBuilder tBuffer = new StringBuilder();
         if (pParameterObjects != null)
         {
             boolean tFistTime = true;
@@ -39,7 +39,12 @@ public class ToStringParametersTracer implements IParamaterTracer
             }
             tBuffer.append("]");
         }
-        boolean tNeedToBeCut = (mMaxLength > -1) && (tBuffer.length() > mMaxLength);
-        return (tNeedToBeCut ? tBuffer.substring(0, mMaxLength) : tBuffer.toString());
+        if ((mMaxLength > -1) && (tBuffer.length() > mMaxLength))
+        {
+            return tBuffer.substring(0, mMaxLength);
+        } else
+        {
+            return tBuffer;
+        }
     }
 }

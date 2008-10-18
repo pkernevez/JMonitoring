@@ -12,6 +12,8 @@ package org.jmonitoring.console.methodcall;
  */
 public class MethodCallStatForm extends AbstractMethodCallForm
 {
+    private static final long serialVersionUID = -1180440506251212007L;
+
     private long mDurationMin;
 
     private long mDurationMax;

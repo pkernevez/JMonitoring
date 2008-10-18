@@ -12,11 +12,10 @@ import java.util.Date;
 /**
  * This instance is the entry of a flow. It has a list of MethodCallDTO and some properties.
  * 
- * @todo Coder les méthodes equals et hashcode
+ * @todo Coder les mï¿½thodes equals et hashcode
  * @author pke
  */
-public class ExecutionFlowPO implements Serializable
-{
+public class ExecutionFlowPO implements Serializable {
     private static final long serialVersionUID = -5320683232717386139L;
 
     /** Thread name. */
@@ -40,8 +39,7 @@ public class ExecutionFlowPO implements Serializable
     /**
      * Default constructor for Hibernate.
      */
-    public ExecutionFlowPO()
-    {
+    public ExecutionFlowPO() {
     }
 
     /**
@@ -52,8 +50,7 @@ public class ExecutionFlowPO implements Serializable
      * @param pJVMIdentifier The identifier of this JVM or Server.
      * @todo remove mBeginTime
      */
-    public ExecutionFlowPO(String pThreadName, MethodCallPO pFirstMeasure, String pJVMIdentifier)
-    {
+    public ExecutionFlowPO(String pThreadName, MethodCallPO pFirstMeasure, String pJVMIdentifier) {
         mThreadName = pThreadName;
         mFirstMethodCall = pFirstMeasure;
         mJvmIdentifier = pJVMIdentifier;
@@ -65,48 +62,42 @@ public class ExecutionFlowPO implements Serializable
     /**
      * @return Returns the firstMeasure.
      */
-    public MethodCallPO getFirstMethodCall()
-    {
+    public MethodCallPO getFirstMethodCall() {
         return mFirstMethodCall;
     }
 
     /**
      * @param pFirstMeasure The firstMeasure to set.
      */
-    public void setFirstMethodCall(MethodCallPO pFirstMeasure)
-    {
+    public void setFirstMethodCall(MethodCallPO pFirstMeasure) {
         mFirstMethodCall = pFirstMeasure;
     }
 
     /**
      * @return Returns the mJVMIdentifier.
      */
-    public String getJvmIdentifier()
-    {
+    public String getJvmIdentifier() {
         return mJvmIdentifier;
     }
 
     /**
      * @param pIdentifier The mJVMIdentifier to set.
      */
-    public void setJvmIdentifier(String pIdentifier)
-    {
+    public void setJvmIdentifier(String pIdentifier) {
         mJvmIdentifier = pIdentifier;
     }
 
     /**
      * @return Returns the mThreadName.
      */
-    public String getThreadName()
-    {
+    public String getThreadName() {
         return mThreadName;
     }
 
     /**
      * @param pThreadName The mThreadName to set.
      */
-    public void setThreadName(String pThreadName)
-    {
+    public void setThreadName(String pThreadName) {
         mThreadName = pThreadName;
     }
 
@@ -115,8 +106,7 @@ public class ExecutionFlowPO implements Serializable
      * 
      * @return The begin time of the firts measure.
      */
-    public long getBeginTime()
-    {
+    public long getBeginTime() {
         return mBeginTime;
     }
 
@@ -125,8 +115,7 @@ public class ExecutionFlowPO implements Serializable
      * 
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginTime(long pBeginTime)
-    {
+    public void setBeginTime(long pBeginTime) {
         mBeginTime = pBeginTime;
     }
 
@@ -135,8 +124,7 @@ public class ExecutionFlowPO implements Serializable
      * 
      * @return The begin time of the firts measure.
      */
-    public Date getBeginTimeAsDate()
-    {
+    public Date getBeginTimeAsDate() {
         return new Date(mBeginTime);
     }
 
@@ -146,8 +134,7 @@ public class ExecutionFlowPO implements Serializable
      * @param pBeginTime The BeginTime to set.
      * @throws ParseException If the the time is not valid.
      */
-    public void setBeginTimeAsDate(Date pBeginTime) throws ParseException
-    {
+    public void setBeginTimeAsDate(Date pBeginTime) throws ParseException {
         // Nothing to do, this field is only for information purpose into DBase
     }
 
@@ -156,8 +143,7 @@ public class ExecutionFlowPO implements Serializable
      * 
      * @return The end time of the first measure.
      */
-    public long getEndTime()
-    {
+    public long getEndTime() {
         return mEndTime;
     }
 
@@ -166,16 +152,14 @@ public class ExecutionFlowPO implements Serializable
      * 
      * @param pEndTime The mEndTime to set.
      */
-    public void setEndTime(long pEndTime)
-    {
+    public void setEndTime(long pEndTime) {
         mEndTime = pEndTime;
     }
 
     /**
      * @return The duration of the first measure execution in milliseconds.
      */
-    public long getDuration()
-    {
+    public long getDuration() {
         return mEndTime - mBeginTime;
     }
 
@@ -183,32 +167,28 @@ public class ExecutionFlowPO implements Serializable
      * @param pDuration The duration of the first measure execution in milliseconds.
      * @todo Remove this method it's a hook for hibernate
      */
-    public void setDuration(long pDuration)
-    {
+    public void setDuration(long pDuration) {
 
     }
 
     /**
      * @return Returns the mId.
      */
-    public int getId()
-    {
+    public int getId() {
         return mId;
     }
 
     /**
      * @param pId The mId to set.
      */
-    public void setId(int pId)
-    {
+    public void setId(int pId) {
         mId = pId;
     }
 
     /**
      * @see java.lang.Object.toString()
      */
-    public String toString()
-    {
+    public String toString() {
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("ExecutionFlowPO FlowId=[").append(mId).append("]");
         return tBuffer.toString();

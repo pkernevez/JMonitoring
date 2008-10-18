@@ -3,6 +3,7 @@ package org.jmonitoring.hibernate.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.stat.Statistics;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***************************************************************************
@@ -16,39 +17,47 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * 
  * @deprecated
  */
+@Deprecated
 public class HibernatePersistanceTestCase extends PersistanceTestCase
 {
 
-    protected void assertStatistics(Class pEntity, int pInsertCount, int pUpdateCount, int pLoadCount, int pFetchCount)
+    @Override
+    protected void assertStatistics(Class<MethodCallPO> pEntity, int pInserts, int pUpdates, int pLoads, int pFetchs)
     {
-        super.assertStatistics(pEntity, pInsertCount, pUpdateCount, pLoadCount, pFetchCount);
+        super.assertStatistics(pEntity, pInserts, pUpdates, pLoads, pFetchs);
     }
 
+    @Override
     protected void createDataSet(String pDataSetFileName)
     {
         super.createDataSet(pDataSetFileName);
     }
 
+    @Override
     public Session getSession()
     {
         return super.getSession();
     }
 
+    @Override
     public Statistics getStats()
     {
         return super.getStats();
     }
 
+    @Override
     public Transaction getTransaction()
     {
         return super.getTransaction();
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

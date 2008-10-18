@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -51,9 +50,9 @@ public class FlowChartBarUtil
 
     private static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
 
-    private Map mListOfGroup = new HashMap();
+    private Map<String, TaskForGroupName> mListOfGroup = new HashMap<String, TaskForGroupName>();
 
-    private MethodCallDTO mFirstMeasure;
+    private final MethodCallDTO mFirstMeasure;
 
     private int mMaxMethodPerGroup;
 
@@ -137,18 +136,19 @@ public class FlowChartBarUtil
         Date tNewEndDate = (pEndDate.before(pBeginDate) ? pBeginDate : pEndDate);
 
         pTaskForTheGroupName.mMainTaskOfGroup.addSubtask(new MethodCallTask(pFlowId, pMethodCallId,
-            new SimpleTimePeriod(pBeginDate, tNewEndDate)));
+                                                                            new SimpleTimePeriod(pBeginDate,
+                                                                                                 tNewEndDate)));
     }
 
     private TaskForGroupName getTaskForGroupName(MethodCallDTO pCurMeasure, String pGroupName)
     {
-        TaskForGroupName tTaskEntry = (TaskForGroupName) mListOfGroup.get(pGroupName);
+        TaskForGroupName tTaskEntry = mListOfGroup.get(pGroupName);
         if (tTaskEntry == null)
         { // We create a new entry
             tTaskEntry = new TaskForGroupName();
             tTaskEntry.mPositionOfTheGroup = mListOfGroup.size() + 1;
             tTaskEntry.mMainTaskOfGroup = new Task(pGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(),
-                pCurMeasure.getEndTime()));
+                                                                                    pCurMeasure.getEndTime()));
             tTaskEntry.mGroupName = pGroupName;
             mListOfGroup.put(pGroupName, tTaskEntry);
         }
@@ -201,8 +201,11 @@ public class FlowChartBarUtil
         for (int i = 0; i < tList.length; i++)
         { // ForEach GroupName
             curTaskEntry = tList[i];
-            sLog.debug("add Task n°" + i + " for GroupName=" + curTaskEntry.mGroupName + " in position of ="
-                + curTaskEntry.mPositionOfTheGroup);
+            sLog.debug("add Task nï¿½" + i
+                            + " for GroupName="
+                            + curTaskEntry.mGroupName
+                            + " in position of ="
+                            + curTaskEntry.mPositionOfTheGroup);
             curTaskSeries.add(curTaskEntry.mMainTaskOfGroup);
         }
         taskseriescollection.add(curTaskSeries);
@@ -211,11 +214,9 @@ public class FlowChartBarUtil
 
     private TaskForGroupName[] orderListOfTask()
     {
-        TaskForGroupName[] tTaskEntries = new TaskForGroupName[mListOfGroup.size()];
-        TaskForGroupName curTaskEntry;
-        for (Iterator tIt = mListOfGroup.values().iterator(); tIt.hasNext();)
+        TaskForGroupName[] tTaskEntries = new TaskForGroupName[mListOfGroup.size()];;
+        for (TaskForGroupName curTaskEntry : mListOfGroup.values())
         {
-            curTaskEntry = (TaskForGroupName) tIt.next();
             tTaskEntries[curTaskEntry.mPositionOfTheGroup - 1] = curTaskEntry;
         }
         return tTaskEntries;
@@ -248,7 +249,7 @@ public class FlowChartBarUtil
     /**
      * @return Returns the listOfGroup.
      */
-    protected Map getListOfGroup()
+    protected Map<String, TaskForGroupName> getListOfGroup()
     {
         return mListOfGroup;
     }
@@ -256,33 +257,33 @@ public class FlowChartBarUtil
     /**
      * @param pListOfGroup The listOfGroup to set.
      */
-    protected void setListOfGroup(Map pListOfGroup)
+    protected void setListOfGroup(Map<String, TaskForGroupName> pListOfGroup)
     {
         mListOfGroup = pListOfGroup;
     }
 
     void computeStatForThisFlow()
     {
-        Map tMap = new HashMap();
+        Map<String, Integer> tMap = new HashMap<String, Integer>();
         getResursiveStatOfThisMethodCall(mFirstMeasure, tMap);
         int tMaxMethodPerGroup = 0;
-        for (Iterator tIterator = tMap.values().iterator(); tIterator.hasNext();)
+        for (int tCurValue : tMap.values())
         {
-            tMaxMethodPerGroup = Math.max(tMaxMethodPerGroup, ((Integer) tIterator.next()).intValue());
+            tMaxMethodPerGroup = Math.max(tMaxMethodPerGroup, tCurValue);
         }
         mMaxMethodPerGroup = tMaxMethodPerGroup;
     }
 
-    private void getResursiveStatOfThisMethodCall(MethodCallDTO pCurrentMeasure, Map pMapOfGroup)
+    private void getResursiveStatOfThisMethodCall(MethodCallDTO pCurrentMeasure, Map<String, Integer> pMapOfGroup)
     {
         String tCurGroupName = pCurrentMeasure.getGroupName();
-        Integer tCurrentNbOfMeth = (Integer) pMapOfGroup.get(tCurGroupName);
+        Integer tCurrentNbOfMeth = pMapOfGroup.get(tCurGroupName);
         if (tCurrentNbOfMeth == null)
         {
-            pMapOfGroup.put(tCurGroupName, new Integer(1));
+            pMapOfGroup.put(tCurGroupName, 1);
         } else
         {
-            pMapOfGroup.put(tCurGroupName, new Integer(tCurrentNbOfMeth.intValue() + 1));
+            pMapOfGroup.put(tCurGroupName, tCurrentNbOfMeth + 1);
         }
         for (int i = 0; i < pCurrentMeasure.getChildren().length; i++)
         {

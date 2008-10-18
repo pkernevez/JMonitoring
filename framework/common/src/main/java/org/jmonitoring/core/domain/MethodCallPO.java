@@ -6,13 +6,12 @@ package org.jmonitoring.core.domain;
  **************************************************************************/
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @todo Coder les méthodes equals et hashcode cf p54
- * @todo voir pour utiliser un composant hibernate MethodCallId pour la clé composite
+ * @todo Coder les mï¿½thodes equals et hashcode cf p54
+ * @todo voir pour utiliser un composant hibernate MethodCallId pour la clï¿½ composite
  * @author pke
  */
 public class MethodCallPO implements Serializable
@@ -27,19 +26,19 @@ public class MethodCallPO implements Serializable
     /** Flow Technical Id. */
     private ExecutionFlowPO mFlow;
 
-    /** Lien sur le père de ce point dans la hierachie d'appel. */
+    /** Lien sur le pÃ¨re de ce point dans la hierachie d'appel. */
     private MethodCallPO mParent;
 
-    /** Liste des points de mesure fils dans la chaîne d'appel. */
-    private List mChildren = new LinkedList();
+    /** Liste des points de mesure fils dans la chaï¿½ne d'appel. */
+    private List<MethodCallPO> mChildren = new LinkedList<MethodCallPO>();
 
-    /** Représentation sous forme de <code>String</code> des paramètres passés lors de l'appel à la méthode. */
+    /** Reprï¿½sentation sous forme de <code>String</code> des paramï¿½tres passï¿½s lors de l'appel ï¿½ la mï¿½thode. */
     private String mParams;
 
-    /** Date/Heure de début d'appel de la méthode. */
+    /** Date/Heure de dï¿½but d'appel de la mï¿½thode. */
     private long mBeginTime;
 
-    /** Date/Heure de fin d'appel de la méthode. */
+    /** Date/Heure de fin d'appel de la mï¿½thode. */
     private long mEndTime;
 
     /** Name of the class on which the Method is defined. */
@@ -48,18 +47,18 @@ public class MethodCallPO implements Serializable
     /** Name of the class on which the Method is called. Null if it's the same as <code>mClassName</code>. */
     private String mRuntimeClassName;
 
-    /** Nom de la méthode associée à ce point de mesure. */
+    /** Nom de la mï¿½thode associï¿½e ï¿½ ce point de mesure. */
     private String mMethodName;
 
-    /** Exception qui est stockée si l'exécution associée à ce point est levée durant son exécution. */
+    /** Exception qui est stockï¿½e si l'exï¿½cution associï¿½e ï¿½ ce point est levï¿½e durant son exï¿½cution. */
     private String mThrowableClass;
 
     private String mThrowableMessage;
 
-    /** Valeur de retour si la méthode associée à ce point est autre que 'void' . */
+    /** Valeur de retour si la mï¿½thode associï¿½e ï¿½ ce point est autre que 'void' . */
     private String mReturnValue;
 
-    /** Nom du group associé au point de mesure. */
+    /** Nom du group associï¿½ au point de mesure. */
     private String mGroupName;
 
     /** Constructor for hibernate. */
@@ -78,7 +77,7 @@ public class MethodCallPO implements Serializable
      * @param pParameters The parameters passed to the method <code>pMethodName</code>.
      */
     public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName,
-                        String pParameters)
+                    String pParameters)
     {
         if (pParent != null)
         { // On chaine la hierachie
@@ -104,17 +103,17 @@ public class MethodCallPO implements Serializable
 
     }
 
-    public List getChildren()
+    public List<MethodCallPO> getChildren()
     {
         return mChildren;
     }
 
     public MethodCallPO getChild(int pPos)
     {
-        return (MethodCallPO) mChildren.get(pPos);
+        return mChildren.get(pPos);
     }
 
-    public void setChildren(List pChildren)
+    public void setChildren(List<MethodCallPO> pChildren)
     {
         mChildren = pChildren;
     }
@@ -190,7 +189,7 @@ public class MethodCallPO implements Serializable
     /**
      * Accessor.
      * 
-     * @todo Voir comment supprimer cette méthode pour la remplacer par la conf hibernate
+     * @todo Voir comment supprimer cette mï¿½thode pour la remplacer par la conf hibernate
      * @param pDuration The time of the execution of the methid associated with this <code>MethodCallDTO</code>.
      */
     public void setDuration(long pDuration)
@@ -407,11 +406,9 @@ public class MethodCallPO implements Serializable
 
     public void setFlowRecusivly(ExecutionFlowPO pFlowPO)
     {
-        mFlow = pFlowPO;
-        MethodCallPO curMeth;
-        for (Iterator tIt = mChildren.iterator(); tIt.hasNext();)
+        mFlow = pFlowPO;;
+        for (MethodCallPO curMeth : mChildren)
         {
-            curMeth = (MethodCallPO) tIt.next();
             curMeth.setFlowRecusivly(pFlowPO);
         }
 

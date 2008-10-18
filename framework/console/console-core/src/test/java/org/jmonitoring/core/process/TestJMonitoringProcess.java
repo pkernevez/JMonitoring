@@ -17,6 +17,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
 /***********************************************************************************************************************
@@ -84,7 +85,6 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
         int tNbFlow = tFlowDAO.countFlows();
 
-        // First instert 2 flows
         tFlowDAO.insertFullExecutionFlow(TestConsoleDao.buildNewFullFlow());
         tFlowDAO.insertFullExecutionFlow(TestConsoleDao.buildNewFullFlow());
         getSession().flush();
@@ -139,8 +139,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         // Check equality of the first child measure point
         assertEquals(2, tInitialPoint.getChildren().size());
         assertEquals(2, tReadPoint.getChildren().length);
-        tInitialPoint = (MethodCallPO) tInitialPoint.getChildren().get(0);
-        tReadPoint = (MethodCallDTO) tReadPoint.getChild(0);
+        tInitialPoint = tInitialPoint.getChildren().get(0);
+        tReadPoint = tReadPoint.getChild(0);
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
@@ -152,8 +152,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
         // Check equality of the second child measure point
-        tInitialPoint = (MethodCallPO) tInitialPoint.getParentMethodCall().getChildren().get(1);
-        tReadPoint = (MethodCallDTO) tReadPoint.getParent().getChild(1);
+        tInitialPoint = tInitialPoint.getParentMethodCall().getChildren().get(1);
+        tReadPoint = tReadPoint.getParent().getChild(1);
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
@@ -177,7 +177,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         getSession().flush();
 
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        List tFlows = tProcess.getListOfExecutionFlowDto(new FlowSearchCriterion());
+        List<ExecutionFlowDTO> tFlows = tProcess.getListOfExecutionFlowDto(new FlowSearchCriterion());
         assertEquals(tExpectedResult + 3, tFlows.size());
 
     }
@@ -347,7 +347,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
 
         closeAndRestartSession();
-        List tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(null, null);
+        List<MethodCallDTO> tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(null, null);
         assertEquals(0, tMethodsDto.size());
 
         closeAndRestartSession();
@@ -355,8 +355,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         assertEquals(6, tMethodsDto.size());
 
         closeAndRestartSession();
-        tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(
-            PersistanceTestCase.class.getName().substring(0, 5), "");
+        tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(PersistanceTestCase.class.getName()
+                                                                                                  .substring(0, 5), "");
         assertEquals(6, tMethodsDto.size());
 
         closeAndRestartSession();
@@ -377,12 +377,14 @@ public class TestJMonitoringProcess extends PersistanceTestCase
 
         closeAndRestartSession();
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(PersistanceTestCase.class.getName()
-            .substring(0, 25), "builNewFullFlow");
+                                                                                                  .substring(0, 25),
+                                                                         "builNewFullFlow");
         assertEquals(6, tMethodsDto.size());
 
         closeAndRestartSession();
         tMethodsDto = tProcess.getListOfMethodCallFromClassAndMethodName(PersistanceTestCase.class.getName()
-            .substring(0, 25), "builNewFullFlow2");
+                                                                                                  .substring(0, 25),
+                                                                         "builNewFullFlow2");
         assertEquals(1, tMethodsDto.size());
 
     }
@@ -396,7 +398,8 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
         String tClassName = PersistanceTestCase.class.getName();
 
-        List tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 5L);
+        List<MethodCallFullExtractDTO> tResult = tProcess.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow",
+                                                                                         5L, 5L);
         assertEquals(0, tResult.size());
 
         closeAndRestartSession();
@@ -418,21 +421,21 @@ public class TestJMonitoringProcess extends PersistanceTestCase
     }
 
     public void testConvertFlowToXml()
-        {
-            JMonitoringProcess tProcess = ProcessFactory.getInstance();
-            ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-    
-            // Firstt instert a flow
-            ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
-    
-            int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
-            getSession().flush();
-            assertTrue(tFlowId > 0);
-    
-            ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
-            byte[] tFlowAsXml = tProcess.convertFlowToXml(tFlowDto);
-            assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
-        }
+    {
+        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
+
+        // Firstt instert a flow
+        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
+
+        int tFlowId = tFlowDAO.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+        assertTrue(tFlowId > 0);
+
+        ExecutionFlowDTO tFlowDto = DtoHelper.getDeepCopy(tFlow);
+        byte[] tFlowAsXml = tProcess.convertFlowToXml(tFlowDto);
+        assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
+    }
 
     public void testSerialisationConversion()
     {
@@ -440,7 +443,7 @@ public class TestJMonitoringProcess extends PersistanceTestCase
         ConsoleDao tFlowDAO = new ConsoleDao(getSession());
         ConfigurationHelper.setProperty("format.ihm.date", "dd/MM/yy");
         ConfigurationHelper.setProperty("format.ihm.time", "HH:mm:ss");
-        
+
         // Firstt instert a flow
         ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
 

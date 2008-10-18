@@ -8,13 +8,11 @@ import org.jmonitoring.core.dao.TestConsoleDao;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestExecutionFlowDTO extends TestCase
-{
+public class TestExecutionFlowDTO extends TestCase {
     /**
      * Test MeasureCount.
      */
-    public void testMeasureCount()
-    {
+    public void testMeasureCount() {
         ExecutionFlowDTO tFlow = DtoHelper.getDeepCopy(TestConsoleDao.buildNewFullFlow());
         assertEquals(6, tFlow.getMeasureCount());
         MethodCallDTO curMeasure = tFlow.getFirstMethodCall();

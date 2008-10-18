@@ -2,8 +2,7 @@ package org.jmonitoring.core.domain;
 
 import java.io.Serializable;
 
-public class MethodCallPK implements Serializable
-{
+public class MethodCallPK implements Serializable {
 
     private static final long serialVersionUID = -329582789701661686L;
 
@@ -11,39 +10,32 @@ public class MethodCallPK implements Serializable
 
     private int mPosition;
 
-    public MethodCallPK()
-    {
+    public MethodCallPK() {
     }
 
-    public MethodCallPK(ExecutionFlowPO pFlow, int pPosition)
-    {
+    public MethodCallPK(ExecutionFlowPO pFlow, int pPosition) {
         super();
         mFlow = pFlow;
         mPosition = pPosition;
     }
 
-    public ExecutionFlowPO getFlow()
-    {
+    public ExecutionFlowPO getFlow() {
         return mFlow;
     }
 
-    public void setFlow(ExecutionFlowPO pFlow)
-    {
+    public void setFlow(ExecutionFlowPO pFlow) {
         mFlow = pFlow;
     }
 
-    public int getPosition()
-    {
+    public int getPosition() {
         return mPosition;
     }
 
-    public void setPosition(int pPosition)
-    {
+    public void setPosition(int pPosition) {
         mPosition = pPosition;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         final int PRIME = 31;
         int result = 1;
         result = PRIME * result + ((mFlow == null) ? 0 : mFlow.hashCode());
@@ -51,8 +43,7 @@ public class MethodCallPK implements Serializable
         return result;
     }
 
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -60,8 +51,7 @@ public class MethodCallPK implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final MethodCallPK other = (MethodCallPK) obj;
-        if (mFlow == null)
-        {
+        if (mFlow == null) {
             if (other.mFlow != null)
                 return false;
         } else if (!mFlow.equals(other.mFlow))
@@ -71,8 +61,7 @@ public class MethodCallPK implements Serializable
         return true;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "FlowId=[" + mFlow.getId() + "] et IndexInFlow=[" + mPosition + "]";
     }
 

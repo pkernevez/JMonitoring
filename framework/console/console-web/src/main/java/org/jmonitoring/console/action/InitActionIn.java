@@ -14,8 +14,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class InitActionIn extends Action
-{
+public class InitActionIn extends Action {
     /*
      * (non-Javadoc)
      * 
@@ -24,11 +23,9 @@ public class InitActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse)
-    {
+            HttpServletResponse pResponse) {
         JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        if (!tProcess.doDatabaseExist())
-        {
+        if (!tProcess.doDatabaseExist()) {
             tProcess.createDataBase();
         }
         return pMapping.findForward("success");

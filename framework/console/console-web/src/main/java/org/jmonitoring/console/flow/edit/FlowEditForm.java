@@ -14,8 +14,7 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FlowEditForm extends ActionForm
-{
+public class FlowEditForm extends ActionForm {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -47,48 +46,42 @@ public class FlowEditForm extends ActionForm
     /**
      * @return Returns the mDurationMin.
      */
-    public int getDurationMin()
-    {
+    public int getDurationMin() {
         return mDurationMin;
     }
 
     /**
      * @param pDurationMin The mDurationMin to set.
      */
-    public void setDurationMin(int pDurationMin)
-    {
+    public void setDurationMin(int pDurationMin) {
         mDurationMin = pDurationMin;
     }
 
     /**
      * @return Returns the mId.
      */
-    public int getId()
-    {
+    public int getId() {
         return mId;
     }
 
     /**
      * @param pId The mId to set.
      */
-    public void setId(int pId)
-    {
+    public void setId(int pId) {
         mId = pId;
     }
 
     /**
      * @return Returns the mExecutionFlow.
      */
-    public ExecutionFlowDTO getExecutionFlow()
-    {
+    public ExecutionFlowDTO getExecutionFlow() {
         return mExecutionFlow;
     }
 
     /**
      * @param pExecutionFlow The mExecutionFlow to set.
      */
-    public void setExecutionFlow(ExecutionFlowDTO pExecutionFlow)
-    {
+    public void setExecutionFlow(ExecutionFlowDTO pExecutionFlow) {
         mExecutionFlow = pExecutionFlow;
     }
 
@@ -97,8 +90,7 @@ public class FlowEditForm extends ActionForm
      * 
      * @return The kind of action.
      */
-    public int getKindOfAction()
-    {
+    public int getKindOfAction() {
         return mKindOfAction;
     }
 
@@ -107,18 +99,15 @@ public class FlowEditForm extends ActionForm
      * 
      * @param pKindOfAction The Kind of action.
      */
-    public void setKindOfAction(int pKindOfAction)
-    {
+    public void setKindOfAction(int pKindOfAction) {
         mKindOfAction = pKindOfAction;
     }
 
-    public String getImageMap()
-    {
+    public String getImageMap() {
         return mImageMap;
     }
 
-    public void setImageMap(String pImageMap)
-    {
+    public void setImageMap(String pImageMap) {
         mImageMap = pImageMap;
     }
 

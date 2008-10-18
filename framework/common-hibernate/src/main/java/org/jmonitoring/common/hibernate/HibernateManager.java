@@ -68,15 +68,15 @@ public final class HibernateManager
     {
         int tCount = 0;
         StringBuffer tBuffer = new StringBuffer();
-        tBuffer.append("The configuration file [").append(pMappingFileName).append(
-            "]has been found in multiple copy:\n");
+        tBuffer.append("The configuration file [").append(pMappingFileName)
+               .append("]has been found in multiple copy:\n");
         try
         {
-            for (Enumeration tEnum = HibernateManager.class.getClassLoader().getResources(pMappingFileName); tEnum
-                .hasMoreElements();)
+            Enumeration<URL> tEnum = HibernateManager.class.getClassLoader().getResources(pMappingFileName);
+            for (; tEnum.hasMoreElements();)
             {
                 tCount++;
-                tBuffer.append(((URL) tEnum.nextElement()).getPath()).append("\n");
+                tBuffer.append((tEnum.nextElement()).getPath()).append("\n");
             }
             if (tCount > 1)
             {

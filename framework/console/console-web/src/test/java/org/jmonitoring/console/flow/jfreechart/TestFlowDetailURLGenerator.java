@@ -9,10 +9,8 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestFlowDetailURLGenerator extends PersistanceTestCase
-{
-    public void testUGRGeneration()
-    {
+public class TestFlowDetailURLGenerator extends PersistanceTestCase {
+    public void testUGRGeneration() {
 
         ExecutionFlowDTO tFlow = new FlowBuilderUtil().buildAndSaveNewDto(2);
 

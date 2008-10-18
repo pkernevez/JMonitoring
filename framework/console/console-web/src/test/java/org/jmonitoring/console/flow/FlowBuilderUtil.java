@@ -2,8 +2,6 @@ package org.jmonitoring.console.flow;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.common.hibernate.HibernateManager;
@@ -43,7 +41,8 @@ public class FlowBuilderUtil
 
     public int countFlows()
     {
-        SQLQuery tQuery = HibernateManager.getSession().createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+        SQLQuery tQuery = HibernateManager.getSession()
+                                          .createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         if (tResult != null)
         {

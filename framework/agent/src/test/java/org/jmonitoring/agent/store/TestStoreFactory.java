@@ -16,7 +16,7 @@ public class TestStoreFactory extends TestCase
 
     public void testDefaultStoreFactoryOk()
     {
-        StoreManager.changeStoreManagerClass(XmlFileLogger.class);
+        StoreManager.changeStoreWriterClass(XmlFileLogger.class);
         IStoreWriter tWriter = StoreFactory.getWriter();
         assertNotNull(tWriter);
         assertEquals(XmlFileLogger.class.getName(), tWriter.getClass().getName());
@@ -29,7 +29,7 @@ public class TestStoreFactory extends TestCase
     public void testDefaultStoreFactoryBadConstructor()
     {
         ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassWithoutConstructor.class
-            .getName());
+                        .getName());
         try
         {
             StoreFactory.getWriter();
@@ -38,15 +38,15 @@ public class TestStoreFactory extends TestCase
         {
             assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
             assertEquals(
-                "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithoutConstructor]",
-                e.getMessage());
+                            "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithoutConstructor]",
+                            e.getMessage());
         }
     }
 
     public void testDefaultStoreFactoryWithPrivateConstructor()
     {
         ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, BadStoreClassWithPrivateConstructor.class
-            .getName());
+                        .getName());
         try
         {
             StoreFactory.getWriter();
@@ -55,8 +55,8 @@ public class TestStoreFactory extends TestCase
         {
             assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
             assertEquals(
-                "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithPrivateConstructor]",
-                e.getMessage());
+                            "Unable to find constructor without parameter for class [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassWithPrivateConstructor]",
+                            e.getMessage());
         }
     }
 
@@ -67,11 +67,9 @@ public class TestStoreFactory extends TestCase
         {
             StoreFactory.getWriter();
             fail("Should not had a writer");
-        } catch (Exception e)
+        } catch (ClassCastException e)
         {
-            assertEquals("org.jmonitoring.core.configuration.MeasureException", e.getClass().getName());
-            assertEquals("The writer : [class org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassNotWriter]"
-                + " is not an instance of IStoreWriter", e.getMessage());
+            assertEquals("org.jmonitoring.agent.store.TestStoreFactory$BadStoreClassNotWriter", e.getMessage());
         }
     }
 
@@ -109,6 +107,7 @@ public class TestStoreFactory extends TestCase
      * 
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();

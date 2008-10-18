@@ -2,7 +2,6 @@ package org.jmonitoring.core.persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,6 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.jmonitoring.common.hibernate.HibernateManager;
+import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
@@ -20,7 +20,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class InsertionDao
+public class InsertionDao implements IInsertionDao
 {
     private static final int BATCH_SIZE = 100;
 
@@ -28,7 +28,7 @@ public class InsertionDao
 
     private PreparedStatement mMethodCallInsertStatement;
 
-    private Session mSession;
+    private final Session mSession;
 
     /**
      * Default constructor.
@@ -52,12 +52,10 @@ public class InsertionDao
         mSession = HibernateManager.getSession();
     }
 
-    /**
-     * Insert la totalité d'un flux en base.
+    /*
+     * (non-Javadoc)
      * 
-     * @param pExecutionFlow The <code>ExecutionFlow</code> to write into the database.
-     * @return The primary key of the inserted <code>ExecutionFlow</code>.
-     * @todo Revoir les étapes de l'enregistrement
+     * @see org.jmonitoring.core.persistence.IInsertionDao#insertFullExecutionFlow(org.jmonitoring.core.domain.ExecutionFlowPO)
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
@@ -128,9 +126,9 @@ public class InsertionDao
         int tCurrentIndex = pCurrentIndex;
         MethodCallPK tPK = new MethodCallPK(pMethodCall.getFlow(), tCurrentIndex);
         pMethodCall.setMethId(tPK);
-        for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
+        for (MethodCallPO tMeth : pMethodCall.getChildren())
         {
-            tCurrentIndex = updatePkMethodCall((MethodCallPO) tChildIt.next(), tCurrentIndex + 1);
+            tCurrentIndex = updatePkMethodCall(tMeth, tCurrentIndex + 1);
         }
         return tCurrentIndex;
     }
@@ -139,19 +137,17 @@ public class InsertionDao
     {
         int tNewBatchBufferSize = saveMethodCall(pMethodCall, pCurrentChildIndex, pBatchBufferSize++);
         int tChildIndex = 0;
-        for (Iterator tChildIt = pMethodCall.getChildren().iterator(); tChildIt.hasNext();)
+        for (MethodCallPO tMeth : pMethodCall.getChildren())
         {
-            tNewBatchBufferSize = saveAllMethodCall((MethodCallPO) tChildIt.next(), tChildIndex++,
-                tNewBatchBufferSize + 1);
+            tNewBatchBufferSize = saveAllMethodCall(tMeth, tChildIndex++, tNewBatchBufferSize + 1);
         }
         return tNewBatchBufferSize;
     }
 
-    private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL "
-        + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, RUNTIME_CLASS_NAME,"
-        + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
-        + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
-        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL " + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, RUNTIME_CLASS_NAME,"
+                    + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
+                    + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     int saveMethodCall(MethodCallPO pMethodCall, int pCurIndex, int pBatchBufferSize)
     {
@@ -159,8 +155,12 @@ public class InsertionDao
         {
             if (sLog.isDebugEnabled())
             {
-                sLog.debug("Inserting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "] Index=["
-                    + pMethodCall.getPosition() + "] and NewBatchSize=[" + pBatchBufferSize + "]");
+                sLog.debug("Inserting MethodCall(FlowId=[" + pMethodCall.getFlow().getId()
+                                + "] Index=["
+                                + pMethodCall.getPosition()
+                                + "] and NewBatchSize=["
+                                + pBatchBufferSize
+                                + "]");
             }
             int curIndex = 1;
             if (mMethodCallInsertStatement == null)
@@ -221,7 +221,7 @@ public class InsertionDao
         }
     }
 
-    public Session getSession()
+    protected Session getSession()
     {
         return mSession;
     }

@@ -1,11 +1,12 @@
 <projectDescription>
   <name>common-hibernate</name>
   <comment>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact for persistence.</comment>
-  <projects/>
+  <projects>
+    <project>common</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
-      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>

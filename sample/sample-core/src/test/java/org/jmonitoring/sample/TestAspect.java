@@ -3,15 +3,12 @@ package org.jmonitoring.sample;
 import junit.framework.TestCase;
 import org.jmonitoring.hibernate.info.SqlExecutionAspect;
 
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
+/***********************************************************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
+ **********************************************************************************************************************/
 
-public class TestAspect extends TestCase
-{
-    public void testInc()
-    {
+public class TestAspect extends TestCase {
+    public void testInc() {
         assertFalse(SqlExecutionAspect.ajc$cflowCounter$0.isValid());
         SqlExecutionAspect.ajc$cflowCounter$0.inc();
         SqlExecutionAspect.ajc$cflowCounter$0.dec();
@@ -26,8 +23,7 @@ public class TestAspect extends TestCase
         assertTrue(SqlExecutionAspect.ajc$cflowCounter$0.isValid());
         SqlExecutionAspect.ajc$cflowCounter$0.dec();
         assertFalse(SqlExecutionAspect.ajc$cflowCounter$0.isValid());
-         
-        
+
     }
 
 }

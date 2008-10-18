@@ -14,8 +14,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  * @author pke
  * 
  */
-public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter
-{
+public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter {
 
     private static Log sLog = LogFactory.getLog(MockAbstractAsynchroneLogger.class);
 
@@ -23,14 +22,12 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter
 
     private static int sNbLog;
 
-    public static void clear()
-    {
+    public static void clear() {
         sNbLog = 0;
         sNbPublish = 0;
     }
 
-    private static synchronized void incrementNbPublish()
-    {
+    private static synchronized void incrementNbPublish() {
         sNbPublish++;
     }
 
@@ -39,8 +36,7 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter
      * 
      * @return The number of <code>ExecutionFlow</code> already publish.
      */
-    public static synchronized int getNbPublish()
-    {
+    public static synchronized int getNbPublish() {
         return sNbPublish;
     }
 
@@ -48,13 +44,11 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter
      * Accessor.
      * 
      */
-    public static synchronized void resetNbPublish()
-    {
+    public static synchronized void resetNbPublish() {
         sNbPublish = 0;
     }
 
-    private static synchronized void incrementNbLog()
-    {
+    private static synchronized void incrementNbLog() {
         sNbLog++;
     }
 
@@ -63,8 +57,7 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter
      * 
      * @return The number of <code>ExecutionFlow</code> already log by the ThreadPool.
      */
-    public static synchronized int getNbLog()
-    {
+    public static synchronized int getNbLog() {
         return sNbLog;
     }
 
@@ -72,32 +65,26 @@ public class MockAbstractAsynchroneLogger extends AbstractAsynchroneWriter
      * Accessor.
      * 
      */
-    public static synchronized void resetNbLog()
-    {
+    public static synchronized void resetNbLog() {
         sNbLog = 0;
     }
 
     /**
      * @see AbstractAsynchroneWriter#getAsynchroneLogTask(ExecutionFlowPO)
      */
-    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
-    {
+    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow) {
         incrementNbPublish();
         return new MockRunnable();
     }
 
-    private static class MockRunnable implements Runnable
-    {
+    private static class MockRunnable implements Runnable {
 
-        public void run()
-        {
+        public void run() {
             incrementNbLog();
             sLog.info("Log ExecutionFlow, increment=[" + getNbLog() + "]");
-            try
-            {
+            try {
                 Thread.sleep(2);
-            } catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }

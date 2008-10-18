@@ -211,25 +211,24 @@ public class MockConnection implements Connection
     public CallableStatement prepareCall(String pSql, int pResultSetType, int pResultSetConcurrency)
                     throws SQLException
     {
-
         return null;
     }
 
     /**
      * @see java.sql.Connection#getTypeMap()
      */
+    @SuppressWarnings("unchecked")
     public Map getTypeMap() throws SQLException
     {
-
         return null;
     }
 
     /**
      * @see java.sql.Connection#setTypeMap(java.util.Map)
      */
+    @SuppressWarnings("unchecked")
     public void setTypeMap(Map pArg0) throws SQLException
     {
-
     }
 
     /**
@@ -237,7 +236,6 @@ public class MockConnection implements Connection
      */
     public void setHoldability(int pHoldability) throws SQLException
     {
-
     }
 
     /**

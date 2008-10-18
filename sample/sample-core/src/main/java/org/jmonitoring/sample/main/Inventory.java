@@ -5,8 +5,8 @@ package org.jmonitoring.sample.main;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Sample Claas.
@@ -16,7 +16,7 @@ public class Inventory
 
     private static final int TEMPO = 5;
 
-    private List mItems = new Vector();
+    private final List<ItemPO> mItems = new ArrayList<ItemPO>();
 
     /**
      * For the Sample.

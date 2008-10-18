@@ -10,6 +10,8 @@ import org.jmonitoring.core.configuration.MeasureException;
 public class AbstractMethodCallForm extends ActionForm
 {
 
+    private static final long serialVersionUID = -4211188006931205583L;
+
     /** Flow technical identifier. */
     private int mFlowId = -1;
 
@@ -38,8 +40,8 @@ public class AbstractMethodCallForm extends ActionForm
             tResult = false;
         } else
         { // Invalid parameters
-            throw new MeasureException("Invalid parameter expected 'flowId' and 'position' OR "
-                + "'methodName' and 'className'.");
+            throw new MeasureException(
+                                       "Invalid parameter expected 'flowId' and 'position' OR " + "'methodName' and 'className'.");
         }
         return tResult;
     }

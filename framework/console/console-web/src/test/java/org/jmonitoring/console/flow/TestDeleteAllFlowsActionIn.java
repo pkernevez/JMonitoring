@@ -7,10 +7,8 @@ import org.jmonitoring.console.JMonitoringMockStrustTestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestDeleteAllFlowsActionIn extends JMonitoringMockStrustTestCase
-{
-    public void testDeleteAllFlowsConfirmIn()
-    {
+public class TestDeleteAllFlowsActionIn extends JMonitoringMockStrustTestCase {
+    public void testDeleteAllFlowsConfirmIn() {
         setRequestPathInfo("/DeleteAllFlowsConfirmIn");
         actionPerform();
         // ok this.verifyForward("success");
@@ -18,8 +16,7 @@ public class TestDeleteAllFlowsActionIn extends JMonitoringMockStrustTestCase
         verifyForwardPath("/pages/layout/layout.jsp");
     }
 
-    public void testDeleteAllFlowsIn()
-    {
+    public void testDeleteAllFlowsIn() {
 
         FlowBuilderUtil tUtil = new FlowBuilderUtil();
         tUtil.createSchema();

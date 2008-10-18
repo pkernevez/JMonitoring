@@ -8,11 +8,9 @@ import junit.framework.TestCase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestConfigurationHelper extends TestCase
-{
+public class TestConfigurationHelper extends TestCase {
 
-    public void testReload()
-    {
+    public void testReload() {
         Properties tConf = ConfigurationHelper.getInstance();
         assertEquals("1", tConf.getProperty("asynchronelogger.threadpool.size"));
         tConf.setProperty("asynchronelogger.threadpool.size", "2");
@@ -25,8 +23,7 @@ public class TestConfigurationHelper extends TestCase
 
     }
 
-    public void testGetParam() throws MeasureException
-    {
+    public void testGetParam() throws MeasureException {
         ConfigurationHelper.reload();
         assertEquals("1", ConfigurationHelper.getString("asynchronelogger.threadpool.size"));
         assertTrue(ConfigurationHelper.getInt("asynchronelogger.threadpool.size") >= 1);

@@ -2,7 +2,6 @@ package org.jmonitoring.core.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -71,7 +70,7 @@ public final class DtoHelper
         MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
         for (int i = 0; i < pCallPO.getChildren().size(); i++)
         {
-            curChild = (MethodCallPO) pCallPO.getChildren().get(i);
+            curChild = pCallPO.getChildren().get(i);
             curChildDto = simpleCopy(curChild, i);
             curChildDto.setParent(tResult);
             tChildren[i] = curChildDto;
@@ -95,19 +94,15 @@ public final class DtoHelper
         MethodCallPO tResult = simpleCopy(pCallDto, pFlowPO);
         MethodCallDTO curChild;
         MethodCallPO curChildDto;
-        List tChildren = new ArrayList(pCallDto.getChildren().length);
+        List<MethodCallPO> tChildren = new ArrayList<MethodCallPO>(pCallDto.getChildren().length);
         for (int i = 0; i < pCallDto.getChildren().length; i++)
         {
-            curChild = (MethodCallDTO) pCallDto.getChild(i);
+            curChild = pCallDto.getChild(i);
             curChildDto = simpleCopy(curChild, pFlowPO);
             curChildDto.setParentMethodCall(tResult);
             tChildren.add(curChildDto);
         }
         tResult.setChildren(tChildren);
-        // if (pCallDto.getParent() != null)
-        // {
-        // tResult.setParentMethodCall(simpleCopy(pCallDto.getParent()));
-        // }
         return tResult;
     }
 
@@ -120,13 +115,11 @@ public final class DtoHelper
     {
         MethodCallDTO tResult = simpleCopy(pCallPO, pOrderInTheParentChildren);
         tResult.setFlow(pFlow);
-        MethodCallPO curMethod;
         MethodCallDTO curChildDto;
         MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
         int i = 0;
-        for (Iterator tIt = pCallPO.getChildren().iterator(); tIt.hasNext();)
+        for (MethodCallPO curMethod : pCallPO.getChildren())
         {
-            curMethod = (MethodCallPO) tIt.next();
             curChildDto = getMethodCallDto(curMethod, pFlow, i);
             curChildDto.setParent(tResult);
             tChildren[i++] = curChildDto;
@@ -138,12 +131,10 @@ public final class DtoHelper
     static MethodCallPO getMethodCallPO(MethodCallDTO pCallDTO, ExecutionFlowPO pFlowPO)
     {
         MethodCallPO tResult = simpleCopy(pCallDTO, pFlowPO);
-        MethodCallDTO curMethod;
         MethodCallPO curChildPo;
-        List tChildren = new ArrayList(pCallDTO.getChildren().length);
-        for (int i = 0; i < pCallDTO.getChildren().length; i++)
+        List<MethodCallPO> tChildren = new ArrayList<MethodCallPO>(pCallDTO.getChildren().length);
+        for (MethodCallDTO curMethod : pCallDTO.getChildren())
         {
-            curMethod = pCallDTO.getChild(i);
             curChildPo = getMethodCallPO(curMethod, pFlowPO);
             curChildPo.setParentMethodCall(tResult);
             tChildren.add(curChildPo);
@@ -176,34 +167,32 @@ public final class DtoHelper
         return tResult;
     }
 
-    public static List copyListOfMethodPO(List pResult)
+    public static List<MethodCallDTO> copyListOfMethodPO(List<MethodCallPO> pSourceList)
     {
-        List tResult = new ArrayList(pResult.size());
-        for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
+        List<MethodCallDTO> tResult = new ArrayList<MethodCallDTO>(pSourceList.size());
+        for (MethodCallPO tMeth : pSourceList)
         {
-            tResult.add(DtoHelper.getMethodCallDto((MethodCallPO) tIt.next()));
+            tResult.add(DtoHelper.getMethodCallDto(tMeth));
         }
         return tResult;
     }
 
-    public static List simpleCopyListOfMethodPO(List pResult)
+    public static List<MethodCallDTO> simpleCopyListOfMethodPO(List<MethodCallPO> pSourceList)
     {
-        List tResult = new ArrayList(pResult.size());
+        List<MethodCallDTO> tResult = new ArrayList<MethodCallDTO>(pSourceList.size());
         int i = 0;
-        for (Iterator tIt = pResult.iterator(); tIt.hasNext();)
+        for (MethodCallPO tMeth : pSourceList)
         {
-            tResult.add(simpleCopy((MethodCallPO) tIt.next(), i++));
+            tResult.add(simpleCopy(tMeth, i++));
         }
         return tResult;
     }
 
-    public static List copyListMethodCallFullExtract(List pListOfMeth)
+    public static List<MethodCallFullExtractDTO> copyListMethodCallFullExtract(List<MethodCallPO> pListOfMeth)
     {
-        MethodCallPO tMeth;
-        List tResult = new ArrayList(pListOfMeth.size());
-        for (Iterator tIt = pListOfMeth.iterator(); tIt.hasNext();)
+        List<MethodCallFullExtractDTO> tResult = new ArrayList<MethodCallFullExtractDTO>(pListOfMeth.size());
+        for (MethodCallPO tMeth : pListOfMeth)
         {
-            tMeth = (MethodCallPO) tIt.next();
             tResult.add(copyMethodCallFullExtract(tMeth));
         }
         return tResult;

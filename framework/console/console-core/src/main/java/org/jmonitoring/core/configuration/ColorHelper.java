@@ -2,13 +2,10 @@ package org.jmonitoring.core.configuration;
 
 import java.awt.Color;
 
-import org.hibernate.util.GetGeneratedKeysHelper;
-
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
-
 
 /**
  * @author pke
@@ -72,116 +69,116 @@ public final class ColorHelper
 
     public static String getColor(String pGroupName)
     {
-        String tColor =ConfigurationHelper.getString("group.color." + pGroupName); 
-        if (tColor==null)
+        String tColor = ConfigurationHelper.getString("group.color." + pGroupName);
+        if (tColor == null)
         {
-            tColor =getGroupAsColorString(calculColor(pGroupName)); 
+            tColor = getGroupAsColorString(calculColor(pGroupName));
         }
         return tColor;
-            
+
     }
 
-//    /**
-//     * Factory's method for the <code>Configuration</code>. This method is not synchrnoized because there isn't any
-//     * trouble if we load the configuration twice.
-//     * 
-//     * @return The Syngleton.
-//     */
-//    public static Configuration getInstance()
-//    {
-//        if (sConfiguration == null)
-//        {
-//            sConfiguration = new Configuration();
-//        }
-//        return sConfiguration;
-//    }
-//
-//    /**
-//     * Accessor.
-//     * 
-//     * @return The default log parameter.
-//     */
-//    public boolean getLogMethodParameter()
-//    {
-//        return mLogMethodParameter;
-//    }
-//
-//    /**
-//     * Accessor.
-//     * 
-//     * @return The Asynchrone thread pool size.
-//     */
-//    public int getAsynchroneStoreThreadPoolSize()
-//    {
-//        return mAsynchroneStoreThreadPoolSize;
-//    }
-//
-//    /**
-//     * Accessor.
-//     * 
-//     * @return The store class.
-//     */
-//    public Class getMeasurePointStoreClass()
-//    {
-//        return mMeasurePointStoreClass;
-//    }
-//
-//    /**
-//     * Accessor.
-//     * 
-//     * @return The boolean that indicates if all the Tread use the same XmlStoreFile.
-//     */
-//    public boolean getSameFileForAllThread()
-//    {
-//        return mSameFileForAllThread;
-//    }
-//
-//    /**
-//     * Accessor.
-//     * 
-//     * @return The Xml outputdir.
-//     */
-//    public String getXmlOutpuDir()
-//    {
-//        return mXmlOutputDir;
-//    }
-//
-//    /**
-//     * Accessor.
-//     * 
-//     * @return The name of the server that is at the origin of the flow.
-//     */
-//    public String getServerName()
-//    {
-//        return mServerName;
-//    }
-//
-//    public void setLogMethodParameter(boolean pLogParameter)
-//    {
-//        mLogMethodParameter = pLogParameter;
-//    }
-//
-//    /**
-//     * @param pMeasurePointStoreClass The measurePointStoreClass to set.
-//     */
-//    public void setMeasurePointStoreClass(Class pMeasurePointStoreClass)
-//    {
-//        mMeasurePointStoreClass = pMeasurePointStoreClass;
-//    }
-//
-//    public Class getExecutionFlowDaoClass()
-//    {
-//        return mExecutionFlowDaoClass;
-//    }
-//
-//    public void setExecutionFlowDaoClass(Class pExecutionFlowDaoClass)
-//    {
-//        mExecutionFlowDaoClass = pExecutionFlowDaoClass;
-//    }
-//
-//    public int getMaxExecutionDuringFlowEdition()
-//    {
-//        return mMaxExecutionDuringFlowEdition;
-//    }
-//
+    // /**
+    // * Factory's method for the <code>Configuration</code>. This method is not synchrnoized because there isn't any
+    // * trouble if we load the configuration twice.
+    // *
+    // * @return The Syngleton.
+    // */
+    // public static Configuration getInstance()
+    // {
+    // if (sConfiguration == null)
+    // {
+    // sConfiguration = new Configuration();
+    // }
+    // return sConfiguration;
+    // }
+    //
+    // /**
+    // * Accessor.
+    // *
+    // * @return The default log parameter.
+    // */
+    // public boolean getLogMethodParameter()
+    // {
+    // return mLogMethodParameter;
+    // }
+    //
+    // /**
+    // * Accessor.
+    // *
+    // * @return The Asynchrone thread pool size.
+    // */
+    // public int getAsynchroneStoreThreadPoolSize()
+    // {
+    // return mAsynchroneStoreThreadPoolSize;
+    // }
+    //
+    // /**
+    // * Accessor.
+    // *
+    // * @return The store class.
+    // */
+    // public Class getMeasurePointStoreClass()
+    // {
+    // return mMeasurePointStoreClass;
+    // }
+    //
+    // /**
+    // * Accessor.
+    // *
+    // * @return The boolean that indicates if all the Tread use the same XmlStoreFile.
+    // */
+    // public boolean getSameFileForAllThread()
+    // {
+    // return mSameFileForAllThread;
+    // }
+    //
+    // /**
+    // * Accessor.
+    // *
+    // * @return The Xml outputdir.
+    // */
+    // public String getXmlOutpuDir()
+    // {
+    // return mXmlOutputDir;
+    // }
+    //
+    // /**
+    // * Accessor.
+    // *
+    // * @return The name of the server that is at the origin of the flow.
+    // */
+    // public String getServerName()
+    // {
+    // return mServerName;
+    // }
+    //
+    // public void setLogMethodParameter(boolean pLogParameter)
+    // {
+    // mLogMethodParameter = pLogParameter;
+    // }
+    //
+    // /**
+    // * @param pMeasurePointStoreClass The measurePointStoreClass to set.
+    // */
+    // public void setMeasurePointStoreClass(Class pMeasurePointStoreClass)
+    // {
+    // mMeasurePointStoreClass = pMeasurePointStoreClass;
+    // }
+    //
+    // public Class getExecutionFlowDaoClass()
+    // {
+    // return mExecutionFlowDaoClass;
+    // }
+    //
+    // public void setExecutionFlowDaoClass(Class pExecutionFlowDaoClass)
+    // {
+    // mExecutionFlowDaoClass = pExecutionFlowDaoClass;
+    // }
+    //
+    // public int getMaxExecutionDuringFlowEdition()
+    // {
+    // return mMaxExecutionDuringFlowEdition;
+    // }
+    //
 }

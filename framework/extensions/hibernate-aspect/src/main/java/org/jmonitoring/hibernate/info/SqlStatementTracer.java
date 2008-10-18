@@ -10,24 +10,19 @@ import org.jmonitoring.core.info.IResultTracer;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class SqlStatementTracer implements IResultTracer
-{
+public class SqlStatementTracer implements IResultTracer {
     Log sLog = LogFactory.getLog(SqlStatementTracer.class);
 
     IParamaterTracer mParamTracer = new ToStringParametersTracer();
 
-    public String convertToString(Object pTarget, Object pResult)
-    {
-        String tResult;
-        if (pTarget == null)
-        {
+    public CharSequence convertToString(Object pTarget, Object pResult) {
+        CharSequence tResult;
+        if (pTarget == null) {
             tResult = "Unable to log this Statement class= NULL";
             sLog.warn(tResult);
-        } else if (pTarget instanceof IProxyStatement)
-        {
+        } else if (pTarget instanceof IProxyStatement) {
             tResult = ((IProxyStatement) pTarget).getTrace();
-        } else
-        {
+        } else {
             tResult = "Unable to log this Statement class=" + pTarget.getClass().getName();
             sLog.warn(tResult);
         }

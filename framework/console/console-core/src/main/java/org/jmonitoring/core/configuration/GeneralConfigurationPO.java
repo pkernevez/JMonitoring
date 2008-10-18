@@ -10,8 +10,7 @@ package org.jmonitoring.core.configuration;
  * 
  * @author pke
  */
-public class GeneralConfigurationPO
-{
+public class GeneralConfigurationPO {
     private int mId = ConfigurationDAO.UNIQUE_CONF_ID;
 
     /**
@@ -27,46 +26,38 @@ public class GeneralConfigurationPO
     /** Time configuration for user rendered */
     private String mTimeFormat = "HH:mm:ss";
 
-    public String getDateFormat()
-    {
+    public String getDateFormat() {
         return mDateFormat;
     }
 
-    public void setDateFormat(String pDateFormat)
-    {
+    public void setDateFormat(String pDateFormat) {
         mDateFormat = pDateFormat;
     }
 
-    public int getMaxExecutionDuringFlowEdition()
-    {
+    public int getMaxExecutionDuringFlowEdition() {
         return mMaxExecutionDuringFlowEdition;
     }
 
-    public void setMaxExecutionDuringFlowEdition(int pMaxExecutionDuringFlowEdition)
-    {
+    public void setMaxExecutionDuringFlowEdition(int pMaxExecutionDuringFlowEdition) {
         mMaxExecutionDuringFlowEdition = pMaxExecutionDuringFlowEdition;
     }
 
-    public String getTimeFormat()
-    {
+    public String getTimeFormat() {
         return mTimeFormat;
     }
 
-    public void setTimeFormat(String pTimeFormat)
-    {
+    public void setTimeFormat(String pTimeFormat) {
         mTimeFormat = pTimeFormat;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         final int PRIME = 31;
         int result = 1;
         result = PRIME * result + mId;
         return result;
     }
 
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -79,13 +70,11 @@ public class GeneralConfigurationPO
         return true;
     }
 
-    public int getId()
-    {
+    public int getId() {
         return mId;
     }
 
-    public void setId(int pId)
-    {
+    public void setId(int pId) {
         mId = pId;
     }
 

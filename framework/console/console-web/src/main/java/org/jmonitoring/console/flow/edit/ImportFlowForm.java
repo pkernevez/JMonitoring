@@ -6,6 +6,8 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
 public class ImportFlowForm extends ActionForm
 {
+    private static final long serialVersionUID = -4586921491540529890L;
+
     private FormFile mFile;
 
     private ExecutionFlowDTO mNewExecutionFlow;

@@ -9,8 +9,6 @@ import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 
-import servletunit.struts.MockStrutsTestCase;
-
 public class TestFlowExportServlet extends JMonitoringMockStrustTestCase
 {
 
@@ -29,7 +27,7 @@ public class TestFlowExportServlet extends JMonitoringMockStrustTestCase
         assertEquals("application/x-zip", response.getContentType());
         assertTrue(response.getHeader("Content-Disposition").startsWith("attachment; filename="));
         assertTrue("No response in servet. (length=" + response.getContentLength() + ")",
-            response.getContentLength() > 100);
+                   response.getContentLength() > 100);
         assertTrue(tOut.size() > 100);
     }
 

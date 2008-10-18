@@ -34,6 +34,7 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
      * 
      * @see XYURLGenerator#generateURL(org.jfree.data.xy.XYDataset, int, int)
      */
+    @SuppressWarnings("unchecked")
     public String generateURL(CategoryDataset categorydataset, int i, int j)
     {
         if (j != mCurrentMainTaskPosition)
@@ -45,13 +46,14 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
             mCurrentPositionForThisTask++;
         }
         TaskSeriesCollection tCollection = (TaskSeriesCollection) categorydataset;
-        List tListOfTaskSeries = tCollection.getRowKeys();
-        TaskSeries tTaskSeries = (TaskSeries) tListOfTaskSeries.get(0);
-        Task tMainTask = (Task) tTaskSeries.get(j);
+        List<TaskSeries> tListOfTaskSeries = tCollection.getRowKeys();
+        TaskSeries tTaskSeries = tListOfTaskSeries.get(0);
+        Task tMainTask = tTaskSeries.get(j);
         MethodCallTask tCurrentTask = (MethodCallTask) tMainTask.getSubtask(mCurrentPositionForThisTask);
 
-        String tUrl = "MethodCallEditIn.do?flowId=" + tCurrentTask.getFlowId() + "&position="
-            + tCurrentTask.getMethodCallId();
+        String tUrl = "MethodCallEditIn.do?flowId=" + tCurrentTask.getFlowId()
+                        + "&position="
+                        + tCurrentTask.getMethodCallId();
         sLog.debug("Generate URL:" + tUrl);
         return tUrl;
     }

@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.jmonitoring.core.configuration.ColorHelper;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /**
@@ -40,10 +39,10 @@ public class ExecutionFlowDTO implements Serializable
     /** Technical identifier. */
     private int mId;
 
-    /** Nom de la classe sur laquelle est fait l'appel de la méthode. */
+    /** Nom de la classe sur laquelle est fait l'appel de la mï¿½thode. */
     private String mClassName;
 
-    /** Nom de la méthode associée à ce point de mesure. */
+    /** Nom de la mï¿½thode associï¿½e ï¿½ ce point de mesure. */
     private String mMethodName;
 
     /**
@@ -59,7 +58,7 @@ public class ExecutionFlowDTO implements Serializable
      * @param pId L'identifiant technique de ce flux.
      * @param pThreadName The name of the Thread of this flow.
      * @param pJVMIdentifier The identifier of this JVM or Server.
-     * @param pBeginTime L'heure de début de l'appel.
+     * @param pBeginTime L'heure de dï¿½but de l'appel.
      * @param pEndTime L'heure de fin de l'appel.
      */
     public ExecutionFlowDTO(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
@@ -77,7 +76,7 @@ public class ExecutionFlowDTO implements Serializable
     // *
     // * @param pThreadName The name of the Thread of this flow.
     // * @param pJVMIdentifier The identifier of this JVM or Server.
-    // * @param pBeginTime L'heure de début de l'appel.
+    // * @param pBeginTime L'heure de dï¿½but de l'appel.
     // * @param pEndTime L'heure de fin de l'appel.
     // */
     // public ExecutionFlowDTO(String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
@@ -265,6 +264,7 @@ public class ExecutionFlowDTO implements Serializable
     /**
      * @see java.lang.Object.toString()
      */
+    @Override
     public String toString()
     {
         StringBuffer tBuffer = new StringBuffer();

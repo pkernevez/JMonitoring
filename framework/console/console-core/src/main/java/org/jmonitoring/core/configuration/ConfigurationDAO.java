@@ -8,7 +8,6 @@ package org.jmonitoring.core.configuration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +17,7 @@ import org.hibernate.Session;
 public class ConfigurationDAO
 {
 
-    private Session mSession;
+    private final Session mSession;
 
     public ConfigurationDAO(Session pSession)
     {
@@ -45,7 +44,7 @@ public class ConfigurationDAO
     public GroupConfigurationPO getGroupConfiguration(String pGroupName)
     {
         GroupConfigurationPO tConf = (GroupConfigurationPO) mSession.get(GroupConfigurationPO.class,
-            new GroupConfigurationPK(pGroupName));
+                        new GroupConfigurationPK(pGroupName));
         if (tConf != null)
         {
             return tConf;
@@ -60,21 +59,17 @@ public class ConfigurationDAO
         mSession.delete(getGroupConfiguration(pGroupName));
     }
 
-    public Collection getAllGroupConfigurations()
+    @SuppressWarnings("unchecked")
+    public Collection<GroupConfigurationPO> getAllGroupConfigurations()
     {
-        List tListFromMeth = mSession.createQuery("select distinct m.groupName from MethodCallPO m").list();
-        List tListFromConf = mSession.createQuery("select g.id.groupName from GroupConfigurationPO g").list();
+        List<String> tListFromMeth = mSession.createQuery("select distinct m.groupName from MethodCallPO m").list();
+        List<String> tListFromConf = mSession.createQuery("select g.id.groupName from GroupConfigurationPO g").list();
         tListFromConf.addAll(tListFromMeth);
-        Set tSetOfGroupName = new HashSet(tListFromConf);
-        List tResult = new ArrayList(tSetOfGroupName.size());
-        // Query tQuery = mSession.createQuery("from GroupConfigurationPO where id.groupName=:pGroupName");
+        Set<String> tSetOfGroupName = new HashSet<String>(tListFromConf);
+        List<GroupConfigurationPO> tResult = new ArrayList<GroupConfigurationPO>(tSetOfGroupName.size());
         GroupConfigurationPO curConf;
-        String curGroupName;
-        for (Iterator tIt = tSetOfGroupName.iterator(); tIt.hasNext();)
+        for (String curGroupName : tSetOfGroupName)
         {
-            curGroupName = (String) tIt.next();
-            // tQuery.setString("pGroupName", curGroupName);
-            // curConf = (GroupConfigurationPO) tQuery.uniqueResult();
             try
             {
                 curConf = getGroupConfiguration(curGroupName);

@@ -12,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.agent.store.StoreFactory;
-import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.HttpWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
@@ -28,17 +27,20 @@ public class StoreServlet extends HttpServlet
 
     private static Log sLog = LogFactory.getLog(StoreServlet.class);
 
+    @Override
     public void init() throws ServletException
     {
         super.init();
         mWriter = StoreFactory.getWriter();
     }
 
+    @Override
     protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException
     {
         doPost(pReq, pResp);
     }
 
+    @Override
     protected void doPost(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException
     {
         if (!HttpWriter.CONTENT_TYPE.equals(pReq.getContentType()))

@@ -25,13 +25,13 @@ public final class ConfigurationHelper
 
     private static Log sLog = LogFactory.getLog(ConfigurationHelper.class);
 
-    private static final ThreadLocal sTimeFormater = new ThreadLocal();
+    private static final ThreadLocal<SimpleDateFormat> sTimeFormater = new ThreadLocal<SimpleDateFormat>();
 
     // private static final ThreadLocal sDateFormater = new ThreadLocal();
 
-    private static final ThreadLocal sDateTimeFormater = new ThreadLocal();
+    private static final ThreadLocal<SimpleDateFormat> sDateTimeFormater = new ThreadLocal<SimpleDateFormat>();
 
-    private static final ThreadLocal sDateFormater = new ThreadLocal();
+    private static final ThreadLocal<SimpleDateFormat> sDateFormater = new ThreadLocal<SimpleDateFormat>();
 
     public static final String STORE_CLASS = "measurepoint.logger.class";
 
@@ -46,6 +46,7 @@ public final class ConfigurationHelper
         return sConfiguration;
     }
 
+    // TODO Replace with Spring
     static synchronized Properties getInstance()
     {
         Properties tConfig = sConfiguration;
@@ -62,12 +63,11 @@ public final class ConfigurationHelper
                 PropertyResourceBundle tBundle = new PropertyResourceBundle(tStream);
                 tConfig = new Properties();
                 String tCurKey;
-                for (Enumeration tEnum = tBundle.getKeys(); tEnum.hasMoreElements();)
+                for (Enumeration<String> tEnum = tBundle.getKeys(); tEnum.hasMoreElements();)
                 {
-                    tCurKey = (String) tEnum.nextElement();
+                    tCurKey = tEnum.nextElement();
                     tConfig.setProperty(tCurKey, tBundle.getString(tCurKey));
                 }
-
             } catch (IOException e)
             {
                 throw new MeasureException("Unable to load properties from  [jmonitoring.properties].");
@@ -84,14 +84,14 @@ public final class ConfigurationHelper
      */
     private static SimpleDateFormat getTimeFormater()
     {
-        Object tResult = sTimeFormater.get();
+        SimpleDateFormat tResult = sTimeFormater.get();
         if (tResult == null)
         {
             String tDateFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.time");
             tResult = new SimpleDateFormat(tDateFormat);
             sTimeFormater.set(tResult);
         }
-        return (SimpleDateFormat) tResult;
+        return tResult;
     }
 
     /**
@@ -101,15 +101,15 @@ public final class ConfigurationHelper
      */
     private static SimpleDateFormat getDateTimeFormater()
     {
-        Object tResult = sDateTimeFormater.get();
+        SimpleDateFormat tResult = sDateTimeFormater.get();
         if (tResult == null)
         {
             String tDateTimeFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.date") + " "
-                + ConfigurationHelper.getInstance().getProperty("format.ihm.time");
+                            + ConfigurationHelper.getInstance().getProperty("format.ihm.time");
             tResult = new SimpleDateFormat(tDateTimeFormat);
             sDateTimeFormater.set(tResult);
         }
-        return (SimpleDateFormat) tResult;
+        return tResult;
     }
 
     public static Date parseDate(String pDate) throws ParseException
@@ -119,14 +119,14 @@ public final class ConfigurationHelper
 
     public static SimpleDateFormat getDateFormater()
     {
-        Object tResult = sDateFormater.get();
+        SimpleDateFormat tResult = sDateFormater.get();
         if (tResult == null)
         {
             String tDateFormat = ConfigurationHelper.getInstance().getProperty("format.ihm.date");
             tResult = new SimpleDateFormat(tDateFormat);
             sDateFormater.set(tResult);
         }
-        return (SimpleDateFormat) tResult;
+        return tResult;
     }
 
     public static Date parseTime(String tTime) throws ParseException
@@ -159,30 +159,34 @@ public final class ConfigurationHelper
         return getDateFormater().format(pDate);
     }
 
-    public static Constructor getDaoDefaultConstructor()
+    @SuppressWarnings("unchecked")
+    public static Constructor<IInsertionDao> getDaoDefaultConstructor()
     {
         String tClassName = getInstance().getProperty(DAO_STORE_KEY);
         if (tClassName == null)
         {
-            throw new MeasureException("Unable to find DAO classname, add a property [execution.dao.class] "
-                + "to your [jmonitoring.properties] file");
+            throw new MeasureException(
+                            "Unable to find DAO classname, add a property [execution.dao.class] " + "to your [jmonitoring.properties] file");
         }
         try
         {
-            Class tClass = Class.forName(tClassName);
+            Class<IInsertionDao> tClass = (Class<IInsertionDao>) Class.forName(tClassName);
             return tClass.getConstructor(new Class[0]);
         } catch (ClassNotFoundException e)
         {
-            throw new MeasureException("Unable to load the class define with the property [execution.dao.class] "
-                + "check your [jmonitoring.properties] file", e);
+            throw new MeasureException(
+                            "Unable to load the class define with the property [execution.dao.class] " + "check your [jmonitoring.properties] file",
+                            e);
         } catch (SecurityException e)
         {
-            throw new MeasureException("Unable to access to the default constructor of the class defined by the "
-                + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
+            throw new MeasureException(
+                            "Unable to access to the default constructor of the class defined by the " + "property [execution.dao.class] check your [jmonitoring.properties] file",
+                            e);
         } catch (NoSuchMethodException e)
         {
-            throw new MeasureException("Unable to access to the default constructor of the class defined by the "
-                + "property [execution.dao.class] check your [jmonitoring.properties] file", e);
+            throw new MeasureException(
+                            "Unable to access to the default constructor of the class defined by the " + "property [execution.dao.class] check your [jmonitoring.properties] file",
+                            e);
         }
     }
 

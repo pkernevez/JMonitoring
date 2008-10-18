@@ -4,12 +4,11 @@
 	<comment>This project provides a Sample console for Monitoring infrastructure.</comment>
 	<projects>
 		<project>agent</project>
-		<project>server</project>
-		<project>sample-aspects</project>
 		<project>common</project>
-		<project>persistence</project>
-		<project>hibernate-aspect</project>
 		<project>common-hibernate</project>
+		<project>hibernate-aspect</project>
+		<project>persistence</project>
+		<project>sample-aspects</project>
 		<project>sample-core</project>
 	</projects>
 	<buildSpec>
@@ -19,12 +18,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
+			<name>org.eclipse.ajdt.core.ajbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -32,6 +26,5 @@
 	<natures>
 		<nature>org.eclipse.ajdt.ui.ajnature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
 	</natures>
 </projectDescription>

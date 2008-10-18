@@ -10,14 +10,11 @@ import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
 
-public class TestTraceOfParameters extends SamplePersistenceTestcase
-{
+public class TestTraceOfParameters extends SamplePersistenceTestcase {
 
-    public void testWithoutAnyTraceAndHibernate()
-    {
-        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS,
-            InsertionHibernateDAO.class.getName());
-        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
+    public void testWithoutAnyTraceAndHibernate() {
+        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, InsertionHibernateDAO.class.getName());
+        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallOther(3, "AB");
@@ -56,9 +53,8 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
 
     }
 
-    public void testWithoutAnyTrace()
-    {
-        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
+    public void testWithoutAnyTrace() {
+        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithoutTrace();
@@ -68,8 +64,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         checkWithoutAnyTrace();
     }
 
-    private void checkWithoutAnyTrace()
-    {
+    private void checkWithoutAnyTrace() {
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
         ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
@@ -81,9 +76,8 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         assertNull(tMethodCall.getThrowableMessage());
     }
 
-    public void testWithTraceOfParameter()
-    {
-        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
+    public void testWithTraceOfParameter() {
+        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameter(3, "pString");
@@ -93,8 +87,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         checkWithTraceOfParameter();
     }
 
-    private void checkWithTraceOfParameter()
-    {
+    private void checkWithTraceOfParameter() {
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
         ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
@@ -106,9 +99,8 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         assertNull(tMethodCall.getThrowableMessage());
     }
 
-    public void testWithTraceOfParamAndResult()
-    {
-        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
+    public void testWithTraceOfParamAndResult() {
+        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameterAndResult(3, "pString");
@@ -117,8 +109,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         checkWithTraceOfParamAndResult();
     }
 
-    private void checkWithTraceOfParamAndResult()
-    {
+    private void checkWithTraceOfParamAndResult() {
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
         ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);
@@ -130,9 +121,8 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         assertNull(tMethodCall.getThrowableMessage());
     }
 
-    public void testWithTraceOfResult()
-    {
-        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
+    public void testWithTraceOfResult() {
+        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithResult(3, "pString");
@@ -142,8 +132,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         checkWithTraceOfResult();
     }
 
-    private void checkWithTraceOfResult()
-    {
+    private void checkWithTraceOfResult() {
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
         ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
 
@@ -156,23 +145,19 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase
         assertNull(tMethodCall.getThrowableMessage());
     }
 
-    public void testWithDefaultTraceOfException()
-    {
-        StoreManager.changeStoreManagerClass(SynchroneJdbcStore.class);
+    public void testWithDefaultTraceOfException() {
+        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
-        try
-        {
+        try {
             tCallObject.toBeCallWithException(3, "pString");
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
         }
         closeAndRestartSession();
         checkWithDefaultTraceOfException();
     }
 
-    private void checkWithDefaultTraceOfException()
-    {
+    private void checkWithDefaultTraceOfException() {
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
         ExecutionFlowPO tFlow = tConsoleDao.readExecutionFlow(1);
         assertNotNull(tFlow);

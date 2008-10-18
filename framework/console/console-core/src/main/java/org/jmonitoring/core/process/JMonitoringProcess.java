@@ -7,7 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -15,7 +14,6 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.exception.SQLGrammarException;
 import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.common.UnknownFlowException;
@@ -27,6 +25,8 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.DtoHelper;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.jmonitoring.core.dto.MethodCallExtractDTO;
+import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -105,13 +105,13 @@ public class JMonitoringProcess
         return DtoHelper.getDeepCopy(tFlowPo);
     }
 
-    public List getListOfExecutionFlowDto(FlowSearchCriterion pCriterion)
+    public List<ExecutionFlowDTO> getListOfExecutionFlowDto(FlowSearchCriterion pCriterion)
     {
-        List tList = new ArrayList();
+        List<ExecutionFlowDTO> tList = new ArrayList<ExecutionFlowDTO>();
         ConsoleDao tDao = new ConsoleDao();
-        for (Iterator tIt = tDao.getListOfExecutionFlowPO(pCriterion).iterator(); tIt.hasNext();)
+        for (ExecutionFlowPO tFlow : tDao.getListOfExecutionFlowPO(pCriterion))
         {
-            tList.add(DtoHelper.getSimpleCopy((ExecutionFlowPO) tIt.next()));
+            tList.add(DtoHelper.getSimpleCopy(tFlow));
         }
         return tList;
     }
@@ -123,25 +123,27 @@ public class JMonitoringProcess
         return DtoHelper.simpleCopy(tMethod, -1);
     }
 
-    public List getListOfMethodCallFromClassAndMethodName(String pClassName, String pMethodName)
+    public List<MethodCallDTO> getListOfMethodCallFromClassAndMethodName(String pClassName, String pMethodName)
     {
         ConsoleDao tDao = new ConsoleDao();
-        List tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
+        List<MethodCallPO> tResult = tDao.getListOfMethodCall(pClassName, pMethodName);
         return DtoHelper.simpleCopyListOfMethodPO(tResult);
     }
 
-    public List getListOfMethodCallExtract()
+    // TODO Remplacer par un bean Spring !
+    public List<MethodCallExtractDTO> getListOfMethodCallExtract()
     {
         ConsoleDao tDao = new ConsoleDao();
-        List tList = tDao.getListOfMethodCallExtract();
-        return tList;
+        return tDao.getListOfMethodCallExtract();
     }
 
-    public List getListOfMethodCallFullExtract(String pClassName, String pMethodName, long pDurationMin,
-                    long pDurationMax)
+    // TODO Remplacer par un bean Spring !
+    public List<MethodCallFullExtractDTO> getListOfMethodCallFullExtract(String pClassName, String pMethodName,
+                    long pDurationMin, long pDurationMax)
     {
         ConsoleDao tDao = new ConsoleDao();
-        List tListOfMethodCall = tDao.getMethodCallList(pClassName, pMethodName, pDurationMin, pDurationMax);
+        List<MethodCallPO> tListOfMethodCall = tDao.getMethodCallList(pClassName, pMethodName, pDurationMin,
+                        pDurationMax);
         return DtoHelper.copyListMethodCallFullExtract(tListOfMethodCall);
     }
 

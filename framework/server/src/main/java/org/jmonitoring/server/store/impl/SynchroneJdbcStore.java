@@ -10,16 +10,16 @@ import org.hibernate.Transaction;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.persistence.InsertionDao;
 
 public class SynchroneJdbcStore implements IStoreWriter
 {
 
     private static Log sLog = LogFactory.getLog(SynchroneJdbcStore.class);;
 
-    private static Constructor sConstructor;
+    private static Constructor<IInsertionDao> sConstructor;
 
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
@@ -27,7 +27,7 @@ public class SynchroneJdbcStore implements IStoreWriter
         try
         {
             long tStartTime = System.currentTimeMillis();
-            tPManager = (Session) HibernateManager.getSession();
+            tPManager = HibernateManager.getSession();
             Transaction tTransaction = tPManager.getTransaction();
             tTransaction.begin();
             getDao().insertFullExecutionFlow(pExecutionFlow);
@@ -48,9 +48,9 @@ public class SynchroneJdbcStore implements IStoreWriter
         }
     }
 
-    private InsertionDao getDao()
+    private IInsertionDao getDao()
     {
-        Constructor tCon = sConstructor;
+        Constructor<IInsertionDao> tCon = sConstructor;
         if (tCon == null)
         {
             tCon = ConfigurationHelper.getDaoDefaultConstructor();
@@ -58,7 +58,7 @@ public class SynchroneJdbcStore implements IStoreWriter
         }
         try
         {
-            return (InsertionDao) tCon.newInstance(new Object[0]);
+            return tCon.newInstance(new Object[0]);
         } catch (IllegalArgumentException e)
         {
             throw new MeasureException("Unable to Call the default constructor of the DAO", e);

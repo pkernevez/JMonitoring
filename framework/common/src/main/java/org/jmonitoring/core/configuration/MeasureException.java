@@ -6,12 +6,11 @@ package org.jmonitoring.core.configuration;
  **************************************************************************/
 
 /**
- * Exception réservé au bon fonctionnement du framework de mesure.
+ * Exception rï¿½servï¿½ au bon fonctionnement du framework de mesure.
  * 
  * @author pke
  */
-public class MeasureException extends RuntimeException
-{
+public class MeasureException extends RuntimeException {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -21,8 +20,7 @@ public class MeasureException extends RuntimeException
     /**
      * Default constructor.
      */
-    public MeasureException()
-    {
+    public MeasureException() {
         super();
     }
 
@@ -31,8 +29,7 @@ public class MeasureException extends RuntimeException
      * 
      * @param pMessage The message of the <code>Exception</code>.
      */
-    public MeasureException(String pMessage)
-    {
+    public MeasureException(String pMessage) {
         super(pMessage);
     }
 
@@ -42,8 +39,7 @@ public class MeasureException extends RuntimeException
      * @param pMessage The message of the <code>Exception</code>.
      * @param pOriginalException The original <code>Exception</code>.
      */
-    public MeasureException(String pMessage, Throwable pOriginalException)
-    {
+    public MeasureException(String pMessage, Throwable pOriginalException) {
         super(pMessage, pOriginalException);
     }
 }

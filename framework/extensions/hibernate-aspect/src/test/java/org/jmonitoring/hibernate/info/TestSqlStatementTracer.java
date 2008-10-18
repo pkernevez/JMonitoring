@@ -26,6 +26,7 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
 public class TestSqlStatementTracer extends PersistanceTestCase
 {
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -38,20 +39,20 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         assertEquals("Unable to log this Statement class= NULL", tTracer.convertToString(null, null));
         assertEquals("Unable to log this Statement class=java.lang.String", tTracer.convertToString("bad class", null));
         JMonitoringStatement tStat = new JMonitoringStatement(null);
-        assertEquals("", tTracer.convertToString(tStat, null));
+        assertEquals("", tTracer.convertToString(tStat, null).toString());
 
-        assertEquals("", tTracer.convertToString(tStat, "RTRT"));
+        assertEquals("", tTracer.convertToString(tStat, "RTRT").toString());
 
     }
 
     public void testTraceStatementParametersStatement() throws HibernateException, SQLException
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         Session tSession = getSession();
         Connection tCon = tSession.connection();
         Statement tStat = tCon.createStatement();
         assertEquals(JMonitoringStatement.class, tStat.getClass());
-        SqlStatementTracer tTracer = new SqlStatementTracer();
+        // SqlStatementTracer tTracer = new SqlStatementTracer();
         tStat.execute("select * from EXECUTION_FLOW");
         closeAndRestartSession();
         assertEquals(1, MemoryStoreWriter.countFlows());
@@ -61,9 +62,10 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersPreparedStatement() throws HibernateException, SQLException
     {
-        PreparedStatement tPStat = getSession().connection().prepareStatement(
-            "select * from EXECUTION_FLOW where Id=? and JVM=? and Id=? and Id=? and Id=? and Id=? "
-                + "and BEGIN_TIME_AS_DATE=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?");
+        PreparedStatement tPStat = getSession()
+                                               .connection()
+                                               .prepareStatement(
+                                                                 "select * from EXECUTION_FLOW where Id=? and JVM=? and Id=? and Id=? and Id=? and Id=? " + "and BEGIN_TIME_AS_DATE=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?");
         assertEquals(JMonitoringPreparedStatement.class, tPStat.getClass());
         JMonitoringPreparedStatement tPrepStat = (JMonitoringPreparedStatement) tPStat;
         tPrepStat.setInt(1, 34);
@@ -78,7 +80,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tPrepStat.setNull(10, Types.BIT);
         tPrepStat.setTime(11, new Time(11, 23, 34));
         SqlStatementTracer tTracer = new SqlStatementTracer();
-        String tTrace = tTracer.convertToString(tPrepStat, new Object[0]);
+        String tTrace = tTracer.convertToString(tPrepStat, new Object[0]).toString();
         StringBuffer tBuffer = new StringBuffer();
         tBuffer.append("PrepareStatement with Sql=[select * from EXECUTION_FLOW where Id=? and JVM=? ");
         tBuffer.append("and Id=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=? and ");
@@ -100,7 +102,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
     {
-        StoreManager.changeStoreManagerClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
 
         defineStoredProcedure();
         checkDataStoredProcedure();
@@ -121,7 +123,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tBuffer.append("Add Double parameter, pos=[1], value=[2.0]\n");
         tBuffer.append("Execute query\n");
 
-        // We only want to chack the latest ExecutionFlow
+        // We only want to check the latest ExecutionFlow
         LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow=" + MemoryStoreWriter.countFlows());
         assertEquals(5, MemoryStoreWriter.countFlows());
 

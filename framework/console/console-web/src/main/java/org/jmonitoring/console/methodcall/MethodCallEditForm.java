@@ -49,9 +49,9 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The list of attributes to use for the link.
      */
-    public Map getParentIdsMap()
+    public Map<String, Integer> getParentIdsMap()
     {
-        Map tHashMap = new HashMap();
+        Map<String, Integer> tHashMap = new HashMap<String, Integer>();
         if (mMethodCall.getParent() != null)
         {
             tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
@@ -66,9 +66,9 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The list of attributes to use for the link.
      */
-    public Map getMethodCallIdsMap()
+    public Map<String, Integer> getMethodCallIdsMap()
     {
-        Map tHashMap = new HashMap();
+        Map<String, Integer> tHashMap = new HashMap<String, Integer>();
         tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
         tHashMap.put("position", new Integer(mMethodCall.getPosition()));
         return tHashMap;
@@ -81,10 +81,10 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * @param pPosition The index of the <code>MethodCallDTO</code>.
      * @return The list of attributes to use for the link.
      */
-    public Map getChildMethodCallIdsMap(int pPosition)
+    public Map<String, Integer> getChildMethodCallIdsMap(int pPosition)
     {
-        Map tHashMap = new HashMap();
-        MethodCallDTO tMeasure = (MethodCallDTO) mMethodCall.getChild(pPosition);
+        Map<String, Integer> tHashMap = new HashMap<String, Integer>();
+        MethodCallDTO tMeasure = mMethodCall.getChild(pPosition);
         tHashMap.put("flowId", new Integer(tMeasure.getFlowId()));
         tHashMap.put("position", new Integer(tMeasure.getPosition()));
         return tHashMap;
@@ -100,6 +100,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The name of the method.
      */
+    @Override
     public String getMethodName()
     {
         String tResult = super.getMethodName();
@@ -115,6 +116,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
      * 
      * @return The name of the <code>Class</code>.
      */
+    @Override
     public String getClassName()
     {
         String tResult = super.getClassName();

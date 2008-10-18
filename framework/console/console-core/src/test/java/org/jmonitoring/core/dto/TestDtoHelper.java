@@ -48,7 +48,7 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals("[]", tMeth.getParams());
         assertEquals(2, tMeth.getChildren().length);
         assertEquals(MethodCallDTO.class.getName(), tMeth.getChild(0).getClass().getName());
-        assertEquals(tMeth, ((MethodCallDTO) tMeth.getChild(0)).getParent());
+        assertEquals(tMeth, (tMeth.getChild(0)).getParent());
     }
 
     public void testGetFullMethodCallDto()
@@ -57,7 +57,7 @@ public class TestDtoHelper extends PersistanceTestCase
         MethodCallDTO tMeth = DtoHelper.getFullMethodCallDto(tFlow.getFirstMethodCall(), 0);
         assertNotNull(tMeth);
         assertEquals(2, tMeth.getChildren().length);
-        MethodCallDTO tChild1 = (MethodCallDTO) tMeth.getChild(0);
+        MethodCallDTO tChild1 = tMeth.getChild(0);
         assertNotNull(tChild1.getParent());
     }
 
@@ -94,7 +94,7 @@ public class TestDtoHelper extends PersistanceTestCase
         assertEquals("[]", tNewMeth.getParams());
         assertEquals(2, tNewMeth.getChildren().size());
         assertEquals(MethodCallPO.class.getName(), tNewMeth.getChild(0).getClass().getName());
-        assertEquals(tNewMeth, ((MethodCallPO) tNewMeth.getChild(0)).getParentMethodCall());
+        assertEquals(tNewMeth, (tNewMeth.getChild(0)).getParentMethodCall());
     }
 
     public void testGetFullMethodCallPO()
@@ -104,7 +104,7 @@ public class TestDtoHelper extends PersistanceTestCase
         MethodCallPO tNewMeth = DtoHelper.getFullMethodCallPO(tMeth, null);
         assertNotNull(tNewMeth);
         assertEquals(2, tNewMeth.getChildren().size());
-        MethodCallPO tChild1 = (MethodCallPO) tNewMeth.getChild(0);
+        MethodCallPO tChild1 = tNewMeth.getChild(0);
         assertNotNull(tChild1.getParentMethodCall());
     }
 
@@ -112,7 +112,7 @@ public class TestDtoHelper extends PersistanceTestCase
     {
         ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
         MethodCallPO tMeth = tFlow.getFirstMethodCall();
-        List tList = DtoHelper.copyListMethodCallFullExtract(tMeth.getChildren());
+        List<MethodCallFullExtractDTO> tList = DtoHelper.copyListMethodCallFullExtract(tMeth.getChildren());
         assertEquals(2, tList.size());
         assertEquals(MethodCallFullExtractDTO.class, tList.get(0).getClass());
         assertEquals(MethodCallFullExtractDTO.class, tList.get(1).getClass());

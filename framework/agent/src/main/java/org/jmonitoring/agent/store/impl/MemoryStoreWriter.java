@@ -14,7 +14,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 
 public class MemoryStoreWriter implements IStoreWriter
 {
-    private static List sListOfExecutionFlow = new ArrayList();
+    private static List<ExecutionFlowPO> sListOfExecutionFlow = new ArrayList<ExecutionFlowPO>();
 
     private static Log sLog = LogFactory.getLog(MemoryStoreWriter.class);
 
@@ -36,7 +36,7 @@ public class MemoryStoreWriter implements IStoreWriter
 
     public static ExecutionFlowPO getFlow(int pPosition)
     {
-        return (ExecutionFlowPO) sListOfExecutionFlow.get(pPosition);
+        return sListOfExecutionFlow.get(pPosition);
     }
 
 }

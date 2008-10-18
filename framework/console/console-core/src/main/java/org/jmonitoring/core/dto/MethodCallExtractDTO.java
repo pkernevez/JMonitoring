@@ -11,15 +11,15 @@ package org.jmonitoring.core.dto;
  */
 public class MethodCallExtractDTO
 {
-    private String mName;
+    private final String mName;
 
-    private String mClassName;
+    private final String mClassName;
 
-    private String mMethodName;
+    private final String mMethodName;
 
-    private int mOccurenceNumber;
+    private final int mOccurenceNumber;
 
-    private String mGroupName;
+    private final String mGroupName;
 
     /**
      * Default constructor.
@@ -29,13 +29,13 @@ public class MethodCallExtractDTO
      * @param pGroupName The name of the group associated with this measure extract.
      * @param pNb The number of occurrence of this kind of measure.
      */
-    public MethodCallExtractDTO(String pClassName, String pMethodName, String pGroupName, Integer pNb)
+    public MethodCallExtractDTO(String pClassName, String pMethodName, String pGroupName, int pNb)
     {
         mName = getFullName(pClassName, pMethodName);
         mClassName = pClassName;
         mMethodName = pMethodName;
         mGroupName = getGroupName(pGroupName);
-        mOccurenceNumber = pNb.intValue();
+        mOccurenceNumber = pNb;
     }
 
     protected static String getFullName(String pClassName, String pMethodName)

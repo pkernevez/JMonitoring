@@ -19,7 +19,7 @@ public aspect SomeNonStaticsAspect extends PerformanceAspect
     && !execution( static * *.main(String[]))
     && !within( junit.framework.TestCase+ )
     && !execution( * *.toString() )
-//    && !execution( * *.getID() )
+// && !execution( * *.getID() )
     && !execution( * org.jmonitoring.sample.main.ShoppingCartPO.get*() )
     && !execution( * org.jmonitoring.sample.main.ShoppingCartPO.set*(..) )
     && !execution( * org.jmonitoring.sample.main.ItemPO.get*() )
