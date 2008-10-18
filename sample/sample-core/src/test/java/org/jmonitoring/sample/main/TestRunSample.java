@@ -14,9 +14,11 @@ import org.jmonitoring.sample.SamplePersistenceTestcase;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestRunSample extends SamplePersistenceTestcase {
+public class TestRunSample extends SamplePersistenceTestcase
+{
 
-    public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory() {
+    public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory()
+    {
         ShoppingCartPO.setCounter(0);
         StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
         new RunSample(getSampleSession()).run();
@@ -47,7 +49,8 @@ public class TestRunSample extends SamplePersistenceTestcase {
         assertEquals(MemoryStoreWriter.class.getName(), ConfigurationHelper.getString(ConfigurationHelper.STORE_CLASS));
     }
 
-    private void checkReadFlow(ExecutionFlowPO pFlow) {
+    private void checkReadFlow(ExecutionFlowPO pFlow)
+    {
         MethodCallPO tMeth = pFlow.getFirstMethodCall();
         assertNotNull(tMeth);
         assertEquals("java.sql.PreparedStatement", tMeth.getClassName());
@@ -58,7 +61,8 @@ public class TestRunSample extends SamplePersistenceTestcase {
      * @todo check if we need 3 or 1 on the next test.
      * 
      */
-    private void checkRun(ExecutionFlowPO pFlow) {
+    private void checkRun(ExecutionFlowPO pFlow)
+    {
         assertEquals("org.jmonitoring.sample.main.RunSample", pFlow.getFirstMethodCall().getClassName());
         assertEquals("run", pFlow.getFirstMethodCall().getMethodName());
         assertEquals(11, pFlow.getFirstMethodCall().getChildren().size());
@@ -117,12 +121,13 @@ public class TestRunSample extends SamplePersistenceTestcase {
         assertEquals(0, tCurMeth.getChildren().size());
     }
 
-    private void checkSqlMethodCall(ExecutionFlowPO tFlow) {
+    private void checkSqlMethodCall(ExecutionFlowPO tFlow)
+    {
         MethodCallPO tCurMeth;
         MethodCallPO tCurParent = tFlow.getFirstMethodCall().getChild(8).getChild(0);
         assertEquals(6, tCurParent.getChildren().size());
         // Start of the Sql Request
-        StringBuffer tTrace = new StringBuffer();
+        StringBuilder tTrace = new StringBuilder();
         tCurMeth = tCurParent.getChild(0);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
@@ -134,7 +139,7 @@ public class TestRunSample extends SamplePersistenceTestcase {
         tCurMeth = tCurParent.getChild(1);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeQuery", tCurMeth.getMethodName());
-        tTrace = new StringBuffer();
+        tTrace = new StringBuilder();
         tTrace.append("PrepareStatement with Sql=[call identity()]\n");
         tTrace.append("Execute query\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
@@ -143,7 +148,7 @@ public class TestRunSample extends SamplePersistenceTestcase {
         tCurMeth = tCurParent.getChild(2);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
-        tTrace = new StringBuffer();
+        tTrace = new StringBuilder();
         tTrace.append("PrepareStatement with Sql=[insert into ITEM (PRICE, ID) values (?, null)]\n");
         tTrace.append("Add Float parameter, pos=[1], value=[30.0]\n");
         tTrace.append("Execute update\n");
@@ -153,7 +158,7 @@ public class TestRunSample extends SamplePersistenceTestcase {
         tCurMeth = tCurParent.getChild(3);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeQuery", tCurMeth.getMethodName());
-        tTrace = new StringBuffer();
+        tTrace = new StringBuilder();
         tTrace.append("PrepareStatement with Sql=[call identity()]\n");
         tTrace.append("Execute query\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
@@ -162,7 +167,7 @@ public class TestRunSample extends SamplePersistenceTestcase {
         tCurMeth = tCurParent.getChild(4);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
-        tTrace = new StringBuffer();
+        tTrace = new StringBuilder();
         tTrace.append("PrepareStatement with Sql=[insert into ITEM (PRICE, ID) values (?, null)]\n");
         tTrace.append("Add Float parameter, pos=[1], value=[31.0]\n");
         tTrace.append("Execute update\n");
@@ -172,7 +177,7 @@ public class TestRunSample extends SamplePersistenceTestcase {
         tCurMeth = tCurParent.getChild(5);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeQuery", tCurMeth.getMethodName());
-        tTrace = new StringBuffer();
+        tTrace = new StringBuilder();
         tTrace.append("PrepareStatement with Sql=[call identity()]\n");
         tTrace.append("Execute query\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
@@ -189,17 +194,13 @@ public class TestRunSample extends SamplePersistenceTestcase {
         tCurMeth = tCurParent.getChild(2);
         assertEquals("java.sql.Statement", tCurMeth.getClassName());
         assertEquals("execute", tCurMeth.getMethodName());
-        tTrace = new StringBuffer();
-        tTrace.append("Sql=[Select count(*) from SHOPPING_CART]\n");
-        assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
+        assertEquals("Sql=[Select count(*) from SHOPPING_CART]\n", tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
         tCurMeth = tCurParent.getChild(3);
         assertEquals("java.sql.Statement", tCurMeth.getClassName());
         assertEquals("execute", tCurMeth.getMethodName());
-        tTrace = new StringBuffer();
-        tTrace.append("Sql=[Select * from SHOPPING_CART]\n");
-        assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
+        assertEquals("Sql=[Select * from SHOPPING_CART]\n", tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
     }
