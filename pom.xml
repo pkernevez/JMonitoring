@@ -202,9 +202,7 @@
                 <configuration>
                     <configLocation>dashbord-config.xml</configLocation>
                     <dialect>org.hibernate.dialect.DerbyDialect</dialect>
-                    <!--driverClass>org.apache.derby.jdbc.ClientDriver</driverClass-->
                     <driverClass>org.apache.derby.jdbc.EmbeddedDriver</driverClass>
-                    <!--connectionUrl>jdbc:derby://localhost:1527/myDB;create=true</connectionUrl-->
                     <connectionUrl>jdbc:derby:d:/data/JMonitoring/dashboardDb;create=true</connectionUrl>
                     <username>usr</username>
                     <password>usr</password>
@@ -219,6 +217,12 @@
                         <groupId>com.octo.opensource.jmonitoring</groupId>
                         <artifactId>build-tools</artifactId>
                         <version>2.0-SNAPSHOT</version>
+                    </dependency>
+                    <!-- to override commons-logging in Hibernate library dependency -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.1</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -249,7 +253,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.octo.opensource.jmonitoring</groupId>
-                        <artifactId>jmonitoring-build-tools</artifactId>
+                        <artifactId>build-tools</artifactId>
                         <version>2.0-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
@@ -265,14 +269,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
+                <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                <goal>jar</goal>
+                </goals>
+                </execution>
                 </executions>
-            </plugin-->
+                </plugin-->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
@@ -353,10 +357,6 @@
                     <configLocation>dashbord-config.xml</configLocation>
                     <m1LikeRendering>true</m1LikeRendering>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jdepend-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -506,6 +506,12 @@
             <artifactId>dbunit</artifactId>
             <version>2.3.0</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
