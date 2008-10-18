@@ -18,19 +18,21 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  * @todo refactor this class as taglib.
  * @author pke
  */
-public class FlowAsStackUtil {
+public class FlowAsStackUtil
+{
 
     /**
      * The execution flow to work with.
      */
-    private ExecutionFlowDTO mFlow;
+    private final ExecutionFlowDTO mFlow;
 
     /**
      * Private constructor. Not to use.
      * 
      * @param pFlow The flow to use for graphique.
      */
-    public FlowAsStackUtil(ExecutionFlowDTO pFlow) {
+    public FlowAsStackUtil(ExecutionFlowDTO pFlow)
+    {
         mFlow = pFlow;
     }
 
@@ -42,8 +44,9 @@ public class FlowAsStackUtil {
      * @todo Option undeply only those with exception or duration upper XXX.
      * @return The Html code of this flow.
      */
-    public StringBuffer writeFlowAsHtml() {
-        StringBuffer tBuffer = new StringBuffer();
+    public CharSequence writeFlowAsHtml()
+    {
+        StringBuilder tBuffer = new StringBuilder();
 
         tBuffer.append("<A onclick=\"\">Deploy All</A>");
         tBuffer.append("<ul id=\"menuList\">");
@@ -73,53 +76,62 @@ public class FlowAsStackUtil {
      * @todo Use background color with item.
      * @todo Mettre les titles des dur�es dans une feuille de style pour diminuer le volume de la page
      */
-    private void writeMethodCallAsHtml(MethodCallDTO pCurrentMethod, StringBuffer pHtmlBuffer) {
+    private void writeMethodCallAsHtml(MethodCallDTO pCurrentMethod, StringBuilder pHtmlBuffer)
+    {
         // Gestion de l'exception
         String tReturnImage;
-        if (pCurrentMethod.isReturnCallException()) {
+        if (pCurrentMethod.isReturnCallException())
+        {
             tReturnImage = "<IMG title=\"Throwable thrown\" src=\"images/warn.png\"/>";
-        } else {
+        } else
+        {
             tReturnImage = "";
         }
         // String tBgColor = getColorAsString(Configuration.getColor(pCurrentMeasure.getGroupName()));
         // G�n�ration du lien vers les statistiques
-        StringBuffer tLinkStat = new StringBuffer();
-        tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=" + pCurrentMethod.getFlowId()
-                + "&position=" + pCurrentMethod.getPosition() + "\">");
-        tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
+        StringBuilder tLinkStat = new StringBuilder();
+        tLinkStat.append("<A title=\"View stats...\" href=\"MethodCallStatIn.do?flowId=");
+        tLinkStat.append(pCurrentMethod.getFlowId()).append("&position=").append(pCurrentMethod.getPosition());
+        tLinkStat.append("\">").append("<IMG src=\"images/graphique.png\"/></A>");
 
-        StringBuffer tLinkDetail = new StringBuffer();
-        tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId="
-                + pCurrentMethod.getFlowId() + "&position=" + pCurrentMethod.getPosition() + "\">");
-        tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
+        StringBuilder tLinkDetail = new StringBuilder();
+        tLinkDetail.append("<A title=\"View details...\" href=\"MethodCallEditIn.do?flowId=");
+        tLinkDetail.append(pCurrentMethod.getFlowId()).append("&position=").append(pCurrentMethod.getPosition());
+        tLinkDetail.append("\">").append("<IMG src=\"images/edit.png\"/></A>");
 
         long tDuration = pCurrentMethod.getEndTime().getTime() - pCurrentMethod.getBeginTime().getTime();
         // Maintenant on cr�er le le html associ� au MethodCallDTO
-        if (pCurrentMethod.getChildren().length > 0) { // On cr�e un sous menu
+        if (pCurrentMethod.getChildren().length > 0)
+        { // On cr�e un sous menu
             // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
             pHtmlBuffer.append("<li>\n");
             pHtmlBuffer.append("<a href=\"#\" id=\"");
-            pHtmlBuffer.append(pCurrentMethod.getPosition() + "Actuator\"");
-            pHtmlBuffer.append(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">");
+            pHtmlBuffer.append(pCurrentMethod.getPosition()).append("Actuator\"");
+            pHtmlBuffer.append(" class=\"actuator\" title=\"").append(getMeasurePointTitle(pCurrentMethod));
+            pHtmlBuffer.append("\">");
             pHtmlBuffer.append("<span class=\"prevDuration\" title=\"Since prev MethodCall\">[->");
-            pHtmlBuffer.append(pCurrentMethod.getDurationFromPreviousCall() + "]</span>");
+            pHtmlBuffer.append(pCurrentMethod.getDurationFromPreviousCall()).append("]</span>");
             pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
-            pHtmlBuffer.append(tDuration + "]</span>");
-            pHtmlBuffer.append(tReturnImage + getMeasurePointText(pCurrentMethod) + "</a>");
-            pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "\n");
-            pHtmlBuffer.append("  <ul id=\"" + pCurrentMethod.getPosition() + "Menu\" class=\"submenu\">\n");
-            for (int i = 0; i < pCurrentMethod.getChildren().length; i++) {
+            pHtmlBuffer.append(tDuration).append("]</span>");
+            pHtmlBuffer.append(tReturnImage).append(getMeasurePointText(pCurrentMethod)).append("</a>");
+            pHtmlBuffer.append(tLinkStat).append(tLinkDetail).append("\n");
+            pHtmlBuffer.append("  <ul id=\"").append(pCurrentMethod.getPosition());
+            pHtmlBuffer.append("Menu\" class=\"submenu\">\n");
+            for (int i = 0; i < pCurrentMethod.getChildren().length; i++)
+            {
                 writeMethodCallAsHtml(pCurrentMethod.getChild(i), pHtmlBuffer);
             }
             pHtmlBuffer.append("  </ul>\n</li>\n");
-        } else {
+        } else
+        {
             pHtmlBuffer.append("<li><span class=\"prevDuration\" title=\"Duration since the prev MethodCall\">[->");
-            pHtmlBuffer.append(pCurrentMethod.getDurationFromPreviousCall() + "]</span>");
+            pHtmlBuffer.append(pCurrentMethod.getDurationFromPreviousCall()).append("]</span>");
             pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
-            pHtmlBuffer.append(tDuration + "]</span>");
-            pHtmlBuffer.append("<span title=\"" + getMeasurePointTitle(pCurrentMethod) + "\">" + tReturnImage
-                    + getMeasurePointText(pCurrentMethod) + "</span>");
-            pHtmlBuffer.append(tLinkStat.toString() + tLinkDetail.toString() + "</li>\n");
+            pHtmlBuffer.append(tDuration).append("]</span>");
+            pHtmlBuffer.append("<span title=\"").append(getMeasurePointTitle(pCurrentMethod));
+            pHtmlBuffer.append("\">").append(tReturnImage).append(getMeasurePointText(pCurrentMethod));
+            pHtmlBuffer.append("</span>");
+            pHtmlBuffer.append(tLinkStat).append(tLinkDetail).append("</li>\n");
         }
     }
 
@@ -129,11 +141,12 @@ public class FlowAsStackUtil {
      * @param pMeasure The measure point to use.
      * @return the Html <code>String</code> for Html rendering.
      */
-    private String getMeasurePointText(MethodCallDTO pMeasure) {
-        StringBuffer tBuffer = new StringBuffer();
-        tBuffer.append(pMeasure.getGroupName()).append(" -> ").append(pMeasure.getClassName()).append(".").append(
-                pMeasure.getMethodName());
-        return tBuffer.toString();
+    private CharSequence getMeasurePointText(MethodCallDTO pMeasure)
+    {
+        StringBuilder tBuffer = new StringBuilder();
+        tBuffer.append(pMeasure.getGroupName()).append(" -> ").append(pMeasure.getClassName()).append(".")
+               .append(pMeasure.getMethodName());
+        return tBuffer;
     }
 
     /**
@@ -142,20 +155,25 @@ public class FlowAsStackUtil {
      * @param pMeasure The measure point to use.
      * @return the Html <code>String</code> to use in the <code>title</code> Html attribute.
      */
-    private String getMeasurePointTitle(MethodCallDTO pMeasure) {
-        StringBuffer tBuffer = new StringBuffer();
+    private CharSequence getMeasurePointTitle(MethodCallDTO pMeasure)
+    {
+        StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("Start Date=");
         tBuffer.append(ConfigurationHelper.formatDateTime(pMeasure.getBeginTime()));
-        if (pMeasure.getParams() != null) {
+        if (pMeasure.getParams() != null)
+        {
             tBuffer.append("\n PARAM=[").append(pMeasure.getParams()).append("]");
         }
-        if (pMeasure.getReturnValue() != null) {
+        if (pMeasure.getReturnValue() != null)
+        {
             tBuffer.append("\n ReturnValue=[").append(pMeasure.getReturnValue()).append("]");
         }
-        if (pMeasure.getThrowableClassName() != null) {
+        if (pMeasure.getThrowableClassName() != null)
+        {
             tBuffer.append("\n ThrowableClassName=[").append(pMeasure.getThrowableClassName()).append("]");
         }
-        if (pMeasure.getThrowableMessage() != null) {
+        if (pMeasure.getThrowableMessage() != null)
+        {
             tBuffer.append("\n ThrowableMesssage=[").append(pMeasure.getThrowableMessage()).append("]");
         }
         return HtmlEncoder.encode(tBuffer.toString());

@@ -11,23 +11,26 @@ import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 /**
  * @author pke Decorator for the column of the list of MEasurePoint.
  */
-public class DisplayTagDecorator extends TableDecorator {
-    public String getUrlMeasurePoint() {
+public class DisplayTagDecorator extends TableDecorator
+{
+    public CharSequence getUrlMeasurePoint()
+    {
         MethodCallFullExtractDTO tMeth = (MethodCallFullExtractDTO) getCurrentRowObject();
-        StringBuffer tResult = new StringBuffer();
+        StringBuilder tResult = new StringBuilder();
         tResult.append("<A href=\"");
         tResult.append("MethodCallEditIn.do?flowId=").append(tMeth.getFlowId()).append("&position=");
-        tResult.append(tMeth.getPosition()).append(
-                "\" title=\"View this method call\"><IMG src=\"images/edit.png\"/></A>");
-        return tResult.toString();
+        tResult.append(tMeth.getPosition());
+        tResult.append("\" title=\"View this method call\"><IMG src=\"images/edit.png\"/></A>");
+        return tResult;
     }
 
-    public String getUrlFlow() {
+    public CharSequence getUrlFlow()
+    {
         MethodCallFullExtractDTO tMeth = (MethodCallFullExtractDTO) getCurrentRowObject();
-        StringBuffer tResult = new StringBuffer();
+        StringBuilder tResult = new StringBuilder();
         tResult.append("<A href=\"");
-        tResult.append("FlowEditIn.do?id=").append(tMeth.getFlowId()).append(
-                "\" title=\"View this Flow\"><IMG src=\"images/edit.png\"/></A>");
-        return tResult.toString();
+        tResult.append("FlowEditIn.do?id=").append(tMeth.getFlowId())
+               .append("\" title=\"View this Flow\"><IMG src=\"images/edit.png\"/></A>");
+        return tResult;
     }
 }

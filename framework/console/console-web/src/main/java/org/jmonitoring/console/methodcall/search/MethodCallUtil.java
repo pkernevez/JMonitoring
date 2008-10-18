@@ -23,7 +23,7 @@ import org.jmonitoring.core.dto.MethodCallExtractDTO;
 public class MethodCallUtil
 {
 
-    private final StringBuffer mWriter;
+    private final StringBuilder mWriter;
 
     private static Log sLog = LogFactory.getLog(MethodCallUtil.class);
 
@@ -34,7 +34,7 @@ public class MethodCallUtil
      */
     public MethodCallUtil()
     {
-        mWriter = new StringBuffer();
+        mWriter = new StringBuilder();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class MethodCallUtil
             {
                 mWriter.append("<li class=\"menubar\">");
                 tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList<String>(),
-                                curEntry.getValue(), curEntry.getKey(), true, tLastId + 1);
+                                              curEntry.getValue(), curEntry.getKey(), true, tLastId + 1);
                 mWriter.append("</li>");
             }
             mWriter.append("</ul>");
@@ -109,16 +109,15 @@ public class MethodCallUtil
                 // We add the current node to class name
                 pCurrentClassName.add("." + pCurNodeName);
             }
-            mWriter.append("<a href=\"#\" id=\"" + tLastId + "Actuator\"");
-            mWriter.append(" class=\"actuator\">" // + tReturnImage
-                            + pCurNodeName
-                            + "</a>\n");
-            mWriter.append("  <ul id=\"" + tLastId + "Menu\" class=\"" + tClassName + "\">\n");
+            mWriter.append("<a href=\"#\" id=\"").append(tLastId).append("Actuator\"");
+            mWriter.append(" class=\"actuator\">");// + tReturnImage
+            mWriter.append(pCurNodeName).append("</a>\n");
+            mWriter.append("  <ul id=\"").append(tLastId).append("Menu\" class=\"").append(tClassName);
+            mWriter.append("\">\n");
             for (Map.Entry<String, MyMap> curEntry : pTreeOfMeasure.entrySet())
             {
-                // TODO Remove this cast with safe type ...
                 tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName, curEntry.getValue(),
-                                curEntry.getKey(), false, ++tLastId);
+                                              curEntry.getKey(), false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
             if (pFirstLevel)
@@ -130,9 +129,9 @@ public class MethodCallUtil
         } else
         {
             // Generation of the hyper-link to the statistics
-            StringBuffer tLinkStat = new StringBuffer();
+            StringBuilder tLinkStat = new StringBuilder();
             MethodCallExtractDTO tExtract = getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName,
-                            pCurNodeName);
+                                                                  pCurNodeName);
             tLinkStat.append("<li><span title=\"GroupName=[").append(tExtract.getGroupName());
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
@@ -142,7 +141,7 @@ public class MethodCallUtil
             tLinkStat.append(tExtract.getMethodName()).append("\">");
             tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
             tLinkStat.append("</li>\n");
-            mWriter.append(tLinkStat.toString());
+            mWriter.append(tLinkStat);
         }
         return tLastId++;
     }

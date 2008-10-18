@@ -16,20 +16,21 @@ import org.jfree.data.xy.XYDataset;
  * Generate the URL link for the statistics char bar. Each link reference the list of the measures that have the same
  * duration.
  */
-public class StatisticXYURLGenerator implements XYURLGenerator, Serializable {
+public class StatisticXYURLGenerator implements XYURLGenerator, Serializable
+{
     private static final long serialVersionUID = 3478122271738115018L;
 
     /** The interval duration used for the char bar generation. */
-    private int mInterval;
+    private final int mInterval;
 
     /** The URL of the Html link. */
-    private String mBaseURL;
+    private final String mBaseURL;
 
     /** ClassName of the MethodCallDTO. */
-    private String mClassName;
+    private final String mClassName;
 
     /** Name of the MethodCallDTO method. */
-    private String mMethodName;
+    private final String mMethodName;
 
     /**
      * Default constructor.
@@ -39,20 +40,17 @@ public class StatisticXYURLGenerator implements XYURLGenerator, Serializable {
      * @param pClassName ClassName of the MethodCallDTO.
      * @param pMethodName Name of the MethodCallDTO method.
      */
-    public StatisticXYURLGenerator(String pBaseURL, int pInterval, String pClassName, String pMethodname) {
+    public StatisticXYURLGenerator(String pBaseURL, int pInterval, String pClassName, String pMethodname)
+    {
         mInterval = pInterval;
         mBaseURL = pBaseURL;
         mClassName = pClassName;
         mMethodName = pMethodname;
     }
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see XYURLGenerator#generateURL(org.jfree.data.xy.XYDataset, int, int)
-     */
-    public String generateURL(XYDataset pDataSet, int pSeries, int pBarChartNumber) {
-        StringBuffer tBuffer = new StringBuffer();
+    public String generateURL(XYDataset pDataSet, int pSeries, int pBarChartNumber)
+    {
+        StringBuilder tBuffer = new StringBuilder();
         tBuffer.append(mBaseURL).append("?className=").append(mClassName);
         tBuffer.append("&methodName=").append(mMethodName);
         tBuffer.append("&durationMin=").append(mInterval * pBarChartNumber);

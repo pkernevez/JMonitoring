@@ -261,13 +261,10 @@ public class ExecutionFlowDTO implements Serializable
         mId = pId;
     }
 
-    /**
-     * @see java.lang.Object.toString()
-     */
     @Override
     public String toString()
     {
-        StringBuffer tBuffer = new StringBuffer();
+        StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("FlowId=[").append(mId).append("] ");
         if (mFirstMethodCall != null)
         {
@@ -279,7 +276,7 @@ public class ExecutionFlowDTO implements Serializable
         {
             tBuffer.append("SequenceId=[NULL] ");
         }
-        return super.toString();
+        return tBuffer.toString();
     }
 
     /**
