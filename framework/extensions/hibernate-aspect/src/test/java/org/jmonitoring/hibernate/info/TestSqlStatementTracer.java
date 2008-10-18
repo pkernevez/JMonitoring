@@ -81,7 +81,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tPrepStat.setTime(11, new Time(11, 23, 34));
         SqlStatementTracer tTracer = new SqlStatementTracer();
         String tTrace = tTracer.convertToString(tPrepStat, new Object[0]).toString();
-        StringBuffer tBuffer = new StringBuffer();
+        StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("PrepareStatement with Sql=[select * from EXECUTION_FLOW where Id=? and JVM=? ");
         tBuffer.append("and Id=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=? and ");
         tBuffer.append("Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?]\n");
@@ -118,7 +118,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tResult.next();
         assertEquals(1.41, tResult.getDouble(1), 0.01);
 
-        StringBuffer tBuffer = new StringBuffer();
+        StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("CallableStatement with Sql=[call SQRT(?)]\n");
         tBuffer.append("Add Double parameter, pos=[1], value=[2.0]\n");
         tBuffer.append("Execute query\n");
