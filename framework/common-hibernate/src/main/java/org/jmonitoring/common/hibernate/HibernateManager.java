@@ -67,7 +67,7 @@ public final class HibernateManager
     private static void checkUniquenessOfConfigurationFile(String pMappingFileName)
     {
         int tCount = 0;
-        StringBuffer tBuffer = new StringBuffer();
+        StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("The configuration file [").append(pMappingFileName)
                .append("]has been found in multiple copy:\n");
         try

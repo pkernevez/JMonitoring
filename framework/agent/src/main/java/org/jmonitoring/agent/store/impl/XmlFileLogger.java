@@ -31,7 +31,7 @@ public class XmlFileLogger implements IStoreWriter
 
     private static final String XML_FILE_PER_THREAD = "xml.file.per.thread";
 
-    private StringBuffer mCurrentBuffer;
+    private StringBuilder mCurrentBuffer;
 
     private static boolean sIsInitialized = false;
 
@@ -189,27 +189,24 @@ public class XmlFileLogger implements IStoreWriter
         }
     }
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.jmonitoring.core.log.IStoreWriter#writeExecutionFlow( org.jmonitoring.core.dto.ExecutionFlow)
-     */
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        mCurrentBuffer = new StringBuffer();
+        mCurrentBuffer = new StringBuilder();
         mCurrentBuffer.append("<Thread name=\"").append(pExecutionFlow.getThreadName());
         mCurrentBuffer.append("\" server=\"").append(pExecutionFlow).append("\" duration=\"");
         mCurrentBuffer.append(pExecutionFlow.getEndTime() - pExecutionFlow.getBeginTime());
         mCurrentBuffer.append("\" startTime=\"");
         mCurrentBuffer.append(ConfigurationHelper.formatDateTime(pExecutionFlow.getBeginTime()));
         mCurrentBuffer.append("\" >\n");
-        fillStringBuffer(pExecutionFlow.getFirstMethodCall());
+        writeMethodCall(pExecutionFlow.getFirstMethodCall());
         mCurrentBuffer.append("</Thread>");
         writeToFile(mCurrentBuffer.toString());
-        // On lib�re la m�moire
+        // free memory
         mCurrentBuffer = null;
-        sLog.info("Wrtit ExecutionFlow to File " + pExecutionFlow);
-
+        if (sLog.isDebugEnabled())
+        {
+            sLog.debug("Write ExecutionFlow to File " + pExecutionFlow);
+        }
     }
 
     /**
@@ -218,7 +215,7 @@ public class XmlFileLogger implements IStoreWriter
      * 
      * @param pExecutionFlow La racine courante de l'arbre � logger.
      */
-    private void fillStringBuffer(MethodCallPO pCurrentMethodCall)
+    private void writeMethodCall(MethodCallPO pCurrentMethodCall)
     {
         mCurrentBuffer.append("<MethodCall ");
         mCurrentBuffer.append("class=\"").append(pCurrentMethodCall.getClassName()).append("\" ");
@@ -261,7 +258,7 @@ public class XmlFileLogger implements IStoreWriter
         // On fait le recusrif sur les children
         for (MethodCallPO curChild : pCurrentMethodCall.getChildren())
         {
-            fillStringBuffer(curChild);
+            writeMethodCall(curChild);
         }
 
         // On ferme le tag
