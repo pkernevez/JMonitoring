@@ -3,29 +3,19 @@ package org.jmonitoring.agent.store;
 import java.sql.SQLException;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.jmonitoring.agent.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.agent.store.impl.MockWriter;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
+/***********************************************************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
+ **********************************************************************************************************************/
 
-/**
- * @author pke
- */
-public class StoreManagerTest extends TestCase
+@ContextConfiguration(locations = {"/store-manager-test.xml" })
+public class StoreManagerTest extends JMonitoringTestCase
 {
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        ConfigurationHelper.resetConfigFile("JMonitoringMemoryWriterApplicationContext.xml");
-    }
-
     private void callOneExecutionFlow(boolean pLogDebugEnabled) throws InterruptedException
     {
         // Check the count
@@ -33,7 +23,7 @@ public class StoreManagerTest extends TestCase
         AspectLoggerEmulator.clear();
         assertEquals(0, MockWriter.getNbLog());
 
-        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockWriter());
+        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(applicationContext);
         tEmulator.simulateExecutionFlow(pLogDebugEnabled);
         assertEquals(1, MockWriter.getNbLog());
     }
@@ -45,7 +35,7 @@ public class StoreManagerTest extends TestCase
         AspectLoggerEmulator.clear();
         assertEquals(0, MockWriter.getNbLog());
 
-        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockWriter());
+        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(applicationContext);
         tEmulator.simulateExecutionFlowWithExceptioninMain(pLogDebugEnabled);
 
         assertEquals(1, MockWriter.getNbLog());
@@ -57,6 +47,7 @@ public class StoreManagerTest extends TestCase
      * 
      * @throws InterruptedException no doc
      */
+    @Test
     public void testNbToStringMethodCallWithLogOfParameter() throws InterruptedException
     {
         callOneExecutionFlow(true);
@@ -81,6 +72,7 @@ public class StoreManagerTest extends TestCase
      * 
      * @throws InterruptedException no doc
      */
+    @Test
     public void testNbToStringMethodCallWithoutLogOfParameter() throws InterruptedException
     {
         callOneExecutionFlow(false);
@@ -105,6 +97,7 @@ public class StoreManagerTest extends TestCase
      * 
      * @throws InterruptedException no doc
      */
+    @Test
     public void testNbToStringMethodCallWithLogAndExceptionInMain() throws InterruptedException
     {
         callOneExecutionFlowWithExceptionInMain(true);
@@ -125,6 +118,7 @@ public class StoreManagerTest extends TestCase
      * 
      * @throws InterruptedException no doc
      */
+    @Test
     public void testNbToStringMethodCallWithoutLogAndExceptionInMain() throws InterruptedException
     {
         callOneExecutionFlowWithExceptionInMain(false);
@@ -146,13 +140,14 @@ public class StoreManagerTest extends TestCase
      * 
      * @throws InterruptedException ff
      */
+    @Test
     public void testAsynchronePublication() throws InterruptedException
     {
         MockWriter.resetNbLog();
         // Check the count
         assertEquals(0, MockWriter.getNbLog());
 
-        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockWriter());
+        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(applicationContext);
         // Log NB_FLOW_TO_LOG
         for (int i = 0; i < NB_FLOW_TO_LOG; i++)
         {
@@ -168,12 +163,13 @@ public class StoreManagerTest extends TestCase
      * @throws InterruptedException no doc
      * @throws SQLException no doc
      */
+    @Test
     public void testNbToStringMethodCall() throws InterruptedException
     {
 
         MockWriter.resetNbLog();
 
-        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(new MockWriter());
+        AspectLoggerEmulator tEmulator = new AspectLoggerEmulator(applicationContext);
         tEmulator.simulateExecutionFlow(true);
 
         // Now check the number of toString called
@@ -185,14 +181,13 @@ public class StoreManagerTest extends TestCase
         assertEquals(1, MockWriter.getNbLog());
     }
 
+    @Test
     public void testClearChangeManager()
     {
-        StoreManager tManager =
-            (StoreManager) ConfigurationHelper.getContext().getBean(StoreManager.STORE_MANAGER_NAME);
+        StoreManager tManager = (StoreManager) applicationContext.getBean(StoreManager.STORE_MANAGER_NAME);
         assertEquals("TestMachine", tManager.getServerName());
         assertNotNull(tManager.getStoreWriter());
-        StoreManager tManager2 =
-            (StoreManager) ConfigurationHelper.getContext().getBean(StoreManager.STORE_MANAGER_NAME);
+        StoreManager tManager2 = (StoreManager) applicationContext.getBean(StoreManager.STORE_MANAGER_NAME);
         assertNotSame(tManager, tManager2);
     }
 }

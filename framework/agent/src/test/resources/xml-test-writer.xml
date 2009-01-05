@@ -11,5 +11,6 @@
         <property name="dateFormat" value="dd/MM/yy"/>
         <property name="timeFormat" value="HH:mm:ss"/>
     </bean>
-    
+    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" scope="prototype">
+    </bean>
 </beans>

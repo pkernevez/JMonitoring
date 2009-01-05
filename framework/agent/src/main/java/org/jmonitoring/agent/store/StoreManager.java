@@ -5,6 +5,8 @@ package org.jmonitoring.agent.store;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import javax.annotation.Resource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
@@ -29,17 +31,12 @@ public class StoreManager
 
     private MethodCallPO mCurrentLogPoint;
 
-    /** <code>CommonsLog</code> instance. */
     private static Log sLog = LogFactory.getLog(StoreManager.class);
 
+    @Resource(name = "storeWriter")
     private IStoreWriter mStoreWriter;
 
     private String mServerName;
-
-    public StoreManager(IStoreWriter pWriter)
-    {
-        mStoreWriter = pWriter;
-    }
 
     public StoreManager()
     {

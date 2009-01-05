@@ -12,11 +12,13 @@ import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
 import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * This abstract aspect should be extends by users. It provides all the mecanism for logging measure. Children have to
@@ -27,6 +29,14 @@ public abstract aspect PerformanceAspect
 
     /** Pointcuts to log */
     public abstract pointcut executionToLog();
+
+    private static final ApplicationContext sApplicationContext = loadContext();
+    private static synchronized ApplicationContext loadContext()
+    {
+        // TODO Manage default and custom configuration
+        return new ClassPathXmlApplicationContext("/default-jmonitoring-context.xml");
+// return tContext;
+    }
 
     /** Log instance. */
     private Log mLog;
@@ -59,7 +69,7 @@ public abstract aspect PerformanceAspect
     private StoreManager getStoreManager(){
         StoreManager tStoreManager=mStoreManager.get(); 
         if (tStoreManager==null){
-            tStoreManager =(StoreManager) ConfigurationHelper.getContext().getBean(StoreManager.STORE_MANAGER_NAME);
+            tStoreManager =(StoreManager) sApplicationContext.getBean(StoreManager.STORE_MANAGER_NAME);
             mStoreManager.set(tStoreManager);
         }
         return tStoreManager;

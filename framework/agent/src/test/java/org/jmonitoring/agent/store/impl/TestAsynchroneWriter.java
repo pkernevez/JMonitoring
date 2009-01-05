@@ -1,42 +1,38 @@
 package org.jmonitoring.agent.store.impl;
 
-import junit.framework.TestCase;
-
 import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
+/***********************************************************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
+ **********************************************************************************************************************/
 
-/**
- * @author pke
- * 
- */
-public class TestAsynchroneWriter extends TestCase
+@ContextConfiguration(locations = {"/asynchrone-test-writer.xml" })
+public class TestAsynchroneWriter extends JMonitoringTestCase
 {
 
     private static final int TIME_TO_WAIT = 1000;
 
     private static final int NB_FLOW_TO_LOG = 100;
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void init() throws Exception
     {
         MockWriter.resetNbLog();
     }
 
+    @Test
     public void testAsynchronePublication() throws InterruptedException
     {
-        // Check the count
-        ConfigurationHelper.resetConfigFile("JMonitoringAsynchroneMockWriterApplicationContext.xml");
         assertEquals(0, MockWriter.getNbLog());
 
-        IStoreWriter tWriter = (IStoreWriter) ConfigurationHelper.getContext().getBean(IStoreWriter.STORE_WRITER_NAME);
+        IStoreWriter tWriter = (IStoreWriter) applicationContext.getBean(IStoreWriter.STORE_WRITER_NAME);
         // Log NB_FLOW_TO_LOG
         ExecutionFlowPO[] tFlows = new ExecutionFlowPO[NB_FLOW_TO_LOG];
         for (int i = 0; i < NB_FLOW_TO_LOG; i++)

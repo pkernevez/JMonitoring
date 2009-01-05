@@ -8,21 +8,21 @@ import java.net.Socket;
 
 import javax.net.ServerSocketFactory;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
-
-public class HttpWriterTest extends TestCase
+@ContextConfiguration(locations = {"/http-test-writer.xml" })
+public class HttpWriterTest extends JMonitoringTestCase
 {
 
     protected static final Log sLog = LogFactory.getLog(HttpWriterTest.class);
@@ -31,11 +31,11 @@ public class HttpWriterTest extends TestCase
 
     private String mRequest;
 
+    @Test
     public void testWriteExecutionFlow() throws InterruptedException, IOException
     {
         startServer();
-        ConfigurationHelper.resetConfigFile("JMonitoringHttpWriterApplicationContext.xml");
-        HttpWriter tWriter = (HttpWriter) ConfigurationHelper.getContext().getBean(IStoreWriter.STORE_WRITER_NAME);
+        HttpWriter tWriter = (HttpWriter) applicationContext.getBean(IStoreWriter.STORE_WRITER_NAME);
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tWriter.writeExecutionFlow(tFlow);
         Thread.sleep(1000);
