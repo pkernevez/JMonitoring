@@ -1,7 +1,7 @@
 package org.jmonitoring.agent.store.impl;
 
 import org.jmonitoring.agent.store.AspectLoggerEmulator;
-import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;

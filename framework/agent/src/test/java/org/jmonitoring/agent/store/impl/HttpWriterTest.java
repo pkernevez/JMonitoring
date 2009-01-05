@@ -14,7 +14,7 @@ import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
-import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 

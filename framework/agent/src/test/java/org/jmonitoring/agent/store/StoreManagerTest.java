@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.jmonitoring.agent.store.AspectLoggerEmulator.ErrorLogTracer;
 import org.jmonitoring.agent.store.impl.MockWriter;
-import org.jmonitoring.core.test.JMonitoringTestCase;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -14,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
  **********************************************************************************************************************/
 
 @ContextConfiguration(locations = {"/store-manager-test.xml" })
-public class StoreManagerTest extends JMonitoringTestCase
+public class StoreManagerTest extends org.jmonitoring.core.tests.JMonitoringTestCase
 {
     private void callOneExecutionFlow(boolean pLogDebugEnabled) throws InterruptedException
     {

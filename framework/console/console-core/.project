@@ -3,6 +3,7 @@
   <comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
   <projects>
     <project>common</project>
+    <project>common-tests</project>
     <project>persistence</project>
     <project>tests</project>
   </projects>

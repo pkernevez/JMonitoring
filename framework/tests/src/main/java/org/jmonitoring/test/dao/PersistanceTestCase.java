@@ -10,7 +10,7 @@ import org.hibernate.stat.Statistics;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
-import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.orm.hibernate3.SessionHolder;

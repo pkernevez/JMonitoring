@@ -4,6 +4,7 @@
   <projects>
     <project>agent</project>
     <project>common</project>
+    <project>common-tests</project>
     <project>console-core</project>
     <project>persistence</project>
     <project>tests</project>

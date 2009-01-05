@@ -1,4 +1,4 @@
-package org.jmonitoring.core.test;
+package org.jmonitoring.core.tests;
 
 import junit.framework.TestCase;
 

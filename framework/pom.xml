@@ -15,6 +15,7 @@
      <modules>
         <module>agent</module>
         <module>common</module>
+        <module>common-tests</module>
         <module>console</module>
         <module>extensions</module>
         <module>persistence</module>

@@ -53,6 +53,7 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="src" path="/common"/>
+  <classpathentry kind="src" path="/common-tests"/>
   <classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils/1.6/commons-beanutils-1.6.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils-bean-collections/1.7.0/commons-beanutils-bean-collections-1.7.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils-core/1.7.0/commons-beanutils-core-1.7.0.jar"/>

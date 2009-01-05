@@ -21,6 +21,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="src" path="/common"/>
 	<classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.2/commons-codec-1.2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-httpclient/commons-httpclient/3.1-rc1/commons-httpclient-3.1-rc1.jar"/>
@@ -61,6 +62,6 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/local-repo/org/springframework/spring-test/2.5.1/spring-test-2.5.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common-tests"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

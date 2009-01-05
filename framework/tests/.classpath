@@ -52,6 +52,7 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="src" path="/common"/>
+  <classpathentry kind="src" path="/common-tests"/>
   <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/2.1.1/commons-collections-2.1.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar">
     <attributes>

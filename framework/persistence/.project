@@ -4,6 +4,7 @@
         for persistence.</comment>
   <projects>
     <project>common</project>
+    <project>common-tests</project>
     <project>tests</project>
   </projects>
   <buildSpec>
