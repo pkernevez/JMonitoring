@@ -12,9 +12,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
-import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -27,19 +26,19 @@ public class DeleteAllFlowsActionIn extends Action
 
     @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
+        HttpServletResponse pResponse) throws Exception
     {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        TransactionHelper tTx = new TransactionHelper();
-        try
-        {
-            tProcess.deleteAllFlows();
-            tTx.commit();
-        } catch (Throwable t)
-        {
-            tTx.rollBack();
-            throw new RuntimeException(t);
-        }
+        ConsoleManager tProcess = ProcessFactory.getInstance();
+        // TransactionHelper tTx = new TransactionHelper();
+        // try
+        // {
+        tProcess.deleteAllFlows();
+        // tTx.commit();
+        // } catch (Throwable t)
+        // {
+        // tTx.rollBack();
+        // throw new RuntimeException(t);
+        // }
         return pMapping.findForward("success");
     }
 }

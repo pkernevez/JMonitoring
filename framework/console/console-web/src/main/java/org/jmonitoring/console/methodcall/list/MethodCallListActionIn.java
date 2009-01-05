@@ -7,9 +7,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
-import org.jmonitoring.core.process.TransactionHelper;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -23,24 +22,24 @@ public class MethodCallListActionIn extends Action
 {
     @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
+        HttpServletResponse pResponse) throws Exception
     {
         MethodCallListForm tListForm = (MethodCallListForm) pForm;
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
-        TransactionHelper tTx = new TransactionHelper();
-        try
-        {
-            tListForm.setSearchResult(tProcess.getListOfMethodCallFullExtract(tListForm.getClassName(),
-                                                                              tListForm.getMethodName(),
-                                                                              tListForm.getDurationMin(),
-                                                                              tListForm.getDurationMax()));
-            tTx.commit();
-            return pMapping.findForward("success");
-        } catch (Throwable t)
-        {
-            tTx.rollBack();
-            throw new RuntimeException(t);
-        }
+        ConsoleManager tProcess = ProcessFactory.getInstance();
+        // TransactionHelper tTx = new TransactionHelper();
+        // try
+        // {
+        tListForm.setSearchResult(tProcess.getListOfMethodCallFullExtract(tListForm.getClassName(),
+                                                                          tListForm.getMethodName(),
+                                                                          tListForm.getDurationMin(),
+                                                                          tListForm.getDurationMax()));
+        // tTx.commit();
+        return pMapping.findForward("success");
+        // } catch (Throwable t)
+        // {
+        // tTx.rollBack();
+        // throw new RuntimeException(t);
+        // }
     }
 
 }

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>console</artifactId>
@@ -10,39 +11,52 @@
     <artifactId>console-core</artifactId>
     <version>2.0-SNAPSHOT</version>
     <name>Fwk-console-core</name>
-    <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
+    <description>
+        This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.
+    </description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/core_monitoring</connection>
         <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/core_monitoring</url>
     </scm>
-  
+
     <packaging>jar</packaging>
 
     <dependencies>
 
         <dependency>
-          <groupId>com.octo.opensource.jmonitoring</groupId>
-          <artifactId>tests</artifactId>
-          <scope>test</scope>
-          <version>2.0-SNAPSHOT</version>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>tests</artifactId>
+            <scope>test</scope>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-          <groupId>com.octo.opensource.jmonitoring</groupId>
-          <artifactId>persistence</artifactId>
-          <version>2.0-SNAPSHOT</version>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>persistence</artifactId>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
+        <!--  TODO Supprimer ça -->
         <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-beans</artifactId>
-          <version>1.2.6</version>
-        </dependency>
-        
-          <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
             <version>1.1</version>
+        </dependency>
+
+        <!-- Tests configuration -->
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>common</artifactId>
+            <version>2.0-SNAPSHOT</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>2.5.1</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

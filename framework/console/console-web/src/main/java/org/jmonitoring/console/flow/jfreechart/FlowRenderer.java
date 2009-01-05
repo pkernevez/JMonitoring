@@ -10,6 +10,8 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.axis.CategoryAxis;
@@ -24,7 +26,8 @@ import org.jfree.chart.renderer.category.GanttRenderer;
 import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
-import org.jmonitoring.core.configuration.ColorHelper;
+import org.jmonitoring.core.configuration.ColorManager;
+import org.springframework.stereotype.Service;
 
 /**
  * Custom Rendere for Flows.
@@ -32,8 +35,11 @@ import org.jmonitoring.core.configuration.ColorHelper;
  * @author pke
  * 
  */
+@Service
 public class FlowRenderer extends GanttRenderer
 {
+    @Resource(name = "color")
+    private ColorManager mColorMgr;
 
     /** Log instance. */
     private static Log sLog = LogFactory.getLog(FlowRenderer.class);
@@ -46,8 +52,8 @@ public class FlowRenderer extends GanttRenderer
     /** More than 7 parameters, because of JFreeChart. */
     @Override
     protected void drawTasks(Graphics2D pGraph2D, CategoryItemRendererState pCatState, Rectangle2D pDataArea,
-                    CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset,
-                    int pRow, int pColumn)
+        CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset, int pRow,
+        int pColumn)
     {
         int count = pDataset.getSubIntervalCount(pRow, pColumn);
         if (count == 0)
@@ -75,8 +81,8 @@ public class FlowRenderer extends GanttRenderer
                 translatedValue1 = translatedValue0;
                 translatedValue0 = temp;
             }
-            double rectStart = calculateBarW0(pPlot, pPlot.getOrientation(), pDataArea, pDomainAxis, pCatState, pRow,
-                                              pColumn);
+            double rectStart =
+                calculateBarW0(pPlot, pPlot.getOrientation(), pDataArea, pDomainAxis, pCatState, pRow, pColumn);
             double rectLength = Math.abs(translatedValue1 - translatedValue0);
             double rectBreadth = pCatState.getBarWidth();
             Rectangle2D bar = null;
@@ -97,20 +103,20 @@ public class FlowRenderer extends GanttRenderer
                 double p = percent.doubleValue();
                 if (pPlot.getOrientation() == PlotOrientation.HORIZONTAL)
                 {
-                    completeBar = new java.awt.geom.Rectangle2D.Double(translatedValue0, rectStart + start
-                                    * rectBreadth, rectLength * p, rectBreadth * (end - start));
-                    incompleteBar = new java.awt.geom.Rectangle2D.Double(translatedValue0 + rectLength * p,
-                                                                         rectStart + start * rectBreadth,
-                                                                         rectLength * (1.0D - p),
-                                                                         rectBreadth * (end - start));
+                    completeBar =
+                        new java.awt.geom.Rectangle2D.Double(translatedValue0, rectStart + start * rectBreadth,
+                                                             rectLength * p, rectBreadth * (end - start));
+                    incompleteBar =
+                        new java.awt.geom.Rectangle2D.Double(translatedValue0 + rectLength * p, rectStart + start
+                            * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
                 } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
                 {
-                    completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                                                       translatedValue0 + rectLength * (1.0D - p),
-                                                                       rectBreadth * (end - start), rectLength * p);
-                    incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                                                         translatedValue0, rectBreadth * (end - start),
-                                                                         rectLength * (1.0D - p));
+                    completeBar =
+                        new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, translatedValue0
+                            + rectLength * (1.0D - p), rectBreadth * (end - start), rectLength * p);
+                    incompleteBar =
+                        new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, translatedValue0,
+                                                             rectBreadth * (end - start), rectLength * (1.0D - p));
                 }
             }
             // Paint seriesPaint = getItemPaint(row, column);
@@ -141,8 +147,8 @@ public class FlowRenderer extends GanttRenderer
             {
                 url = getItemURLGenerator(pRow, pColumn).generateURL(pDataset, pRow, pColumn);
             }
-            CategoryItemEntity entity = new CategoryItemEntity(bar, tip, url, pDataset, pRow,
-                                                               pDataset.getColumnKey(pColumn), pColumn);
+            CategoryItemEntity entity =
+                new CategoryItemEntity(bar, tip, url, pDataset, pRow, pDataset.getColumnKey(pColumn), pColumn);
             entities.addEntity(entity);
         }
     }
@@ -150,8 +156,8 @@ public class FlowRenderer extends GanttRenderer
     /** More than 7 parameters, because of JFreeChart. */
     @Override
     protected void drawTask(Graphics2D pGraph2D, CategoryItemRendererState pCatState, Rectangle2D pDataArea,
-                    CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset,
-                    int pRow, int pColumn)
+        CategoryPlot pPlot, CategoryAxis pDomainAxis, ValueAxis pRangeAxis, GanttCategoryDataset pDataset, int pRow,
+        int pColumn)
     {
         PlotOrientation orientation = pPlot.getOrientation();
         org.jfree.ui.RectangleEdge rangeAxisLocation = pPlot.getRangeAxisEdge();
@@ -194,18 +200,21 @@ public class FlowRenderer extends GanttRenderer
             double p = percent.doubleValue();
             if (pPlot.getOrientation() == PlotOrientation.HORIZONTAL)
             {
-                completeBar = new java.awt.geom.Rectangle2D.Double(java2dValue0, rectStart + start * rectBreadth,
-                                                                   rectLength * p, rectBreadth * (end - start));
-                incompleteBar = new java.awt.geom.Rectangle2D.Double(java2dValue0 + rectLength * p, rectStart + start
-                                * rectBreadth, rectLength * (1.0D - p), rectBreadth * (end - start));
+                completeBar =
+                    new java.awt.geom.Rectangle2D.Double(java2dValue0, rectStart + start * rectBreadth, rectLength * p,
+                                                         rectBreadth * (end - start));
+                incompleteBar =
+                    new java.awt.geom.Rectangle2D.Double(java2dValue0 + rectLength * p,
+                                                         rectStart + start * rectBreadth, rectLength * (1.0D - p),
+                                                         rectBreadth * (end - start));
             } else if (pPlot.getOrientation() == PlotOrientation.VERTICAL)
             {
-                completeBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth,
-                                                                   java2dValue1 + rectLength * (1.0D - p),
-                                                                   rectBreadth * (end - start), rectLength * p);
-                incompleteBar = new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1,
-                                                                     rectBreadth * (end - start),
-                                                                     rectLength * (1.0D - p));
+                completeBar =
+                    new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1 + rectLength
+                        * (1.0D - p), rectBreadth * (end - start), rectLength * p);
+                incompleteBar =
+                    new java.awt.geom.Rectangle2D.Double(rectStart + start * rectBreadth, java2dValue1, rectBreadth
+                        * (end - start), rectLength * (1.0D - p));
             }
         }
 
@@ -242,8 +251,8 @@ public class FlowRenderer extends GanttRenderer
                 {
                     url = getItemURLGenerator(pRow, pColumn).generateURL(pDataset, pRow, pColumn);
                 }
-                CategoryItemEntity entity = new CategoryItemEntity(bar, tip, url, pDataset, pRow,
-                                                                   pDataset.getColumnKey(pColumn), pColumn);
+                CategoryItemEntity entity =
+                    new CategoryItemEntity(bar, tip, url, pDataset, pRow, pDataset.getColumnKey(pColumn), pColumn);
                 entities.addEntity(entity);
             }
         }
@@ -251,12 +260,12 @@ public class FlowRenderer extends GanttRenderer
 
     @SuppressWarnings("unchecked")
     private void extractMethod(Graphics2D pGraph2D, GanttCategoryDataset pDataset, int pRow, int pColumn,
-                    Rectangle2D pBar, Rectangle2D pCompleteBar, Rectangle2D pIncompleteBar)
+        Rectangle2D pBar, Rectangle2D pCompleteBar, Rectangle2D pIncompleteBar)
     {
         List<TaskSeries> tTaskSeriesList = pDataset.getRowKeys();
         TaskSeries tSeries = tTaskSeriesList.get(pRow);
         Task tTask = tSeries.get(pColumn);
-        Paint tSeriesPaint = ColorHelper.calculColor(tTask.getDescription());
+        Paint tSeriesPaint = mColorMgr.calculColor(tTask.getDescription());
         if (tSeriesPaint == null)
         {
             tSeriesPaint = getItemPaint(pRow, pColumn);

@@ -4,7 +4,6 @@
   <projects>
     <project>agent</project>
     <project>common</project>
-    <project>common-hibernate</project>
     <project>persistence</project>
     <project>tests</project>
   </projects>

@@ -1,7 +1,7 @@
 package org.jmonitoring.sample.main;
 
 import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.dao.ConsoleDao;
@@ -20,33 +20,33 @@ public class TestRunSample extends SamplePersistenceTestcase
     public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory()
     {
         ShoppingCartPO.setCounter(0);
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
         new RunSample(getSampleSession()).run();
 
         // assertEquals(3, MemoryStoreWriter.countFlow());
-        assertEquals(1, MemoryStoreWriter.countFlows());
-        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
+        assertEquals(1, MemoryWriter.countFlows());
+        ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         checkRun(tFlow);
 
         // Now check the save and load
         IInsertionDao tDao = new InsertionHibernateDAO(getSession());
-        assertEquals(1, MemoryStoreWriter.countFlows());
+        assertEquals(1, MemoryWriter.countFlows());
         tDao.insertFullExecutionFlow(tFlow);
-        assertEquals(1, MemoryStoreWriter.countFlows());
+        assertEquals(1, MemoryWriter.countFlows());
 
         closeAndRestartSession();
         ConsoleDao tConsoleDao = new ConsoleDao(getSession());
         // Now check that no more Flow were captured
-        assertEquals(1, MemoryStoreWriter.countFlows());
+        assertEquals(1, MemoryWriter.countFlows());
 
         ExecutionFlowPO tNewFlow = tConsoleDao.readExecutionFlow(tFlow.getId());
         // Now we should captured the readExecutionFlow
-        assertEquals(2, MemoryStoreWriter.countFlows());
-        checkReadFlow(MemoryStoreWriter.getFlow(1));
+        assertEquals(2, MemoryWriter.countFlows());
+        checkReadFlow(MemoryWriter.getFlow(1));
 
         assertNotSame(tFlow, tNewFlow);
         checkRun(tNewFlow);
-        assertEquals(MemoryStoreWriter.class.getName(), ConfigurationHelper.getString(ConfigurationHelper.STORE_CLASS));
+        assertEquals(MemoryWriter.class.getName(), ConfigurationHelper.getString(ConfigurationHelper.STORE_CLASS));
     }
 
     private void checkReadFlow(ExecutionFlowPO pFlow)

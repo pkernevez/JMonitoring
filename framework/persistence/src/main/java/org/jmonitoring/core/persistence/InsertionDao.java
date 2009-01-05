@@ -3,13 +3,15 @@ package org.jmonitoring.core.persistence;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.jmonitoring.common.hibernate.HibernateManager;
+import org.hibernate.SessionFactory;
 import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -28,28 +30,14 @@ public class InsertionDao implements IInsertionDao
 
     private PreparedStatement mMethodCallInsertStatement;
 
-    private final Session mSession;
+    @Resource(name = "sessionFactory")
+    protected SessionFactory mSessionFactory;
 
     /**
      * Default constructor.
-     * 
-     * @todo remove this constuctor
-     * @param pSession The hibrnate Session to use for DataBase access.
-     */
-    public InsertionDao(Session pSession)
-    {
-        mSession = pSession;
-    }
-
-    /**
-     * Default constructor.
-     * 
-     * @todo remove this constuctor
-     * @param pSession The hibrnate Session to use for DataBase access.
      */
     public InsertionDao()
     {
-        mSession = HibernateManager.getSession();
     }
 
     /*
@@ -59,10 +47,11 @@ public class InsertionDao implements IInsertionDao
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
+        Session tSession = mSessionFactory.getCurrentSession();
         MethodCallPO tMeth = pExecutionFlow.getFirstMethodCall();
         pExecutionFlow.setFirstMethodCall(null);
-        mSession.save(pExecutionFlow);
-        mSession.flush();
+        tSession.save(pExecutionFlow);
+        tSession.flush();
         updatePkMethodCall(tMeth, 1);
 
         try
@@ -88,13 +77,14 @@ public class InsertionDao implements IInsertionDao
         {
             throw new DataBaseException("Unable to insert METHOD_CALL into DB", e);
         }
-        mSession.flush();
+        tSession.flush();
         updateExecutionFlowLink(pExecutionFlow);
         pExecutionFlow.setFirstMethodCall(tMeth);
         return pExecutionFlow.getId();
     }
 
-    private static final String UPDATE_FLOW_WITH_FIRST_METHOD_CALL = "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?";
+    private static final String UPDATE_FLOW_WITH_FIRST_METHOD_CALL =
+        "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?";
 
     private void updateExecutionFlowLink(ExecutionFlowPO pExecutionFlow)
     {
@@ -103,7 +93,8 @@ public class InsertionDao implements IInsertionDao
         {
             try
             {
-                tStat = mSession.connection().prepareStatement(UPDATE_FLOW_WITH_FIRST_METHOD_CALL);
+                Session tSession = mSessionFactory.getCurrentSession();
+                tStat = tSession.connection().prepareStatement(UPDATE_FLOW_WITH_FIRST_METHOD_CALL);
                 tStat.setInt(1, 1);
                 tStat.setInt(2, pExecutionFlow.getId());
                 tStat.execute();
@@ -144,10 +135,12 @@ public class InsertionDao implements IInsertionDao
         return tNewBatchBufferSize;
     }
 
-    private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL " + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, RUNTIME_CLASS_NAME,"
-                    + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
-                    + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String SQL_INSERT_METHOD_CALL =
+        "INSERT INTO METHOD_CALL "
+            + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, RUNTIME_CLASS_NAME,"
+            + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
+            + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
+            + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     int saveMethodCall(MethodCallPO pMethodCall, int pCurIndex, int pBatchBufferSize)
     {
@@ -155,17 +148,14 @@ public class InsertionDao implements IInsertionDao
         {
             if (sLog.isDebugEnabled())
             {
-                sLog.debug("Inserting MethodCall(FlowId=[" + pMethodCall.getFlow().getId()
-                                + "] Index=["
-                                + pMethodCall.getPosition()
-                                + "] and NewBatchSize=["
-                                + pBatchBufferSize
-                                + "]");
+                sLog.debug("Inserting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "] Index=["
+                    + pMethodCall.getPosition() + "] and NewBatchSize=[" + pBatchBufferSize + "]");
             }
             int curIndex = 1;
             if (mMethodCallInsertStatement == null)
             {
-                mMethodCallInsertStatement = mSession.connection().prepareStatement(SQL_INSERT_METHOD_CALL);
+                Session tSession = mSessionFactory.getCurrentSession();
+                mMethodCallInsertStatement = tSession.connection().prepareStatement(SQL_INSERT_METHOD_CALL);
             }
             int tNewBatchBufferSize = pBatchBufferSize;
             if (tNewBatchBufferSize % BATCH_SIZE == 0)
@@ -210,7 +200,8 @@ public class InsertionDao implements IInsertionDao
 
     public int countFlows()
     {
-        SQLQuery tQuery = mSession.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+        Session tSession = mSessionFactory.getCurrentSession();
+        SQLQuery tQuery = tSession.createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         if (tResult != null)
         {
@@ -220,10 +211,4 @@ public class InsertionDao implements IInsertionDao
             return 0;
         }
     }
-
-    protected Session getSession()
-    {
-        return mSession;
-    }
-
 }

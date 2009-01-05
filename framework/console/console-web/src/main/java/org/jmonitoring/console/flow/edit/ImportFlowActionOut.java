@@ -9,7 +9,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
 
 public class ImportFlowActionOut extends Action {
@@ -20,7 +20,7 @@ public class ImportFlowActionOut extends Action {
         FormFile myFile = tForm.getTheFile();
         byte[] tFileData = myFile.getFileData();
 
-        JMonitoringProcess tProc = ProcessFactory.getInstance();
+        ConsoleManager tProc = ProcessFactory.getInstance();
         ExecutionFlowDTO tNewFlow = tProc.insertFlowFromXml(tFileData);
         tForm.setNewExecutionFlow(tNewFlow);
 

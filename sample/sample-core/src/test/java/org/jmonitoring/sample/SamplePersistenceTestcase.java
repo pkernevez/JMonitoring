@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.stat.Statistics;
 import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.sample.persistence.SampleHibernateManager;
 import org.jmonitoring.test.dao.PersistanceTestCase;
@@ -27,7 +27,7 @@ public abstract class SamplePersistenceTestcase extends PersistanceTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         StoreManager.clear();
-        MemoryStoreWriter.clear();
+        MemoryWriter.clear();
         mSampleSession = SampleHibernateManager.getSession();
         mSampleTransaction = mSampleSession.beginTransaction();
 

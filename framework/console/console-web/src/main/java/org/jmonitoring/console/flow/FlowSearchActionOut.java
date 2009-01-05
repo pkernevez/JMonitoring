@@ -8,6 +8,7 @@ package org.jmonitoring.console.flow;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,9 +16,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
 
 /**
@@ -26,7 +27,11 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FlowSearchActionOut extends Action {
+public class FlowSearchActionOut extends Action
+{
+
+    @Resource(name = "formater")
+    private FormaterBean mFormater;
 
     /**
      * (non-Javadoc)
@@ -35,31 +40,38 @@ public class FlowSearchActionOut extends Action {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
      *      javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-            HttpServletResponse pResponse) throws Exception {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        HttpServletResponse pResponse) throws Exception
+    {
+        ConsoleManager tProcess = ProcessFactory.getInstance();
         FlowSearchForm tForm = (FlowSearchForm) pForm;
 
-        FlowSearchCriterion tCriterion = copyBeanFormToCriterion(tForm);
+        FlowSearchCriterion tCriterion = copyBeanFormToCriterion(mFormater, tForm);
 
-        ((FlowSearchForm) tForm).setListOfFlows(tProcess.getListOfExecutionFlowDto(tCriterion));
+        (tForm).setListOfFlows(tProcess.getListOfExecutionFlowDto(tCriterion));
         return pMapping.findForward("success");
     }
 
-    static FlowSearchCriterion copyBeanFormToCriterion(FlowSearchForm pForm) throws ParseException {
+    static FlowSearchCriterion copyBeanFormToCriterion(FormaterBean pFormater, FlowSearchForm pForm)
+        throws ParseException
+    {
         FlowSearchCriterion tResult = new FlowSearchCriterion();
         tResult.setThreadName((pForm.getThreadName() == null ? null : pForm.getThreadName()));
         Date tBeginDate = null;
-        if (pForm.getBeginDate() != null && pForm.getBeginDate().length() != 0) {
-            tBeginDate = new Date(ConfigurationHelper.parseDate(pForm.getBeginDate()).getTime());
+        if (pForm.getBeginDate() != null && pForm.getBeginDate().length() != 0)
+        {
+            tBeginDate = pFormater.parseDateTime(pForm.getBeginDate());
             tResult.setBeginDate(tBeginDate);
         }
         Date tBeginTime = null;
-        if (pForm.getBeginTimeMin() != null && pForm.getBeginTimeMin().length() != 0) {
-            tBeginTime = new Date(ConfigurationHelper.parseTime(pForm.getBeginTimeMin()).getTime());
+        if (pForm.getBeginTimeMin() != null && pForm.getBeginTimeMin().length() != 0)
+        {
+            tBeginTime = pFormater.parseDateTime(pForm.getBeginTimeMin());
             tResult.setBeginTimeMin(tBeginTime);
         }
-        if (pForm.getDurationMin() != null && pForm.getDurationMin().length() != 0) {
+        if (pForm.getDurationMin() != null && pForm.getDurationMin().length() != 0)
+        {
             tResult.setDurationMin(new Long(pForm.getDurationMin()));
         }
         tResult.setJVM(pForm.getJVM());

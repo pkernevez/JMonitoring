@@ -3,6 +3,7 @@ package org.jmonitoring.console.persistence;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
-import org.jmonitoring.agent.store.StoreFactory;
 import org.jmonitoring.agent.store.impl.HttpWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
@@ -23,6 +23,7 @@ public class StoreServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
+    @Resource(name = "writer")
     private IStoreWriter mWriter;
 
     private static Log sLog = LogFactory.getLog(StoreServlet.class);
@@ -31,7 +32,6 @@ public class StoreServlet extends HttpServlet
     public void init() throws ServletException
     {
         super.init();
-        mWriter = StoreFactory.getWriter();
     }
 
     @Override

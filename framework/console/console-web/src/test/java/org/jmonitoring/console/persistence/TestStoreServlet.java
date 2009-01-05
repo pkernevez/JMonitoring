@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.HttpWriter;
-import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 
 import servletunit.struts.MockStrutsTestCase;
 
@@ -44,7 +44,7 @@ public class TestStoreServlet extends MockStrutsTestCase
 
     private void checkPostStore() throws ServletException, IOException
     {
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
         // ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow();
         // request.(HttpWriter.FLOW_ATTR, tFlow);
         // StoreServlet tServlet = new StoreServlet();

@@ -5,6 +5,7 @@ package org.jmonitoring.console.flow.edit;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,24 +18,26 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil;
 import org.jmonitoring.console.flow.jfreechart.FlowUtil;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.core.configuration.ColorManager;
+import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
-import org.jmonitoring.core.process.TransactionHelper;
+import org.springframework.stereotype.Service;
 
-/**
- * @author pke
- * 
- * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
- *       Templates
- */
+@Service
 public class FlowEditActionIn extends Action
 {
     private static final String MAX_FLOW_FOR_EDITION = "maxExecutionDuringFlowEdition";
 
     private static Log sLog = LogFactory.getLog(FlowEditActionIn.class);
+
+    @Resource(name = "formater")
+    private FormaterBean mFormater;
+
+    @Resource(name = "color")
+    private ColorManager mColor;
 
     /**
      * Default constructor.
@@ -46,7 +49,10 @@ public class FlowEditActionIn extends Action
     /**
      * Max number of measure to show in one flow. If this number is exceed, then the user is asked to choose an action.
      */
-    private static int sMaxFlowToShow = ConfigurationHelper.getInt(MAX_FLOW_FOR_EDITION);
+    // TODO Spring : à mettre dans la configuration Spring
+    private static int sMaxFlowToShow = 10;
+
+    // ConfigurationHelper.getInt(MAX_FLOW_FOR_EDITION);
 
     /*
      * (non-Javadoc)
@@ -57,49 +63,50 @@ public class FlowEditActionIn extends Action
      */
     @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse)
+        HttpServletResponse pResponse)
     {
-
-        TransactionHelper tTx = new TransactionHelper();
-        try
+        // TODO Cleaning avec Spring
+        // TransactionHelper tTx = new TransactionHelper();
+        // try
+        // {
+        ActionForward tForward;
+        ConsoleManager tProcess = ProcessFactory.getInstance();
+        // List tList = new ArrayList();
+        FlowEditForm tForm = (FlowEditForm) pForm;
+        sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
+        ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tForm.getId());
+        sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
+        int tNbMeasure = tFlow.getMeasureCount();
+        tForm.setExecutionFlow(tFlow);
+        if ((tNbMeasure > sMaxFlowToShow) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
         {
-            ActionForward tForward;
-            JMonitoringProcess tProcess = ProcessFactory.getInstance();
-            // List tList = new ArrayList();
-            FlowEditForm tForm = (FlowEditForm) pForm;
-            sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
-            ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tForm.getId());
-            sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
-            int tNbMeasure = tFlow.getMeasureCount();
-            tForm.setExecutionFlow(tFlow);
-            if ((tNbMeasure > sMaxFlowToShow) && (tForm.getKindOfAction() == FlowEditForm.ACTION_DEFAULT))
+            sLog.debug("Need more information to know if we can displayed the next screen...");
+            tForward = pMapping.findForward("required_info");
+        } else
+        {
+            MethodCallDTO tFirstMeasure = tFlow.getFirstMethodCall();
+            // Creation of the associated images.
+            HttpSession tSession = pRequest.getSession();
+            sLog.debug("Write PieCharts into HttpSession");
+            FlowUtil tUtil = new FlowUtil(mColor, mFormater);
+            tUtil.writeImageIntoSession(tSession, tFirstMeasure);
+            sLog.debug("Write GantBarChart into HttpSession");
+            FlowChartBarUtil.writeImageIntoSession(mFormater, tSession, tFirstMeasure, tForm);
+            if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
             {
-                sLog.debug("Need more information to know if we can displayed the next screen...");
-                tForward = pMapping.findForward("required_info");
-            } else
-            {
-                MethodCallDTO tFirstMeasure = tFlow.getFirstMethodCall();
-                // Creation of the associated images.
-                HttpSession tSession = pRequest.getSession();
-                sLog.debug("Write PieCharts into HttpSession");
-                FlowUtil.writeImageIntoSession(tSession, tFirstMeasure);
-                sLog.debug("Write GantBarChart into HttpSession");
-                FlowChartBarUtil.writeImageIntoSession(tSession, tFirstMeasure, tForm);
-                if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
-                {
-                    sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());
-                    limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
-                }
-                sLog.debug("Forward success.");
-                tForward = pMapping.findForward("success");
+                sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());
+                limitMeasureWithDuration(tForm.getDurationMin(), tFirstMeasure);
             }
-            tTx.commit();
-            return tForward;
-        } catch (Throwable t)
-        {
-            tTx.rollBack();
-            throw new RuntimeException(t);
+            sLog.debug("Forward success.");
+            tForward = pMapping.findForward("success");
         }
+        // tTx.commit();
+        return tForward;
+        // } catch (Throwable t)
+        // {
+        // tTx.rollBack();
+        // throw new RuntimeException(t);
+        // }
     }
 
     /**

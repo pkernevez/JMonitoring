@@ -6,121 +6,72 @@ import java.io.ObjectOutputStream;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
+import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class HttpWriter extends AbstractAsynchroneWriter
+public class HttpWriter implements IStoreWriter
 {
-
-    public static final String FLOW_ATTR = "FlowContent";
 
     public static final String CONTENT_TYPE = "JMonitoring/flow";
 
-    public static final String HOSTNAME = "httpwriter.hostname";
-
-    public static final String PORT = "httpwriter.port";
-
-    public static final String PROTOCOLE = "httpwriter.protocol";
-
-    public static final String URI = "httpwriter.uri";
-
-    public static final String sUri = ConfigurationHelper.getString(URI);
+    private final String mUri;
 
     private static Log sLog = LogFactory.getLog(HttpWriter.class);
 
-    private static HttpClient sClient;
+    private final HttpClient mClient;
 
-    private static MultiThreadedHttpConnectionManager sManager;
-
-    static
+    public HttpWriter(String pHostName, int pPort, String pProtocole, String pUri)
     {
-        configure();
+        mUri = pUri;
+        mClient = new HttpClient(new SimpleHttpConnectionManager());
+        mClient.getHostConfiguration().setHost(pHostName, pPort, pProtocole);
     }
 
-    static void configure()
+    public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        MultiThreadedHttpConnectionManager.shutdownAll();
-        sManager = new MultiThreadedHttpConnectionManager();
-        sClient = new HttpClient(sManager);
-        String tHost = ConfigurationHelper.getString(HOSTNAME);
-        int tPort = ConfigurationHelper.getInt(PORT);
-        String tProtocole = ConfigurationHelper.getString(PROTOCOLE);
-        sClient.getHostConfiguration().setHost(tHost, tPort, tProtocole);
-    }
-
-    private class AsynchroneHttpWriterRunnable implements Runnable
-    {
-        private final ExecutionFlowPO mExecutionFlowToLog;
-
-        public AsynchroneHttpWriterRunnable(ExecutionFlowPO pExecutionFlowToLog)
+        long tStartTime = System.currentTimeMillis();
+        try
         {
-            mExecutionFlowToLog = pExecutionFlowToLog;
-        }
+            ByteArrayOutputStream tBytes = new ByteArrayOutputStream();
+            ObjectOutputStream tStream = new ObjectOutputStream(tBytes);
+            tStream.writeObject(pExecutionFlow);
 
-        public void run()
-        {
+            PostMethod tHttpPost = new PostMethod(mUri);
+            tHttpPost.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
+            byte[] tByteArray = tBytes.toByteArray();
+            tHttpPost.setRequestEntity(new ByteArrayRequestEntity(tByteArray));
+            tHttpPost.setContentChunked(true);
+            tHttpPost.addRequestHeader("Content-Type", "JMonitoring/flow");
             try
             {
-                long tStartTime = System.currentTimeMillis();
+                mClient.executeMethod(tHttpPost);
+                long tEndTime = System.currentTimeMillis();
+                sLog.info("Inserted vith Http ExecutionFlow " + pExecutionFlow + " in " + (tEndTime - tStartTime)
+                    + " ms.");
 
-                ByteArrayOutputStream tBytes = new ByteArrayOutputStream();
-                ObjectOutputStream tStream = new ObjectOutputStream(tBytes);
-                tStream.writeObject(mExecutionFlowToLog);
-
-                PostMethod tHttpPost = new PostMethod(sUri);
-                tHttpPost.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-                byte[] tByteArray = tBytes.toByteArray();
-                tHttpPost.setRequestEntity(new ByteArrayRequestEntity(tByteArray));
-                tHttpPost.setContentChunked(true);
-                tHttpPost.addRequestHeader("Content-Type", "JMonitoring/flow");
-                try
+                if (tHttpPost.getStatusCode() != HttpStatus.SC_OK)
                 {
-                    sClient.executeMethod(tHttpPost);
-                    long tEndTime = System.currentTimeMillis();
-                    sLog.info("Inserted vith Http ExecutionFlow " + mExecutionFlowToLog
-                                    + " in "
-                                    + (tEndTime - tStartTime)
-                                    + " ms.");
-
-                    if (tHttpPost.getStatusCode() != HttpStatus.SC_OK)
-                    {
-                        sLog
-                            .error("Error while transfering Flow to HttpServer, return code was [" + tHttpPost
-                                                                                                              .getStatusCode()
-                                            + "]");
-                    }
-                } finally
-                {
-                    tHttpPost.releaseConnection();
+                    sLog.error("Error while transfering Flow to HttpServer, return code was ["
+                        + tHttpPost.getStatusCode() + "]");
                 }
-            } catch (IOException e)
+            } finally
             {
-                sLog
-                    .error("Unable to Write Flow to Http Server the ExecutionFlow has been lost. Cause is " + e
-                                                                                                               .getMessage()
-                                    + " Serveur is "
-                                    + sClient.getHostConfiguration());
+                tHttpPost.releaseConnection();
             }
+        } catch (IOException e)
+        {
+            sLog.error("Unable to Write Flow to Http Server the ExecutionFlow has been lost. Cause is "
+                + e.getMessage() + " Serveur is " + mClient.getHostConfiguration());
         }
     }
-
-    /**
-     * @see AbstractAsynchroneWriter#getAsynchroneLogTask(ExecutionFlowPO)
-     */
-    @Override
-    protected Runnable getAsynchroneLogTask(ExecutionFlowPO pFlow)
-    {
-        return new AsynchroneHttpWriterRunnable(pFlow);
-    }
-
 }

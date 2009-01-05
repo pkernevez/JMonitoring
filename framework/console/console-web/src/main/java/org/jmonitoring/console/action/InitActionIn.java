@@ -7,7 +7,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
 
 /***********************************************************************************************************************
@@ -24,7 +24,7 @@ public class InitActionIn extends Action {
      */
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
             HttpServletResponse pResponse) {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = ProcessFactory.getInstance();
         if (!tProcess.doDatabaseExist()) {
             tProcess.createDataBase();
         }

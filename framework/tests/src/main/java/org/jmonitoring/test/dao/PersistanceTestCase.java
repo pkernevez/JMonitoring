@@ -1,56 +1,51 @@
 package org.jmonitoring.test.dao;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.XmlDataSet;
-import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.stat.EntityStatistics;
 import org.hibernate.stat.Statistics;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public abstract class PersistanceTestCase extends TestCase
+@ContextConfiguration(locations = {"/persistence-test.xml" })
+public abstract class PersistanceTestCase extends JMonitoringTestCase
 {
-
+    // , "classpath*:/*-dao.xml" })
     private Session mSession;
 
     private Transaction mTransaction;
+
+    private SessionFactory mSessionFactory;
 
     private Statistics mStats;
 
     private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void initDb() throws Exception
     {
         super.setUp();
 
-        mSession = HibernateManager.getSession();
+        mSessionFactory = (SessionFactory) applicationContext.getBean("sessionFactory");
+        mSession = mSessionFactory.openSession();
         mTransaction = mSession.beginTransaction();
-
-        mStats = HibernateManager.getStats();
+        TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(mSession));
+        mStats = mSessionFactory.getStatistics();
         mStats.clear();
-
-        Configuration tConfig = HibernateManager.getConfig();
-        SchemaExport tDdlexport = new SchemaExport(tConfig);
-
-        tDdlexport.create(true, true);
-
     }
 
     public void closeAndRestartSession()
@@ -60,13 +55,13 @@ public abstract class PersistanceTestCase extends TestCase
             if (mTransaction.isActive())
             {
                 mTransaction.commit();
-            } else
-            {
-                mSession.close();
             }
+            mSession.close();
         }
 
-        mSession = HibernateManager.getSession();
+        TransactionSynchronizationManager.unbindResource(mSessionFactory);
+        mSession = mSessionFactory.openSession();
+        TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(mSession));
         mTransaction = mSession.beginTransaction();
     }
 
@@ -81,41 +76,13 @@ public abstract class PersistanceTestCase extends TestCase
 
     }
 
-    protected void createDataSet(String pDataSetFileName)
-    {
-        Session tSession = HibernateManager.getSession();
-
-        if (pDataSetFileName != null)
-        {
-            IDataSet tDataSet;
-            try
-            {
-                sLog.debug("Before CLEAN INSERT");
-                tDataSet = new XmlDataSet(PersistanceTestCase.class.getResourceAsStream(pDataSetFileName));
-                DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(tSession.connection()), tDataSet);
-                sLog.debug("Now flush data");
-                mSession.flush();
-            } catch (DataSetException e)
-            {
-                throw new RuntimeException(e);
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-        sLog.debug("end createDataSet");
-    }
-
-    @Override
-    protected void tearDown() throws Exception
+    @After
+    public void closeDb() throws Exception
     {
         try
         {
+            TransactionSynchronizationManager.unbindResource(mSessionFactory);
             super.tearDown();
-            Configuration tConfig = HibernateManager.getConfig();
-            SchemaExport tDdlexport = new SchemaExport(tConfig);
-
-            tDdlexport.drop(true, true);
         } finally
         {
             if (mSession.isOpen())
@@ -123,10 +90,8 @@ public abstract class PersistanceTestCase extends TestCase
                 if (mTransaction.isActive())
                 {
                     mTransaction.rollback();
-                } else
-                {
-                    mSession.close();
                 }
+                mSession.close();
             }
             sLog.info("Hibernate Session Closed");
         }
@@ -160,20 +125,21 @@ public abstract class PersistanceTestCase extends TestCase
         tSubPoint.setEndTime(tStartTime + 5);
         tSubPoint.setRuntimeClassName(PersistanceTestCase.class.getName() + "iuiu");
 
-        tSubPoint2 = new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
+        tSubPoint2 =
+            new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint2.setBeginTime(tStartTime + 8);// 21
 
-        tSubPoint3 = new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-                        "[]");
+        tSubPoint3 =
+            new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint3.setBeginTime(tStartTime + 14);// 1
         tSubPoint3.setEndTime(tStartTime + 15);
 
-        tSubPoint4 = new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-                        "[]");
+        tSubPoint4 =
+            new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint4.setBeginTime(tStartTime + 16);// 12
 
-        tSubPoint5 = new MethodCallPO(tSubPoint4, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2",
-                        "[]");
+        tSubPoint5 =
+            new MethodCallPO(tSubPoint4, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint5.setBeginTime(tStartTime + 26);// 1
         tSubPoint5.setEndTime(tStartTime + 27);
 

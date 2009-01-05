@@ -8,13 +8,13 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
-import org.jmonitoring.server.store.impl.SynchroneJdbcStore;
+import org.jmonitoring.server.store.impl.JdbcWriter;
 
 public class TestTraceOfParameters extends SamplePersistenceTestcase {
 
     public void testWithoutAnyTraceAndHibernate() {
         ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, InsertionHibernateDAO.class.getName());
-        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
+        StoreManager.changeStoreWriterClass(JdbcWriter.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallOther(3, "AB");
@@ -54,7 +54,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase {
     }
 
     public void testWithoutAnyTrace() {
-        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
+        StoreManager.changeStoreWriterClass(JdbcWriter.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithoutTrace();
@@ -77,7 +77,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase {
     }
 
     public void testWithTraceOfParameter() {
-        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
+        StoreManager.changeStoreWriterClass(JdbcWriter.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameter(3, "pString");
@@ -100,7 +100,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase {
     }
 
     public void testWithTraceOfParamAndResult() {
-        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
+        StoreManager.changeStoreWriterClass(JdbcWriter.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithParameterAndResult(3, "pString");
@@ -122,7 +122,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase {
     }
 
     public void testWithTraceOfResult() {
-        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
+        StoreManager.changeStoreWriterClass(JdbcWriter.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         tCallObject.toBeCallWithResult(3, "pString");
@@ -146,7 +146,7 @@ public class TestTraceOfParameters extends SamplePersistenceTestcase {
     }
 
     public void testWithDefaultTraceOfException() {
-        StoreManager.changeStoreWriterClass(SynchroneJdbcStore.class);
+        StoreManager.changeStoreWriterClass(JdbcWriter.class);
 
         ClassToBeCall tCallObject = new ClassToBeCall();
         try {

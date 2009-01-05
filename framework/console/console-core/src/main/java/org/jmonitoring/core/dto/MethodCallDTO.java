@@ -6,9 +6,6 @@ package org.jmonitoring.core.dto;
  **************************************************************************/
 
 import java.io.Serializable;
-import java.util.Date;
-
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /**
  * @author pke
@@ -33,20 +30,22 @@ public class MethodCallDTO implements Serializable
     /** Position of the Child. */
     private int mChildPosition;
 
-    /** Lien sur le p�re de ce point dans la hierachie d'appel. */
+    /** Link to the parent Node. */
     private MethodCallDTO mParent;
 
-    /** Liste des points de mesure fils dans la cha�ne d'appel. */
+    /** Link to the children nodes. */
     private MethodCallDTO[] mChildren = new MethodCallDTO[0];
 
-    /** Repr�sentation sous forme de <code>String</code> des param�tres pass�s lors de l'appel � la m�thode. */
+    /**
+     * String representation of the parameters. This attribute has a value only if there is a parameter tracer defined.
+     */
     private String mParams;
 
-    /** Date/Heure de d�but d'appel de la m�thode. */
-    private Date mBeginTime;
+    /** Beginning time of the method as <code>String</code>. */
+    private String mBeginTime;
 
-    /** Date/Heure de fin d'appel de la m�thode. */
-    private Date mEndTime;
+    /** End time of the method as <code>String</code>. */
+    private String mEndTime;
 
     /** Name of the class on which the Method is defined. */
     private String mClassName;
@@ -54,19 +53,23 @@ public class MethodCallDTO implements Serializable
     /** Name of the class on which the Method is called. Null if it's the same as <code>mClassName</code>. */
     private String mRuntimeClassName;
 
-    /** Nom de la m�thode associ�e � ce point de mesure. */
+    /** Name of the method. */
     private String mMethodName;
 
-    /** Exception qui est stock�e si l'ex�cution associ�e � ce point est lev�e durant son ex�cution. */
+    /** Exception class name. This attribute has a value only if the method end with an exception. */
     private String mThrowableClass;
 
+    /** Exception message. This attribute has a value only if the method end with an exception. */
     private String mThrowableMessage;
 
-    /** Valeur de retour si la m�thode associ�e � ce point est autre que 'void' . */
+    /** Method return value. If a return value tracer is defined and if the method isn't <code>void</code> type. */
     private String mReturnValue;
 
-    /** Nom du group associ� au point de mesure. */
+    /** Group name associated to this method call. */
     private String mGroupName;
+
+    /** Duration in milliseconds of this method call. */
+    private long mDuration;
 
     public MethodCallDTO()
     {
@@ -96,9 +99,9 @@ public class MethodCallDTO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The start time of the call to the method associated to thiis <code>MethodCallDTO</code>.
+     * @return The start time of the call to the method associated to this <code>MethodCallDTO</code>.
      */
-    public Date getBeginTime()
+    public String getBeginTime()
     {
         return mBeginTime;
     }
@@ -121,7 +124,7 @@ public class MethodCallDTO implements Serializable
      */
     public long getDuration()
     {
-        return mEndTime.getTime() - mBeginTime.getTime();
+        return mDuration;
     }
 
     /**
@@ -129,7 +132,7 @@ public class MethodCallDTO implements Serializable
      * 
      * @return The end time of the method associated with this <code>MethodCallDTO</code>.
      */
-    public Date getEndTime()
+    public String getEndTime()
     {
         return mEndTime;
     }
@@ -229,7 +232,7 @@ public class MethodCallDTO implements Serializable
     /**
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginTime(Date pBeginTime)
+    public void setBeginTime(String pBeginTime)
     {
         mBeginTime = pBeginTime;
     }
@@ -237,7 +240,7 @@ public class MethodCallDTO implements Serializable
     /**
      * @param pEndTime The mEndTime to set.
      */
-    public void setEndTime(Date pEndTime)
+    public void setEndTime(String pEndTime)
     {
         mEndTime = pEndTime;
     }
@@ -300,26 +303,6 @@ public class MethodCallDTO implements Serializable
     public void setFlowId(int pFlowId)
     {
         mFlowId = pFlowId;
-    }
-
-    /**
-     * Delegator.
-     * 
-     * @return The begin time of the firts measure.
-     */
-    public String getBeginTimeAsString()
-    {
-        return ConfigurationHelper.formatDateTime(mBeginTime);
-    }
-
-    /**
-     * Delegator.
-     * 
-     * @return The end time of the firts measure.
-     */
-    public String getEndTimeAsString()
-    {
-        return ConfigurationHelper.formatDateTime(mEndTime);
     }
 
     /**
@@ -403,26 +386,6 @@ public class MethodCallDTO implements Serializable
         mFlow = pFlow;
     }
 
-    public long getDurationFromPreviousCall()
-    {
-        long tDuration;
-        if (mChildPosition == 0)
-        {
-            if (mParent == null)
-            {
-                tDuration = mFlow.getBeginTime().getTime() - mBeginTime.getTime();
-            } else
-            {
-                tDuration = mBeginTime.getTime() - mParent.getBeginTime().getTime();
-            }
-        } else
-        {
-            MethodCallDTO tPrecedentMethodCall = mParent.getChild(mChildPosition - 1);
-            tDuration = mBeginTime.getTime() - tPrecedentMethodCall.getEndTime().getTime();
-        }
-        return tDuration;
-    }
-
     public int getChildPosition()
     {
         return mChildPosition;
@@ -441,6 +404,14 @@ public class MethodCallDTO implements Serializable
     public void setRuntimeClassName(String pRuntimeClassName)
     {
         mRuntimeClassName = pRuntimeClassName;
+    }
+
+    /**
+     * @return the flow
+     */
+    public ExecutionFlowDTO getFlow()
+    {
+        return mFlow;
     }
 
 }

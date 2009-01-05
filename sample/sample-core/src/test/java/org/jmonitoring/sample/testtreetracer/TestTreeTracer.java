@@ -3,7 +3,7 @@ package org.jmonitoring.sample.testtreetracer;
 import java.util.StringTokenizer;
 
 import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
@@ -14,7 +14,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testParameterTracer()
     {
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
 
         Mother tMother = new Mother();
         tMother.setChild1(new Child());
@@ -22,15 +22,15 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
         new ToBeCall().callWithParam(tMother, new Child());
 
-        assertEquals(1, MemoryStoreWriter.countFlows());
+        assertEquals(1, MemoryWriter.countFlows());
         checkParameterTracer();
-        assertEquals(1, MemoryStoreWriter.countFlows());
+        assertEquals(1, MemoryWriter.countFlows());
 
     }
 
     private void checkParameterTracer()
     {
-        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
+        ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertNotNull(tFlow);
         String tParams = tFlow.getFirstMethodCall().getParams();
         StringTokenizer tTok = new StringTokenizer(tParams, "\n");
@@ -49,7 +49,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testReturnValueTracer()
     {
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
 
         new ToBeCall().callWithReturn();
 
@@ -60,7 +60,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     private void checkReturnValueTracer()
     {
-        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
+        ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertNotNull(tFlow);
         String tParams = tFlow.getFirstMethodCall().getReturnValue();
         StringTokenizer tTok = new StringTokenizer(tParams, "\n");
@@ -77,7 +77,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     public void testStaticCall()
     {
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
 
         ToBeCall.callStaticMethod(new Mother());
 
@@ -88,7 +88,7 @@ public class TestTreeTracer extends SamplePersistenceTestcase
 
     private void checkStaticCall()
     {
-        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
+        ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertNotNull(tFlow);
         assertEquals(ToBeCall.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertTrue(tFlow.getFirstMethodCall().getParams().length() > 20);

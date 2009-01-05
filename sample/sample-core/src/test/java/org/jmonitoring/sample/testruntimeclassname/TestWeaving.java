@@ -1,14 +1,14 @@
 package org.jmonitoring.sample.testruntimeclassname;
 
 import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 
 public class TestWeaving extends SamplePersistenceTestcase {
 
     public void testWeaving() throws InterruptedException {
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
 
         AbstractSample tMother = new AbstractSample();
         tMother.methodATester();
@@ -28,17 +28,17 @@ public class TestWeaving extends SamplePersistenceTestcase {
     }
 
     private void checkWeaving1() {
-        assertEquals(1, MemoryStoreWriter.countFlows());
-        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
+        assertEquals(1, MemoryWriter.countFlows());
+        ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertEquals("methodATester", tFlow.getFirstMethodCall().getMethodName());
         assertNull(tFlow.getFirstMethodCall().getRuntimeClassName());
-        assertEquals(1, MemoryStoreWriter.countFlows());
+        assertEquals(1, MemoryWriter.countFlows());
     }
 
     private void checkWeaving2() {
         ExecutionFlowPO tFlow;
-        tFlow = MemoryStoreWriter.getFlow(1);
+        tFlow = MemoryWriter.getFlow(1);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertEquals("methodATester", tFlow.getFirstMethodCall().getMethodName());
         assertEquals(ChildSample.class.getName(), tFlow.getFirstMethodCall().getRuntimeClassName());
@@ -46,8 +46,8 @@ public class TestWeaving extends SamplePersistenceTestcase {
 
     private void checkWeaving3() {
         ExecutionFlowPO tFlow;
-        assertEquals(3, MemoryStoreWriter.countFlows());
-        tFlow = MemoryStoreWriter.getFlow(2);
+        assertEquals(3, MemoryWriter.countFlows());
+        tFlow = MemoryWriter.getFlow(2);
         assertEquals(ChildSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
         assertEquals("methodWithOverride", tFlow.getFirstMethodCall().getMethodName());
         assertNull(tFlow.getFirstMethodCall().getRuntimeClassName());

@@ -5,11 +5,14 @@ package org.jmonitoring.core.dao;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,7 +24,6 @@ import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -40,25 +42,15 @@ public class ConsoleDao extends InsertionDao
 
     private static Log sLog = LogFactory.getLog(ConsoleDao.class);
 
-    /**
-     * Default constructor.
-     * 
-     * @todo remove this constructor
-     * @param pSession The hibrnate Session to use for DataBase access.
-     */
-    public ConsoleDao(Session pSession)
-    {
-        super(pSession);
-    }
+    @Resource(name = "hibernateConfiguration")
+    private Configuration mConfiguration;
 
     /**
      * Default constructor.
-     * 
-     * @todo remove this constructor
      */
     public ConsoleDao()
     {
-        super(HibernateManager.getSession());
+        super();
     }
 
     /**
@@ -70,7 +62,8 @@ public class ConsoleDao extends InsertionDao
     @SuppressWarnings("unchecked")
     public List<ExecutionFlowPO> getListOfExecutionFlowPO(FlowSearchCriterion pCriterion)
     {
-        Criteria tCriteria = getSession().createCriteria(ExecutionFlowPO.class);
+        Session tSession = mSessionFactory.getCurrentSession();
+        Criteria tCriteria = tSession.createCriteria(ExecutionFlowPO.class);
         if (pCriterion.getThreadName() != null && pCriterion.getThreadName().length() > 0)
         {
             tCriteria = tCriteria.add(Restrictions.like("threadName", pCriterion.getThreadName() + "%"));
@@ -121,8 +114,9 @@ public class ConsoleDao extends InsertionDao
      */
     public ExecutionFlowPO readExecutionFlow(int pFlowId)
     {
-        ExecutionFlowPO tFlow = (ExecutionFlowPO) getSession().load(ExecutionFlowPO.class, new Integer(pFlowId));
-        Criteria tCriteria = getSession().createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
+        Session tSession = mSessionFactory.getCurrentSession();
+        ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
+        Criteria tCriteria = tSession.createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
         tCriteria.add(Restrictions.eq("flow.id", new Integer(pFlowId)));
         tCriteria.list();
         return tFlow;
@@ -134,12 +128,38 @@ public class ConsoleDao extends InsertionDao
      */
     public void deleteAllFlows()
     {
-        Configuration tConfig = HibernateManager.getConfig();
-        SchemaExport tDdlexport = new SchemaExport(tConfig);
-
-        tDdlexport.drop(true, true);
-        HibernateManager.getSession().flush();
-        tDdlexport.create(true, true);
+        Session tSession = mSessionFactory.getCurrentSession();
+        Connection tCon = tSession.connection();
+        try
+        {
+            SchemaExport tDdlexport = new SchemaExport(mConfiguration, tCon);
+            tDdlexport.drop(true, true);
+            tSession.flush();
+        } finally
+        {
+            try
+            {
+                tCon.close();
+            } catch (SQLException e)
+            {
+                sLog.error("Unable to release resources", e);
+            }
+        }
+        try
+        {
+            tCon = tSession.connection();
+            SchemaExport tDdlexport = new SchemaExport(mConfiguration, tCon);
+            tDdlexport.create(true, true);
+        } finally
+        {
+            try
+            {
+                tCon.close();
+            } catch (SQLException e)
+            {
+                sLog.error("Unable to release resources", e);
+            }
+        }
     }
 
     /**
@@ -155,31 +175,29 @@ public class ConsoleDao extends InsertionDao
         {
             try
             {
-                tStat = getSession()
-                                    .connection()
-                                    .prepareStatement(
-                                                      "UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
+                Session tSession = mSessionFactory.getCurrentSession();
+                Connection tCon = tSession.connection();
+                tStat = tCon.prepareStatement("UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
                 tStat.setNull(1, Types.INTEGER);
                 tStat.setInt(2, pId);
                 tStat.execute();
                 tStat.close();
                 tStat = null;
 
-                tStat = getSession().connection()
-                                    .prepareStatement("UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
+                tStat = tCon.prepareStatement("UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
                 tStat.setNull(1, Types.INTEGER);
                 tStat.setInt(2, pId);
                 tStat.execute();
                 tStat.close();
                 tStat = null;
 
-                tStat = getSession().connection().prepareStatement("DELETE FROM METHOD_CALL Where FLOW_ID=?");
+                tStat = tCon.prepareStatement("DELETE FROM METHOD_CALL Where FLOW_ID=?");
                 tStat.setInt(1, pId);
                 tStat.execute();
                 tStat.close();
                 tStat = null;
 
-                tStat = getSession().connection().prepareStatement("DELETE FROM EXECUTION_FLOW Where ID=?");
+                tStat = tCon.prepareStatement("DELETE FROM EXECUTION_FLOW Where ID=?");
                 tStat.setInt(1, pId);
                 tStat.execute();
                 int tResultCount = tStat.getUpdateCount();
@@ -188,7 +206,7 @@ public class ConsoleDao extends InsertionDao
                 if (tResultCount != 1)
                 {
                     throw new UnknownFlowException("Flow with Id=" + pId
-                                    + " could not be retreive from database, and can't be delete");
+                        + " could not be retreive from database, and can't be delete");
                 }
 
             } finally
@@ -215,7 +233,8 @@ public class ConsoleDao extends InsertionDao
     @SuppressWarnings("unchecked")
     public List<MethodCallPO> getListOfMethodCall(String pClassName, String pMethodName)
     {
-        Criteria tCriteria = getSession().createCriteria(MethodCallPO.class);
+        Session tSession = mSessionFactory.getCurrentSession();
+        Criteria tCriteria = tSession.createCriteria(MethodCallPO.class);
         tCriteria.add(Restrictions.like("className", pClassName + "%"));
         tCriteria.add(Restrictions.like("methodName", pMethodName + "%"));
         return tCriteria.list();
@@ -232,9 +251,9 @@ public class ConsoleDao extends InsertionDao
      */
     public MethodCallPO readMethodCall(int pFlowId, int pMethodId)
     {
-        Query tQuery = getSession()
-                                   .createQuery(
-                                                "from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
+        Session tSession = mSessionFactory.getCurrentSession();
+        Query tQuery =
+            tSession.createQuery("from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
         tQuery.setInteger("flowId", pFlowId);
         tQuery.setInteger("pid", pMethodId);
         MethodCallPO tMeth = (MethodCallPO) tQuery.uniqueResult();
@@ -248,10 +267,11 @@ public class ConsoleDao extends InsertionDao
         }
     }
 
-    private static final String SELECT_LIST_OF_MEASURE = "SELECT MethodCallPO.className,  MethodCallPO.methodName ," + " MethodCallPO.groupName, COUNT(MethodCallPO.id.position) As NB"
-                    + " FROM MethodCallPO MethodCallPO "
-                    + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
-                    + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
+    private static final String SELECT_LIST_OF_MEASURE =
+        "SELECT MethodCallPO.className,  MethodCallPO.methodName ,"
+            + " MethodCallPO.groupName, COUNT(MethodCallPO.id.position) As NB" + " FROM MethodCallPO MethodCallPO "
+            + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
+            + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
 
     private static final int EXTRACT_NB_POS = 3;
 
@@ -269,7 +289,8 @@ public class ConsoleDao extends InsertionDao
     @SuppressWarnings("unchecked")
     public List<MethodCallExtractDTO> getListOfMethodCallExtract()
     {
-        Query tQuery = getSession().createQuery(SELECT_LIST_OF_MEASURE);
+        Session tSession = mSessionFactory.getCurrentSession();
+        Query tQuery = tSession.createQuery(SELECT_LIST_OF_MEASURE);
         List<MethodCallExtractDTO> tResult = new ArrayList<MethodCallExtractDTO>();
         for (Object[] tExtract : (List<Object[]>) (tQuery.list()))
         {
@@ -284,10 +305,22 @@ public class ConsoleDao extends InsertionDao
     public void createDataBase()
     {
         sLog.info("Creating new Schema for the DataBase");
-        Configuration tConfig = HibernateManager.getConfig();
-        SchemaExport tDdlexport = new SchemaExport(tConfig);
-        tDdlexport.create(true, true);
-        sLog.info("End of the Schema creation for the DataBase");
+        Connection tCon = mSessionFactory.getCurrentSession().connection();
+        try
+        {
+            SchemaExport tDdlexport = new SchemaExport(mConfiguration, tCon);
+            tDdlexport.create(true, true);
+            sLog.info("End of the Schema creation for the DataBase");
+        } finally
+        {
+            try
+            {
+                tCon.close();
+            } catch (SQLException e)
+            {
+                sLog.error("Unable to release resources", e);
+            }
+        }
     }
 
     /**
@@ -300,9 +333,10 @@ public class ConsoleDao extends InsertionDao
      */
     @SuppressWarnings("unchecked")
     public List<MethodCallPO> getMethodCallList(String pClassName, String pMethodName, long pDurationMin,
-                    long pDurationMax)
+        long pDurationMax)
     {
-        Query tQuery = getSession().getNamedQuery("GetMethodCallList");
+        Session tSession = mSessionFactory.getCurrentSession();
+        Query tQuery = tSession.getNamedQuery("GetMethodCallList");
         tQuery.setString("className", pClassName);
         tQuery.setString("methodName", pMethodName);
         tQuery.setLong("durationMin", pDurationMin);

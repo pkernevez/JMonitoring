@@ -35,9 +35,8 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
-import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -59,29 +58,29 @@ public class MethodCallStatActionIn extends Action
 
     @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
+        HttpServletResponse pResponse) throws Exception
     {
-        TransactionHelper tTx = new TransactionHelper();
-        try
-        {
-            MethodCallStatForm tForm = (MethodCallStatForm) pForm;
-            List<MethodCallDTO> tMeasures = readMeasure(tForm);
-            tForm.setNbMeasures(tMeasures.size());
-            writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
-            computeStat(tMeasures, tForm);
-            tTx.commit();
-            return pMapping.findForward("success");
-        } catch (Throwable t)
-        {
-            tTx.rollBack();
-            throw new RuntimeException(t);
-        }
+        // TransactionHelper tTx = new TransactionHelper();
+        // try
+        // {
+        MethodCallStatForm tForm = (MethodCallStatForm) pForm;
+        List<MethodCallDTO> tMeasures = readMeasure(tForm);
+        tForm.setNbMeasures(tMeasures.size());
+        writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
+        computeStat(tMeasures, tForm);
+        // tTx.commit();
+        return pMapping.findForward("success");
+        // } catch (Throwable t)
+        // {
+        // tTx.rollBack();
+        // throw new RuntimeException(t);
+        // }
     }
 
     /** @todo Refactorer cette couche avec des DTO propre... */
     private List<MethodCallDTO> readMeasure(MethodCallStatForm pForm)
     {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = ProcessFactory.getInstance();
         if (!pForm.isParametersByName())
         {
             MethodCallDTO tMeth = tProcess.readMethodCall(pForm.getFlowId(), pForm.getPosition());

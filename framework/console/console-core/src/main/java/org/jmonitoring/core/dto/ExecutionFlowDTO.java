@@ -6,10 +6,6 @@ package org.jmonitoring.core.dto;
  **************************************************************************/
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.util.Date;
-
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 
 /**
  * This instance is the entry of of a flow. It has a list of MeasurePoint and some properties.
@@ -31,10 +27,10 @@ public class ExecutionFlowDTO implements Serializable
     private String mJvmIdentifier;
 
     /** Begin datetime. */
-    private Date mBeginTime;
+    private String mBeginTime;
 
     /** End datetime. */
-    private Date mEndTime;
+    private String mEndTime;
 
     /** Technical identifier. */
     private int mId;
@@ -44,6 +40,8 @@ public class ExecutionFlowDTO implements Serializable
 
     /** Nom de la m�thode associ�e � ce point de mesure. */
     private String mMethodName;
+
+    private long mDuration;
 
     /**
      * Constructor.
@@ -60,15 +58,18 @@ public class ExecutionFlowDTO implements Serializable
      * @param pJVMIdentifier The identifier of this JVM or Server.
      * @param pBeginTime L'heure de d�but de l'appel.
      * @param pEndTime L'heure de fin de l'appel.
+     * @param pDuration Duration
      */
-    public ExecutionFlowDTO(int pId, String pThreadName, String pJVMIdentifier, long pBeginTime, long pEndTime)
+    public ExecutionFlowDTO(int pId, String pThreadName, String pJVMIdentifier, String pBeginTime, String pEndTime,
+        long pDuration)
     {
         super();
         mId = pId;
         mThreadName = pThreadName;
         mJvmIdentifier = pJVMIdentifier;
-        mBeginTime = new Date(pBeginTime);
-        mEndTime = new Date(pEndTime);
+        mBeginTime = pBeginTime;
+        mEndTime = pEndTime;
+        mDuration = pDuration;
     }
 
     // /**
@@ -150,99 +151,11 @@ public class ExecutionFlowDTO implements Serializable
     }
 
     /**
-     * Delegator.
-     * 
-     * @return The begin time of the firts measure.
-     */
-    public Date getBeginTime()
-    {
-        return mBeginTime;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @param pBeginTime The mBeginTime to set.
-     */
-    public void setBeginTime(Date pBeginTime)
-    {
-        mBeginTime = pBeginTime;
-    }
-
-    /**
-     * Delegator.
-     * 
-     * @return The begin time of the firts measure.
-     */
-    public String getBeginDateAsString()
-    {
-        return (mBeginTime == null ? null : ConfigurationHelper.formatDateTime(mBeginTime));
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @param pBeginTime The BeginTime to set.
-     * @throws ParseException If the the time is not valid.
-     */
-    public void setBeginDateAsString(String pBeginTime) throws ParseException
-    {
-        mBeginTime = ConfigurationHelper.parseDateTime(pBeginTime);
-    }
-
-    /**
-     * Delegator.
-     * 
-     * @return The end time of the first measure.
-     */
-    public Date getEndTime()
-    {
-        return mEndTime;
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @param pEndTime The mEndTime to set.
-     */
-    public void setEndTime(Date pEndTime)
-    {
-        mEndTime = pEndTime;
-    }
-
-    /**
-     * Delegator.
-     * 
-     * @return The end time of the first measure.
-     */
-    public String getEndTimeAsString()
-    {
-        return ConfigurationHelper.formatTime(mEndTime);
-    }
-
-    /**
-     * @param pEndTime The mEndTime to set.
-     * @throws ParseException If the time is not valid.
-     */
-    public void setEndTimeAsString(String pEndTime) throws ParseException
-    {
-        mEndTime = ConfigurationHelper.parseTime(pEndTime);
-    }
-
-    /**
      * @return The duration of the first measure execution in milliseconds.
      */
     public long getDuration()
     {
-        return mEndTime.getTime() - mBeginTime.getTime();
-    }
-
-    /**
-     * @return The duration of the first measure execution in milliseconds.
-     */
-    public String getDurationAsString()
-    {
-        return "" + (mEndTime.getTime() - mBeginTime.getTime());
+        return mDuration;
     }
 
     /**
@@ -319,6 +232,46 @@ public class ExecutionFlowDTO implements Serializable
     public void setMethodName(String pMethodName)
     {
         mMethodName = pMethodName;
+    }
+
+    /**
+     * @return the beginTime
+     */
+    public String getBeginTime()
+    {
+        return mBeginTime;
+    }
+
+    /**
+     * @param pBeginTime the beginTime to set
+     */
+    public void setBeginTime(String pBeginTime)
+    {
+        mBeginTime = pBeginTime;
+    }
+
+    /**
+     * @return the endTime
+     */
+    public String getEndTime()
+    {
+        return mEndTime;
+    }
+
+    /**
+     * @param pEndTime the endTime to set
+     */
+    public void setEndTime(String pEndTime)
+    {
+        mEndTime = pEndTime;
+    }
+
+    /**
+     * @param pDuration the duration to set
+     */
+    public void setDuration(long pDuration)
+    {
+        mDuration = pDuration;
     }
 
 }

@@ -10,29 +10,31 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.annotation.Resource;
+
 import org.hibernate.Hibernate;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.SQLQuery;
 import org.hibernate.exception.GenericJDBCException;
+import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.dao.TestConsoleDao;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
+@ContextConfiguration(locations = {"/console.xml" })
 public class TestConfigurationDAO extends PersistanceTestCase
 {
+    @Resource(name = "dao")
+    private ConsoleDao mDao;
 
-    /**
-     * @todo clear comments
-     * @throws IOException
-     */
+    @Test
+    @Ignore
     public void testSaveGeneralConfiguration() throws IOException
     {
-        // for (Enumeration tEnum =
-        // this.getClass().getClassLoader().getResources("jmonitoring.hibernate.xml");tEnum.hasMoreElements();)
-        // {
-        // URL tUrl = (URL) tEnum.nextElement();
-        // System.out.println("PKE "+tUrl.getPath());
-        // }
         assertEquals(0, countGeneralConf());
 
         GeneralConfigurationPO tConf = new GeneralConfigurationPO();
@@ -70,6 +72,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
+    @Test
     public void testGetGeneralConfiguration()
     {
         assertEquals(0, countGeneralConf());
@@ -109,6 +112,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
+    @Test
     public void testSaveGroupConfiguration()
     {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName", new Color(12, 13, 14));
@@ -122,6 +126,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
         tDao.saveGroupConfiguration(tConf);
     }
 
+    @Test
     public void testGetGroupConfiguration()
     {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
@@ -155,6 +160,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
+    @Test
     public void testDeleteGroupConfiguration()
     {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
@@ -188,6 +194,8 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
+    @Test
+    @Ignore
     public void testGetAllGroupConfigurations()
     {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));
@@ -197,7 +205,9 @@ public class TestConfigurationDAO extends PersistanceTestCase
         tDao.saveGroupConfiguration(tConf);
         tDao.saveGroupConfiguration(tConf2);
 
-        TestConsoleDao.buildAndSaveNewFullFlow(getSession());
+        ExecutionFlowPO tExecFlow = TestConsoleDao.buildNewFullFlow();
+        mDao.insertFullExecutionFlow(tExecFlow);
+        getSession().flush();
         getSession().flush();
         getSession().clear();
 
@@ -216,6 +226,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
+    @Test
     public void testGeneralConfigurationCacheLevel2()
     {
         GeneralConfigurationPO tConf = new GeneralConfigurationPO();
@@ -240,6 +251,8 @@ public class TestConfigurationDAO extends PersistanceTestCase
 
     }
 
+    @Test
+    @Ignore
     public void testGroupConfigurationCacheLevel2()
     {
         GroupConfigurationPO tConf = new GroupConfigurationPO("groupName1", new Color(12, 13, 14));

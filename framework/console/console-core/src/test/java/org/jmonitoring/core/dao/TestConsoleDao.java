@@ -7,6 +7,8 @@ package org.jmonitoring.core.dao;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.hibernate.Hibernate;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.SQLQuery;
@@ -16,6 +18,8 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * @author pke
@@ -23,26 +27,30 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
+@ContextConfiguration(locations = {"/console.xml" })
 public class TestConsoleDao extends PersistanceTestCase
 {
+    @Resource(name = "dao")
+    private ConsoleDao mDao;
 
+    @Test
     public void testCountOk()
     {
-        assertEquals(0, new ConsoleDao(getSession()).countFlows());
+        assertEquals(0, mDao.countFlows());
         assertEquals(0, countMethods());
     }
 
+    @Test
     public void testInsertSimpleFlow()
     {
-        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-        int tOldNbFlow = tFlowDAO.countFlows();
+        int tOldNbFlow = mDao.countFlows();
         int tOldNbMethodCall = countMethods();
 
         ExecutionFlowPO tFlow = buildNewSimpleFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
+        mDao.insertFullExecutionFlow(tFlow);
         getSession().flush();
 
-        int tNewNbFlow = tFlowDAO.countFlows();
+        int tNewNbFlow = mDao.countFlows();
         int tNewNbMethodCall = countMethods();
         assertEquals(tOldNbFlow + 1, tNewNbFlow);
         assertEquals(tOldNbMethodCall + 1, tNewNbMethodCall);
@@ -62,16 +70,16 @@ public class TestConsoleDao extends PersistanceTestCase
         return tFlow;
     }
 
+    @Test
     public void testInsertNewFlows()
     {
-        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-        int tOldNbFlow = tFlowDAO.countFlows();
+        int tOldNbFlow = mDao.countFlows();
         int tOldNbMeth = countMethods();
 
         ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
+        mDao.insertFullExecutionFlow(tFlow);
         getSession().flush();
-        int tNewNbFlow = tFlowDAO.countFlows();
+        int tNewNbFlow = mDao.countFlows();
         int tNewNbMeth = countMethods();
         assertEquals(tOldNbFlow + 1, tNewNbFlow);
         assertEquals(tOldNbMeth + 6, tNewNbMeth);
@@ -82,18 +90,17 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(tFlow.getId(), curMeth.getChild(1).getFlow().getId());
     }
 
+    @Test
     public void testReadNewFlows()
     {
-        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-
         ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
+        mDao.insertFullExecutionFlow(tFlow);
         getSession().flush();
         int tFlowId = tFlow.getId();
         tFlow = null;
         getSession().clear();
 
-        tFlow = tFlowDAO.readExecutionFlow(tFlowId);
+        tFlow = mDao.readExecutionFlow(tFlowId);
         MethodCallPO tMeth = tFlow.getFirstMethodCall();
         tMeth.getBeginTime();
         tMeth.getChild(0).getBeginTime();
@@ -105,11 +112,10 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(0, tStat.getCollectionFetchCount());
     }
 
-    public static ExecutionFlowPO buildAndSaveNewFullFlow(Session pSession)
+    public ExecutionFlowPO buildAndSaveNewFullFlow(Session pSession)
     {
         ExecutionFlowPO tExecFlow = buildNewFullFlow();
-        ConsoleDao tDao = new ConsoleDao(pSession);
-        tDao.insertFullExecutionFlow(tExecFlow);
+        mDao.insertFullExecutionFlow(tExecFlow);
         pSession.flush();
         return tExecFlow;
     }
@@ -117,18 +123,17 @@ public class TestConsoleDao extends PersistanceTestCase
     /**
      * @todo S'assurer qu'une m�thode VOID est bien logu�e comme une m�thode void.
      */
+    @Test
     public void testGetMethodCallOfTheFlow()
     {
-        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-
-        int tOldResult = tFlowDAO.countFlows();
+        int tOldResult = mDao.countFlows();
         int tOldResultM = countMethods();
 
         // First insert the new Flow in DB.
         ExecutionFlowPO tInitialFlow = buildNewFullFlow();
-        int tId = tFlowDAO.insertFullExecutionFlow(tInitialFlow);
+        int tId = mDao.insertFullExecutionFlow(tInitialFlow);
         // Check the insertion
-        int tNewResult = tFlowDAO.countFlows();
+        int tNewResult = mDao.countFlows();
         assertEquals(tOldResult + 1, tNewResult);
 
         getSession().flush();
@@ -136,7 +141,7 @@ public class TestConsoleDao extends PersistanceTestCase
 
         assertEquals(tOldResultM + 6, countMethods());
 
-        ExecutionFlowPO tReadFlow = tFlowDAO.readExecutionFlow(tId);
+        ExecutionFlowPO tReadFlow = mDao.readExecutionFlow(tId);
         assertNotSame(tInitialFlow, tReadFlow);
 
         // Check the equality of the Flow
@@ -191,16 +196,16 @@ public class TestConsoleDao extends PersistanceTestCase
 
     }
 
+    @Test
     public void testReadMethodCall()
     {
-        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
         ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
+        mDao.insertFullExecutionFlow(tFlow);
         getSession().flush();
         getSession().clear();
 
         MethodCallPO tInitialPoint = tFlow.getFirstMethodCall().getChild(0);
-        MethodCallPO tReadPoint = tFlowDAO.readMethodCall(tFlow.getId(), tInitialPoint.getPosition());
+        MethodCallPO tReadPoint = mDao.readMethodCall(tFlow.getId(), tInitialPoint.getPosition());
         assertNotSame(tInitialPoint, tReadPoint);
 
         assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
@@ -216,7 +221,7 @@ public class TestConsoleDao extends PersistanceTestCase
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
         try
         {
-            tFlowDAO.readMethodCall(13, 34);
+            mDao.readMethodCall(13, 34);
             fail("Should not append");
         } catch (ObjectNotFoundException e)
         {
@@ -226,10 +231,9 @@ public class TestConsoleDao extends PersistanceTestCase
         }
     }
 
+    @Test
     public void testGetListOfMethodCallExtract()
     {
-        ConsoleDao tFlowDAO = new ConsoleDao(getSession());
-
         // First delete all flow, we don't use the DeleteAll Method of the
         // Dao Object because, it doesn't support transactions.
         getSession().createQuery("Delete FROM MethodCallPO").executeUpdate();
@@ -237,10 +241,10 @@ public class TestConsoleDao extends PersistanceTestCase
 
         // Now insert the TestFlow
         ExecutionFlowPO tFlow = buildNewFullFlow();
-        tFlowDAO.insertFullExecutionFlow(tFlow);
+        mDao.insertFullExecutionFlow(tFlow);
         getSession().flush();
 
-        List<MethodCallExtractDTO> tMeasureExtracts = tFlowDAO.getListOfMethodCallExtract();
+        List<MethodCallExtractDTO> tMeasureExtracts = mDao.getListOfMethodCallExtract();
         MethodCallExtractDTO curExtrat = tMeasureExtracts.get(0);
         assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow", curExtrat.getName());
         assertEquals("GrDefault", curExtrat.getGroupName());

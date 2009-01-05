@@ -7,6 +7,8 @@ package org.jmonitoring.core.dto;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+
 /**
  * @author pke
  * 
@@ -15,6 +17,7 @@ import junit.framework.TestCase;
  */
 public class TestMethodCallExtractDTO extends TestCase
 {
+    @Test
     public void testGetMethodName()
     {
         MethodCallExtractDTO tExtract = new MethodCallExtractDTO("org.kernevez.Test", "getTest", "Grp1", 3);
@@ -24,6 +27,7 @@ public class TestMethodCallExtractDTO extends TestCase
         assertEquals(3, tExtract.getOccurenceNumber());
     }
 
+    @Test
     public void testGetFullName()
     {
         assertEquals("net.jmonitoring.Test.getMeth",
@@ -34,6 +38,7 @@ public class TestMethodCallExtractDTO extends TestCase
                                                                                       ".getMeth"));
     }
 
+    @Test
     public void testGetGroupName()
     {
         assertEquals("Ceci est un group", MethodCallExtractDTO.getGroupName("Ceci est un group"));

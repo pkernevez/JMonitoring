@@ -8,7 +8,6 @@ package org.jmonitoring.agent.store;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.info.IParamaterTracer;
@@ -25,33 +24,33 @@ import org.jmonitoring.core.info.IThrowableTracer;
  */
 public class StoreManager
 {
+
+    public static final String STORE_MANAGER_NAME = "storeManager";
+
     private MethodCallPO mCurrentLogPoint;
 
     /** <code>CommonsLog</code> instance. */
     private static Log sLog = LogFactory.getLog(StoreManager.class);
 
-    // TODO Refactorer cette class avec Spring
-    /** End of Parameters */
-    private static ThreadLocal<StoreManager> sManager = new ThreadLocal<StoreManager>();
+    private IStoreWriter mStoreWriter;
 
-    private final IStoreWriter mStoreWriter;
+    private String mServerName;
 
-    /**
-     * Default constructor.
-     */
-    public StoreManager()
+    public StoreManager(IStoreWriter pWriter)
     {
-        this(StoreFactory.getWriter());
+        mStoreWriter = pWriter;
     }
 
-    /**
-     * Constructor for testing purpose.
-     * 
-     * @param pStoreWriter The <code>IStoreWriter</code> to use.
-     */
-    public StoreManager(IStoreWriter pStoreWriter)
+    public StoreManager()
     {
-        mStoreWriter = pStoreWriter;
+        try
+        {
+            java.net.InetAddress localMachine = java.net.InetAddress.getLocalHost();
+            mServerName = localMachine.getHostName();
+        } catch (java.net.UnknownHostException ex)
+        {
+            mServerName = "babasse";
+        }
     }
 
     /**
@@ -63,7 +62,7 @@ public class StoreManager
      * @param pTarget The targeted object of this call.
      */
     public void logBeginOfMethod(Signature pSignature, IParamaterTracer pTracer, Object[] pArgs, String pGroupName,
-                    Object pTarget)
+        Object pTarget)
     {
         CharSequence tArgs;
         try
@@ -83,8 +82,9 @@ public class StoreManager
             {
                 sLog.debug("logBeginOfMethod First Time" + pSignature);
             }
-            mCurrentLogPoint = new MethodCallPO(null, pSignature.getDeclaringTypeName(), pSignature.getName(),
-                            pGroupName, (tArgs == null ? null : tArgs.toString()));
+            mCurrentLogPoint =
+                new MethodCallPO(null, pSignature.getDeclaringTypeName(), pSignature.getName(), pGroupName,
+                                 (tArgs == null ? null : tArgs.toString()));
         } else
         {
             if (sLog.isDebugEnabled())
@@ -92,8 +92,9 @@ public class StoreManager
                 sLog.debug("logBeginOfMethod Any Time" + pSignature);
             }
             MethodCallPO tOldPoint = mCurrentLogPoint;
-            mCurrentLogPoint = new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(),
-                            pGroupName, (tArgs == null ? null : tArgs.toString()));
+            mCurrentLogPoint =
+                new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(), pGroupName,
+                                 (tArgs == null ? null : tArgs.toString()));
         }
         if (pTarget != null && !pTarget.getClass().equals(pSignature.getDeclaringType()))
         {
@@ -128,8 +129,8 @@ public class StoreManager
             {
                 sLog.debug("logEndOfMethodNormal Last Time" + tResultAsString);
             }
-            ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
-                            ConfigurationHelper.getString("server.name", "Babasse"));
+            ExecutionFlowPO tFlow =
+                new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint, mServerName);
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
@@ -168,9 +169,7 @@ public class StoreManager
                 String tExceptionClass = pException.getClass().getName();
                 String tLogClass = (pTracer == null ? "" : pTracer.getClass().getName());
                 sLog.error("The log of the Exception as Throw an exception during it, Exception=[" + tExceptionClass
-                                + "] Traccer=["
-                                + tLogClass
-                                + "]");
+                    + "] Traccer=[" + tLogClass + "]");
                 tOutput = "";
             }
             endMethodWithException(mCurrentLogPoint, pException.getClass().getName(), tOutput);
@@ -182,8 +181,8 @@ public class StoreManager
             {
                 sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
             }
-            ExecutionFlowPO tFlow = new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint,
-                            ConfigurationHelper.getString("server.name", "Babasse"));
+            ExecutionFlowPO tFlow =
+                new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint, mServerName);
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint = null;
         } else
@@ -191,8 +190,7 @@ public class StoreManager
             if (sLog.isDebugEnabled())
             {
                 sLog
-                                .debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException
-                                                .getMessage()));
+                    .debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.getMessage()));
             }
             mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
         }
@@ -235,55 +233,34 @@ public class StoreManager
         pMethodCall.setThrowableMessage(pExceptionMessage);
     }
 
-    public static void setLog(Log pLog)
+    static void setLog(Log pLog)
     {
         sLog = pLog;
     }
 
-    public static Log getLog()
+    static Log getLog()
     {
         return sLog;
-    }
-
-    /**
-     * Permet d'obtenir un logger par Thread.
-     * 
-     * @return Une instance de la classe de logger parametr�e par mLoggerClass. <code>numm</code> si un erreur se
-     *         produit pendant l'initalisation.
-     */
-    public static StoreManager getManager()
-    {
-        StoreManager tResult = sManager.get();
-        if (tResult == null)
-        {
-            try
-            {
-                tResult = new StoreManager();
-                sManager.set(tResult);
-            } catch (Exception e)
-            {
-                // Impossible de laisser remonter l'erreur car elle se confond avec l'erreur
-                // de la m�thode fonctionelle invoqu�e.
-                sLog.error("Impossible d'instancier un logger pour tracer les appels", e);
-            }
-        }
-        return tResult;
-    }
-
-    public static void clear()
-    {
-        sManager = new ThreadLocal<StoreManager>();
-    }
-
-    public static void changeStoreWriterClass(Class<? extends IStoreWriter> pClass)
-    {
-        ConfigurationHelper.setProperty(ConfigurationHelper.STORE_CLASS, pClass.getName());
-        StoreFactory.clear();
-        sManager = new ThreadLocal<StoreManager>();
     }
 
     IStoreWriter getStoreWriter()
     {
         return mStoreWriter;
     }
+
+    public void setStoreWriter(IStoreWriter pWriter)
+    {
+        mStoreWriter = pWriter;
+    }
+
+    String getServerName()
+    {
+        return mServerName;
+    }
+
+    public void setServerName(String pServerName)
+    {
+        mServerName = pServerName;
+    }
+
 }

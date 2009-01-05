@@ -28,13 +28,16 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jmonitoring.core.configuration.ColorHelper;
+import org.jmonitoring.core.configuration.ColorManager;
+import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
 /**
  * @author pke
  */
+
+// TODO Change this name, this isn't a UTIL class
 public class FlowUtil
 {
 
@@ -48,6 +51,17 @@ public class FlowUtil
 
     private Map<String, Integer> mListOfGroup = new HashMap<String, Integer>();
 
+    private final ColorManager mColorMgr;
+
+    private final FormaterBean mFormater;
+
+    public FlowUtil(ColorManager pColorMgr, FormaterBean pFormater)
+    {
+        super();
+        mColorMgr = pColorMgr;
+        mFormater = pFormater;
+    }
+
     /**
      * Generate 2 Pie Charts for the statistics of the flow and write them in the session. The fisrt is the repartition
      * of the number of call and the other is the repertition of the duration.
@@ -55,9 +69,9 @@ public class FlowUtil
      * @param pSession The session to use for the image writing as a bytes arrays.
      * @param pFirstMeasure The root of the <code>MethodCallDTO</code> tree.
      */
-    public static void writeImageIntoSession(HttpSession pSession, MethodCallDTO pFirstMeasure)
+    public void writeImageIntoSession(HttpSession pSession, MethodCallDTO pFirstMeasure)
     {
-        FlowUtil tFlow = new FlowUtil();
+        FlowUtil tFlow = new FlowUtil(mColorMgr, mFormater);
         tFlow.addTimeWith(pFirstMeasure);
 
         DefaultPieDataset dataset = new DefaultPieDataset();
@@ -67,11 +81,11 @@ public class FlowUtil
         {
             String tKey = curEntry.getKey();
             dataset.setValue(tKey, curEntry.getValue());
-            tColors[tPos] = ColorHelper.calculColor(tKey);
+            tColors[tPos] = mColorMgr.calculColor(tKey);
             tPos++;
         }
-        DefaultDrawingSupplier tSupplier = new DefaultDrawingSupplier(tColors, new Paint[0], new Stroke[0],
-                                                                      new Stroke[0], new Shape[0]);
+        DefaultDrawingSupplier tSupplier =
+            new DefaultDrawingSupplier(tColors, new Paint[0], new Stroke[0], new Stroke[0], new Shape[0]);
 
         JFreeChart chart = createPieChart("Duration in group", // chart title
                                           dataset, // data
@@ -148,11 +162,15 @@ public class FlowUtil
         {
             curPoint = pMeasure.getChild(i);
             addTimeWith(curPoint);
-            tChildDuration = tChildDuration + (curPoint.getEndTime().getTime() - curPoint.getBeginTime().getTime());
+            long tEndTime = mFormater.parseDateTime(curPoint.getEndTime()).getTime();
+            long tBeginTime = mFormater.parseDateTime(curPoint.getBeginTime()).getTime();
+            tChildDuration = tChildDuration + (tEndTime - tBeginTime);
         }
         String tGroupName = pMeasure.getGroupName();
         Integer tDuration = mListOfGroup.get(tGroupName);
-        int tLocalDuration = (int) (pMeasure.getEndTime().getTime() - pMeasure.getBeginTime().getTime() - tChildDuration);
+        long tEndTime = mFormater.parseDateTime(pMeasure.getEndTime()).getTime();
+        long tBeginTime = mFormater.parseDateTime(pMeasure.getBeginTime()).getTime();
+        int tLocalDuration = (int) (tEndTime - tBeginTime - tChildDuration);
         if (tDuration != null)
         { // On ajoute la dur�e en cours
             tLocalDuration = tLocalDuration + tDuration;
@@ -198,7 +216,7 @@ public class FlowUtil
      * @return A pie chart.
      */
     public static JFreeChart createPieChart(String pTitle, PieDataset pDataset, DrawingSupplier pSupplier,
-                    boolean pLegend, boolean pTooltips, boolean pUrls)
+        boolean pLegend, boolean pTooltips, boolean pUrls)
     {
 
         // @todo Tranformer en FlowPiePlot

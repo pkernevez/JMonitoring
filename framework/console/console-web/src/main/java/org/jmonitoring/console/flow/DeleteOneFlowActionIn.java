@@ -15,9 +15,8 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.jmonitoring.core.common.UnknownFlowException;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
-import org.jmonitoring.core.process.TransactionHelper;
 
 /**
  * @author pke
@@ -37,26 +36,26 @@ public class DeleteOneFlowActionIn extends Action
      */
     @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse)
+        HttpServletResponse pResponse)
     {
         FlowIdForm tForm = (FlowIdForm) pForm;
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = ProcessFactory.getInstance();
         try
         {
-            TransactionHelper tTx = new TransactionHelper();
-            try
-            {
-                tProcess.deleteFlow(tForm.getId());
-                tTx.commit();
-            } catch (UnknownFlowException t)
-            {
-                tTx.rollBack();
-                throw t;
-            } catch (Throwable t)
-            {
-                tTx.rollBack();
-                throw new RuntimeException(t);
-            }
+            // TransactionHelper tTx = new TransactionHelper();
+            // try
+            // {
+            tProcess.deleteFlow(tForm.getId());
+            // tTx.commit();
+            // } catch (UnknownFlowException t)
+            // {
+            // tTx.rollBack();
+            // throw t;
+            // } catch (Throwable t)
+            // {
+            // tTx.rollBack();
+            // throw new RuntimeException(t);
+            // }
             return pMapping.findForward("success");
         } catch (UnknownFlowException e)
         {

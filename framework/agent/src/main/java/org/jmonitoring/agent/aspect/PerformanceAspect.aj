@@ -12,14 +12,15 @@ import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
 import org.jmonitoring.agent.store.StoreManager;
+import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
 
 /**
- * This abstract aspect should be extends by users. 
- * It provides all the mecanism for logging measure. Children have to describe the pointcuts they want to log, by providing the implementation of executionToLog();
+ * This abstract aspect should be extends by users. It provides all the mecanism for logging measure. Children have to
+ * describe the pointcuts they want to log, by providing the implementation of executionToLog();
  */
 public abstract aspect PerformanceAspect
 {
@@ -39,9 +40,12 @@ public abstract aspect PerformanceAspect
     /** Allow to trace the d�tail of an Exception. */
     protected IThrowableTracer mThowableTracer;
 
-    /** Nom du group associ� au pointcut. */
+    /** Name associated to this Aspect */
     protected String mGroupName = "Default";
 
+    /** StoreManager for this Tread */
+    private ThreadLocal<StoreManager> mStoreManager = new ThreadLocal<StoreManager>();
+    
     /** Default constructor. */
     public PerformanceAspect()
     {
@@ -52,13 +56,22 @@ public abstract aspect PerformanceAspect
 
     }
 
+    private StoreManager getStoreManager(){
+        StoreManager tStoreManager=mStoreManager.get(); 
+        if (tStoreManager==null){
+            tStoreManager =(StoreManager) ConfigurationHelper.getContext().getBean(StoreManager.STORE_MANAGER_NAME);
+            mStoreManager.set(tStoreManager);
+        }
+        return tStoreManager;
+    }
+    
     pointcut executionToLogInternal() : executionToLog() 
         && !within(org.jmonitoring.core.*.*);
 
     Object around() : executionToLogInternal()
     {
         Object tResult = null;
-        StoreManager tManager = StoreManager.getManager();
+        StoreManager tManager = getStoreManager();
         Signature tSig = thisJoinPointStaticPart.getSignature();
         try
         {
@@ -96,7 +109,7 @@ public abstract aspect PerformanceAspect
     after() throwing (Throwable t): executionToLogInternal() {
         try
         {
-            StoreManager tManager = StoreManager.getManager();
+            StoreManager tManager = getStoreManager();
             tManager.logEndOfMethodWithException(mThowableTracer, t);
         } catch (Throwable tT)
         {

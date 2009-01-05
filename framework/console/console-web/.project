@@ -4,7 +4,6 @@
   <projects>
     <project>agent</project>
     <project>common</project>
-    <project>common-hibernate</project>
     <project>console-core</project>
     <project>persistence</project>
     <project>server</project>
@@ -13,9 +12,6 @@
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
-    </buildCommand>
-    <buildCommand>
-      <name>org.jboss.ide.eclipse.xdoclet.run.XDocletRunBuilder</name>
     </buildCommand>
   </buildSpec>
   <natures>

@@ -15,35 +15,34 @@ import org.apache.struts.action.ActionMapping;
 import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyHashMap;
 import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyMap;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
-import org.jmonitoring.core.process.TransactionHelper;
 
 public class MethodCallSearchActionIn extends Action
 {
     @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
+        HttpServletResponse pResponse) throws Exception
     {
-        TransactionHelper tTx = new TransactionHelper();
-        try
-        {
-            JMonitoringProcess tProcess = ProcessFactory.getInstance();
-            List<MethodCallExtractDTO> tListOfAllExtract = tProcess.getListOfMethodCallExtract();
-            Map<String, MethodCallExtractDTO> tListOfExtractByFullClassName = new HashMap<String, MethodCallExtractDTO>();
-            MyMap tTreeOfExtract = convertListAsTree(tListOfExtractByFullClassName, tListOfAllExtract);
+        // TransactionHelper tTx = new TransactionHelper();
+        // try
+        // {
+        ConsoleManager tProcess = ProcessFactory.getInstance();
+        List<MethodCallExtractDTO> tListOfAllExtract = tProcess.getListOfMethodCallExtract();
+        Map<String, MethodCallExtractDTO> tListOfExtractByFullClassName = new HashMap<String, MethodCallExtractDTO>();
+        MyMap tTreeOfExtract = convertListAsTree(tListOfExtractByFullClassName, tListOfAllExtract);
 
-            MethodCallSearchForm tForm = (MethodCallSearchForm) pForm;
-            tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
-            tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
+        MethodCallSearchForm tForm = (MethodCallSearchForm) pForm;
+        tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
+        tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
 
-            tTx.commit();
-            return pMapping.findForward("success");
-        } catch (Throwable t)
-        {
-            tTx.rollBack();
-            throw new RuntimeException(t);
-        }
+        // tTx.commit();
+        return pMapping.findForward("success");
+        // } catch (Throwable t)
+        // {
+        // tTx.rollBack();
+        // throw new RuntimeException(t);
+        // }
     }
 
     /**
@@ -54,7 +53,7 @@ public class MethodCallSearchActionIn extends Action
      * @return The Tree has a Map.
      */
     static MyMap convertListAsTree(Map<String, MethodCallExtractDTO> pListOfExtractByFullClassName,
-                    List<MethodCallExtractDTO> pListOfMeasure)
+        List<MethodCallExtractDTO> pListOfMeasure)
     {
         MyMap tTree = new MyHashMap();
         for (MethodCallExtractDTO tExtract : pListOfMeasure)

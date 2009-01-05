@@ -10,25 +10,28 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.process.JMonitoringProcess;
+import org.jmonitoring.core.process.ConsoleManager;
 import org.jmonitoring.core.process.ProcessFactory;
 
-public class FlowExportServlet extends HttpServlet {
+public class FlowExportServlet extends HttpServlet
+{
 
     private static final long serialVersionUID = 2393628229673694881L;
 
     private static Log sLog = LogFactory.getLog(FlowExportServlet.class);
 
-    protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException {
-        JMonitoringProcess tProcess = ProcessFactory.getInstance();
+    @Override
+    protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException
+    {
+        ConsoleManager tProcess = ProcessFactory.getInstance();
         // List tList = new ArrayList();
         int tFlowId = Integer.parseInt(pReq.getParameter("id"));
         sLog.debug("Read flow from database, Id=[" + tFlowId + "]");
         ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tFlowId);
         sLog.debug("End Read from database of Flow, Id=[" + tFlowId + "]");
         pResp.setContentType("application/x-zip");
-        String tFileName = "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_"
-                + tFlow.getBeginDateAsString() + ".gzip";
+        String tFileName =
+            "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_" + tFlow.getBeginTime() + ".gzip";
         pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
         byte[] tFlowAsBytes = tProcess.convertFlowToXml(tFlow);
         pResp.setContentLength(tFlowAsBytes.length);

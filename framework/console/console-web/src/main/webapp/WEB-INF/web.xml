@@ -2,19 +2,40 @@
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
     <display-name>Java Monitoring Administration Console</display-name>
-    <description>This console allow to consult the log information in into the log DataBase.
-    </description>
+    <description>This console allow to consult the log information in into the log DataBase.</description>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/spring.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
 
-	<servlet>
-		<servlet-name>ExportXml</servlet-name>
-		<servlet-class>org.jmonitoring.console.flow.edit.FlowExportServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>DynamicImageServlet</servlet-name>
-		<servlet-class>org.jmonitoring.console.image.DynamicImageServlet</servlet-class>
-	</servlet>
-	<servlet>
+    <filter>
+        <filter-name>OpenSessionInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>ExportXml</servlet-name>
+        <servlet-class>org.jmonitoring.console.flow.edit.FlowExportServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DynamicImageServlet</servlet-name>
+        <servlet-class>org.jmonitoring.console.image.DynamicImageServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>action</servlet-name>
         <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
         <init-param>
@@ -23,30 +44,30 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-	<servlet>
-		<servlet-name>Store</servlet-name>
-		<servlet-class>org.jmonitoring.console.persistence.StoreServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>action</servlet-name>
-		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>ExportXml</servlet-name>
-		<url-pattern>/ExportXml.do</url-pattern>
-	</servlet-mapping>
+    <servlet>
+        <servlet-name>Store</servlet-name>
+        <servlet-class>org.jmonitoring.console.persistence.StoreServlet</servlet-class>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>DynamicImageServlet</servlet-name>
-		<url-pattern>/DynamicImageServlet.do</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>Store</servlet-name>
-		<url-pattern>/Store.do</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExportXml</servlet-name>
+        <url-pattern>/ExportXml.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DynamicImageServlet</servlet-name>
+        <url-pattern>/DynamicImageServlet.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Store</servlet-name>
+        <url-pattern>/Store.do</url-pattern>
+    </servlet-mapping>
 
     <mime-mapping>
         <extension>css</extension>
@@ -59,48 +80,48 @@
     </mime-mapping>
 
     <welcome-file-list>
-    	<welcome-file>/Index.do</welcome-file>
-    	<welcome-file>/pages/index.html</welcome-file>
+        <welcome-file>/Index.do</welcome-file>
+        <welcome-file>/pages/index.html</welcome-file>
     </welcome-file-list>
 
-  	<taglib>
-		<taglib-uri>struts-tiles.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/struts-tiles.tld</taglib-location>
-	</taglib>
-    
-  	<taglib>
-		<taglib-uri>struts-nested.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
-	</taglib>
-    
-  	<taglib>
-		<taglib-uri>struts-logic.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/struts-logic.tld</taglib-location>
-	</taglib>
-    
-  	<taglib>
-		<taglib-uri>struts-html.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/struts-html.tld</taglib-location>
-	</taglib>
-    
-  	<taglib>
-		<taglib-uri>struts-bean.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/struts-bean.tld</taglib-location>
-	</taglib>
-    
-  	<taglib>
-		<taglib-uri>displaytag.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/displaytag-12.tld</taglib-location>
-	</taglib>
-    
-  	<taglib>
-		<taglib-uri>displaytag.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/displaytag-el-12.tld</taglib-location>
-	</taglib>
+    <taglib>
+        <taglib-uri>struts-tiles.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/struts-tiles.tld</taglib-location>
+    </taglib>
 
-  	<taglib>
-		<taglib-uri>struts-menu.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tld/struts-menu-2.3.tld</taglib-location>
-	</taglib>
+    <taglib>
+        <taglib-uri>struts-nested.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+        <taglib-uri>struts-logic.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/struts-logic.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+        <taglib-uri>struts-html.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/struts-html.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+        <taglib-uri>struts-bean.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/struts-bean.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+        <taglib-uri>displaytag.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/displaytag-12.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+        <taglib-uri>displaytag.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/displaytag-el-12.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+        <taglib-uri>struts-menu.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tld/struts-menu-2.3.tld</taglib-location>
+    </taglib>
 
 </web-app>

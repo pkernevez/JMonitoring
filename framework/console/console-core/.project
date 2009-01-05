@@ -3,20 +3,15 @@
   <comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
   <projects>
     <project>common</project>
-    <project>common-hibernate</project>
     <project>persistence</project>
     <project>tests</project>
   </projects>
   <buildSpec>
-    <buildCommand>
-      <name>org.hibernate.eclipse.console.hibernateBuilder</name>
-    </buildCommand>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
     </buildCommand>
   </buildSpec>
   <natures>
     <nature>org.eclipse.jdt.core.javanature</nature>
-    <nature>org.hibernate.eclipse.console.hibernateNature</nature>
   </natures>
 </projectDescription>

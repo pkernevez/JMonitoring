@@ -17,6 +17,8 @@ import org.hibernate.Session;
 public class ConfigurationDAO
 {
 
+    private ColorManager mColorBean;
+
     private final Session mSession;
 
     public ConfigurationDAO(Session pSession)
@@ -43,8 +45,8 @@ public class ConfigurationDAO
 
     public GroupConfigurationPO getGroupConfiguration(String pGroupName)
     {
-        GroupConfigurationPO tConf = (GroupConfigurationPO) mSession.get(GroupConfigurationPO.class,
-                        new GroupConfigurationPK(pGroupName));
+        GroupConfigurationPO tConf =
+            (GroupConfigurationPO) mSession.get(GroupConfigurationPO.class, new GroupConfigurationPK(pGroupName));
         if (tConf != null)
         {
             return tConf;
@@ -75,10 +77,18 @@ public class ConfigurationDAO
                 curConf = getGroupConfiguration(curGroupName);
             } catch (ObjectNotFoundException e)
             {
-                curConf = new GroupConfigurationPO(curGroupName);
+                curConf = new GroupConfigurationPO(curGroupName, mColorBean.getColor(curGroupName));
             }
             tResult.add(curConf);
         }
         return tResult;
+    }
+
+    /**
+     * @param pColorBean the mColorBean to set
+     */
+    public void setColorBean(ColorManager pColorBean)
+    {
+        mColorBean = pColorBean;
     }
 }

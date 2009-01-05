@@ -19,9 +19,9 @@ public final class ProcessFactory {
     private ProcessFactory() {
     }
 
-    public static JMonitoringProcess getInstance() {
+    public static ConsoleManager getInstance() {
         // return (sMockProcess == null ? new JMonitoringProcess() : sMockProcess);
-        return new JMonitoringProcess();
+        return new ConsoleManager();
     }
 
 }

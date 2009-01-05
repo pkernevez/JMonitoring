@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.agent.store.impl.MemoryStoreWriter;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 
@@ -30,7 +30,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        MemoryStoreWriter.clear();
+        MemoryWriter.clear();
     }
 
     public void testConvertToString() throws SQLException
@@ -47,7 +47,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersStatement() throws HibernateException, SQLException
     {
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
         Session tSession = getSession();
         Connection tCon = tSession.connection();
         Statement tStat = tCon.createStatement();
@@ -55,8 +55,8 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         // SqlStatementTracer tTracer = new SqlStatementTracer();
         tStat.execute("select * from EXECUTION_FLOW");
         closeAndRestartSession();
-        assertEquals(1, MemoryStoreWriter.countFlows());
-        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(0);
+        assertEquals(1, MemoryWriter.countFlows());
+        ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\n", tFlow.getFirstMethodCall().getReturnValue());
     }
 
@@ -102,7 +102,7 @@ public class TestSqlStatementTracer extends PersistanceTestCase
 
     public void testTraceStatementParametersCallStatement() throws HibernateException, SQLException
     {
-        StoreManager.changeStoreWriterClass(MemoryStoreWriter.class);
+        StoreManager.changeStoreWriterClass(MemoryWriter.class);
 
         defineStoredProcedure();
         checkDataStoredProcedure();
@@ -124,10 +124,10 @@ public class TestSqlStatementTracer extends PersistanceTestCase
         tBuffer.append("Execute query\n");
 
         // We only want to check the latest ExecutionFlow
-        LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow=" + MemoryStoreWriter.countFlows());
-        assertEquals(5, MemoryStoreWriter.countFlows());
+        LogFactory.getLog(TestSqlStatementTracer.class).info("CountFlow=" + MemoryWriter.countFlows());
+        assertEquals(5, MemoryWriter.countFlows());
 
-        ExecutionFlowPO tFlow = MemoryStoreWriter.getFlow(4);
+        ExecutionFlowPO tFlow = MemoryWriter.getFlow(4);
         LogFactory.getLog(TestSqlStatementTracer.class).info("Writer=" + tFlow.getFirstMethodCall().getReturnValue());
         assertEquals(tBuffer.toString(), tFlow.getFirstMethodCall().getReturnValue());
     }

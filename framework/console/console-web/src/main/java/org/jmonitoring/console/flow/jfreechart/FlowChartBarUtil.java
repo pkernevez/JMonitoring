@@ -33,6 +33,7 @@ import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jmonitoring.console.flow.edit.FlowEditForm;
+import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
@@ -56,9 +57,12 @@ public class FlowChartBarUtil
 
     private int mMaxMethodPerGroup;
 
-    public FlowChartBarUtil(MethodCallDTO pFirstMeasure)
+    private final FormaterBean mFormater;
+
+    public FlowChartBarUtil(FormaterBean pFormater, MethodCallDTO pFirstMeasure)
     {
         super();
+        mFormater = pFormater;
         mFirstMeasure = pFirstMeasure;
         computeStatForThisFlow();
     }
@@ -71,9 +75,10 @@ public class FlowChartBarUtil
      * @param pFirstMeasure The root of the Tree of <code>MethodCallDTO</code> to use for the image generation.
      * @param pForm TODO
      */
-    public static void writeImageIntoSession(HttpSession pSession, MethodCallDTO pFirstMeasure, FlowEditForm pForm)
+    public static void writeImageIntoSession(FormaterBean pFormater, HttpSession pSession, MethodCallDTO pFirstMeasure,
+        FlowEditForm pForm)
     {
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(pFirstMeasure);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(pFormater, pFirstMeasure);
         tUtil.fillChart(pSession, pForm);
     }
 
@@ -112,25 +117,25 @@ public class FlowChartBarUtil
 
         // List tListOfClidren = pCurMeasure.getChildren();
         Date tBeginDate;
-        Date tEndDate = pCurMeasure.getBeginTime();
+        Date tEndDate = mFormater.parseDateTime(pCurMeasure.getBeginTime());
         MethodCallDTO curChild;
         for (int i = 0; i < pCurMeasure.getChildren().length; i++)
         {
             curChild = pCurMeasure.getChild(i);
             tBeginDate = tEndDate;
-            tEndDate = curChild.getBeginTime();
+            tEndDate = mFormater.parseDateTime(curChild.getBeginTime());
             addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
             chainAllMethodCallToMainTaskOfGroup(curChild);
-            tEndDate = curChild.getEndTime();
+            tEndDate = mFormater.parseDateTime(curChild.getEndTime());
         }
 
         tBeginDate = tEndDate;
-        tEndDate = pCurMeasure.getEndTime();
+        tEndDate = mFormater.parseDateTime(pCurMeasure.getEndTime());
         addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
     }
 
     private void addSubTask(TaskForGroupName pTaskForTheGroupName, int pFlowId, int pMethodCallId, Date pBeginDate,
-                    Date pEndDate)
+        Date pEndDate)
     {
         // Contournement du bug
         Date tNewEndDate = (pEndDate.before(pBeginDate) ? pBeginDate : pEndDate);
@@ -147,8 +152,9 @@ public class FlowChartBarUtil
         { // We create a new entry
             tTaskEntry = new TaskForGroupName();
             tTaskEntry.mPositionOfTheGroup = mListOfGroup.size() + 1;
-            tTaskEntry.mMainTaskOfGroup = new Task(pGroupName, new SimpleTimePeriod(pCurMeasure.getBeginTime(),
-                                                                                    pCurMeasure.getEndTime()));
+            tTaskEntry.mMainTaskOfGroup =
+                new Task(pGroupName, new SimpleTimePeriod(mFormater.parseDateTime(pCurMeasure.getBeginTime()),
+                                                          mFormater.parseDateTime(pCurMeasure.getEndTime())));
             tTaskEntry.mGroupName = pGroupName;
             mListOfGroup.put(pGroupName, tTaskEntry);
         }
@@ -201,11 +207,8 @@ public class FlowChartBarUtil
         for (int i = 0; i < tList.length; i++)
         { // ForEach GroupName
             curTaskEntry = tList[i];
-            sLog.debug("add Task n�" + i
-                            + " for GroupName="
-                            + curTaskEntry.mGroupName
-                            + " in position of ="
-                            + curTaskEntry.mPositionOfTheGroup);
+            sLog.debug("add Task n�" + i + " for GroupName=" + curTaskEntry.mGroupName + " in position of ="
+                + curTaskEntry.mPositionOfTheGroup);
             curTaskSeries.add(curTaskEntry.mMainTaskOfGroup);
         }
         taskseriescollection.add(curTaskSeries);
