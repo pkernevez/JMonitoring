@@ -11,6 +11,7 @@ import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 /***************************************************************************
@@ -22,12 +23,15 @@ import org.springframework.test.context.ContextConfiguration;
  * @author pke
  * 
  */
-@ContextConfiguration(locations = "/formater-test.xml")
+@ContextConfiguration(locations = {"/console.xml", "/core-test.xml" })
 public class FlowEditActionInTest extends JMonitoringMockStrustTestCase
 {
 
     @Resource(name = "formater")
     private FormaterBean mFormater;
+
+    @Autowired
+    FlowBuilderUtil mUtil;
 
     @Override
     protected void setUp() throws Exception
@@ -36,17 +40,17 @@ public class FlowEditActionInTest extends JMonitoringMockStrustTestCase
         FlowEditActionIn.setMaxFlowToShow(5);
     }
 
+    @Test
     public void testActionWithSmallExecutionFlow()
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
+        mUtil.createSchema();
+        ExecutionFlowDTO tFirstDto = mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
+        mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() - 1);
 
         assertNull(getSession().getAttribute(FlowUtil.DURATION_IN_GROUP));
         assertNull(getSession().getAttribute(FlowUtil.NB_CALL_TO_GROUP));
 
-        assertEquals(2, tUtil.countFlows());
+        assertEquals(2, mUtil.countFlows());
         clear();
 
         FlowEditForm tForm = new FlowEditForm();
@@ -78,12 +82,11 @@ public class FlowEditActionInTest extends JMonitoringMockStrustTestCase
     @Test
     public void testActionWithLongExecutionFlow()
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        mUtil.createSchema();
+        ExecutionFlowDTO tFirstDto = mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
 
-        assertEquals(2, tUtil.countFlows());
+        assertEquals(2, mUtil.countFlows());
         clear();
 
         FlowEditForm tForm = new FlowEditForm();
@@ -104,12 +107,11 @@ public class FlowEditActionInTest extends JMonitoringMockStrustTestCase
     @Test
     public void testActionWithLongExecutionFlowAndGraphOnly()
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        mUtil.createSchema();
+        ExecutionFlowDTO tFirstDto = mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
 
-        assertEquals(2, tUtil.countFlows());
+        assertEquals(2, mUtil.countFlows());
         clear();
 
         FlowEditForm tForm = new FlowEditForm();
@@ -132,12 +134,11 @@ public class FlowEditActionInTest extends JMonitoringMockStrustTestCase
     @Test
     public void testActionWithLongExecutionFlowAndForce()
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
-        tUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        mUtil.createSchema();
+        ExecutionFlowDTO tFirstDto = mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
+        mUtil.buildAndSaveNewDto(FlowEditActionIn.getMaxFlowToShow() + 1);
 
-        assertEquals(2, tUtil.countFlows());
+        assertEquals(2, mUtil.countFlows());
         clear();
 
         FlowEditForm tForm = new FlowEditForm();

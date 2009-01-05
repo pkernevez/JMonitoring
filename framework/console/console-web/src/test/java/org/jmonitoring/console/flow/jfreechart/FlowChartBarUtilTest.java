@@ -10,7 +10,7 @@ import org.jfree.data.time.TimePeriod;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil.TaskForGroupName;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

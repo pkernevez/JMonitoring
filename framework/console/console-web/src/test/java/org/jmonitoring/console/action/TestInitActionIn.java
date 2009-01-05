@@ -1,5 +1,7 @@
 package org.jmonitoring.console.action;
 
+import org.junit.Test;
+
 import servletunit.struts.MockStrutsTestCase;
 
 /***********************************************************************************************************************
@@ -8,7 +10,7 @@ import servletunit.struts.MockStrutsTestCase;
 
 public class TestInitActionIn extends MockStrutsTestCase
 {
-
+    @Test
     public void testInitActionIn()
     {
         // JMonitoringProcess tProcess = ProcessFactory.getInstance();

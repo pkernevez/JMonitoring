@@ -1,6 +1,5 @@
 package org.jmonitoring.console.flow;
 
-import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 
 /***********************************************************************************************************************

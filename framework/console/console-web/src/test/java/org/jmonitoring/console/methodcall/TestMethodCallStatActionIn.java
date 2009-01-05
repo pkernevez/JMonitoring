@@ -1,7 +1,6 @@
 package org.jmonitoring.console.methodcall;
 
 import org.hibernate.stat.Statistics;
-import org.jmonitoring.common.hibernate.HibernateManager;
 import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;

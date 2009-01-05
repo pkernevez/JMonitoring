@@ -1,6 +1,6 @@
 package org.jmonitoring.core.dto;
 
-import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -23,7 +23,6 @@ import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.jmonitoring.core.process.ProcessFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,6 +37,9 @@ public class FlowEditActionIn extends Action
 
     @Resource(name = "color")
     private ColorManager mColor;
+
+    @Resource(name = "consoleManager")
+    private ConsoleManager mConsoleManager;
 
     /**
      * Default constructor.
@@ -70,11 +72,10 @@ public class FlowEditActionIn extends Action
         // try
         // {
         ActionForward tForward;
-        ConsoleManager tProcess = ProcessFactory.getInstance();
         // List tList = new ArrayList();
         FlowEditForm tForm = (FlowEditForm) pForm;
         sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
-        ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tForm.getId());
+        ExecutionFlowDTO tFlow = mConsoleManager.readFullExecutionFlow(tForm.getId());
         sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
         int tNbMeasure = tFlow.getMeasureCount();
         tForm.setExecutionFlow(tFlow);

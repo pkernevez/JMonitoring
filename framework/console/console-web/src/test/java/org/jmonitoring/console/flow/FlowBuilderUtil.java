@@ -1,7 +1,10 @@
 package org.jmonitoring.console.flow;
 
+import javax.annotation.Resource;
+
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.dao.ConsoleDao;
@@ -17,11 +20,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class FlowBuilderUtil
 {
+    @Resource(name = "hibernateConfiguration")
+    private Configuration mConfiguration;
+
+    @Resource(name = "sessionFactory")
+    protected SessionFactory mSessionFactory;
+
+    @Resource(name = "dao")
+    private ConsoleDao mDao;
+
+    @Resource(name = "dtoManager")
+    private DtoManager mDtoManager;
 
     public void createSchema()
     {
-        Configuration tConfig = HibernateManager.getConfig();
-        SchemaExport tDdlexport = new SchemaExport(tConfig);
+        SchemaExport tDdlexport = new SchemaExport(mConfiguration);
 
         tDdlexport.create(true, true);
 
@@ -30,15 +43,15 @@ public class FlowBuilderUtil
     public ExecutionFlowDTO buildAndSaveNewDto(int pNbMethods)
     {
         ExecutionFlowPO tExecPO = buildNewFullFlow(pNbMethods);
-        ConsoleDao tDao = new ConsoleDao(HibernateManager.getSession());
-        tDao.insertFullExecutionFlow(tExecPO);
-        return DtoManager.getDeepCopy(tExecPO);
+
+        mDao.insertFullExecutionFlow(tExecPO);
+        return mDtoManager.getDeepCopy(tExecPO);
     }
 
     public int countFlows()
     {
         SQLQuery tQuery =
-            HibernateManager.getSession().createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
+            mSessionFactory.getCurrentSession().createSQLQuery("Select Count(*) as myCount From EXECUTION_FLOW");
         Object tResult = tQuery.addScalar("myCount", Hibernate.INTEGER).list().get(0);
         if (tResult != null)
         {

@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.Test;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;

@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.stat.Statistics;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
+import org.junit.Ignore;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -18,6 +19,7 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
  * @deprecated
  */
 @Deprecated
+@Ignore
 public class HibernatePersistanceTestCase extends PersistanceTestCase
 {
 
@@ -25,12 +27,6 @@ public class HibernatePersistanceTestCase extends PersistanceTestCase
     protected void assertStatistics(Class<MethodCallPO> pEntity, int pInserts, int pUpdates, int pLoads, int pFetchs)
     {
         super.assertStatistics(pEntity, pInserts, pUpdates, pLoads, pFetchs);
-    }
-
-    @Override
-    protected void createDataSet(String pDataSetFileName)
-    {
-        super.createDataSet(pDataSetFileName);
     }
 
     @Override

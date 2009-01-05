@@ -1,18 +1,19 @@
 package org.jmonitoring.hibernate.info;
 
-import junit.framework.TestCase;
-
-import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.agent.store.impl.MemoryWriter;
+import org.jmonitoring.core.tests.JMonitoringTestCase;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestBidon extends TestCase {
-
-    public void testTest1() {
-        StoreManager.changeStoreWriterClass(MemoryWriter.class);
+@ContextConfiguration(locations = {"/memory-test.xml" })
+public class TestBidon extends JMonitoringTestCase
+{
+    @Test
+    public void testTest1()
+    {
         Bidon tBid = new Bidon();
         tBid.method1();
         tBid.method2();

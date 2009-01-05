@@ -1,7 +1,6 @@
 package org.jmonitoring.core.dto;
 
-import org.jmonitoring.core.dao.TestConsoleDao;
-import org.jmonitoring.core.test.JMonitoringTestCase;
+import org.jmonitoring.test.dao.PersistanceTestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
  **********************************************************************************************************************/
 
 @ContextConfiguration(locations = {"/formater-test.xml" })
-public class TestExecutionFlowDTO extends JMonitoringTestCase
+public class TestExecutionFlowDTO extends PersistanceTestCase
 {
 
     @Autowired
@@ -20,7 +19,7 @@ public class TestExecutionFlowDTO extends JMonitoringTestCase
     @Test
     public void testMeasureCount()
     {
-        ExecutionFlowDTO tFlow = dtoManager.getDeepCopy(TestConsoleDao.buildNewFullFlow());
+        ExecutionFlowDTO tFlow = dtoManager.getDeepCopy(buildNewFullFlow());
         assertEquals(6, tFlow.getMeasureCount());
         MethodCallDTO curMeasure = tFlow.getFirstMethodCall();
         assertEquals(6, curMeasure.getSubMeasureCount());

@@ -30,14 +30,6 @@ public abstract aspect PerformanceAspect
     /** Pointcuts to log */
     public abstract pointcut executionToLog();
 
-    private static final ApplicationContext sApplicationContext = loadContext();
-    private static synchronized ApplicationContext loadContext()
-    {
-        // TODO Manage default and custom configuration
-        return new ClassPathXmlApplicationContext("/default-jmonitoring-context.xml");
-// return tContext;
-    }
-
     /** Log instance. */
     private Log mLog;
 
@@ -55,6 +47,11 @@ public abstract aspect PerformanceAspect
 
     /** StoreManager for this Tread */
     private ThreadLocal<StoreManager> mStoreManager = new ThreadLocal<StoreManager>();
+
+    {
+        // Initialisation du contexte Stpring
+        PerfomanceConfig.loadContext();
+    }
     
     /** Default constructor. */
     public PerformanceAspect()
@@ -69,7 +66,7 @@ public abstract aspect PerformanceAspect
     private StoreManager getStoreManager(){
         StoreManager tStoreManager=mStoreManager.get(); 
         if (tStoreManager==null){
-            tStoreManager =(StoreManager) sApplicationContext.getBean(StoreManager.STORE_MANAGER_NAME);
+            tStoreManager =(StoreManager) PerfomanceConfig.sApplicationContext.getBean(StoreManager.STORE_MANAGER_NAME);
             mStoreManager.set(tStoreManager);
         }
         return tStoreManager;
@@ -126,4 +123,5 @@ public abstract aspect PerformanceAspect
             mLog.error("Unable to log execution Throwable", tT);
         }
     }
+
 }
