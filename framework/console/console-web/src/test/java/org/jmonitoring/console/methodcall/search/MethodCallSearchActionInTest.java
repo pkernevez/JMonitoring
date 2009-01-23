@@ -10,15 +10,18 @@ import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyHashMap;
 import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyMap;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MethodCallSearchActionInTest extends JMonitoringMockStrustTestCase
 {
+    @Autowired
+    FlowBuilderUtil mUtil;
 
+    @Test
     public void testExecuteActionMappingActionFormHttpServletRequestHttpServletResponse()
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        tUtil.buildAndSaveNewDto(2);
+        mUtil.buildAndSaveNewDto(2);
 
         setRequestPathInfo("/MethodCallSearchIn");
         MethodCallSearchForm tForm = new MethodCallSearchForm();
@@ -49,6 +52,7 @@ public class MethodCallSearchActionInTest extends JMonitoringMockStrustTestCase
 
     }
 
+    @Test
     public void testConvertListAsTree()
     {
         List<MethodCallExtractDTO> tList = new ArrayList<MethodCallExtractDTO>();

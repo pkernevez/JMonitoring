@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,17 +32,18 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.xy.IntervalXYDataset;
+import org.jmonitoring.console.AbstractSpringAction;
 import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * @author pke
  * @todo refactor this class into a JFreeChart / ChartBarUtil class
  * @todo remove FindBugs exclusion after
  */
-public class MethodCallStatActionIn extends Action
+public class MethodCallStatActionIn extends AbstractSpringAction
 {
 
     private static final int NB_DEFAULT_INTERVAL_VALUE = 50;
@@ -57,30 +57,21 @@ public class MethodCallStatActionIn extends Action
     private static Log sLog = LogFactory.getLog(MethodCallStatActionIn.class);
 
     @Override
-    public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-        HttpServletResponse pResponse) throws Exception
+    public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,
+        HttpServletRequest pRequest, HttpServletResponse pResponse)
     {
-        // TransactionHelper tTx = new TransactionHelper();
-        // try
-        // {
         MethodCallStatForm tForm = (MethodCallStatForm) pForm;
         List<MethodCallDTO> tMeasures = readMeasure(tForm);
         tForm.setNbMeasures(tMeasures.size());
         writeFullDurationStat(pRequest.getSession(), tMeasures, tForm);
         computeStat(tMeasures, tForm);
-        // tTx.commit();
         return pMapping.findForward("success");
-        // } catch (Throwable t)
-        // {
-        // tTx.rollBack();
-        // throw new RuntimeException(t);
-        // }
     }
 
     /** @todo Refactorer cette couche avec des DTO propre... */
     private List<MethodCallDTO> readMeasure(MethodCallStatForm pForm)
     {
-        ConsoleManager tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
         if (!pForm.isParametersByName())
         {
             MethodCallDTO tMeth = tProcess.readMethodCall(pForm.getFlowId(), pForm.getPosition());

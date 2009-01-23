@@ -4,7 +4,8 @@
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="displaytag.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.flow.FlowSearchForm"%>
-<%@page import="org.jmonitoring.core.configuration.ConfigurationHelper;"%>
+<%@page import="org.jmonitoring.core.configuration.SpringConfigurationUtil"%>
+<%@page import="org.jmonitoring.core.configuration.FormaterBean"%>
 <h1>Flow Search new</h1>
 <%
 FlowSearchForm tForm = (FlowSearchForm)request.getAttribute("flowsearchform");
@@ -23,7 +24,7 @@ FlowSearchForm tForm = (FlowSearchForm)request.getAttribute("flowsearchform");
 		<tr>
 			<td>Group name</td>
 			<td><html:text property="firstMeasureGroupName" size="20" maxlength="20"/></td>
-			<td>Begin date (<%=ConfigurationHelper.getDateFormater().toPattern()%>)</td>
+			<td>Begin date (<%=((FormaterBean)SpringConfigurationUtil.getBean("formater")).getDateFormater().toPattern()%>)</td>
 			<td>
 				<html:text property="beginDate" size="8" maxlength="8"/>
 				<img class="mycalendar" src="images/img.gif" id="f_trigger_c" 
@@ -64,8 +65,8 @@ Calendar.setup({
 			<display:column property="threadName" title="Thread" />	
 	  		<display:column property="jvmIdentifier" title="Server" />
 	  		<display:column property="duration" sortable="true" title="Duration" />
-	  		<display:column property="beginDateAsString" sortable="true" title="Begin" />
-	  		<display:column property="endTimeAsString" title="End"/>
+	  		<display:column property="beginTime" sortable="true" title="Begin" />
+	  		<display:column property="endTime" title="End"/>
 	  		<display:column property="className" sortable="true" title="Class"/>
 	  		<display:column property="methodName" sortable="true" title="Method"/>
 		</display:table>

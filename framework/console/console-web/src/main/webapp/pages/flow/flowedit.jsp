@@ -21,9 +21,9 @@
 	</tr>
 	<tr>
 		<td>Begin Time</td>
-		<td><bean:write name="floweditform" property="executionFlow.beginDateAsString"/></td>
+		<td><bean:write name="floweditform" property="executionFlow.beginTime"/></td>
 		<td>End Time</td>
-		<td><bean:write name="floweditform" property="executionFlow.endTimeAsString"/></td>
+		<td><bean:write name="floweditform" property="executionFlow.endTime"/></td>
 	</tr>
 	<tr>
 		<td>Duration</td>
@@ -58,7 +58,7 @@
 	{
 	ExecutionFlowDTO tFlow = tForm.getExecutionFlow();	
 	FlowAsStackUtil tUtil = new FlowAsStackUtil( tFlow );
-	StringBuffer tBuffer = tUtil.writeFlowAsHtml();
+	CharSequence tBuffer = tUtil.writeFlowAsHtml();
 %>
 	<%=tBuffer.toString()%>
 <%	

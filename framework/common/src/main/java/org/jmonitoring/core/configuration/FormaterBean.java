@@ -12,21 +12,23 @@ public class FormaterBean
 {
     private SimpleDateFormat mDateTimeFormater;
 
+    private SimpleDateFormat mDateFormater;
+
     private SimpleDateFormat mTimeFormater;
 
     private String mDateFormat;
 
     private String mTimeFormat;
 
-    // public Date parseTime(String tTime) throws ParseException
-    // {
-    // return mTimeFormater.parse(tTime);
-    // }
-    //
-    // public String formatTime(Date tTime)
-    // {
-    // return mTimeFormater.format(tTime);
-    // }
+    public Date parseTime(String tTime) throws ParseException
+    {
+        return mTimeFormater.parse(tTime);
+    }
+
+    public String formatTime(Date tTime)
+    {
+        return mTimeFormater.format(tTime);
+    }
 
     public Date parseDateTime(String tTime)
     {
@@ -39,9 +41,25 @@ public class FormaterBean
         }
     }
 
+    public Date parseDate(String tTime)
+    {
+        try
+        {
+            return mDateFormater.parse(tTime);
+        } catch (ParseException e)
+        {
+            throw new MeasureException("Unable to parse Date", e);
+        }
+    }
+
     public String formatDateTime(Date tTime)
     {
         return mDateTimeFormater.format(tTime);
+    }
+
+    public String formatDate(Date tTime)
+    {
+        return mDateFormater.format(tTime);
     }
 
     public String formatDateTime(long tTime)
@@ -63,6 +81,7 @@ public class FormaterBean
         mDateFormat = pDateFormat;
         String tFormat = (mTimeFormat == null ? pDateFormat : pDateFormat + " " + mTimeFormat);
         mDateTimeFormater = new SimpleDateFormat(tFormat);
+        mDateFormater = new SimpleDateFormat(pDateFormat);
     }
 
     /**
@@ -76,5 +95,13 @@ public class FormaterBean
             mDateTimeFormater = new SimpleDateFormat(mDateFormat + " " + mTimeFormat);
         }
         mTimeFormater = new SimpleDateFormat(pTimeFormat);
+    }
+
+    /**
+     * @return the dateFormater
+     */
+    public synchronized SimpleDateFormat getDateFormater()
+    {
+        return mDateFormater;
     }
 }

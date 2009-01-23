@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(locations = {"/formater-test.xml", "/color-test.xml" })
+@ContextConfiguration(locations = {"/console.xml", "/formater-test.xml", "/color-test.xml", "/persistence-test.xml" })
 @Service
 public class FlowUtilTest extends JMonitoringTestCase
 {
@@ -41,8 +41,10 @@ public class FlowUtilTest extends JMonitoringTestCase
         tPoint.setMethodName("builNewFullFlow");
         tPoint.setGroupName("GrDefault");
         tPoint.setParams("[]");
-        tPoint.setBeginTime(mFormater.formatDateTime(tRefDate));
-        tPoint.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
+        tPoint.setBeginMilliSeconds(tRefDate.getTime());
+        tPoint.setBeginTimeString(mFormater.formatDateTime(tRefDate));
+        tPoint.setEndMilliSeconds(tRefDate.getTime() + 106);
+        tPoint.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
         MethodCallDTO[] tChildren1 = new MethodCallDTO[2];
         MethodCallDTO[] tChildren2 = new MethodCallDTO[2];
 
@@ -53,8 +55,10 @@ public class FlowUtilTest extends JMonitoringTestCase
         tChild1.setMethodName("builNewFullFlow2");
         tChild1.setGroupName("GrChild1");
         tChild1.setParams("[]");
-        tChild1.setBeginTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
-        tChild1.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
+        tChild1.setBeginMilliSeconds(tRefDate.getTime() + 2);
+        tChild1.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
+        tChild1.setEndMilliSeconds(tRefDate.getTime() + 45);
+        tChild1.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
 
         MethodCallDTO tChild3 = new MethodCallDTO();
         tChild3.setParent(tChild1);
@@ -63,8 +67,10 @@ public class FlowUtilTest extends JMonitoringTestCase
         tChild3.setMethodName("builNewFullFlow4");
         tChild3.setGroupName("GrChild2");
         tChild3.setParams("[]");
-        tChild3.setBeginTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 5)));
-        tChild3.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 17)));
+        tChild3.setBeginMilliSeconds(tRefDate.getTime() + 5);
+        tChild3.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 5)));
+        tChild3.setEndMilliSeconds(tRefDate.getTime() + 17);
+        tChild3.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 17)));
 
         MethodCallDTO tChild4 = new MethodCallDTO();
         tChild4.setParent(tChild1);
@@ -73,8 +79,10 @@ public class FlowUtilTest extends JMonitoringTestCase
         tChild4.setMethodName("builNewFullFlow4");
         tChild4.setGroupName("GrDefault");
         tChild4.setParams("[]");
-        tChild4.setBeginTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 23)));
-        tChild4.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 27)));
+        tChild4.setBeginMilliSeconds(tRefDate.getTime() + 23);
+        tChild4.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 23)));
+        tChild4.setEndMilliSeconds(tRefDate.getTime() + 27);
+        tChild4.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 27)));
         tChild1.setChildren(tChildren2);
 
         MethodCallDTO tChild2 = new MethodCallDTO();
@@ -84,8 +92,10 @@ public class FlowUtilTest extends JMonitoringTestCase
         tChild2.setMethodName("builNewFullFlow3");
         tChild2.setGroupName("GrChild2");
         tChild2.setParams("[]");
-        tChild2.setBeginTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
-        tChild2.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 75)));
+        tChild2.setBeginMilliSeconds(tRefDate.getTime() + 48);
+        tChild2.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
+        tChild2.setEndMilliSeconds(tRefDate.getTime() + 75);
+        tChild2.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 75)));
         tPoint.setChildren(tChildren1);
 
         return tPoint;

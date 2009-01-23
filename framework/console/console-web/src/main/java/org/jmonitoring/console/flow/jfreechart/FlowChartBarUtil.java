@@ -33,6 +33,7 @@ import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jmonitoring.console.flow.edit.FlowEditForm;
+import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
@@ -59,10 +60,13 @@ public class FlowChartBarUtil
 
     private final FormaterBean mFormater;
 
-    public FlowChartBarUtil(FormaterBean pFormater, MethodCallDTO pFirstMeasure)
+    private final ColorManager mColorManager;
+
+    public FlowChartBarUtil(FormaterBean pFormater, MethodCallDTO pFirstMeasure, ColorManager pColorManager)
     {
         super();
         mFormater = pFormater;
+        mColorManager = pColorManager;
         mFirstMeasure = pFirstMeasure;
         computeStatForThisFlow();
     }
@@ -75,10 +79,10 @@ public class FlowChartBarUtil
      * @param pFirstMeasure The root of the Tree of <code>MethodCallDTO</code> to use for the image generation.
      * @param pForm TODO
      */
-    public static void writeImageIntoSession(FormaterBean pFormater, HttpSession pSession, MethodCallDTO pFirstMeasure,
-        FlowEditForm pForm)
+    public static void writeImageIntoSession(FormaterBean pFormater, ColorManager pColorManager, HttpSession pSession,
+        MethodCallDTO pFirstMeasure, FlowEditForm pForm)
     {
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(pFormater, pFirstMeasure);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(pFormater, pFirstMeasure, pColorManager);
         tUtil.fillChart(pSession, pForm);
     }
 
@@ -117,20 +121,20 @@ public class FlowChartBarUtil
 
         // List tListOfClidren = pCurMeasure.getChildren();
         Date tBeginDate;
-        Date tEndDate = mFormater.parseDateTime(pCurMeasure.getBeginTime());
+        Date tEndDate = new Date(pCurMeasure.getBeginMilliSeconds());
         MethodCallDTO curChild;
         for (int i = 0; i < pCurMeasure.getChildren().length; i++)
         {
             curChild = pCurMeasure.getChild(i);
             tBeginDate = tEndDate;
-            tEndDate = mFormater.parseDateTime(curChild.getBeginTime());
+            tEndDate = new Date(curChild.getBeginMilliSeconds());
             addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
             chainAllMethodCallToMainTaskOfGroup(curChild);
-            tEndDate = mFormater.parseDateTime(curChild.getEndTime());
+            tEndDate = new Date(curChild.getEndMilliSeconds());
         }
 
         tBeginDate = tEndDate;
-        tEndDate = mFormater.parseDateTime(pCurMeasure.getEndTime());
+        tEndDate = new Date(pCurMeasure.getEndMilliSeconds());
         addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
     }
 
@@ -153,8 +157,8 @@ public class FlowChartBarUtil
             tTaskEntry = new TaskForGroupName();
             tTaskEntry.mPositionOfTheGroup = mListOfGroup.size() + 1;
             tTaskEntry.mMainTaskOfGroup =
-                new Task(pGroupName, new SimpleTimePeriod(mFormater.parseDateTime(pCurMeasure.getBeginTime()),
-                                                          mFormater.parseDateTime(pCurMeasure.getEndTime())));
+                new Task(pGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginMilliSeconds()),
+                                                          new Date(pCurMeasure.getEndMilliSeconds())));
             tTaskEntry.mGroupName = pGroupName;
             mListOfGroup.put(pGroupName, tTaskEntry);
         }
@@ -239,7 +243,7 @@ public class FlowChartBarUtil
     {
         CategoryAxis categoryAxis = new CategoryAxis("Flow Groups");
         DateAxis dateAxis = new DateAxis("Date");
-        CategoryItemRenderer renderer = new FlowRenderer();
+        CategoryItemRenderer renderer = new FlowRenderer(mColorManager);
         renderer.setItemURLGenerator(new FlowDetailURLGenerator());
         CategoryPlot plot = new CategoryPlot(pDataset, categoryAxis, dateAxis, renderer);
         plot.setOrientation(PlotOrientation.HORIZONTAL);

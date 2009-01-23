@@ -108,7 +108,7 @@ public class TestConsoleDao extends PersistanceTestCase
         tMeth.getChild(1).getChild(0).getBeginTime();
         Statistics tStat = getStats();
         assertEquals(7, tStat.getEntityLoadCount());
-        assertEquals(1, tStat.getEntityFetchCount());
+        assertEquals(0, tStat.getEntityFetchCount());
         assertEquals(0, tStat.getCollectionFetchCount());
     }
 

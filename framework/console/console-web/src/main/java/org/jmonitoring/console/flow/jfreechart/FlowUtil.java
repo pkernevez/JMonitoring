@@ -157,19 +157,19 @@ public class FlowUtil
     {
         long tChildDuration = 0;
         MethodCallDTO curPoint;
-        // On it�re sur les noeuds fils
+        // On itère sur les noeuds fils
         for (int i = 0; i < pMeasure.getChildren().length; i++)
         {
             curPoint = pMeasure.getChild(i);
             addTimeWith(curPoint);
-            long tEndTime = mFormater.parseDateTime(curPoint.getEndTime()).getTime();
-            long tBeginTime = mFormater.parseDateTime(curPoint.getBeginTime()).getTime();
+            long tEndTime = curPoint.getEndMilliSeconds();
+            long tBeginTime = curPoint.getBeginMilliSeconds();
             tChildDuration = tChildDuration + (tEndTime - tBeginTime);
         }
         String tGroupName = pMeasure.getGroupName();
         Integer tDuration = mListOfGroup.get(tGroupName);
-        long tEndTime = mFormater.parseDateTime(pMeasure.getEndTime()).getTime();
-        long tBeginTime = mFormater.parseDateTime(pMeasure.getBeginTime()).getTime();
+        long tEndTime = pMeasure.getEndMilliSeconds();
+        long tBeginTime = pMeasure.getBeginMilliSeconds();
         int tLocalDuration = (int) (tEndTime - tBeginTime - tChildDuration);
         if (tDuration != null)
         { // On ajoute la dur�e en cours

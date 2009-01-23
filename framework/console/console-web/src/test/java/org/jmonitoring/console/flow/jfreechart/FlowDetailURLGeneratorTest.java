@@ -3,28 +3,36 @@ package org.jmonitoring.console.flow.jfreechart;
 import javax.annotation.Resource;
 
 import org.jfree.data.category.IntervalCategoryDataset;
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
+import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.test.dao.PersistanceTestCase;
-import org.springframework.test.context.ContextConfiguration;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/formater-test.xml", "/color-test.xml" })
-public class FlowDetailURLGeneratorTest extends PersistanceTestCase
+public class FlowDetailURLGeneratorTest extends JMonitoringMockStrustTestCase
 {
     @Resource(name = "formater")
     private FormaterBean mFormater;
 
+    @Resource(name = "color")
+    private ColorManager mColor;
+
+    @Autowired
+    private FlowBuilderUtil mFlowBuilder;
+
+    @Test
     public void testUGRGeneration()
     {
+        dropCreate();
+        ExecutionFlowDTO tFlow = mFlowBuilder.buildAndSaveNewDto(2);
 
-        ExecutionFlowDTO tFlow = new FlowBuilderUtil().buildAndSaveNewDto(2);
-
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFlow.getFirstMethodCall());
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFlow.getFirstMethodCall(), mColor);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFlow.getFirstMethodCall());
         IntervalCategoryDataset tIntervalcategorydataset = tUtil.createDataset();
         tUtil.createGanttChart(tIntervalcategorydataset);

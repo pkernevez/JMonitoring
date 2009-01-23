@@ -8,7 +8,8 @@ import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.springframework.test.context.ContextConfiguration;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -19,17 +20,15 @@ import org.springframework.test.context.ContextConfiguration;
  * @author pke
  * 
  */
-@ContextConfiguration(locations = {"/formater-test.xml" })
-public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
+public class FlowSearchActionTest extends JMonitoringMockStrustTestCase
 {
+    @Autowired
+    FlowBuilderUtil mUtil;
+
     @Resource(name = "formater")
     private FormaterBean mFormater;
 
-    /**
-     * Test class.
-     * 
-     * @throws ParseException Exception.
-     */
+    @Test
     public void testCopyBeanFormToCriterion() throws ParseException
     {
         FlowSearchForm tForm = new FlowSearchForm();
@@ -43,9 +42,9 @@ public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
         tForm.setThreadName("MainThread");
 
         FlowSearchCriterion tCrit = FlowSearchActionOut.copyBeanFormToCriterion(mFormater, tForm);
-        assertEquals("27/09/05", mFormater.formatDateTime(tCrit.getBeginDate()));
+        assertEquals("27/09/05", mFormater.formatDate(tCrit.getBeginDate()));
         // Format Date only ??
-        assertEquals("11:30:34", mFormater.formatDateTime(tCrit.getBeginTimeMin()));
+        assertEquals("11:30:34", mFormater.formatTime(tCrit.getBeginTimeMin()));
         assertEquals(new Long(2 + 1), tCrit.getDurationMin());
         assertEquals(tForm.getFirstMeasureClassName(), tCrit.getClassName());
         assertEquals(tForm.getFirstMeasureGroupName(), tCrit.getGroupName());
@@ -67,13 +66,12 @@ public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
 
     }
 
+    @Test
     public void testActionSearchOutWithCriteria()
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        tUtil.buildAndSaveNewDto(3);
+        mUtil.buildAndSaveNewDto(3);
 
-        assertEquals(1, tUtil.countFlows());
+        assertEquals(1, mUtil.countFlows());
         clear();
 
         FlowSearchForm tForm = new FlowSearchForm();
@@ -97,6 +95,7 @@ public class TestFlowSearchAction extends JMonitoringMockStrustTestCase
         // assertEquals(3, tFlow.getFirstMethodCall().getChildren().size());
     }
 
+    @Test
     public void testActionSearchIn()
     {
         setRequestPathInfo("/FlowSearchIn");

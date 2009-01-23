@@ -2,20 +2,26 @@ package org.jmonitoring.console.flow;
 
 import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class DeleteOneFlowActionInTest extends JMonitoringMockStrustTestCase {
-    public void testDeleteAllFlowsInOk() {
+public class DeleteOneFlowActionInTest extends JMonitoringMockStrustTestCase
+{
+    @Autowired
+    FlowBuilderUtil mUtil;
 
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(2);
-        tUtil.buildAndSaveNewDto(2);
+    @Test
+    public void testDeleteAllFlowsInOk()
+    {
 
-        assertEquals(2, tUtil.countFlows());
+        ExecutionFlowDTO tFirstDto = mUtil.buildAndSaveNewDto(2);
+        mUtil.buildAndSaveNewDto(2);
+
+        assertEquals(2, mUtil.countFlows());
 
         FlowIdForm tForm = new FlowIdForm();
         tForm.setId(tFirstDto.getId());
@@ -26,20 +32,17 @@ public class DeleteOneFlowActionInTest extends JMonitoringMockStrustTestCase {
         actionPerform();
         verifyForwardPath("/pages/layout/layout.jsp");
 
-        closeAndRestartSession();
-        assertEquals(1, tUtil.countFlows());
+        assertEquals(1, mUtil.countFlows());
     }
 
-    public void testDeleteAllFlowsInBadId() {
+    @Test
+    public void testDeleteAllFlowsInBadId()
+    {
 
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        tUtil.buildAndSaveNewDto(2);
-        tUtil.buildAndSaveNewDto(2);
+        mUtil.buildAndSaveNewDto(2);
+        mUtil.buildAndSaveNewDto(2);
 
-        closeAndRestartSession();
-
-        assertEquals(2, tUtil.countFlows());
+        assertEquals(2, mUtil.countFlows());
 
         FlowIdForm tForm = new FlowIdForm();
         tForm.setId(34567);
@@ -49,10 +52,9 @@ public class DeleteOneFlowActionInTest extends JMonitoringMockStrustTestCase {
         setActionForm(tForm);
         actionPerform();
         verifyForwardPath("/pages/functionalError.jsp");
-        verifyActionErrors(new String[] { "errors.executionflow.notfound" });
+        verifyActionErrors(new String[] {"errors.executionflow.notfound" });
 
-        closeAndRestartSession();
-        assertEquals(2, tUtil.countFlows());
+        assertEquals(2, mUtil.countFlows());
     }
 
 }

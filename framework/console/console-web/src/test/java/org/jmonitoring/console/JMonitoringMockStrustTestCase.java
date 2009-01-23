@@ -1,5 +1,8 @@
 package org.jmonitoring.console;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
@@ -8,6 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -30,7 +35,7 @@ import servletunit.struts.MockStrutsTestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners( {DependencyInjectionTestExecutionListener.class })
-@ContextConfiguration(locations = {"/default-test.xml", "/persistence-test.xml" })
+@ContextConfiguration(locations = {"/console.xml", "/core-test.xml", "/default-test.xml", "/persistence-test.xml" })
 @Ignore
 public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase implements ApplicationContextAware
 {
@@ -38,7 +43,7 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
 
     private Transaction mTransaction;
 
-    private SessionFactory mSessionFactory;
+    protected SessionFactory mSessionFactory;
 
     private static Log sLog = LogFactory.getLog(JMonitoringMockStrustTestCase.class.getName());
 
@@ -47,10 +52,12 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
     {
         super.setUp();
 
-        mSessionFactory = (SessionFactory) applicationContext.getBean("sessionFactory");
+        mSessionFactory = (SessionFactory) mApplicationContext.getBean("sessionFactory");
+        // dropCreate();
         mSession = mSessionFactory.openSession();
         mTransaction = mSession.beginTransaction();
         TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(mSession));
+        SpringConfigurationUtil.setContext(mApplicationContext);
     }
 
     public void clear()
@@ -58,35 +65,15 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
         mSession.clear();
     }
 
-    public void createSchema()
-    {
-    }
-
     @Resource(name = "hibernateConfiguration")
     private Configuration mConfiguration;
-
-    public void closeAndRestartSession()
-    {
-        if (mSession.isOpen())
-        {
-            if (mTransaction.isActive())
-            {
-                mTransaction.commit();
-            }
-            mSession.close();
-        }
-
-        TransactionSynchronizationManager.unbindResource(mSessionFactory);
-        mSession = mSessionFactory.openSession();
-        TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(mSession));
-        mTransaction = mSession.beginTransaction();
-    }
 
     @After
     public void closeDb() throws Exception
     {
         try
         {
+            mSessionFactory.getCurrentSession().getTransaction().rollback();
             TransactionSynchronizationManager.unbindResource(mSessionFactory);
             super.tearDown();
         } finally
@@ -103,26 +90,68 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
         }
     }
 
+    protected void dropCreate()
+    {
+        sLog.info("Creating new Schema for the DataBase");
+        Session tSession = mSessionFactory.openSession();
+        Connection tCon = tSession.connection();
+        try
+        {
+            SchemaExport tDdlexport = new SchemaExport(mConfiguration, tCon);
+            tDdlexport.drop(true, true);
+            sLog.info("End of the Schema creation for the DataBase");
+        } finally
+        {
+            try
+            {
+                tCon.close();
+            } catch (SQLException e)
+            {
+                sLog.error("Unable to release resources", e);
+            }
+            tSession.close();
+        }
+        tSession = mSessionFactory.openSession();
+        tCon = tSession.connection();
+        try
+        {
+            SchemaExport tDdlexport = new SchemaExport(mConfiguration, tCon);
+            tDdlexport.create(true, true);
+            sLog.info("End of the Schema creation for the DataBase");
+        } finally
+        {
+            try
+            {
+                tCon.close();
+            } catch (SQLException e)
+            {
+                sLog.error("Unable to release resources", e);
+            }
+            tSession.close();
+        }
+
+    }
+
     public Session getSessionHib()
     {
         return mSession;
     }
 
-    public Transaction getTransaction()
-    {
-        return mTransaction;
-    }
+    // public Transaction getTransaction()
+    // {
+    // return mTransaction;
+    // }
 
-    protected StaticApplicationContext applicationContext;
+    protected StaticApplicationContext mApplicationContext;
 
     public StaticApplicationContext getApplicationContext()
     {
-        return applicationContext;
+        return mApplicationContext;
     }
 
     public void setApplicationContext(ApplicationContext pApplicationContext)
     {
-        applicationContext = new StaticApplicationContext(pApplicationContext);
+        mApplicationContext = new StaticApplicationContext(pApplicationContext);
     }
 
 }

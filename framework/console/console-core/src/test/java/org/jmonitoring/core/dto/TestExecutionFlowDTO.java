@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/formater-test.xml" })
+@ContextConfiguration(locations = {"/color-test.xml", "/formater-test.xml" })
 public class TestExecutionFlowDTO extends PersistanceTestCase
 {
 

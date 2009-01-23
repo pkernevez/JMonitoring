@@ -11,7 +11,7 @@
 <title>Unexpected Error</title>
 <html:base/>
 </head>
-
+<body>
 <h3>An error as occurred</h3>
 <logic:present name="<%=Globals.EXCEPTION_KEY%>">
 <p><bean:write name="<%=Globals.EXCEPTION_KEY%>" property="message" /></p>

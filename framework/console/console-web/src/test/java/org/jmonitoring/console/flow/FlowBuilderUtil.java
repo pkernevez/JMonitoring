@@ -5,8 +5,6 @@ import javax.annotation.Resource;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -20,9 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class FlowBuilderUtil
 {
-    @Resource(name = "hibernateConfiguration")
-    private Configuration mConfiguration;
-
     @Resource(name = "sessionFactory")
     protected SessionFactory mSessionFactory;
 
@@ -31,14 +26,6 @@ public class FlowBuilderUtil
 
     @Resource(name = "dtoManager")
     private DtoManager mDtoManager;
-
-    public void createSchema()
-    {
-        SchemaExport tDdlexport = new SchemaExport(mConfiguration);
-
-        tDdlexport.create(true, true);
-
-    }
 
     public ExecutionFlowDTO buildAndSaveNewDto(int pNbMethods)
     {

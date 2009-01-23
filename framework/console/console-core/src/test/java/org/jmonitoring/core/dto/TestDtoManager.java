@@ -40,6 +40,7 @@ public class TestDtoManager extends PersistanceTestCase
         assertEquals("myJVM", tFlow.getJvmIdentifier());
         assertEquals(45, tFlow.getId());
         MethodCallDTO curMeth = tFlow.getFirstMethodCall();
+        assertEquals("#6cca68", curMeth.getGroupColor());
         assertEquals(1, curMeth.getPosition());
         assertEquals(45, curMeth.getFlowId());
         MethodCallDTO tParentDto = curMeth;

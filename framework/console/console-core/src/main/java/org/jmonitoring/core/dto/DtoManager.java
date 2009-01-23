@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
@@ -20,6 +21,9 @@ public class DtoManager
 {
     @Autowired
     private FormaterBean mFormater;
+
+    @Autowired
+    private ColorManager mColor;
 
     DtoManager()
     {
@@ -150,9 +154,10 @@ public class DtoManager
     {
         MethodCallDTO tResult = new MethodCallDTO();
         BeanUtils.copyProperties(pCallPO, tResult, new String[] {"beginTime", "endTime", "children", "flow" });
+        tResult.setGroupColor(mColor.getColorString(pCallPO.getGroupName()));
         tResult.setPosition(pCallPO.getMethId().getPosition());
-        tResult.setBeginTime(mFormater.formatDateTime(pCallPO.getBeginTime()));
-        tResult.setEndTime(mFormater.formatDateTime(pCallPO.getEndTime()));
+        tResult.setBeginTime(mFormater.formatDateTime(pCallPO.getBeginTime()), pCallPO.getBeginTime());
+        tResult.setEndTime(mFormater.formatDateTime(pCallPO.getEndTime()), pCallPO.getEndTime());
         tResult.setFlowId(pCallPO.getFlow().getId());
         tResult.setChildPosition(pOrderInTheParentChildren);
         return tResult;
@@ -164,8 +169,8 @@ public class DtoManager
         tResult.setMethId(new MethodCallPK());
         BeanUtils.copyProperties(pCallDTO, tResult, new String[] {"beginTime", "endTime", "children", "flow" });
         tResult.setPosition(pCallDTO.getPosition());
-        tResult.setBeginTime(mFormater.parseDateTime(pCallDTO.getBeginTime()).getTime());
-        tResult.setEndTime(mFormater.parseDateTime(pCallDTO.getEndTime()).getTime());
+        tResult.setBeginTime(pCallDTO.getBeginMilliSeconds());
+        tResult.setEndTime(pCallDTO.getEndMilliSeconds());
         tResult.setFlow(pFlowPO);
         return tResult;
     }

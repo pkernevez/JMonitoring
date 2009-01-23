@@ -10,8 +10,6 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.axis.CategoryAxis;
@@ -27,7 +25,6 @@ import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jmonitoring.core.configuration.ColorManager;
-import org.springframework.stereotype.Service;
 
 /**
  * Custom Rendere for Flows.
@@ -35,14 +32,17 @@ import org.springframework.stereotype.Service;
  * @author pke
  * 
  */
-@Service
 public class FlowRenderer extends GanttRenderer
 {
-    @Resource(name = "color")
-    private ColorManager mColorMgr;
+    private final ColorManager mColorMgr;
 
     /** Log instance. */
     private static Log sLog = LogFactory.getLog(FlowRenderer.class);
+
+    public FlowRenderer(ColorManager pColorMgr)
+    {
+        mColorMgr = pColorMgr;
+    }
 
     /**
      * Pour la serialisation.

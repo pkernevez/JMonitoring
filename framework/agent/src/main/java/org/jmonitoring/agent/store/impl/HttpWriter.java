@@ -51,7 +51,7 @@ public class HttpWriter implements IStoreWriter
             byte[] tByteArray = tBytes.toByteArray();
             tHttpPost.setRequestEntity(new ByteArrayRequestEntity(tByteArray));
             tHttpPost.setContentChunked(true);
-            tHttpPost.addRequestHeader("Content-Type", "JMonitoring/flow");
+            tHttpPost.addRequestHeader("Content-Type", CONTENT_TYPE);
             try
             {
                 mClient.executeMethod(tHttpPost);

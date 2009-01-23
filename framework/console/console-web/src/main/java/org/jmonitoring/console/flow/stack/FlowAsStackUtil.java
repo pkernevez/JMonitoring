@@ -7,10 +7,7 @@ package org.jmonitoring.console.flow.stack;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
-
 import org.apache.taglibs.standard.lang.jpath.encoding.HtmlEncoder;
-import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
@@ -22,9 +19,6 @@ import org.jmonitoring.core.dto.MethodCallDTO;
  */
 public class FlowAsStackUtil
 {
-    @Resource(name = "formater")
-    private FormaterBean mFormater;
-
     /**
      * The execution flow to work with.
      */
@@ -56,9 +50,7 @@ public class FlowAsStackUtil
         tBuffer.append("<ul id=\"menuList\">");
         tBuffer.append("<li class=\"menubar\">");
         tBuffer.append("<a href=\"#\" id=\"0Actuator\" class=\"actuator\">");
-        long tEndTime = mFormater.parseDateTime(mFlow.getEndTime()).getTime();
-        long tBeginTime = mFormater.parseDateTime(mFlow.getBeginTime()).getTime();
-        long tDuration = tEndTime - tBeginTime;
+        long tDuration = mFlow.getFirstMethodCall().getDuration();
         tBuffer.append("[").append(tDuration).append("] ");
         tBuffer.append(mFlow.getJvmIdentifier()).append("/").append(mFlow.getThreadName());
         tBuffer.append(" : ").append(mFlow.getFirstMethodCall().getGroupName()).append(" -> ");
@@ -105,8 +97,8 @@ public class FlowAsStackUtil
         tLinkDetail.append(pCurrentMethod.getFlowId()).append("&position=").append(pCurrentMethod.getPosition());
         tLinkDetail.append("\">").append("<IMG src=\"images/edit.png\"/></A>");
 
-        long tEndTime = mFormater.parseDateTime(pCurrentMethod.getEndTime()).getTime();
-        long tBeginTime = mFormater.parseDateTime(pCurrentMethod.getBeginTime()).getTime();
+        long tEndTime = pCurrentMethod.getBeginMilliSeconds();
+        long tBeginTime = pCurrentMethod.getBeginMilliSeconds();
         long tDuration = tEndTime - tBeginTime;
         // Maintenant on cr�er le le html associ� au MethodCallDTO
         if (pCurrentMethod.getChildren().length > 0)
@@ -118,7 +110,7 @@ public class FlowAsStackUtil
             pHtmlBuffer.append(" class=\"actuator\" title=\"").append(getMeasurePointTitle(pCurrentMethod));
             pHtmlBuffer.append("\">");
             pHtmlBuffer.append("<span class=\"prevDuration\" title=\"Since prev MethodCall\">[->");
-            pHtmlBuffer.append(getDurationFromPreviousCall(pCurrentMethod)).append("]</span>");
+            pHtmlBuffer.append(pCurrentMethod.getDurationFromPreviousCall()).append("]</span>");
             pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
             pHtmlBuffer.append(tDuration).append("]</span>");
             pHtmlBuffer.append(tReturnImage).append(getMeasurePointText(pCurrentMethod)).append("</a>");
@@ -133,7 +125,7 @@ public class FlowAsStackUtil
         } else
         {
             pHtmlBuffer.append("<li><span class=\"prevDuration\" title=\"Duration since the prev MethodCall\">[->");
-            pHtmlBuffer.append(getDurationFromPreviousCall(pCurrentMethod)).append("]</span>");
+            pHtmlBuffer.append(pCurrentMethod.getDurationFromPreviousCall()).append("]</span>");
             pHtmlBuffer.append("<span class=\"curDuration\" title=\"Duration of this MethodCall\">[");
             pHtmlBuffer.append(tDuration).append("]</span>");
             pHtmlBuffer.append("<span title=\"").append(getMeasurePointTitle(pCurrentMethod));
@@ -142,35 +134,6 @@ public class FlowAsStackUtil
             pHtmlBuffer.append(tLinkStat).append(tLinkDetail).append("</li>\n");
         }
     }
-
-    private long getDurationFromPreviousCall(MethodCallDTO pCurrentMethod)
-    {
-        long tDuration;
-        if (pCurrentMethod.getChildPosition() == 0)
-        {
-            if (pCurrentMethod.getParent() == null)
-            {
-                long tFlowStart = mFormater.parseDateTime(pCurrentMethod.getFlow().getBeginTime()).getTime();
-                long tMethStart = mFormater.parseDateTime(pCurrentMethod.getBeginTime()).getTime();
-                tDuration = tFlowStart - tMethStart;
-            } else
-            {
-                long tMethStart = mFormater.parseDateTime(pCurrentMethod.getBeginTime()).getTime();
-                long tParentStart = mFormater.parseDateTime(pCurrentMethod.getParent().getBeginTime()).getTime();
-                tDuration = tMethStart - tParentStart;
-            }
-        } else
-        {
-            MethodCallDTO tPrecMethodCall = pCurrentMethod.getParent().getChild(pCurrentMethod.getChildPosition() - 1);
-            long tEndTime = mFormater.parseDateTime(pCurrentMethod.getBeginTime()).getTime();
-            long tBeginTime = mFormater.parseDateTime(tPrecMethodCall.getEndTime()).getTime();
-            tDuration = tEndTime - tBeginTime;
-        }
-        return tDuration;
-    }
-
-    // return null;
-    // }
 
     /**
      * Get the text part of <code>MethodCallDTO</code> of a Flow.
@@ -196,7 +159,7 @@ public class FlowAsStackUtil
     {
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("Start Date=");
-        tBuffer.append(pMeasure.getBeginTime());
+        tBuffer.append(pMeasure.getBeginTimeString());
         if (pMeasure.getParams() != null)
         {
             tBuffer.append("\n PARAM=[").append(pMeasure.getParams()).append("]");

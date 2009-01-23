@@ -115,7 +115,7 @@ public class ConsoleDao extends InsertionDao
     public ExecutionFlowPO readExecutionFlow(int pFlowId)
     {
         Session tSession = mSessionFactory.getCurrentSession();
-        ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.load(ExecutionFlowPO.class, new Integer(pFlowId));
+        ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.get(ExecutionFlowPO.class, new Integer(pFlowId));
         Criteria tCriteria = tSession.createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
         tCriteria.add(Restrictions.eq("flow.id", new Integer(pFlowId)));
         tCriteria.list();

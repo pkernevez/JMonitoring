@@ -4,7 +4,6 @@
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="displaytag.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.methodcall.MethodCallEditForm"%>
-<%@page import="org.jmonitoring.core.configuration.ColorHelper"%>
 
 
 <!-- Begin Body -->
@@ -45,11 +44,11 @@
 	</tr>
 	<tr>
 		<td NOWRAP>Begin date:</td>
-		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.beginTimeAsString"/></b></td>
+		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.beginTimeString"/></b></td>
 	</tr>
 	<tr>
 		<td NOWRAP>End date:</td>
-		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.endTimeAsString"/></b></td>
+		<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.endTimeString"/></b></td>
 	</tr>
 <logic:notEmpty name="methodcallform" property="methodCall.parent">
 	<tr>

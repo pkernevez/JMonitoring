@@ -9,17 +9,26 @@
 
     <!--  bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager"/>-->
 
-    <bean name="consoleManager" class="org.jmonitoring.core.process.ConsoleManager"/>
+    <bean name="consoleManager" class="org.jmonitoring.core.process.ConsoleManager" />
 
-    <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao"/>
+    <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" />
 
     <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
         <property name="dateFormat" value="dd/MM/yy" />
         <property name="timeFormat" value="HH:mm:ss" />
     </bean>
 
-    <bean id="hibernateConfiguration" 
-       factory-bean="&amp;sessionFactory" 
-       factory-method="getConfiguration" />
+    <bean name="color" class="org.jmonitoring.core.configuration.ColorManager">
+        <property name="groups">
+            <map>
+                <entry key="Default" value="0, 255, 255" />
+                <entry key="SQL" value="0, 0, 255" />
+                <entry key="SomeNonStatics" value="0, 255, 0" />
+                <entry key="SomeStatics" value="255, 0, 0" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="hibernateConfiguration" factory-bean="&amp;sessionFactory" factory-method="getConfiguration" />
 
 </beans>

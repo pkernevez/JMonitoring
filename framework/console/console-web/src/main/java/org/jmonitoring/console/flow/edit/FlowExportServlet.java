@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jmonitoring.console.AbstractSpringAction;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.jmonitoring.core.process.ProcessFactory;
 
 public class FlowExportServlet extends HttpServlet
 {
@@ -23,17 +24,36 @@ public class FlowExportServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException
     {
-        ConsoleManager tProcess = ProcessFactory.getInstance();
+        try
+        {
+            AbstractSpringAction.before();
+            doGetWithSpring(pReq, pResp);
+            AbstractSpringAction.commit();
+        } catch (RuntimeException r)
+        {
+            AbstractSpringAction.rollback();
+            throw r;
+        } catch (Error e)
+        {
+            AbstractSpringAction.rollback();
+            throw e;
+        }
+    }
+
+    protected void doGetWithSpring(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException,
+        IOException
+    {
+        ConsoleManager tConsoleManager = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
         // List tList = new ArrayList();
         int tFlowId = Integer.parseInt(pReq.getParameter("id"));
         sLog.debug("Read flow from database, Id=[" + tFlowId + "]");
-        ExecutionFlowDTO tFlow = tProcess.readFullExecutionFlow(tFlowId);
+        ExecutionFlowDTO tFlow = tConsoleManager.readFullExecutionFlow(tFlowId);
         sLog.debug("End Read from database of Flow, Id=[" + tFlowId + "]");
         pResp.setContentType("application/x-zip");
         String tFileName =
             "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_" + tFlow.getBeginTime() + ".gzip";
         pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
-        byte[] tFlowAsBytes = tProcess.convertFlowToXml(tFlow);
+        byte[] tFlowAsBytes = tConsoleManager.convertFlowToXml(tFlow);
         pResp.setContentLength(tFlowAsBytes.length);
         pResp.getOutputStream().write(tFlowAsBytes);
         pResp.getOutputStream().flush();

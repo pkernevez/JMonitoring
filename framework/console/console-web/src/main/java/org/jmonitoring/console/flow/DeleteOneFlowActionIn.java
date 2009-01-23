@@ -8,15 +8,15 @@ package org.jmonitoring.console.flow;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.jmonitoring.console.AbstractSpringAction;
 import org.jmonitoring.core.common.UnknownFlowException;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * @author pke
@@ -24,7 +24,7 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class DeleteOneFlowActionIn extends Action
+public class DeleteOneFlowActionIn extends AbstractSpringAction
 {
 
     /*
@@ -35,27 +35,15 @@ public class DeleteOneFlowActionIn extends Action
      *      javax.servlet.http.HttpServletResponse) @todo Manage Exception with a good error message...
      */
     @Override
-    public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-        HttpServletResponse pResponse)
+    public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,
+        HttpServletRequest pRequest, HttpServletResponse pResponse)
     {
         FlowIdForm tForm = (FlowIdForm) pForm;
-        ConsoleManager tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+
         try
         {
-            // TransactionHelper tTx = new TransactionHelper();
-            // try
-            // {
             tProcess.deleteFlow(tForm.getId());
-            // tTx.commit();
-            // } catch (UnknownFlowException t)
-            // {
-            // tTx.rollBack();
-            // throw t;
-            // } catch (Throwable t)
-            // {
-            // tTx.rollBack();
-            // throw new RuntimeException(t);
-            // }
             return pMapping.findForward("success");
         } catch (UnknownFlowException e)
         {

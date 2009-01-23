@@ -5,41 +5,31 @@ package org.jmonitoring.console.flow.edit;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.SessionFactory;
+import org.jmonitoring.console.AbstractSpringAction;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil;
 import org.jmonitoring.console.flow.jfreechart.FlowUtil;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.springframework.stereotype.Service;
 
-@Service
-public class FlowEditActionIn extends Action
+public class FlowEditActionIn extends AbstractSpringAction
 {
     private static final String MAX_FLOW_FOR_EDITION = "maxExecutionDuringFlowEdition";
 
     private static Log sLog = LogFactory.getLog(FlowEditActionIn.class);
-
-    @Resource(name = "formater")
-    private FormaterBean mFormater;
-
-    @Resource(name = "color")
-    private ColorManager mColor;
-
-    @Resource(name = "consoleManager")
-    private ConsoleManager mConsoleManager;
 
     /**
      * Default constructor.
@@ -64,9 +54,22 @@ public class FlowEditActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-        HttpServletResponse pResponse)
+    public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,
+        HttpServletRequest pRequest, HttpServletResponse pResponse)
     {
+        FormaterBean tFormater = (FormaterBean) SpringConfigurationUtil.getBean("formater");
+
+        ColorManager mColor = (ColorManager) SpringConfigurationUtil.getBean("color");
+
+        ConsoleManager tConsoleManager = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+
+        SessionFactory tSessionFactory = (SessionFactory) SpringConfigurationUtil.getBean("sessionFactory");
+
+        // Session session = tSessionFactory.openSession();
+        // TransactionSynchronizationManager.bindResource(tSessionFactory, new SessionHolder(session));
+        // session.beginTransaction();
+        // Session tHSession = tSessionFactory.getCurrentSession();
+
         // TODO Cleaning avec Spring
         // TransactionHelper tTx = new TransactionHelper();
         // try
@@ -75,7 +78,7 @@ public class FlowEditActionIn extends Action
         // List tList = new ArrayList();
         FlowEditForm tForm = (FlowEditForm) pForm;
         sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
-        ExecutionFlowDTO tFlow = mConsoleManager.readFullExecutionFlow(tForm.getId());
+        ExecutionFlowDTO tFlow = tConsoleManager.readFullExecutionFlow(tForm.getId());
         sLog.debug("End Read from database of Flow, Id=[" + tForm.getId() + "]");
         int tNbMeasure = tFlow.getMeasureCount();
         tForm.setExecutionFlow(tFlow);
@@ -89,10 +92,10 @@ public class FlowEditActionIn extends Action
             // Creation of the associated images.
             HttpSession tSession = pRequest.getSession();
             sLog.debug("Write PieCharts into HttpSession");
-            FlowUtil tUtil = new FlowUtil(mColor, mFormater);
+            FlowUtil tUtil = new FlowUtil(mColor, tFormater);
             tUtil.writeImageIntoSession(tSession, tFirstMeasure);
             sLog.debug("Write GantBarChart into HttpSession");
-            FlowChartBarUtil.writeImageIntoSession(mFormater, tSession, tFirstMeasure, tForm);
+            FlowChartBarUtil.writeImageIntoSession(tFormater, mColor, tSession, tFirstMeasure, tForm);
             if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
             {
                 sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());

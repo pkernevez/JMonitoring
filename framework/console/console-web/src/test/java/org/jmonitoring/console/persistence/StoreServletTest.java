@@ -4,19 +4,26 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.HttpWriter;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
-
-import servletunit.struts.MockStrutsTestCase;
+import org.jmonitoring.console.JMonitoringMockStrustTestCase;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.test.dao.PersistanceTestCase;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
-
-public class TestStoreServlet extends MockStrutsTestCase
+@ContextConfiguration(locations = "/storeWriter-test.xml")
+public class StoreServletTest extends JMonitoringMockStrustTestCase
 {
+    @Autowired
+    MemoryWriter mStoreWriter;
 
+    @Test
     public void testDoPostInvalidContentType() throws ServletException, IOException
     {
         try
@@ -36,6 +43,9 @@ public class TestStoreServlet extends MockStrutsTestCase
         }
     }
 
+    @Test
+    @Ignore
+    /* Find a way for settings an object into the InputStream of the request */
     public void testDoPostOk() throws ServletException, IOException
     {
         request.setContentType(HttpWriter.CONTENT_TYPE);
@@ -44,14 +54,12 @@ public class TestStoreServlet extends MockStrutsTestCase
 
     private void checkPostStore() throws ServletException, IOException
     {
-        StoreManager.changeStoreWriterClass(MemoryWriter.class);
-        // ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow();
-        // request.(HttpWriter.FLOW_ATTR, tFlow);
-        // StoreServlet tServlet = new StoreServlet();
-        // tServlet.init();
-        // tServlet.doPost(request, response);
-        // assertEquals(1, MemoryStoreWriter.countFlows());
-        // assertEquals(tFlow, MemoryStoreWriter.getFlow(0));
+        ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow();
+        // request.setAttribute(HttpWriter.FLOW_ATTR, tFlow);
+        StoreServlet tServlet = new StoreServlet();
+        tServlet.init();
+        tServlet.doPost(request, response);
+        assertEquals(1, mStoreWriter.countFlows());
+        assertEquals(tFlow, mStoreWriter.getFlow(0));
     }
-
 }

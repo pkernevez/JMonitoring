@@ -3,19 +3,19 @@ package org.jmonitoring.console.methodcall;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmonitoring.console.AbstractSpringAction;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.jmonitoring.core.process.ProcessFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class MethodCallEditActionIn extends Action
+public class MethodCallEditActionIn extends AbstractSpringAction
 {
     /*
      * (non-Javadoc)
@@ -25,25 +25,15 @@ public class MethodCallEditActionIn extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-        HttpServletResponse pResponse)
+    public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,
+        HttpServletRequest pRequest, HttpServletResponse pResponse)
     {
-        ConsoleManager tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
         // List tList = new ArrayList();
         MethodCallEditForm tForm = (MethodCallEditForm) pForm;
 
-        // TransactionHelper tTx = new TransactionHelper();
-        // try
-        // {
         MethodCallDTO tMeth = tProcess.readFullMethodCall(tForm.getFlowId(), tForm.getPosition());
-        // tTx.commit();
         tForm.setMethodCall(tMeth);
         return pMapping.findForward("success");
-        // } catch (Throwable t)
-        // {
-        // tTx.rollBack();
-        // throw new RuntimeException(t);
-        // }
-
     }
 }

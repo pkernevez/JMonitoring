@@ -16,12 +16,9 @@ import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.StaticApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * This abstract aspect should be extends by users. It provides all the mecanism for logging measure. Children have to
+ * This abstract aspect should be extends by users. It provides all the mechanism for logging measure. Children have to
  * describe the pointcuts they want to log, by providing the implementation of executionToLog();
  */
 public abstract aspect PerformanceAspect
@@ -49,7 +46,6 @@ public abstract aspect PerformanceAspect
     private ThreadLocal<StoreManager> mStoreManager = new ThreadLocal<StoreManager>();
 
     {
-        // Initialisation du contexte Stpring
         PerfomanceConfig.loadContext();
     }
     

@@ -9,9 +9,11 @@
     </bean>
 
     <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" scope="prototype">
-        <property name="serverName" value="TestMachine"/>
+        <property name="serverName" value="TestMachine" />
     </bean>
-        
-    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.MemoryWriter" scope="prototype"/>
+
+    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.MemoryWriter" scope="prototype" />
     
+    <bean name="color" class="org.jmonitoring.core.configuration.ColorManager"/>
+
 </beans>

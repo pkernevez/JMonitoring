@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.time.TimePeriod;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil.TaskForGroupName;
+import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.tests.JMonitoringTestCase;
@@ -19,11 +20,14 @@ import org.springframework.test.context.ContextConfiguration;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/formater-test.xml", "/color-test.xml" })
+@ContextConfiguration(locations = {"/console.xml", "/formater-test.xml", "/color-test.xml", "/persistence-test.xml" })
 public class FlowChartBarUtilTest extends JMonitoringTestCase
 {
     @Resource(name = "formater")
     private FormaterBean mFormater;
+
+    @Resource(name = "color")
+    private ColorManager mColor;
 
     @Autowired
     private FlowUtilTest mFlowUtilTest;
@@ -32,7 +36,7 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
     public void testChainAllMethodCallToMainTaskOfGroup()
     {
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
-        FlowChartBarUtil tFlowChartBarUtil = new FlowChartBarUtil(mFormater, tFirstMethod);
+        FlowChartBarUtil tFlowChartBarUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
         tFlowChartBarUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
 
         Map<String, TaskForGroupName> tGroups = tFlowChartBarUtil.getListOfGroup();
@@ -79,7 +83,7 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
     {
         MethodCallDTO tFirstMethod = mFlowUtilTest.getSampleMeasurePoint();
 
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
 
         Map<String, TaskForGroupName> tGroups = tUtil.getListOfGroup();
@@ -160,8 +164,11 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
         tPoint.setMethodName("builNewFullFlow");
         tPoint.setGroupName("GrDefault");
         tPoint.setParams("[]");
-        tPoint.setBeginTime(mFormater.formatDateTime(tRefDate));
-        tPoint.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
+        tPoint.setBeginMilliSeconds(tRefDate.getTime());
+        tPoint.setBeginTimeString(mFormater.formatDateTime(tRefDate));
+        tPoint.setGroupColor("234567");
+        tPoint.setEndMilliSeconds(tRefDate.getTime() + 106);
+        tPoint.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
         MethodCallDTO[] tChildren = new MethodCallDTO[2];
 
         MethodCallDTO tChild1 = new MethodCallDTO();
@@ -172,8 +179,11 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
         tChild1.setMethodName("builNewFullFlow2");
         tChild1.setGroupName("GrChild1");
         tChild1.setParams("[]");
-        tChild1.setBeginTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
-        tChild1.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
+        tChild1.setBeginMilliSeconds(tRefDate.getTime() + 2);
+        tChild1.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
+        tChild1.setGroupColor("234567");
+        tChild1.setEndMilliSeconds(tRefDate.getTime() + 45);
+        tChild1.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
 
         MethodCallDTO tChild2 = new MethodCallDTO();
         tChild2.setPosition(3);
@@ -183,8 +193,10 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
         tChild2.setMethodName("builNewFullFlow2");
         tChild2.setGroupName("GrChild1");
         tChild2.setParams("[]");
-        tChild2.setBeginTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
-        tChild2.setEndTime(mFormater.formatDateTime(new Date(tRefDate.getTime() + 54)));
+        tChild2.setBeginMilliSeconds(tRefDate.getTime() + 48);
+        tChild2.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
+        tChild2.setEndMilliSeconds(tRefDate.getTime() + 54);
+        tChild2.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 54)));
         tPoint.setChildren(tChildren);
         return tPoint;
     }
@@ -194,24 +206,24 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
     {
         // Simple
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
         // One group with couple of children
         tFirstMethod.removeChild(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
-        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod);
+        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
         // 1 group and one child
         tFirstMethod = tFirstMethod.getChild(0);
-        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod);
+        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
 
         // 2 groups and one child
         tFirstMethod = getVerySimpleMeasurePoint();
         tFirstMethod.removeChild(0);
-        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod);
+        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
 
     }

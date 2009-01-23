@@ -4,17 +4,22 @@ import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallEditActionIn extends JMonitoringMockStrustTestCase {
+public class MethodCallEditActionInTest extends JMonitoringMockStrustTestCase
+{
+    @Autowired
+    FlowBuilderUtil mUtil;
 
-    public void testOk() {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(2);
+    @Test
+    public void testOk()
+    {
+        ExecutionFlowDTO tFlow = mUtil.buildAndSaveNewDto(2);
         MethodCallDTO tFirstMeth = tFlow.getFirstMethodCall();
         MethodCallDTO tFirstChild = tFirstMeth.getChild(0);
         int tId = tFirstChild.getPosition();
@@ -37,9 +42,9 @@ public class TestMethodCallEditActionIn extends JMonitoringMockStrustTestCase {
 
     }
 
-    public void testKo() {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
+    @Test
+    public void testKo()
+    {
 
         setRequestPathInfo("/MethodCallEditIn");
         MethodCallEditForm tForm = new MethodCallEditForm();

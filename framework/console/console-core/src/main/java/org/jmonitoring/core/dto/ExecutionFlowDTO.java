@@ -159,6 +159,14 @@ public class ExecutionFlowDTO implements Serializable
     }
 
     /**
+     * @return The duration of the first measure execution in milliseconds.
+     */
+    public String getDurationAsString()
+    {
+        return ""+mDuration;
+    }
+
+    /**
      * @return Returns the mId.
      */
     public int getId()

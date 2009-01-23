@@ -44,8 +44,14 @@ public class MethodCallDTO implements Serializable
     /** Beginning time of the method as <code>String</code>. */
     private String mBeginTime;
 
+    /** Beginning time of the method as <code>milliseconds</code>. */
+    private long mBeginMilliSeconds;
+
     /** End time of the method as <code>String</code>. */
     private String mEndTime;
+
+    /** End time of the method as <code>milliseconds</code>. */
+    private long mEndMilliSeconds;
 
     /** Name of the class on which the Method is defined. */
     private String mClassName;
@@ -68,8 +74,8 @@ public class MethodCallDTO implements Serializable
     /** Group name associated to this method call. */
     private String mGroupName;
 
-    /** Duration in milliseconds of this method call. */
-    private long mDuration;
+    /** Color associated to this group. */
+    private String mGroupColor;
 
     public MethodCallDTO()
     {
@@ -99,11 +105,28 @@ public class MethodCallDTO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The start time of the call to the method associated to this <code>MethodCallDTO</code>.
+     * @return The start time of the call to the method associated to this <code>MethodCallDTO</code>. //TODO Change
+     *         to setEndTime
      */
-    public String getBeginTime()
+    public String getBeginTimeString()
     {
         return mBeginTime;
+    }
+
+    /**
+     * @param pBeginMilliSeconds the beginMilliSeconds to set
+     */
+    public void setBeginMilliSeconds(long pBeginMilliSeconds)
+    {
+        mBeginMilliSeconds = pBeginMilliSeconds;
+    }
+
+    /**
+     * @param pEndMilliSeconds the endMilliSeconds to set
+     */
+    public void setEndMilliSeconds(long pEndMilliSeconds)
+    {
+        mEndMilliSeconds = pEndMilliSeconds;
     }
 
     /**
@@ -120,19 +143,20 @@ public class MethodCallDTO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The time of the execution of the methid associated with this <code>MethodCallDTO</code>.
+     * @return The time of the execution of the method associated with this <code>MethodCallDTO</code>.
      */
     public long getDuration()
     {
-        return mDuration;
+        return mEndMilliSeconds - mBeginMilliSeconds;
     }
 
     /**
      * Accessor.
      * 
-     * @return The end time of the method associated with this <code>MethodCallDTO</code>.
+     * @return The end time of the method associated with this <code>MethodCallDTO</code>. //TODO Change to
+     *         setEndTime
      */
-    public String getEndTime()
+    public String getEndTimeString()
     {
         return mEndTime;
     }
@@ -232,17 +256,19 @@ public class MethodCallDTO implements Serializable
     /**
      * @param pBeginTime The mBeginTime to set.
      */
-    public void setBeginTime(String pBeginTime)
+    public void setBeginTime(String pBeginTime, long pBeginMs)
     {
         mBeginTime = pBeginTime;
+        mBeginMilliSeconds = pBeginMs;
     }
 
     /**
      * @param pEndTime The mEndTime to set.
      */
-    public void setEndTime(String pEndTime)
+    public void setEndTime(String pEndTime, long pEndMs)
     {
         mEndTime = pEndTime;
+        mEndMilliSeconds = pEndMs;
     }
 
     /**
@@ -412,6 +438,78 @@ public class MethodCallDTO implements Serializable
     public ExecutionFlowDTO getFlow()
     {
         return mFlow;
+    }
+
+    public long getDurationFromPreviousCall()
+    {
+        long tDuration;
+        if (this.getChildPosition() == 0)
+        {
+            if (this.getParent() == null)
+            {
+                tDuration = 0;
+            } else
+            {
+                long tMethStart = this.getBeginMilliSeconds();
+                long tParentStart = this.getParent().getBeginMilliSeconds();
+                tDuration = tMethStart - tParentStart;
+            }
+        } else
+        {
+            MethodCallDTO tPrecMethodCall = this.getParent().getChild(this.getChildPosition() - 1);
+            long tEndTime = this.getBeginMilliSeconds();
+            long tBeginTime = tPrecMethodCall.getEndMilliSeconds();
+            tDuration = tEndTime - tBeginTime;
+        }
+        return tDuration;
+    }
+
+    /**
+     * @return the beginMilliSeconds
+     */
+    public long getBeginMilliSeconds()
+    {
+        return mBeginMilliSeconds;
+    }
+
+    /**
+     * @return the endMilliSeconds
+     */
+    public long getEndMilliSeconds()
+    {
+        return mEndMilliSeconds;
+    }
+
+    /**
+     * @param pBeginTime the beginTime to set //TODO Change to setBeginTime
+     */
+    public void setBeginTimeString(String pBeginTime)
+    {
+        mBeginTime = pBeginTime;
+    }
+
+    /**
+     * @param pEndTime the endTime to set //TODO Change to setEndTime
+     */
+    public void setEndTimeString(String pEndTime)
+    {
+        mEndTime = pEndTime;
+    }
+
+    /**
+     * @return the groupColor
+     */
+    public String getGroupColor()
+    {
+        return mGroupColor;
+    }
+
+    /**
+     * @param pGroupColor the groupColor to set
+     */
+    public void setGroupColor(String pGroupColor)
+    {
+        mGroupColor = pGroupColor;
     }
 
 }

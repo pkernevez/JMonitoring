@@ -152,8 +152,10 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
         assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClassName());
         assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-        assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTime());
-        assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTime());
+        assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
+        assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginMilliSeconds());
+        assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
+        assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndMilliSeconds());
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
         // Check equality of the first child measure point
@@ -167,8 +169,8 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
         assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClassName());
         assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-        assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTime());
-        assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTime());
+        assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
+        assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
         // Check equality of the second child measure point
@@ -180,8 +182,8 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
         assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClassName());
         assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-        assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTime());
-        assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTime());
+        assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
+        assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
         assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
 
     }
@@ -477,9 +479,9 @@ public class TestConsoleManager extends PersistanceTestCase
         assertNotSame(tMeth, tNewMeth);
         assertEquals(tMeth.getDuration(), tNewMeth.getDuration());
         assertEquals(tMeth.isReturnCallException(), tNewMeth.isReturnCallException());
-        assertEquals(tMeth.getBeginTime(), tNewMeth.getBeginTime());
+        assertEquals(tMeth.getBeginTimeString(), tNewMeth.getBeginTimeString());
         assertEquals(tMeth.getClassName(), tNewMeth.getClassName());
-        assertEquals(tMeth.getEndTime(), tNewMeth.getEndTime());
+        assertEquals(tMeth.getEndTimeString(), tNewMeth.getEndTimeString());
         assertEquals(tMeth.getFlowId(), tNewMeth.getFlowId());
         assertEquals(tMeth.getGroupName(), tNewMeth.getGroupName());
         assertEquals(tMeth.getMethodName(), tNewMeth.getMethodName());

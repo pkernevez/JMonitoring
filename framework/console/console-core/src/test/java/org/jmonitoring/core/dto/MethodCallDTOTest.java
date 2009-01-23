@@ -12,8 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  **********************************************************************************************************************/
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/formater-test.xml" })
-public class TestMethodCallDTO extends JMonitoringTestCase
+@ContextConfiguration(locations = {"/color-test.xml", "/formater-test.xml" })
+public class MethodCallDTOTest extends JMonitoringTestCase
 {
     @Autowired
     private DtoManager dtoManager;
@@ -26,6 +26,7 @@ public class TestMethodCallDTO extends JMonitoringTestCase
         tChildren[0].setClassName("1");
         tChildren[1] = new MethodCallDTO();
         tChildren[1].setClassName("2");
+        tChildren[1].setGroupColor("234567");
         tChildren[2] = new MethodCallDTO();
         tChildren[2].setClassName("3");
         tParent.setChildren(tChildren);
@@ -39,6 +40,7 @@ public class TestMethodCallDTO extends JMonitoringTestCase
         tParent.removeChild(0);
         assertEquals(2, tParent.getChildren().length);
         assertEquals("2", tParent.getChild(0).getClassName());
+        assertEquals("234567", tParent.getChild(0).getGroupColor());
         assertEquals("3", tParent.getChild(1).getClassName());
 
         tParent = buildMethodCall();

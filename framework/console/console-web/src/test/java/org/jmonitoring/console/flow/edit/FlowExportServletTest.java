@@ -8,15 +8,19 @@ import javax.servlet.ServletException;
 import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class FlowExportServletTest extends JMonitoringMockStrustTestCase
 {
 
+    @Autowired
+    FlowBuilderUtil mUtil;
+
+    @Test
     public void testDoGet() throws ServletException, IOException
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFirstDto = tUtil.buildAndSaveNewDto(5);
+        ExecutionFlowDTO tFirstDto = mUtil.buildAndSaveNewDto(5);
 
         int tFlowId = tFirstDto.getId();
         request.addParameter("id", "" + tFlowId);

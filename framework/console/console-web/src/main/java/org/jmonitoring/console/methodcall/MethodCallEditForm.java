@@ -8,9 +8,6 @@ package org.jmonitoring.console.methodcall;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.dto.MethodCallDTO;
 
 /**
@@ -21,9 +18,6 @@ import org.jmonitoring.core.dto.MethodCallDTO;
 public class MethodCallEditForm extends AbstractMethodCallForm
 {
     private static final long serialVersionUID = 3618705218511058994L;
-
-    @Resource(name = "color")
-    private ColorManager mColorMgr;
 
     /** The measure point associated to this request. */
     private MethodCallDTO mMethodCall;
@@ -97,7 +91,7 @@ public class MethodCallEditForm extends AbstractMethodCallForm
 
     public String getGroupColor()
     {
-        return mColorMgr.getColorString(mMethodCall.getGroupName());
+        return mMethodCall.getGroupColor();
     }
 
     /**

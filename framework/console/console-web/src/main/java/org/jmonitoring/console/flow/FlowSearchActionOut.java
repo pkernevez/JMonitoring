@@ -8,18 +8,17 @@ package org.jmonitoring.console.flow;
 import java.text.ParseException;
 import java.util.Date;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmonitoring.console.AbstractSpringAction;
 import org.jmonitoring.core.configuration.FormaterBean;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.jmonitoring.core.process.ProcessFactory;
 
 /**
  * @author pke
@@ -27,11 +26,8 @@ import org.jmonitoring.core.process.ProcessFactory;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class FlowSearchActionOut extends Action
+public class FlowSearchActionOut extends AbstractSpringAction
 {
-
-    @Resource(name = "formater")
-    private FormaterBean mFormater;
 
     /**
      * (non-Javadoc)
@@ -41,13 +37,15 @@ public class FlowSearchActionOut extends Action
      *      javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-        HttpServletResponse pResponse) throws Exception
+    public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,
+        HttpServletRequest pRequest, HttpServletResponse pResponse) throws Exception
     {
-        ConsoleManager tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+        FormaterBean tFormater = (FormaterBean) SpringConfigurationUtil.getBean("formater");
+
         FlowSearchForm tForm = (FlowSearchForm) pForm;
 
-        FlowSearchCriterion tCriterion = copyBeanFormToCriterion(mFormater, tForm);
+        FlowSearchCriterion tCriterion = copyBeanFormToCriterion(tFormater, tForm);
 
         (tForm).setListOfFlows(tProcess.getListOfExecutionFlowDto(tCriterion));
         return pMapping.findForward("success");
@@ -61,13 +59,13 @@ public class FlowSearchActionOut extends Action
         Date tBeginDate = null;
         if (pForm.getBeginDate() != null && pForm.getBeginDate().length() != 0)
         {
-            tBeginDate = pFormater.parseDateTime(pForm.getBeginDate());
+            tBeginDate = pFormater.parseDate(pForm.getBeginDate());
             tResult.setBeginDate(tBeginDate);
         }
         Date tBeginTime = null;
         if (pForm.getBeginTimeMin() != null && pForm.getBeginTimeMin().length() != 0)
         {
-            tBeginTime = pFormater.parseDateTime(pForm.getBeginTimeMin());
+            tBeginTime = pFormater.parseTime(pForm.getBeginTimeMin());
             tResult.setBeginTimeMin(tBeginTime);
         }
         if (pForm.getDurationMin() != null && pForm.getDurationMin().length() != 0)

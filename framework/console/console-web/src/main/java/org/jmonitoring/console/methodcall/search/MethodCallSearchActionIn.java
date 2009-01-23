@@ -8,26 +8,23 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.jmonitoring.console.AbstractSpringAction;
 import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyHashMap;
 import org.jmonitoring.console.methodcall.search.MethodCallUtil.MyMap;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.process.ConsoleManager;
-import org.jmonitoring.core.process.ProcessFactory;
 
-public class MethodCallSearchActionIn extends Action
+public class MethodCallSearchActionIn extends AbstractSpringAction
 {
     @Override
-    public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-        HttpServletResponse pResponse) throws Exception
+    public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,
+        HttpServletRequest pRequest, HttpServletResponse pResponse) throws Exception
     {
-        // TransactionHelper tTx = new TransactionHelper();
-        // try
-        // {
-        ConsoleManager tProcess = ProcessFactory.getInstance();
+        ConsoleManager tProcess = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
         List<MethodCallExtractDTO> tListOfAllExtract = tProcess.getListOfMethodCallExtract();
         Map<String, MethodCallExtractDTO> tListOfExtractByFullClassName = new HashMap<String, MethodCallExtractDTO>();
         MyMap tTreeOfExtract = convertListAsTree(tListOfExtractByFullClassName, tListOfAllExtract);
@@ -36,13 +33,7 @@ public class MethodCallSearchActionIn extends Action
         tForm.setTreeOfMethodCallExtract(tTreeOfExtract);
         tForm.setMapOfMethodCallExtractByFullName(tListOfExtractByFullClassName);
 
-        // tTx.commit();
         return pMapping.findForward("success");
-        // } catch (Throwable t)
-        // {
-        // tTx.rollBack();
-        // throw new RuntimeException(t);
-        // }
     }
 
     /**

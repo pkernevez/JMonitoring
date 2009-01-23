@@ -5,23 +5,26 @@ import org.jmonitoring.console.JMonitoringMockStrustTestCase;
 import org.jmonitoring.console.flow.FlowBuilderUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestMethodCallStatActionIn extends JMonitoringMockStrustTestCase
+public class MethodCallStatActionInTest extends JMonitoringMockStrustTestCase
 {
+    @Autowired
+    FlowBuilderUtil mUtil;
 
+    @Test
     public void testOkDefaultInterval()
     {
-        FlowBuilderUtil tUtil = new FlowBuilderUtil();
-        tUtil.createSchema();
-        ExecutionFlowDTO tFlow = tUtil.buildAndSaveNewDto(5);
+        ExecutionFlowDTO tFlow = mUtil.buildAndSaveNewDto(5);
         MethodCallDTO tFirstMeth = tFlow.getFirstMethodCall();
         MethodCallDTO tFirstChild = tFirstMeth.getChild(0);
         int tId = tFirstChild.getPosition();
-        Statistics tStats = HibernateManager.getStats();
+        Statistics tStats = mSessionFactory.getStatistics();
         tStats.clear();
 
         setRequestPathInfo("/MethodCallStatIn.do");
