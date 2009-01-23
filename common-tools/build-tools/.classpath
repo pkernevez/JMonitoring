@@ -5,7 +5,7 @@
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.4/junit-4.4.jar" sourcepath="M2_REPO/junit/junit/4.4/junit-4.4-sources.jar">
     <attributes>
-      <attribute value="jar:file:/C:/dev/apps/maven/repo/junit/junit/4.4/junit-4.4-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="jar:file:/C:/m2/junit/junit/4.4/junit-4.4-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
 </classpath>
