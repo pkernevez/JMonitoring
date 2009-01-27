@@ -26,6 +26,8 @@ public class MethodCallStatActionInTest extends JMonitoringMockStrustTestCase
         int tId = tFirstChild.getPosition();
         Statistics tStats = mSessionFactory.getStatistics();
         tStats.clear();
+        getSessionHib().flush();
+        getSessionHib().clear();
 
         setRequestPathInfo("/MethodCallStatIn.do");
         MethodCallStatForm tForm = new MethodCallStatForm();
@@ -57,10 +59,11 @@ public class MethodCallStatActionInTest extends JMonitoringMockStrustTestCase
         // {
         // System.out.println(tToken.nextElement());
         // }
+        tStats = mSessionFactory.getStatistics();
         assertEquals(0, tStats.getCollectionFetchCount());
         assertEquals(0, tStats.getCollectionLoadCount());
         assertEquals(0, tStats.getEntityFetchCount());
-        assertTrue(tStats.getEntityLoadCount() >= 5);
+        assertTrue("Bad load number =" + tStats.getEntityLoadCount(), tStats.getEntityLoadCount() >= 5);
         assertEquals(2, tStats.getQueryExecutionCount());
         assertEquals(2, tStats.getPrepareStatementCount());
 

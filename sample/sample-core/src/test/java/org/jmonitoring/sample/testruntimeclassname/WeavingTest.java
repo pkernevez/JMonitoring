@@ -1,18 +1,19 @@
 package org.jmonitoring.sample.testruntimeclassname;
 
-import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
+import org.junit.Test;
 
-public class TestWeaving extends SamplePersistenceTestcase {
-
-    public void testWeaving() throws InterruptedException {
-        StoreManager.changeStoreWriterClass(MemoryWriter.class);
-
+public class WeavingTest extends SamplePersistenceTestcase
+{
+    @Test
+    public void testWeaving() throws InterruptedException
+    {
+        assertEquals(0, MemoryWriter.countFlows());
         AbstractSample tMother = new AbstractSample();
         tMother.methodATester();
-        closeAndRestartSession();
+        // closeAndRestartSession();
 
         checkWeaving1();
 
@@ -22,12 +23,13 @@ public class TestWeaving extends SamplePersistenceTestcase {
         checkWeaving2();
 
         tChild.methodWithOverride();
-        closeAndRestartSession();
+        // closeAndRestartSession();
 
         checkWeaving3();
     }
 
-    private void checkWeaving1() {
+    private void checkWeaving1()
+    {
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
@@ -36,7 +38,8 @@ public class TestWeaving extends SamplePersistenceTestcase {
         assertEquals(1, MemoryWriter.countFlows());
     }
 
-    private void checkWeaving2() {
+    private void checkWeaving2()
+    {
         ExecutionFlowPO tFlow;
         tFlow = MemoryWriter.getFlow(1);
         assertEquals(AbstractSample.class.getName(), tFlow.getFirstMethodCall().getClassName());
@@ -44,7 +47,8 @@ public class TestWeaving extends SamplePersistenceTestcase {
         assertEquals(ChildSample.class.getName(), tFlow.getFirstMethodCall().getRuntimeClassName());
     }
 
-    private void checkWeaving3() {
+    private void checkWeaving3()
+    {
         ExecutionFlowPO tFlow;
         assertEquals(3, MemoryWriter.countFlows());
         tFlow = MemoryWriter.getFlow(2);

@@ -6,7 +6,6 @@ import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,16 +22,16 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 public class JMonitoringTestCase extends TestCase implements ApplicationContextAware
 {
 
-    protected StaticApplicationContext applicationContext;
+    protected ApplicationContext applicationContext;
 
-    public StaticApplicationContext getApplicationContext()
+    public ApplicationContext getApplicationContext()
     {
         return applicationContext;
     }
 
     public void setApplicationContext(ApplicationContext pApplicationContext)
     {
-        applicationContext = new StaticApplicationContext(pApplicationContext);
+        applicationContext = pApplicationContext;
     }
 
 }

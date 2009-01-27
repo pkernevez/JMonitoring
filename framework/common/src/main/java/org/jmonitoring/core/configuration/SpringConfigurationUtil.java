@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public final class SpringConfigurationUtil
 {
+
     private static final String DEFAULT_GLOBAL_SPRING_FILE_NAME = "/jmonitoring-global-default.xml";
 
     private static final String GLOBAL_SPRING_FILE_NAME = "/jmonitoring-global.xml";
@@ -43,7 +44,7 @@ public final class SpringConfigurationUtil
         return tContext.getBean(pString);
     }
 
-    private static ApplicationContext loadContext()
+    public static ApplicationContext loadContext()
     {
         ApplicationContext tGlobal = (sGlobalContext == null ? loadGlobalContext() : sGlobalContext);
         ClassPathXmlApplicationContext tThreadContext;

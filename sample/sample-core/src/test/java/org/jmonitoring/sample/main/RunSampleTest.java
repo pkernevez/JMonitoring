@@ -1,26 +1,28 @@
 package org.jmonitoring.sample.main;
 
-import org.jmonitoring.agent.store.StoreManager;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
-import org.jmonitoring.core.configuration.ConfigurationHelper;
 import org.jmonitoring.core.configuration.IInsertionDao;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
-import org.jmonitoring.hibernate.dao.InsertionHibernateDAO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
+import org.junit.Test;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestRunSample extends SamplePersistenceTestcase
+public class RunSampleTest extends SamplePersistenceTestcase
 {
-
+    @Test
     public void testAllAspectAreAppliedIncludingThoseOfHibernateWithExtensionsInMemory()
     {
+        MemoryWriter.clear();
         ShoppingCartPO.setCounter(0);
-        StoreManager.changeStoreWriterClass(MemoryWriter.class);
+        assertEquals(0, MemoryWriter.countFlows());
         new RunSample(getSampleSession()).run();
 
         // assertEquals(3, MemoryStoreWriter.countFlow());
@@ -29,13 +31,15 @@ public class TestRunSample extends SamplePersistenceTestcase
         checkRun(tFlow);
 
         // Now check the save and load
-        IInsertionDao tDao = new InsertionHibernateDAO(getSession());
+        SessionFactory tCoreSessionFactory = (SessionFactory) SpringConfigurationUtil.getBean("sessionFactory");
+        Session tCoreSession = tCoreSessionFactory.openSession();
+        IInsertionDao tDao = (IInsertionDao) getBean("dao");
         assertEquals(1, MemoryWriter.countFlows());
         tDao.insertFullExecutionFlow(tFlow);
+        tCoreSession.flush();
         assertEquals(1, MemoryWriter.countFlows());
 
-        closeAndRestartSession();
-        ConsoleDao tConsoleDao = new ConsoleDao(getSession());
+        ConsoleDao tConsoleDao = (ConsoleDao) getBean("consoleDao");
         // Now check that no more Flow were captured
         assertEquals(1, MemoryWriter.countFlows());
 
@@ -46,7 +50,6 @@ public class TestRunSample extends SamplePersistenceTestcase
 
         assertNotSame(tFlow, tNewFlow);
         checkRun(tNewFlow);
-        assertEquals(MemoryWriter.class.getName(), ConfigurationHelper.getString(ConfigurationHelper.STORE_CLASS));
     }
 
     private void checkReadFlow(ExecutionFlowPO pFlow)

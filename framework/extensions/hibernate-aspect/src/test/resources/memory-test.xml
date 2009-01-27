@@ -8,11 +8,11 @@
         <property name="timeFormat" value="HH:mm:ss" />
     </bean>
 
-    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" scope="prototype">
+    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" >
         <property name="serverName" value="TestMachine" />
     </bean>
 
-    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.MemoryWriter" scope="prototype" />
+    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.MemoryWriter" />
     
     <bean name="color" class="org.jmonitoring.core.configuration.ColorManager"/>
 

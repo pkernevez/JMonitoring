@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="org.h2.Driver" />
+        <property name="jdbcUrl" value="jdbc:h2:mem:jmonitoringsample" />
+        <property name="user" value="sa" />
+        <property name="password" value="" />
+        <property name="acquireRetryAttempts" value="10"></property>
+        <property name="initialPoolSize" value="3"></property>
+        <property name="maxPoolSize" value="10"></property>
+        <property name="preferredTestQuery" value="select 1"></property>
+        <property name="testConnectionOnCheckin" value="false"></property>
+        <property name="testConnectionOnCheckout" value="true"></property>
+    </bean>
+
+    <!-- SessionFactory Hibernate : utilisation de la factory fournie par Spring -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <!-- Injection de la datasource utilisée -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- Liste des fichiers de mapping Hibernate utilisés par cette factory -->
+        <!-- property name="mappingResources" ref="hibernateMappings" /-->
+        <!-- property name="mappingLocations" value="classpath*:/org/jmonitoring/core/**/*.hbm.xml" /-->
+        <property name="mappingLocations">
+            <list>
+                <value>classpath*:org/jmonitoring/sample/main/ItemPO.hbm.xml</value>
+                <value>classpath*:org/jmonitoring/sample/main/ShoppingCartPO.hbm.xml</value>
+            </list>
+        </property>
+        <!-- Définition du dialect utilisé (HSQL) et d'autres propriétés utiles pour le debug -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.use_sql_comments">false</prop>
+                <prop key="hibernate.jdbc.batch_size">20</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.cache.use_structured_entries">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.connection.release_mode">on_close</prop>
+                <prop key="hibernate.c3p0.acquire_increment">1</prop>
+                <prop key="hibernate.c3p0.minPoolSize">0</prop>
+                <prop key="hibernate.c3p0.maxPoolSize">15</prop>
+                <prop key="hibernate.c3p0.timeout">1800</prop>
+                <prop key="hibernate.c3p0.max_statement">5</prop>
+                <prop key="hibernate.c3p0.idle_test_period">30</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="hibernateConfiguration" factory-bean="&amp;sessionFactory" factory-method="getConfiguration" />
+
+</beans>

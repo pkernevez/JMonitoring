@@ -8,7 +8,7 @@ import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
-import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -23,7 +23,7 @@ import org.springframework.context.support.StaticApplicationContext;
  */
 public class AspectLoggerEmulator
 {
-    private final StaticApplicationContext mContext;
+    private final ApplicationContext mContext;
 
     public static void clear()
     {
@@ -35,7 +35,7 @@ public class AspectLoggerEmulator
      * 
      * @param pStoreWriter The logger to use.
      */
-    public AspectLoggerEmulator(StaticApplicationContext pContext)
+    public AspectLoggerEmulator(ApplicationContext pContext)
     {
         mContext = pContext;
     }

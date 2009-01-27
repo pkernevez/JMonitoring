@@ -13,6 +13,7 @@ import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
@@ -45,9 +46,9 @@ public abstract aspect PerformanceAspect
     /** StoreManager for this Tread */
     private ThreadLocal<StoreManager> mStoreManager = new ThreadLocal<StoreManager>();
 
-    {
-        PerfomanceConfig.loadContext();
-    }
+// {
+// SpringConfigurationUtil.loadContext();
+// }
     
     /** Default constructor. */
     public PerformanceAspect()
@@ -62,7 +63,7 @@ public abstract aspect PerformanceAspect
     private StoreManager getStoreManager(){
         StoreManager tStoreManager=mStoreManager.get(); 
         if (tStoreManager==null){
-            tStoreManager =(StoreManager) PerfomanceConfig.sApplicationContext.getBean(StoreManager.STORE_MANAGER_NAME);
+            tStoreManager =(StoreManager) SpringConfigurationUtil.getBean(StoreManager.STORE_MANAGER_NAME);
             mStoreManager.set(tStoreManager);
         }
         return tStoreManager;

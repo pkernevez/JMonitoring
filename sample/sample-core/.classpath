@@ -10,6 +10,7 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/m2/javax/activation/activation/1.1/activation-1.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate/3.1rc2Weaved/hibernate-3.1rc2Weaved.jar"/>
 	<classpathentry kind="src" path="/agent"/>
 	<classpathentry kind="var" path="M2_REPO/org/hibernate/antlr/2.7.5H3/antlr-2.7.5H3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/asm/asm/1.5.3/asm-1.5.3.jar" sourcepath="M2_REPO/asm/asm/1.5.3/asm-1.5.3-sources.jar">
@@ -85,7 +86,6 @@
 	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/ehcache/ehcache/1.1/ehcache-1.1.jar" sourcepath="M2_REPO/ehcache/ehcache/1.1/ehcache-1.1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/h2database/h2/1.0.77/h2-1.0.77.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate/3.1rc2Weaved/hibernate-3.1rc2Weaved.jar"/>
 	<classpathentry kind="src" path="/hibernate-aspect"/>
 	<classpathentry kind="var" path="M2_REPO/javax/jms/jms/1.1/jms-1.1.jar" sourcepath="M2_REPO/javax/jms/jms/1.1/jms-1.1-sources.jar">
 		<attributes>

@@ -1,15 +1,19 @@
 package org.jmonitoring.sample.persistence;
 
-import junit.framework.TestCase;
+import org.jmonitoring.sample.SamplePersistenceTestcase;
+import org.junit.Test;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class TestSampleHibernateManager extends TestCase {
+public class SpringSampleConfigurationUtilTest extends SamplePersistenceTestcase
+{
 
-    public void testGetSession() {
-        assertNotNull(SampleHibernateManager.getSession());
+    @Test
+    public void testGetBean()
+    {
+        assertNotNull(SpringSampleConfigurationUtil.getBean("sessionFactory"));
     }
 
 }

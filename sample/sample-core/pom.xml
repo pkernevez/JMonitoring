@@ -52,6 +52,12 @@
                             <artifactId>hibernate</artifactId>
                         </aspectLibrary>
                     </aspectLibraries>
+                    <weaveDependencies>
+                        <weaveDependency>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate</artifactId>
+                        </weaveDependency>
+                    </weaveDependencies>
                 </configuration>
             </plugin>
         </plugins>

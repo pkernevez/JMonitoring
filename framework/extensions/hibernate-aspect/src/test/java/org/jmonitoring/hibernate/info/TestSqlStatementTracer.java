@@ -14,8 +14,8 @@ import java.sql.Types;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.jmonitoring.agent.aspect.PerfomanceConfig;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
+import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 import org.junit.Before;
@@ -33,8 +33,9 @@ public class TestSqlStatementTracer extends PersistanceTestCase
     @Before
     public void init()
     {
-        String[] tFileNames = new String[] {"/memory-test.xml", "/persistence-test.xml", "/default-test.xml" };
-        PerfomanceConfig.setSpringFileNames(tFileNames);
+        // String[] tFileNames = new String[] {"/memory-test.xml", "/persistence-test.xml", "/default-test.xml" };
+        // PerfomanceConfig.setSpringFileNames(tFileNames);
+        SpringConfigurationUtil.setContext(getApplicationContext());
         MemoryWriter.clear();
     }
 

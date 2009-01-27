@@ -2,20 +2,19 @@ package org.jmonitoring.sample.testtreetracer;
 
 import java.util.StringTokenizer;
 
-import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.sample.SamplePersistenceTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;
+import org.junit.Test;
 
-public class TestTreeTracer extends SamplePersistenceTestcase
+public class TreeTracerTest extends SamplePersistenceTestcase
 {
-
+    // TODO Remove old code
+    @Test
     public void testParameterTracer()
     {
-        StoreManager.changeStoreWriterClass(MemoryWriter.class);
-
         Mother tMother = new Mother();
         tMother.setChild1(new Child());
         tMother.setChild2(new Child());
@@ -47,13 +46,12 @@ public class TestTreeTracer extends SamplePersistenceTestcase
         assertFalse(tTok.hasMoreTokens());
     }
 
+    @Test
     public void testReturnValueTracer()
     {
-        StoreManager.changeStoreWriterClass(MemoryWriter.class);
-
         new ToBeCall().callWithReturn();
 
-        closeAndRestartSession();
+        // closeAndRestartSession();
 
         checkReturnValueTracer();
     }
@@ -75,13 +73,12 @@ public class TestTreeTracer extends SamplePersistenceTestcase
         assertFalse(tTok.hasMoreTokens());
     }
 
+    @Test
     public void testStaticCall()
     {
-        StoreManager.changeStoreWriterClass(MemoryWriter.class);
-
         ToBeCall.callStaticMethod(new Mother());
 
-        closeAndRestartSession();
+        // closeAndRestartSession();
 
         checkStaticCall();
     }
