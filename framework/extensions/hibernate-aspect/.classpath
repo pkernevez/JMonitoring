@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry excluding="org/jmonitoring/hibernate/info/HibernateApiAspect.aj" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
-	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry excluding="org/jmonitoring/hibernate/info/BidonAspect.aj" kind="src" path="src/test/java"/>
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar">
@@ -139,7 +139,6 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/m2/javax/mail/mail/1.4/mail-1.4-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="/persistence"/>
 	<classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.3/servlet-api-2.3.jar" sourcepath="M2_REPO/javax/servlet/servlet-api/2.3/servlet-api-2.3-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring/2.5.1/spring-2.5.1.jar" sourcepath="M2_REPO/org/springframework/spring/2.5.1/spring-2.5.1-sources.jar">
 		<attributes>
@@ -154,6 +153,5 @@
 	<classpathentry kind="src" path="/tests"/>
 	<classpathentry kind="var" path="M2_REPO/xerces/xercesImpl/2.2.1/xercesImpl-2.2.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar" sourcepath="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2-sources.jar"/>
-	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,4 +1,4 @@
-package org.jmonitoring.hibernate.info;
+package org.jmonitoring.agent.sql;
 
 import java.io.InputStream;
 import java.io.Reader;

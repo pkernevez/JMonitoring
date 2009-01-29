@@ -1,7 +1,8 @@
 package org.jmonitoring.sample;
 
 import junit.framework.TestCase;
-import org.jmonitoring.hibernate.info.SqlExecutionAspect;
+
+import org.jmonitoring.agent.sql.info.SqlExecutionAspect;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <bean id="genericDriver" class="org.jmonitoring.agent.sql.GenericDriver" depends-on="storeManager">
+        <constructor-arg value="org.h2.Driver"></constructor-arg>
+        <constructor-arg value="jdbc:h2:mem:jmonitoringsample"></constructor-arg>
+    </bean>
+
+    <!-- SessionFactory Hibernate : utilisation de la factory fournie par Spring -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+        depends-on="genericDriver">
+        <!-- property name="connection.driver_class" value="org.jmonitoring.agent.sql.DriverConfig"></property>
+            <property name="connection.url" value="jmonitoring"></property>
+            <property name="connection.username" value="sa"></property>
+            <property name="connection.password" value=""></property-->
+        <!-- Liste des fichiers de mapping Hibernate utilisés par cette factory -->
+        <!-- property name="mappingResources" ref="hibernateMappings" /-->
+        <property name="mappingLocations" value="classpath*:/org/jmonitoring/core/domain/*.hbm.xml" />
+        <!-- property name="mappingLocations">
+            <list>
+                <value>classpath*:org/jmonitoring/sample/main/ItemPO.hbm.xml</value>
+                <value>classpath*:org/jmonitoring/sample/main/ShoppingCartPO.hbm.xml</value>
+            </list>
+        </property-->
+        <!-- Définition du dialect utilisé (HSQL) et d'autres propriétés utiles pour le debug -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.connection.driver_class">org.jmonitoring.agent.sql.GenericDriver</prop>
+                <prop key="hibernate.connection.url">jmonitoring</prop>
+                <prop key="hibernate.connection.username">sa</prop>
+                <prop key="hibernate.connection.password"></prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
+                <prop key="hibernate.jdbc.batch_size">20</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.cache.use_structured_entries">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.connection.release_mode">on_close</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="hibernateConfiguration" factory-bean="&amp;sessionFactory" factory-method="getConfiguration" />
+
+</beans>

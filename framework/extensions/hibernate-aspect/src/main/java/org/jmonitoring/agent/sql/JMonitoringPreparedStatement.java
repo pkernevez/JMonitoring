@@ -1,4 +1,4 @@
-package org.jmonitoring.hibernate.info;
+package org.jmonitoring.agent.sql;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.aspectj.lang.Signature;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -27,8 +28,31 @@ import org.apache.commons.logging.LogFactory;
 
 public class JMonitoringPreparedStatement extends JMonitoringStatement implements PreparedStatement
 {
+    private static Signature EXECUTE;
+
+    private static Signature EXECUTE_QUERY;
+
+    private static Signature EXECUTE_UPDATE;
+
+    {
+        try
+        {
+            Class<JMonitoringPreparedStatement> tClass = JMonitoringPreparedStatement.class;
+            EXECUTE = new SqlSignature(tClass.getMethod("execute"));
+            EXECUTE_QUERY = new SqlSignature(tClass.getMethod("executeQuery"));
+            EXECUTE_UPDATE = new SqlSignature(tClass.getMethod("executeUpdate"));
+        } catch (SecurityException e)
+        {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
     private final PreparedStatement mRealPreparedStat;
+
+    private final String mSql;
 
     private static Log sLog = LogFactory.getLog(JMonitoringPreparedStatement.class);
 
@@ -44,7 +68,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
         {
             sLog.debug(pStatementType + " detected and Weaved");
         }
-        mTrace.append(pStatementType + " with Sql=[" + pSql + "]\n");
+        mSql = pStatementType + " with Sql=[" + pSql + "]\n";
+        mTrace.append(mSql);
         mRealPreparedStat = pRealPreparedStat;
     }
 
@@ -56,26 +81,81 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void clearParameters() throws SQLException
     {
-        mTrace.append("Clear parameters\n");
+        mTrace = new StringBuilder().append(mSql);
         mRealPreparedStat.clearParameters();
+
     }
 
     public boolean execute() throws SQLException
     {
-        mTrace.append("Execute query\n");
-        return mRealPreparedStat.execute();
+        mTrace.append("Execute \n");
+        mManager.logBeginOfMethod(EXECUTE, null, new Object[0], "Sql", this);
+        try
+        {
+            boolean tResult = mRealPreparedStat.execute();
+            mTrace.append("Result=[").append(tResult).append("]\n");
+            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            return tResult;
+        } catch (Error e)
+        {
+            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            throw e;
+        } catch (RuntimeException e)
+        {
+            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            throw e;
+        } finally
+        {
+            mTrace = new StringBuilder().append(mSql);
+        }
     }
 
     public ResultSet executeQuery() throws SQLException
     {
         mTrace.append("Execute query\n");
-        return mRealPreparedStat.executeQuery();
+        mManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], "Sql", this);
+        try
+        {
+            ResultSet tResult = mRealPreparedStat.executeQuery();
+            mTrace.append("ResultSet=[").append(tResult).append("]\n");
+            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            return tResult;
+        } catch (Error e)
+        {
+            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            throw e;
+        } catch (RuntimeException e)
+        {
+            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            throw e;
+        } finally
+        {
+            mTrace = new StringBuilder().append(mSql);
+        }
     }
 
     public int executeUpdate() throws SQLException
     {
         mTrace.append("Execute update\n");
-        return mRealPreparedStat.executeUpdate();
+        mManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], "Sql", this);
+        try
+        {
+            int tResult = mRealPreparedStat.executeUpdate();
+            mTrace.append("Result=[").append(tResult).append("]\n");
+            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            return tResult;
+        } catch (Error e)
+        {
+            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            throw e;
+        } catch (RuntimeException e)
+        {
+            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            throw e;
+        } finally
+        {
+            mTrace = new StringBuilder().append(mSql);
+        }
     }
 
     public ResultSetMetaData getMetaData() throws SQLException
@@ -96,10 +176,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void setAsciiStream(int pParameterIndex, InputStream pX, int pLength) throws SQLException
     {
-        mTrace.append("Add AsciiStream parameter, pos=[" + pParameterIndex
-                        + "], value not traced, length=["
-                        + pLength
-                        + "]\n");
+        mTrace.append("Add AsciiStream parameter, pos=[" + pParameterIndex + "], value not traced, length=[" + pLength
+            + "]\n");
         mRealPreparedStat.setAsciiStream(pParameterIndex, pX, pLength);
     }
 
@@ -111,10 +189,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void setBinaryStream(int pParameterIndex, InputStream pX, int pLength) throws SQLException
     {
-        mTrace.append("Add BinaryStream parameter, pos=[" + pParameterIndex
-                        + "], value not traced, length=["
-                        + pLength
-                        + "]\n");
+        mTrace.append("Add BinaryStream parameter, pos=[" + pParameterIndex + "], value not traced, length=[" + pLength
+            + "]\n");
         mRealPreparedStat.setBinaryStream(pParameterIndex, pX, pLength);
     }
 
@@ -145,10 +221,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void setCharacterStream(int pParameterIndex, Reader pReader, int pLength) throws SQLException
     {
-        mTrace.append("Add CharacterStream parameter, pos=[" + pParameterIndex
-                        + "], value not traced, length=["
-                        + pLength
-                        + "]");
+        mTrace.append("Add CharacterStream parameter, pos=[" + pParameterIndex + "], value not traced, length=["
+            + pLength + "]");
         mRealPreparedStat.setCharacterStream(pParameterIndex, pReader, pLength);
 
     }
@@ -204,12 +278,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void setNull(int pParameterIndex, int pSqlType, String pTypeName) throws SQLException
     {
-        mTrace.append("Add NULL parameter, pos=[" + pParameterIndex
-                        + "], type=["
-                        + pSqlType
-                        + "], type name=["
-                        + pTypeName
-                        + "]\n");
+        mTrace.append("Add NULL parameter, pos=[" + pParameterIndex + "], type=[" + pSqlType + "], type name=["
+            + pTypeName + "]\n");
         mRealPreparedStat.setNull(pParameterIndex, pSqlType, pTypeName);
     }
 
@@ -221,25 +291,15 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void setObject(int pParameterIndex, Object pX, int pTargetSqlType) throws SQLException
     {
-        mTrace.append("Add Object parameter, pos=[" + pParameterIndex
-                        + "], value=["
-                        + pX
-                        + "], targetTyp=["
-                        + pTargetSqlType
-                        + "]\n");
+        mTrace.append("Add Object parameter, pos=[" + pParameterIndex + "], value=[" + pX + "], targetTyp=["
+            + pTargetSqlType + "]\n");
         mRealPreparedStat.setObject(pParameterIndex, pX, pTargetSqlType);
     }
 
     public void setObject(int pParameterIndex, Object pX, int pTargetSqlType, int pScale) throws SQLException
     {
-        mTrace.append("Add Object parameter, pos=[" + pParameterIndex
-                        + "], value=["
-                        + pX
-                        + "], targetTyp=["
-                        + pTargetSqlType
-                        + "], scale=["
-                        + pScale
-                        + "]\n");
+        mTrace.append("Add Object parameter, pos=[" + pParameterIndex + "], value=[" + pX + "], targetTyp=["
+            + pTargetSqlType + "], scale=[" + pScale + "]\n");
         mRealPreparedStat.setObject(pParameterIndex, pX, pTargetSqlType, pScale);
     }
 
@@ -270,12 +330,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void setTime(int pParameterIndex, Time pX, Calendar pCal) throws SQLException
     {
-        mTrace.append("Add Time parameter, pos=[" + pParameterIndex
-                        + "], value=["
-                        + pX
-                        + "], Calendar=["
-                        + pCal
-                        + "]\n");
+        mTrace.append("Add Time parameter, pos=[" + pParameterIndex + "], value=[" + pX + "], Calendar=[" + pCal
+            + "]\n");
         mRealPreparedStat.setTime(pParameterIndex, pX, pCal);
     }
 
@@ -287,12 +343,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     public void setTimestamp(int pParameterIndex, Timestamp pX, Calendar pCal) throws SQLException
     {
-        mTrace.append("Add Timestamp parameter, pos=[" + pParameterIndex
-                        + "], value=["
-                        + pX
-                        + "], Calendar=["
-                        + pCal
-                        + "]\n");
+        mTrace.append("Add Timestamp parameter, pos=[" + pParameterIndex + "], value=[" + pX + "], Calendar=[" + pCal
+            + "]\n");
         mRealPreparedStat.setTimestamp(pParameterIndex, pX, pCal);
     }
 
@@ -305,10 +357,8 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     @SuppressWarnings("deprecation")
     public void setUnicodeStream(int pParameterIndex, InputStream pX, int pLength) throws SQLException
     {
-        mTrace.append("Add UnicodeStream parameter, pos=[" + pParameterIndex
-                        + "], value not traced, length=["
-                        + pLength
-                        + "]\n");
+        mTrace.append("Add UnicodeStream parameter, pos=[" + pParameterIndex + "], value not traced, length=["
+            + pLength + "]\n");
         mRealPreparedStat.setUnicodeStream(pParameterIndex, pX, pLength);
     }
 

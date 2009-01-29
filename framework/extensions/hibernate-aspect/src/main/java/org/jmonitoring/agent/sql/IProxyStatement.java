@@ -1,23 +1,13 @@
-package org.jmonitoring.hibernate.info;
+package org.jmonitoring.agent.sql;
+
+import java.sql.Statement;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class Bidon {
+public interface IProxyStatement {
+    Statement getRealStatement();
 
-    public void method1() {
-        System.out.println("method1");
-    }
-
-    public void method2() {
-        System.out.println("method2");
-        method1();
-    }
-
-    public void method3() {
-        System.out.println("method3");
-        method2();
-    }
-
+    CharSequence getTrace();
 }
