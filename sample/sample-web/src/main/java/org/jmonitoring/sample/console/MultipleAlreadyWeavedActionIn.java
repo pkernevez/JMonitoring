@@ -12,7 +12,13 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.sample.main.RunSample;
+import org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil;
+import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
@@ -22,22 +28,47 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  *       Templates
  */
-public class MultipleAlreadyWeavedActionIn extends Action {
+public class MultipleAlreadyWeavedActionIn extends Action
+{
 
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-            HttpServletResponse pResponse) throws Exception {
+        HttpServletResponse pResponse) throws Exception
+    {
+
         PooledExecutor tExecutor;
         tExecutor = new PooledExecutor(10);
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 50; i++)
+        {
             tExecutor.execute(new MyRun());
         }
         return pMapping.findForward("success");
     }
 
-    private static class MyRun implements Runnable {
-        public void run() {
-            RunSample.main(new String[0]);
+    private static class MyRun implements Runnable
+    {
+        public void run()
+        {
+            Session mSession = null;
+            SessionFactory tFact = (SessionFactory) SpringSampleConfigurationUtil.getBean("sessionFactory");
+            try
+            {
+                mSession = tFact.openSession();
+                mSession.beginTransaction();
+                TransactionSynchronizationManager.bindResource(tFact, new SessionHolder(mSession));
+                MemoryWriter.clear();
+
+                new RunSample().run();
+            } finally
+            {
+                TransactionSynchronizationManager.unbindResource(tFact);
+                if (mSession != null)
+                {
+                    mSession.getTransaction().rollback();
+                    mSession.close();
+                }
+            }
         }
 
     }

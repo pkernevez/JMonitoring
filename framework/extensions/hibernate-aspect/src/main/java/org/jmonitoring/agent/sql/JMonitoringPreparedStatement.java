@@ -21,6 +21,7 @@ import java.util.Calendar;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
+import org.jmonitoring.agent.store.StoreManager;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -38,9 +39,9 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
         try
         {
             Class<JMonitoringPreparedStatement> tClass = JMonitoringPreparedStatement.class;
-            EXECUTE = new SqlSignature(tClass.getMethod("execute"));
-            EXECUTE_QUERY = new SqlSignature(tClass.getMethod("executeQuery"));
-            EXECUTE_UPDATE = new SqlSignature(tClass.getMethod("executeUpdate"));
+            EXECUTE = new SqlSignature(PreparedStatement.class, tClass.getMethod("execute"));
+            EXECUTE_QUERY = new SqlSignature(PreparedStatement.class, tClass.getMethod("executeQuery"));
+            EXECUTE_UPDATE = new SqlSignature(PreparedStatement.class, tClass.getMethod("executeUpdate"));
         } catch (SecurityException e)
         {
             throw new RuntimeException(e);
@@ -89,20 +90,21 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     public boolean execute() throws SQLException
     {
         mTrace.append("Execute \n");
-        mManager.logBeginOfMethod(EXECUTE, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE, null, new Object[0], "Sql", this);
         try
         {
             boolean tResult = mRealPreparedStat.execute();
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -113,20 +115,21 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     public ResultSet executeQuery() throws SQLException
     {
         mTrace.append("Execute query\n");
-        mManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], "Sql", this);
         try
         {
             ResultSet tResult = mRealPreparedStat.executeQuery();
             mTrace.append("ResultSet=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -137,20 +140,21 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     public int executeUpdate() throws SQLException
     {
         mTrace.append("Execute update\n");
-        mManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], "Sql", this);
         try
         {
             int tResult = mRealPreparedStat.executeUpdate();
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {

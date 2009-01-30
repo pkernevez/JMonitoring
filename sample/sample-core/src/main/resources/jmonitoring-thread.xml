@@ -5,39 +5,13 @@
 
     <context:annotation-config/>
 
-    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" scope="prototype">
+    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" >
         <property name="serverName" value="TestMachine"/>
     </bean>
         
-    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.MemoryWriter" scope="prototype"/>
+    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.MemoryWriter" />
     
     <!--  For testing the none weaving of Dao class -->
-    <bean name="consoleDao" class="org.jmonitoring.core.dao.ConsoleDao" />
-    <bean name="dao" class="org.jmonitoring.hibernate.dao.InsertionHibernateDAO" />
-    <bean name="realDao" class="org.jmonitoring.core.persistence.InsertionDao" />
-   
-
-<!--     <bean name="consoleManager" class="org.jmonitoring.core.process.ConsoleManager" />
-    <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" />
-
-    <bean name="dtoManager" class="org.jmonitoring.core.dto.DtoManager" />
-
-
-    <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
-        <property name="dateFormat" value="dd/MM/yy" />
-        <property name="timeFormat" value="HH:mm:ss" />
-    </bean>
-
-    <bean name="color" class="org.jmonitoring.core.configuration.ColorManager">
-        <property name="groups">
-            <map>
-                <entry key="Default" value="0, 255, 255" />
-                <entry key="SQL" value="0, 0, 255" />
-                <entry key="SomeNonStatics" value="0, 255, 0" />
-                <entry key="SomeStatics" value="255, 0, 0" />
-            </map>
-        </property>
-    </bean>
--->
-
+    <!-- bean name="consoleDao" class="org.jmonitoring.core.dao.ConsoleDao" />
+    <bean name="dao" class="org.jmonitoring.core.persistence.InsertionDao" /-->
 </beans>

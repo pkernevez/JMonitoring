@@ -71,6 +71,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\nResult=[true]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -80,7 +81,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\nResult=[true]\n", tFlow.getFirstMethodCall().getReturnValue());
-
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -90,6 +91,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\nResult=[true]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -99,6 +101,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\nResult=[true]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -108,6 +111,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Batch executed\nReturn array size=[0]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -119,7 +123,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         String tLog = tFlow.getFirstMethodCall().getReturnValue();
         assertTrue(tLog, tLog.startsWith("Query executed=[select * from EXECUTION_FLOW]\nResultSet=[rs"));
         assertTrue(tLog, tLog.endsWith(": columns: 8 rows: 0 pos: -1]\n"));
-
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -130,6 +134,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Execute Update=[" + tSql + "]\nResult=[1]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -140,6 +145,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Execute Update=[" + tSql + "]\nResult=[1]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -150,6 +156,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Execute Update=[" + tSql + "]\nResult=[1]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -160,6 +167,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Execute Update=[" + tSql + "]\nResult=[1]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
 }

@@ -28,7 +28,7 @@ public class XmlFileWriterTest extends JMonitoringTestCase
         tWriter.mLogFile.flush();
         tSize = new File("target/log/Thread." + Thread.currentThread().getName() + ".xml").length();
         assertTrue("The execution havn't been written.", tSize > 200);
-        tWriter.mLogFile.close();
+        // Do not close the mLogFile, it will be done be the JVM Shutdownhook
     }
 
 }

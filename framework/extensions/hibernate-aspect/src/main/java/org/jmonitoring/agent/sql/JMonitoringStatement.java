@@ -45,18 +45,24 @@ public class JMonitoringStatement implements Statement, IProxyStatement
         try
         {
             Class<JMonitoringStatement> tClass = JMonitoringStatement.class;
-            EXECUTE_STR = new SqlSignature(tClass.getMethod("execute", String.class));
-            EXECUTE_STR_INT = new SqlSignature(tClass.getMethod("execute", String.class, Integer.TYPE));
-            EXECUTE_STR_TINT = new SqlSignature(tClass.getMethod("execute", String.class, new int[0].getClass()));
-            EXECUTE_STR_TSTR = new SqlSignature(tClass.getMethod("execute", String.class, new String[0].getClass()));
-            EXECUTE_BATCH = new SqlSignature(tClass.getMethod("executeBatch"));
-            EXECUTE_QUERY = new SqlSignature(tClass.getMethod("executeQuery", String.class));
-            EXECUTE_UPDATE = new SqlSignature(tClass.getMethod("executeUpdate", String.class));
-            EXECUTE_UPDATE_STR_INT = new SqlSignature(tClass.getMethod("executeUpdate", String.class, Integer.TYPE));
+            EXECUTE_STR = new SqlSignature(Statement.class, tClass.getMethod("execute", String.class));
+            EXECUTE_STR_INT =
+                new SqlSignature(Statement.class, tClass.getMethod("execute", String.class, Integer.TYPE));
+            EXECUTE_STR_TINT =
+                new SqlSignature(Statement.class, tClass.getMethod("execute", String.class, new int[0].getClass()));
+            EXECUTE_STR_TSTR =
+                new SqlSignature(Statement.class, tClass.getMethod("execute", String.class, new String[0].getClass()));
+            EXECUTE_BATCH = new SqlSignature(Statement.class, tClass.getMethod("executeBatch"));
+            EXECUTE_QUERY = new SqlSignature(Statement.class, tClass.getMethod("executeQuery", String.class));
+            EXECUTE_UPDATE = new SqlSignature(Statement.class, tClass.getMethod("executeUpdate", String.class));
+            EXECUTE_UPDATE_STR_INT =
+                new SqlSignature(Statement.class, tClass.getMethod("executeUpdate", String.class, Integer.TYPE));
             EXECUTE_UPDATE_STR_TINT =
-                new SqlSignature(tClass.getMethod("executeUpdate", String.class, new int[0].getClass()));
+                new SqlSignature(Statement.class,
+                                 tClass.getMethod("executeUpdate", String.class, new int[0].getClass()));
             EXECUTE_UPDATE_STR_TSTR =
-                new SqlSignature(tClass.getMethod("executeUpdate", String.class, new String[0].getClass()));
+                new SqlSignature(Statement.class, tClass.getMethod("executeUpdate", String.class,
+                                                                   new String[0].getClass()));
         } catch (SecurityException e)
         {
             throw new RuntimeException(e);
@@ -66,13 +72,13 @@ public class JMonitoringStatement implements Statement, IProxyStatement
         }
     }
 
+    protected static ThreadLocal<StoreManager> sStoreManager = new ThreadLocal<StoreManager>();
+
     protected static IResultTracer sResultTracer = new ToStringResultTracer();
 
     protected static IThrowableTracer sThrowableTracer = new DefaultExceptionTracer();
 
     private final Statement mRealStatement;
-
-    protected StoreManager mManager;
 
     private static Log sLog = LogFactory.getLog(JMonitoringStatement.class);
 
@@ -90,7 +96,17 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             sLog.debug("callStatement detected and Weaved");
         }
         mRealStatement = pRealPreparedStat;
-        mManager = (StoreManager) SpringConfigurationUtil.getBean("storeManager");
+    }
+
+    protected static StoreManager getStoreManager()
+    {
+        StoreManager tStoreManager = sStoreManager.get();
+        if (tStoreManager == null)
+        {
+            tStoreManager = (StoreManager) SpringConfigurationUtil.getBean(StoreManager.STORE_MANAGER_NAME);
+            sStoreManager.set(tStoreManager);
+        }
+        return tStoreManager;
     }
 
     public Statement getRealStatement()
@@ -137,20 +153,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public boolean execute(String pSql) throws SQLException
     {
         mTrace.append("Sql=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_STR, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_STR, null, new Object[0], "Sql", this);
         try
         {
             boolean tResult = mRealStatement.execute(pSql);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -161,20 +178,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public boolean execute(String pSql, int pAutoGeneratedKeys) throws SQLException
     {
         mTrace.append("Sql=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_STR_INT, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_STR_INT, null, new Object[0], "Sql", this);
         try
         {
             boolean tResult = mRealStatement.execute(pSql, pAutoGeneratedKeys);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -185,20 +203,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public boolean execute(String pSql, int[] pColumnIndexes) throws SQLException
     {
         mTrace.append("Sql=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_STR_TINT, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_STR_TINT, null, new Object[0], "Sql", this);
         try
         {
             boolean tResult = mRealStatement.execute(pSql, pColumnIndexes);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -209,20 +228,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public boolean execute(String pSql, String[] pColumnNames) throws SQLException
     {
         mTrace.append("Sql=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_STR_TSTR, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_STR_TSTR, null, new Object[0], "Sql", this);
         try
         {
             boolean tResult = mRealStatement.execute(pSql, pColumnNames);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -233,20 +253,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public int[] executeBatch() throws SQLException
     {
         mTrace.append("Batch executed\n");
-        mManager.logBeginOfMethod(EXECUTE_BATCH, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_BATCH, null, new Object[0], "Sql", this);
         try
         {
             int[] tResult = mRealStatement.executeBatch();
             mTrace.append("Return array size=[").append(tResult.length).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -257,20 +278,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public ResultSet executeQuery(String pSql) throws SQLException
     {
         mTrace.append("Query executed=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], "Sql", this);
         try
         {
             ResultSet tResult = mRealStatement.executeQuery(pSql);
             mTrace.append("ResultSet=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -281,20 +303,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public int executeUpdate(String pSql) throws SQLException
     {
         mTrace.append("Execute Update=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], "Sql", this);
         try
         {
             int tResult = mRealStatement.executeUpdate(pSql);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -305,20 +328,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public int executeUpdate(String pSql, int pAutoGeneratedKeys) throws SQLException
     {
         mTrace.append("Execute Update=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_UPDATE_STR_INT, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_UPDATE_STR_INT, null, new Object[0], "Sql", this);
         try
         {
             int tResult = mRealStatement.executeUpdate(pSql, pAutoGeneratedKeys);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -329,20 +353,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public int executeUpdate(String pSql, int[] pColumnIndexes) throws SQLException
     {
         mTrace.append("Execute Update=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_UPDATE_STR_TINT, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_UPDATE_STR_TINT, null, new Object[0], "Sql", this);
         try
         {
             int tResult = mRealStatement.executeUpdate(pSql, pColumnIndexes);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {
@@ -353,20 +378,21 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     public int executeUpdate(String pSql, String[] pColumnNames) throws SQLException
     {
         mTrace.append("Execute Update=[").append(pSql).append("]\n");
-        mManager.logBeginOfMethod(EXECUTE_UPDATE_STR_TSTR, null, new Object[0], "Sql", this);
+        StoreManager tManager = getStoreManager();
+        tManager.logBeginOfMethod(EXECUTE_UPDATE_STR_TSTR, null, new Object[0], "Sql", this);
         try
         {
             int tResult = mRealStatement.executeUpdate(pSql, pColumnNames);
             mTrace.append("Result=[").append(tResult).append("]\n");
-            mManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
             return tResult;
         } catch (Error e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } catch (RuntimeException e)
         {
-            mManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e);
             throw e;
         } finally
         {

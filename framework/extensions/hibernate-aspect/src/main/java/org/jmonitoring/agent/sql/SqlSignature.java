@@ -1,6 +1,7 @@
 package org.jmonitoring.agent.sql;
 
 import java.lang.reflect.Method;
+import java.sql.Statement;
 
 import org.aspectj.lang.Signature;
 
@@ -13,21 +14,24 @@ public class SqlSignature implements Signature
 
     private final Method mMethod;
 
-    public SqlSignature(Method pMethod)
+    private final Class<? extends Statement> mClass;
+
+    public SqlSignature(Class<? extends Statement> pClass, Method pMethod)
     {
         super();
         mMethod = pMethod;
+        mClass = pClass;
     }
 
     @SuppressWarnings("unchecked")
     public Class getDeclaringType()
     {
-        return mMethod.getDeclaringClass();
+        return mClass;
     }
 
     public String getDeclaringTypeName()
     {
-        return mMethod.getDeclaringClass().getName();
+        return mClass.getName();
     }
 
     public int getModifiers()

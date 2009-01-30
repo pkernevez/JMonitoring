@@ -11,12 +11,6 @@
     <!-- SessionFactory Hibernate : utilisation de la factory fournie par Spring -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
         depends-on="genericDriver">
-        <!-- property name="connection.driver_class" value="org.jmonitoring.agent.sql.DriverConfig"></property>
-            <property name="connection.url" value="jmonitoring"></property>
-            <property name="connection.username" value="sa"></property>
-            <property name="connection.password" value=""></property-->
-        <!-- Liste des fichiers de mapping Hibernate utilisés par cette factory -->
-        <!-- property name="mappingResources" ref="hibernateMappings" /-->
         <property name="mappingLocations" value="classpath*:/org/jmonitoring/core/domain/*.hbm.xml" />
         <!-- property name="mappingLocations">
             <list>

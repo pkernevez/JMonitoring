@@ -43,21 +43,7 @@
                             <groupId>com.octo.opensource.jmonitoring</groupId>
                             <artifactId>agent</artifactId>
                         </aspectLibrary>
-                        <aspectLibrary>
-                            <groupId>com.octo.opensource.jmonitoring</groupId>
-                            <artifactId>hibernate-aspect</artifactId>
-                        </aspectLibrary>
-                        <aspectLibrary>
-                            <groupId>org.hibernate</groupId>
-                            <artifactId>hibernate</artifactId>
-                        </aspectLibrary>
                     </aspectLibraries>
-                    <weaveDependencies>
-                        <weaveDependency>
-                            <groupId>org.hibernate</groupId>
-                            <artifactId>hibernate</artifactId>
-                        </weaveDependency>
-                    </weaveDependencies>
                 </configuration>
             </plugin>
         </plugins>
@@ -94,7 +80,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
-            <version>3.1rc2Weaved</version>
+            <version>3.2.5.ga</version>
         </dependency>
     </dependencies>
 </project>

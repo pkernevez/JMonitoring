@@ -4,9 +4,15 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="driverClass" value="org.h2.Driver" />
-        <property name="jdbcUrl" value="jdbc:h2:mem:jmonitoringsample" />
+    <bean id="genericDriver" class="org.jmonitoring.agent.sql.GenericDriver">
+        <constructor-arg value="org.h2.Driver"></constructor-arg>
+        <constructor-arg value="jdbc:h2:mem:jmonitoringsample"></constructor-arg>
+    </bean>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+        depends-on="genericDriver">
+        <property name="driverClass" value="org.jmonitoring.agent.sql.GenericDriver" />
+        <property name="jdbcUrl" value="jmonitoring" />
         <property name="user" value="sa" />
         <property name="password" value="" />
         <property name="acquireRetryAttempts" value="10"></property>
@@ -23,13 +29,13 @@
         <property name="dataSource" ref="dataSource" />
         <!-- Liste des fichiers de mapping Hibernate utilisés par cette factory -->
         <!-- property name="mappingResources" ref="hibernateMappings" /-->
-        <!-- property name="mappingLocations" value="classpath*:/org/jmonitoring/core/**/*.hbm.xml" /-->
-        <property name="mappingLocations">
-            <list>
-                <value>classpath*:org/jmonitoring/sample/main/ItemPO.hbm.xml</value>
-                <value>classpath*:org/jmonitoring/sample/main/ShoppingCartPO.hbm.xml</value>
+        <property name="mappingLocations" value="classpath*:/org/jmonitoring/sample/**/*.hbm.xml" />
+        <!-- property name="mappingLocations">
+            <list>                
+                <value>classpath*:/org/jmonitoring/sample/main/ItemPO.hbm.xml</value>
+                <value>classpath*:/org/jmonitoring/sample/main/ShoppingCartPO.hbm.xml</value>
             </list>
-        </property>
+        </property-->
         <!-- Définition du dialect utilisé (HSQL) et d'autres propriétés utiles pour le debug -->
         <property name="hibernateProperties">
             <props>

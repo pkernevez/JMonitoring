@@ -2,18 +2,18 @@ package org.jmonitoring.sample.testruntimeclassname;
 
 import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.sample.SamplePersistenceTestcase;
+import org.jmonitoring.sample.SampleTestcase;
 import org.junit.Test;
 
-public class WeavingTest extends SamplePersistenceTestcase
+public class WeavingTest extends SampleTestcase
 {
     @Test
     public void testWeaving() throws InterruptedException
     {
+        MemoryWriter.clear();
         assertEquals(0, MemoryWriter.countFlows());
         AbstractSample tMother = new AbstractSample();
         tMother.methodATester();
-        // closeAndRestartSession();
 
         checkWeaving1();
 
@@ -23,7 +23,6 @@ public class WeavingTest extends SamplePersistenceTestcase
         checkWeaving2();
 
         tChild.methodWithOverride();
-        // closeAndRestartSession();
 
         checkWeaving3();
     }

@@ -12,13 +12,19 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.sample.main.RunSample;
+import org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil;
+import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * @author pke
- *
- * @todo To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * @todo To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
+ *       Templates
  */
 public class SampleAlreadyWeavedActionIn extends Action
 {
@@ -29,13 +35,30 @@ public class SampleAlreadyWeavedActionIn extends Action
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
      *      javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping pMapping, ActionForm pForm, HttpServletRequest pRequest,
-                    HttpServletResponse pResponse) throws Exception
+        HttpServletResponse pResponse) throws Exception
     {
-        
-        RunSample.main(new String[0]);
-        return pMapping.findForward("success");
-        
-    }
+        Session mSession = null;
+        SessionFactory tFact = (SessionFactory) SpringSampleConfigurationUtil.getBean("sessionFactory");
+        try
+        {
+            mSession = tFact.openSession();
+            mSession.beginTransaction();
+            TransactionSynchronizationManager.bindResource(tFact, new SessionHolder(mSession));
+            MemoryWriter.clear();
 
+            new RunSample().run();
+        } finally
+        {
+            TransactionSynchronizationManager.unbindResource(tFact);
+            if (mSession != null)
+            {
+                mSession.getTransaction().rollback();
+                mSession.close();
+            }
+        }
+        return pMapping.findForward("success");
+
+    }
 }

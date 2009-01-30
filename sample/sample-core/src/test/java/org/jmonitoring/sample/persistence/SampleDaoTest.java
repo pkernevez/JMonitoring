@@ -2,7 +2,7 @@ package org.jmonitoring.sample.persistence;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
-import org.jmonitoring.sample.SamplePersistenceTestcase;
+import org.jmonitoring.sample.SampleTestcase;
 import org.jmonitoring.sample.main.ItemPO;
 import org.jmonitoring.sample.main.ShoppingCartPO;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import org.junit.Test;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class SampleDaoTest extends SamplePersistenceTestcase
+public class SampleDaoTest extends SampleTestcase
 {
 
     @Test

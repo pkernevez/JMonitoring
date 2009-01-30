@@ -4,14 +4,13 @@ import java.util.StringTokenizer;
 
 import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.sample.SamplePersistenceTestcase;
+import org.jmonitoring.sample.SampleTestcase;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Child;
 import org.jmonitoring.sample.testtreetracer.ToBeCall.Mother;
 import org.junit.Test;
 
-public class TreeTracerTest extends SamplePersistenceTestcase
+public class TreeTracerTest extends SampleTestcase
 {
-    // TODO Remove old code
     @Test
     public void testParameterTracer()
     {
@@ -50,8 +49,6 @@ public class TreeTracerTest extends SamplePersistenceTestcase
     public void testReturnValueTracer()
     {
         new ToBeCall().callWithReturn();
-
-        // closeAndRestartSession();
 
         checkReturnValueTracer();
     }

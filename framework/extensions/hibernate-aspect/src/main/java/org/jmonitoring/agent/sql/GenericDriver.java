@@ -59,7 +59,7 @@ public class GenericDriver implements Driver
     {
         if (JMONITORING.equals(pUrl))
         {
-            return mRealDriver.acceptsURL(pUrl);
+            return mRealDriver.acceptsURL(mUrl);
         } else
         {
             return false;

@@ -37,42 +37,10 @@ public class RunSample
 
     private final Session mSession;
 
-    public RunSample(Session pSampleSession)
-    {
-        mSession = pSampleSession;
-    }
-
     public RunSample()
     {
         SessionFactory tFactory = (SessionFactory) SpringSampleConfigurationUtil.getBean("sessionFactory");
-        mSession = tFactory.openSession();
-
-    }
-
-    /**
-     * For the Sample
-     * 
-     * @param pArgs For the Sample
-     */
-    public static void main(String[] pArgs)
-    {
-        try
-        {
-            new RunSample().run();
-            // Wait for the asynchronous insertion
-            try
-            {
-                // Empirique
-                Thread.sleep(SLEEP_TEST_TIME);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        } finally
-        {
-            SessionFactory tFactory = (SessionFactory) SpringSampleConfigurationUtil.getBean("sessionFactory");
-            tFactory.getCurrentSession().close();
-        }
+        mSession = tFactory.getCurrentSession();
     }
 
     /**

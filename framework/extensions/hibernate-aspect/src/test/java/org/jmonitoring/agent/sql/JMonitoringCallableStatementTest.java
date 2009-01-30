@@ -66,6 +66,7 @@ public class JMonitoringCallableStatementTest extends JMonitoringTestCase
         assertEquals(tExpected, tLog.substring(0, tExpected.length()));
         tExpected = ": columns: 8 rows: 0 pos: -1]\n";
         assertEquals(tExpected, tLog.substring(tLog.length() - tExpected.length()));
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
 
 }

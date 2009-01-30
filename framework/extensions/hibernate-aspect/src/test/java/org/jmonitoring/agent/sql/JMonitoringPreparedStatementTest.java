@@ -94,6 +94,7 @@ public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
         tBuffer.append("Result=[true]\n");
 
         assertEquals(tBuffer.toString(), MemoryWriter.getFlow(0).getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -115,6 +116,7 @@ public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
         assertEquals(tExpected, tLog.substring(0, tExpected.length()));
         tExpected = ": columns: 8 rows: 0 pos: -1]\n";
         assertEquals(tExpected, tLog.substring(tLog.length() - tExpected.length()));
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -130,6 +132,7 @@ public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("PrepareStatement with Sql=[").append(tSql).append("]\nExecute update\nResult=[1]\n");
         assertEquals(tBuffer.toString(), tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
 
     @Test
@@ -154,6 +157,7 @@ public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
         assertEquals(tExpected, tLog.substring(0, tExpected.length()));
         tExpected = ": columns: 8 rows: 0 pos: -1]\n";
         assertEquals(tExpected, tLog.substring(tLog.length() - tExpected.length()));
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
 
 }
