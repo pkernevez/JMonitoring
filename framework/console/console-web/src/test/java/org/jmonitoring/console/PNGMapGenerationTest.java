@@ -1,5 +1,6 @@
 package org.jmonitoring.console;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -72,7 +73,8 @@ public class PNGMapGenerationTest extends TestCase
 
         try
         {
-            FileOutputStream tStream = new FileOutputStream("d:/temp/PNG.png");
+            File tTmpFile = File.createTempFile("PNG", "png");
+            FileOutputStream tStream = new FileOutputStream(tTmpFile);
             ChartRenderingInfo tInfo = new ChartRenderingInfo();
 
             ChartUtilities.writeChartAsPNG(tStream, chart, 400, 300, tInfo);
