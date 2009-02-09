@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>sample</artifactId>
         <version>2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sample-web</artifactId>
     <name>Sample-web</name>
@@ -14,64 +15,64 @@
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_webapp_console</connection>
         <url>http://forge.octo.com/svn/jmonitoring/trunk/sample/sample_webapp_consolee</url>
     </scm>
-  
+
     <packaging>war</packaging>
     <dependencies>
-       <dependency>
-          <groupId>com.octo.opensource.jmonitoring</groupId>
-          <artifactId>sample-core</artifactId>
-          <version>2.0-SNAPSHOT</version>
-        </dependency>
-
-       <dependency>
-          <groupId>com.octo.opensource.jmonitoring</groupId>
-          <artifactId>agent</artifactId>
-          <version>2.0-SNAPSHOT</version>
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>sample-core</artifactId>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-          <groupId>com.octo.opensource.jmonitoring</groupId>
-          <artifactId>hibernate-aspect</artifactId>
-          <version>2.0-SNAPSHOT</version>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>agent</artifactId>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
-          <dependency>
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>hibernate-aspect</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.1</version>
         </dependency>
 
         <dependency>
-          <groupId>displaytag</groupId>
-          <artifactId>displaytag</artifactId>
-          <version>1.0</version>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>2.3</version>
-					<scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-          <groupId>cglib</groupId>
-          <artifactId>cglib-nodep</artifactId>
-          <version>2.1</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
         </dependency>
 
-       <dependency>
-          <groupId>commons-fileupload</groupId>
-          <artifactId>commons-fileupload</artifactId>
-          <version>1.0</version>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>struts</groupId>
             <artifactId>struts</artifactId>
             <version>1.2.4</version>
-        </dependency>    
-        
+        </dependency>
+
         <dependency>
             <groupId>struts-menu</groupId>
             <artifactId>struts-menu</artifactId>
@@ -82,44 +83,44 @@
                     <artifactId>hsqldb</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>    
-        
+        </dependency>
+
         <dependency>
             <groupId>strutstestcase</groupId>
             <artifactId>strutstestcase</artifactId>
             <version>2.1.2-1.1-2.3</version>
-        </dependency>    
-        
-        <dependency>
-          <groupId>jmock</groupId>
-          <artifactId>jmock</artifactId>
-          <version>1.0.1</version>
-        </dependency>
-        
-        <dependency>
-          <groupId>jmock</groupId>
-          <artifactId>jmock-cglib</artifactId>
-          <version>1.0.1</version>
         </dependency>
 
-       <dependency>
+        <dependency>
+            <groupId>jmock</groupId>
+            <artifactId>jmock</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jmock</groupId>
+            <artifactId>jmock-cglib</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
             <version>1.0.6</version>
-        </dependency>    
-        
+        </dependency>
+
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>0.9.21</version>
-        </dependency>    
-        
+        </dependency>
+
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jcommon</artifactId>
             <version>0.9.6</version>
-        </dependency>    
-   
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -133,7 +134,7 @@
         </dependency>
 
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -144,13 +145,16 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <tasks>
-		<echo>*** Project type = war =&gt; copy content of WEB-INF into bin-test and target/test-classes ***</echo>
-		<copy todir="${basedir}/bin/WEB-INF">
-			<fileset dir="${basedir}/src/main/webapp/WEB-INF" />
-		</copy>
-		<copy todir="${basedir}/target/test-classes/WEB-INF">
-			<fileset dir="${basedir}/src/main/webapp/WEB-INF" />
-		</copy>
+                                <echo>
+                                    *** Project type = war =&gt; copy content of WEB-INF into bin-test and
+                                    target/test-classes ***
+                                </echo>
+                                <copy todir="${basedir}/bin/WEB-INF">
+                                    <fileset dir="${basedir}/src/main/webapp/WEB-INF" />
+                                </copy>
+                                <copy todir="${basedir}/target/test-classes/WEB-INF">
+                                    <fileset dir="${basedir}/src/main/webapp/WEB-INF" />
+                                </copy>
 
                             </tasks>
                         </configuration>
@@ -163,9 +167,9 @@
                         <phase>verify</phase>
                         <configuration>
                             <tasks>
-                   	            <echo>*** Delete *** </echo>
-                   	            <delete dir="${basedir}/classes" />
-                   	            <delete dir="${basedir}/test-classes" />
+                                <echo>*** Delete ***</echo>
+                                <delete dir="${basedir}/classes" />
+                                <delete dir="${basedir}/test-classes" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -177,18 +181,34 @@
                         <phase>install</phase>
                         <configuration>
                             <tasks>
-                                <echo> *** Copy to serveur ***</echo>
-                   	            <copy file="target/${pom.artifactId}-${pom.version}.war" tofile="${application.server.deploy.dir}/${pom.artifactId}.war" />
+                                <echo>*** Copy to serveur ***</echo>
+                                <copy file="target/${pom.artifactId}-${pom.version}.war"
+                                    tofile="${application.server.deploy.dir}/${pom.artifactId}.war" />
                             </tasks>
                         </configuration>
                         <goals>
                             <goal>run</goal>
                         </goals>
                     </execution>
-                    
+                    <execution>
+                        <id>filtremapping</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>*** Delete mapping file ***</echo>
+                                <delete>
+                                    <fileset dir="target/classes/org/jmonitoring/sample" includes="*.hbm.xml" />
+                                </delete>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                 </executions>
             </plugin>
-            
+
             <!-- For Weaving the WAR dependencies during the package phase  See: http://mojo.codehaus.org/aspectj-maven-plugin/weaveJars.html -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -200,9 +220,9 @@
                             <artifactId>sample-core</artifactId>
                         </weaveDependency>
                         <!-- weaveDependency>
-                              <groupId>com.octo.opensource.jmonitoring</groupId>
-                              <artifactId>hibernate-aspect</artifactId>
-                        </weaveDependency-->
+                            <groupId>com.octo.opensource.jmonitoring</groupId>
+                            <artifactId>hibernate-aspect</artifactId>
+                            </weaveDependency-->
                     </weaveDependencies>
                     <aspectLibraries>
                         <aspectLibrary>
@@ -210,8 +230,8 @@
                             <artifactId>sample-aspects</artifactId>
                         </aspectLibrary>
                         <aspectLibrary>
-                              <groupId>com.octo.opensource.jmonitoring</groupId>
-                              <artifactId>hibernate-aspect</artifactId>
+                            <groupId>com.octo.opensource.jmonitoring</groupId>
+                            <artifactId>hibernate-aspect</artifactId>
                         </aspectLibrary>
                     </aspectLibraries>
                 </configuration>
@@ -221,7 +241,7 @@
                             <goal>compile</goal>
                         </goals>
                     </execution>
-               </executions>
+                </executions>
             </plugin>
         </plugins>
     </build>
