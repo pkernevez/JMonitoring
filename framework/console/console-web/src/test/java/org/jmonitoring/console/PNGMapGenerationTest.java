@@ -74,6 +74,7 @@ public class PNGMapGenerationTest extends TestCase
         try
         {
             File tTmpFile = File.createTempFile("PNG", "png");
+            tTmpFile.deleteOnExit();
             FileOutputStream tStream = new FileOutputStream(tTmpFile);
             ChartRenderingInfo tInfo = new ChartRenderingInfo();
 
