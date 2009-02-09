@@ -30,11 +30,11 @@ public class ShoppingCartPO
 
     private List<ItemPO> mItems = new ArrayList<ItemPO>();
 
-    private static int sCounter = 0;
+    private static ThreadLocal<Integer> sCounter = new ThreadLocal<Integer>();
 
     public static void setCounter(int pCounter)
     {
-        sCounter = pCounter;
+        sCounter.set(new Integer(pCounter));
     }
 
     /**
@@ -52,63 +52,16 @@ public class ShoppingCartPO
             // @todo Auto-generated catch block
             e.printStackTrace();
         }
-        sCounter++;
-        if (3 == sCounter)
+        if (sCounter.get() == null)
+        {
+            sCounter.set(new Integer(0));
+        }
+        sCounter.set(new Integer(sCounter.get() + 1));
+        if (3 == sCounter.get())
         {
             throw new RuntimeException("Pour declancher une exception sur item3");
         }
         mItems.add(pItem);
-        // TODO Refactor this code
-        // Connection tCon = new MockConnection();
-        // PreparedStatement tState = null;
-        // try
-        // {
-        // tState = tCon.prepareStatement("lk");
-        // try
-        // {
-        // Thread.sleep(TEMPO7);
-        // } catch (InterruptedException e)
-        // {
-        // // @todo Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // tState.setString(0, "Param0");
-        // try
-        // {
-        // Thread.sleep(TEMPO6);
-        // } catch (InterruptedException e)
-        // {
-        // // @todo Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // tState.setInt(1, 0);
-        // tState.executeQuery();
-        // } catch (SQLException e)
-        // {
-        // throw new RuntimeException("Impossible de cr�er un statement !", e);
-        // } finally
-        // {
-        // if (tState != null)
-        // {
-        // try
-        // {
-        // try
-        // {
-        // Thread.sleep(TEMPO2);
-        // } catch (InterruptedException e)
-        // {
-        // // @todo Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // tState.close();
-        // } catch (SQLException e)
-        // {
-        // throw new RuntimeException("Impossible de fermer un statement !", e);
-        //
-        // }
-        // }
-        // }
-
     }
 
     /**
@@ -177,7 +130,6 @@ public class ShoppingCartPO
 
     public List<ItemPO> getItems()
     {
-        new RuntimeException().printStackTrace();
         return mItems;
     }
 

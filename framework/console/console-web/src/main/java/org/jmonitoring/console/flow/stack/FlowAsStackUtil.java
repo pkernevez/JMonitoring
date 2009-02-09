@@ -97,7 +97,7 @@ public class FlowAsStackUtil
         tLinkDetail.append(pCurrentMethod.getFlowId()).append("&position=").append(pCurrentMethod.getPosition());
         tLinkDetail.append("\">").append("<IMG src=\"images/edit.png\"/></A>");
 
-        long tEndTime = pCurrentMethod.getBeginMilliSeconds();
+        long tEndTime = pCurrentMethod.getEndMilliSeconds();
         long tBeginTime = pCurrentMethod.getBeginMilliSeconds();
         long tDuration = tEndTime - tBeginTime;
         // Maintenant on cr�er le le html associ� au MethodCallDTO

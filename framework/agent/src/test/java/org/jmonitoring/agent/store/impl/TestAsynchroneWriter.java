@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class TestAsynchroneWriter extends JMonitoringTestCase
 {
 
-    private static final int TIME_TO_WAIT = 1000;
+    private static final int TIME_TO_WAIT = 2000;
 
     private static final int NB_FLOW_TO_LOG = 100;
 

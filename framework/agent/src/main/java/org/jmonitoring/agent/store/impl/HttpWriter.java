@@ -24,21 +24,44 @@ public class HttpWriter implements IStoreWriter
 
     public static final String CONTENT_TYPE = "JMonitoring/flow";
 
-    private final String mUri;
+    private String mUri;
 
     private static Log sLog = LogFactory.getLog(HttpWriter.class);
 
-    private final HttpClient mClient;
+    private HttpClient mClient;
+
+    private String mHostName = "localhost";
+
+    private int mPort = 80;
+
+    private String mProtocole = "http";
+
+    private boolean mInit = false;
+
+    public HttpWriter()
+    {
+    }
 
     public HttpWriter(String pHostName, int pPort, String pProtocole, String pUri)
     {
         mUri = pUri;
-        mClient = new HttpClient(new SimpleHttpConnectionManager());
-        mClient.getHostConfiguration().setHost(pHostName, pPort, pProtocole);
+        mHostName = pHostName;
+        mPort = pPort;
+        mProtocole = pProtocole;
+    }
+
+    private void init()
+    {
+        if (!mInit)
+        {
+            mClient = new HttpClient(new SimpleHttpConnectionManager());
+            mClient.getHostConfiguration().setHost(mHostName, mPort, mProtocole);
+        }
     }
 
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
+        init();
         long tStartTime = System.currentTimeMillis();
         try
         {
@@ -73,5 +96,37 @@ public class HttpWriter implements IStoreWriter
             sLog.error("Unable to Write Flow to Http Server the ExecutionFlow has been lost. Cause is "
                 + e.getMessage() + " Serveur is " + mClient.getHostConfiguration());
         }
+    }
+
+    /**
+     * @param pUri the uri to set
+     */
+    public void setUri(String pUri)
+    {
+        mUri = pUri;
+    }
+
+    /**
+     * @param pHost the host to set
+     */
+    public void setHostName(String pHost)
+    {
+        mHostName = pHost;
+    }
+
+    /**
+     * @param pPort the port to set
+     */
+    public void setPort(int pPort)
+    {
+        mPort = pPort;
+    }
+
+    /**
+     * @param pProtocole the protocole to set
+     */
+    public void setProtocole(String pProtocole)
+    {
+        mProtocole = pProtocole;
     }
 }

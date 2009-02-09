@@ -42,7 +42,7 @@ public class FlowEditActionIn extends AbstractSpringAction
      * Max number of measure to show in one flow. If this number is exceed, then the user is asked to choose an action.
      */
     // TODO Spring : à mettre dans la configuration Spring
-    private static int sMaxFlowToShow = 10;
+    private static int sMaxFlowToShow = 500;
 
     // ConfigurationHelper.getInt(MAX_FLOW_FOR_EDITION);
 
@@ -65,17 +65,7 @@ public class FlowEditActionIn extends AbstractSpringAction
 
         SessionFactory tSessionFactory = (SessionFactory) SpringConfigurationUtil.getBean("sessionFactory");
 
-        // Session session = tSessionFactory.openSession();
-        // TransactionSynchronizationManager.bindResource(tSessionFactory, new SessionHolder(session));
-        // session.beginTransaction();
-        // Session tHSession = tSessionFactory.getCurrentSession();
-
-        // TODO Cleaning avec Spring
-        // TransactionHelper tTx = new TransactionHelper();
-        // try
-        // {
         ActionForward tForward;
-        // List tList = new ArrayList();
         FlowEditForm tForm = (FlowEditForm) pForm;
         sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
         ExecutionFlowDTO tFlow = tConsoleManager.readFullExecutionFlow(tForm.getId());
@@ -104,13 +94,7 @@ public class FlowEditActionIn extends AbstractSpringAction
             sLog.debug("Forward success.");
             tForward = pMapping.findForward("success");
         }
-        // tTx.commit();
         return tForward;
-        // } catch (Throwable t)
-        // {
-        // tTx.rollBack();
-        // throw new RuntimeException(t);
-        // }
     }
 
     /**
