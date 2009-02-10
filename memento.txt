@@ -1,0 +1,19 @@
+Release
+
+mvn release:prepare -DdryRun=true -DreleaseVersion=XXX -Dtag=YYY -DdevelopmentVersion=ZZZ
+
+mvn release:clean
+
+mvn release:prepare -DreleaseVersion=XXX -Dtag=YYY -DdevelopmentVersion=ZZZ
+
+mvn release:perform
+
+
+Branches
+
+mvn release:branch -DdryRun=true -DupdateBranchVersion=true -DbranchName=XXX -DreleaseVersion=YYY -DdevelopmentVersion=ZZZ
+
+mvn release:clean 
+
+mvn release:branch --batch-mode -DupdateBranchVersion=true -DbranchName=XXX -DreleaseVersion=YYY -DdevelopmentVersion=ZZZ
+
