@@ -2,7 +2,7 @@
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>sample</artifactId>
-        <version>2.0-beta-1</version>
+        <version>2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
@@ -11,17 +11,17 @@
     <name>Sample-aspects</name>
     <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample_aspects</connection>
-        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-aspects</url>
-      <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-aspects</developerConnection>
-  </scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample-aspects</connection>
+        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample-aspects</developerConnection>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/sample/sample-aspects</url>
+    </scm>
   
     <packaging>jar</packaging>
     <dependencies>
     	<dependency>
       	<groupId>com.octo.opensource.jmonitoring</groupId>
       	<artifactId>agent</artifactId>
-        <version>2.0-beta-1</version>
+        <version>2.0-SNAPSHOT</version>
       </dependency>
 
  			<!--dependency>
