@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
 
      <modules>
-        <module>build-tools</module>
-        <module>packaging</module>
+        <!--module>build-tools</module>
+        <module>packaging</module-->
     </modules>
 
     <name>Tools</name>
