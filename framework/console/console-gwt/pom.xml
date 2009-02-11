@@ -1,20 +1,21 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>console</artifactId>
-        <version>2.0-beta-1</version>
+        <version>2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>console-gwt</artifactId>
-    <version>2.0-beta-1</version>
+    <version>2.0-SNAPSHOT</version>
     <name>Fwk-console-gwt</name>
     <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/console/console-gwt</connection>
-        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/console/console-gwt</developerConnection>
-        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/console/console-gwt</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/console/console-gwt</connection>
+        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/console/console-gwt</developerConnection>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/console/console-gwt</url>
     </scm>
     <pluginRepositories>
        <pluginRepository>
