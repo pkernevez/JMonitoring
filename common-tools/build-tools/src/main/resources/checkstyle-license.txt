@@ -1,6 +1,0 @@
-[This line is ignored by checkstyle. Put the package declaration here]
-
-/***************************************************************************
- * Copyright 2005 Philippe Kernevez All rights reserved.                   *
- * Please look at license.txt for more license detail.                     *
- **************************************************************************/
