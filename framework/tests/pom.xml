@@ -2,19 +2,19 @@
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>framework</artifactId>
-        <version>2.0-beta-1</version>
+        <version>2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tests</artifactId>
-    <version>2.0-beta-1</version>
+    <version>2.0-SNAPSHOT</version>
     <name>Fwk-tests</name>
     <description>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact for persistence.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/tests</connection>
-        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/tests</developerConnection>
-        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/tests</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/tests</connection>
+        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/tests</developerConnection>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/tests</url>
     </scm>
   
     <packaging>jar</packaging>
@@ -23,13 +23,13 @@
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
             <artifactId>common</artifactId>
-            <version>2.0-beta-1</version>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
             <artifactId>common-tests</artifactId>
-            <version>2.0-beta-1</version>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

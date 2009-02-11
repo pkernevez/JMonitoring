@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>sample</artifactId>
-        <version>2.0-beta-1</version>
+        <version>2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -11,9 +12,9 @@
     <name>Sample-web</name>
     <description>This project provides a Sample console for Monitoring infrastructure.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-web</connection>
-        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-web</developerConnection>
-        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-web</url>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample-web</connection>
+        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/sample/sample-web</developerConnection>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/sample/sample-web</url>
     </scm>
 
     <packaging>war</packaging>
@@ -21,19 +22,19 @@
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
             <artifactId>sample-core</artifactId>
-            <version>2.0-beta-1</version>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
             <artifactId>agent</artifactId>
-            <version>2.0-beta-1</version>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
             <artifactId>hibernate-aspect</artifactId>
-            <version>2.0-beta-1</version>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -182,7 +183,8 @@
                         <configuration>
                             <tasks>
                                 <echo>*** Copy to serveur ***</echo>
-                                <copy file="target/${pom.artifactId}-${pom.version}.war" tofile="${application.server.deploy.dir}/${pom.artifactId}.war" />
+                                <copy file="target/${pom.artifactId}-${pom.version}.war"
+                                    tofile="${application.server.deploy.dir}/${pom.artifactId}.war" />
                             </tasks>
                         </configuration>
                         <goals>
