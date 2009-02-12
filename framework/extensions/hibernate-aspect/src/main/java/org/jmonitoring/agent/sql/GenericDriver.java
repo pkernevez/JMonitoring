@@ -7,8 +7,8 @@ import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -18,7 +18,7 @@ public class GenericDriver implements Driver
 {
     private static final String JMONITORING = "jmonitoring";
 
-    private static Log sLog = LogFactory.getLog(GenericDriver.class);
+    private static Logger sLog = LoggerFactory.getLogger(GenericDriver.class);
 
     private Driver mRealDriver;
 

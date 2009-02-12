@@ -1,7 +1,7 @@
 package org.jmonitoring.core.configuration;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,7 +27,7 @@ public final class SpringConfigurationUtil
 
     private static boolean sTestMode = false;
 
-    private static final Log sLog = LogFactory.getLog(SpringConfigurationUtil.class);
+    private static final Logger sLog = LoggerFactory.getLogger(SpringConfigurationUtil.class);
 
     private SpringConfigurationUtil()
     {

@@ -1,7 +1,9 @@
 <projectDescription>
   <name>common-tests</name>
   <comment>Common resources for testing JMonitoring.</comment>
-  <projects/>
+  <projects>
+    <project>common</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

@@ -3,10 +3,10 @@ package org.jmonitoring.agent.store.impl;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -16,7 +16,7 @@ public class MemoryWriter implements IStoreWriter
 {
     private static List<ExecutionFlowPO> sListOfExecutionFlow = new Vector<ExecutionFlowPO>();
 
-    private static Log sLog = LogFactory.getLog(MemoryWriter.class);
+    private static Logger sLog = LoggerFactory.getLogger(MemoryWriter.class);
 
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {

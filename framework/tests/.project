@@ -1,6 +1,7 @@
 <projectDescription>
   <name>tests</name>
-  <comment>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact for persistence.</comment>
+  <comment>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact
+        for persistence.</comment>
   <projects>
     <project>common</project>
     <project>common-tests</project>

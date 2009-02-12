@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -37,6 +35,8 @@ import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.ConsoleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author pke
@@ -54,7 +54,7 @@ public class MethodCallStatActionIn extends AbstractSpringAction
     public static final String FULL_DURATION_STAT = "FULL_DURATION_STAT";
 
     /** Logger. */
-    private static Log sLog = LogFactory.getLog(MethodCallStatActionIn.class);
+    private static Logger sLog = LoggerFactory.getLogger(MethodCallStatActionIn.class);
 
     @Override
     public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,

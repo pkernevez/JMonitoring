@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.agent.store.impl.HttpWriter;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -27,7 +27,7 @@ public class StoreServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
-    private static Log sLog = LogFactory.getLog(StoreServlet.class);
+    private static Logger sLog = LoggerFactory.getLogger(StoreServlet.class);
 
     @Override
     public void init() throws ServletException

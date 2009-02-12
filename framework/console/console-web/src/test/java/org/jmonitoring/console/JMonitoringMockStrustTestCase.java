@@ -5,8 +5,6 @@ import java.sql.SQLException;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,6 +15,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.StaticApplicationContext;
@@ -45,7 +45,7 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
 
     protected SessionFactory mSessionFactory;
 
-    private static Log sLog = LogFactory.getLog(JMonitoringMockStrustTestCase.class.getName());
+    private static Logger sLog = LoggerFactory.getLogger(JMonitoringMockStrustTestCase.class.getName());
 
     @Before
     public void initDb() throws Exception

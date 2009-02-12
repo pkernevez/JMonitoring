@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>framework</artifactId>
@@ -13,7 +14,9 @@
     <description>Common resources for testing JMonitoring.</description>
     <scm>
         <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/common-tests</connection>
-        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/common-tests</developerConnection>
+        <developerConnection>
+            scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/common-tests
+        </developerConnection>
         <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/common-tests</url>
     </scm>
 
@@ -21,38 +24,28 @@
 
     <dependencies>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.15</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.4</version>
         </dependency>
-
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
-            <version>2.5.1</version>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>common</artifactId>
+            <version>2.0-beta-2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>2.5.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>jsr250-api</artifactId>
-            <version>1.0</version>
-        </dependency>
+
+
     </dependencies>
     <build>
         <plugins>

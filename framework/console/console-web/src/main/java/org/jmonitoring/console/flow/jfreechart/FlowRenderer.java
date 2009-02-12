@@ -10,8 +10,6 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.CategoryItemEntity;
@@ -25,6 +23,8 @@ import org.jfree.data.gantt.GanttCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jmonitoring.core.configuration.ColorManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Custom Rendere for Flows.
@@ -37,7 +37,7 @@ public class FlowRenderer extends GanttRenderer
     private final ColorManager mColorMgr;
 
     /** Log instance. */
-    private static Log sLog = LogFactory.getLog(FlowRenderer.class);
+    private static Logger sLog = LoggerFactory.getLogger(FlowRenderer.class);
 
     public FlowRenderer(ColorManager pColorMgr)
     {

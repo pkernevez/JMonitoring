@@ -2,14 +2,14 @@ package org.jmonitoring.console.flow.jfreechart;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.urls.CategoryURLGenerator;
 import org.jfree.chart.urls.XYURLGenerator;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -22,7 +22,7 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
 
     private int mCurrentPositionForThisTask = -1;
 
-    private static Log sLog = LogFactory.getLog(FlowDetailURLGenerator.class);
+    private static Logger sLog = LoggerFactory.getLogger(FlowDetailURLGenerator.class);
 
     public FlowDetailURLGenerator()
     {
@@ -51,9 +51,8 @@ public class FlowDetailURLGenerator implements CategoryURLGenerator
         Task tMainTask = tTaskSeries.get(j);
         MethodCallTask tCurrentTask = (MethodCallTask) tMainTask.getSubtask(mCurrentPositionForThisTask);
 
-        String tUrl = "MethodCallEditIn.do?flowId=" + tCurrentTask.getFlowId()
-                        + "&position="
-                        + tCurrentTask.getMethodCallId();
+        String tUrl =
+            "MethodCallEditIn.do?flowId=" + tCurrentTask.getFlowId() + "&position=" + tCurrentTask.getMethodCallId();
         sLog.debug("Generate URL:" + tUrl);
         return tUrl;
     }

@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
@@ -15,6 +13,8 @@ import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -80,7 +80,7 @@ public class JMonitoringStatement implements Statement, IProxyStatement
 
     private final Statement mRealStatement;
 
-    private static Log sLog = LogFactory.getLog(JMonitoringStatement.class);
+    private static Logger sLog = LoggerFactory.getLogger(JMonitoringStatement.class);
 
     protected StringBuilder mTrace = new StringBuilder();
 

@@ -4,35 +4,40 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.jmonitoring.sample.main.ShoppingCartPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class SampleDao {
+public class SampleDao
+{
 
-    private static Log sLog = LogFactory.getLog(SampleDao.class);
+    private static Logger sLog = LoggerFactory.getLogger(SampleDao.class);
 
-    private Session mSession;
+    private final Session mSession;
 
-    public SampleDao(Session pSession) {
+    public SampleDao(Session pSession)
+    {
         mSession = pSession;
     }
 
-    public void save(ShoppingCartPO pShopCart) {
+    public void save(ShoppingCartPO pShopCart)
+    {
         mSession.save(pShopCart);
 
         Connection tCon = mSession.connection();
-        try {
+        try
+        {
             Statement tStat = tCon.createStatement();
             tStat.execute("Select count(*) from SHOPPING_CART");
             tStat.execute("Select * from SHOPPING_CART");
-        } catch (SQLException e) {
-            sLog.error(e);
+        } catch (SQLException e)
+        {
+            sLog.error("Unable to execute Sql", e);
         }
     }
 }

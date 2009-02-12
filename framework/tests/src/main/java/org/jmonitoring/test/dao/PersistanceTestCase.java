@@ -1,7 +1,5 @@
 package org.jmonitoring.test.dao;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,6 +11,8 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.After;
 import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -33,7 +33,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
 
     private Statistics mStats;
 
-    private static Log sLog = LogFactory.getLog(PersistanceTestCase.class.getName());
+    private static Logger sLog = LoggerFactory.getLogger(PersistanceTestCase.class.getName());
 
     @Before
     public void initDb() throws Exception

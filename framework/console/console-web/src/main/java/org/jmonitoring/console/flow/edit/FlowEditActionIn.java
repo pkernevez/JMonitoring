@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -24,12 +22,14 @@ import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.process.ConsoleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FlowEditActionIn extends AbstractSpringAction
 {
     private static final String MAX_FLOW_FOR_EDITION = "maxExecutionDuringFlowEdition";
 
-    private static Log sLog = LogFactory.getLog(FlowEditActionIn.class);
+    private static Logger sLog = LoggerFactory.getLogger(FlowEditActionIn.class);
 
     /**
      * Default constructor.

@@ -10,10 +10,10 @@ import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -26,7 +26,7 @@ public class HttpWriter implements IStoreWriter
 
     private String mUri;
 
-    private static Log sLog = LogFactory.getLog(HttpWriter.class);
+    private static Logger sLog = LoggerFactory.getLogger(HttpWriter.class);
 
     private HttpClient mClient;
 

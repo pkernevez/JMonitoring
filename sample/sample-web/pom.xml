@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>sample</artifactId>
@@ -46,6 +47,12 @@
             <groupId>displaytag</groupId>
             <artifactId>displaytag</artifactId>
             <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -71,6 +78,12 @@
             <groupId>struts</groupId>
             <artifactId>struts</artifactId>
             <version>1.2.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -81,6 +94,10 @@
                 <exclusion>
                     <groupId>hsqldb</groupId>
                     <artifactId>hsqldb</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -182,7 +199,8 @@
                         <configuration>
                             <tasks>
                                 <echo>*** Copy to serveur ***</echo>
-                                <copy file="target/${pom.artifactId}-${pom.version}.war" tofile="${application.server.deploy.dir}/${pom.artifactId}.war" />
+                                <copy file="target/${pom.artifactId}-${pom.version}.war"
+                                    tofile="${application.server.deploy.dir}/${pom.artifactId}.war" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -212,6 +230,14 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <weaveDependencies>
                         <weaveDependency>
@@ -234,13 +260,6 @@
                         </aspectLibrary>
                     </aspectLibraries>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

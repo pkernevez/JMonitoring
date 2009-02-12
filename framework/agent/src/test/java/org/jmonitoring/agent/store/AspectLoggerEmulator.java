@@ -3,11 +3,12 @@ package org.jmonitoring.agent.store;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
+import org.slf4j.Logger;
+import org.slf4j.Marker;
 import org.springframework.context.ApplicationContext;
 
 /***************************************************************************
@@ -118,7 +119,7 @@ public class AspectLoggerEmulator
         }
     }
 
-    public static class ErrorLogTracer implements Log
+    public static class ErrorLogTracer implements Logger
     {
         public List<Object> mErrors = new ArrayList<Object>();
 
@@ -159,53 +160,237 @@ public class AspectLoggerEmulator
             return true;
         }
 
-        public void trace(Object pArg0)
-        {
-        }
-
-        public void trace(Object pArg0, Throwable pArg1)
-        {
-        }
-
-        public void debug(Object pArg0)
-        {
-        }
-
-        public void debug(Object pArg0, Throwable pArg1)
-        {
-        }
-
-        public void info(Object pArg0)
-        {
-        }
-
-        public void info(Object pArg0, Throwable pArg1)
-        {
-        }
-
-        public void warn(Object pArg0)
-        {
-        }
-
-        public void warn(Object pArg0, Throwable pArg1)
-        {
-        }
-
-        public void error(Object pArg0)
+        public void error(String pArg0)
         {
             mErrors.add("" + pArg0);
         }
 
-        public void error(Object pArg0, Throwable pArg1)
+        public void error(String pArg0, Throwable pArg1)
         {
             mErrors.add("" + pArg0 + pArg1.getMessage());
         }
 
-        public void fatal(Object pArg0)
+        public void debug(String pMsg)
         {
         }
 
-        public void fatal(Object pArg0, Throwable pArg1)
+        public void debug(String pFormat, Object pArg)
+        {
+        }
+
+        public void debug(String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void debug(String pMsg, Throwable pT)
+        {
+        }
+
+        public void debug(Marker pMarker, String pMsg)
+        {
+        }
+
+        public void debug(String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void debug(Marker pMarker, String pFormat, Object pArg)
+        {
+        }
+
+        public void debug(Marker pMarker, String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void debug(Marker pMarker, String pMsg, Throwable pT)
+        {
+        }
+
+        public void debug(Marker pMarker, String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void error(String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void error(Marker pMarker, String pMsg)
+        {
+        }
+
+        public void error(String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void error(Marker pMarker, String pFormat, Object pArg)
+        {
+        }
+
+        public void error(Marker pMarker, String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void error(Marker pMarker, String pMsg, Throwable pT)
+        {
+        }
+
+        public void error(Marker pMarker, String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public String getName()
+        {
+            return null;
+        }
+
+        public void info(String pMsg)
+        {
+
+        }
+
+        public void info(String pFormat, Object pArg)
+        {
+        }
+
+        public void info(String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void info(String pMsg, Throwable pT)
+        {
+        }
+
+        public void info(Marker pMarker, String pMsg)
+        {
+        }
+
+        public void info(String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void info(Marker pMarker, String pFormat, Object pArg)
+        {
+        }
+
+        public void info(Marker pMarker, String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void info(Marker pMarker, String pMsg, Throwable pT)
+        {
+        }
+
+        public void info(Marker pMarker, String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public boolean isDebugEnabled(Marker pMarker)
+        {
+            return false;
+        }
+
+        public boolean isErrorEnabled(Marker pMarker)
+        {
+            return false;
+        }
+
+        public boolean isInfoEnabled(Marker pMarker)
+        {
+            return false;
+        }
+
+        public boolean isTraceEnabled(Marker pMarker)
+        {
+            return false;
+        }
+
+        public boolean isWarnEnabled(Marker pMarker)
+        {
+            return false;
+        }
+
+        public void trace(String pMsg)
+        {
+
+        }
+
+        public void trace(String pFormat, Object pArg)
+        {
+        }
+
+        public void trace(String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void trace(String pMsg, Throwable pT)
+        {
+        }
+
+        public void trace(Marker pMarker, String pMsg)
+        {
+        }
+
+        public void trace(String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void trace(Marker pMarker, String pFormat, Object pArg)
+        {
+        }
+
+        public void trace(Marker pMarker, String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void trace(Marker pMarker, String pMsg, Throwable pT)
+        {
+        }
+
+        public void trace(Marker pMarker, String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void warn(String pMsg)
+        {
+        }
+
+        public void warn(String pFormat, Object pArg)
+        {
+        }
+
+        public void warn(String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void warn(String pMsg, Throwable pT)
+        {
+        }
+
+        public void warn(Marker pMarker, String pMsg)
+        {
+        }
+
+        public void warn(String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void warn(Marker pMarker, String pFormat, Object pArg)
+        {
+        }
+
+        public void warn(Marker pMarker, String pFormat, Object[] pArgArray)
+        {
+        }
+
+        public void warn(Marker pMarker, String pMsg, Throwable pT)
+        {
+        }
+
+        public void warn(Marker pMarker, String pFormat, Object pArg1, Object pArg2)
+        {
+        }
+
+        public void error(String pFormat, Object pArg)
         {
         }
 

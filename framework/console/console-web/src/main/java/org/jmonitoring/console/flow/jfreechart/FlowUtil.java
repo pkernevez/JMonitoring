@@ -17,8 +17,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieItemLabelGenerator;
@@ -32,6 +30,8 @@ import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author pke
@@ -47,7 +47,7 @@ public class FlowUtil
     /** Constant used for the URL generation of the PieChart representing the duration of calls. */
     public static final String DURATION_IN_GROUP = "DURATION_IN_GROUP";
 
-    private static Log sLog = LogFactory.getLog(FlowUtil.class);
+    private static Logger sLog = LoggerFactory.getLogger(FlowUtil.class);
 
     private Map<String, Integer> mListOfGroup = new HashMap<String, Integer>();
 
@@ -141,7 +141,7 @@ public class FlowUtil
             ChartUtilities.writeChartAsPNG(tStream, pChart, 460, 360);
         } catch (IOException e)
         {
-            sLog.error(e);
+            sLog.error("Unable to write Image", e);
             throw new MeasureException("Unable to write Image", e);
         }
         pSession.setAttribute(pName, tStream.toByteArray());

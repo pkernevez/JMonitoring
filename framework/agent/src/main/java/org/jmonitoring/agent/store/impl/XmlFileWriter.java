@@ -10,13 +10,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class allow the logging with an XMLFile. This class is not ThreadSafe when multiple file is used.
@@ -33,7 +33,7 @@ public class XmlFileWriter implements IStoreWriter
 
     final Writer mLogFile;
 
-    private static Log sLog = LogFactory.getLog(XmlFileWriter.class);
+    private static Logger sLog = LoggerFactory.getLogger(XmlFileWriter.class);
 
     public XmlFileWriter(String pFolderName, FormaterBean pFormater)
     {

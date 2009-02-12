@@ -14,8 +14,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.ObjectNotFoundException;
@@ -30,6 +28,8 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.InsertionDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manage the persistance
@@ -40,7 +40,7 @@ public class ConsoleDao extends InsertionDao
 {
     public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
 
-    private static Log sLog = LogFactory.getLog(ConsoleDao.class);
+    private static Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
 
     @Resource(name = "hibernateConfiguration")
     private Configuration mConfiguration;

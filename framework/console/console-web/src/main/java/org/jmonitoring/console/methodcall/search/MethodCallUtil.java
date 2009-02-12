@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility for image generation of the tree of measure as a menu.
@@ -25,7 +25,7 @@ public class MethodCallUtil
 
     private final StringBuilder mWriter;
 
-    private static Log sLog = LogFactory.getLog(MethodCallUtil.class);
+    private static Logger sLog = LoggerFactory.getLogger(MethodCallUtil.class);
 
     /**
      * Contructor for test.
@@ -48,7 +48,7 @@ public class MethodCallUtil
      */
     @SuppressWarnings("unchecked")
     public void writeMeasureListAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
-                    MyMap pTreeOfExtract)
+        MyMap pTreeOfExtract)
     {
         if (pTreeOfExtract.size() == 0)
         {
@@ -60,8 +60,9 @@ public class MethodCallUtil
             for (Map.Entry<String, MyMap> curEntry : pTreeOfExtract.entrySet())
             {
                 mWriter.append("<li class=\"menubar\">");
-                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList<String>(),
-                                              curEntry.getValue(), curEntry.getKey(), true, tLastId + 1);
+                tLastId =
+                    writeMeasuresAsMenu(pListOfAllExtractByFullName, new ArrayList<String>(), curEntry.getValue(),
+                                        curEntry.getKey(), true, tLastId + 1);
                 mWriter.append("</li>");
             }
             mWriter.append("</ul>");
@@ -90,8 +91,7 @@ public class MethodCallUtil
      * @return The last technical identifier used.
      */
     int writeMeasuresAsMenu(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
-                    List<String> pCurrentClassName, MyMap pTreeOfMeasure, String pCurNodeName, boolean pFirstLevel,
-                    int pLastId)
+        List<String> pCurrentClassName, MyMap pTreeOfMeasure, String pCurNodeName, boolean pFirstLevel, int pLastId)
     {
         int tLastId = pLastId;
         if (pTreeOfMeasure.size() > 0)
@@ -116,8 +116,9 @@ public class MethodCallUtil
             mWriter.append("\">\n");
             for (Map.Entry<String, MyMap> curEntry : pTreeOfMeasure.entrySet())
             {
-                tLastId = writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName, curEntry.getValue(),
-                                              curEntry.getKey(), false, ++tLastId);
+                tLastId =
+                    writeMeasuresAsMenu(pListOfAllExtractByFullName, pCurrentClassName, curEntry.getValue(),
+                                        curEntry.getKey(), false, ++tLastId);
             }
             mWriter.append("  </ul>\n");
             if (pFirstLevel)
@@ -130,8 +131,8 @@ public class MethodCallUtil
         {
             // Generation of the hyper-link to the statistics
             StringBuilder tLinkStat = new StringBuilder();
-            MethodCallExtractDTO tExtract = getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName,
-                                                                  pCurNodeName);
+            MethodCallExtractDTO tExtract =
+                getExtractForThisNode(pListOfAllExtractByFullName, pCurrentClassName, pCurNodeName);
             tLinkStat.append("<li><span title=\"GroupName=[").append(tExtract.getGroupName());
             tLinkStat.append("]\">").append(tExtract.getMethodName());
             tLinkStat.append("()</span> ");
@@ -147,7 +148,7 @@ public class MethodCallUtil
     }
 
     private MethodCallExtractDTO getExtractForThisNode(Map<String, MethodCallExtractDTO> pListOfAllExtractByFullName,
-                    List<String> pClassNameAsString, String pCurrentNodeName)
+        List<String> pClassNameAsString, String pCurrentNodeName)
     {
         // Calculation of the full name
         StringBuilder tBuffer = new StringBuilder();

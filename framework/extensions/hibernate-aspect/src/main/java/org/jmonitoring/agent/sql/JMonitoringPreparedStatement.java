@@ -18,10 +18,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.store.StoreManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -55,7 +55,7 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     private final String mSql;
 
-    private static Log sLog = LogFactory.getLog(JMonitoringPreparedStatement.class);
+    private static Logger sLog = LoggerFactory.getLogger(JMonitoringPreparedStatement.class);
 
     public JMonitoringPreparedStatement(PreparedStatement pRealPreparedStat, String pSql)
     {

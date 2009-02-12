@@ -7,19 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.console.AbstractSpringAction;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.process.ConsoleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FlowExportServlet extends HttpServlet
 {
 
     private static final long serialVersionUID = 2393628229673694881L;
 
-    private static Log sLog = LogFactory.getLog(FlowExportServlet.class);
+    private static Logger sLog = LoggerFactory.getLogger(FlowExportServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException

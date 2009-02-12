@@ -14,8 +14,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -37,6 +35,8 @@ import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dto.MethodCallDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FlowChartBarUtil
 {
@@ -48,7 +48,7 @@ public class FlowChartBarUtil
 
     private static final int BORDER_DOWN = 60;
 
-    private static Log sLog = LogFactory.getLog(FlowChartBarUtil.class);
+    private static Logger sLog = LoggerFactory.getLogger(FlowChartBarUtil.class);
 
     private static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
 

@@ -8,14 +8,14 @@ import java.net.Socket;
 
 import javax.net.ServerSocketFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 
 /***********************************************************************************************************************
@@ -25,7 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class HttpWriterTest extends JMonitoringTestCase
 {
 
-    protected static final Log sLog = LogFactory.getLog(HttpWriterTest.class);
+    protected static final Logger sLog = LoggerFactory.getLogger(HttpWriterTest.class);
 
     protected String error;
 

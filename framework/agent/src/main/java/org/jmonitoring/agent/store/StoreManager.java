@@ -7,14 +7,14 @@ package org.jmonitoring.agent.store;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Permet de logger sous forme XML l'ensemble des appels avec les signature et les temps d'ex�cution dans un fichier XML �
@@ -31,7 +31,7 @@ public class StoreManager
 
     private MethodCallPO mCurrentLogPoint;
 
-    private static Log sLog = LogFactory.getLog(StoreManager.class);
+    private static Logger sLog = LoggerFactory.getLogger(StoreManager.class);
 
     @Resource(name = "storeWriter")
     private IStoreWriter mStoreWriter;
@@ -230,12 +230,12 @@ public class StoreManager
         pMethodCall.setThrowableMessage(pExceptionMessage);
     }
 
-    static void setLog(Log pLog)
+    static void setLog(Logger pLog)
     {
         sLog = pLog;
     }
 
-    static Log getLog()
+    static Logger getLog()
     {
         return sLog;
     }

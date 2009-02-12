@@ -2,10 +2,10 @@ package org.jmonitoring.agent.store.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import EDU.oswego.cs.dl.util.concurrent.BoundedBuffer;
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
@@ -28,7 +28,7 @@ public final class AsynchroneWriter implements IStoreWriter
 
     private static final int DEFAULT_MAX_THREAD_POOL_SIZE = 5;
 
-    private static Log sLog = LogFactory.getLog(AsynchroneWriter.class);
+    private static Logger sLog = LoggerFactory.getLogger(AsynchroneWriter.class);
 
     private final PooledExecutor mExecutor;
 

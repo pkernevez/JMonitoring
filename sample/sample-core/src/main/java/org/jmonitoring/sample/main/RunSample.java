@@ -1,7 +1,5 @@
 package org.jmonitoring.sample.main;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -11,6 +9,8 @@ import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.sample.persistence.SampleDao;
 import org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -25,7 +25,7 @@ import org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil;
  */
 public class RunSample
 {
-    private static Log sLog = LogFactory.getLog(RunSample.class);
+    private static Logger sLog = LoggerFactory.getLogger(RunSample.class);
 
     private static final int SLEEP_TEST_TIME = 5000;
 

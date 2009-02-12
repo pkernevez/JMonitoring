@@ -1,9 +1,9 @@
 package org.jmonitoring.agent.store.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -16,7 +16,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  */
 public class MockWriter implements IStoreWriter
 {
-    private static Log sLog = LogFactory.getLog(MockWriter.class);
+    private static Logger sLog = LoggerFactory.getLogger(MockWriter.class);
 
     private static int sNbLog;
 

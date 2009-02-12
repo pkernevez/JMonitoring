@@ -13,8 +13,6 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.exception.SQLGrammarException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.MeasureException;
@@ -27,6 +25,8 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -34,7 +34,7 @@ import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 
 public class ConsoleManager
 {
-    private static Log sLog = LogFactory.getLog(ConsoleManager.class);
+    private static Logger sLog = LoggerFactory.getLogger(ConsoleManager.class);
 
     @Resource(name = "dtoManager")
     private DtoManager dtoManager;
@@ -66,7 +66,7 @@ public class ConsoleManager
             mDao.deleteFlow(pId);
         } catch (RuntimeException t)
         {
-            LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
+            sLog.error("Unable to Execute Action" + t);
             throw t;
         }
     }
@@ -78,7 +78,7 @@ public class ConsoleManager
             mDao.deleteAllFlows();
         } catch (Throwable t)
         {
-            LogFactory.getLog(this.getClass()).error("Unable to Execute Action" + t);
+            sLog.error("Unable to Execute Action" + t);
         }
     }
 

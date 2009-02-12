@@ -36,26 +36,12 @@
             <version>2.0-beta-2-SNAPSHOT</version>
         </dependency>
 
-        <!--  TODO Supprimer ça -->
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.1</version>
-        </dependency>
-
         <!-- Tests configuration -->
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
             <artifactId>common</artifactId>
             <version>2.0-beta-2-SNAPSHOT</version>
             <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>2.5.1</version>
             <scope>test</scope>
         </dependency>
 

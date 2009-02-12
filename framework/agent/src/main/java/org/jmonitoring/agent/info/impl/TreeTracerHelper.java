@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class TreeTracerHelper
 {
-    private static Log sLog = LogFactory.getLog(TreeTracerHelper.class);
+    private static Logger sLog = LoggerFactory.getLogger(TreeTracerHelper.class);
 
     private static Map<Class<?>, List<Method>> sListOfGetterCache = new Hashtable<Class<?>, List<Method>>();
 
@@ -225,10 +225,14 @@ public final class TreeTracerHelper
                         Class<?> tReturnClass = curMethod.getReturnType();
                         if (!tReturnClass.isPrimitive() && curMethod.getParameterTypes().length == 0)
                         {
-                            boolean tIsBizClass = !tReturnClass.getName().startsWith("sun.") && !tReturnClass.getName()
-                                            .startsWith("java");
-                            tIsBizClass = tIsBizClass || (Collection.class.isAssignableFrom(tReturnClass) || Map.class
-                                            .isAssignableFrom(tReturnClass) || Object.class.equals(tReturnClass));
+                            boolean tIsBizClass =
+                                !tReturnClass.getName().startsWith("sun.")
+                                    && !tReturnClass.getName().startsWith("java");
+                            tIsBizClass =
+                                tIsBizClass
+                                    || (Collection.class.isAssignableFrom(tReturnClass)
+                                        || Map.class.isAssignableFrom(tReturnClass) || Object.class
+                                                                                                   .equals(tReturnClass));
                             if (tIsBizClass)
                             {
                                 tResult.add(curMethod);

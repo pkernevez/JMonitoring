@@ -5,8 +5,6 @@ import java.sql.SQLException;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
@@ -17,6 +15,8 @@ import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -26,7 +26,7 @@ public class InsertionDao implements IInsertionDao
 {
     private static final int BATCH_SIZE = 100;
 
-    private static Log sLog = LogFactory.getLog(InsertionDao.class);
+    private static Logger sLog = LoggerFactory.getLogger(InsertionDao.class);
 
     private PreparedStatement mMethodCallInsertStatement;
 

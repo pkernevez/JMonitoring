@@ -5,8 +5,6 @@ package org.jmonitoring.agent.aspect;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
@@ -17,6 +15,8 @@ import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This abstract aspect should be extends by users. It provides all the mechanism for logging measure. Children have to
@@ -29,7 +29,7 @@ public abstract aspect PerformanceAspect
     public abstract pointcut executionToLog();
 
     /** Log instance. */
-    private Log mLog;
+    private Logger mLog;
 
     /** Allow to trace the parameter of a method. */
     protected IParamaterTracer mParamTracer;
@@ -56,7 +56,7 @@ public abstract aspect PerformanceAspect
         mParamTracer = new ToStringParametersTracer();
         mResultTracer = new ToStringResultTracer();
         mThowableTracer = new DefaultExceptionTracer();
-        mLog = LogFactory.getLog(this.getClass());
+        mLog = LoggerFactory.getLogger(this.getClass());
 
     }
 
@@ -104,7 +104,7 @@ public abstract aspect PerformanceAspect
             }
         } catch (MeasureException e)
         {
-            LogFactory.getLog(this.getClass()).error("Unable to log", e);
+            LoggerFactory.getLogger(this.getClass()).error("Unable to log", e);
         }
 
         return tResult;

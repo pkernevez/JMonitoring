@@ -2,19 +2,19 @@ package org.jmonitoring.server.store.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.configuration.IInsertionDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JdbcWriter implements IStoreWriter
 {
 
-    private static Log sLog = LogFactory.getLog(JdbcWriter.class);;
+    private static Logger sLog = LoggerFactory.getLogger(JdbcWriter.class);;
 
     @Resource(name = "dao")
     private IInsertionDao mDao;
