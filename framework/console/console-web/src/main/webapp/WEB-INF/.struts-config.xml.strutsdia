@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="StrutsProcess">
+ <PROCESS-ITEM ID="error" NAME="forward0" PATH="/Error.do"
+  SHAPE="32,17,0,0" TARGET="action10" TITLE="error" TYPE="forward" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM ID="java.lang.Throwable" NAME="exception0"
+  PATH="/Error.do" SHAPE="32,129,0,0" TARGET="action10"
+  TITLE="Throwable" TYPE="exception" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM ID="#ImportFlowIn" NAME="action0" PATH="/ImportFlowIn"
+  SHAPE="32,241,0,0" SUBTYPE="forward" TITLE="importexecutionflow"
+  TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT NAME="action0" PATH="importflow" TARGET="page0"
+   TITLE="forward" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#ImportFlowOut" NAME="action1" PATH="/ImportFlowOut"
+  SHAPE="32,353,0,0" TITLE="importexecutionflow" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0"
+   PATH="importflowsuccessful" TARGET="page1" TITLE="success"
+   TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#FlowSearchIn" NAME="action2" PATH="/FlowSearchIn"
+  SHAPE="32,465,0,0" SUBTYPE="forward" TITLE="flowsearchform"
+  TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT NAME="action2" PATH="flowsearch" TARGET="page2"
+   TITLE="forward" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#FlowEditIn" NAME="action3" PATH="/FlowEditIn"
+  SHAPE="32,689,0,0" TITLE="floweditform" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="required_info" NAME="forward0"
+   PATH="floweditrequiredinfo" TARGET="page3" TITLE="required_info"
+   TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward1"
+   PATH="floweditinternal" TARGET="page4" TITLE="success" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#DeleteOneFlowIn" NAME="action4"
+  PATH="/DeleteOneFlowIn" SHAPE="32,945,0,0" TITLE="flowidform"
+  TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="invalid" NAME="forward0"
+   PATH="functionalerror" TARGET="page5" TITLE="invalid" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward1"
+   PATH="deleteflowsuccess" TARGET="page6" TITLE="success"
+   TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#MethodCallSearchIn" NAME="action5"
+  PATH="/MethodCallSearchIn" SHAPE="32,1201,0,0"
+  TITLE="methodcallsearchform" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0"
+   PATH="methodcallsearch" TARGET="page7" TITLE="success" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#Index" NAME="action6" PATH="/Index"
+  SHAPE="32,1313,0,0" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0" PATH="homepage"
+   TARGET="page8" TITLE="success" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#FlowSearchOut" NAME="action7" PATH="/FlowSearchOut"
+  SHAPE="32,577,0,0" TITLE="flowsearchform" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0" PATH="flowsearch"
+   TARGET="page2" TITLE="success" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#DeleteAllFlowsIn" NAME="action8"
+  PATH="/DeleteAllFlowsIn" SHAPE="32,1089,0,0" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0"
+   PATH="deleteflowsuccess" TARGET="page6" TITLE="success"
+   TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#DeleteAllFlowsConfirmIn" NAME="action9"
+  PATH="/DeleteAllFlowsConfirmIn" SHAPE="32,1425,0,0" SUBTYPE="forward"
+  TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT NAME="action9" PATH="deleteflowconfirm"
+   TARGET="page9" TITLE="forward" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#Error" NAME="action10" PATH="/Error"
+  SHAPE="256,33,0,0" SUBTYPE="forward" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT NAME="action10" PATH="errorpage" TARGET="page10"
+   TITLE="forward" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#MethodCallListIn" NAME="action11"
+  PATH="/MethodCallListIn" SHAPE="32,1537,0,0"
+  TITLE="methodcalllistform" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0"
+   PATH="methodcalllist" TARGET="page11" TITLE="success" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#MethodCallStatIn" NAME="action12"
+  PATH="/MethodCallStatIn" SHAPE="32,1649,0,0"
+  TITLE="methodcallstatform" TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0"
+   PATH="methodcallstat" TARGET="page12" TITLE="success" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM ID="#MethodCallEditIn" NAME="action13"
+  PATH="/MethodCallEditIn" SHAPE="32,1761,0,0" TITLE="methodcallform"
+  TYPE="action" model-entity="StrutsProcessItem">
+  <PROCESS-ITEM-OUTPUT ID="success" NAME="forward0"
+   PATH="methodcalledit" TARGET="page13" TITLE="success" TYPE="forward" model-entity="StrutsProcessItemOutput"/>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="page0" PATH="importflow" SHAPE="240,258,0,0"
+  SUBTYPE="tile" TITLE="importflow" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page1" PATH="importflowsuccessful"
+  SHAPE="240,370,0,0" SUBTYPE="tile" TITLE="importflowsuccessful"
+  TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page2" PATH="flowsearch" SHAPE="256,482,0,0"
+  SUBTYPE="tile" TITLE="flowsearch" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page3" PATH="floweditrequiredinfo"
+  SHAPE="256,706,0,0" SUBTYPE="tile" TITLE="floweditrequiredinfo"
+  TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page4" PATH="floweditinternal" SHAPE="256,850,0,0"
+  SUBTYPE="tile" TITLE="floweditinternal" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page5" PATH="functionalerror" SHAPE="256,962,0,0"
+  SUBTYPE="tile" TITLE="functionalerror" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page6" PATH="deleteflowsuccess"
+  SHAPE="256,1106,0,0" SUBTYPE="tile" TITLE="deleteflowsuccess"
+  TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page7" PATH="methodcallsearch" SHAPE="240,1218,0,0"
+  SUBTYPE="tile" TITLE="methodcallsearch" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page8" PATH="homepage" SHAPE="240,1330,0,0"
+  SUBTYPE="tile" TITLE="homepage" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page9" PATH="deleteflowconfirm"
+  SHAPE="240,1442,0,0" SUBTYPE="tile" TITLE="deleteflowconfirm"
+  TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page10" PATH="errorpage" SHAPE="464,18,0,0"
+  SUBTYPE="tile" TITLE="errorpage" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page11" PATH="methodcalllist" SHAPE="240,1554,0,0"
+  SUBTYPE="tile" TITLE="methodcalllist" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page12" PATH="methodcallstat" SHAPE="240,1666,0,0"
+  SUBTYPE="tile" TITLE="methodcallstat" TYPE="page" model-entity="StrutsProcessItem"/>
+ <PROCESS-ITEM NAME="page13" PATH="methodcalledit" SHAPE="240,1778,0,0"
+  SUBTYPE="tile" TITLE="methodcalledit" TYPE="page" model-entity="StrutsProcessItem"/>
+</PROCESS>

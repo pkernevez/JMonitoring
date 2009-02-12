@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   	<class name="org.jmonitoring.core.configuration.GeneralConfigurationPO" table="CONFIGURATION_GENERAL">
+	  <cache usage="nonstrict-read-write" region="Conf"/>
+
+      <id name="id" column="ID" unsaved-value="undefined">
+         <generator class="assigned" />
+      </id>
+
+      <property name="maxExecutionDuringFlowEdition" column="MAX_EXECUTION__DURING_FLOW_EDITION" type="java.lang.Integer" />
+      <property name="dateFormat" column="DATE_FORMAT" type="java.lang.String" length="30"/>
+      <property name="timeFormat" column="TIME_FORMAT" type="java.lang.String" length="30"/>
+      
+	</class>	
+</hibernate-mapping>
+

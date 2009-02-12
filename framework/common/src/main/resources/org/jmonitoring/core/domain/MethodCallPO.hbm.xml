@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   	<class name="org.jmonitoring.core.domain.MethodCallPO" table="METHOD_CALL">
+      <composite-id name="methId" class="org.jmonitoring.core.domain.MethodCallPK">
+      	<key-many-to-one name="flow" column="FLOW_ID" class="org.jmonitoring.core.domain.ExecutionFlowPO"/>
+      	<key-property name="position" column="INDEX_IN_FLOW" type="java.lang.Integer"/>
+      </composite-id>
+
+		<!-- id name="id" column="ID" unsaved-value="-1">
+        	<generator class="native" />
+      	</id-->
+
+      <property name="params" column="PARAMETERS" type="text" />
+      <property name="beginTime" column="BEGIN_TIME" type="java.lang.Long" />
+      <property name="endTime" column="END_TIME" type="java.lang.Long" />
+      <property name="className" column="FULL_CLASS_NAME" type="java.lang.String" length="120"/>
+      <property name="runtimeClassName" column="RUNTIME_CLASS_NAME" type="java.lang.String" length="120"/>
+      <property name="methodName" column="METHOD_NAME" type="java.lang.String" length="50"/>
+      <property name="throwableClass" column="THROWABLE_CLASS_NAME" type="java.lang.String" length="120" />
+      <property name="throwableMessage" column="THROWABLE_MESSAGE" type="java.lang.String" />
+      <property name="returnValue" column="RESULT" type="text" />
+      <property name="groupName" column="GROUP_NAME" type="java.lang.String" length="145"/>
+		
+		<many-to-one name="flow" column="FLOW_ID"
+			unique="false" not-null="false" insert="false" update="false"/>
+		
+		<many-to-one name="parent" 
+			not-null="false" insert="false" update="false">
+			<column name="FLOW_ID" />
+			<column name="PARENT_INDEX_IN_FLOW"></column>
+		</many-to-one>
+		<list name="children" lazy="true" cascade="all" >
+			<key>
+				<column name="FLOW_ID" not-null="false"/>
+				<column name="PARENT_INDEX_IN_FLOW" not-null="false"/>
+			</key>
+			<index column="SUB_METH_INDEX" type="java.lang.Integer"/>
+			<one-to-many class="org.jmonitoring.core.domain.MethodCallPO"/>
+		</list>
+		
+	</class>
+	<query name="GetMethodCallList"><![CDATA[from MethodCallPO meth where :className = meth.className
+		and :methodName = meth.methodName
+		and :durationMin <= (meth.endTime-meth.beginTime)
+		and :durationMax >= (meth.endTime-meth.beginTime)]]></query>
+	<sql-query name="CountMethWithParent"><![CDATA[Select Count(*) as myCount From METHOD_CALL Where PARENT_INDEX_IN_FLOW IS NOT NULL")]]></sql-query>
+	
+</hibernate-mapping>
+

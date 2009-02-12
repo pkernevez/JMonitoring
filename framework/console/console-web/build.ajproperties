@@ -1,0 +1,5 @@
+src.includes = src-unit-test/net/kernevez/javamonitoring/console/measurepoint/,\
+               src-java/net/kernevez/javamonitoring/console/measurepoint/,\
+               src-java/net/kernevez/javamonitoring/console/image/DynamicImageServlet.java,\
+               src-unit-test/net/kernevez/javamonitoring/console/flow/jfreechart/,\
+               src-java/net/kernevez/javamonitoring/console/flow/

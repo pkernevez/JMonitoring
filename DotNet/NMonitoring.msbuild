@@ -1,0 +1,59 @@
+<Project DefaultTargets="Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+	<ItemGroup>
+		<File Include="core_monitoring_tests\bin\Release\*.data"/>
+		<File Include="core_monitoring_tests\bin\Release\*.cfg"/>
+		<File Include="core_monitoring_tests\bin\Release\*.log"/>
+		<File Include="core_monitoring_tests\bin\Release\*.pdb"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<FileToAnalyze Include="core_monitoring\bin\Release\core_monitoring.dll"/>
+		<FileToAnalyze Include="core_monitoring_tests\bin\Release\core_monitoring_tests.dll"/>
+		<FileToAnalyze Include="sample_target\bin\Release\sample_target.exe"/>
+	</ItemGroup>
+
+	<Target Name="Build">
+		<MSBuild Projects="NMonitoring.sln" Properties="Configuration=Release" ContinueOnError="false" RebaseOutputs="true"></MSBuild>
+	</Target>
+
+	<Target Name="Run Tests" DependsOnTargets="Build">
+		<Delete Files="@(File)" />
+		<CreateItem Include="core_monitoring_tests\bin\Release\core_monitoring_tests.dll">
+			<Output TaskParameter="Include" ItemName="TestAssembly" />
+		</CreateItem>
+		<NUnit Assemblies="@(TestAssembly)" ContinueOnError="false" />
+	</Target>
+
+	<Target Name="FxCop" DependsOnTargets="Run Tests">
+		<FxCop ProjectFile="NMonitoring.FxCop" TargetAssemblies="@(FileToAnalyze)" AnalysisReportFileName="NMonitoringFxCopAnalysis.xml" ContinueOnError="true" />
+	</Target>
+	
+	<Target Name="Package" DependsOnTargets="FxCop">
+		<RemoveDir Directories="NMonitoring_release" />
+		<MakeDir Directories="NMonitoring_release" />
+		
+		<CreateItem Include="core_monitoring\bin\Release\*.*" Exclude="core_monitoring\bin\Release\*.pdb">
+			<Output TaskParameter="Include" ItemName="NMonitoring" />
+		</CreateItem>
+		<Zip Files="@(NMonitoring)" ZipFileName="NMonitoring.zip" Flatten="true"/>
+		<Copy SourceFiles="NMonitoring.zip" DestinationFolder="NMonitoring_release" />
+		<Delete Files="NMonitoring.zip"/>
+
+		<CreateItem Include="core_monitoring_tests\bin\Release\*.*" Exclude="@(File)">
+			<Output TaskParameter="Include" ItemName="NMonitoring_tests" />
+		</CreateItem>
+		<Zip Files="@(NMonitoring_tests)" ZipFileName="NMonitoring_tests.zip" Flatten="true"/>
+		<Copy SourceFiles="NMonitoring_tests.zip" DestinationFolder="NMonitoring_release" />
+		<Delete Files="NMonitoring_tests.zip" />
+
+		<CreateItem Include="sample_target\bin\Release\*.*" Exclude="sample_target\bin\Release\*.pdb">
+			<Output TaskParameter="Include" ItemName="NMonitoring_sample" />
+		</CreateItem>
+		<Zip Files="@(NMonitoring_sample)" ZipFileName="NMonitoring_sample.zip" Flatten="true"/>
+		<Copy SourceFiles="NMonitoring_sample.zip" DestinationFolder="NMonitoring_release" />
+		<Delete Files="NMonitoring_sample.zip" />
+	</Target>
+</Project>

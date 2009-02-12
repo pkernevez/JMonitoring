@@ -1,0 +1,22 @@
+<AspectDngConfig 
+	warnings="$(path)/Warnings.log" 
+	weaving="$(path)/Weaving-log-sample_target_library.xml" 
+	debug="true">
+
+	<Variables>
+		<Variable name="path" value="bin\Debug"/>
+	</Variables>
+	
+    <TargetAssembly>$(path)\sample_target_library.dll</TargetAssembly>
+    <AspectsAssembly>$(path)\sample_aspects.dll</AspectsAssembly>
+    <WeavedAssembly>$(path)\sample_target_library.dll</WeavedAssembly>
+
+    
+    <PrivateLocations>
+        <PrivatePath>$(path)</PrivatePath>
+    </PrivateLocations>
+
+    <Advice>
+      <AroundBody aspectRegExp="* *.SampleAspect::SimpleLogger(*)" 	        targetRegExp="* Org.NMonitoring.SampleTargetLibrary.SimpleLogger::log(*)"/>
+    </Advice>
+</AspectDngConfig>

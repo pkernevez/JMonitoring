@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <title>Changes</title>
+    <author email="pkernevez@octo.org">Philippe Kernevez</author>
+  </properties>
+  <body>
+
+    <release version="1.0-SNAPSHOT" description="Hibernate migration">
+    	<a href="http://forge.octo.com/confluence/display/JMO/ReleaseNotes"/>
+    </release>
+    <release version="0.5" date="2005-06-16" description="Performance and stability">
+        <action dev="pkernevez" type="add">New page for searching list of <code>MeasurePoint</code> on same class and method.</action>
+        <action dev="pkernevez" type="update">Information add to <code>MeasurePoint</code> statistics.</action>
+        <action dev="pkernevez" type="update">Big Tree in the detail view of the flow (as tree) has duration filtering (don’t show to long <code>MeasurePoint</code>.</action>
+        <action dev="pkernevez" type="update">Improvement of the flows search criterion.</action>
+        <action dev="pkernevez" type="update">AsynchroneLogger ThreadPool is now based on the Doug Lea's concurrent framework.</action>
+        <action dev="pkernevez" type="update">Site improvements</action>
+        <action dev="pkernevez" type="add">Tracing parameters and return value is now defined at aspect level (instead of global).</action>
+        <action dev="pkernevez" type="update">Java sources are now included in the distribution jars.</action>
+        <action dev="pkernevez" type="fix">Adminitration console and sample webapp have been checked with Tomcat 5.0, Weblogic 8.1 and JBoss 3.2.5.</action>
+    </release>
+    <release version="0.4" date="2005-05-31" description="Documentation release">
+        <action dev="pkernevez" type="add">Documentation for the using of jmonitoring</action>
+        <action dev="pkernevez" type="update">Configuration: now use the properties file: <I>"jmonitoring.properties"</I>.</action>
+        <action dev="pkernevez" type="add">ScreenShot of the application.</action>
+        <action dev="pkernevez" type="add">Installation procedure.</action>
+    </release>
+    
+    <release version="0.3" date="2005-05-26" description="">
+        <action dev="pkernevez" type="fix">Supports that objects in parameters or return value can throws Exception during <code>toString()</code> call.</action>
+        <action dev="pkernevez" type="add">Deleting only one ExecutionFlow is now possible.</action>
+        <action dev="pkernevez" type="update">Now the tree of MethodExecution is rendered with a struts-menu based implementation.</action>
+        <action dev="pkernevez" type="add">The statistics generated for an ExcecutionFlow can now be consolidate with a variable interval.</action>
+    </release>
+    
+    <release version="0.2" date="2005-04-22" description="Initial realease">
+      <!--action dev="vmassol" type="add" issue="MPDASHBOARD-13" due-to="Nascif Abousalh-Neto">Added new
+        <code>fbfiles</code>aggregator that computes FindBugs total number of files with violations.
+      </action>
+      <action dev="vmassol" type="fix">Do not exclude
+        <code>project.xml</code>in the default
+        <code>maven.dashboard.excludes</code>list as it is already excluded by the default
+        <code>maven.dashboard.includes</code>list.
+      </action>
+      <action dev="vmassol" type="update">Updated plugin tests to verify we can generate the 
+      dashboard report by using the multiproject:site goal. Also updated documentation accordingly.</action-->
+      
+      <action dev="pkernevez" type="add">First release ready to use on application.</action>
+    </release>
+
+ </body>
+</document>

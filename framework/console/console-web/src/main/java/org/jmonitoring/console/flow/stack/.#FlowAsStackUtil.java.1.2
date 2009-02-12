@@ -1,0 +1,163 @@
+package net.kernevez.javamonitoring.console.flow.stack;
+
+import java.awt.Color;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.Iterator;
+
+import net.kernevez.performance.configuration.Configuration;
+import net.kernevez.performance.measure.ExecutionFlow;
+import net.kernevez.performance.measure.MeasurePoint;
+
+/**
+ * Util class for render a flow as an Satck in an Html page.
+ * 
+ * @author pke
+ */
+public class FlowAsStackUtil
+{
+
+    /**
+     * The execution flow to work with.
+     */
+    private ExecutionFlow mFlow;
+
+    /**
+     * Private constructor. Not to use.
+     * 
+     * @param pFlow The flow to use for graphique.
+     */
+    public FlowAsStackUtil(ExecutionFlow pFlow)
+    {
+        mFlow = pFlow;
+    }
+
+    /**
+     * Write a <code>Flow</code> in Html format.
+     * 
+     * @param pWriter Text Writer.
+     * @todo Make an button for deploying all the MeasurePoint or for undeploying them.
+     * @todo Option undeply only those with exception or duration upper XXX.
+     */
+    public void writeFlowAsHtml(PrintWriter pWriter)
+    {
+        StringBuffer tBuffer = new StringBuffer();
+        long tDuration = mFlow.getEndTime() - mFlow.getBeginDate();
+        tBuffer.append("[").append(tDuration).append("] ");
+        tBuffer.append(mFlow.getJvmIdentifier()).append("/").append(mFlow.getThreadName());
+        tBuffer.append(" : ").append(mFlow.getFirstMeasure().getGroupName()).append(" -> ");
+        tBuffer.append(mFlow.getFirstMeasure().getClassName()).append(".");
+        tBuffer.append(mFlow.getFirstMeasure().getMethodName()).append("()");
+
+        pWriter.write("<A onclick=\"\">Deploy All</A>");
+        pWriter.write("<ul id=\"menuList\">");
+        pWriter.write("<li class=\"menubar\">");
+        pWriter.write("<a href=\"#\" id=\"0Actuator\" class=\"actuator\">" + tBuffer.toString() + "</a>\n");
+        pWriter.write("<ul id=\"0Menu\" class=\"menu\">");
+        writeMeasureAsHtml(mFlow.getFirstMeasure(), pWriter);
+        pWriter.write("</ul>\n");
+        pWriter.write("</li>");
+        pWriter.write("</ul>");
+    }
+
+    /**
+     * Write the <code>Measure</code> into writer using Html format.
+     * 
+     * @param pCurrentMeasure The Measure to write.
+     * @param pWriter The text <code>Writer</code>.
+     * @todo Use background color with item.
+     */
+    private void writeMeasureAsHtml(MeasurePoint pCurrentMeasure, PrintWriter pWriter)
+    {
+        // Gestion de l'exception
+        String tReturnImage;
+        if (pCurrentMeasure.isReturnCallException())
+        {
+            tReturnImage = "<IMG src=\"images/warn.png\"/>";
+        } else
+        {
+            tReturnImage = "";
+        }
+        //String tBgColor = getColorAsString(Configuration.getColor(pCurrentMeasure.getGroupName()));
+        // Génération du lien vers les statistiques
+        StringBuffer tLinkStat = new StringBuffer();
+        tLinkStat.append("<A title=\"View stats...\" href=\"MeasurePointStat.do?flowId=" + pCurrentMeasure.getFlowId()
+                        + "&sequenceId=" + pCurrentMeasure.getSequenceId() + "\">");
+        tLinkStat.append("<IMG src=\"images/graphique.png\"/></A>");
+
+        StringBuffer tLinkDetail = new StringBuffer();
+        tLinkDetail.append("<A title=\"View details...\" href=\"MeasurePointEdit.do?flowId="
+                        + pCurrentMeasure.getFlowId() + "&sequenceId=" + pCurrentMeasure.getSequenceId() + "\">");
+        tLinkDetail.append("<IMG src=\"images/edit.png\"/></A>");
+
+        // Maintenant on créer le le html associé au MeasurePoint
+        if (pCurrentMeasure.getChildren().size() > 0)
+        { // On crée un sous menu
+            // style=\"BACKGROUND-COLOR: " + tBgColor + "\"
+            pWriter.write("<li>\n<a href=\"#\" id=\"" + pCurrentMeasure.getSequenceId() + "Actuator\"");
+            pWriter.write(" class=\"actuator\" title=\"" + getMeasurePointTitle(pCurrentMeasure) + "\">");
+            pWriter.write(tReturnImage + getMeasurePointText(pCurrentMeasure) + "</a>");
+            pWriter.write(tLinkStat.toString() + tLinkDetail.toString() + "\n");
+            pWriter.write("  <ul id=\"" + pCurrentMeasure.getSequenceId() + "Menu\" class=\"submenu\">\n");
+            for (Iterator tIterator = pCurrentMeasure.getChildren().iterator(); tIterator.hasNext();)
+            {
+                writeMeasureAsHtml((MeasurePoint) tIterator.next(), pWriter);
+            }
+            pWriter.write("  </ul>\n</li>\n");
+        } else
+        {
+            pWriter.write("<li><span title=\"" + getMeasurePointTitle(pCurrentMeasure) + "\">"
+                            + getMeasurePointText(pCurrentMeasure) + "</span>");
+            pWriter.write(tLinkStat.toString() + tLinkDetail.toString() + "</li>\n");
+        }
+    }
+
+ 
+
+    /**
+     * Get the text part of <code>MeasurePoint</code> of a Flow.
+     * 
+     * @param pMeasure The measure point to use.
+     * @return the Html <code>String</code> for Html rendering.
+     */
+    private String getMeasurePointText(MeasurePoint pMeasure)
+    {
+        StringBuffer tBuffer = new StringBuffer();
+        long tDuration = pMeasure.getEndTime() - pMeasure.getBeginTime();
+        tBuffer.append("[").append(tDuration).append("] ");
+        tBuffer.append(pMeasure.getGroupName()).append(" -> ").append(pMeasure.getClassName()).append(".").append(
+                        pMeasure.getMethodName());
+        return tBuffer.toString();
+    }
+
+    /**
+     * Get the title part of <code>MeasurePoint</code> of a Flow.
+     * 
+     * @param pMeasure The measure point to use.
+     * @return the Html <code>String</code> to use in the <code>title</code> Html attribute.
+     */
+    private String getMeasurePointTitle(MeasurePoint pMeasure)
+    {
+        StringBuffer tBuffer = new StringBuffer();
+        tBuffer.append("Start Date=")
+                        .append(Configuration.DATE_TIME_FORMATER.format(new Date(pMeasure.getBeginTime())));
+        if (pMeasure.getParams() != null)
+        {
+            tBuffer.append("\n PARAM=[").append(pMeasure.getParams()).append("]");
+        }
+        if (pMeasure.getReturnValue() != null)
+        {
+            tBuffer.append("\n ReturnValue=[").append(pMeasure.getReturnValue()).append("]");
+        }
+        if (pMeasure.getThrowableClassName() != null)
+        {
+            tBuffer.append("\n ThrowableClassName=[").append(pMeasure.getThrowableClassName()).append("]");
+        }
+        if (pMeasure.getThrowableMessage() != null)
+        {
+            tBuffer.append("\n ThrowableMesssage=[").append(pMeasure.getThrowableMessage()).append("]");
+        }
+        return tBuffer.toString();
+    }
+
+}

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+                               "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+    <!-- FORM -->
+    <form-beans>
+        <!-- Logon form bean -->
+        <form-bean name="flowsearchform" type="org.jmonitoring.console.flow.FlowSearchForm" />
+        <form-bean name="floweditform" type="org.jmonitoring.console.flow.edit.FlowEditForm" />
+        <form-bean name="flowidform" type="org.jmonitoring.console.flow.FlowIdForm" />
+        <form-bean name="methodcallform" type="org.jmonitoring.console.methodcall.MethodCallEditForm" />
+        <form-bean name="methodcallstatform" type="org.jmonitoring.console.methodcall.MethodCallStatForm" />
+        <form-bean name="methodcalllistform" type="org.jmonitoring.console.methodcall.list.MethodCallListForm" />
+        <form-bean name="methodcallsearchform" type="org.jmonitoring.console.methodcall.search.MethodCallSearchForm" />
+		<form-bean name="importexecutionflow" type="org.jmonitoring.console.flow.edit.ImportFlowForm"/>
+		
+        <!--form-bean name="localeForm" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="threadName" type="java.lang.String" />
+            <form-property name="country" type="java.lang.String" />
+            </form-bean-->
+    </form-beans>
+
+    <global-exceptions>
+        <exception key="All" type="java.lang.Throwable" path="/Error.do" />
+    </global-exceptions>
+
+    <!-- Mappages d'action -->
+    <!-- @todo Gerer les erreurs -->
+    <global-forwards>
+        <forward name="error" path="/Error.do"></forward>
+    </global-forwards>
+
+    <action-mappings>
+        <action path="/Error" forward="errorpage" />
+
+        <action path="/Index" type="org.jmonitoring.console.action.InitActionIn" validate="false">
+            <forward name="success" path="homepage" />
+        </action>
+
+        <!-- *** FLOWS *** -->
+
+        <action path="/DeleteAllFlowsIn" type="org.jmonitoring.console.flow.DeleteAllFlowsActionIn" validate="false">
+            <forward name="success" path="deleteflowsuccess" />
+        </action>
+
+        <action path="/DeleteAllFlowsConfirmIn" forward="deleteflowconfirm" />
+
+        <action path="/DeleteOneFlowIn" type="org.jmonitoring.console.flow.DeleteOneFlowActionIn" validate="false"
+            name="flowidform" scope="request">
+            <forward name="success" path="deleteflowsuccess" />
+            <forward name="invalid" path="functionalerror" />
+        </action>
+
+        <action path="/FlowEditIn" type="org.jmonitoring.console.flow.edit.FlowEditActionIn" name="floweditform"
+            scope="request">
+            <forward name="success" path="floweditinternal" />
+            <forward name="required_info" path="floweditrequiredinfo" />
+        </action>
+
+        <action path="/FlowSearchIn" forward="flowsearch" name="flowsearchform" scope="request" />
+
+        <action path="/FlowSearchOut" type="org.jmonitoring.console.flow.FlowSearchActionOut" name="flowsearchform"
+            scope="request" validate="false">
+            <forward name="success" path="flowsearch" />
+        </action>
+
+        <!-- *** METHOD *** -->
+
+        <action path="/MethodCallSearchIn" type="org.jmonitoring.console.methodcall.search.MethodCallSearchActionIn"
+        	name="methodcallsearchform" scope="request">
+        	<forward name="success" path="methodcallsearch" />
+		</action>
+		
+        <action path="/MethodCallEditIn" type="org.jmonitoring.console.methodcall.MethodCallEditActionIn"
+            name="methodcallform" scope="request">
+            <forward name="success" path="methodcalledit" />
+        </action>
+
+        <action path="/MethodCallStatIn" type="org.jmonitoring.console.methodcall.MethodCallStatActionIn"
+            name="methodcallstatform" scope="request">
+            <forward name="success" path="methodcallstat" />
+        </action>
+
+        <action path="/MethodCallListIn" type="org.jmonitoring.console.methodcall.list.MethodCallListActionIn"
+            name="methodcalllistform" scope="request">
+            <forward name="success" path="methodcalllist" />
+        </action>
+		
+        <action path="/ImportFlowIn" forward="importflow" name="importexecutionflow" scope="request" />
+
+		<action path="/ImportFlowOut" type="org.jmonitoring.console.flow.edit.ImportFlowActionOut"
+     		name="importexecutionflow" scope="request" validate="true">
+     		<forward name="success" path="importflowsuccessful"/>
+		</action>
+    </action-mappings>
+
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+    </plug-in>
+
+	<plug-in className="net.sf.navigator.menu.MenuPlugIn">
+  		<set-property property="menuConfig" value="/WEB-INF/menu-config.xml"/>
+	</plug-in>
+</struts-config>

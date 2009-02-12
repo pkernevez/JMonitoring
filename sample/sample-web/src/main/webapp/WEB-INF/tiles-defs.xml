@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+    
+    <!-- LAYOUT -->
+    <definition name="layout" path="/pages/layout/layout.jsp">
+        <put name="head" value=""/>
+        <put name="menu" value=""/>
+        <put name="body" value=""/>
+        	<!--link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, print" /-->
+        
+    </definition>
+    
+    <definition name="staticlayout" path="/pages/layout/layout.jsp">
+        <put name="head" value="/pages/layout/head.html"/>
+        <put name="menu" value="/pages/layout/menu.jsp"/>
+        <put name="body" value=""/>
+        <put name="footer" value="/pages/layout/footer.html"/>
+    </definition>
+    
+    <!--PAGES-->
+    <definition name="homepage" extends="staticlayout">
+        <put name="body" value="/pages/index.jsp"/>
+    </definition>
+    
+    <definition name="ok" extends="staticlayout">
+        <put name="body" value="/pages/Ok.jsp"/>
+    </definition>
+    
+    <definition name="errorpage" path="/pages/error.jsp"/>
+    
+</tiles-definitions>

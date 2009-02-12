@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>com.octo.opensource.jmonitoring</groupId>
+        <artifactId>console</artifactId>
+        <version>2.0-beta-1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>console-core</artifactId>
+    <version>2.0-beta-1</version>
+    <name>Fwk-console-core</name>
+    <description>
+        This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.
+    </description>
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/console/console-core</connection>
+        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/console/console-core</developerConnection>
+        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/console/console-core</url>
+    </scm>
+
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>tests</artifactId>
+            <scope>test</scope>
+            <version>2.0-beta-1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>persistence</artifactId>
+            <version>2.0-beta-1</version>
+        </dependency>
+
+        <!--  TODO Supprimer ça -->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- Tests configuration -->
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>common</artifactId>
+            <version>2.0-beta-1</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>2.5.1</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <inherited>true</inherited>
+            </plugin>
+        </plugins>
+    </build>
+</project>

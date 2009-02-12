@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<MenuConfig>
+    <Displayers>
+        <!--Displayer name="DropDown" type="net.sf.navigator.displayer.DropDownMenuDisplayer" /--> 
+        <Displayer name="Simple" type="net.sf.navigator.displayer.SimpleMenuDisplayer" /> 
+        <!--Displayer name="CoolMenu" type="net.sf.navigator.displayer.CoolMenuDisplayer" /--> 
+        <!--Displayer name="CoolMenu4" type="net.sf.navigator.displayer.CoolMenuDisplayer4" /--> 
+        <!--Displayer name="MenuForm" type="net.sf.navigator.example.PermissionsFormMenuDisplayer" /--> 
+        <Displayer name="ListMenu" type="net.sf.navigator.displayer.ListMenuDisplayer" /> 
+        <!--Displayer name="TabbedMenu" type="net.sf.navigator.displayer.TabbedMenuDisplayer" /--> 
+        <!--Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer" /--> 
+    </Displayers>
+    <Menus>
+        <Menu name="mainMenu" title="Menu">
+            <!--  page attribute indicating a context relative resource.
+             The context path will be prepended to the value. 
+            --> 
+            <Item name="Home" title="Home" toolTip="Main page of this application" page="/Index.do" /> 
+            <Item name="DeleteAll" title="Delete Flows" toolTip="Delete all execution flow in database." page="/DeleteAllFlowsConfirmIn.do" /> 
+            <Item name="FlowSearch" title="Search Flows" toolTip="Search all flows in database." page="/FlowSearchIn.do" /> 
+            <Item name="MethodCallSearch" title="Search Method" toolTip="Search all Methods in database." page="/MethodCallSearchIn.do" /> 
+            <Item name="ImportFlow" title="Import Flow" toolTip="Import a flow already export with JMonitoring." page="/ImportFlowIn.do" /> 
+		</Menu>
+
+        <Menu name="indexMenu" title="Examples">
+            <!--  page attribute indicating a context relative resource.
+             The context path will be prepended to the value. 
+            --> 
+            <Item name="indexMenu1" title="Basic Example" toolTip="Shows usage of the menu displayers using defaults." page="/menutest1.jsp" /> 
+            <Item name="indexMenu2" title="Advanced Example" toolTip="Shows customized menu displays." page="/menutest2.jsp" /> 
+            <Item name="indexMenu3" title="CoolMenu Example" toolTip="Shows menu using CoolMenu3" page="/coolmenu1.jsp" /> 
+            <Item name="indexMenu4" title="CoolMenu Example - With Form" toolTip="Shows menu using CoolMenu3 with forms." page="/coolmenu2.jsp" /> 
+            <Item name="indexMenu5" title="Permissions Example" toolTip="Example use of menu disable and permission checking with CoolMenus." page="/permissionsForm.jsp" /> 
+            <Item name="indexMenu6" title="CoolMenu4 Example" toolTip="Shows menu using CoolMenu4" page="/coolmenu4.jsp" /> 
+            <Item name="indexMenu7" title="Expandable DHTML List Example" toolTip="Shows Expandable DHTML list" page="/dhtmlExpandable.jsp" /> 
+            <Item name="indexMenu7" title="Dropdown DHTML List Example" toolTip="Shows Dropdown DHTML list" page="/dhtmlDropdown.jsp" /> 
+            <Item name="indexMenu8" title="Roles Menu Example" toolTip="Shows Menus based on user's role" page="/rolesMenu.jsp" /> 
+            <Item name="indexMenu9" title="Tabbed Menu Example" toolTip="Shows Tabbed-based Menu" forward="tabbedMenu" /> 
+            <Item title="Velocity Template Menu" toolTip="Shows very simple Velocity generated Menu" page="/velocity.jsp" /> 
+            <Item title="Velocity CoolMenus Menu" toolTip="Shows Velocity generated CoolMenu" page="/velocity-coolmenu4.jsp" /> 
+            <Item title="Velocity XTree Menu" toolTip="Shows Velocity generated XTree" page="/velocity-xtree.jsp" /> 
+            <Item title="Velocity Tabbed Menu" toolTip="Shows Velocity generated Tabbed Menu" page="/velocity-tabs.jsp?Home" /> 
+            <Item title="Nice Looking Tabbed Menu" toolTip="Shows Velocity generated Tabbed Menu" page="/velocity-nicetabs.jsp?Home" /> 
+            <Item title="EL (Expression Language) enabled Menu [New!]" toolTip="Shows very simple Velocity EL Menu" page="/velocity-el.jsp" /> 
+            <Item title="Dynamic, Databased-driven Menu [New!]" toolTip="Shows very simple menu built from a database table" page="/dynamicMenu.jsp" /> 
+        </Menu>
+    </Menus>
+</MenuConfig>

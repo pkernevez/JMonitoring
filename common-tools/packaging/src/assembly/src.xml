@@ -1,0 +1,65 @@
+<assembly>
+  <id>dist</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+    <!-- Agents -->
+  <dependencySets>
+    <!-- Agents -->
+    <dependencySet>
+        <useStrictFiltering>true</useStrictFiltering>
+        <outputDirectory>agent</outputDirectory>
+        <unpack>false</unpack>
+        <useTransitiveFiltering>true</useTransitiveFiltering>
+        <includes>
+            <include>com.octo.opensource.jmonitoring:agent</include>
+        </includes>
+    </dependencySet>
+    <dependencySet>
+        <useStrictFiltering>true</useStrictFiltering>
+        <outputDirectory>agent/extension-sql</outputDirectory>
+        <unpack>false</unpack>
+        <useTransitiveFiltering>true</useTransitiveFiltering>
+        <includes>
+            <include>com.octo.opensource.jmonitoring:hibernate-aspect</include>
+        </includes>
+    </dependencySet>
+    <dependencySet>
+        <useStrictFiltering>true</useStrictFiltering>
+        <unpack>false</unpack>
+        <useTransitiveFiltering>false</useTransitiveFiltering>
+        <includes>
+            <include>com.octo.opensource.jmonitoring:console-web</include>
+        </includes>
+    </dependencySet>
+    <dependencySet>
+        <useStrictFiltering>true</useStrictFiltering>
+        <unpack>false</unpack>
+        <useTransitiveFiltering>false</useTransitiveFiltering>
+        <includes>
+            <include>com.octo.opensource.jmonitoring:sample-web</include>
+        </includes>
+    </dependencySet>
+  </dependencySets>
+
+    <!-- Files -->
+    <fileSets>
+        <fileSet>
+            <directory>src/assembly</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>LICENSE.txt</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/assembly/conf/tomcat</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>console-web.xml</include>
+                <include>sample-web.xml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+            
+</assembly>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.jmonitoring.sample.main.ShoppingCartPO"
+		table="SHOPPING_CART">
+		<id name="id" column="ID" unsaved-value="-1">
+			<generator class="native" />
+		</id>
+
+		<list name="items" lazy="true" cascade="all">
+			<key>
+				<column name="ITEM_ID" not-null="false" />
+			</key>
+			<index column="MY_POSITION" type="java.lang.Integer" />
+			<one-to-many
+				class="org.jmonitoring.sample.main.ItemPO" />
+		</list>
+	</class>
+</hibernate-mapping>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+    <properties>
+        <title>Schemas</title>
+        <author email="pke@octo.com">Philippe Kernevez</author>
+    </properties>
+
+    <body>
+        
+        <section name="Main Schemas">
+            <p>
+                <U><G>Multi-applications deployement:</G></U><BR/>
+                <img src="images/general.png"/><BR/><BR/>
+                <U><G>Internal application architecture:</G></U><BR/>
+                <img src="images/application.png"/>
+            </p>
+        </section>
+    </body>
+</document>

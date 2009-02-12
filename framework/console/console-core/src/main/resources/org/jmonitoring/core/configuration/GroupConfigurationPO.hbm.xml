@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   	<class name="org.jmonitoring.core.configuration.GroupConfigurationPO" table="CONFIGURATION_GROUP">
+	  <cache usage="nonstrict-read-write" region="Conf"/>
+	    
+	    <composite-id name="id" class="org.jmonitoring.core.configuration.GroupConfigurationPK" 
+	    	unsaved-value="undefined">
+      	    <key-property name="groupName" column="GROUP_NAME" type="java.lang.String" length="145"/>
+        </composite-id>
+
+      <property name="colorAsString" column="COLOR" type="java.lang.String" length="15"/>
+      
+	</class>	
+</hibernate-mapping>
+

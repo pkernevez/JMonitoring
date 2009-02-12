@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>com.octo.opensource.jmonitoring</groupId>
+        <artifactId>sample</artifactId>
+        <version>2.0-beta-1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>sample-aspects</artifactId>
+    <name>Sample-aspects</name>
+    <description>This project provides Monitring infrastructure for Java applications. It's based on aspectJ fonctionnalities.</description>
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-aspects</connection>
+        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-aspects</developerConnection>
+        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/sample/sample-aspects</url>
+    </scm>
+  
+    <packaging>jar</packaging>
+    <dependencies>
+    	<dependency>
+      	<groupId>com.octo.opensource.jmonitoring</groupId>
+      	<artifactId>agent</artifactId>
+        <version>2.0-beta-1</version>
+      </dependency>
+
+ 			<!--dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.5.2</version>
+        </dependency-->
+
+    </dependencies>
+    <build>
+     <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
+                            <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
+                        </goals>
+                    </execution>
+               </executions>
+           </plugin>
+       </plugins>
+     </build>
+</project>

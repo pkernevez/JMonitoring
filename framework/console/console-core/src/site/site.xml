@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="JMonitoring">
+  <bannerLeft>
+    <name>JMonitoring</name>
+    <src>http://forge.octo.com/svn/jmonitoring/trunk/framework/administration_console/src/main/webapp/images/jmonitoring.gif</src>
+    <href>http://forge.octo.com</href>
+  </bannerLeft>
+  <bannerRight>
+    <src>http://forge.octo.com/svn/jmonitoring/trunk/MainProject/images/octo3d.gif</src>
+  </bannerRight>
+  <body>
+
+
+    ${reports}
+
+  </body>
+</project>

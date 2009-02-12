@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+                               "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+    <!-- Mappages d'action -->
+    <!-- @todo Gère les erreurs -->
+	<global-forwards>
+		<forward name="failure" path="/error.do"></forward>
+		<forward name="exception" path="/error.do"></forward>
+		<forward name="error" path="/error.do"></forward>
+	</global-forwards>
+	
+    <action-mappings>
+	    <action path="/Error" forward="errorpage" />
+
+	    <action path="/Index" forward="homepage" />
+	    
+	    <action path="/AlreadyWeavedIn" type="org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn">
+	      	<forward name="success" path="ok"/>
+		</action>
+	    <action path="/MultipleAlreadyWeavedIn" type="org.jmonitoring.sample.console.MultipleAlreadyWeavedActionIn">
+	      	<forward name="success" path="ok"/>
+		</action>
+
+    </action-mappings>
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
+    </plug-in>
+
+	<plug-in className="net.sf.navigator.menu.MenuPlugIn">
+  		<set-property property="menuConfig" value="/WEB-INF/menu-config.xml"/>
+	</plug-in>
+</struts-config>

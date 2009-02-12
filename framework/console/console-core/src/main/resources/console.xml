@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config />
+
+    <context:component-scan base-package="org.jmonitoring" />
+
+    <!--  bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager"/>-->
+
+    <bean name="consoleManager" class="org.jmonitoring.core.process.ConsoleManager" />
+
+    <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" />
+
+    <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
+        <property name="dateFormat" value="dd/MM/yy" />
+        <property name="timeFormat" value="HH:mm:ss" />
+    </bean>
+
+    <bean name="color" class="org.jmonitoring.core.configuration.ColorManager">
+        <property name="groups">
+            <map>
+                <entry key="Default" value="0, 255, 255" />
+                <entry key="SQL" value="0, 0, 255" />
+                <entry key="SomeNonStatics" value="0, 255, 0" />
+                <entry key="SomeStatics" value="255, 0, 0" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="hibernateConfiguration" factory-bean="&amp;sessionFactory" factory-method="getConfiguration" />
+
+</beans>

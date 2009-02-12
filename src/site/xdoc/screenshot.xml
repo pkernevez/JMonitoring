@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+
+    <properties>
+        <title>Screenshots of the Java Monitoring Project.</title>
+        <author email="pke@octo.com">Philippe Kernevez</author>
+    </properties>
+
+    <body>
+        <section name="ScreenShots">
+            <ul>
+                <li><a href="sample/FlowSearchOut.do.htm">Flow search</a></li>
+                <li><a href="sample/FlowEditIn.do.htm">Flow Stack Edition</a></li>
+                <li><a href="sample/MethodCallEditIn.do.htm">Method Call Detail</a></li>
+                <li><a href="sample/MethodCallStatIn.do.htm">Method calls statistic</a></li>
+                <li><a href="sample/MethodCallSearchIn.do.htm">Method calls search</a></li>
+            </ul>
+        </section>
+    </body>
+</document>    

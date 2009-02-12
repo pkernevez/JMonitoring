@@ -1,0 +1,25 @@
+<AspectDngConfig 
+	warnings="$(path)/Warnings.log" 
+	weaving="$(path)/Weaving-log-sample_target.xml" 
+	debug="true">
+
+	<Variables>
+		<Variable name="path" value="bin\Debug"/>
+	</Variables>
+	
+    <TargetAssembly>$(path)\sample_target.exe</TargetAssembly>
+    <AspectsAssembly>$(path)\sample_aspects.dll</AspectsAssembly>
+    <WeavedAssembly>$(path)\sample_target.exe</WeavedAssembly>
+    
+    <PrivateLocations>
+        <PrivatePath>$(path)</PrivatePath>
+    </PrivateLocations>
+
+    <Advice>
+      <AroundBody aspectRegExp="* *.SampleAspect::Inventory(*)" 	          targetRegExp="* Org.NMonitoring.SampleTarget.Inventory::*(*)"/>
+      <AroundBody aspectRegExp="* *.SampleAspect::Item(*)" 	                targetRegExp="* Org.NMonitoring.SampleTarget.Item::*(*)"/>
+      <AroundBody aspectRegExp="* *.SampleAspect::ShoppingCart(*)" 	        targetRegExp="* Org.NMonitoring.SampleTarget.ShoppingCart::*(*)"/>
+      <AroundBody aspectRegExp="* *.SampleAspect::ShoppingCartOperator(*)" 	targetRegExp="* ShoppingCartOperator::*(*)"/>
+      <AroundBody aspectRegExp="* *.SampleAspect::SampleTarget(*)" 	        targetXPath="//Type[match('Org.NMonitoring.SampleTarget.SampleTarget')]/Method[not(match('::Main'))]"/>
+    </Advice>
+</AspectDngConfig>

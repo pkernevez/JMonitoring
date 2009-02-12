@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MenuConfig>
+	<Displayers>
+		<Displayer name="Simple"
+			type="net.sf.navigator.displayer.SimpleMenuDisplayer" />
+	</Displayers>
+	<Menus>
+		<Menu name="mainMenu" title="Menu">
+			<!--  page attribute indicating a context relative resource.
+				The context path will be prepended to the value. 
+			-->
+			<Item name="AlreadyWeaved" title="Build A Flow In DataBase"
+				toolTip="Create a new Flow in the database"
+				page="/AlreadyWeavedIn.do" />
+		</Menu>
+		<Menu name="mainMenu" title="Menu">
+			<!--  page attribute indicating a context relative resource.
+				The context path will be prepended to the value. 
+			-->
+			<Item name="MultipleAlreadyWeaved" title="Build multiple Flows In DataBase"
+				toolTip="Create multiple Flows in the database"
+				page="/MultipleAlreadyWeavedIn.do" />
+		</Menu>
+	</Menus>
+</MenuConfig>

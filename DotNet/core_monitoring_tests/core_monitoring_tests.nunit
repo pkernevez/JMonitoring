@@ -1,0 +1,7 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" configfile="core_monitoring_tests.dll.config" binpathtype="Auto">
+    <assembly path="bin\Debug\core_monitoring_tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>

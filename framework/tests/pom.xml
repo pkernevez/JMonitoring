@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>com.octo.opensource.jmonitoring</groupId>
+        <artifactId>framework</artifactId>
+        <version>2.0-beta-1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>tests</artifactId>
+    <version>2.0-beta-1</version>
+    <name>Fwk-tests</name>
+    <description>This artifact is used to weaved application for catching MethodCall, this calls are sent to the Server artifact for persistence.</description>
+    <scm>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/tests</connection>
+        <developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/tests</developerConnection>
+        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-1/framework/tests</url>
+    </scm>
+  
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>common</artifactId>
+            <version>2.0-beta-1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>common-tests</artifactId>
+            <version>2.0-beta-1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.0.77</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+            <version>3.2.5.ga</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+    <properties>
+        <title>Java Monitoring Tool ToDos List.</title>
+        <author email="pke@octo.com">Philippe Kernevez</author>
+    </properties>
+
+    <body>
+
+        <section name="ToDo">
+            <p>Persistance
+                <ul>
+                    <li>Migrer sur Hibernate pour prendre en compte les différentes bases</li>
+                    <li>Faire un mode asynchrone pour sérialiser à distance via un serveur de persistance</li>
+                </ul>
+            </p>
+        
+            <p>IHM
+                <ul>
+                    <li>Faire le test en mettant un point d'arret sur l'initialisation du AsynchroneJdbcLogger, en lancer 2 et voir pourquoi pas de Thread à la fin...</li>
+                    <li>Faire un ecran pour visualiser des stats sur un group de Flow</li>
+                    <li>Faire un écran pour visualiser la répartitions des temps d'exécution et nb d'appel pour une méthode dans le temps</li>
+                    <li>Faire un écran d'import/export Xml d'un Flow</li>
+                    <li>Résoudre le pb de dimensionnement des tableaux (limités à 80%)</li>
+                    <li>Générer un camember avec le type de résultat (Ok/Throwable) pour les stats sur MeasurePoint</li>
+                    <li>faire un écran de recherche d'un measure point</li>
+                    <li>Export Office ?</li>
+                </ul>
+            </p>
+        </section>
+    </body>
+</document>

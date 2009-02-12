@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+    
+    <!-- LAYOUT -->
+    <definition name="layout" path="/pages/layout/layout.jsp">
+        <put name="head" value=""/>
+        <put name="menu" value=""/>
+        <put name="body" value=""/>
+        <put name="footer" value="/pages/layout/footer.html"/>
+    </definition>
+    
+    <definition name="staticlayout" path="/pages/layout/layout.jsp">
+        <put name="head" value="/pages/layout/head.html"/>
+        <put name="menu" value="/pages/layout/menu.jsp"/>
+        <put name="body" value=""/>
+        <put name="footer" value="/pages/layout/footer.html"/>
+    </definition>
+    
+    <!--PAGES-->
+    <definition name="homepage" extends="staticlayout">
+        <put name="body" value="/pages/index.jsp"/>
+    </definition>
+    
+    <definition name="deleteflowconfirm" extends="staticlayout">
+        <put name="body" value="/pages/flow/deleteflowconfirm.html"/>
+    </definition>
+    
+    <definition name="deleteflowsuccess" extends="staticlayout">
+        <put name="body" value="/pages/flow/deleteflowsuccess.jsp"/>
+    </definition>
+    
+    <definition name="floweditrequiredinfo" extends="staticlayout">
+        <put name="body" value="/pages/flow/floweditRequiredInfo.jsp"/>
+    </definition>
+    
+    <definition name="floweditinternal" extends="staticlayout">
+        <put name="body" value="/pages/flow/flowedit.jsp"/>
+        <put name="css1" value="css/menuExpandable.css"/>
+        <put name="js1" value="scripts/menuExpandable.js"/>
+    </definition>
+    
+    <definition name="flowsearch" extends="staticlayout">
+        <put name="body" value="/pages/flow/flowsearch.jsp"/>
+        <put name="css1" value="css/calendar-win2k-2.css"/>
+        <put name="js1" value="scripts/calendar.js"/>
+        <put name="js2" value="scripts/calendar-en.js"/>
+        <put name="js3" value="scripts/calendar-setup.js"/>
+    </definition>
+    
+    <definition name="importflow" extends="staticlayout">
+        <put name="body" value="/pages/flow/importflow.jsp"/>
+    </definition>
+
+    <definition name="importflowsuccessful" extends="staticlayout">
+        <put name="body" value="/pages/flow/importflowOk.jsp"/>
+    </definition>
+
+    <definition name="methodcallsearch" extends="staticlayout">
+        <put name="body" value="/pages/methodcall/MethodCallSearch.jsp"/>
+        <put name="css1" value="css/menuExpandable.css"/>
+        <put name="js1" value="scripts/menuExpandable.js"/>
+    </definition>
+    
+    <definition name="methodcallstat" extends="staticlayout">
+        <put name="body" value="/pages/methodcall/MethodCallStatistic.jsp"/>
+    </definition>
+    
+    <definition name="methodcalllist" extends="staticlayout">
+        <put name="body" value="/pages/methodcall/list/MethodCallListByDuration.jsp"/>
+    </definition>
+    
+    <definition name="methodcalledit" extends="staticlayout">
+        <put name="body" value="/pages/methodcall/MethodCallEdit.jsp"/>
+    </definition>
+    
+
+    <definition name="errorpage" path="/pages/error.jsp"/>
+    <definition name="functionalerror" path="/pages/functionalError.jsp"/>
+    
+</tiles-definitions>
