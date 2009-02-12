@@ -157,7 +157,7 @@ public class StoreManager
             endMethodWithException(mCurrentLogPoint, null, null);
         } else
         {
-            String tOutput;
+            CharSequence tOutput;
             try
             {
                 tOutput = (pTracer == null ? "" : pTracer.convertToString(pException));
@@ -169,7 +169,7 @@ public class StoreManager
                     + "] Traccer=[" + tLogClass + "]");
                 tOutput = "";
             }
-            endMethodWithException(mCurrentLogPoint, pException.getClass().getName(), tOutput);
+            endMethodWithException(mCurrentLogPoint, pException.getClass().getName(), tOutput.toString());
         }
 
         if (mCurrentLogPoint.getParentMethodCall() == null)
