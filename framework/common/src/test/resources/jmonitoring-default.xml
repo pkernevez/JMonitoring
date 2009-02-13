@@ -11,4 +11,13 @@
         <property name="relation" ref="beanGA" />
         <property name="text" value="GB"/>
     </bean>
+
+    <bean name="beanTA" class="org.jmonitoring.core.configuration.ForTestBean">
+        <property name="relation" ref="beanTB" />
+        <property name="text" value="TA"/>
+    </bean>
+    <bean name="beanTB" class="org.jmonitoring.core.configuration.ForTestBean">
+        <property name="relation" ref="beanGA" />
+        <property name="text" value="TB"/>
+    </bean>
 </beans>

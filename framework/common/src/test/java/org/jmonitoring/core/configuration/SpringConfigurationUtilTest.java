@@ -68,8 +68,8 @@ public class SpringConfigurationUtilTest extends TestCase
         assertSame(tBeanGA, tBeanTBBis.getRelation());
 
         assertSame(tBeanGABis, tBeanGA);
-        assertNotSame(tBeanTA, tBeanTABis);
-        assertNotSame(tBeanTB, tBeanTABis.getRelation());
+        assertSame(tBeanTA, tBeanTABis);
+        assertSame(tBeanTB, tBeanTABis.getRelation());
 
     }
 

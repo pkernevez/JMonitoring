@@ -13,21 +13,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public final class SpringConfigurationUtil
 {
 
-    private static final String DEFAULT_GLOBAL_SPRING_FILE_NAME = "/jmonitoring-global-default.xml";
+    private static final String DEFAULT_SPRING_FILE_NAME = "/jmonitoring-default.xml";
 
-    private static final String GLOBAL_SPRING_FILE_NAME = "/jmonitoring-global.xml";
-
-    private static final String DEFAULT_THREAD_SPRING_FILE_NAME = "/jmonitoring-thread-default.xml";
-
-    private static final String THREAD_SPRING_FILE_NAME = "/jmonitoring-thread.xml";
-
-    private static ApplicationContext sGlobalContext;
-
-    private static ThreadLocal<ApplicationContext> sContext = new ThreadLocal<ApplicationContext>();
+    private static final String SPRING_FILE_NAME = "/jmonitoring.xml";
 
     private static boolean sTestMode = false;
 
     private static final Logger sLog = LoggerFactory.getLogger(SpringConfigurationUtil.class);
+
+    private static ApplicationContext sContext = loadContext();
 
     private SpringConfigurationUtil()
     {
@@ -35,45 +29,21 @@ public final class SpringConfigurationUtil
 
     public static Object getBean(String pString)
     {
-        ApplicationContext tContext = sContext.get();
-        if (tContext == null)
-        {
-            tContext = loadContext();
-            sContext.set(tContext);
-        }
-        return tContext.getBean(pString);
+        return sContext.getBean(pString);
     }
 
-    public static ApplicationContext loadContext()
-    {
-        ApplicationContext tGlobal = (sGlobalContext == null ? loadGlobalContext() : sGlobalContext);
-        ClassPathXmlApplicationContext tThreadContext;
-        try
-        {
-            tThreadContext = new ClassPathXmlApplicationContext(new String[] {THREAD_SPRING_FILE_NAME }, tGlobal);
-        } catch (BeansException e)
-        {
-            sLog.info("Fail to load thread specific context, use the default");
-            tThreadContext =
-                new ClassPathXmlApplicationContext(new String[] {DEFAULT_THREAD_SPRING_FILE_NAME }, tGlobal);
-        }
-        sContext.set(tThreadContext);
-        return tThreadContext;
-    }
-
-    private static synchronized ApplicationContext loadGlobalContext()
+    private static synchronized ApplicationContext loadContext()
     {
         ClassPathXmlApplicationContext tContext;
         try
         {
-            tContext = new ClassPathXmlApplicationContext(GLOBAL_SPRING_FILE_NAME);
+            tContext = new ClassPathXmlApplicationContext(SPRING_FILE_NAME);
         } catch (BeansException e)
         {
             sLog.info("Fail to load global specific context, use the default");
-            tContext = new ClassPathXmlApplicationContext(DEFAULT_GLOBAL_SPRING_FILE_NAME);
+            tContext = new ClassPathXmlApplicationContext(DEFAULT_SPRING_FILE_NAME);
         }
-        sGlobalContext = tContext;
-        return sGlobalContext;
+        return tContext;
     }
 
     /**
@@ -81,7 +51,7 @@ public final class SpringConfigurationUtil
      */
     public static void setContext(ApplicationContext pContext)
     {
-        sContext.set(pContext);
+        sContext = pContext;
         sTestMode = true;
     }
 

@@ -29,7 +29,7 @@ public class StoreManager
 
     public static final String STORE_MANAGER_NAME = "storeManager";
 
-    private MethodCallPO mCurrentLogPoint;
+    private final ThreadLocal<MethodCallPO> mCurrentLogPoint = new ThreadLocal<MethodCallPO>();
 
     private static Logger sLog = LoggerFactory.getLogger(StoreManager.class);
 
@@ -73,29 +73,32 @@ public class StoreManager
             tArgs = "";
         }
 
-        if (mCurrentLogPoint == null)
+        MethodCallPO tCurrentMethodCallPO = mCurrentLogPoint.get();
+        if (tCurrentMethodCallPO == null)
         { // Premier appel du Thread
             if (sLog.isDebugEnabled())
             {
                 sLog.debug("logBeginOfMethod First Time" + pSignature);
             }
-            mCurrentLogPoint =
+            tCurrentMethodCallPO =
                 new MethodCallPO(null, pSignature.getDeclaringTypeName(), pSignature.getName(), pGroupName,
                                  (tArgs == null ? null : tArgs.toString()));
+            mCurrentLogPoint.set(tCurrentMethodCallPO);
         } else
         {
             if (sLog.isDebugEnabled())
             {
                 sLog.debug("logBeginOfMethod Any Time" + pSignature);
             }
-            MethodCallPO tOldPoint = mCurrentLogPoint;
-            mCurrentLogPoint =
+            MethodCallPO tOldPoint = tCurrentMethodCallPO;
+            tCurrentMethodCallPO =
                 new MethodCallPO(tOldPoint, pSignature.getDeclaringTypeName(), pSignature.getName(), pGroupName,
                                  (tArgs == null ? null : tArgs.toString()));
+            mCurrentLogPoint.set(tCurrentMethodCallPO);
         }
         if (pTarget != null && !pTarget.getClass().equals(pSignature.getDeclaringType()))
         {
-            mCurrentLogPoint.setRuntimeClassName(pTarget.getClass().getName());
+            tCurrentMethodCallPO.setRuntimeClassName(pTarget.getClass().getName());
         }
     }
 
@@ -119,24 +122,25 @@ public class StoreManager
             tResultAsString = "";
         }
         // To limit call to toString on business object, that could be expensive
-        endMethod(mCurrentLogPoint, tResultAsString);
-        if (mCurrentLogPoint.getParentMethodCall() == null)
+        MethodCallPO tCurrentMethodCall = mCurrentLogPoint.get();
+        endMethod(tCurrentMethodCall, tResultAsString);
+        if (tCurrentMethodCall.getParentMethodCall() == null)
         { // Dernier appel du Thread
             if (sLog.isDebugEnabled())
             {
                 sLog.debug("logEndOfMethodNormal Last Time" + tResultAsString);
             }
             ExecutionFlowPO tFlow =
-                new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint, mServerName);
+                new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
             mStoreWriter.writeExecutionFlow(tFlow);
-            mCurrentLogPoint = null;
+            mCurrentLogPoint.set(null);
         } else
         {
             if (sLog.isDebugEnabled())
             {
                 sLog.debug("logEndOfMethodNormal Any Time" + tResultAsString);
             }
-            mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
+            mCurrentLogPoint.set(tCurrentMethodCall.getParentMethodCall());
         }
     }
 
@@ -152,9 +156,10 @@ public class StoreManager
         {
             sLog.debug("logEndOfMethodWithException " + (pException == null ? "" : pException.getMessage()));
         }
+        MethodCallPO tCurrentMethodCall = mCurrentLogPoint.get();
         if (pException == null)
         { // On ne logue pas le d�tail
-            endMethodWithException(mCurrentLogPoint, null, null);
+            endMethodWithException(tCurrentMethodCall, null, null);
         } else
         {
             CharSequence tOutput;
@@ -169,19 +174,19 @@ public class StoreManager
                     + "] Traccer=[" + tLogClass + "]");
                 tOutput = "";
             }
-            endMethodWithException(mCurrentLogPoint, pException.getClass().getName(), tOutput.toString());
+            endMethodWithException(tCurrentMethodCall, pException.getClass().getName(), tOutput.toString());
         }
 
-        if (mCurrentLogPoint.getParentMethodCall() == null)
+        if (tCurrentMethodCall.getParentMethodCall() == null)
         { // Dernier appel du Thread
             if (sLog.isDebugEnabled())
             {
                 sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
             }
             ExecutionFlowPO tFlow =
-                new ExecutionFlowPO(Thread.currentThread().getName(), mCurrentLogPoint, mServerName);
+                new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
             mStoreWriter.writeExecutionFlow(tFlow);
-            mCurrentLogPoint = null;
+            mCurrentLogPoint.set(null);
         } else
         {
             if (sLog.isDebugEnabled())
@@ -189,7 +194,7 @@ public class StoreManager
                 sLog
                     .debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.getMessage()));
             }
-            mCurrentLogPoint = mCurrentLogPoint.getParentMethodCall();
+            mCurrentLogPoint.set(tCurrentMethodCall.getParentMethodCall());
         }
 
     }

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.info.IThrowableTracer;
 
-public class TestDefaultExceptionTracer extends TestCase {
+public class DefaultExceptionTracerTest extends TestCase {
 
     public void testConvertToString() {
         IThrowableTracer tTracer = new DefaultExceptionTracer();

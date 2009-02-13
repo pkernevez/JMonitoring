@@ -22,8 +22,6 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
  */
 public final class AsynchroneWriter implements IStoreWriter
 {
-    // public static final String REAL_STORE_WRITER_NAME = "realStoreWriter";
-
     private static final int DEFAULT_BUFFER_SIZE = 50;
 
     private static final int DEFAULT_MAX_THREAD_POOL_SIZE = 5;

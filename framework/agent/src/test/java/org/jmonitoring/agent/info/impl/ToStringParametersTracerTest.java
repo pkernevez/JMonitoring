@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.info.IParamaterTracer;
 
-public class TestToStringParametersTracer extends TestCase
+public class ToStringParametersTracerTest extends TestCase
 {
     public void testConvertToString()
     {

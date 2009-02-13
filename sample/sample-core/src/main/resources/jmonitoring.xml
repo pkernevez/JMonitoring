@@ -3,12 +3,5 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <bean name="beanTA" class="org.jmonitoring.core.configuration.ForTestBean">
-        <property name="relation" ref="beanTB" />
-        <property name="text" value="TA"/>
-    </bean>
-    <bean name="beanTB" class="org.jmonitoring.core.configuration.ForTestBean">
-        <property name="relation" ref="beanGA" />
-        <property name="text" value="TB"/>
-    </bean>
+
 </beans>

@@ -3,6 +3,7 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+    <context:annotation-config />
 
     <context:property-placeholder location="classpath:database.properties" />
 
@@ -58,4 +59,28 @@
        factory-bean="&amp;sessionFactory" 
        factory-method="getConfiguration" />
 
+    <bean name="consoleManager" class="org.jmonitoring.core.process.ConsoleManager" />
+
+    <bean name="dtoManager" class="org.jmonitoring.core.dto.DtoManager" />
+
+    <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" />
+
+    <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
+        <property name="dateFormat" value="dd/MM/yy" />
+        <property name="timeFormat" value="HH:mm:ss" />
+    </bean>
+
+    <bean name="color" class="org.jmonitoring.core.configuration.ColorManager">
+        <property name="groups">
+            <map>
+                <entry key="Default" value="0, 255, 255" />
+                <entry key="SQL" value="0, 0, 255" />
+                <entry key="SomeNonStatics" value="0, 255, 0" />
+                <entry key="SomeStatics" value="255, 0, 0" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- Default configuration when the console is use for HttpLogging into H2 database -->
+    <bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean>
 </beans>

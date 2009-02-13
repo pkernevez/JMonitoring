@@ -39,7 +39,6 @@ public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
 
         ClassPathXmlApplicationContext tAContext =
             new ClassPathXmlApplicationContext(new String[] {"/jmonitoring-agent-test.xml", "/memory-test.xml" });
-        SpringConfigurationUtil.setContext(tAContext);
         SessionFactory tFacto = (SessionFactory) tAContext.getBean("sessionFactory");
         MemoryWriter.clear();
         mSession = tFacto.openSession();

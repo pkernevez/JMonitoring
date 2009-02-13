@@ -26,6 +26,7 @@ public final class TreeTracerHelper
      */
     private final Set<Object> mObjectAlreadyTrace = new HashSet<Object>();
 
+    // Provide a way for limit the depth during the trace
     private int mMaxDepth = 0;
 
     private int mCurrentDepth = 0;

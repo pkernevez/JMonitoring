@@ -9,13 +9,9 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 
 public class AsynchroneTask implements Runnable
 {
-    // TODO NEtoyage
-    // private static ThreadLocal<IStoreWriter> sWriter = new ThreadLocal<IStoreWriter>();
-    private final IStoreWriter mWriter;
+    private static IStoreWriter mWriter;
 
     private final ExecutionFlowPO mExecutionFlowToLog;
-
-    // private final ApplicationContext mContext;
 
     public AsynchroneTask(ExecutionFlowPO pExecutionFlowToLog, IStoreWriter pRealWriter)
     {

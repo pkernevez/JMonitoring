@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.info.IParamaterTracer;
 
-public class TestMultipleTracer extends TestCase {
+public class MultipleTracerTest extends TestCase {
 
     public void testConvertToString() {
         IParamaterTracer[] tTracers = new IParamaterTracer[] { new ToStringParametersTracer(), new StackTraceTracer() };

@@ -27,8 +27,6 @@ import org.slf4j.LoggerFactory;
  */
 public class XmlFileWriter implements IStoreWriter
 {
-    private StringBuilder mCurrentBuffer;
-
     private FormaterBean mFormater;
 
     final Writer mLogFile;
@@ -106,18 +104,18 @@ public class XmlFileWriter implements IStoreWriter
     // TODO Seperate and create another specific class XMLSerializer
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        mCurrentBuffer = new StringBuilder();
-        mCurrentBuffer.append("<Thread name=\"").append(pExecutionFlow.getThreadName());
-        mCurrentBuffer.append("\" server=\"").append(pExecutionFlow).append("\" duration=\"");
-        mCurrentBuffer.append(pExecutionFlow.getEndTime() - pExecutionFlow.getBeginTime());
-        mCurrentBuffer.append("\" startTime=\"");
-        mCurrentBuffer.append(mFormater.formatDateTime(pExecutionFlow.getBeginTime()));
-        mCurrentBuffer.append("\" >\n");
-        writeMethodCall(pExecutionFlow.getFirstMethodCall());
-        mCurrentBuffer.append("</Thread>");
-        writeToFile(mCurrentBuffer.toString(), false);
+        StringBuilder tCurrentBuffer = new StringBuilder();
+        tCurrentBuffer.append("<Thread name=\"").append(pExecutionFlow.getThreadName());
+        tCurrentBuffer.append("\" server=\"").append(pExecutionFlow).append("\" duration=\"");
+        tCurrentBuffer.append(pExecutionFlow.getEndTime() - pExecutionFlow.getBeginTime());
+        tCurrentBuffer.append("\" startTime=\"");
+        tCurrentBuffer.append(mFormater.formatDateTime(pExecutionFlow.getBeginTime()));
+        tCurrentBuffer.append("\" >\n");
+        writeMethodCall(tCurrentBuffer, pExecutionFlow.getFirstMethodCall());
+        tCurrentBuffer.append("</Thread>");
+        writeToFile(tCurrentBuffer.toString(), false);
         // free memory
-        mCurrentBuffer = null;
+        tCurrentBuffer = null;
         if (sLog.isDebugEnabled())
         {
             sLog.debug("Write ExecutionFlow to File " + pExecutionFlow);
@@ -130,41 +128,41 @@ public class XmlFileWriter implements IStoreWriter
      * 
      * @param pExecutionFlow La racine courante de l'arbre � logger.
      */
-    private void writeMethodCall(MethodCallPO pCurrentMethodCall)
+    private void writeMethodCall(StringBuilder pBuffer, MethodCallPO pCurrentMethodCall)
     {
-        mCurrentBuffer.append("<MethodCall ");
-        mCurrentBuffer.append("class=\"").append(pCurrentMethodCall.getClassName()).append("\" ");
-        mCurrentBuffer.append("method=\"").append(pCurrentMethodCall.getMethodName()).append("\" ");
-        mCurrentBuffer.append("duration=\"");
-        mCurrentBuffer.append(pCurrentMethodCall.getEndTime() - pCurrentMethodCall.getBeginTime());
-        mCurrentBuffer.append("\" ").append("startTime=\"");
-        mCurrentBuffer.append(mFormater.formatDateTime(pCurrentMethodCall.getBeginTime()));
-        mCurrentBuffer.append("\" ");
-        mCurrentBuffer.append("parameter=\"").append(pCurrentMethodCall.getParams()).append("\" ");
+        pBuffer.append("<MethodCall ");
+        pBuffer.append("class=\"").append(pCurrentMethodCall.getClassName()).append("\" ");
+        pBuffer.append("method=\"").append(pCurrentMethodCall.getMethodName()).append("\" ");
+        pBuffer.append("duration=\"");
+        pBuffer.append(pCurrentMethodCall.getEndTime() - pCurrentMethodCall.getBeginTime());
+        pBuffer.append("\" ").append("startTime=\"");
+        pBuffer.append(mFormater.formatDateTime(pCurrentMethodCall.getBeginTime()));
+        pBuffer.append("\" ");
+        pBuffer.append("parameter=\"").append(pCurrentMethodCall.getParams()).append("\" ");
         if (pCurrentMethodCall.getThrowableClass() == null)
-        { // Le retour de cette m�thode s'est bien pass�
+        { // The call was Ok
             if (pCurrentMethodCall.getReturnValue() == null)
-            { // M�thode de type 'void'
-                mCurrentBuffer.append("result=\"void\" ");
+            { // 'void' method return value
+                pBuffer.append("result=\"void\" ");
             } else
-            { // On log le retour
-                mCurrentBuffer.append("result=\"").append(pCurrentMethodCall.getReturnValue()).append("\" ");
+            { // Have to log the result
+                pBuffer.append("result=\"").append(pCurrentMethodCall.getReturnValue()).append("\" ");
             }
         } else
         { // On log l'exception
-            mCurrentBuffer.append("throwable=\"").append(pCurrentMethodCall.getThrowableClass()).append("\" ");
-            mCurrentBuffer.append("throwableMessage=\"").append(pCurrentMethodCall.getThrowableMessage()).append("\" ");
+            pBuffer.append("throwable=\"").append(pCurrentMethodCall.getThrowableClass()).append("\" ");
+            pBuffer.append("throwableMessage=\"").append(pCurrentMethodCall.getThrowableMessage()).append("\" ");
         }
-        mCurrentBuffer.append(">\n");
+        pBuffer.append(">\n");
 
         // On fait le recusrif sur les children
         for (MethodCallPO curChild : pCurrentMethodCall.getChildren())
         {
-            writeMethodCall(curChild);
+            writeMethodCall(pBuffer, curChild);
         }
 
         // On ferme le tag
-        mCurrentBuffer.append("</MethodCall>\n");
+        pBuffer.append("</MethodCall>\n");
     }
 
     /**
