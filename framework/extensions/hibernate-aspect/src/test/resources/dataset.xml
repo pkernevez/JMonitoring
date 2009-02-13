@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+<table name="execution_flow">
+    <column>ID</column>
+    <column>THREAD_NAME</column>
+    <column>DURATION</column>
+    <column>END_TIME</column>
+    <column>JVM</column>
+    <column>BEGIN_TIME</column>
+    <row>
+	    <value>1</value>
+	    <value>ExecuteThread: &apos;13&apos; for queue: &apos;weblogic.kernel.Default&apos;</value>
+	    <value>250</value>
+	    <value>1135118696211</value>
+	    <value>Babasse</value>
+	    <value>1135118695961</value>
+    </row>
+  	<row>
+	    <value>2</value>
+	    <value>ExecuteThread: &apos;13&apos; for queue: &apos;weblogic.kernel.Default&apos;</value>
+	    <value>250</value>
+	    <value>1135118701949</value>
+	    <value>Babasse</value>
+	    <value>1135118701699</value>
+	</row>
+  	<row>
+	    <value>3</value>
+	    <value>ExecuteThread: &apos;13&apos; for queue: &apos;weblogic.kernel.Default&apos;</value>
+	    <value>250</value>
+	    <value>1135118707557</value>
+	    <value>Babasse</value>
+	    <value>1135118707307</value>
+    </row>
+</table>
+</dataset>
