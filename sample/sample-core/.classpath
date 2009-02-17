@@ -80,7 +80,7 @@
       <attribute value="jar:file:/C:/m2/org/hibernate/hibernate/3.2.5.ga/hibernate-3.2.5.ga-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="src" path="/hibernate-aspect"/>
+  <classpathentry kind="var" path="M2_REPO/com/octo/opensource/jmonitoring/hibernate-aspect/2.0-beta-2-SNAPSHOT/hibernate-aspect-2.0-beta-2-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.5.6/jcl-over-slf4j-1.5.6.jar" sourcepath="M2_REPO/org/slf4j/jcl-over-slf4j/1.5.6/jcl-over-slf4j-1.5.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/jms/jms/1.1/jms-1.1.jar" sourcepath="M2_REPO/javax/jms/jms/1.1/jms-1.1-sources.jar">
     <attributes>

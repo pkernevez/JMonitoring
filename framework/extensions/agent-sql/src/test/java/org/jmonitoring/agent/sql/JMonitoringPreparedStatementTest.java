@@ -4,53 +4,22 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Types;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
-import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.tests.JMonitoringTestCase;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/memory-test.xml" })
-public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
+public class JMonitoringPreparedStatementTest extends SqlTestCase
 {
     private static int sCurId = 0;
-
-    private Session mSession;
-
-    @Before
-    public void initContext() throws SQLException
-    {
-        SpringConfigurationUtil.setContext(getApplicationContext());
-        MemoryWriter.clear();
-
-        ClassPathXmlApplicationContext tAContext =
-            new ClassPathXmlApplicationContext(new String[] {"/jmonitoring-agent-test.xml", "/memory-test.xml" });
-        SessionFactory tFacto = (SessionFactory) tAContext.getBean("sessionFactory");
-        MemoryWriter.clear();
-        mSession = tFacto.openSession();
-        mSession.beginTransaction();
-    }
-
-    @After
-    public void clear()
-    {
-        mSession.getTransaction().rollback();
-        mSession.close();
-    }
 
     @Test
     public void testExecute() throws SQLException
@@ -102,7 +71,8 @@ public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
         Connection tCon = mSession.connection();
         PreparedStatement tPStat = tCon.prepareStatement("select * from EXECUTION_FLOW where Id=?");
         tPStat.setInt(1, 34);
-        tPStat.executeQuery();
+        ResultSet tResultSet = tPStat.executeQuery();
+        assertEquals("The resultset should be wrapped", JMonitoringResultSet.class, tResultSet.getClass());
 
         assertEquals(1, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
@@ -111,6 +81,7 @@ public class JMonitoringPreparedStatementTest extends JMonitoringTestCase
         tBuffer.append("Execute query\n");
         tBuffer.append("ResultSet=[rs");
         String tLog = MemoryWriter.getFlow(0).getFirstMethodCall().getReturnValue();
+        assertEquals("Bad group name", "Jdbc", MemoryWriter.getFlow(0).getFirstMethodCall().getGroupName());
         String tExpected = tBuffer.toString();
         assertEquals(tExpected, tLog.substring(0, tExpected.length()));
         tExpected = ": columns: 8 rows: 0 pos: -1]\n";

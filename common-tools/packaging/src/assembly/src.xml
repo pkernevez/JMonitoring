@@ -22,7 +22,7 @@
         <unpack>false</unpack>
         <useTransitiveFiltering>true</useTransitiveFiltering>
         <includes>
-            <include>com.octo.opensource.jmonitoring:hibernate-aspect</include>
+            <include>com.octo.opensource.jmonitoring:agent-sql</include>
         </includes>
     </dependencySet>
     <dependencySet>

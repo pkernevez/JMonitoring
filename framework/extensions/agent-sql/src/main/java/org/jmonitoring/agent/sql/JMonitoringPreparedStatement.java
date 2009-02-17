@@ -91,7 +91,7 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     {
         mTrace.append("Execute \n");
         StoreManager tManager = getStoreManager();
-        tManager.logBeginOfMethod(EXECUTE, null, new Object[0], "Sql", this);
+        tManager.logBeginOfMethod(EXECUTE, null, new Object[0], GROUP_NAME, this);
         try
         {
             boolean tResult = mRealPreparedStat.execute();
@@ -116,13 +116,13 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     {
         mTrace.append("Execute query\n");
         StoreManager tManager = getStoreManager();
-        tManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], "Sql", this);
+        tManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], GROUP_NAME, this);
         try
         {
             ResultSet tResult = mRealPreparedStat.executeQuery();
             mTrace.append("ResultSet=[").append(tResult).append("]\n");
             tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
-            return tResult;
+            return new JMonitoringResultSet(tResult);
         } catch (Error e)
         {
             tManager.logEndOfMethodWithException(sThrowableTracer, e);
@@ -141,7 +141,7 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     {
         mTrace.append("Execute update\n");
         StoreManager tManager = getStoreManager();
-        tManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], "Sql", this);
+        tManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], GROUP_NAME, this);
         try
         {
             int tResult = mRealPreparedStat.executeUpdate();

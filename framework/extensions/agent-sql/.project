@@ -1,6 +1,6 @@
 <projectDescription>
-  <name>hibernate-aspect</name>
-  <comment>This jar allow to trace Hibernate Access and Sql access</comment>
+  <name>agent-sql</name>
+  <comment>This jar allow to trace Sql accesses</comment>
   <projects>
     <project>agent</project>
     <project>common</project>

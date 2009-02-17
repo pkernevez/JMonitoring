@@ -4,7 +4,6 @@
   <projects>
     <project>agent</project>
     <project>common</project>
-    <project>hibernate-aspect</project>
     <project>sample-aspects</project>
     <project>sample-core</project>
   </projects>

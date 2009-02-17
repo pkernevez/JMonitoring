@@ -1,7 +1,6 @@
 package org.jmonitoring.agent.sql;
 
 import java.lang.reflect.Method;
-import java.sql.Statement;
 
 import org.aspectj.lang.Signature;
 
@@ -14,9 +13,9 @@ public class SqlSignature implements Signature
 
     private final Method mMethod;
 
-    private final Class<? extends Statement> mClass;
+    private final Class<? extends Object> mClass;
 
-    public SqlSignature(Class<? extends Statement> pClass, Method pMethod)
+    public SqlSignature(Class<? extends Object> pClass, Method pMethod)
     {
         super();
         mMethod = pMethod;

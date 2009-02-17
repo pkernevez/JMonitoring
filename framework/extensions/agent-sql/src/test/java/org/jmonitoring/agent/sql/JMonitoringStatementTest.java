@@ -1,27 +1,22 @@
 package org.jmonitoring.agent.sql;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
-import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/memory-test.xml" })
-public class JMonitoringStatementTest extends JMonitoringTestCase
+public class JMonitoringStatementTest extends SqlTestCase
 {
     static String UPDATE_1 =
         "INSERT INTO execution_flow (ID, THREAD_NAME, DURATION, BEGIN_TIME_AS_DATE, "
@@ -37,31 +32,18 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
 
     private Statement mStat;
 
-    private Session mSession;
-
     @Before
-    public void initContext() throws SQLException
+    public void initStat() throws SQLException
     {
-        SpringConfigurationUtil.setContext(getApplicationContext());
-        MemoryWriter.clear();
-
-        ClassPathXmlApplicationContext tAContext =
-            new ClassPathXmlApplicationContext(new String[] {"/jmonitoring-agent-test.xml", "/memory-test.xml" });
-        SpringConfigurationUtil.setContext(tAContext);
-        SessionFactory tFacto = (SessionFactory) tAContext.getBean("sessionFactory");
-        MemoryWriter.clear();
-        mSession = tFacto.openSession();
-        mSession.beginTransaction();
         Connection tCon = mSession.connection();
         mStat = tCon.createStatement();
         assertEquals(JMonitoringStatement.class, mStat.getClass());
     }
 
     @After
-    public void clear()
+    public void closeStat() throws SQLException
     {
-        mSession.getTransaction().rollback();
-        mSession.beginTransaction();
+        mStat.close();
     }
 
     @Test
@@ -71,6 +53,7 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Sql=[select * from EXECUTION_FLOW]\nResult=[true]\n", tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
@@ -117,7 +100,8 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
     @Test
     public void testExecuteQuery() throws SQLException
     {
-        mStat.executeQuery("select * from EXECUTION_FLOW");
+        ResultSet tResultSet = mStat.executeQuery("select * from EXECUTION_FLOW");
+        assertEquals("The resultset should be wrapped", JMonitoringResultSet.class, tResultSet.getClass());
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         String tLog = tFlow.getFirstMethodCall().getReturnValue();
@@ -168,6 +152,26 @@ public class JMonitoringStatementTest extends JMonitoringTestCase
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         assertEquals("Execute Update=[" + tSql + "]\nResult=[1]\n", tFlow.getFirstMethodCall().getReturnValue());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
+    }
+
+    @Test
+    public void testGetGeneratedKeys() throws SQLException
+    {
+        ResultSet tResultSet = mStat.getGeneratedKeys();
+        assertEquals("The resultset should be wrapped", JMonitoringResultSet.class, tResultSet.getClass());
+    }
+
+    @Test
+    public void testGetResultSet() throws SQLException
+    {
+        assertNull("Should not have a resultset without query", mStat.getResultSet());
+        ResultSet tResultSet = mStat.executeQuery("select * from EXECUTION_FLOW");
+        assertNotSame("Should be the same as previous", tResultSet, mStat.getResultSet());
+
+        mStat.execute("select * from EXECUTION_FLOW");
+        ResultSet tResultSet2 = mStat.getResultSet();
+        assertNotSame("Request are different, resulset are different", tResultSet, tResultSet2);
+        assertEquals("The resultset should be wrapped", JMonitoringResultSet.class, tResultSet2.getClass());
     }
 
 }

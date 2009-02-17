@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
      <modules>
-        <module>hibernate-aspect</module>
+        <module>agent-sql</module>
     </modules>
 
     <name>Fwk-extensions</name>

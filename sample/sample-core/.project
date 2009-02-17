@@ -6,7 +6,6 @@
     <project>common</project>
     <project>common-tests</project>
     <project>console-core</project>
-    <project>hibernate-aspect</project>
     <project>persistence</project>
     <project>sample-aspects</project>
     <project>server</project>
