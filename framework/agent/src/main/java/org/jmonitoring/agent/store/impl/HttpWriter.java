@@ -1,7 +1,6 @@
 package org.jmonitoring.agent.store.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -91,7 +90,7 @@ public class HttpWriter implements IStoreWriter
             {
                 tHttpPost.releaseConnection();
             }
-        } catch (IOException e)
+        } catch (Throwable e)
         {
             sLog.error("Unable to Write Flow to Http Server the ExecutionFlow has been lost. Cause is "
                 + e.getMessage() + " Serveur is " + mClient.getHostConfiguration());
