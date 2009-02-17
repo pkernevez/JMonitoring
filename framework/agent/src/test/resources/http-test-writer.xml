@@ -3,12 +3,13 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.HttpWriter" scope="prototype">
-        <constructor-arg index="0" value="localhost"/>
-        <constructor-arg index="1" value="83"/>
-        <constructor-arg index="2" value="http"/>
-        <constructor-arg index="3" value="/console-web/Store.do"/>
+    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.HttpWriter" >
+        <!-- property name="hostName" value="localhost"/-->
+        <property name="port" value="83"/>
+        <!-- property name="uri" value="/console-web/Store.do"/>
+        <property name="protocole" value="http"/ -->
     </bean>
 
     
 </beans>
+ 

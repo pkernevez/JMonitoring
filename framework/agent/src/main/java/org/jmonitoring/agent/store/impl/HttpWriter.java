@@ -24,7 +24,7 @@ public class HttpWriter implements IStoreWriter
 
     public static final String CONTENT_TYPE = "JMonitoring/flow";
 
-    private String mUri;
+    private String mUri = "/console-web/Store.do";
 
     private static Logger sLog = LoggerFactory.getLogger(HttpWriter.class);
 

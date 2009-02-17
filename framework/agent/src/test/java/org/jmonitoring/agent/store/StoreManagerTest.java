@@ -187,6 +187,6 @@ public class StoreManagerTest extends org.jmonitoring.core.tests.JMonitoringTest
         assertEquals("TestMachine", tManager.getServerName());
         assertNotNull(tManager.getStoreWriter());
         StoreManager tManager2 = (StoreManager) applicationContext.getBean(StoreManager.STORE_MANAGER_NAME);
-        assertNotSame(tManager, tManager2);
+        assertSame(tManager, tManager2);
     }
 }

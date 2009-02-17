@@ -39,9 +39,9 @@ public class HttpWriterTest extends JMonitoringTestCase
         ExecutionFlowPO tFlow = buildNewFullFlow();
         tWriter.writeExecutionFlow(tFlow);
         Thread.sleep(1000);
-        assertEquals("POST /console-web/Store.do HTTP/1.1\r\n" + "Content-Type: JMonitoring/flow\r\n"
-            + "User-Agent: Jakarta Commons-HttpClient/3.1-rc1\r\n" + "Host: localhost:83\r\n"
-            + "Transfer-Encoding: chunked\r\n\r", mRequest);
+        assertEquals("Test server response", "POST /console-web/Store.do HTTP/1.1\r\n"
+            + "Content-Type: JMonitoring/flow\r\n" + "User-Agent: Jakarta Commons-HttpClient/3.1-rc1\r\n"
+            + "Host: localhost:83\r\n" + "Transfer-Encoding: chunked\r\n\r", mRequest);
     }
 
     private void startServer() throws IOException

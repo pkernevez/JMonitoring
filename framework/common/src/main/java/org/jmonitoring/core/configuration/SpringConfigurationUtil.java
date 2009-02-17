@@ -41,7 +41,14 @@ public final class SpringConfigurationUtil
         } catch (BeansException e)
         {
             sLog.info("Fail to load global specific context, use the default");
-            tContext = new ClassPathXmlApplicationContext(DEFAULT_SPRING_FILE_NAME);
+            try
+            {
+                tContext = new ClassPathXmlApplicationContext(DEFAULT_SPRING_FILE_NAME);
+            } catch (BeansException e2)
+            {
+                sLog.error("Unable to find any configuration, check jmonitoring configuration");
+                throw e;
+            }
         }
         return tContext;
     }
