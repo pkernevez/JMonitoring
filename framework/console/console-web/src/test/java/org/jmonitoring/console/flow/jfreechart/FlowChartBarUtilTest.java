@@ -20,7 +20,8 @@ import org.springframework.test.context.ContextConfiguration;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/console.xml", "/formater-test.xml", "/color-test.xml", "/persistence-test.xml" })
+@ContextConfiguration(locations = {"/console.xml", "/formater-test.xml", "/color-test.xml", "/persistence-test.xml",
+    "/chart-manager-test.xml" })
 public class FlowChartBarUtilTest extends JMonitoringTestCase
 {
     @Resource(name = "formater")
@@ -32,11 +33,14 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
     @Autowired
     private FlowUtilTest mFlowUtilTest;
 
+    @Autowired
+    private ChartManager mChartManager;
+
     @Test
     public void testChainAllMethodCallToMainTaskOfGroup()
     {
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
-        FlowChartBarUtil tFlowChartBarUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
+        FlowChartBarUtil tFlowChartBarUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, mChartManager);
         tFlowChartBarUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
 
         Map<String, TaskForGroupName> tGroups = tFlowChartBarUtil.getListOfGroup();
@@ -83,7 +87,7 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
     {
         MethodCallDTO tFirstMethod = mFlowUtilTest.getSampleMeasurePoint();
 
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, mChartManager);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
 
         Map<String, TaskForGroupName> tGroups = tUtil.getListOfGroup();
@@ -206,26 +210,25 @@ public class FlowChartBarUtilTest extends JMonitoringTestCase
     {
         // Simple
         MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, mChartManager);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
         // One group with couple of children
         tFirstMethod.removeChild(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
-        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
+        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, null);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
         // 1 group and one child
         tFirstMethod = tFirstMethod.getChild(0);
-        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
+        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, null);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
 
         // 2 groups and one child
         tFirstMethod = getVerySimpleMeasurePoint();
         tFirstMethod.removeChild(0);
-        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor);
+        tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, null);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
-
     }
 
 }

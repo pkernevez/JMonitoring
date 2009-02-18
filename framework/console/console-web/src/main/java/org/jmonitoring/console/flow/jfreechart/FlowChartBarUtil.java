@@ -8,9 +8,12 @@ package org.jmonitoring.console.flow.jfreechart;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
 
@@ -62,12 +65,16 @@ public class FlowChartBarUtil
 
     private final ColorManager mColorManager;
 
-    public FlowChartBarUtil(FormaterBean pFormater, MethodCallDTO pFirstMeasure, ColorManager pColorManager)
+    private final ChartManager mChartManager;
+
+    public FlowChartBarUtil(FormaterBean pFormater, MethodCallDTO pFirstMeasure, ColorManager pColorManager,
+        ChartManager pChartManager)
     {
         super();
         mFormater = pFormater;
         mColorManager = pColorManager;
         mFirstMeasure = pFirstMeasure;
+        mChartManager = pChartManager;
         computeStatForThisFlow();
     }
 
@@ -80,9 +87,9 @@ public class FlowChartBarUtil
      * @param pForm TODO
      */
     public static void writeImageIntoSession(FormaterBean pFormater, ColorManager pColorManager, HttpSession pSession,
-        MethodCallDTO pFirstMeasure, FlowEditForm pForm)
+        MethodCallDTO pFirstMeasure, FlowEditForm pForm, ChartManager pChartManager)
     {
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(pFormater, pFirstMeasure, pColorManager);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(pFormater, pFirstMeasure, pColorManager, pChartManager);
         tUtil.fillChart(pSession, pForm);
     }
 
@@ -155,7 +162,7 @@ public class FlowChartBarUtil
         if (tTaskEntry == null)
         { // We create a new entry
             tTaskEntry = new TaskForGroupName();
-            tTaskEntry.mPositionOfTheGroup = mListOfGroup.size() + 1;
+            tTaskEntry.mPositionOfTheGroup = mChartManager.getPosition(pGroupName);
             tTaskEntry.mMainTaskOfGroup =
                 new Task(pGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginMilliSeconds()),
                                                           new Date(pCurMeasure.getEndMilliSeconds())));
@@ -222,11 +229,22 @@ public class FlowChartBarUtil
     private TaskForGroupName[] orderListOfTask()
     {
         TaskForGroupName[] tTaskEntries = new TaskForGroupName[mListOfGroup.size()];;
-        for (TaskForGroupName curTaskEntry : mListOfGroup.values())
+        SortedSet<TaskForGroupName> tOrderedTask = new TreeSet<TaskForGroupName>(new TaskComparator());
+        tOrderedTask.addAll(mListOfGroup.values());
+        int i = 0;
+        for (TaskForGroupName curTaskEntry : tOrderedTask)
         {
-            tTaskEntries[curTaskEntry.mPositionOfTheGroup - 1] = curTaskEntry;
+            tTaskEntries[i++] = curTaskEntry;
         }
         return tTaskEntries;
+    }
+
+    private static class TaskComparator implements Comparator<TaskForGroupName>
+    {
+        public int compare(TaskForGroupName pTask1, TaskForGroupName pTask2)
+        {
+            return (pTask1.mPositionOfTheGroup - pTask2.mPositionOfTheGroup);
+        }
     }
 
     /**

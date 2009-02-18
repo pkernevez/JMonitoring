@@ -10,8 +10,6 @@ import org.jmonitoring.console.flow.jfreechart.FlowUtil;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,36 +37,6 @@ public class FlowEditActionInTest extends JMonitoringMockStrustTestCase
     {
         super.setUp();
         FlowEditActionIn.setMaxFlowToShow(5);
-    }
-
-    @Before
-    public void init()
-    {
-        // MockServletContext sandbox = new MockServletContext("");
-        // sandbox
-        // .addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM,
-        // "classpath*:/console.xml;classpath*:/core-test.xml;classpath*:/default-test.xml;classpath*:/persistence-test.xml");
-        // // Create a context loader and load the WebApplicationContext into the sandbox
-        // ServletContextListener contextListener = new ContextLoaderListener();
-        // ServletContextEvent event = new ServletContextEvent(sandbox);
-        // contextListener.contextInitialized(event);
-        //
-        // // Fetch the WebApplicationContext from the sandbox and move it to the StrutsTestCase ServletContext
-        // getSession().getServletContext()
-        // .setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,
-        // // sandbox.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE));
-        //
-        // Session session = mSessionFactory.openSession();
-        // TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(session));
-        // session.beginTransaction();
-    }
-
-    @After
-    public void close()
-    {
-        // Session session = mSessionFactory.getCurrentSession();
-        // TransactionSynchronizationManager.unbindResource(mSessionFactory);
-        // session.getTransaction().rollback();
     }
 
     @Test
@@ -161,9 +129,6 @@ public class FlowEditActionInTest extends JMonitoringMockStrustTestCase
         // Delete First Flow
         setRequestPathInfo("/FlowEditIn");
         setActionForm(tForm);
-        // Temp
-        // mSessionFactory.getCurrentSession().getTransaction().commit();
-        // mSessionFactory.getCurrentSession().beginTransaction();
         actionPerform();
         verifyForwardPath("/pages/layout/layout.jsp");
 

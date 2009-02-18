@@ -35,7 +35,7 @@ import servletunit.struts.MockStrutsTestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners( {DependencyInjectionTestExecutionListener.class })
-@ContextConfiguration(locations = {"/console.xml", "/core-test.xml", "/default-test.xml", "/persistence-test.xml" })
+@ContextConfiguration(locations = {"/console.xml", "/core-test.xml", "/default-test.xml", "/persistence-test.xml", "/chart-manager-test.xml" })
 @Ignore
 public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase implements ApplicationContextAware
 {

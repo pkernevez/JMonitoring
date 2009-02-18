@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hibernate.SessionFactory;
 import org.jmonitoring.console.AbstractSpringAction;
+import org.jmonitoring.console.flow.jfreechart.ChartManager;
 import org.jmonitoring.console.flow.jfreechart.FlowChartBarUtil;
 import org.jmonitoring.console.flow.jfreechart.FlowUtil;
 import org.jmonitoring.core.configuration.ColorManager;
@@ -59,12 +60,12 @@ public class FlowEditActionIn extends AbstractSpringAction
     {
         FormaterBean tFormater = (FormaterBean) SpringConfigurationUtil.getBean("formater");
 
-        ColorManager mColor = (ColorManager) SpringConfigurationUtil.getBean("color");
+        ColorManager tColor = (ColorManager) SpringConfigurationUtil.getBean("color");
 
         ConsoleManager tConsoleManager = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
 
         SessionFactory tSessionFactory = (SessionFactory) SpringConfigurationUtil.getBean("sessionFactory");
-
+        ChartManager tChartManager = (ChartManager) SpringConfigurationUtil.getBean("chartManager");
         ActionForward tForward;
         FlowEditForm tForm = (FlowEditForm) pForm;
         sLog.debug("Read flow from database, Id=[" + tForm.getId() + "]");
@@ -82,10 +83,10 @@ public class FlowEditActionIn extends AbstractSpringAction
             // Creation of the associated images.
             HttpSession tSession = pRequest.getSession();
             sLog.debug("Write PieCharts into HttpSession");
-            FlowUtil tUtil = new FlowUtil(mColor, tFormater);
+            FlowUtil tUtil = new FlowUtil(tColor, tFormater);
             tUtil.writeImageIntoSession(tSession, tFirstMeasure);
             sLog.debug("Write GantBarChart into HttpSession");
-            FlowChartBarUtil.writeImageIntoSession(tFormater, mColor, tSession, tFirstMeasure, tForm);
+            FlowChartBarUtil.writeImageIntoSession(tFormater, tColor, tSession, tFirstMeasure, tForm, tChartManager);
             if (tForm.getKindOfAction() == FlowEditForm.ACTION_DURATION_FILTER)
             {
                 sLog.debug("MethodCallDTO Filtering : duration>" + tForm.getDurationMin());

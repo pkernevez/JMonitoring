@@ -81,6 +81,15 @@
         </property>
     </bean>
 
+    <bean name="chartManager" class="org.jmonitoring.console.flow.jfreechart.ChartManager">
+        <property name="groupOrder">
+            <map>
+                <!-- You should defined you own configuration
+                <entry key="SQL" value="10" /-->
+            </map>
+        </property>
+    </bean>
+
     <!-- Default configuration when the console is use for HttpLogging into H2 database -->
     <bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean>
 </beans>

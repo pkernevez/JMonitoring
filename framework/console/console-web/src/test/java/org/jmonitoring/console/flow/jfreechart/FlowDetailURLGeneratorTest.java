@@ -26,13 +26,16 @@ public class FlowDetailURLGeneratorTest extends JMonitoringMockStrustTestCase
     @Autowired
     private FlowBuilderUtil mFlowBuilder;
 
+    @Autowired
+    private ChartManager mChartManager;
+
     @Test
     public void testUGRGeneration()
     {
         dropCreate();
         ExecutionFlowDTO tFlow = mFlowBuilder.buildAndSaveNewDto(2);
 
-        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFlow.getFirstMethodCall(), mColor);
+        FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFlow.getFirstMethodCall(), mColor, mChartManager);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFlow.getFirstMethodCall());
         IntervalCategoryDataset tIntervalcategorydataset = tUtil.createDataset();
         tUtil.createGanttChart(tIntervalcategorydataset);
