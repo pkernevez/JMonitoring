@@ -56,7 +56,7 @@
         </dependency>
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
-            <artifactId>hibernate-aspect</artifactId>
+            <artifactId>agent-sql</artifactId>
             <version>2.0-beta-2-SNAPSHOT</version>
         </dependency>
         <dependency>
