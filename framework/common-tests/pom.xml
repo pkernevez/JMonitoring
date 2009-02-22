@@ -2,21 +2,21 @@
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>framework</artifactId>
-        <version>2.0-beta-2</version>
+        <version>2.0-beta-3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>common-tests</artifactId>
-    <version>2.0-beta-2</version>
+    <version>2.0-beta-3-SNAPSHOT</version>
     <name>Fwk-common-tests</name>
     <description>Common resources for testing JMonitoring.</description>
     <scm>
-        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-2/framework/common-tests</connection>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/common-tests</connection>
         <developerConnection>
-            scm:svn:http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-2/framework/common-tests
+            scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/common-tests
         </developerConnection>
-        <url>http://forge.octo.com/svn/jmonitoring/tags/2.0-beta-2/framework/common-tests</url>
+        <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/common-tests</url>
     </scm>
 
     <packaging>jar</packaging>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.octo.opensource.jmonitoring</groupId>
             <artifactId>common</artifactId>
-            <version>2.0-beta-2</version>
+            <version>2.0-beta-3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
