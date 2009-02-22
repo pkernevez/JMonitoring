@@ -184,4 +184,19 @@ public class TestDtoManager extends PersistanceTestCase
         tMeth = tParent.getChild(0);
         assertEquals(0, tMeth.getChildPosition());
     }
+
+    @Test
+    public void testGetSimpleCopy()
+    {
+        ExecutionFlowPO tFlow = new ExecutionFlowPO();
+        tFlow.setFirstClassName("test Class");
+        tFlow.setFirstMethodName("test Method");
+        ExecutionFlowDTO tDto = mDtoManager.getSimpleCopy(tFlow);
+        assertEquals("test Class", tDto.getClassName());
+        assertEquals("test Method", tDto.getMethodName());
+        tFlow = mDtoManager.getSimpleCopy(tDto);
+        assertEquals("test Class", tFlow.getFirstClassName());
+        assertEquals("test Method", tFlow.getFirstMethodName());
+
+    }
 }

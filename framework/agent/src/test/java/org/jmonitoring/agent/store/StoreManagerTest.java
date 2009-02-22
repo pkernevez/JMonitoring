@@ -31,6 +31,7 @@ public class StoreManagerTest extends org.jmonitoring.core.tests.JMonitoringTest
     {
         // Check the count
         MockWriter.clear();
+        MockProcessor.clear();
         AspectLoggerEmulator.clear();
         assertEquals(0, MockWriter.getNbLog());
 
@@ -38,6 +39,8 @@ public class StoreManagerTest extends org.jmonitoring.core.tests.JMonitoringTest
         tEmulator.simulateExecutionFlowWithExceptioninMain(pLogDebugEnabled);
 
         assertEquals(1, MockWriter.getNbLog());
+
+        assertEquals(1, MockProcessor.getNbCall());
     }
 
     /**

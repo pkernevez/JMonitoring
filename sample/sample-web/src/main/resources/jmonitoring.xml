@@ -3,23 +3,24 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:annotation-config/>
+    <context:annotation-config />
 
-    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" >
-        <property name="serverName" value="TestMachine"/>
+    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager">
+        <property name="serverName" value="TestMachine" />
+        <property name="processor" ref="processor" />
     </bean>
-        
-    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.AsynchroneWriter">
-    </bean>
+    <bean name="processor" class="org.jmonitoring.sample.SampleProcessor" />
+
+    <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.AsynchroneWriter"></bean>
 
     <bean name="realStoreWriter" class="org.jmonitoring.agent.store.impl.HttpWriter">
         <!-- property name="hostName" value="localhost"/-->
-        <property name="port" value="8080"/>
+        <property name="port" value="8080" />
         <property name="uri" value="/console-web/Store.do"></property>
         <!-- property name="protocole" value="http"/-->
     </bean>
-    
+
     <!--  For testing the none weaving of Dao class -->
     <!-- bean name="consoleDao" class="org.jmonitoring.core.dao.ConsoleDao" />
-    <bean name="dao" class="org.jmonitoring.core.persistence.InsertionDao" /-->
+        <bean name="dao" class="org.jmonitoring.core.persistence.InsertionDao" /-->
 </beans>

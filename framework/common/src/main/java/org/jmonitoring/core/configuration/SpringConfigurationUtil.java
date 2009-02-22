@@ -3,6 +3,7 @@ package org.jmonitoring.core.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -38,7 +39,7 @@ public final class SpringConfigurationUtil
         try
         {
             tContext = new ClassPathXmlApplicationContext(SPRING_FILE_NAME);
-        } catch (BeansException e)
+        } catch (BeanDefinitionStoreException e)
         {
             sLog.info("Fail to load global specific context, use the default");
             try
@@ -49,6 +50,10 @@ public final class SpringConfigurationUtil
                 sLog.error("Unable to find any configuration, check jmonitoring configuration");
                 throw e;
             }
+        } catch (RuntimeException e)
+        {
+            sLog.error("Unable to load Spring configuration", e);
+            throw e;
         }
         return tContext;
     }

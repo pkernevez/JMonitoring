@@ -2,18 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-    
-    <context:annotation-config/>
-    
-    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" ></bean>
+
+    <context:annotation-config />
+
+    <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager">
+        <property name="processor" ref="processor" />
+    </bean>
 
     <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.AsynchroneWriter" />
 
-    <bean name="realStoreWriter" class="org.jmonitoring.agent.store.impl.HttpWriter" >
+    <bean name="realStoreWriter" class="org.jmonitoring.agent.store.impl.HttpWriter">
         <!-- property name="hostName" value="localhost"/>
-        <property name="port" value="80"/>
-        <property name="uri" value="/console-web/Store.do"/>
-        <property name="protocole" value="http"/-->
+            <property name="port" value="80"/>
+            <property name="uri" value="/console-web/Store.do"/>
+            <property name="protocole" value="http"/-->
     </bean>
+
+    <bean name="processor" class="org.jmonitoring.agent.store.impl.DefaultProcessor" />
 
 </beans>

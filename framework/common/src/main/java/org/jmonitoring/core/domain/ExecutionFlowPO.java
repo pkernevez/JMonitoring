@@ -37,6 +37,10 @@ public class ExecutionFlowPO implements Serializable
     /** First method call of this flow. */
     private MethodCallPO mFirstMethodCall;
 
+    private String mFirstClassName;
+
+    private String mFirstMethodName;
+
     /**
      * Default constructor for Hibernate.
      */
@@ -213,6 +217,38 @@ public class ExecutionFlowPO implements Serializable
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("ExecutionFlowPO FlowId=[").append(mId).append("]");
         return tBuffer.toString();
+    }
+
+    /**
+     * @return the firstClassName
+     */
+    public String getFirstClassName()
+    {
+        return mFirstClassName;
+    }
+
+    /**
+     * @param pFirstClassName the firstClassName to set
+     */
+    public void setFirstClassName(String pFirstClassName)
+    {
+        mFirstClassName = pFirstClassName;
+    }
+
+    /**
+     * @return the firstMethodName
+     */
+    public String getFirstMethodName()
+    {
+        return mFirstMethodName;
+    }
+
+    /**
+     * @param pFirstMethodName the firstMethodName to set
+     */
+    public void setFirstMethodName(String pFirstMethodName)
+    {
+        mFirstMethodName = pFirstMethodName;
     }
 
 }

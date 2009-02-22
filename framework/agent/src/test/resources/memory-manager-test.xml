@@ -5,7 +5,9 @@
 
     <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager">
         <property name="serverName" value="TestMachine"/>
+        <property name="processor" ref="processor"/>
     </bean>
+    <bean name="processor" class="org.jmonitoring.agent.store.impl.DefaultProcessor" />
         
     <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.MemoryWriter" />
     

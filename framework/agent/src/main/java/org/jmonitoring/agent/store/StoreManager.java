@@ -36,6 +36,9 @@ public class StoreManager
     @Resource(name = "storeWriter")
     private IStoreWriter mStoreWriter;
 
+    @Resource(name = "processor")
+    private PostProcessor mProcessor;
+
     private String mServerName;
 
     public StoreManager()
@@ -132,6 +135,8 @@ public class StoreManager
             }
             ExecutionFlowPO tFlow =
                 new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
+            // Process this flow
+            mProcessor.process(tFlow);
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint.set(null);
         } else
@@ -185,6 +190,7 @@ public class StoreManager
             }
             ExecutionFlowPO tFlow =
                 new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
+            mProcessor.process(tFlow);
             mStoreWriter.writeExecutionFlow(tFlow);
             mCurrentLogPoint.set(null);
         } else
@@ -263,6 +269,22 @@ public class StoreManager
     public void setServerName(String pServerName)
     {
         mServerName = pServerName;
+    }
+
+    /**
+     * @return the processor
+     */
+    public PostProcessor getProcessor()
+    {
+        return mProcessor;
+    }
+
+    /**
+     * @param pProcessor the processor to set
+     */
+    public void setProcessor(PostProcessor pProcessor)
+    {
+        mProcessor = pProcessor;
     }
 
 }

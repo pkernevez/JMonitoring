@@ -78,12 +78,12 @@ public class HttpWriter implements IStoreWriter
             {
                 mClient.executeMethod(tHttpPost);
                 long tEndTime = System.currentTimeMillis();
-                sLog.info("Inserted vith Http ExecutionFlow " + pExecutionFlow + " in " + (tEndTime - tStartTime)
+                sLog.info("Inserted with Http ExecutionFlow " + pExecutionFlow + " in " + (tEndTime - tStartTime)
                     + " ms.");
 
                 if (tHttpPost.getStatusCode() != HttpStatus.SC_OK)
                 {
-                    sLog.error("Error while transfering Flow to HttpServer, return code was ["
+                    sLog.error("Error while transfering Flow to HttpServer(" + getFullUrl() + "), return code was ["
                         + tHttpPost.getStatusCode() + "]");
                 }
             } finally
@@ -127,5 +127,10 @@ public class HttpWriter implements IStoreWriter
     public void setProtocole(String pProtocole)
     {
         mProtocole = pProtocole;
+    }
+
+    private String getFullUrl()
+    {
+        return mProtocole + mHostName + mPort + ":" + mUri;
     }
 }

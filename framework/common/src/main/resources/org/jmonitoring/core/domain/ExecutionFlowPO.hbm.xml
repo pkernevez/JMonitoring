@@ -19,6 +19,10 @@
 
       <property name="duration" column="DURATION" type="java.lang.Long" />
       
+      <property name="firstClassName" column="FIRST_CLASS_NAME" type="java.lang.String"/>
+       
+      <property name="firstMethodName" column="FIRST_METHOD_NAME" type="java.lang.String"/>
+      
 	<!-- @todo remplacer la colonne FIRST_METHOD_CALL_INDEX_IN_FLOW par un critère de selection -->
 	<many-to-one name="firstMethodCall"  
 		unique="false" not-null="false" insert="false" update="false" >

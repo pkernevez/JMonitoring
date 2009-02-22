@@ -12,5 +12,7 @@
         <property name="timeFormat" value="HH:mm:ss"/>
     </bean>
     <bean name="storeManager" class="org.jmonitoring.agent.store.StoreManager" >
+        <property name="processor" ref="processor"/>
     </bean>
+    <bean name="processor" class="org.jmonitoring.agent.store.impl.DefaultProcessor" />
 </beans>

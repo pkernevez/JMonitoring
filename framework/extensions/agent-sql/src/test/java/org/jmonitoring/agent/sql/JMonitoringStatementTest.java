@@ -106,7 +106,7 @@ public class JMonitoringStatementTest extends SqlTestCase
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         String tLog = tFlow.getFirstMethodCall().getReturnValue();
         assertTrue(tLog, tLog.startsWith("Query executed=[select * from EXECUTION_FLOW]\nResultSet=[rs"));
-        assertTrue(tLog, tLog.endsWith(": columns: 8 rows: 0 pos: -1]\n"));
+        assertTrue(tLog, tLog.endsWith(": columns: 10 rows: 0 pos: -1]\n"));
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 

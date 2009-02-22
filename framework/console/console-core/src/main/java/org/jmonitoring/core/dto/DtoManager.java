@@ -35,8 +35,8 @@ public class DtoManager
         BeanUtils.copyProperties(pFlowPO, tResult, new String[] {"firstMethodCall", "beginTime", "endTime" });
         tResult.setBeginTime(mFormater.formatDateTime(pFlowPO.getBeginTime()));
         tResult.setEndTime(mFormater.formatDateTime(pFlowPO.getEndTime()));
-        tResult.setClassName(pFlowPO.getFirstMethodCall().getClassName());
-        tResult.setMethodName(pFlowPO.getFirstMethodCall().getMethodName());
+        tResult.setClassName(pFlowPO.getFirstClassName());
+        tResult.setMethodName(pFlowPO.getFirstMethodName());
         return tResult;
     }
 
@@ -46,6 +46,8 @@ public class DtoManager
         BeanUtils.copyProperties(pFlowDto, tResult, new String[] {"firstMethodCall", "beginTime", "endTime" });
         tResult.setBeginTime(mFormater.parseDateTime(pFlowDto.getBeginTime()).getTime());
         tResult.setEndTime(mFormater.parseDateTime(pFlowDto.getEndTime()).getTime());
+        tResult.setFirstClassName(pFlowDto.getClassName());
+        tResult.setFirstMethodName(pFlowDto.getMethodName());
         return tResult;
     }
 

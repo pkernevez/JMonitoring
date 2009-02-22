@@ -148,6 +148,10 @@ public class InsertionDao implements IInsertionDao
         {
             if (sLog.isDebugEnabled())
             {
+                if (pMethodCall.getFlow() == null)
+                {
+                    System.out.println("zermel");
+                }
                 sLog.debug("Inserting MethodCall(FlowId=[" + pMethodCall.getFlow().getId() + "] Index=["
                     + pMethodCall.getPosition() + "] and NewBatchSize=[" + pBatchBufferSize + "]");
             }

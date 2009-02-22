@@ -35,10 +35,10 @@ public class ExecutionFlowDTO implements Serializable
     /** Technical identifier. */
     private int mId;
 
-    /** Nom de la classe sur laquelle est fait l'appel de la m�thode. */
+    /** Name of the class on which is done the first method call. */
     private String mClassName;
 
-    /** Nom de la m�thode associ�e � ce point de mesure. */
+    /** Name of the method on which is done the first method call. */
     private String mMethodName;
 
     private long mDuration;
@@ -163,7 +163,7 @@ public class ExecutionFlowDTO implements Serializable
      */
     public String getDurationAsString()
     {
-        return ""+mDuration;
+        return "" + mDuration;
     }
 
     /**
