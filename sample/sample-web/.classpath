@@ -5,7 +5,14 @@
   <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/m2/javax/activation/activation/1.1/activation-1.1-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="src" path="/agent"/>
+  <classpathentry kind="src" path="/agent-sql"/>
   <classpathentry kind="var" path="M2_REPO/antlr/antlr/2.7.2/antlr-2.7.2.jar" sourcepath="M2_REPO/antlr/antlr/2.7.2/antlr-2.7.2-sources.jar">
     <attributes>
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
@@ -134,11 +141,6 @@
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/com/octo/opensource/jmonitoring/hibernate-aspect/2.0-beta-2-SNAPSHOT/hibernate-aspect-2.0-beta-2-SNAPSHOT.jar">
-    <attributes>
-      <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
-    </attributes>
-  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/com/lowagie/itext/0.99/itext-0.99.jar" sourcepath="M2_REPO/com/lowagie/itext/0.99/itext-0.99-sources.jar">
     <attributes>
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
@@ -170,6 +172,24 @@
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>
   </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/javax/jms/jms/1.1/jms-1.1.jar" sourcepath="M2_REPO/javax/jms/jms/1.1/jms-1.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/m2/javax/jms/jms/1.1/jms-1.1-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/com/sun/jmx/jmxri/1.2.1/jmxri-1.2.1.jar" sourcepath="M2_REPO/com/sun/jmx/jmxri/1.2.1/jmxri-1.2.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/m2/com/sun/jmx/jmxri/1.2.1/jmxri-1.2.1-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/com/sun/jdmk/jmxtools/1.2.1/jmxtools-1.2.1.jar" sourcepath="M2_REPO/com/sun/jdmk/jmxtools/1.2.1/jmxtools-1.2.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/m2/com/sun/jdmk/jmxtools/1.2.1/jmxtools-1.2.1-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar" sourcepath="M2_REPO/javax/annotation/jsr250-api/1.0/jsr250-api-1.0-sources.jar">
     <attributes>
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
@@ -191,8 +211,15 @@
       <attribute value="jar:file:/C:/m2/junit/junit/4.4/junit-4.4-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.8/log4j-1.2.8.jar" sourcepath="M2_REPO/log4j/log4j/1.2.8/log4j-1.2.8-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15.jar" sourcepath="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15-sources.jar">
     <attributes>
+      <attribute value="jar:file:/C:/m2/log4j/log4j/1.2.15/log4j-1.2.15-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar" sourcepath="M2_REPO/javax/mail/mail/1.4/mail-1.4-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/C:/m2/javax/mail/mail/1.4/mail-1.4-javadoc.jar!/" name="javadoc_location"/>
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>
   </classpathentry>

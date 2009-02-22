@@ -3,6 +3,7 @@
   <comment>This project provides a Sample console for Monitoring infrastructure.</comment>
   <projects>
     <project>agent</project>
+    <project>agent-sql</project>
     <project>common</project>
     <project>sample-aspects</project>
     <project>sample-core</project>

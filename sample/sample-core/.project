@@ -4,6 +4,7 @@
 	<comment>This project provides Monitoring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
 	<projects>
 		<project>agent</project>
+		<project>agent-sql</project>
 		<project>common</project>
 		<project>common-tests</project>
 		<project>console-core</project>

@@ -35,10 +35,13 @@ public class RunSampleTest extends SampleTestcase
         MethodCallPO tCurMeth = pFlow.getFirstMethodCall().getChild(0);
         assertEquals("org.jmonitoring.sample.main.RunSample", tCurMeth.getClassName());
         assertEquals("checkDataBase", tCurMeth.getMethodName());
-        assertEquals(1, tCurMeth.getChildren().size());
+        assertEquals(2, tCurMeth.getChildren().size());
         assertEquals("java.sql.PreparedStatement", tCurMeth.getChild(0).getClassName());
         assertEquals("executeQuery", tCurMeth.getChild(0).getMethodName());
         assertEquals(0, tCurMeth.getChild(0).getChildren().size());
+        assertEquals("java.sql.ResultSet", tCurMeth.getChild(1).getClassName());
+        assertEquals("close", tCurMeth.getChild(1).getMethodName());
+        assertEquals(0, tCurMeth.getChild(1).getChildren().size());
 
         tCurMeth = pFlow.getFirstMethodCall().getChild(1);
         assertEquals("org.jmonitoring.sample.main.Inventory", tCurMeth.getClassName());
@@ -78,7 +81,7 @@ public class RunSampleTest extends SampleTestcase
         tCurMeth = pFlow.getFirstMethodCall().getChild(8);
         assertEquals("org.jmonitoring.sample.persistence.SampleDao", tCurMeth.getClassName());
         assertEquals("save", tCurMeth.getMethodName());
-        assertEquals(5, tCurMeth.getChildren().size());
+        assertEquals(8, tCurMeth.getChildren().size());
 
         checkSqlMethodCall(tCurMeth);
 
@@ -117,6 +120,14 @@ public class RunSampleTest extends SampleTestcase
         assertEquals(0, tCurMeth.getChildren().size());
 
         tCurMeth = pMeth.getChild(1);
+        assertEquals("java.sql.ResultSet", tCurMeth.getClassName());
+        assertEquals("close", tCurMeth.getMethodName());
+        tTrace = new StringBuilder();
+        tTrace.append("Statistics of resultSet :\nInserted=[0]\nUpdated=[0]\nDelete=[0]\nPrevious=[0]\nNext=[1]");
+        assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
+        assertEquals(0, tCurMeth.getChildren().size());
+
+        tCurMeth = pMeth.getChild(2);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
         tTrace = new StringBuilder();
@@ -126,7 +137,15 @@ public class RunSampleTest extends SampleTestcase
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = pMeth.getChild(2);
+        tCurMeth = pMeth.getChild(3);
+        assertEquals("java.sql.ResultSet", tCurMeth.getClassName());
+        assertEquals("close", tCurMeth.getMethodName());
+        tTrace = new StringBuilder();
+        tTrace.append("Statistics of resultSet :\nInserted=[0]\nUpdated=[0]\nDelete=[0]\nPrevious=[0]\nNext=[1]");
+        assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
+        assertEquals(0, tCurMeth.getChildren().size());
+
+        tCurMeth = pMeth.getChild(4);
         assertEquals("java.sql.PreparedStatement", tCurMeth.getClassName());
         assertEquals("executeUpdate", tCurMeth.getMethodName());
         tTrace = new StringBuilder();
@@ -136,13 +155,21 @@ public class RunSampleTest extends SampleTestcase
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = pMeth.getChild(3);
+        tCurMeth = pMeth.getChild(5);
+        assertEquals("java.sql.ResultSet", tCurMeth.getClassName());
+        assertEquals("close", tCurMeth.getMethodName());
+        tTrace = new StringBuilder();
+        tTrace.append("Statistics of resultSet :\nInserted=[0]\nUpdated=[0]\nDelete=[0]\nPrevious=[0]\nNext=[1]");
+        assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
+        assertEquals(0, tCurMeth.getChildren().size());
+
+        tCurMeth = pMeth.getChild(6);
         assertEquals("java.sql.Statement", tCurMeth.getClassName());
         assertEquals("execute", tCurMeth.getMethodName());
         assertEquals("Sql=[Select count(*) from SHOPPING_CART]\nResult=[true]\n", tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
 
-        tCurMeth = pMeth.getChild(4);
+        tCurMeth = pMeth.getChild(7);
         assertEquals("java.sql.Statement", tCurMeth.getClassName());
         assertEquals("execute", tCurMeth.getMethodName());
         assertEquals("Sql=[Select * from SHOPPING_CART]\nResult=[true]\n", tCurMeth.getReturnValue());
