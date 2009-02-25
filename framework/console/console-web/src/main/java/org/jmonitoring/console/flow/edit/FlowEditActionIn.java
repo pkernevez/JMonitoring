@@ -43,7 +43,7 @@ public class FlowEditActionIn extends AbstractSpringAction
      * Max number of measure to show in one flow. If this number is exceed, then the user is asked to choose an action.
      */
     // TODO Spring : à mettre dans la configuration Spring
-    private static int sMaxFlowToShow = 500;
+    private static int sMaxFlowToShow = 800;
 
     // ConfigurationHelper.getInt(MAX_FLOW_FOR_EDITION);
 

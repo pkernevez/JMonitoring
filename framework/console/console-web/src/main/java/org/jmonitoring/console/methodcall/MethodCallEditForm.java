@@ -22,6 +22,10 @@ public class MethodCallEditForm extends AbstractMethodCallForm
     /** The measure point associated to this request. */
     private MethodCallDTO mMethodCall;
 
+    private String mNavAction;
+
+    private String mMsg;
+
     /**
      * Accessor.
      * 
@@ -56,6 +60,42 @@ public class MethodCallEditForm extends AbstractMethodCallForm
             tHashMap.put("flowId", new Integer(mMethodCall.getFlowId()));
             tHashMap.put("position", new Integer(mMethodCall.getParent().getPosition()));
         }
+        return tHashMap;
+    }
+
+    public Map<String, String> getPrevInGroupMap()
+    {
+        Map<String, String> tHashMap = getMyMap();
+        tHashMap.put("navAction", MethodCallEditActionIn.NAV_ACTION_PREV_IN_GROUP);
+        return tHashMap;
+    }
+
+    public Map<String, String> getPrevInThreadMap()
+    {
+        Map<String, String> tHashMap = getMyMap();
+        tHashMap.put("navAction", MethodCallEditActionIn.NAV_ACTION_PREV_IN_THREAD);
+        return tHashMap;
+    }
+
+    public Map<String, String> getNextInThreadMap()
+    {
+        Map<String, String> tHashMap = getMyMap();
+        tHashMap.put("navAction", MethodCallEditActionIn.NAV_ACTION_NEXT_IN_THREAD);
+        return tHashMap;
+    }
+
+    public Map<String, String> getNextInGroupMap()
+    {
+        Map<String, String> tHashMap = getMyMap();
+        tHashMap.put("navAction", MethodCallEditActionIn.NAV_ACTION_NEXT_IN_GROUP);
+        return tHashMap;
+    }
+
+    private Map<String, String> getMyMap()
+    {
+        Map<String, String> tHashMap = new HashMap<String, String>();
+        tHashMap.put("flowId", "" + mMethodCall.getFlowId());
+        tHashMap.put("position", "" + mMethodCall.getPosition());
         return tHashMap;
     }
 
@@ -124,6 +164,32 @@ public class MethodCallEditForm extends AbstractMethodCallForm
             tResult = mMethodCall.getClassName();
         }
         return tResult;
+    }
+
+    /**
+     * @return the navAction
+     */
+    public String getNavAction()
+    {
+        return mNavAction;
+    }
+
+    /**
+     * @param pNavAction the navAction to set
+     */
+    public void setNavAction(String pNavAction)
+    {
+        mNavAction = pNavAction;
+    }
+
+    public void setMsg(String pMsg)
+    {
+        mMsg = pMsg;
+    }
+
+    public String getMsg()
+    {
+        return mMsg;
     }
 
 }

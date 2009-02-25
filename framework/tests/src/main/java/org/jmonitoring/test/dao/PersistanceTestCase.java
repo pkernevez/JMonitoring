@@ -156,5 +156,4 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         tSubPoint5.setMethId(new MethodCallPK(tFlow, 6));
         return tFlow;
     }
-
 }

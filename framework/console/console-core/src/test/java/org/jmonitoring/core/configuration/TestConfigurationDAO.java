@@ -18,7 +18,7 @@ import org.hibernate.ObjectNotFoundException;
 import org.hibernate.SQLQuery;
 import org.hibernate.exception.GenericJDBCException;
 import org.jmonitoring.core.dao.ConsoleDao;
-import org.jmonitoring.core.dao.TestConsoleDao;
+import org.jmonitoring.core.dao.ConsoleDaoTest;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 import org.junit.Ignore;
@@ -205,7 +205,7 @@ public class TestConfigurationDAO extends PersistanceTestCase
         tDao.saveGroupConfiguration(tConf);
         tDao.saveGroupConfiguration(tConf2);
 
-        ExecutionFlowPO tExecFlow = TestConsoleDao.buildNewFullFlow();
+        ExecutionFlowPO tExecFlow = ConsoleDaoTest.buildNewFullFlow();
         mDao.insertFullExecutionFlow(tExecFlow);
         getSession().flush();
         getSession().flush();

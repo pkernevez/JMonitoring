@@ -13,6 +13,7 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.annotation.Resource;
 
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.exception.SQLGrammarException;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.MeasureException;
@@ -189,4 +190,25 @@ public class ConsoleManager
         mDao.insertFullExecutionFlow(tFlowPO);
         return dtoManager.getDeepCopy(tFlowPO);
     }
+
+    public MethodCallDTO readPrevMethodCall(int pFlowId, int pPosition, String pGroupName)
+    {
+        MethodCallPO tMethPo = mDao.getPrevInGroup(pFlowId, pPosition, pGroupName);
+        if (tMethPo == null)
+        {
+            throw new ObjectNotFoundException(pFlowId, MethodCallPO.class.getName());
+        }
+        return dtoManager.getFullMethodCallDto(tMethPo, -1);
+    }
+
+    public MethodCallDTO readNextMethodCall(int pFlowId, int pPosition, String pGroupName)
+    {
+        MethodCallPO tMethPo = mDao.getNextInGroup(pFlowId, pPosition, pGroupName);
+        if (tMethPo == null)
+        {
+            throw new ObjectNotFoundException(pFlowId, MethodCallPO.class.getName());
+        }
+        return dtoManager.getFullMethodCallDto(tMethPo, -1);
+    }
+
 }

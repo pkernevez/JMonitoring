@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.jmonitoring.core.dao.ConsoleDao;
-import org.jmonitoring.core.dao.TestConsoleDao;
+import org.jmonitoring.core.dao.ConsoleDaoTest;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
@@ -110,7 +110,7 @@ public class TestDtoManager extends PersistanceTestCase
     @Test
     public void testGetMethodCallPO()
     {
-        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
+        ExecutionFlowPO tFlow = ConsoleDaoTest.buildNewFullFlow();
         MethodCallDTO tMeth = mDtoManager.getMethodCallDto(tFlow.getFirstMethodCall());
         MethodCallPO tNewMeth = mDtoManager.getMethodCallPO(tMeth, null);
         assertNull(tNewMeth.getParentMethodCall());
@@ -126,7 +126,7 @@ public class TestDtoManager extends PersistanceTestCase
     @Test
     public void testGetFullMethodCallPO()
     {
-        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
+        ExecutionFlowPO tFlow = ConsoleDaoTest.buildNewFullFlow();
         MethodCallDTO tMeth = mDtoManager.getFullMethodCallDto(tFlow.getFirstMethodCall(), 0);
         MethodCallPO tNewMeth = mDtoManager.getFullMethodCallPO(tMeth, null);
         assertNotNull(tNewMeth);
@@ -138,7 +138,7 @@ public class TestDtoManager extends PersistanceTestCase
     @Test
     public void testCopyListMethodCallFullExtract()
     {
-        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
+        ExecutionFlowPO tFlow = ConsoleDaoTest.buildNewFullFlow();
         MethodCallPO tMeth = tFlow.getFirstMethodCall();
         List<MethodCallFullExtractDTO> tList = mDtoManager.copyListMethodCallFullExtract(tMeth.getChildren());
         assertEquals(2, tList.size());
@@ -149,7 +149,7 @@ public class TestDtoManager extends PersistanceTestCase
     @Test
     public void testCopyMethodCallFullExtract()
     {
-        ExecutionFlowPO tFlow = TestConsoleDao.buildNewFullFlow();
+        ExecutionFlowPO tFlow = ConsoleDaoTest.buildNewFullFlow();
         MethodCallFullExtractDTO tMeth = mDtoManager.copyMethodCallFullExtract(tFlow.getFirstMethodCall().getChild(0));
         assertEquals(tFlow.getJvmIdentifier(), tMeth.getJvmName());
         assertEquals(tFlow.getThreadName(), tMeth.getThreadName());
@@ -162,7 +162,7 @@ public class TestDtoManager extends PersistanceTestCase
     @Test
     public void testGetDeepCopy()
     {
-        ExecutionFlowDTO tFlow = mDtoManager.getDeepCopy(TestConsoleDao.buildNewFullFlow());
+        ExecutionFlowDTO tFlow = mDtoManager.getDeepCopy(ConsoleDaoTest.buildNewFullFlow());
         MethodCallDTO tParent = tFlow.getFirstMethodCall();
 
         assertEquals(0, tParent.getChildPosition());

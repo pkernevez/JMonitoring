@@ -20,6 +20,7 @@ import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.common.UnknownFlowException;
@@ -344,4 +345,25 @@ public class ConsoleDao extends InsertionDao
         return tQuery.list();
     }
 
+    public MethodCallPO getNextInGroup(int pFlowId, int pPosition, String pGroupName)
+    {
+        Criteria tCrit = mSessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
+        tCrit.add(Restrictions.eq("groupName", pGroupName));
+        tCrit.add(Restrictions.eq("flow.id", pFlowId));
+        tCrit.add(Restrictions.gt("id.position", pPosition));
+        tCrit.setMaxResults(1);
+        tCrit.addOrder(Order.asc("id.position"));
+        return (MethodCallPO) tCrit.uniqueResult();
+    }
+
+    public MethodCallPO getPrevInGroup(int pFlowId, int pPosition, String pGroupName)
+    {
+        Criteria tCrit = mSessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
+        tCrit.add(Restrictions.eq("groupName", pGroupName));
+        tCrit.add(Restrictions.eq("flow.id", pFlowId));
+        tCrit.add(Restrictions.lt("id.position", pPosition));
+        tCrit.addOrder(Order.desc("id.position"));
+        tCrit.setMaxResults(1);
+        return (MethodCallPO) tCrit.uniqueResult();
+    }
 }

@@ -10,7 +10,6 @@ import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.Map;
 
-
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
@@ -18,6 +17,35 @@ import java.util.Map;
 public class GenericConnection implements Connection
 {
     private final Connection mRealConnection;
+
+    // private static Signature CREATE_STATEMENT;
+    //
+    // private static Signature PREPARE_STATEMENT;
+    //
+    // private static Signature PREPARE_CALL;
+    //
+    // protected static IResultTracer sResultTracer = new ToStringResultTracer();
+    //
+    // protected static IThrowableTracer sThrowableTracer = new DefaultExceptionTracer();
+    //
+    // private static Logger sLog = LoggerFactory.getLogger(GenericConnection.class);
+
+    // {
+    // try
+    // {
+    // Class<JMonitoringPreparedStatement> tClass = JMonitoringPreparedStatement.class;
+    // CREATE_STATEMENT = new SqlSignature(PreparedStatement.class, tClass.getMethod("createStatement"));
+    // PREPARE_STATEMENT =
+    // new SqlSignature(PreparedStatement.class, tClass.getMethod("prepareStatement", String.class));
+    // PREPARE_CALL = new SqlSignature(PreparedStatement.class, tClass.getMethod("prepareCall"), String.class));
+    // } catch (SecurityException e)
+    // {
+    // throw new RuntimeException(e);
+    // } catch (NoSuchMethodException e)
+    // {
+    // throw new RuntimeException(e);
+    // }
+    // }
 
     public GenericConnection(Connection pRealConnection)
     {
@@ -59,7 +87,22 @@ public class GenericConnection implements Connection
      */
     public Statement createStatement() throws SQLException
     {
-        return new JMonitoringStatement(mRealConnection.createStatement());
+        // StoreManager tManager = JMonitoringStatement.getStoreManager();
+        // tManager.logBeginOfMethod(CREATE_STATEMENT, null, new Object[0], JMonitoringStatement.GROUP_NAME, this);
+        // try
+        // {
+        Statement tResult = new JMonitoringStatement(mRealConnection.createStatement());
+        // tManager.logEndOfMethodNormal(sResultTracer, this, "");
+        return tResult;
+        // } catch (Error e)
+        // {
+        // tManager.logEndOfMethodWithException(sThrowableTracer, e);
+        // throw e;
+        // } catch (RuntimeException e)
+        // {
+        // tManager.logEndOfMethodWithException(sThrowableTracer, e);
+        // throw e;
+        // }
     }
 
     /**

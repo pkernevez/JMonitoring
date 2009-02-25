@@ -8,7 +8,7 @@
 
 <!-- Begin Body -->
 <h1>Method Call Details</h1>
-
+<h2 class="message"><bean:write name="methodcallform" property="msg"/></h2>
 <h2><bean:write name="methodcallform" property="methodCall.className"/>.<bean:write name="methodcallform" property="methodCall.methodName"/>()</h2><br>
 
 
@@ -60,6 +60,23 @@
 		</td>
 	</tr>
 </logic:notEmpty> 
+	<tr>
+		<td>Navigation</td>
+		<td nowrap>
+			<html:link action="MethodCallEditIn" name="methodcallform" property="prevInGroupMap" title="View previous in group...">
+				<img src="images/button/prevInGroup.gif"/>
+			</html:link>
+			<html:link action="MethodCallEditIn" name="methodcallform" property="prevInThreadMap" title="View previous in thread...">
+				<img src="images/button/prevInThread.gif"/>
+			</html:link>
+			<html:link action="MethodCallEditIn" name="methodcallform" property="nextInThreadMap" title="View next in thread...">
+				<img src="images/button/nextInThread.gif"/>
+			</html:link>
+			<html:link action="MethodCallEditIn" name="methodcallform" property="nextInGroupMap" title="View next in group...">
+				<img src="images/button/nextInGroup.gif"/>
+			</html:link>
+		</td>
+	</tr>
 	<tr>
 		<td NOWRAP></td>
 		<td NOWRAP colSpan="2"></td>

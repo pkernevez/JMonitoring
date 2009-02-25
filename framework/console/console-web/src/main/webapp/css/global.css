@@ -27,6 +27,11 @@ a, a:visited, a:hover {
 	color:#666; text-decoration:none; 
 }
 
+h2.message {
+	background:red none repeat scroll 0 0;
+	color:black;
+}
+
 a.smd-menu {
     color:#F00;
 }

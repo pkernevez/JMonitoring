@@ -87,7 +87,7 @@ public abstract aspect PerformanceAspect
             {
                 mLog.error("executionToLogInternal Unable to log method parameters");
             }
-        } catch (MeasureException e)
+        } catch (Throwable e)
         {
             mLog.error("Unable to log", e);
         }
@@ -102,7 +102,7 @@ public abstract aspect PerformanceAspect
             {
                 mLog.error("executionToLogInternal Unable to log the method return value");
             }
-        } catch (MeasureException e)
+        } catch (Throwable e)
         {
             LoggerFactory.getLogger(this.getClass()).error("Unable to log", e);
         }

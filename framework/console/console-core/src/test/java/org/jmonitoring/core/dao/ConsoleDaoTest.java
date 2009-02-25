@@ -28,7 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
  *       Templates
  */
 @ContextConfiguration(locations = {"/console.xml" })
-public class TestConsoleDao extends PersistanceTestCase
+public class ConsoleDaoTest extends PersistanceTestCase
 {
     @Resource(name = "dao")
     private ConsoleDao mDao;
@@ -62,7 +62,7 @@ public class TestConsoleDao extends PersistanceTestCase
         MethodCallPO tPoint;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, TestConsoleDao.class.getName(), "builNewFullFlow", "GrDefault", "");
+        tPoint = new MethodCallPO(null, ConsoleDaoTest.class.getName(), "builNewFullFlow", "GrDefault", "");
         tPoint.setBeginTime(tStartTime);
 
         tPoint.setEndTime(tStartTime + 20);
@@ -269,4 +269,46 @@ public class TestConsoleDao extends PersistanceTestCase
         return ((Integer) tResult).intValue();
     }
 
+    @Test
+    public void testGetNextInGroup()
+    {
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        mDao.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+
+        int tFlowId = tFlow.getId();
+        assertEquals(1, mDao.getNextInGroup(tFlowId, 0, "GrDefault").getPosition());
+        assertNull(mDao.getNextInGroup(tFlowId, 1, "GrDefault"));
+
+        assertEquals(2, mDao.getNextInGroup(tFlowId, 0, "GrChild1").getPosition());
+        assertNull(mDao.getNextInGroup(tFlowId, 2, "GrChild1"));
+
+        assertEquals(3, mDao.getNextInGroup(tFlowId, 0, "GrChild2").getPosition());
+        assertEquals(4, mDao.getNextInGroup(tFlowId, 3, "GrChild2").getPosition());
+        assertEquals(5, mDao.getNextInGroup(tFlowId, 4, "GrChild2").getPosition());
+        assertEquals(6, mDao.getNextInGroup(tFlowId, 5, "GrChild2").getPosition());
+        assertNull(mDao.getNextInGroup(tFlowId, 6, "GrChild2"));
+    }
+
+    @Test
+    public void testGetPrevInGroup()
+    {
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        mDao.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+
+        int tFlowId = tFlow.getId();
+
+        assertEquals(6, mDao.getPrevInGroup(tFlowId, 7, "GrChild2").getPosition());
+        assertEquals(5, mDao.getPrevInGroup(tFlowId, 6, "GrChild2").getPosition());
+        assertEquals(4, mDao.getPrevInGroup(tFlowId, 5, "GrChild2").getPosition());
+        assertEquals(3, mDao.getPrevInGroup(tFlowId, 4, "GrChild2").getPosition());
+        assertNull(mDao.getPrevInGroup(tFlowId, 3, "GrChild2"));
+
+        assertEquals(2, mDao.getPrevInGroup(tFlowId, 7, "GrChild1").getPosition());
+        assertNull(mDao.getPrevInGroup(tFlowId, 2, "GrChild1"));
+
+        assertEquals(1, mDao.getPrevInGroup(tFlowId, 7, "GrDefault").getPosition());
+        assertNull(mDao.getPrevInGroup(tFlowId, 1, "GrDefault"));
+    }
 }
