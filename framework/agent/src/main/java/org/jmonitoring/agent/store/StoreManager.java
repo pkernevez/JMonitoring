@@ -163,11 +163,11 @@ public class StoreManager
         }
         MethodCallPO tCurrentMethodCall = mCurrentLogPoint.get();
         if (pException == null)
-        { // On ne logue pas le d�tail
+        { // Don't log the detail
             endMethodWithException(tCurrentMethodCall, null, null);
         } else
         {
-            CharSequence tOutput;
+            CharSequence tOutput = null;
             try
             {
                 tOutput = (pTracer == null ? "" : pTracer.convertToString(pException));
@@ -177,8 +177,8 @@ public class StoreManager
                 String tLogClass = (pTracer == null ? "" : pTracer.getClass().getName());
                 sLog.error("The log of the Exception as Throw an exception during it, Exception=[" + tExceptionClass
                     + "] Traccer=[" + tLogClass + "]");
-                tOutput = "";
             }
+            tOutput = (tOutput == null ? "" : tOutput);
             endMethodWithException(tCurrentMethodCall, pException.getClass().getName(), tOutput.toString());
         }
 

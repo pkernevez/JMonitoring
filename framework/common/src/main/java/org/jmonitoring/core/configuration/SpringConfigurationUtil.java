@@ -41,7 +41,7 @@ public final class SpringConfigurationUtil
             tContext = new ClassPathXmlApplicationContext(SPRING_FILE_NAME);
         } catch (BeanDefinitionStoreException e)
         {
-            sLog.info("Fail to load global specific context, use the default");
+            sLog.info("Fail to load global specific context, use the default, the missing bean is " + e.getBeanName());
             try
             {
                 tContext = new ClassPathXmlApplicationContext(DEFAULT_SPRING_FILE_NAME);

@@ -85,7 +85,7 @@ public abstract aspect PerformanceAspect
                     .getTarget());
             } else
             {
-                mLog.error("executionToLogInternal Unable to log methode parameters");
+                mLog.error("executionToLogInternal Unable to log method parameters");
             }
         } catch (MeasureException e)
         {

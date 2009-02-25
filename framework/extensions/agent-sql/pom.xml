@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.octo.opensource.jmonitoring</groupId>
         <artifactId>extensions</artifactId>
@@ -12,15 +13,28 @@
     <name>Fwk-agent-sql</name>
     <description>This jar allow to trace Sql accesses</description>
     <scm>
-        <connection>
-            scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/extensions/agent-sql
-        </connection>
+        <connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/extensions/agent-sql</connection>
         <developerConnection>
             scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/extensions/agent-sql
         </developerConnection>
         <url>http://forge.octo.com/svn/jmonitoring/trunk/framework/extensions/agent-sql</url>
     </scm>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <configuration>
+                    <buildcommands>
+                        <buildcommand>org.eclipse.wst.common.modulecore.ComponentStructuralBuilder</buildcommand>
+                        <buildcommand>
+                            org.eclipse.wst.common.modulecore.ComponentStructuralBuilderDependencyResolver
+                        </buildcommand>
+                    </buildcommands>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>

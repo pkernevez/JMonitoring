@@ -131,6 +131,6 @@ public class HttpWriter implements IStoreWriter
 
     private String getFullUrl()
     {
-        return mProtocole + mHostName + mPort + ":" + mUri;
+        return mProtocole + "://" + mHostName + ":" + mPort + "/" + mUri;
     }
 }
