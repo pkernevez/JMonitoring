@@ -81,7 +81,7 @@ public class FlowUtil
         {
             String tKey = curEntry.getKey();
             dataset.setValue(tKey, curEntry.getValue());
-            tColors[tPos] = mColorMgr.calculColor(tKey);
+            tColors[tPos] = mColorMgr.getColor(tKey);
             tPos++;
         }
         DefaultDrawingSupplier tSupplier =

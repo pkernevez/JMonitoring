@@ -61,8 +61,6 @@ public class FlowChartBarUtil
 
     private int mMaxMethodPerGroup;
 
-    private final FormaterBean mFormater;
-
     private final ColorManager mColorManager;
 
     private final ChartManager mChartManager;
@@ -71,7 +69,6 @@ public class FlowChartBarUtil
         ChartManager pChartManager)
     {
         super();
-        mFormater = pFormater;
         mColorManager = pColorManager;
         mFirstMeasure = pFirstMeasure;
         mChartManager = pChartManager;

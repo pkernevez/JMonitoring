@@ -265,7 +265,7 @@ public class FlowRenderer extends GanttRenderer
         List<TaskSeries> tTaskSeriesList = pDataset.getRowKeys();
         TaskSeries tSeries = tTaskSeriesList.get(pRow);
         Task tTask = tSeries.get(pColumn);
-        Paint tSeriesPaint = mColorMgr.calculColor(tTask.getDescription());
+        Paint tSeriesPaint = mColorMgr.getColor(tTask.getDescription());
         if (tSeriesPaint == null)
         {
             tSeriesPaint = getItemPaint(pRow, pColumn);

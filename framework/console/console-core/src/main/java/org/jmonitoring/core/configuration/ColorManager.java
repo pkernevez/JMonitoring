@@ -25,7 +25,7 @@ public final class ColorManager
      * @param pGroupName The name of the group.
      * @return The generated <code>Color</code>.
      */
-    public Color calculColor(String pGroupName)
+    Color calculColor(String pGroupName)
     {
         Color tColor;
         if (pGroupName == null || pGroupName.length() == 0)
@@ -90,21 +90,7 @@ public final class ColorManager
 
     public String getColorString(String pGroupName)
     {
-        String tColorAsString = mGroups.get(pGroupName);
-        Color tColor;
-        if (tColorAsString == null)
-        {
-            tColor = calculColor(pGroupName);
-        } else
-        {
-            StringTokenizer tToken = new StringTokenizer(tColorAsString, ",");
-            assert (tToken.countTokens() == 3);
-            int tR = Integer.parseInt(tToken.nextToken().trim());
-            int tG = Integer.parseInt(tToken.nextToken().trim());
-            int tB = Integer.parseInt(tToken.nextToken().trim());
-            tColor = new Color(tR, tG, tB);
-        }
-        return getGroupAsColorString(tColor);
+        return getGroupAsColorString(getColor(pGroupName));
     }
 
     /**
