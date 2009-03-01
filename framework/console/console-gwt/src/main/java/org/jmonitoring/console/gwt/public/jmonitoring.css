@@ -1,3 +1,56 @@
-/** Add css rules here for your application. */
+.header {
+	border-bottom: 1px dotted #DD0000;
+	border-style: dotted;
+	border-width: 0 0 1px;
+	width: 100%;
+}
 
+.header-right a {
+	color: #666666;
+	font-family: Helvetica, "Trebuchet MS", Geneva, Arial, sans-serif;
+	font-size: large;
+	font-weight: bold;
+	letter-spacing: 3px;
+	text-align: right;
+}
 
+.main {
+	width: 100%;
+	height: 100%;
+}
+
+.menu {
+	padding: 2px 4px;
+	border-right: 1px dotted #DD0000;
+	height: 100%;
+	width: 130px;
+	vertical-align: top;
+}
+
+.menu a {
+	font-size: 13px;
+}
+
+a {
+	text-decoration: none;
+	color: #FF0000;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #FF0000;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #FF0000;
+}
+
+.click-image-hover {
+	cursor: pointer;
+}
+
+body,input,select,td,textarea {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}

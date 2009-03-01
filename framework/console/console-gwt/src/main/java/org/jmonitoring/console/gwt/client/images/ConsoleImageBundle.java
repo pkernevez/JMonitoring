@@ -10,8 +10,20 @@ import com.google.gwt.user.client.ui.ImageBundle;
 public interface ConsoleImageBundle extends ImageBundle
 {
 
-    @Resource("org/jmonitoring/console/gwt/client/images/jmonitoring.gif")
     public AbstractImagePrototype jmonitoring();
 
     public AbstractImagePrototype edit();
+
+    public AbstractImagePrototype ok();
+
+    public AbstractImagePrototype refresh();
+
+    public AbstractImagePrototype prevInGroup();
+
+    public AbstractImagePrototype prevInThread();
+
+    public AbstractImagePrototype nextInThread();
+
+    public AbstractImagePrototype nextInGroup();
+
 }
