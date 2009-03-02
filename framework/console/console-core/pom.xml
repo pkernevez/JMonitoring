@@ -47,6 +47,47 @@
 
     </dependencies>
     <build>
+       <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.gwt.xml</include>
+                    <!--  Par défaut il faut inclure les sources Java pour GWT -->
+                    <include>**/*.java</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.gwt.xml</include>
+                </includes>
+            </testResource>
+
+            <testResource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.gwt.xml</include>
+                    <include>**/*.java</include>
+                </includes>
+            </testResource>
+
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                    <include>**/*.java</include>
+                </includes>
+            </testResource>
+
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

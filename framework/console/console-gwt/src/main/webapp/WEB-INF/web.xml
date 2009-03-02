@@ -5,14 +5,16 @@
 
     <!-- Standard Action Servlet Configuration -->
     <servlet>
-        <servlet-name>MyService</servlet-name>
-        <servlet-class>org.jmonitoring.console.gwt.server.MyServiceImpl</servlet-class>
+        <servlet-name>ExecutionFlow</servlet-name>
+        <servlet-class>org.jmonitoring.console.gwt.server.executionflow.ExecutionFlowServiceImpl</servlet-class>
     </servlet>
 
     <!-- Standard Action Servlet Mapping -->
     <servlet-mapping>
-        <servlet-name>MyService</servlet-name>
-        <url-pattern>/MyService</url-pattern>
+        <servlet-name>ExecutionFlow</servlet-name>
+        <url-pattern>/ExecutionFlow</url-pattern>
     </servlet-mapping>
-
+    <welcome-file-list>
+        <welcome-file>org.jmonitoring.console.gwt.JMonitoring/JMonitoring.html</welcome-file>
+    </welcome-file-list>
 </web-app>

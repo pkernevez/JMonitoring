@@ -41,11 +41,11 @@ public class FormaterBean
         }
     }
 
-    public Date parseDate(String tTime)
+    public Date parseDate(String pDate)
     {
         try
         {
-            return mDateFormater.parse(tTime);
+            return (pDate == null || pDate.length() == 0 ? null : mDateFormater.parse(pDate));
         } catch (ParseException e)
         {
             throw new MeasureException("Unable to parse Date", e);

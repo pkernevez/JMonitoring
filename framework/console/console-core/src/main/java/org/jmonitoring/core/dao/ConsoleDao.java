@@ -274,21 +274,24 @@ public class ConsoleDao extends InsertionDao
             + "GROUP BY MethodCallPO.className, MethodCallPO.methodName, MethodCallPO.groupName "
             + "ORDER BY MethodCallPO.className  || '.' || MethodCallPO.methodName";
 
-    private static final int EXTRACT_NB_POS = 3;
+    public static final int EXTRACT_NB_POS = 3;
 
-    private static final int EXTRACT_GROUPNAME_POS = 2;
+    public static final int EXTRACT_GROUPNAME_POS = 2;
 
-    private static final int EXTRACT_METHODNAME_POS = 1;
+    public static final int EXTRACT_METHODNAME_POS = 1;
 
-    private static final int EXTRACT_CLASSNAME_POS = 0;
+    public static final int EXTRACT_CLASSNAME_POS = 0;
 
     /**
      * Find the <code>List</code> of Measure from the database.
      * 
+     * @TODO Remove me after GWT migration
+     * 
      * @return The <code>List</code> of all Measure.
      */
     @SuppressWarnings("unchecked")
-    public List<MethodCallExtractDTO> getListOfMethodCallExtract()
+    @Deprecated
+    public List<MethodCallExtractDTO> getListOfMethodCallExtractOld()
     {
         Session tSession = mSessionFactory.getCurrentSession();
         Query tQuery = tSession.createQuery(SELECT_LIST_OF_MEASURE);
@@ -301,6 +304,19 @@ public class ConsoleDao extends InsertionDao
                                                  ((Long) tExtract[EXTRACT_NB_POS]).intValue()));
         }
         return tResult;
+    }
+
+    /**
+     * Find the <code>List</code> of Measure from the database.
+     * 
+     * @return The <code>List</code> of all Measure.
+     */
+    @SuppressWarnings("unchecked")
+    public List<Object[]> getListOfMethodCallExtract()
+    {
+        Session tSession = mSessionFactory.getCurrentSession();
+        Query tQuery = tSession.createQuery(SELECT_LIST_OF_MEASURE);
+        return tQuery.list();
     }
 
     public void createDataBase()

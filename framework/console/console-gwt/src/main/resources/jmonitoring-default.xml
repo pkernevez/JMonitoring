@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config />
+
+    <context:property-placeholder location="classpath:database.properties" />
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${hibernate.connection.driver_class}" />
+        <property name="jdbcUrl" value="${hibernate.connection.url}" />
+        <property name="user" value="${hibernate.connection.username}" />
+        <property name="password" value="${hibernate.connection.password}" />
+        <property name="acquireRetryAttempts" value="10"></property>
+        <property name="initialPoolSize" value="3"></property>
+        <property name="maxPoolSize" value="10"></property>
+        <property name="preferredTestQuery" value="${connection.test.query}"></property>
+        <property name="testConnectionOnCheckin" value="false"></property>
+        <property name="testConnectionOnCheckout" value="${connection.test.oncheckout}"></property>
+    </bean>
+
+    <!-- SessionFactory Hibernate : utilisation de la factory fournie par Spring -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <!-- Injection de la datasource utilisée -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- Liste des fichiers de mapping Hibernate utilisés par cette factory -->
+        <!-- property name="mappingResources" ref="hibernateMappings" /-->
+        <property name="mappingLocations" value="classpath*:/org/jmonitoring/core/**/*.hbm.xml" />
+        <!-- Définition du dialect utilisé (HSQL) et d'autres propriétés utiles pour le debug -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+                <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+                <prop key="hibernate.cache.use_structured_entries">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.connection.release_mode">on_close</prop>
+                <prop key="hibernate.c3p0.acquire_increment">1</prop>
+                <prop key="hibernate.c3p0.minPoolSize">${connection.pool.size.min}</prop>
+                <prop key="hibernate.c3p0.maxPoolSize">${connection.pool.size.max}</prop>
+                <prop key="hibernate.c3p0.timeout">1800</prop>
+                <prop key="hibernate.c3p0.max_statement">5</prop>
+                <prop key="hibernate.c3p0.idle_test_period">30</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="hibernateConfiguration" 
+       factory-bean="&amp;sessionFactory" 
+       factory-method="getConfiguration" />
+
+    <bean name="consoleManager" class="org.jmonitoring.console.gwt.server.ConsoleManager" />
+
+    <bean name="dtoManager" class="org.jmonitoring.console.gwt.server.dto.DtoManager" />
+
+    <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" />
+
+    <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
+        <property name="dateFormat" value="dd/MM/yy" />
+        <property name="timeFormat" value="HH:mm:ss" />
+    </bean>
+
+    <bean name="color" class="org.jmonitoring.core.configuration.ColorManager">
+        <property name="groups">
+            <map>
+                <entry key="Default" value="0, 255, 255" />
+                <entry key="SQL" value="0, 0, 255" />
+                <entry key="Jdbc" value="255, 255, 0" />
+                <entry key="SomeNonStatics" value="0, 255, 0" />
+                <entry key="SomeStatics" value="255, 0, 0" />
+            </map>
+        </property>
+    </bean>
+
+    <bean name="chartManager" class="org.jmonitoring.console.gwt.server.flow.freechart.ChartManager">
+        <property name="groupOrder">
+            <map>
+                <!-- You should defined you own configuration
+                <entry key="SQL" value="10" /-->
+            </map>
+        </property>
+    </bean>
+
+    <!-- Default configuration when the console is use for HttpLogging into H2 database -->
+    <bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean>
+</beans>

@@ -131,7 +131,7 @@ public class FlowSearchCriterion
      */
     public void setBeginDate(Date pBeginDate)
     {
-        mBeginDate = new Date(pBeginDate.getTime());
+        mBeginDate = (pBeginDate == null ? null : new Date(pBeginDate.getTime()));
     }
 
     /**

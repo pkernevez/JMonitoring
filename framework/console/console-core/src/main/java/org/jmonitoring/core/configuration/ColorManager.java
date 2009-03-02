@@ -80,9 +80,9 @@ public final class ColorManager
         {
             StringTokenizer tToken = new StringTokenizer(tColorAsString, ",");
             assert (tToken.countTokens() == 3);
-            int tR = Integer.parseInt(tToken.nextToken());
-            int tG = Integer.parseInt(tToken.nextToken());
-            int tB = Integer.parseInt(tToken.nextToken());
+            int tR = Integer.parseInt(tToken.nextToken().trim());
+            int tG = Integer.parseInt(tToken.nextToken().trim());
+            int tB = Integer.parseInt(tToken.nextToken().trim());
             tColor = new Color(tR, tG, tB);
         }
         return tColor;

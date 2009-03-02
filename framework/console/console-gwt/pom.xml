@@ -67,7 +67,15 @@
                     <gwtVersion>${gwtVersion}</gwtVersion>
                     <!-- output>target/tomcat/webapps/ROOT</output-->
                 </configuration>
-                
+				<executions>
+					<execution>
+						<goals>
+							<goal>mergewebxml</goal>
+							<!--<goal>i18n</goal>-->
+							<!-- goal>test</goal-->
+						</goals>
+					</execution>
+				</executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -99,7 +107,22 @@
             </plugin>
         </plugins>
     </build>
-    <dependencies>
+    <dependencies> 
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>console-core</artifactId>
+            <version>2.0-beta-4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.octo.opensource.jmonitoring</groupId>
+            <artifactId>server</artifactId>
+            <version>2.0-beta-4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.0.77</version>
+        </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
@@ -126,6 +149,23 @@
             <version>${gwtVersion}</version>
             <classifier>${platform}</classifier>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.15</version>
+            <!-- scope>runtime</scope-->
+        </dependency>
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.6</version>
+            <!-- scope>runtime</scope-->
         </dependency>
     </dependencies>
 </project>

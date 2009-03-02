@@ -48,7 +48,7 @@ public final class SpringConfigurationUtil
             } catch (BeansException e2)
             {
                 sLog.error("Unable to find any configuration, check jmonitoring configuration");
-                throw e;
+                throw e2;
             }
         } catch (RuntimeException e)
         {

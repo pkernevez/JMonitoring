@@ -24,5 +24,4 @@
 
     <!-- Specify the application specific style sheet.              -->
     <stylesheet src="jmonitoring.css"/>
-    <servlet path="/MyService" class="org.jmonitoring.console.gwt.server.MyServiceImpl" />
 </module>

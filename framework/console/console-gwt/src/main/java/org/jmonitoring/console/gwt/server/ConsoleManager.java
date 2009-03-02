@@ -1,4 +1,4 @@
-package org.jmonitoring.core.process;
+package org.jmonitoring.console.gwt.server;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -15,17 +15,19 @@ import javax.annotation.Resource;
 
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.exception.SQLGrammarException;
+import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.MethodCallExtractDTO;
+import org.jmonitoring.console.gwt.client.dto.MethodCallFullExtractDTO;
+import org.jmonitoring.console.gwt.client.executionflow.SearchCriteria;
+import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.core.common.UnknownFlowException;
+import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.dao.ConsoleDao;
 import org.jmonitoring.core.dao.FlowSearchCriterion;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
-import org.jmonitoring.core.dto.DtoManager;
-import org.jmonitoring.core.dto.ExecutionFlowDTO;
-import org.jmonitoring.core.dto.MethodCallDTO;
-import org.jmonitoring.core.dto.MethodCallExtractDTO;
-import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +44,9 @@ public class ConsoleManager
 
     @Resource(name = "dao")
     private ConsoleDao mDao;
+
+    @Resource(name = "formater")
+    private FormaterBean mFormater;
 
     ConsoleManager()
     {
@@ -97,10 +102,17 @@ public class ConsoleManager
         return dtoManager.getDeepCopy(tFlowPo);
     }
 
-    public List<ExecutionFlowDTO> getListOfExecutionFlowDto(FlowSearchCriterion pCriterion)
+    public List<ExecutionFlowDTO> getListOfExecutionFlowDto(SearchCriteria pCriterion)
     {
+        FlowSearchCriterion tCrit = new FlowSearchCriterion();
+        tCrit.setBeginDate(mFormater.parseDate(pCriterion.getBeginDate()));
+        tCrit.setClassName(pCriterion.getClassName());
+        tCrit.setDurationMin(Long.getLong(pCriterion.getMinimumDuration()));
+        tCrit.setGroupName(pCriterion.getGroupName());
+        tCrit.setMethodName(pCriterion.getMethodName());
+        tCrit.setThreadName(pCriterion.getThreadName());
         List<ExecutionFlowDTO> tList = new ArrayList<ExecutionFlowDTO>();
-        for (ExecutionFlowPO tFlow : mDao.getListOfExecutionFlowPO(pCriterion))
+        for (ExecutionFlowPO tFlow : mDao.getListOfExecutionFlowPO(tCrit))
         {
             tList.add(dtoManager.getSimpleCopy(tFlow));
         }
@@ -121,7 +133,15 @@ public class ConsoleManager
 
     public List<MethodCallExtractDTO> getListOfMethodCallExtract()
     {
-        return mDao.getListOfMethodCallExtractOld();
+        List<MethodCallExtractDTO> tResult = new ArrayList<MethodCallExtractDTO>();
+        for (Object[] tExtract : mDao.getListOfMethodCallExtract())
+        {
+            tResult.add(new MethodCallExtractDTO((String) tExtract[ConsoleDao.EXTRACT_CLASSNAME_POS],
+                                                 (String) tExtract[ConsoleDao.EXTRACT_METHODNAME_POS],
+                                                 (String) tExtract[ConsoleDao.EXTRACT_GROUPNAME_POS],
+                                                 ((Long) tExtract[ConsoleDao.EXTRACT_NB_POS]).intValue()));
+        }
+        return tResult;
     }
 
     public List<MethodCallFullExtractDTO> getListOfMethodCallFullExtract(String pClassName, String pMethodName,

@@ -33,7 +33,7 @@ public class MethodCallUtilTest extends JMonitoringMockStrustTestCase
         ExecutionFlowPO tFlow = buildNewFullFlow();
         mFlowDao.insertFullExecutionFlow(tFlow);
 
-        List<MethodCallExtractDTO> tMeasureExtracts = mFlowDao.getListOfMethodCallExtract();
+        List<MethodCallExtractDTO> tMeasureExtracts = mFlowDao.getListOfMethodCallExtractOld();
         MethodCallExtractDTO curExtrat = tMeasureExtracts.get(0);
         assertEquals(MethodCallUtilTest.class.getName() + ".builNewFullFlow", curExtrat.getName());
         assertEquals("GrDefault", curExtrat.getGroupName());

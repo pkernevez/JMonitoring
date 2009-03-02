@@ -232,35 +232,35 @@ public class ConsoleDaoTest extends PersistanceTestCase
     }
 
     @Test
-    public void testGetListOfMethodCallExtract()
-    {
-        // First delete all flow, we don't use the DeleteAll Method of the
-        // Dao Object because, it doesn't support transactions.
-        getSession().createQuery("Delete FROM MethodCallPO").executeUpdate();
-        getSession().createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
-
-        // Now insert the TestFlow
-        ExecutionFlowPO tFlow = buildNewFullFlow();
-        mDao.insertFullExecutionFlow(tFlow);
-        getSession().flush();
-
-        List<MethodCallExtractDTO> tMeasureExtracts = mDao.getListOfMethodCallExtract();
-        MethodCallExtractDTO curExtrat = tMeasureExtracts.get(0);
-        assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow", curExtrat.getName());
-        assertEquals("GrDefault", curExtrat.getGroupName());
-        assertEquals(1, curExtrat.getOccurenceNumber());
-
-        curExtrat = tMeasureExtracts.get(1);
-        assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow2", curExtrat.getName());
-        assertEquals("GrChild1", curExtrat.getGroupName());
-        assertEquals(1, curExtrat.getOccurenceNumber());
-
-        curExtrat = tMeasureExtracts.get(2);
-        assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow3", curExtrat.getName());
-        assertEquals("GrChild2", curExtrat.getGroupName());
-        assertEquals(4, curExtrat.getOccurenceNumber());
-
-    }
+        public void testGetListOfMethodCallExtractOld()
+        {
+            // First delete all flow, we don't use the DeleteAll Method of the
+            // Dao Object because, it doesn't support transactions.
+            getSession().createQuery("Delete FROM MethodCallPO").executeUpdate();
+            getSession().createQuery("Delete FROM ExecutionFlowPO").executeUpdate();
+    
+            // Now insert the TestFlow
+            ExecutionFlowPO tFlow = buildNewFullFlow();
+            mDao.insertFullExecutionFlow(tFlow);
+            getSession().flush();
+    
+            List<MethodCallExtractDTO> tMeasureExtracts = mDao.getListOfMethodCallExtractOld();
+            MethodCallExtractDTO curExtrat = tMeasureExtracts.get(0);
+            assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow", curExtrat.getName());
+            assertEquals("GrDefault", curExtrat.getGroupName());
+            assertEquals(1, curExtrat.getOccurenceNumber());
+    
+            curExtrat = tMeasureExtracts.get(1);
+            assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow2", curExtrat.getName());
+            assertEquals("GrChild1", curExtrat.getGroupName());
+            assertEquals(1, curExtrat.getOccurenceNumber());
+    
+            curExtrat = tMeasureExtracts.get(2);
+            assertEquals("org.jmonitoring.test.dao.PersistanceTestCase.builNewFullFlow3", curExtrat.getName());
+            assertEquals("GrChild2", curExtrat.getGroupName());
+            assertEquals(4, curExtrat.getOccurenceNumber());
+    
+        }
 
     private int countMethods()
     {
