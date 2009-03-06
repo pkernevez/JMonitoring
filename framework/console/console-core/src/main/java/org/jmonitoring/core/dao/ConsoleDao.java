@@ -69,6 +69,10 @@ public class ConsoleDao extends InsertionDao
         {
             tCriteria = tCriteria.add(Restrictions.like("threadName", pCriterion.getThreadName() + "%"));
         }
+        if (pCriterion.getJVM() != null && pCriterion.getJVM().length() > 0)
+        {
+            tCriteria = tCriteria.add(Restrictions.like("jvmIdentifier", pCriterion.getJVM() + "%"));
+        }
         if (pCriterion.getDurationMin() != null)
         {
             tCriteria = tCriteria.add(Restrictions.gt("duration", pCriterion.getDurationMin()));

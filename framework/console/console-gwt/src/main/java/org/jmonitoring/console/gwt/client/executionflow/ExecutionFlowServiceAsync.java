@@ -13,4 +13,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface ExecutionFlowServiceAsync
 {
     public void search(SearchCriteria pCriteria, AsyncCallback<List<ExecutionFlowDTO>> callback);
+
+    public void load(int pFlowID, AsyncCallback<ExecutionFlowDTO> callback);
 }

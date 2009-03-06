@@ -57,7 +57,7 @@ public class DtoManager
     public ExecutionFlowDTO getDeepCopy(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = getSimpleCopy(pFlowPO);
-        tResult.setFirstMethodCall(getMethodCallDto(pFlowPO.getFirstMethodCall(), tResult, 0));
+        tResult.setFirstMethodCall(getMethodCallDto(pFlowPO.getFirstMethodCall(), tResult, 0, 2));
         return tResult;
     }
 
@@ -118,25 +118,28 @@ public class DtoManager
         return tResult;
     }
 
-    MethodCallDTO getMethodCallDto(MethodCallPO pCallPO)
+    MethodCallDTO getMethodCallDto(MethodCallPO pCallPO, int pRemainingLevel)
     {
-        return getMethodCallDto(pCallPO, null, 0);
+        return getMethodCallDto(pCallPO, null, 0, pRemainingLevel);
     }
 
-    MethodCallDTO getMethodCallDto(MethodCallPO pCallPO, ExecutionFlowDTO pFlow, int pOrderInTheParentChildren)
+    MethodCallDTO getMethodCallDto(MethodCallPO pCallPO, ExecutionFlowDTO pFlow, int pOrderInTheParentChildren,
+        int pRemainingLevel)
     {
         MethodCallDTO tResult = simpleCopy(pCallPO, pOrderInTheParentChildren);
-        tResult.setFlow(pFlow);
         MethodCallDTO curChildDto;
         MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
         int i = 0;
-        for (MethodCallPO curMethod : pCallPO.getChildren())
+        if (pRemainingLevel > 0)
         {
-            curChildDto = getMethodCallDto(curMethod, pFlow, i);
-            curChildDto.setParent(tResult);
-            tChildren[i++] = curChildDto;
+            for (MethodCallPO curMethod : pCallPO.getChildren())
+            {
+                curChildDto = getMethodCallDto(curMethod, pFlow, i, pRemainingLevel - 1);
+                curChildDto.setParent(tResult);
+                tChildren[i++] = curChildDto;
+            }
+            tResult.setChildren(tChildren);
         }
-        tResult.setChildren(tChildren);
         return tResult;
     }
 
@@ -180,12 +183,12 @@ public class DtoManager
         return tResult;
     }
 
-    public List<MethodCallDTO> copyListOfMethodPO(List<MethodCallPO> pSourceList)
+    public List<MethodCallDTO> copyListOfMethodPO(List<MethodCallPO> pSourceList, int pMaxDeep)
     {
         List<MethodCallDTO> tResult = new ArrayList<MethodCallDTO>(pSourceList.size());
         for (MethodCallPO tMeth : pSourceList)
         {
-            tResult.add(getMethodCallDto(tMeth));
+            tResult.add(getMethodCallDto(tMeth, pMaxDeep));
         }
         return tResult;
     }

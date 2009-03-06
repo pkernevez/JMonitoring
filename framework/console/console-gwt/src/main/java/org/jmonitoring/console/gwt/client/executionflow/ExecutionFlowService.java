@@ -13,4 +13,6 @@ import com.google.gwt.user.client.rpc.RemoteService;
 public interface ExecutionFlowService extends RemoteService
 {
     public List<ExecutionFlowDTO> search(SearchCriteria pCriteria);
+
+    public ExecutionFlowDTO load(int pFlowID);
 }

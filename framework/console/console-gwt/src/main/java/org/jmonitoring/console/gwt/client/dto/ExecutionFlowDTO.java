@@ -162,7 +162,9 @@ public class ExecutionFlowDTO implements Serializable, IsSerializable
 
     /**
      * @return The duration of the first measure execution in milliseconds.
+     * @TODO DELETE
      */
+    @Deprecated
     public String getDurationAsString()
     {
         return "" + mDuration;

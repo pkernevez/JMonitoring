@@ -20,6 +20,8 @@ public class SearchCriteria implements Serializable, IsSerializable
 
     private String mBeginDate;
 
+    private String mServer;
+
     private String mClassName;
 
     private String mMethodName;
@@ -118,6 +120,22 @@ public class SearchCriteria implements Serializable, IsSerializable
     public void setMethodName(String pMethodName)
     {
         mMethodName = pMethodName;
+    }
+
+    /**
+     * @return the server
+     */
+    public String getServer()
+    {
+        return mServer;
+    }
+
+    /**
+     * @param pServer the server to set
+     */
+    public void setServer(String pServer)
+    {
+        mServer = pServer;
     }
 
 }

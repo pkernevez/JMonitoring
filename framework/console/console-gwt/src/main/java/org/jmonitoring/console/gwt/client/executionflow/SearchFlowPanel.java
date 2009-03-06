@@ -1,9 +1,12 @@
 package org.jmonitoring.console.gwt.client.executionflow;
 
+import static org.jmonitoring.console.gwt.client.PanelUtil.addLabel;
+import static org.jmonitoring.console.gwt.client.PanelUtil.addTitle;
+
 import java.util.List;
 
+import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
-import org.jmonitoring.console.gwt.client.images.ConsoleImageBundle;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -11,8 +14,8 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -33,11 +36,13 @@ public class SearchFlowPanel extends VerticalPanel
 
     private final TextBox mBeginDate = new TextBox();
 
+    private final TextBox mServer = new TextBox();
+
     private final TextBox mFirstMesureClassName = new TextBox();
 
     private final TextBox mFirstMeasureMethodName = new TextBox();
 
-    private final ConsoleImageBundle mImageBundle;
+    private final JMonitoring mMain;
 
     private Image mImage;
 
@@ -45,9 +50,9 @@ public class SearchFlowPanel extends VerticalPanel
 
     private final SimplePanel mResult = new SimplePanel();
 
-    public SearchFlowPanel(ConsoleImageBundle pImageBundle)
+    public SearchFlowPanel(JMonitoring pMain)
     {
-        mImageBundle = pImageBundle;
+        mMain = pMain;
         addMask();
         add(mCriteria);
         add(mResult);
@@ -56,25 +61,28 @@ public class SearchFlowPanel extends VerticalPanel
     private void addMask()
     {
         FlexTable tTable = new FlexTable();
-        tTable.setWidget(0, 0, new HTML("<h1>Search Flows</h1>"));
+        tTable.setWidget(0, 0, addTitle("Search Flows"));
         tTable.getFlexCellFormatter().setColSpan(0, 0, 4);
 
-        tTable.setWidget(1, 0, new Label("Thread name"));
-        tTable.setWidget(1, 1, mThreadName);
-        tTable.setWidget(1, 2, new Label("Minimum Duration"));
-        tTable.setWidget(1, 3, mMinimumDuration);
+        tTable.setWidget(1, 0, addLabel("Server"));
+        tTable.setWidget(1, 1, mServer);
 
-        tTable.setWidget(2, 0, new Label("Group name"));
-        tTable.setWidget(2, 1, mGroupName);
-        tTable.setWidget(2, 2, new Label("Begin date (dd/MM/yy)"));
-        tTable.setWidget(2, 3, mBeginDate);
+        tTable.setWidget(2, 0, addLabel("Thread name"));
+        tTable.setWidget(2, 1, mThreadName);
+        tTable.setWidget(2, 2, addLabel("Minimum Duration"));
+        tTable.setWidget(2, 3, mMinimumDuration);
 
-        tTable.setWidget(3, 0, new Label("First measure class name"));
-        tTable.setWidget(3, 1, mFirstMesureClassName);
-        tTable.setWidget(3, 2, new Label("First measure method name"));
-        tTable.setWidget(3, 3, mFirstMeasureMethodName);
+        tTable.setWidget(3, 0, addLabel("Group name"));
+        tTable.setWidget(3, 1, mGroupName);
+        tTable.setWidget(3, 2, addLabel("Begin date (dd/MM/yy)"));
+        tTable.setWidget(3, 3, mBeginDate);
 
-        mImage = mImageBundle.ok().createImage();;
+        tTable.setWidget(4, 0, addLabel("First measure class name"));
+        tTable.setWidget(4, 1, mFirstMesureClassName);
+        tTable.setWidget(4, 2, addLabel("First measure method name"));
+        tTable.setWidget(4, 3, mFirstMeasureMethodName);
+
+        mImage = mMain.getImageBundle().ok().createImage();;
         mImage.setStylePrimaryName("click-image");
         mImage.addMouseListener(new MouseListenerAdapter()
         {
@@ -92,7 +100,7 @@ public class SearchFlowPanel extends VerticalPanel
             }
         });
         mImage.addClickListener(mSearchClickListener);
-        tTable.setWidget(4, 0, mImage);
+        tTable.setWidget(5, 0, mImage);
         mCriteria.add(tTable);
     }
 
@@ -108,7 +116,7 @@ public class SearchFlowPanel extends VerticalPanel
     {
         ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
         ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
-        tEndpoint.setServiceEntryPoint("/ExecutionFlow");
+        tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
         AsyncCallback<List<ExecutionFlowDTO>> tCallBack = new AsyncCallback<List<ExecutionFlowDTO>>()
         {
             public void onFailure(Throwable e)
@@ -132,6 +140,7 @@ public class SearchFlowPanel extends VerticalPanel
     {
         SearchCriteria tCrit = new SearchCriteria();
         tCrit.setThreadName(mThreadName.getText());
+        tCrit.setServer(mServer.getText());
         tCrit.setMinimumDuration(mMinimumDuration.getText());
         tCrit.setGroupName(mGroupName.getText());
         tCrit.setBeginDate(mBeginDate.getText());
@@ -156,7 +165,8 @@ public class SearchFlowPanel extends VerticalPanel
         int i = 1;
         for (ExecutionFlowDTO tDto : pList)
         {
-            tTable.setWidget(i, 0, new HTML("" + tDto.getId()));
+            Hyperlink tLink = new Hyperlink("" + tDto.getId(), "edit" + tDto.getId());
+            tTable.setWidget(i, 0, tLink);
             tTable.setWidget(i, 1, new HTML(tDto.getThreadName()));
             tTable.setWidget(i, 2, new HTML(tDto.getJvmIdentifier()));
             tTable.setWidget(i, 3, new HTML("" + tDto.getDuration()));
@@ -168,4 +178,5 @@ public class SearchFlowPanel extends VerticalPanel
         }
         mResult.add(tTable);
     }
+
 }

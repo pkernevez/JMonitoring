@@ -7,22 +7,21 @@ package org.jmonitoring.console.gwt.client.dto;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * @author pke
  * 
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
  * Templates
  */
-public class MethodCallDTO implements Serializable
+public class MethodCallDTO implements Serializable, IsSerializable
 {
 
     private static final long serialVersionUID = -497249515537353769L;
 
     /** Flow Technical Id. */
     private int mFlowId;
-
-    /** Flow Technical Id. */
-    private ExecutionFlowDTO mFlow;
 
     /** Technical Id. */
     private int mPosition;
@@ -407,11 +406,6 @@ public class MethodCallDTO implements Serializable
         mParent = pParent;
     }
 
-    public void setFlow(ExecutionFlowDTO pFlow)
-    {
-        mFlow = pFlow;
-    }
-
     public int getChildPosition()
     {
         return mChildPosition;
@@ -430,14 +424,6 @@ public class MethodCallDTO implements Serializable
     public void setRuntimeClassName(String pRuntimeClassName)
     {
         mRuntimeClassName = pRuntimeClassName;
-    }
-
-    /**
-     * @return the flow
-     */
-    public ExecutionFlowDTO getFlow()
-    {
-        return mFlow;
     }
 
     public long getDurationFromPreviousCall()

@@ -61,4 +61,30 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             }
         }
     }
+
+    public ExecutionFlowDTO load(int pFlowID)
+    {
+        try
+        {
+            before();
+            ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+            return tMgr.readFullExecutionFlow(pFlowID);
+        } finally
+        {
+            try
+            {
+                TransactionSynchronizationManager.unbindResource(mSessionFactory);
+            } finally
+            {
+                if (mSession.isOpen())
+                {
+                    if (mTransaction.isActive())
+                    {
+                        mTransaction.rollback();
+                    }
+                    mSession.close();
+                }
+            }
+        }
+    }
 }

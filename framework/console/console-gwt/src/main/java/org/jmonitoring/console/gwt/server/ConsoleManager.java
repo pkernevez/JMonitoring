@@ -107,9 +107,14 @@ public class ConsoleManager
         FlowSearchCriterion tCrit = new FlowSearchCriterion();
         tCrit.setBeginDate(mFormater.parseDate(pCriterion.getBeginDate()));
         tCrit.setClassName(pCriterion.getClassName());
-        tCrit.setDurationMin(Long.getLong(pCriterion.getMinimumDuration()));
+        String tMinimumDuration = pCriterion.getMinimumDuration();
+        if (tMinimumDuration != null && tMinimumDuration.length() > 0)
+        {
+            tCrit.setDurationMin(Long.parseLong(tMinimumDuration));
+        }
         tCrit.setGroupName(pCriterion.getGroupName());
         tCrit.setMethodName(pCriterion.getMethodName());
+        tCrit.setJVM(pCriterion.getServer());
         tCrit.setThreadName(pCriterion.getThreadName());
         List<ExecutionFlowDTO> tList = new ArrayList<ExecutionFlowDTO>();
         for (ExecutionFlowPO tFlow : mDao.getListOfExecutionFlowPO(tCrit))

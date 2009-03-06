@@ -1,17 +1,19 @@
 package org.jmonitoring.console.gwt.client;
 
 import org.jmonitoring.console.gwt.client.images.ConsoleImageBundle;
+import org.jmonitoring.console.gwt.client.main.Controller;
 import org.jmonitoring.console.gwt.client.main.Menu;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -28,11 +30,14 @@ public class JMonitoring implements EntryPoint
 
     private DockPanel mMain;
 
+    public static String SERVICE_URL = "/ExecutionFlow";
+
     /**
      * This is the entry point method.
      */
     public void onModuleLoad()
     {
+        History.addHistoryListener(new Controller(this));
         mBundle = GWT.create(ConsoleImageBundle.class);
 
         mMain = new DockPanel();
@@ -56,31 +61,17 @@ public class JMonitoring implements EntryPoint
         mMain.setCellWidth(mContent, "100%");
 
         RootPanel.get().add(mMain);
-        // MyServiceAsync svc = (MyServiceAsync) GWT.create(MyService.class);
-        // ServiceDefTarget endpoint = (ServiceDefTarget) svc;
-        // endpoint.setServiceEntryPoint("/MyService");
-        // AsyncCallback<String> callback = new AsyncCallback<String>()
-        // {
-        // public void onSuccess(String result)
-        // {
-        // RootPanel.get().add(new HTML(result.toString()));
-        // }
-        //
-        // public void onFailure(Throwable ex)
-        // {
-        // RootPanel.get().add(new HTML(ex.toString()));
-        // }
-        // };
-        // GWT.log("Avant appel", null);
-        // svc.myMethod("Do Stuff", callback);
-        // Create an image, not yet referencing a URL. We make it final so that we
-        // can manipulate the image object within the ClickHandlers for the buttons.
     }
 
-    public void setContentMain(Panel pPanel)
+    public void setContentMain(Widget pWidget)
     {
         mContent.clear();
-        mContent.add(pPanel);
+        mContent.add(pWidget);
+    }
+
+    public Widget getContentMain()
+    {
+        return mContent.getWidget();
     }
 
     public ConsoleImageBundle getImageBundle()

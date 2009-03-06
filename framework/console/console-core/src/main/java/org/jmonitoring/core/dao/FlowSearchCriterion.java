@@ -95,7 +95,7 @@ public class FlowSearchCriterion
     }
 
     /**
-     * @param pJvm The jVM to set.
+     * @param pJvm The jVM to set. TODO Rename to Server
      */
     public void setJVM(String pJvm)
     {
