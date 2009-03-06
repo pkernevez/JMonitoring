@@ -93,7 +93,7 @@ public class HttpWriter implements IStoreWriter
         } catch (Throwable e)
         {
             sLog.error("Unable to Write Flow to Http Server the ExecutionFlow has been lost. Cause is "
-                + e.getMessage() + " Serveur is " + mClient.getHostConfiguration());
+                + e.getMessage() + " Serveur is " + getFullUrl());
         }
     }
 
