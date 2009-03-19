@@ -1,11 +1,11 @@
 package org.jmonitoring.console.gwt.client.main;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
-import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.executionflow.EditFlowPanel;
 import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowServiceAsync;
 import org.jmonitoring.console.gwt.client.executionflow.SearchFlowPanel;
+import org.jmonitoring.console.gwt.client.executionflow.images.FullExecutionFlow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.HistoryListener;
@@ -63,7 +63,7 @@ public class Controller implements HistoryListener
         ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
         ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
         tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
-        AsyncCallback<ExecutionFlowDTO> tCallBack = new AsyncCallback<ExecutionFlowDTO>()
+        AsyncCallback<FullExecutionFlow> tCallBack = new AsyncCallback<FullExecutionFlow>()
         {
             public void onFailure(Throwable e)
             {
@@ -71,7 +71,7 @@ public class Controller implements HistoryListener
                 mMain.setContentMain(new HTML("<h2 class=\"error\">Unexpected error on server</h2>"));
             }
 
-            public void onSuccess(ExecutionFlowDTO pFlow)
+            public void onSuccess(FullExecutionFlow pFlow)
             {
                 Widget tWidget = mMain.getContentMain();
                 if (tWidget instanceof SearchFlowPanel)

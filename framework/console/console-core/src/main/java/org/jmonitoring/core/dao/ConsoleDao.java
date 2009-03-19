@@ -131,6 +131,7 @@ public class ConsoleDao extends InsertionDao
      * Delete all flows and linked objects. This method, drop and recreate the schema that is faster than the deletion
      * of all instances.
      */
+    @SuppressWarnings("deprecation")
     public void deleteAllFlows()
     {
         Session tSession = mSessionFactory.getCurrentSession();
@@ -173,6 +174,7 @@ public class ConsoleDao extends InsertionDao
      * @param pId The <code>ExecutionFlowDTO</code> identifier.
      * @throws UnknownFlowException If the flow can't be find in db.
      */
+    @SuppressWarnings("deprecation")
     public void deleteFlow(int pId) throws UnknownFlowException
     {
         PreparedStatement tStat = null;
@@ -323,6 +325,7 @@ public class ConsoleDao extends InsertionDao
         return tQuery.list();
     }
 
+    @SuppressWarnings("deprecation")
     public void createDataBase()
     {
         sLog.info("Creating new Schema for the DataBase");
@@ -363,6 +366,17 @@ public class ConsoleDao extends InsertionDao
         tQuery.setLong("durationMin", pDurationMin);
         tQuery.setLong("durationMax", pDurationMax);
         return tQuery.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<MethodCallPO> getMethodCallList(int pFlowId, List<Integer> pIds)
+    {
+        Session tSession = mSessionFactory.getCurrentSession();
+        Criteria tCrit = tSession.createCriteria(MethodCallPO.class);
+        tCrit.add(Restrictions.in("id.position", pIds));
+        tCrit.add(Restrictions.eq("flow.id", pFlowId));
+        tCrit.setFetchMode("children", FetchMode.JOIN);
+        return tCrit.list();
     }
 
     public MethodCallPO getNextInGroup(int pFlowId, int pPosition, String pGroupName)

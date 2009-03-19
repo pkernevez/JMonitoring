@@ -7,7 +7,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -147,6 +149,21 @@ public class ConsoleManager
                                                  ((Long) tExtract[ConsoleDao.EXTRACT_NB_POS]).intValue()));
         }
         return tResult;
+    }
+
+    public Map<Integer, MethodCallDTO> getListOfMethodCall(int pFlowId, List<Integer> pIds)
+    {
+        Map<Integer, MethodCallDTO> tResult = new HashMap<Integer, MethodCallDTO>();
+        for (MethodCallPO tMeth : mDao.getMethodCallList(pFlowId, pIds))
+        {
+            tResult.put(tMeth.getPosition(), dtoManager.getMethodCallDto(tMeth, 2));
+        }
+        return tResult;
+    }
+
+    public List<MethodCallDTO> getListOfMethodCall(int pFlowId)
+    {
+        return dtoManager.copyListOfMethodPO(mDao.readExecutionFlow(pFlowId).getFirstMethodCall().getChildren(), 2);
     }
 
     public List<MethodCallFullExtractDTO> getListOfMethodCallFullExtract(String pClassName, String pMethodName,

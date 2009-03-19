@@ -132,7 +132,7 @@ public class RunSampleTest extends SampleTestcase
         assertEquals("executeUpdate", tCurMeth.getMethodName());
         tTrace = new StringBuilder();
         tTrace.append("PrepareStatement with Sql=[insert into ITEM (ID, PRICE) values (null, ?)]\n");
-        tTrace.append("Add Float parameter, pos=[1], value=[30.0]\n");
+        tTrace.append("Add Float, pos=[1], value=[30.0]\n");
         tTrace.append("Execute update\nResult=[1]\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());
@@ -150,7 +150,7 @@ public class RunSampleTest extends SampleTestcase
         assertEquals("executeUpdate", tCurMeth.getMethodName());
         tTrace = new StringBuilder();
         tTrace.append("PrepareStatement with Sql=[insert into ITEM (ID, PRICE) values (null, ?)]\n");
-        tTrace.append("Add Float parameter, pos=[1], value=[31.0]\n");
+        tTrace.append("Add Float, pos=[1], value=[31.0]\n");
         tTrace.append("Execute update\nResult=[1]\n");
         assertEquals(tTrace.toString(), tCurMeth.getReturnValue());
         assertEquals(0, tCurMeth.getChildren().size());

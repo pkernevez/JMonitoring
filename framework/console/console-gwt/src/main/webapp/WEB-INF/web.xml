@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    id="jmonitoring">
 
     <!-- Standard Action Servlet Configuration -->
     <servlet>
         <servlet-name>ExecutionFlow</servlet-name>
         <servlet-class>org.jmonitoring.console.gwt.server.executionflow.ExecutionFlowServiceImpl</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DynamicImage</servlet-name>
+        <servlet-class>org.jmonitoring.console.gwt.server.executionflow.images.DynamicImageServlet</servlet-class>
+    </servlet>
 
     <!-- Standard Action Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>ExecutionFlow</servlet-name>
         <url-pattern>/ExecutionFlow</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DynamicImage</servlet-name>
+        <url-pattern>/DynamicImage</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>org.jmonitoring.console.gwt.JMonitoring/JMonitoring.html</welcome-file>

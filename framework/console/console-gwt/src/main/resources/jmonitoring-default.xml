@@ -82,7 +82,7 @@
         </property>
     </bean>
 
-    <bean name="chartManager" class="org.jmonitoring.console.gwt.server.flow.freechart.ChartManager">
+    <bean name="chartManager" class="org.jmonitoring.console.gwt.server.executionflow.images.ChartManager">
         <property name="groupOrder">
             <map>
                 <!-- You should defined you own configuration

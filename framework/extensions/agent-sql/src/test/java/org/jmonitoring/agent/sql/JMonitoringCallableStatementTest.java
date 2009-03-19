@@ -25,7 +25,7 @@ public class JMonitoringCallableStatementTest extends SqlTestCase
         assertEquals(1, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("CallableStatement with Sql=[select * from EXECUTION_FLOW where Id=?]\n");
-        tBuffer.append("Add Int parameter, pos=[1], value=[34]\n");
+        tBuffer.append("Add Int, pos=[1], value=[34]\n");
         tBuffer.append("Execute query\n");
         tBuffer.append("ResultSet=[rs");
         String tLog = MemoryWriter.getFlow(0).getFirstMethodCall().getReturnValue();

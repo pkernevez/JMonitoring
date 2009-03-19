@@ -30,7 +30,14 @@ public final class SpringConfigurationUtil
 
     public static Object getBean(String pString)
     {
-        return sContext.getBean(pString);
+        try
+        {
+            return sContext.getBean(pString);
+        } catch (Throwable t)
+        {
+            sLog.error("Unable to find bean : " + pString + t.getMessage());
+            throw new RuntimeException("Unable to find bean : " + pString, t);
+        }
     }
 
     private static synchronized ApplicationContext loadContext()

@@ -47,17 +47,17 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         tBuffer.append("PrepareStatement with Sql=[select * from EXECUTION_FLOW where Id=? and JVM=? ");
         tBuffer.append("and Id=? and Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=? and ");
         tBuffer.append("Id=? and Id=? and Id=? and BEGIN_TIME_AS_DATE=?]\n");
-        tBuffer.append("Add Int parameter, pos=[1], value=[34]\n");
-        tBuffer.append("Add String parameter, pos=[2], value=[fsdf]\n");
-        tBuffer.append("Add Long parameter, pos=[3], value=[45]\n");
-        tBuffer.append("Add BigDecimal parameter, pos=[4], value=[56]\n");
-        tBuffer.append("Add Boolean parameter, pos=[5], value=[false]\n");
-        tBuffer.append("Add Byte parameter, pos=[6], value=[67]\n");
-        tBuffer.append("Add Date parameter, pos=[7], value=[3906-12-12]\n");
-        tBuffer.append("Add Double parameter, pos=[8], value=[3.67834]\n");
-        tBuffer.append("Add Long parameter, pos=[9], value=[3434]\n");
-        tBuffer.append("Add NULL parameter, pos=[10], type=[-7]\n");
-        tBuffer.append("Add Time parameter, pos=[11], value=[11:23:34]\n");
+        tBuffer.append("Add Int, pos=[1], value=[34]\n");
+        tBuffer.append("Add String, pos=[2], value=[fsdf]\n");
+        tBuffer.append("Add Long, pos=[3], value=[45]\n");
+        tBuffer.append("Add BigDecimal, pos=[4], value=[56]\n");
+        tBuffer.append("Add Boolean, pos=[5], value=[false]\n");
+        tBuffer.append("Add Byte, pos=[6], value=[67]\n");
+        tBuffer.append("Add Date, pos=[7], value=[3906-12-12]\n");
+        tBuffer.append("Add Double, pos=[8], value=[3.67834]\n");
+        tBuffer.append("Add Long, pos=[9], value=[3434]\n");
+        tBuffer.append("Add NULL, pos=[10], type=[-7]\n");
+        tBuffer.append("Add Time, pos=[11], value=[11:23:34]\n");
         tBuffer.append("Execute \n");
         tBuffer.append("Result=[true]\n");
 
@@ -77,7 +77,7 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         assertEquals(1, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("PrepareStatement with Sql=[select * from EXECUTION_FLOW where Id=?]\n");
-        tBuffer.append("Add Int parameter, pos=[1], value=[34]\n");
+        tBuffer.append("Add Int, pos=[1], value=[34]\n");
         tBuffer.append("Execute query\n");
         tBuffer.append("ResultSet=[rs");
         String tLog = MemoryWriter.getFlow(0).getFirstMethodCall().getReturnValue();
@@ -119,7 +119,7 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         assertEquals(2, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("PrepareStatement with Sql=[select * from EXECUTION_FLOW where Id=?]\n");
-        tBuffer.append("Add Int parameter, pos=[1], value=[20]\n");
+        tBuffer.append("Add Int, pos=[1], value=[20]\n");
         tBuffer.append("Execute query\n");
         tBuffer.append("ResultSet=[rs");
         String tLog = MemoryWriter.getFlow(1).getFirstMethodCall().getReturnValue();

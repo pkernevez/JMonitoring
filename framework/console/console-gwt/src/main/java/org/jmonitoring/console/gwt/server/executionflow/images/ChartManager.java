@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.server.flow.freechart;
+package org.jmonitoring.console.gwt.server.executionflow.images;
 
 import java.util.HashMap;
 import java.util.Map;

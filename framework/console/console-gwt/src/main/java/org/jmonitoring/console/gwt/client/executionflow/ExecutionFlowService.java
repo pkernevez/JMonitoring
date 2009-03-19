@@ -1,8 +1,11 @@
 package org.jmonitoring.console.gwt.client.executionflow;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.client.executionflow.images.FullExecutionFlow;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -12,7 +15,18 @@ import com.google.gwt.user.client.rpc.RemoteService;
 
 public interface ExecutionFlowService extends RemoteService
 {
+    public static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
+
+    /** Constant used for the URL generation of the PieChart representing the number of calls. */
+    public static final String NB_CALL_TO_GROUP = "NB_CALL_TO_GROUP";
+
+    /** Constant used for the URL generation of the PieChart representing the duration of calls. */
+    public static final String DURATION_IN_GROUP = "DURATION_IN_GROUP";
+
     public List<ExecutionFlowDTO> search(SearchCriteria pCriteria);
 
-    public ExecutionFlowDTO load(int pFlowID);
+    public Map<Integer, MethodCallDTO> load(int pFlowId, List<Integer> pMethID);
+
+    public FullExecutionFlow load(int pFlowId);
+
 }

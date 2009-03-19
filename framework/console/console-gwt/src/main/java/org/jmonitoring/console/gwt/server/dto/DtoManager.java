@@ -14,12 +14,11 @@ import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
-@Service
+// TODO Rename this class after removing DtoManager
 public class DtoManager
 {
     @Autowired
@@ -118,7 +117,7 @@ public class DtoManager
         return tResult;
     }
 
-    MethodCallDTO getMethodCallDto(MethodCallPO pCallPO, int pRemainingLevel)
+    public MethodCallDTO getMethodCallDto(MethodCallPO pCallPO, int pRemainingLevel)
     {
         return getMethodCallDto(pCallPO, null, 0, pRemainingLevel);
     }

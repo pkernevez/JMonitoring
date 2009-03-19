@@ -2,9 +2,13 @@
   <name>console-gwt</name>
   <comment>This project provides Monitring infrastructure for Java applications. It&apos;s based on aspectJ fonctionnalities.</comment>
   <projects>
+    <project>agent</project>
     <project>common</project>
+    <project>common-tests</project>
     <project>console-core</project>
     <project>persistence</project>
+    <project>server</project>
+    <project>tests</project>
   </projects>
   <buildSpec>
     <buildCommand>
