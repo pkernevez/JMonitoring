@@ -26,6 +26,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.persistence.InsertionDao;
@@ -372,11 +373,19 @@ public class ConsoleDao extends InsertionDao
     public List<MethodCallPO> getMethodCallList(int pFlowId, List<Integer> pIds)
     {
         Session tSession = mSessionFactory.getCurrentSession();
-        Criteria tCrit = tSession.createCriteria(MethodCallPO.class);
-        tCrit.add(Restrictions.in("id.position", pIds));
-        tCrit.add(Restrictions.eq("flow.id", pFlowId));
-        tCrit.setFetchMode("children", FetchMode.JOIN);
-        return tCrit.list();
+        // All flow is already suppose to be readed
+        ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.get(ExecutionFlowPO.class, pFlowId);
+        List<MethodCallPO> tResult = new ArrayList<MethodCallPO>();
+        for (Integer tId : pIds)
+        {
+            tResult.add((MethodCallPO) tSession.load(MethodCallPO.class, new MethodCallPK(tFlow, tId)));
+        }
+        // Criteria tCrit = tSession.createCriteria(MethodCallPO.class);
+        // tCrit.add(Restrictions.in("id.position", pIds));
+        // tCrit.add(Restrictions.eq("flow.id", pFlowId));
+        // tCrit.setFetchMode("children", FetchMode.JOIN);
+        // return tCrit.list();
+        return tResult;
     }
 
     public MethodCallPO getNextInGroup(int pFlowId, int pPosition, String pGroupName)

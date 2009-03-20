@@ -11,8 +11,8 @@ import org.hibernate.Transaction;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
-import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
-import org.jmonitoring.console.gwt.client.executionflow.SearchCriteria;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
+import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.ConsoleManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.ChartManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowChartBarUtil;
@@ -85,6 +85,8 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
         {
             before();
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+            // Optimisation start to load the full flow from db in one read
+            tMgr.readFullExecutionFlow(pFlowId);
             return tMgr.getListOfMethodCall(pFlowId, pMethIDs);
         } finally
         {

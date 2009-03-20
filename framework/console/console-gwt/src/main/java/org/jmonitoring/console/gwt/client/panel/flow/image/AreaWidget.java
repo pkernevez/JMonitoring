@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.executionflow.images;
+package org.jmonitoring.console.gwt.client.panel.flow.image;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;

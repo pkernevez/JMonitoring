@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.executionflow.images;
+package org.jmonitoring.console.gwt.client.panel.flow.image;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *

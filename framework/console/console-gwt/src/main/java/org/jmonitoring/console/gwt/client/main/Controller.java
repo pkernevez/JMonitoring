@@ -2,10 +2,10 @@ package org.jmonitoring.console.gwt.client.main;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
-import org.jmonitoring.console.gwt.client.executionflow.EditFlowPanel;
-import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
-import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowServiceAsync;
-import org.jmonitoring.console.gwt.client.executionflow.SearchFlowPanel;
+import org.jmonitoring.console.gwt.client.panel.flow.EditFlowPanel;
+import org.jmonitoring.console.gwt.client.panel.flow.SearchFlowPanel;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.HistoryListener;

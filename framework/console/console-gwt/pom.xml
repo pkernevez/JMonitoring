@@ -61,6 +61,7 @@
                         <value>org.jmonitoring.console.gwt.JMonitoring</value>
                     </compileTargets>
                     <runTarget>org.jmonitoring.console.gwt.JMonitoring/JMonitoring.html</runTarget>
+                    <debugSuspend>false</debugSuspend>
                     <logLevel>INFO</logLevel>
                     <style>OBF</style>
                     <extraJvmArgs>-Xmx512m</extraJvmArgs>

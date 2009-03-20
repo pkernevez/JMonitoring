@@ -21,7 +21,7 @@ import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallFullExtractDTO;
-import org.jmonitoring.console.gwt.client.executionflow.SearchCriteria;
+import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.FormaterBean;

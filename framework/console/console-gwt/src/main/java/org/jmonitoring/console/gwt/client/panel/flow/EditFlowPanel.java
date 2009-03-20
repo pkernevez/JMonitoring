@@ -1,12 +1,11 @@
-package org.jmonitoring.console.gwt.client.executionflow;
+package org.jmonitoring.console.gwt.client.panel.flow;
 
-import static org.jmonitoring.console.gwt.client.PanelUtil.addData;
-import static org.jmonitoring.console.gwt.client.PanelUtil.addLabel;
-import static org.jmonitoring.console.gwt.client.PanelUtil.addTitle;
+import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addData;
+import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addLabel;
+import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addTitle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
@@ -14,16 +13,20 @@ import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MapAreaDTO;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
-import org.jmonitoring.console.gwt.client.executionflow.images.AreaWidget;
-import org.jmonitoring.console.gwt.client.executionflow.images.MapWidget;
 import org.jmonitoring.console.gwt.client.main.Controller;
+import org.jmonitoring.console.gwt.client.panel.PanelUtil;
+import org.jmonitoring.console.gwt.client.panel.flow.image.AreaWidget;
+import org.jmonitoring.console.gwt.client.panel.flow.image.MapWidget;
+import org.jmonitoring.console.gwt.client.panel.flow.tree.AsynchroneLoad;
+import org.jmonitoring.console.gwt.client.panel.flow.tree.ExecFlowTree;
+import org.jmonitoring.console.gwt.client.panel.flow.tree.MethCallTreeItem;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -33,7 +36,6 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.TreeListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -50,12 +52,10 @@ public class EditFlowPanel extends VerticalPanel
         tPanel.add(addTitle("Flow Edition"));
 
         HorizontalPanel tLine = new HorizontalPanel();
-        tLine.add(SearchFlowPanel.createLinkedImage(mMain.getImageBundle().delete(), "Delete this flow",
-                                                    new NavigationListener(Controller.HISTORY_DELETE_FLOW
-                                                        + pFlow.getFlow().getId())));
-        tLine.add(SearchFlowPanel.createLinkedImage(mMain.getImageBundle().xml(), "Export this flow to Xml/gzip",
-                                                    new NavigationListener(Controller.HISTORY_DELETE_FLOW
-                                                        + pFlow.getFlow().getId())));
+        tLine.add(PanelUtil.createClickImage(mMain.getImageBundle().delete(), "Delete this flow",
+                                             Controller.HISTORY_DELETE_FLOW + pFlow.getFlow().getId()));
+        tLine.add(PanelUtil.createClickImage(mMain.getImageBundle().xml(), "Export this flow to Xml/gzip",
+                                             Controller.HISTORY_DELETE_FLOW + pFlow.getFlow().getId()));
         tPanel.add(tLine);
 
         FlexTable tFlexTable = new FlexTable();
@@ -96,7 +96,7 @@ public class EditFlowPanel extends VerticalPanel
             + tFlow.getThreadName() + " : " + tFirstMethodCall.getGroupName() + " -> "
             + tFirstMethodCall.getClassName() + tFirstMethodCall.getMethodName() + "()"));
         MethCallTreeItem tRoot = new MethCallTreeItem(tLine, tFirstMethodCall);
-        tRoot.mIsLoaded = true;
+        tRoot.setLoaded(true);
         tRoot.setState(true);
         Tree tTree = new ExecFlowTree(tFlow.getId());
         tTree.addItem(tRoot);
@@ -106,27 +106,6 @@ public class EditFlowPanel extends VerticalPanel
 
         tPanel.add(tFlexTable);
         add(tPanel);
-    }
-
-    public static class NavigationListener implements ClickListener
-    {
-        String mUrl;
-
-        public NavigationListener(String pTarget)
-        {
-            mUrl = pTarget;
-        }
-
-        public void onClick(Widget pWidget)
-        {
-            History.newItem(mUrl);
-            History.fireCurrentHistoryState();
-        }
-    }
-
-    private Widget addLinkedImage(String pName)
-    {
-        return new Image(pName);
     }
 
     private MapWidget addMap(MapDto pImageMap)
@@ -171,51 +150,6 @@ public class EditFlowPanel extends VerticalPanel
         return tImage;
     }
 
-    private static class ExecFlowTree extends Tree
-    {
-        private final int mFlowId;
-
-        private ExecFlowTree(int pFlowId)
-        {
-            mFlowId = pFlowId;
-        }
-    }
-
-    private static class MethCallTreeItem extends TreeItem
-    {
-        private final int mMethId;
-
-        private boolean mIsLoaded = false;
-
-        public MethCallTreeItem(Widget tWidget, MethodCallDTO pMeth)
-        {
-            super(tWidget);
-            mMethId = (pMeth == null ? -1 : pMeth.getPosition());
-            addSubItems(pMeth);
-        }
-
-        public MethCallTreeItem(MethodCallDTO pMeth)
-        {
-            this(getWidget(pMeth), pMeth);
-        }
-
-        private static Widget getWidget(MethodCallDTO pMeth)
-        {
-            return new HTML(pMeth.getClassName() + "." + pMeth.getMethodName());
-        }
-
-        private void addSubItems(MethodCallDTO pMethodCallDTO)
-        {
-            if (pMethodCallDTO.getChildren() != null)
-            {
-                for (MethodCallDTO tMeth : pMethodCallDTO.getChildren())
-                {
-                    addItem(new MethCallTreeItem(tMeth));
-                }
-            }
-        }
-    }
-
     private static class ExecFlowTreeListener implements TreeListener
     {
 
@@ -232,9 +166,9 @@ public class EditFlowPanel extends VerticalPanel
                 for (int i = 0; i < tItem.getChildCount(); i++)
                 {
                     MethCallTreeItem tChild = (MethCallTreeItem) tItem.getChild(i);
-                    if (!tChild.mIsLoaded)
+                    if (!tChild.isLoaded())
                     {
-                        tList.add(tChild.mMethId);
+                        tList.add(tChild.getMethId());
                     }
                 }
                 loadChildren(pTreeitem, tList);
@@ -248,50 +182,9 @@ public class EditFlowPanel extends VerticalPanel
                 ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
                 ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
                 tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
-                int tFlowId = ((ExecFlowTree) pTreeitem.getTree()).mFlowId;
+                int tFlowId = ((ExecFlowTree) pTreeitem.getTree()).getFlowId();
                 tService.load(tFlowId, pList, new AsynchroneLoad((MethCallTreeItem) pTreeitem));
             }
-        }
-    }
-
-    public static class AsynchroneLoad implements AsyncCallback<Map<Integer, MethodCallDTO>>
-    {
-        private final MethCallTreeItem mParent;
-
-        private AsynchroneLoad(MethCallTreeItem pParent)
-        {
-            mParent = pParent;
-        }
-
-        public void onFailure(Throwable e)
-        {
-            GWT.log("Error", e);
-        }
-
-        public void onSuccess(Map<Integer, MethodCallDTO> pMap)
-        {
-            List<Integer> tIds = new ArrayList<Integer>();
-            List<MethCallTreeItem> tRemove = new ArrayList<MethCallTreeItem>();
-            for (int i = 0; i < mParent.getChildCount(); i++)
-            {
-                MethCallTreeItem tChild = (MethCallTreeItem) mParent.getChild(i);
-                if (!tChild.mIsLoaded)
-                {
-                    tIds.add((tChild).mMethId);
-                    tRemove.add(tChild);
-                }
-            }
-            for (MethCallTreeItem tMethCallTreeItem : tRemove)
-            {
-                mParent.removeItem(tMethCallTreeItem);
-            }
-            for (Integer tChildId : tIds)
-            {
-                MethCallTreeItem tChild = new MethCallTreeItem(pMap.get(tChildId));
-                tChild.mIsLoaded = true;
-                mParent.addItem(tChild);
-            }
-
         }
     }
 }

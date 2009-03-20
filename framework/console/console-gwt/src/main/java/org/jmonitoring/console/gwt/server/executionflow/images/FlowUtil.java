@@ -27,7 +27,7 @@ import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
-import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;

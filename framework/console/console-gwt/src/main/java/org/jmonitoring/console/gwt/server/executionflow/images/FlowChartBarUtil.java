@@ -39,7 +39,7 @@ import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MapAreaDTO;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
-import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;

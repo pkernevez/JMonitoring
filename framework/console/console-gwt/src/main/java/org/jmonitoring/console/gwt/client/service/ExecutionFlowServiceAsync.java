@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.executionflow;
+package org.jmonitoring.console.gwt.client.service;
 
 import java.util.List;
 import java.util.Map;

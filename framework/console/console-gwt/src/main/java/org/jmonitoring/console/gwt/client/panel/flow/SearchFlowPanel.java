@@ -1,24 +1,26 @@
-package org.jmonitoring.console.gwt.client.executionflow;
+package org.jmonitoring.console.gwt.client.panel.flow;
 
-import static org.jmonitoring.console.gwt.client.PanelUtil.addLabel;
-import static org.jmonitoring.console.gwt.client.PanelUtil.addTitle;
+import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addLabel;
+import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addTitle;
 
 import java.util.List;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.main.Controller;
+import org.jmonitoring.console.gwt.client.panel.PanelUtil;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
+import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -84,33 +86,9 @@ public class SearchFlowPanel extends VerticalPanel
         tTable.setWidget(4, 2, addLabel("First measure method name"));
         tTable.setWidget(4, 3, mFirstMeasureMethodName);
 
-        mImage = createLinkedImage(mMain.getImageBundle().ok(), "Search corresponding flows", mSearchClickListener);
+        mImage = PanelUtil.createClickImage(mMain.getImageBundle().ok(), "Search flows", mSearchClickListener);
         tTable.setWidget(5, 0, mImage);
         mCriteria.add(tTable);
-    }
-
-    public static Image createLinkedImage(AbstractImagePrototype pImagePrototype, String pTitle, ClickListener pListener)
-    {
-        Image tImage = pImagePrototype.createImage();
-        tImage.setStylePrimaryName("click-image");
-        tImage.addMouseListener(new MouseListenerAdapter()
-        {
-
-            @Override
-            public void onMouseEnter(Widget pWidget)
-            {
-                pWidget.addStyleDependentName("hover");
-            }
-
-            @Override
-            public void onMouseLeave(Widget pWidget)
-            {
-                pWidget.removeStyleDependentName("hover");
-            }
-        });
-        tImage.addClickListener(pListener);
-        tImage.setTitle(pTitle);
-        return tImage;
     }
 
     private final ClickListener mSearchClickListener = new ClickListener()
