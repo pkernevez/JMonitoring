@@ -1,8 +1,6 @@
-package org.jmonitoring.console.gwt.client.executionflow.images;
+package org.jmonitoring.console.gwt.client.dto;
 
 import java.io.Serializable;
-
-import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -10,13 +8,13 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class FullExecutionFlow implements Serializable, IsSerializable
+public class FullExecutionFlowDTO implements Serializable, IsSerializable
 {
     private static final long serialVersionUID = -4266334309680833179L;
 
     private ExecutionFlowDTO mFlow;
 
-    private String mImageMap;
+    private MapDto mImageMap;
 
     /**
      * @return the flow
@@ -26,13 +24,13 @@ public class FullExecutionFlow implements Serializable, IsSerializable
         return mFlow;
     }
 
-    public FullExecutionFlow(ExecutionFlowDTO pFlow)
+    public FullExecutionFlowDTO(ExecutionFlowDTO pFlow)
     {
         super();
         mFlow = pFlow;
     }
 
-    public FullExecutionFlow()
+    public FullExecutionFlowDTO()
     {
     }
 
@@ -44,7 +42,7 @@ public class FullExecutionFlow implements Serializable, IsSerializable
         mFlow = pFlow;
     }
 
-    public void setImageMap(String pImageMap)
+    public void setImageMap(MapDto pImageMap)
     {
         mImageMap = pImageMap;
     }
@@ -52,7 +50,7 @@ public class FullExecutionFlow implements Serializable, IsSerializable
     /**
      * @return the imageMap
      */
-    public String getImageMap()
+    public MapDto getImageMap()
     {
         return mImageMap;
     }

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
-import org.jmonitoring.console.gwt.client.executionflow.images.FullExecutionFlow;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -27,6 +27,6 @@ public interface ExecutionFlowService extends RemoteService
 
     public Map<Integer, MethodCallDTO> load(int pFlowId, List<Integer> pMethID);
 
-    public FullExecutionFlow load(int pFlowId);
+    public FullExecutionFlowDTO load(int pFlowId);
 
 }

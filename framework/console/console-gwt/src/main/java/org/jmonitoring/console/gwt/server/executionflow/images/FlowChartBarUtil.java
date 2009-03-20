@@ -8,9 +8,11 @@ package org.jmonitoring.console.gwt.server.executionflow.images;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -33,9 +35,11 @@ import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
+import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.MapAreaDTO;
+import org.jmonitoring.console.gwt.client.dto.MapDto;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
-import org.jmonitoring.console.gwt.client.executionflow.images.FullExecutionFlow;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
@@ -44,6 +48,10 @@ import org.slf4j.LoggerFactory;
 
 public class FlowChartBarUtil
 {
+    private static final String POSITION = "&position=";
+
+    private static final String COORDS = "COORDS=\"";
+
     private static final float LABEL_WIDTH_RATIO = 10F;
 
     private static final int IMAGE_WIDTH = 930;
@@ -83,14 +91,14 @@ public class FlowChartBarUtil
      * @param pForm TODO
      */
     public static void writeImageIntoSession(FormaterBean pFormater, ColorManager pColorManager, HttpSession pSession,
-        FullExecutionFlow pFullFlow, ChartManager pChartManager)
+        FullExecutionFlowDTO pFullFlow, ChartManager pChartManager)
     {
         FlowChartBarUtil tUtil =
             new FlowChartBarUtil(pFormater, pFullFlow.getFlow().getFirstMethodCall(), pColorManager, pChartManager);
         tUtil.fillChart(pSession, pFullFlow);
     }
 
-    private void fillChart(HttpSession pSession, FullExecutionFlow pFullFlow)
+    private void fillChart(HttpSession pSession, FullExecutionFlowDTO pFullFlow)
     {
         chainAllMethodCallToMainTaskOfGroup(mFirstMeasure);
         IntervalCategoryDataset intervalcategorydataset = createDataset();
@@ -177,7 +185,7 @@ public class FlowChartBarUtil
      * @param pName Name of the session attribute.
      * @param pForm TODO
      */
-    private void addChartToSession(JFreeChart pChart, HttpSession pSession, String pName, FullExecutionFlow pFullFlow)
+    private void addChartToSession(JFreeChart pChart, HttpSession pSession, String pName, FullExecutionFlowDTO pFullFlow)
     {
         Plot tPlot = pChart.getPlot();
         // tPlot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -194,7 +202,7 @@ public class FlowChartBarUtil
             PrintWriter tWriter = new PrintWriter(tMapStream);
             ChartUtilities.writeImageMap(tWriter, "ChartBar", tChartRenderingInfo);
             tWriter.flush();
-            pFullFlow.setImageMap(tMapStream.toString());
+            pFullFlow.setImageMap(parseMap(tMapStream.toString()));
         } catch (IOException e)
         {
             throw new MeasureException("Unable to write Image", e);
@@ -202,6 +210,31 @@ public class FlowChartBarUtil
         pSession.setAttribute(pName, tStream.toByteArray());
 
         sLog.debug("Image " + pName + " add to session");
+    }
+
+    static MapDto parseMap(String pMap)
+    {
+        int tStart = pMap.indexOf("flowId=") + 7;
+        int tEnd = pMap.indexOf("&");
+        int tFlowId = Integer.parseInt(pMap.substring(tStart, tEnd));
+        MapDto tResult = new MapDto();
+        tResult.setFlowId(tFlowId);
+
+        List<MapAreaDTO> tList = new ArrayList<MapAreaDTO>();
+        int tStartCoord, tEndCoord, tStartPosition, tEndPosition = 0;
+        while (pMap.indexOf(COORDS, tEndPosition) != -1)
+        {
+            tStartCoord = pMap.indexOf(COORDS, tEndPosition) + COORDS.length();
+            tEndCoord = pMap.indexOf("\" ", tStartCoord);
+            tStartPosition = pMap.indexOf(POSITION, tEndCoord) + POSITION.length();
+            tEndPosition = pMap.indexOf("\">", tStartPosition);
+            MapAreaDTO tArea = new MapAreaDTO();
+            tArea.setCoordinate(pMap.substring(tStartCoord, tEndCoord));
+            tArea.setPosition(Integer.parseInt(pMap.substring(tStartPosition, tEndPosition)));
+            tList.add(tArea);
+        }
+        tResult.setAreas(tList);
+        return tResult;
     }
 
     public IntervalCategoryDataset createDataset()
@@ -215,7 +248,7 @@ public class FlowChartBarUtil
         for (int i = 0; i < tList.length; i++)
         { // ForEach GroupName
             curTaskEntry = tList[i];
-            sLog.debug("add Task n�" + i + " for GroupName=" + curTaskEntry.mGroupName + " in position of ="
+            sLog.debug("add Task n°" + i + " for GroupName=" + curTaskEntry.mGroupName + " in position of ="
                 + curTaskEntry.mPositionOfTheGroup);
             curTaskSeries.add(curTaskEntry.mMainTaskOfGroup);
         }

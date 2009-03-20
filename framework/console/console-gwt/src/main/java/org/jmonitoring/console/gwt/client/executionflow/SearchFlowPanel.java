@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.main.Controller;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -82,26 +84,33 @@ public class SearchFlowPanel extends VerticalPanel
         tTable.setWidget(4, 2, addLabel("First measure method name"));
         tTable.setWidget(4, 3, mFirstMeasureMethodName);
 
-        mImage = mMain.getImageBundle().ok().createImage();;
-        mImage.setStylePrimaryName("click-image");
-        mImage.addMouseListener(new MouseListenerAdapter()
+        mImage = createLinkedImage(mMain.getImageBundle().ok(), "Search corresponding flows", mSearchClickListener);
+        tTable.setWidget(5, 0, mImage);
+        mCriteria.add(tTable);
+    }
+
+    public static Image createLinkedImage(AbstractImagePrototype pImagePrototype, String pTitle, ClickListener pListener)
+    {
+        Image tImage = pImagePrototype.createImage();
+        tImage.setStylePrimaryName("click-image");
+        tImage.addMouseListener(new MouseListenerAdapter()
         {
 
             @Override
             public void onMouseEnter(Widget pWidget)
             {
-                mImage.addStyleDependentName("hover");
+                pWidget.addStyleDependentName("hover");
             }
 
             @Override
             public void onMouseLeave(Widget pWidget)
             {
-                mImage.removeStyleDependentName("hover");
+                pWidget.removeStyleDependentName("hover");
             }
         });
-        mImage.addClickListener(mSearchClickListener);
-        tTable.setWidget(5, 0, mImage);
-        mCriteria.add(tTable);
+        tImage.addClickListener(pListener);
+        tImage.setTitle(pTitle);
+        return tImage;
     }
 
     private final ClickListener mSearchClickListener = new ClickListener()
@@ -165,7 +174,7 @@ public class SearchFlowPanel extends VerticalPanel
         int i = 1;
         for (ExecutionFlowDTO tDto : pList)
         {
-            Hyperlink tLink = new Hyperlink("" + tDto.getId(), "edit" + tDto.getId());
+            Hyperlink tLink = new Hyperlink("" + tDto.getId(), Controller.HISTORY_EDIT_FLOW + tDto.getId());
             tTable.setWidget(i, 0, tLink);
             tTable.setWidget(i, 1, new HTML(tDto.getThreadName()));
             tTable.setWidget(i, 2, new HTML(tDto.getJvmIdentifier()));

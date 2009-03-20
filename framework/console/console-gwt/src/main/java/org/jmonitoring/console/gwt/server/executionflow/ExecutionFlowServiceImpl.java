@@ -9,10 +9,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.executionflow.SearchCriteria;
-import org.jmonitoring.console.gwt.client.executionflow.images.FullExecutionFlow;
 import org.jmonitoring.console.gwt.server.ConsoleManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.ChartManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowChartBarUtil;
@@ -105,14 +105,14 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
         }
     }
 
-    public FullExecutionFlow load(int pFlowId)
+    public FullExecutionFlowDTO load(int pFlowId)
     {
         try
         {
             before();
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
             ExecutionFlowDTO tReadFullExecutionFlow = tMgr.readFullExecutionFlow(pFlowId);
-            FullExecutionFlow tResult = new FullExecutionFlow(tReadFullExecutionFlow);
+            FullExecutionFlowDTO tResult = new FullExecutionFlowDTO(tReadFullExecutionFlow);
 
             FormaterBean tFormater = (FormaterBean) SpringConfigurationUtil.getBean("formater");
             ColorManager tColor = (ColorManager) SpringConfigurationUtil.getBean("color");

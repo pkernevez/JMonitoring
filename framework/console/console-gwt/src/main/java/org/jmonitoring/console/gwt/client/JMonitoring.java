@@ -61,6 +61,7 @@ public class JMonitoring implements EntryPoint
         mMain.setCellWidth(mContent, "100%");
 
         RootPanel.get().add(mMain);
+        History.fireCurrentHistoryState();
     }
 
     public void setContentMain(Widget pWidget)

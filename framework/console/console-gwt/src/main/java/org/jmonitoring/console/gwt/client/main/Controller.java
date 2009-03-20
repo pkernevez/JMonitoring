@@ -1,11 +1,11 @@
 package org.jmonitoring.console.gwt.client.main;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
+import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.executionflow.EditFlowPanel;
 import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.executionflow.ExecutionFlowServiceAsync;
 import org.jmonitoring.console.gwt.client.executionflow.SearchFlowPanel;
-import org.jmonitoring.console.gwt.client.executionflow.images.FullExecutionFlow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.HistoryListener;
@@ -21,11 +21,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Controller implements HistoryListener
 {
-    public static String HISTORY_EDIT = "edit";
+    public static final String HISTORY_EDIT_FLOW = "editFlow";
 
-    public static String HISTORY_HOME = "home";
+    public static final String HISTORY_HOME = "home";
+
+    public static final String HISTORY_EDIT_METH = "editMeth";
 
     public static String HISTORY_SEARCH = "search";
+
+    public static String HISTORY_DELETE_FLOW = "deleteFlow";
 
     private SearchFlowPanel mLastSearch;
 
@@ -38,9 +42,9 @@ public class Controller implements HistoryListener
 
     public void onHistoryChanged(String pHisoryToken)
     {
-        if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT))
+        if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
         {
-            int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT.length()));
+            int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_FLOW.length()));
             navigateEdit(pFlowId);
         } else if (HISTORY_SEARCH.equals(pHisoryToken))
         {
@@ -49,7 +53,7 @@ public class Controller implements HistoryListener
                 mLastSearch = new SearchFlowPanel(mMain);
             }
             mMain.setContentMain(mLastSearch);
-        } else if (HISTORY_HOME.equals(pHisoryToken))
+        } else if (HISTORY_HOME.equals(pHisoryToken) || pHisoryToken.length() == 0)
         {
             mMain.setContentMain(new SimplePanel());
         } else
@@ -63,7 +67,7 @@ public class Controller implements HistoryListener
         ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
         ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
         tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
-        AsyncCallback<FullExecutionFlow> tCallBack = new AsyncCallback<FullExecutionFlow>()
+        AsyncCallback<FullExecutionFlowDTO> tCallBack = new AsyncCallback<FullExecutionFlowDTO>()
         {
             public void onFailure(Throwable e)
             {
@@ -71,7 +75,7 @@ public class Controller implements HistoryListener
                 mMain.setContentMain(new HTML("<h2 class=\"error\">Unexpected error on server</h2>"));
             }
 
-            public void onSuccess(FullExecutionFlow pFlow)
+            public void onSuccess(FullExecutionFlowDTO pFlow)
             {
                 Widget tWidget = mMain.getContentMain();
                 if (tWidget instanceof SearchFlowPanel)

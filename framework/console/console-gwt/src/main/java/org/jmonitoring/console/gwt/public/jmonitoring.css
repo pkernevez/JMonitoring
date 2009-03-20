@@ -17,7 +17,7 @@
 .error {
 	color: #FF0000;
 	background-color: lime;
-	}
+}
 
 .main {
 	width: 100%;
@@ -55,7 +55,16 @@ a:hover {
 	cursor: pointer;
 }
 
-body,input,select,td,textarea {
+body,input,select,td,textarea,h1 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 11px;
+}
+
+.gwt-HTML {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+h1 {
+	font-size: 2em;
 }

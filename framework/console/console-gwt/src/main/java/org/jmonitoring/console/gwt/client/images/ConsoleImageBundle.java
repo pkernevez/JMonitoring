@@ -26,4 +26,8 @@ public interface ConsoleImageBundle extends ImageBundle
 
     public AbstractImagePrototype nextInGroup();
 
+    public AbstractImagePrototype delete();
+
+    public AbstractImagePrototype xml();
+
 }
