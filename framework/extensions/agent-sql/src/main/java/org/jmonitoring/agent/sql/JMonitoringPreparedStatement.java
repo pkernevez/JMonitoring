@@ -100,11 +100,15 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -125,11 +129,15 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
             return new JMonitoringResultSet(tResult);
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -150,11 +158,15 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {

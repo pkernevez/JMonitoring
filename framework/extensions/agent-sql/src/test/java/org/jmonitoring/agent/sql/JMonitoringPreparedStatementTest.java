@@ -66,6 +66,30 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
     }
 
     @Test
+    public void testExecuteWithError() throws SQLException
+    {
+        Connection tCon = mSession.connection();
+        PreparedStatement tPStat = tCon.prepareStatement("select ?/0 from EXECUTION_FLOW where Id=?");
+        try
+        {
+            tPStat.execute();
+            fail("should not pass");
+        } catch (SQLException e)
+        {
+        }
+        assertEquals(1, MemoryWriter.countFlows());
+        StringBuilder tBuffer = new StringBuilder();
+        tBuffer.append("Parameter #1 is not set; SQL statement:\n");
+        tBuffer.append("select ?/0 from EXECUTION_FLOW where Id=? [90012-77]\n");
+        tBuffer.append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n");
+        tBuffer.append("Execute \n");
+
+        assertEquals("org.h2.jdbc.JdbcSQLException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
+        assertEquals(tBuffer.toString(), MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableMessage());
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
+    }
+
+    @Test
     public void testExecuteQuery() throws SQLException
     {
         Connection tCon = mSession.connection();
@@ -90,6 +114,30 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
     }
 
     @Test
+    public void testExecuteQueryWithError() throws SQLException
+    {
+        Connection tCon = mSession.connection();
+        PreparedStatement tPStat = tCon.prepareStatement("select ?/0 from EXECUTION_FLOW where Id=?");
+        try
+        {
+            tPStat.executeQuery();
+            fail("should not pass");
+        } catch (SQLException e)
+        {
+        }
+        assertEquals(1, MemoryWriter.countFlows());
+        StringBuilder tBuffer = new StringBuilder();
+        tBuffer.append("Parameter #1 is not set; SQL statement:\n");
+        tBuffer.append("select ?/0 from EXECUTION_FLOW where Id=? [90012-77]\n");
+        tBuffer.append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n");
+        tBuffer.append("Execute query\n");
+
+        assertEquals("org.h2.jdbc.JdbcSQLException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
+        assertEquals(tBuffer.toString(), MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableMessage());
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
+    }
+
+    @Test
     public void testExecuteUpdate() throws SQLException
     {
         String tSql = JMonitoringStatementTest.UPDATE_1 + sCurId++ + JMonitoringStatementTest.UPDATE_2;
@@ -102,6 +150,29 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("PrepareStatement with Sql=[").append(tSql).append("]\nExecute update\nResult=[1]\n");
         assertEquals(tBuffer.toString(), tFlow.getFirstMethodCall().getReturnValue());
+        assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
+    }
+
+    @Test
+    public void testExecuteUpdateWithError() throws SQLException
+    {
+        Connection tCon = mSession.connection();
+        PreparedStatement tPStat = tCon.prepareStatement("select ?/0 from EXECUTION_FLOW where Id=?");
+        try
+        {
+            tPStat.executeUpdate();
+            fail("should not pass");
+        } catch (SQLException e)
+        {
+        }
+        assertEquals(1, MemoryWriter.countFlows());
+        StringBuilder tBuffer = new StringBuilder();
+        tBuffer.append("Parameter #1 is not set [90012-77]\n");
+        tBuffer.append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n");
+        tBuffer.append("Execute update\n");
+
+        assertEquals("org.h2.jdbc.JdbcSQLException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
+        assertEquals(tBuffer.toString(), MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableMessage());
         assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
 

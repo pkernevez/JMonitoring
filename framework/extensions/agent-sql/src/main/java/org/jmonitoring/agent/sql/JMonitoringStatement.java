@@ -165,11 +165,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -190,11 +194,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -215,11 +223,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -240,11 +252,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -265,11 +281,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -290,11 +310,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return new JMonitoringResultSet(tResult);
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -315,11 +339,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -340,11 +368,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -365,11 +397,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
@@ -390,11 +426,15 @@ public class JMonitoringStatement implements Statement, IProxyStatement
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            throw e;
+        } catch (SQLException e)
+        {
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
             throw e;
         } finally
         {
