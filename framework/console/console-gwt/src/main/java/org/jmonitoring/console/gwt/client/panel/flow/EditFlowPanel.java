@@ -139,13 +139,12 @@ public class EditFlowPanel extends VerticalPanel
         public void execute()
         {
             History.newItem(mUrl);
-            History.fireCurrentHistoryState();
         }
     }
 
     private Image addImage(String pChartBarFlows)
     {
-        Image tImage = new Image("/DynamicImage?Id=" + pChartBarFlows);
+        Image tImage = new Image("../DynamicImage?Id=" + pChartBarFlows);
 
         return tImage;
     }

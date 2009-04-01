@@ -29,4 +29,5 @@ public interface ExecutionFlowService extends RemoteService
 
     public FullExecutionFlowDTO load(int pFlowId);
 
+    public MethodCallDTO load(int pFlowId, int pMethPosition);
 }

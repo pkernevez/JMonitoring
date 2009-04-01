@@ -157,6 +157,18 @@ public class StoreManager
      */
     public void logEndOfMethodWithException(IThrowableTracer pTracer, Throwable pException)
     {
+        logEndOfMethodWithException(pTracer, pException, null);
+    }
+
+    /**
+     * Trace the <code>Exception</code> thrown during its execution.
+     * 
+     * @param pTracer The tracer for logging Exception.
+     * @param pException The <code>Exception</code> to trace.
+     * @param pAdditionnalMsg Additionnal message that should be add to the Exception message.
+     */
+    public void logEndOfMethodWithException(IThrowableTracer pTracer, Throwable pException, CharSequence pAdditionnalMsg)
+    {
         if (sLog.isDebugEnabled())
         {
             sLog.debug("logEndOfMethodWithException " + (pException == null ? "" : pException.getMessage()));
@@ -178,7 +190,22 @@ public class StoreManager
                 sLog.error("The log of the Exception as Throw an exception during it, Exception=[" + tExceptionClass
                     + "] Traccer=[" + tLogClass + "]");
             }
-            tOutput = (tOutput == null ? "" : tOutput);
+            if (tOutput == null)
+            {
+                if (pAdditionnalMsg == null)
+                {
+                    tOutput = "";
+                } else
+                {
+                    tOutput = pAdditionnalMsg;
+                }
+            } else
+            {
+                if (pAdditionnalMsg != null)
+                {
+                    tOutput = tOutput + "\n" + pAdditionnalMsg;
+                }
+            }
             endMethodWithException(tCurrentMethodCall, pException.getClass().getName(), tOutput.toString());
         }
 

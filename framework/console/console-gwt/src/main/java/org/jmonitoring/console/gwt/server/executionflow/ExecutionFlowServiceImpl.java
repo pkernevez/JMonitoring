@@ -34,9 +34,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements ExecutionFlowService
 {
 
-    private Session mSession;
-
-    private Transaction mTransaction;
+    private final ThreadLocal<Transaction> mTransaction = new ThreadLocal<Transaction>();
 
     private SessionFactory mSessionFactory;
 
@@ -45,9 +43,9 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
     void before()
     {
         mSessionFactory = (SessionFactory) SpringConfigurationUtil.getBean("sessionFactory");
-        mSession = mSessionFactory.openSession();
-        mTransaction = mSession.beginTransaction();
-        TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(mSession));
+        Session tSession = mSessionFactory.openSession();
+        mTransaction.set(tSession.beginTransaction());
+        TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(tSession));
     }
 
     public List<ExecutionFlowDTO> search(SearchCriteria pCriteria)
@@ -59,23 +57,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             return tMgr.getListOfExecutionFlowDto(pCriteria);
         } finally
         {
-            if (mSessionFactory != null)
-            {
-                try
-                {
-                    TransactionSynchronizationManager.unbindResource(mSessionFactory);
-                } finally
-                {
-                    if (mSession != null && mSession.isOpen())
-                    {
-                        if (mTransaction.isActive())
-                        {
-                            mTransaction.rollback();
-                        }
-                        mSession.close();
-                    }
-                }
-            }
+            afterRollBack();
         }
     }
 
@@ -90,20 +72,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             return tMgr.getListOfMethodCall(pFlowId, pMethIDs);
         } finally
         {
-            try
-            {
-                TransactionSynchronizationManager.unbindResource(mSessionFactory);
-            } finally
-            {
-                if (mSession.isOpen())
-                {
-                    if (mTransaction.isActive())
-                    {
-                        mTransaction.rollback();
-                    }
-                    mSession.close();
-                }
-            }
+            afterRollBack();
         }
     }
 
@@ -129,20 +98,68 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             return tResult;
         } finally
         {
+            afterRollBack();
+        }
+    }
+
+    public MethodCallDTO load(int pFlowId, int pMethPosition)
+    {
+        try
+        {
+            before();
+            ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+            return tMgr.readFullMethodCall(pFlowId, pMethPosition);
+        } catch (RuntimeException e)
+        {
+            sLog.error("Unable to load Methodcall", e);
+            throw e;
+        } finally
+        {
+            afterRollBack();
+        }
+    }
+
+    private void after()
+    {
+        Session tSession = null;
+        try
+        {
+            tSession = (Session) TransactionSynchronizationManager.unbindResource(mSessionFactory);
+        } finally
+        {
+            if (tSession != null && tSession.isOpen())
+            {
+                if (mTransaction.get().isActive())
+                {
+                    mTransaction.get().commit();
+                }
+                tSession.close();
+            }
+        }
+    }
+
+    private void afterRollBack()
+    {
+        if (mSessionFactory != null)
+        {
+            Session tSession = null;
             try
             {
-                TransactionSynchronizationManager.unbindResource(mSessionFactory);
+                SessionHolder tHolder =
+                    (SessionHolder) TransactionSynchronizationManager.unbindResource(mSessionFactory);
+                tSession = (tHolder == null ? null : tHolder.getSession());
             } finally
             {
-                if (mSession.isOpen())
+                if (tSession != null && tSession.isOpen())
                 {
-                    if (mTransaction.isActive())
+                    if (mTransaction.get().isActive())
                     {
-                        mTransaction.rollback();
+                        mTransaction.get().rollback();
                     }
-                    mSession.close();
+                    tSession.close();
                 }
             }
         }
     }
+
 }

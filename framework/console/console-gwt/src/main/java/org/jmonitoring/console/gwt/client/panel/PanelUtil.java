@@ -35,6 +35,11 @@ public class PanelUtil
         return new HTML("" + pValue);
     }
 
+    public static Widget addSubTitle(String pTitle)
+    {
+        return new HTML("<h2>" + pTitle + "</h2>");
+    }
+
     public static Widget addTitle(String pTitle)
     {
         return new HTML("<h1>" + pTitle + "</h1>");

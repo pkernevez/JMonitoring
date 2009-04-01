@@ -15,10 +15,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface ExecutionFlowServiceAsync
 {
-    public void search(SearchCriteria pCriteria, AsyncCallback<List<ExecutionFlowDTO>> callback);
+    public void search(SearchCriteria pCriteria, AsyncCallback<List<ExecutionFlowDTO>> pCallback);
 
-    public void load(int pFlowId, List<Integer> pMethID, AsyncCallback<Map<Integer, MethodCallDTO>> callback);
+    public void load(int pFlowId, List<Integer> pMethID, AsyncCallback<Map<Integer, MethodCallDTO>> pCallback);
 
-    public void load(int pFlowId, AsyncCallback<FullExecutionFlowDTO> callback);
+    public void load(int pFlowId, AsyncCallback<FullExecutionFlowDTO> pCallback);
 
+    public void load(int pFlowId, int pMethPosition, AsyncCallback<MethodCallDTO> pCallBack);
 }

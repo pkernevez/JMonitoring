@@ -2,8 +2,10 @@ package org.jmonitoring.console.gwt.client.main;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.panel.flow.EditFlowPanel;
 import org.jmonitoring.console.gwt.client.panel.flow.SearchFlowPanel;
+import org.jmonitoring.console.gwt.client.panel.methodcall.EditMethodCallPanel;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
 
@@ -42,10 +44,16 @@ public class Controller implements HistoryListener
 
     public void onHistoryChanged(String pHisoryToken)
     {
-        if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
+        if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_METH))
+        {
+            int tSepPosition = pHisoryToken.indexOf("&");
+            int tFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_METH.length(), tSepPosition));
+            int tMethPosition = Integer.parseInt(pHisoryToken.substring(tSepPosition + 1));
+            navigateEditMethodCall(tFlowId, tMethPosition);
+        } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
         {
             int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_FLOW.length()));
-            navigateEdit(pFlowId);
+            navigateEditFlow(pFlowId);
         } else if (HISTORY_SEARCH.equals(pHisoryToken))
         {
             if (mLastSearch == null)
@@ -58,11 +66,33 @@ public class Controller implements HistoryListener
             mMain.setContentMain(new SimplePanel());
         } else
         {
-            mMain.setContentMain(new HTML("Unknown navigate panel..."));
+            mMain.setContentMain(new HTML("Unknown panel..."));
         }
     }
 
-    private void navigateEdit(int pFlowId)
+    private void navigateEditMethodCall(int pFlowId, int pMethPosition)
+    {
+        ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
+        ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
+        tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
+        AsyncCallback<MethodCallDTO> tCallBack = new AsyncCallback<MethodCallDTO>()
+        {
+            public void onFailure(Throwable e)
+            {
+                GWT.log("Error", e);
+                mMain.setContentMain(new HTML("<h2 class=\"error\">Unexpected error on server</h2>"));
+            }
+
+            public void onSuccess(MethodCallDTO pMeth)
+            {
+                mMain.setContentMain(new EditMethodCallPanel(mMain, pMeth));
+            }
+
+        };
+        tService.load(pFlowId, pMethPosition, tCallBack);
+    }
+
+    private void navigateEditFlow(int pFlowId)
     {
         ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
         ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;

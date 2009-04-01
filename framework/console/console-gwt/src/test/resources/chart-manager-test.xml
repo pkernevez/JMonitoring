@@ -3,9 +3,9 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:annotation-config/>
+    <context:annotation-config />
     <context:component-scan base-package="org.jmonitoring.console.gwt.server"></context:component-scan>
-    
+
 
     <bean name="chartManager" class="org.jmonitoring.console.gwt.server.executionflow.images.ChartManager">
         <property name="groupOrder">
@@ -15,4 +15,7 @@
             </map>
         </property>
     </bean>
+
+    <bean name="dtoManager" class="org.jmonitoring.console.gwt.server.dto.DtoManager" />
+
 </beans>

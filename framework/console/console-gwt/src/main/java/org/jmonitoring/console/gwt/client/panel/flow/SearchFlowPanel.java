@@ -110,7 +110,7 @@ public class SearchFlowPanel extends VerticalPanel
             {
                 GWT.log("Error", e);
                 mResult.clear();
-                mResult.add(new HTML("<h2 class=\"error\">Unexpected error on server</h2>"));
+                mResult.add(new HTML("<h2 class=\"error\">Unexpected error on server</h2>" + e.getMessage()));
             }
 
             public void onSuccess(List<ExecutionFlowDTO> pList)

@@ -30,7 +30,7 @@ public class JMonitoring implements EntryPoint
 
     private DockPanel mMain;
 
-    public static String SERVICE_URL = "/ExecutionFlow";
+    public static String SERVICE_URL = "../ExecutionFlow";
 
     /**
      * This is the entry point method.
