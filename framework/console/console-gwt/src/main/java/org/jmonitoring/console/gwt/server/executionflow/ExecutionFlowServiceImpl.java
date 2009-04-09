@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.ConsoleManager;
@@ -102,7 +103,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
         }
     }
 
-    public MethodCallDTO load(int pFlowId, int pMethPosition)
+    public RootMethodCallDTO load(int pFlowId, int pMethPosition)
     {
         try
         {

@@ -409,4 +409,15 @@ public class ConsoleDao extends InsertionDao
         tCrit.setMaxResults(1);
         return (MethodCallPO) tCrit.uniqueResult();
     }
+
+    public boolean existMethodCall(int pFlowId, int pId)
+    {
+        Session tSession = mSessionFactory.getCurrentSession();
+        Query tQuery =
+            tSession.createQuery("from MethodCallPO m where m.methId.flow.id=:flowId and m.methId.position=:pid");
+        tQuery.setInteger("flowId", pFlowId);
+        tQuery.setInteger("pid", pId);
+        MethodCallPO tMeth = (MethodCallPO) tQuery.uniqueResult();
+        return tMeth != null;
+    }
 }

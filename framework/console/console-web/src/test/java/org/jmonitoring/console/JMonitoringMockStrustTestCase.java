@@ -35,7 +35,8 @@ import servletunit.struts.MockStrutsTestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners( {DependencyInjectionTestExecutionListener.class })
-@ContextConfiguration(locations = {"/console.xml", "/core-test.xml", "/default-test.xml", "/persistence-test.xml", "/chart-manager-test.xml" })
+@ContextConfiguration(locations = {"/console.xml", "/core-test.xml", "/default-test.xml", "/persistence-test.xml",
+    "/chart-manager-test.xml" })
 @Ignore
 public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase implements ApplicationContextAware
 {
@@ -44,6 +45,9 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
     private Transaction mTransaction;
 
     protected SessionFactory mSessionFactory;
+
+    @Resource(name = "hibernateConfiguration")
+    private Configuration mConfiguration;
 
     private static Logger sLog = LoggerFactory.getLogger(JMonitoringMockStrustTestCase.class.getName());
 
@@ -65,9 +69,6 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
         mSession.clear();
     }
 
-    @Resource(name = "hibernateConfiguration")
-    private Configuration mConfiguration;
-
     @After
     public void closeDb() throws Exception
     {
@@ -88,6 +89,7 @@ public abstract class JMonitoringMockStrustTestCase extends MockStrutsTestCase i
             }
             sLog.info("Hibernate Session Closed");
         }
+        dropCreate();
     }
 
     protected void dropCreate()

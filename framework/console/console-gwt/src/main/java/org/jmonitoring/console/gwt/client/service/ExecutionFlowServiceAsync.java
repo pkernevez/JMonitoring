@@ -6,6 +6,7 @@ import java.util.Map;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -21,5 +22,5 @@ public interface ExecutionFlowServiceAsync
 
     public void load(int pFlowId, AsyncCallback<FullExecutionFlowDTO> pCallback);
 
-    public void load(int pFlowId, int pMethPosition, AsyncCallback<MethodCallDTO> pCallBack);
+    public void load(int pFlowId, int pMethPosition, AsyncCallback<RootMethodCallDTO> pCallBack);
 }

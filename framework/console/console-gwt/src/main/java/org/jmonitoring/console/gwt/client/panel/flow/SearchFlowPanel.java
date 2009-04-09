@@ -1,7 +1,6 @@
 package org.jmonitoring.console.gwt.client.panel.flow;
 
-import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addLabel;
-import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addTitle;
+import static org.jmonitoring.console.gwt.client.panel.PanelUtil.*;
 
 import java.util.List;
 
@@ -19,7 +18,6 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -65,25 +63,25 @@ public class SearchFlowPanel extends VerticalPanel
     private void addMask()
     {
         FlexTable tTable = new FlexTable();
-        tTable.setWidget(0, 0, addTitle("Search Flows"));
+        tTable.setWidget(0, 0, createTitle("Search Flows"));
         tTable.getFlexCellFormatter().setColSpan(0, 0, 4);
 
-        tTable.setWidget(1, 0, addLabel("Server"));
+        tTable.setWidget(1, 0, createLabel("Server"));
         tTable.setWidget(1, 1, mServer);
 
-        tTable.setWidget(2, 0, addLabel("Thread name"));
+        tTable.setWidget(2, 0, createLabel("Thread name"));
         tTable.setWidget(2, 1, mThreadName);
-        tTable.setWidget(2, 2, addLabel("Minimum Duration"));
+        tTable.setWidget(2, 2, createLabel("Minimum Duration"));
         tTable.setWidget(2, 3, mMinimumDuration);
 
-        tTable.setWidget(3, 0, addLabel("Group name"));
+        tTable.setWidget(3, 0, createLabel("Group name"));
         tTable.setWidget(3, 1, mGroupName);
-        tTable.setWidget(3, 2, addLabel("Begin date (dd/MM/yy)"));
+        tTable.setWidget(3, 2, createLabel("Begin date (dd/MM/yy)"));
         tTable.setWidget(3, 3, mBeginDate);
 
-        tTable.setWidget(4, 0, addLabel("First measure class name"));
+        tTable.setWidget(4, 0, createLabel("First measure class name"));
         tTable.setWidget(4, 1, mFirstMesureClassName);
-        tTable.setWidget(4, 2, addLabel("First measure method name"));
+        tTable.setWidget(4, 2, createLabel("First measure method name"));
         tTable.setWidget(4, 3, mFirstMeasureMethodName);
 
         mImage = PanelUtil.createClickImage(mMain.getImageBundle().ok(), "Search flows", mSearchClickListener);
@@ -152,7 +150,7 @@ public class SearchFlowPanel extends VerticalPanel
         int i = 1;
         for (ExecutionFlowDTO tDto : pList)
         {
-            Hyperlink tLink = new Hyperlink("" + tDto.getId(), Controller.HISTORY_EDIT_FLOW + tDto.getId());
+            Widget tLink = createHyperLink("" + tDto.getId(), Controller.HISTORY_EDIT_FLOW + tDto.getId());
             tTable.setWidget(i, 0, tLink);
             tTable.setWidget(i, 1, new HTML(tDto.getThreadName()));
             tTable.setWidget(i, 2, new HTML(tDto.getJvmIdentifier()));

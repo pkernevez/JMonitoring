@@ -2,7 +2,7 @@ package org.jmonitoring.console.gwt.client.main;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
-import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 import org.jmonitoring.console.gwt.client.panel.flow.EditFlowPanel;
 import org.jmonitoring.console.gwt.client.panel.flow.SearchFlowPanel;
 import org.jmonitoring.console.gwt.client.panel.methodcall.EditMethodCallPanel;
@@ -28,6 +28,8 @@ public class Controller implements HistoryListener
     public static final String HISTORY_HOME = "home";
 
     public static final String HISTORY_EDIT_METH = "editMeth";
+
+    public static final String HISTORY_STAT_METH = "statMeth";
 
     public static String HISTORY_SEARCH = "search";
 
@@ -75,7 +77,7 @@ public class Controller implements HistoryListener
         ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
         ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
         tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
-        AsyncCallback<MethodCallDTO> tCallBack = new AsyncCallback<MethodCallDTO>()
+        AsyncCallback<RootMethodCallDTO> tCallBack = new AsyncCallback<RootMethodCallDTO>()
         {
             public void onFailure(Throwable e)
             {
@@ -83,7 +85,7 @@ public class Controller implements HistoryListener
                 mMain.setContentMain(new HTML("<h2 class=\"error\">Unexpected error on server</h2>"));
             }
 
-            public void onSuccess(MethodCallDTO pMeth)
+            public void onSuccess(RootMethodCallDTO pMeth)
             {
                 mMain.setContentMain(new EditMethodCallPanel(mMain, pMeth));
             }

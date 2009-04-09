@@ -1,8 +1,6 @@
 package org.jmonitoring.console.gwt.client.panel.flow;
 
-import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addData;
-import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addLabel;
-import static org.jmonitoring.console.gwt.client.panel.PanelUtil.addTitle;
+import static org.jmonitoring.console.gwt.client.panel.PanelUtil.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +47,7 @@ public class EditFlowPanel extends VerticalPanel
     {
         mMain = pMain;
         VerticalPanel tPanel = new VerticalPanel();
-        tPanel.add(addTitle("Flow Edition"));
+        tPanel.add(createTitle("Flow Edition"));
 
         HorizontalPanel tLine = new HorizontalPanel();
         tLine.add(PanelUtil.createClickImage(mMain.getImageBundle().delete(), "Delete this flow",
@@ -59,25 +57,25 @@ public class EditFlowPanel extends VerticalPanel
         tPanel.add(tLine);
 
         FlexTable tFlexTable = new FlexTable();
-        tFlexTable.setWidget(0, 0, addLabel("JVM Name"));
+        tFlexTable.setWidget(0, 0, createLabel("JVM Name"));
         ExecutionFlowDTO tFlow = pFlow.getFlow();
-        tFlexTable.setWidget(0, 1, addData(tFlow.getJvmIdentifier()));
-        tFlexTable.setWidget(0, 2, addLabel("Thread Name"));
-        tFlexTable.setWidget(0, 3, addData(tFlow.getThreadName()));
+        tFlexTable.setWidget(0, 1, createData(tFlow.getJvmIdentifier()));
+        tFlexTable.setWidget(0, 2, createLabel("Thread Name"));
+        tFlexTable.setWidget(0, 3, createData(tFlow.getThreadName()));
 
-        tFlexTable.setWidget(1, 0, addLabel("Begin Time"));
-        tFlexTable.setWidget(1, 1, addData(tFlow.getBeginTime()));
-        tFlexTable.setWidget(1, 2, addLabel("End Time"));
-        tFlexTable.setWidget(1, 3, addData(tFlow.getEndTime()));
+        tFlexTable.setWidget(1, 0, createLabel("Begin Time"));
+        tFlexTable.setWidget(1, 1, createData(tFlow.getBeginTime()));
+        tFlexTable.setWidget(1, 2, createLabel("End Time"));
+        tFlexTable.setWidget(1, 3, createData(tFlow.getEndTime()));
 
-        tFlexTable.setWidget(2, 0, addLabel("Duration"));
-        tFlexTable.setWidget(2, 1, addData(tFlow.getDuration()));
-        tFlexTable.setWidget(2, 2, addLabel("Group name"));
+        tFlexTable.setWidget(2, 0, createLabel("Duration"));
+        tFlexTable.setWidget(2, 1, createData(tFlow.getDuration()));
+        tFlexTable.setWidget(2, 2, createLabel("Group name"));
         MethodCallDTO tFirstMethodCall = tFlow.getFirstMethodCall();
-        tFlexTable.setWidget(2, 3, addData(tFirstMethodCall.getGroupName()));
+        tFlexTable.setWidget(2, 3, createData(tFirstMethodCall.getGroupName()));
 
-        tFlexTable.setWidget(3, 0, addLabel("Appel"));
-        tFlexTable.setWidget(3, 1, addData(tFlow.getClassName() + "." + tFlow.getMethodName()));
+        tFlexTable.setWidget(3, 0, createLabel("Appel"));
+        tFlexTable.setWidget(3, 1, createData(tFlow.getClassName() + "." + tFlow.getMethodName()));
 
         MapWidget tMap = addMap(pFlow.getImageMap());
         FlowPanel tFlowPanel = new FlowPanel();

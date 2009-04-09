@@ -15,12 +15,12 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.annotation.Resource;
 
-import org.hibernate.ObjectNotFoundException;
 import org.hibernate.exception.SQLGrammarException;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallFullExtractDTO;
+import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.core.common.UnknownFlowException;
@@ -32,6 +32,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -90,11 +91,23 @@ public class ConsoleManager
         }
     }
 
-    public MethodCallDTO readFullMethodCall(int pFlowId, int pId)
+    public RootMethodCallDTO readFullMethodCall(int pFlowId, int pId)
     {
         sLog.debug("Read method call from database, Id=[" + pId + "]");
         MethodCallPO tMethodCallPo = mDao.readMethodCall(pFlowId, pId);
-        return dtoManager.getFullMethodCallDto(tMethodCallPo, -1);
+        RootMethodCallDTO tRoot = new RootMethodCallDTO();
+        BeanUtils.copyProperties(dtoManager.getFullMethodCallDto(tMethodCallPo, -1), tRoot);
+        tRoot.setPrevInGroup(getPrevMethodCallInGroup(pFlowId, pId, tMethodCallPo.getGroupName()));
+        tRoot.setNextInGroup(getNextMethodCallInGroup(pFlowId, pId, tMethodCallPo.getGroupName()));
+        if (tMethodCallPo.getPosition() > 1)
+        {
+            tRoot.setPrev(String.valueOf(tMethodCallPo.getPosition() - 1));
+        }
+        if (mDao.existMethodCall(pFlowId, pId + 1))
+        {
+            tRoot.setNext(String.valueOf(tMethodCallPo.getPosition() + 1));
+        }
+        return tRoot;
     }
 
     public ExecutionFlowDTO readFullExecutionFlow(int pId)
@@ -233,24 +246,28 @@ public class ConsoleManager
         return dtoManager.getDeepCopy(tFlowPO);
     }
 
-    public MethodCallDTO readPrevMethodCall(int pFlowId, int pPosition, String pGroupName)
+    public String getPrevMethodCallInGroup(int pFlowId, int pPosition, String pGroupName)
     {
         MethodCallPO tMethPo = mDao.getPrevInGroup(pFlowId, pPosition, pGroupName);
         if (tMethPo == null)
         {
-            throw new ObjectNotFoundException(pFlowId, MethodCallPO.class.getName());
+            return null;
+        } else
+        {
+            return String.valueOf(tMethPo.getPosition());
         }
-        return dtoManager.getFullMethodCallDto(tMethPo, -1);
     }
 
-    public MethodCallDTO readNextMethodCall(int pFlowId, int pPosition, String pGroupName)
+    public String getNextMethodCallInGroup(int pFlowId, int pPosition, String pGroupName)
     {
         MethodCallPO tMethPo = mDao.getNextInGroup(pFlowId, pPosition, pGroupName);
         if (tMethPo == null)
         {
-            throw new ObjectNotFoundException(pFlowId, MethodCallPO.class.getName());
+            return null;
+        } else
+        {
+            return String.valueOf(tMethPo.getPosition());
         }
-        return dtoManager.getFullMethodCallDto(tMethPo, -1);
     }
 
 }

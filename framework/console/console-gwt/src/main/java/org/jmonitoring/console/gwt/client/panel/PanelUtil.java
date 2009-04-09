@@ -4,6 +4,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.Widget;
@@ -15,34 +16,53 @@ import com.google.gwt.user.client.ui.Widget;
 public class PanelUtil
 {
 
-    public static Widget addLabel(String pText)
+    public static Widget createLabel(String pText)
     {
         return new HTML(pText);
     }
 
-    public static Widget addData(String pText)
+    public static Widget createText(String pText)
+    {
+        HTML tHtml = new HTML(pText);
+        tHtml.setStylePrimaryName("data-text");
+        return tHtml;
+    }
+
+    public static Widget createData(String pText)
     {
         return new HTML(pText);
     }
 
-    public static Widget addData(int pValue)
+    public static Widget createData(int pValue)
     {
         return new HTML("" + pValue);
     }
 
-    public static Widget addData(long pValue)
+    public static Widget createData(long pValue)
     {
         return new HTML("" + pValue);
     }
 
-    public static Widget addSubTitle(String pTitle)
+    public static Widget createSubTitle(String pTitle)
     {
         return new HTML("<h2>" + pTitle + "</h2>");
     }
 
-    public static Widget addTitle(String pTitle)
+    public static Widget createTitle(String pTitle)
     {
         return new HTML("<h1>" + pTitle + "</h1>");
+    }
+
+    public static Widget createHyperLink(String pText, String pTargetHistoryToken)
+    {
+        return createHyperLink(pText, pTargetHistoryToken, null);
+    }
+
+    public static Widget createHyperLink(String pText, String pTargetHistoryToken, String pTitle)
+    {
+        Hyperlink tLink = new Hyperlink(pText, pTargetHistoryToken);
+        tLink.setTitle(pTitle);
+        return tLink;
     }
 
     public static Image createClickImage(AbstractImagePrototype pImagePrototype, String pTitle, String pUrl)
