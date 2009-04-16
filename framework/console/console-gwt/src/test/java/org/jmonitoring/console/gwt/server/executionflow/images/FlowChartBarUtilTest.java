@@ -10,10 +10,13 @@ import junit.framework.TestCase;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.time.TimePeriod;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
-import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowChartBarUtil.TaskForGroupName;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPK;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,9 @@ public class FlowChartBarUtilTest extends TestCase
     @Resource(name = "color")
     private ColorManager mColor;
 
+    @Resource(name = "dtoManager")
+    private DtoManager mDtoMgr;
+
     @Autowired
     private FlowUtilTest mFlowUtilTest;
 
@@ -46,7 +52,7 @@ public class FlowChartBarUtilTest extends TestCase
     @Test
     public void testChainAllMethodCallToMainTaskOfGroup()
     {
-        MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
+        MethodCallPO tFirstMethod = getVerySimpleMeasurePoint();
         FlowChartBarUtil tFlowChartBarUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, mChartManager);
         tFlowChartBarUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
 
@@ -92,7 +98,7 @@ public class FlowChartBarUtilTest extends TestCase
     @Test
     public void testFillListOfGroup()
     {
-        MethodCallDTO tFirstMethod = mFlowUtilTest.getSampleMeasurePoint();
+        MethodCallPO tFirstMethod = getSampleMeasurePoint();
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, mChartManager);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFirstMethod);
@@ -161,54 +167,113 @@ public class FlowChartBarUtilTest extends TestCase
 
     }
 
-    public static final long START_TIME = 1149282668046L;
-
-    MethodCallDTO getVerySimpleMeasurePoint()
+    private MethodCallPO getSampleMeasurePoint()
     {
-        MethodCallDTO tPoint;
+        ExecutionFlowPO tFlow = new ExecutionFlowPO();
+        tFlow.setId(0);
+
+        MethodCallPO tPoint;
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);
-        tPoint = new MethodCallDTO();
-        tPoint.setPosition(1);
-        tPoint.setParent(null);
+        tPoint = new MethodCallPO();
+        tPoint.setMethId(new MethodCallPK(tFlow, 0));
+        tPoint.setFlow(tFlow);
         tPoint.setClassName(FlowUtilTest.class.getName());
         tPoint.setMethodName("builNewFullFlow");
         tPoint.setGroupName("GrDefault");
         tPoint.setParams("[]");
-        tPoint.setBeginMilliSeconds(tRefDate.getTime());
-        tPoint.setBeginTimeString(mFormater.formatDateTime(tRefDate));
-        tPoint.setGroupColor("234567");
-        tPoint.setEndMilliSeconds(tRefDate.getTime() + 106);
-        tPoint.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
-        MethodCallDTO[] tChildren = new MethodCallDTO[2];
+        tPoint.setBeginTime(tRefDate.getTime());
+        tPoint.setEndTime(tRefDate.getTime() + 106);
 
-        MethodCallDTO tChild1 = new MethodCallDTO();
-        tChild1.setPosition(2);
-        tChild1.setParent(tPoint);
-        tChildren[0] = tChild1;
+        MethodCallPO tChild1 = new MethodCallPO();
+        tChild1.setMethId(new MethodCallPK(tFlow, 1));
+        tChild1.setFlow(tFlow);
+        tChild1.setParentMethodCall(tPoint);
         tChild1.setClassName(FlowUtilTest.class.getName());
         tChild1.setMethodName("builNewFullFlow2");
         tChild1.setGroupName("GrChild1");
         tChild1.setParams("[]");
-        tChild1.setBeginMilliSeconds(tRefDate.getTime() + 2);
-        tChild1.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
-        tChild1.setGroupColor("234567");
-        tChild1.setEndMilliSeconds(tRefDate.getTime() + 45);
-        tChild1.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
+        tChild1.setBeginTime(tRefDate.getTime() + 2);
+        tChild1.setEndTime(tRefDate.getTime() + 45);
 
-        MethodCallDTO tChild2 = new MethodCallDTO();
-        tChild2.setPosition(3);
-        tChild2.setParent(tPoint);
-        tChildren[1] = tChild2;
+        MethodCallPO tChild3 = new MethodCallPO();
+        tChild3.setMethId(new MethodCallPK(tFlow, 3));
+        tChild3.setFlow(tFlow);
+        tChild3.setParentMethodCall(tChild1);
+        tChild3.setClassName(FlowUtilTest.class.getName());
+        tChild3.setMethodName("builNewFullFlow4");
+        tChild3.setGroupName("GrChild2");
+        tChild3.setParams("[]");
+        tChild3.setBeginTime(tRefDate.getTime() + 5);
+        tChild3.setEndTime(tRefDate.getTime() + 17);
+
+        MethodCallPO tChild4 = new MethodCallPO();
+        tChild4.setMethId(new MethodCallPK(tFlow, 4));
+        tChild4.setFlow(tFlow);
+        tChild4.setParentMethodCall(tChild1);
+        tChild4.setClassName(FlowUtilTest.class.getName());
+        tChild4.setMethodName("builNewFullFlow4");
+        tChild4.setGroupName("GrDefault");
+        tChild4.setParams("[]");
+        tChild4.setBeginTime(tRefDate.getTime() + 23);
+        tChild4.setEndTime(tRefDate.getTime() + 27);
+
+        MethodCallPO tChild2 = new MethodCallPO();
+        tChild2.setMethId(new MethodCallPK(tFlow, 2));
+        tChild2.setFlow(tFlow);
+        tChild2.setParentMethodCall(tPoint);
+        tChild2.setClassName(FlowUtilTest.class.getName());
+        tChild2.setMethodName("builNewFullFlow3");
+        tChild2.setGroupName("GrChild2");
+        tChild2.setParams("[]");
+        tChild2.setBeginTime(tRefDate.getTime() + 48);
+        tChild2.setEndTime(tRefDate.getTime() + 75);
+        return tPoint;
+    }
+
+    public static final long START_TIME = 1149282668046L;
+
+    MethodCallPO getVerySimpleMeasurePoint()
+    {
+        ExecutionFlowPO tFlow = new ExecutionFlowPO();
+        tFlow.setId(0);
+
+        MethodCallPO tPoint;
+        // Fri Jun 02 23:11:08 CEST 2006
+        Date tRefDate = new Date(START_TIME);
+        tPoint = new MethodCallPO();
+        tPoint.setMethId(new MethodCallPK(tFlow, 1));
+        tPoint.setFlow(tFlow);
+        tPoint.setParentMethodCall(null);
+        tPoint.setClassName(FlowUtilTest.class.getName());
+        tPoint.setMethodName("builNewFullFlow");
+        tPoint.setGroupName("GrDefault");
+        tPoint.setParams("[]");
+        tPoint.setBeginTime(tRefDate.getTime());
+        tPoint.setEndTime(tRefDate.getTime() + 106);
+
+        MethodCallPO tChild1 = new MethodCallPO();
+        tChild1.setMethId(new MethodCallPK(tFlow, 2));
+        tChild1.setFlow(tFlow);
+        tChild1.setParentMethodCall(tPoint);
+        tChild1.setClassName(FlowUtilTest.class.getName());
+        tChild1.setMethodName("builNewFullFlow2");
+        tChild1.setGroupName("GrChild1");
+        tChild1.setParams("[]");
+        tChild1.setBeginTime(tRefDate.getTime() + 2);
+        tChild1.setEndTime(tRefDate.getTime() + 45);
+
+        MethodCallPO tChild2 = new MethodCallPO();
+        tChild2.setMethId(new MethodCallPK(tFlow, 3));
+        tChild2.setFlow(tFlow);
+        tChild2.setParentMethodCall(tPoint);
         tChild2.setClassName(FlowUtilTest.class.getName());
         tChild2.setMethodName("builNewFullFlow2");
         tChild2.setGroupName("GrChild1");
         tChild2.setParams("[]");
-        tChild2.setBeginMilliSeconds(tRefDate.getTime() + 48);
-        tChild2.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
-        tChild2.setEndMilliSeconds(tRefDate.getTime() + 54);
-        tChild2.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 54)));
-        tPoint.setChildren(tChildren);
+        tChild2.setBeginTime(tRefDate.getTime() + 48);
+        tChild2.setEndTime(tRefDate.getTime() + 54);
+
         return tPoint;
     }
 
@@ -216,12 +281,12 @@ public class FlowChartBarUtilTest extends TestCase
     public void testComputeStatForThisFlow()
     {
         // Simple
-        MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
+        MethodCallPO tFirstMethod = getVerySimpleMeasurePoint();
         FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, mChartManager);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
 
         // One group with couple of children
-        tFirstMethod.removeChild(1);
+        tFirstMethod.getChildren().remove(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
         tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, null);
         assertEquals(2, tUtil.getMaxMethodPerGroup());
@@ -233,7 +298,7 @@ public class FlowChartBarUtilTest extends TestCase
 
         // 2 groups and one child
         tFirstMethod = getVerySimpleMeasurePoint();
-        tFirstMethod.removeChild(0);
+        tFirstMethod.getChildren().remove(0);
         tUtil = new FlowChartBarUtil(mFormater, tFirstMethod, mColor, null);
         assertEquals(1, tUtil.getMaxMethodPerGroup());
     }

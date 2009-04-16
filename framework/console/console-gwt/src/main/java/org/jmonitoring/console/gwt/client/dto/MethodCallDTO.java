@@ -380,17 +380,6 @@ public class MethodCallDTO implements Serializable, IsSerializable
     }
 
     /**
-     * @param pIndex The index of the Child to remove.
-     */
-    public void removeChild(int pIndex)
-    {
-        MethodCallDTO[] tNewMeth = new MethodCallDTO[mChildren.length - 1];
-        System.arraycopy(mChildren, 0, tNewMeth, 0, pIndex);
-        System.arraycopy(mChildren, pIndex + 1, tNewMeth, pIndex, mChildren.length - pIndex - 1);
-        mChildren = tNewMeth;
-    }
-
-    /**
      * @param pParams The params to set.
      */
     public void setParams(String pParams)

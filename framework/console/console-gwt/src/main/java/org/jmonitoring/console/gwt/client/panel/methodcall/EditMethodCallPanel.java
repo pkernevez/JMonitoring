@@ -3,8 +3,10 @@ package org.jmonitoring.console.gwt.client.panel.methodcall;
 import static org.jmonitoring.console.gwt.client.panel.PanelUtil.*;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
+import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 import org.jmonitoring.console.gwt.client.main.Controller;
+import org.jmonitoring.console.gwt.client.panel.PanelUtil;
 
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -22,7 +24,7 @@ public class EditMethodCallPanel extends VerticalPanel
 {
     private static final String VIEW_FULL_FLOW = "View full flow...";
 
-    private static final String VIEW_STAT_METH = "View stats...";
+    public static final String VIEW_STAT_METH = "View stats...";
 
     private static final String VIEW_EDIT_METH = "View parent...";
 
@@ -72,7 +74,7 @@ public class EditMethodCallPanel extends VerticalPanel
         tPanel.add(createClickImage(mMain.getImageBundle().edit(), VIEW_FULL_FLOW, tFlowHistoryToken));
         tFlexTable.setWidget(curLine, 1, tPanel);
 
-        String tStatHistoryToken = Controller.HISTORY_STAT_METH + mMethod.getFlowId() + "&" + mMethod.getPosition();
+        String tStatHistoryToken = Controller.createStatToken(pMethod);
         tPanel = new HorizontalPanel();
         tFlexTable.setWidget(++curLine, 0, createLabel("Id:"));
         tFlexTable.getFlexCellFormatter().setWordWrap(curLine, 0, false);
@@ -99,7 +101,7 @@ public class EditMethodCallPanel extends VerticalPanel
             tFlexTable.setWidget(curLine, 1, tPanel);
         }
 
-        String tNavHistoryToken = Controller.HISTORY_EDIT_METH + mMethod.getFlowId() + "&";
+        String tNavHistoryToken = Controller.createEditMethShortToken(pMethod);
         tPanel = new HorizontalPanel();
         tFlexTable.setWidget(++curLine, 0, createLabel("Navigation:"));
         tPanel.add(createClickMethod(mMain.getImageBundle().prevInGroup(), VIEW_PREVIOUS_METH_IN_GROUP,
@@ -128,7 +130,24 @@ public class EditMethodCallPanel extends VerticalPanel
             tFlexTable.setWidget(++curLine, 0, createLabel("Throwable message:"));
             tFlexTable.setWidget(curLine, 1, createText(mMethod.getThrowableMessage()));
         }
+
+        if (mMethod.getChildren().length > 0)
+        {
+            tFlexTable.setWidget(++curLine, 0, PanelUtil.createLabel("Children"));
+            tFlexTable.setWidget(++curLine, 0, getMethChildren());
+            tFlexTable.getFlexCellFormatter().setColSpan(curLine, 0, 2);
+        }
         add(tFlexTable);
+    }
+
+    private Widget getMethChildren()
+    {
+        VerticalPanel tPanel = new VerticalPanel();
+        for (MethodCallDTO tChild : mMethod.getChildren())
+        {
+            tPanel.add(PanelUtil.createMethodCallPanel(tChild));
+        }
+        return tPanel;
     }
 
     private Widget createClickMethod(AbstractImagePrototype pImage, String pViewPreviousMethInGroup,

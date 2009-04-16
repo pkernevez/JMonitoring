@@ -53,7 +53,7 @@ public class DtoManager
         return tResult;
     }
 
-    public ExecutionFlowDTO getDeepCopy(ExecutionFlowPO pFlowPO)
+    public ExecutionFlowDTO getLimitedCopy(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = getSimpleCopy(pFlowPO);
         tResult.setFirstMethodCall(getMethodCallDto(pFlowPO.getFirstMethodCall(), tResult, 0, 2));

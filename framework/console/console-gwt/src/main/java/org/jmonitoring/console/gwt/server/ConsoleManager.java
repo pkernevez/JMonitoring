@@ -110,11 +110,9 @@ public class ConsoleManager
         return tRoot;
     }
 
-    public ExecutionFlowDTO readFullExecutionFlow(int pId)
+    public ExecutionFlowPO readExecutionFlow(int pId)
     {
-        sLog.debug("Read flow from database, Id=[" + pId + "]");
-        ExecutionFlowPO tFlowPo = mDao.readExecutionFlow(pId);
-        return dtoManager.getDeepCopy(tFlowPo);
+        return mDao.readExecutionFlow(pId);
     }
 
     public List<ExecutionFlowDTO> getListOfExecutionFlowDto(SearchCriteria pCriterion)
@@ -243,7 +241,7 @@ public class ConsoleManager
         ExecutionFlowPO tFlowPO = dtoManager.getDeepCopy(tFlowDto);
         tFlowPO.setId(-1);
         mDao.insertFullExecutionFlow(tFlowPO);
-        return dtoManager.getDeepCopy(tFlowPO);
+        return dtoManager.getLimitedCopy(tFlowPO);
     }
 
     public String getPrevMethodCallInGroup(int pFlowId, int pPosition, String pGroupName)

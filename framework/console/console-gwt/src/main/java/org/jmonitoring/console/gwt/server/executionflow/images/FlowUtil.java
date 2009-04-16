@@ -31,6 +31,7 @@ import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +65,7 @@ public class FlowUtil
      * @param pSession The session to use for the image writing as a bytes arrays.
      * @param pFirstMeasure The root of the <code>MethodCallDTO</code> tree.
      */
-    public void writeImageIntoSession(HttpSession pSession, MethodCallDTO pFirstMeasure)
+    public void writeImageIntoSession(HttpSession pSession, MethodCallPO pFirstMeasure)
     {
         FlowUtil tFlow = new FlowUtil(mColorMgr, mFormater);
         tFlow.addTimeWith(pFirstMeasure);
@@ -148,23 +149,21 @@ public class FlowUtil
      * 
      * @param pMeasure The current measure.
      */
-    void addTimeWith(MethodCallDTO pMeasure)
+    void addTimeWith(MethodCallPO pMeasure)
     {
         long tChildDuration = 0;
-        MethodCallDTO curPoint;
         // On itère sur les noeuds fils
-        for (int i = 0; i < pMeasure.getChildren().length; i++)
+        for (MethodCallPO curPoint : pMeasure.getChildren())
         {
-            curPoint = pMeasure.getChild(i);
             addTimeWith(curPoint);
-            long tEndTime = curPoint.getEndMilliSeconds();
-            long tBeginTime = curPoint.getBeginMilliSeconds();
+            long tEndTime = curPoint.getEndTime();
+            long tBeginTime = curPoint.getBeginTime();
             tChildDuration = tChildDuration + (tEndTime - tBeginTime);
         }
         String tGroupName = pMeasure.getGroupName();
         Integer tDuration = mListOfGroup.get(tGroupName);
-        long tEndTime = pMeasure.getEndMilliSeconds();
-        long tBeginTime = pMeasure.getBeginMilliSeconds();
+        long tEndTime = pMeasure.getEndTime();
+        long tBeginTime = pMeasure.getBeginTime();
         int tLocalDuration = (int) (tEndTime - tBeginTime - tChildDuration);
         if (tDuration != null)
         { // On ajoute la dur�e en cours

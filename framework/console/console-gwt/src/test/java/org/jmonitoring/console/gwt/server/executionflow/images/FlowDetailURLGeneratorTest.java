@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import junit.framework.TestCase;
 
 import org.jfree.data.category.IntervalCategoryDataset;
-import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
@@ -43,7 +42,7 @@ public class FlowDetailURLGeneratorTest extends TestCase
     @Test
     public void testUGRGeneration()
     {
-        ExecutionFlowDTO tFlow = buildNewDto(2);
+        ExecutionFlowPO tFlow = buildNewDto(2);
 
         FlowChartBarUtil tUtil = new FlowChartBarUtil(mFormater, tFlow.getFirstMethodCall(), mColor, mChartManager);
         tUtil.chainAllMethodCallToMainTaskOfGroup(tFlow.getFirstMethodCall());
@@ -61,7 +60,7 @@ public class FlowDetailURLGeneratorTest extends TestCase
 
     }
 
-    public ExecutionFlowDTO buildNewDto(int pNbMethods)
+    public ExecutionFlowPO buildNewDto(int pNbMethods)
     {
         ExecutionFlowPO tFlow;
         MethodCallPO tPoint;
@@ -86,6 +85,6 @@ public class FlowDetailURLGeneratorTest extends TestCase
         tPoint.setEndTime(currentTime + 20);
         tPoint.setMethId(new MethodCallPK(tFlow, 1));
         tPoint.setFlow(tFlow);
-        return mDtoManager.getDeepCopy(tFlow);
+        return tFlow;
     }
 }

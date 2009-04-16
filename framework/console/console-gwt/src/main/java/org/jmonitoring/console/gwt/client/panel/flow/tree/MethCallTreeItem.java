@@ -1,8 +1,8 @@
 package org.jmonitoring.console.gwt.client.panel.flow.tree;
 
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.client.panel.PanelUtil;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -16,21 +16,26 @@ public class MethCallTreeItem extends TreeItem
 
     boolean mIsLoaded = false;
 
-    public MethCallTreeItem(Widget tWidget, MethodCallDTO pMeth)
+    public static MethCallTreeItem create(Widget pParent, MethodCallDTO pMeth)
     {
-        super(tWidget);
+        MethCallTreeItem tRoot = new MethCallTreeItem(pParent, pMeth);
+        MethCallTreeItem tMethCallTreeItem = new MethCallTreeItem(pMeth);
+        tMethCallTreeItem.setState(true);
+        tRoot.addItem(tMethCallTreeItem);
+        return tRoot;
+    }
+
+    public MethCallTreeItem(Widget pParent, MethodCallDTO pMeth)
+    {
+        super(pParent);
+
         mMethId = (pMeth == null ? -1 : pMeth.getPosition());
-        addSubItems(pMeth);
     }
 
     public MethCallTreeItem(MethodCallDTO pMeth)
     {
-        this(getWidget(pMeth), pMeth);
-    }
-
-    private static Widget getWidget(MethodCallDTO pMeth)
-    {
-        return new HTML(pMeth.getClassName() + "." + pMeth.getMethodName());
+        this(PanelUtil.createMethodCallPanel(pMeth), pMeth);
+        addSubItems(pMeth);
     }
 
     private void addSubItems(MethodCallDTO pMethodCallDTO)

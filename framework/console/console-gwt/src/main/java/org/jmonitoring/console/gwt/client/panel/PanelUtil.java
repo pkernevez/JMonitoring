@@ -1,12 +1,20 @@
 package org.jmonitoring.console.gwt.client.panel;
 
+import org.jmonitoring.console.gwt.client.JMonitoring;
+import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
+import org.jmonitoring.console.gwt.client.main.Controller;
+import org.jmonitoring.console.gwt.client.panel.methodcall.EditMethodCallPanel;
+
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /***********************************************************************************************************************
@@ -108,5 +116,39 @@ public class PanelUtil
             History.newItem(mUrl);
             History.fireCurrentHistoryState();
         }
+    }
+
+    public static Widget createExecutionFlowPanel(ExecutionFlowDTO pFlow, MethodCallDTO pCall)
+    {
+        HTML tResult =
+            new HTML("[" + pCall.getDuration() + "] " + pFlow.getJvmIdentifier() + " / " + pFlow.getThreadName()
+                + " : " + pCall.getGroupName() + " -> " + pCall.getClassName() + pCall.getMethodName() + "()");
+        tResult.addStyleName("treeRoot");
+        return tResult;
+    }
+
+    private static final String VIEW_EDIT_METH = "View detail...";
+
+    public static Widget createMethodCallPanel(MethodCallDTO pCall)
+    {
+        Panel tResult = new HorizontalPanel();
+        HTML curComp = new HTML("[" + pCall.getDurationFromPreviousCall() + "]");
+        curComp.addStyleName("treePrevDuration");
+        tResult.add(curComp);
+        curComp =
+            new HTML("[" + pCall.getDuration() + "] " + pCall.getGroupName() + " -> " + pCall.getClassName() + "."
+                + pCall.getMethodName());
+        tResult.add(curComp);
+        String tStatHistoryToken = Controller.createStatToken(pCall);
+        Image tStatImage =
+            PanelUtil.createClickImage(JMonitoring.getImageBundle().graphique(), EditMethodCallPanel.VIEW_STAT_METH,
+                                       tStatHistoryToken);
+        tResult.add(tStatImage);
+        String tEditHistoryToken = Controller.createEditMethToken(pCall);
+        Image tEditImage =
+            PanelUtil.createClickImage(JMonitoring.getImageBundle().edit(), VIEW_EDIT_METH, tEditHistoryToken);
+        tResult.add(tEditImage);
+        tResult.addStyleName("treeRoot");
+        return tResult;
     }
 }

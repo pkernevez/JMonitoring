@@ -2,6 +2,7 @@ package org.jmonitoring.console.gwt.client.main;
 
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 import org.jmonitoring.console.gwt.client.panel.flow.EditFlowPanel;
 import org.jmonitoring.console.gwt.client.panel.flow.SearchFlowPanel;
@@ -119,5 +120,20 @@ public class Controller implements HistoryListener
 
         };
         tService.load(pFlowId, tCallBack);
+    }
+
+    public static String createStatToken(MethodCallDTO pCall)
+    {
+        return Controller.HISTORY_STAT_METH + pCall.getFlowId() + "&" + pCall.getPosition();
+    }
+
+    public static String createEditMethShortToken(MethodCallDTO pMethod)
+    {
+        return Controller.HISTORY_EDIT_METH + pMethod.getFlowId() + "&";
+    }
+
+    public static String createEditMethToken(MethodCallDTO pMethod)
+    {
+        return Controller.HISTORY_EDIT_METH + pMethod.getFlowId() + "&" + pMethod.getPosition();
     }
 }

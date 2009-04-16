@@ -80,3 +80,18 @@ h1 {
 	background-color: #EEEEEE;
 	font-weight: bolder;
 }
+
+.treeRoot {
+	background-color: transparent;
+	color: #CC0000;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+.treePrevDuration {
+	background-color: transparent;
+	color: #219919;
+	font-style: italic;
+	font-size: 12px; 
+	text-decoration: none;
+}

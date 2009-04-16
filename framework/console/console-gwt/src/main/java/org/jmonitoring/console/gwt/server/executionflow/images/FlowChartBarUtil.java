@@ -35,14 +35,14 @@ import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
-import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MapAreaDTO;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
-import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +64,7 @@ public class FlowChartBarUtil
 
     private Map<String, TaskForGroupName> mListOfGroup = new HashMap<String, TaskForGroupName>();
 
-    private final MethodCallDTO mFirstMeasure;
+    private final MethodCallPO mFirstMeasure;
 
     private int mMaxMethodPerGroup;
 
@@ -72,7 +72,7 @@ public class FlowChartBarUtil
 
     private final ChartManager mChartManager;
 
-    public FlowChartBarUtil(FormaterBean pFormater, MethodCallDTO pFirstMeasure, ColorManager pColorManager,
+    public FlowChartBarUtil(FormaterBean pFormater, MethodCallPO pFirstMeasure, ColorManager pColorManager,
         ChartManager pChartManager)
     {
         super();
@@ -90,22 +90,22 @@ public class FlowChartBarUtil
      * @param pFirstMeasure The root of the Tree of <code>MethodCallDTO</code> to use for the image generation.
      * @param pForm TODO
      */
-    public static void writeImageIntoSession(FormaterBean pFormater, ColorManager pColorManager, HttpSession pSession,
-        FullExecutionFlowDTO pFullFlow, ChartManager pChartManager)
+    public static MapDto writeImageIntoSession(FormaterBean pFormater, ColorManager pColorManager,
+        HttpSession pSession, ExecutionFlowPO pFlow, ChartManager pChartManager)
     {
         FlowChartBarUtil tUtil =
-            new FlowChartBarUtil(pFormater, pFullFlow.getFlow().getFirstMethodCall(), pColorManager, pChartManager);
-        tUtil.fillChart(pSession, pFullFlow);
+            new FlowChartBarUtil(pFormater, pFlow.getFirstMethodCall(), pColorManager, pChartManager);
+        return tUtil.fillChart(pSession, pFlow);
     }
 
-    private void fillChart(HttpSession pSession, FullExecutionFlowDTO pFullFlow)
+    private MapDto fillChart(HttpSession pSession, ExecutionFlowPO pFullFlow)
     {
         chainAllMethodCallToMainTaskOfGroup(mFirstMeasure);
         IntervalCategoryDataset intervalcategorydataset = createDataset();
         JFreeChart jfreechart = createGanttChart(intervalcategorydataset);
         jfreechart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(LABEL_WIDTH_RATIO);
 
-        addChartToSession(jfreechart, pSession, ExecutionFlowService.CHART_BAR_FLOWS, pFullFlow);
+        return addChartToSession(jfreechart, pSession, ExecutionFlowService.CHART_BAR_FLOWS, pFullFlow);
     }
 
     /**
@@ -126,28 +126,26 @@ public class FlowChartBarUtil
 
     }
 
-    public void chainAllMethodCallToMainTaskOfGroup(MethodCallDTO pCurMeasure)
+    public void chainAllMethodCallToMainTaskOfGroup(MethodCallPO pCurMeasure)
     {
         String tGroupName = pCurMeasure.getGroupName();
         TaskForGroupName tTask = getTaskForGroupName(pCurMeasure, tGroupName);
 
         // List tListOfClidren = pCurMeasure.getChildren();
         Date tBeginDate;
-        Date tEndDate = new Date(pCurMeasure.getBeginMilliSeconds());
-        MethodCallDTO curChild;
-        for (int i = 0; i < pCurMeasure.getChildren().length; i++)
+        Date tEndDate = new Date(pCurMeasure.getBeginTime());
+        for (MethodCallPO curChild : pCurMeasure.getChildren())
         {
-            curChild = pCurMeasure.getChild(i);
             tBeginDate = tEndDate;
-            tEndDate = new Date(curChild.getBeginMilliSeconds());
-            addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
+            tEndDate = new Date(curChild.getBeginTime());
+            addSubTask(tTask, pCurMeasure.getFlow().getId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
             chainAllMethodCallToMainTaskOfGroup(curChild);
-            tEndDate = new Date(curChild.getEndMilliSeconds());
+            tEndDate = new Date(curChild.getEndTime());
         }
 
         tBeginDate = tEndDate;
-        tEndDate = new Date(pCurMeasure.getEndMilliSeconds());
-        addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
+        tEndDate = new Date(pCurMeasure.getEndTime());
+        addSubTask(tTask, pCurMeasure.getFlow().getId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
     }
 
     private void addSubTask(TaskForGroupName pTaskForTheGroupName, int pFlowId, int pMethodCallId, Date pBeginDate,
@@ -161,7 +159,7 @@ public class FlowChartBarUtil
                                                                                                  tNewEndDate)));
     }
 
-    private TaskForGroupName getTaskForGroupName(MethodCallDTO pCurMeasure, String pGroupName)
+    private TaskForGroupName getTaskForGroupName(MethodCallPO pCurMeasure, String pGroupName)
     {
         TaskForGroupName tTaskEntry = mListOfGroup.get(pGroupName);
         if (tTaskEntry == null)
@@ -169,8 +167,8 @@ public class FlowChartBarUtil
             tTaskEntry = new TaskForGroupName();
             tTaskEntry.mPositionOfTheGroup = mChartManager.getPosition(pGroupName);
             tTaskEntry.mMainTaskOfGroup =
-                new Task(pGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginMilliSeconds()),
-                                                          new Date(pCurMeasure.getEndMilliSeconds())));
+                new Task(pGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginTime()),
+                                                          new Date(pCurMeasure.getEndTime())));
             tTaskEntry.mGroupName = pGroupName;
             mListOfGroup.put(pGroupName, tTaskEntry);
         }
@@ -185,7 +183,7 @@ public class FlowChartBarUtil
      * @param pName Name of the session attribute.
      * @param pForm TODO
      */
-    private void addChartToSession(JFreeChart pChart, HttpSession pSession, String pName, FullExecutionFlowDTO pFullFlow)
+    private MapDto addChartToSession(JFreeChart pChart, HttpSession pSession, String pName, ExecutionFlowPO pFullFlow)
     {
         Plot tPlot = pChart.getPlot();
         // tPlot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -202,14 +200,14 @@ public class FlowChartBarUtil
             PrintWriter tWriter = new PrintWriter(tMapStream);
             ChartUtilities.writeImageMap(tWriter, "ChartBar", tChartRenderingInfo);
             tWriter.flush();
-            pFullFlow.setImageMap(parseMap(tMapStream.toString()));
+            pSession.setAttribute(pName, tStream.toByteArray());
+
+            sLog.debug("Image " + pName + " add to session");
+            return parseMap(tMapStream.toString());
         } catch (IOException e)
         {
             throw new MeasureException("Unable to write Image", e);
         }
-        pSession.setAttribute(pName, tStream.toByteArray());
-
-        sLog.debug("Image " + pName + " add to session");
     }
 
     static MapDto parseMap(String pMap)
@@ -329,7 +327,7 @@ public class FlowChartBarUtil
         mMaxMethodPerGroup = tMaxMethodPerGroup;
     }
 
-    private void getResursiveStatOfThisMethodCall(MethodCallDTO pCurrentMeasure, Map<String, Integer> pMapOfGroup)
+    private void getResursiveStatOfThisMethodCall(MethodCallPO pCurrentMeasure, Map<String, Integer> pMapOfGroup)
     {
         String tCurGroupName = pCurrentMeasure.getGroupName();
         Integer tCurrentNbOfMeth = pMapOfGroup.get(tCurGroupName);
@@ -340,7 +338,7 @@ public class FlowChartBarUtil
         {
             pMapOfGroup.put(tCurGroupName, tCurrentNbOfMeth + 1);
         }
-        for (int i = 0; i < pCurrentMeasure.getChildren().length; i++)
+        for (int i = 0; i < pCurrentMeasure.getChildren().size(); i++)
         {
             getResursiveStatOfThisMethodCall(pCurrentMeasure.getChild(i), pMapOfGroup);
         }

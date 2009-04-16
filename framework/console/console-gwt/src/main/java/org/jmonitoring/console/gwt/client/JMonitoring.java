@@ -30,6 +30,8 @@ public class JMonitoring implements EntryPoint
 
     private DockPanel mMain;
 
+    private static JMonitoring sEntry;
+
     public static String SERVICE_URL = "../ExecutionFlow";
 
     /**
@@ -37,6 +39,7 @@ public class JMonitoring implements EntryPoint
      */
     public void onModuleLoad()
     {
+        sEntry = this;
         History.addHistoryListener(new Controller(this));
         mBundle = GWT.create(ConsoleImageBundle.class);
 
@@ -75,9 +78,9 @@ public class JMonitoring implements EntryPoint
         return mContent.getWidget();
     }
 
-    public ConsoleImageBundle getImageBundle()
+    public static ConsoleImageBundle getImageBundle()
     {
-        return mBundle;
+        return sEntry.mBundle;
     }
 
 }

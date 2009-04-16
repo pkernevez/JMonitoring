@@ -10,17 +10,20 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
+import org.jmonitoring.console.gwt.client.dto.MapDto;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.ConsoleManager;
+import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.ChartManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowChartBarUtil;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowUtil;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.SessionHolder;
@@ -69,7 +72,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             before();
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
             // Optimisation start to load the full flow from db in one read
-            tMgr.readFullExecutionFlow(pFlowId);
+            tMgr.readExecutionFlow(pFlowId);
             return tMgr.getListOfMethodCall(pFlowId, pMethIDs);
         } finally
         {
@@ -83,17 +86,21 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
         {
             before();
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
-            ExecutionFlowDTO tReadFullExecutionFlow = tMgr.readFullExecutionFlow(pFlowId);
-            FullExecutionFlowDTO tResult = new FullExecutionFlowDTO(tReadFullExecutionFlow);
+            DtoManager tDtoMgr = (DtoManager) SpringConfigurationUtil.getBean("dtoManager");
+            sLog.debug("Read flow from database, Id=[" + pFlowId + "]");
+            ExecutionFlowPO tFlowPo = tMgr.readExecutionFlow(pFlowId);
+            ExecutionFlowDTO tReadFullExecutionFlow = tDtoMgr.getLimitedCopy(tFlowPo);
 
+            FullExecutionFlowDTO tResult = new FullExecutionFlowDTO(tReadFullExecutionFlow);
             FormaterBean tFormater = (FormaterBean) SpringConfigurationUtil.getBean("formater");
             ColorManager tColor = (ColorManager) SpringConfigurationUtil.getBean("color");
             ChartManager tChartManager = (ChartManager) SpringConfigurationUtil.getBean("chartManager");
             HttpSession tSession = getThreadLocalRequest().getSession();
-            FlowChartBarUtil.writeImageIntoSession(tFormater, tColor, tSession, tResult, tChartManager);
+            MapDto tMap = FlowChartBarUtil.writeImageIntoSession(tFormater, tColor, tSession, tFlowPo, tChartManager);
+            tResult.setImageMap(tMap);
             sLog.debug("add GantBarChart into HttpSession");
             FlowUtil tUtil = new FlowUtil(tColor, tFormater);
-            tUtil.writeImageIntoSession(tSession, tReadFullExecutionFlow.getFirstMethodCall());
+            tUtil.writeImageIntoSession(tSession, tFlowPo.getFirstMethodCall());
             sLog.debug("add PieCharts into HttpSession");
 
             return tResult;

@@ -27,7 +27,8 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Tree;
@@ -50,9 +51,9 @@ public class EditFlowPanel extends VerticalPanel
         tPanel.add(createTitle("Flow Edition"));
 
         HorizontalPanel tLine = new HorizontalPanel();
-        tLine.add(PanelUtil.createClickImage(mMain.getImageBundle().delete(), "Delete this flow",
+        tLine.add(PanelUtil.createClickImage(JMonitoring.getImageBundle().delete(), "Delete this flow",
                                              Controller.HISTORY_DELETE_FLOW + pFlow.getFlow().getId()));
-        tLine.add(PanelUtil.createClickImage(mMain.getImageBundle().xml(), "Export this flow to Xml/gzip",
+        tLine.add(PanelUtil.createClickImage(JMonitoring.getImageBundle().xml(), "Export this flow to Xml/gzip",
                                              Controller.HISTORY_DELETE_FLOW + pFlow.getFlow().getId()));
         tPanel.add(tLine);
 
@@ -83,17 +84,16 @@ public class EditFlowPanel extends VerticalPanel
         tFlowPanel.add(addImage(ExecutionFlowService.NB_CALL_TO_GROUP));
         tFlexTable.setWidget(4, 0, tFlowPanel);
         tFlexTable.getFlexCellFormatter().setColSpan(4, 0, 4);
-
+        tFlexTable.getFlexCellFormatter().setAlignment(4, 0, HasHorizontalAlignment.ALIGN_CENTER,
+                                                       HasVerticalAlignment.ALIGN_MIDDLE);
         Image tImage = addImage(ExecutionFlowService.CHART_BAR_FLOWS);
         tMap.bindImage(tImage);
         tFlexTable.setWidget(5, 0, tImage);
         tFlexTable.getFlexCellFormatter().setColSpan(5, 0, 4);
 
         tLine = new HorizontalPanel();
-        tLine.add(new HTML("[" + tFirstMethodCall.getDuration() + "] " + tFlow.getJvmIdentifier() + " / "
-            + tFlow.getThreadName() + " : " + tFirstMethodCall.getGroupName() + " -> "
-            + tFirstMethodCall.getClassName() + tFirstMethodCall.getMethodName() + "()"));
-        MethCallTreeItem tRoot = new MethCallTreeItem(tLine, tFirstMethodCall);
+        tLine.add(PanelUtil.createExecutionFlowPanel(tFlow, tFirstMethodCall));
+        MethCallTreeItem tRoot = MethCallTreeItem.create(tLine, tFirstMethodCall);
         tRoot.setLoaded(true);
         tRoot.setState(true);
         Tree tTree = new ExecFlowTree(tFlow.getId());
