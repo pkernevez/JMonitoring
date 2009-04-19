@@ -7,18 +7,16 @@ import java.util.List;
 import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.main.Controller;
+import org.jmonitoring.console.gwt.client.main.DefaultCallBack;
 import org.jmonitoring.console.gwt.client.panel.PanelUtil;
-import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
 import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -44,17 +42,16 @@ public class SearchFlowPanel extends VerticalPanel
 
     private final TextBox mFirstMeasureMethodName = new TextBox();
 
-    private final JMonitoring mMain;
-
     private Image mImage;
 
     private final VerticalPanel mCriteria = new VerticalPanel();
 
     private final SimplePanel mResult = new SimplePanel();
 
-    public SearchFlowPanel(JMonitoring pMain)
+    private Panel mMessage;
+
+    public SearchFlowPanel()
     {
-        mMain = pMain;
         addMask();
         add(mCriteria);
         add(mResult);
@@ -63,29 +60,34 @@ public class SearchFlowPanel extends VerticalPanel
     private void addMask()
     {
         FlexTable tTable = new FlexTable();
-        tTable.setWidget(0, 0, createTitle("Search Flows"));
+        int curLine = 0;
+        mMessage = new SimplePanel();
+        tTable.setWidget(curLine, 0, mMessage);
         tTable.getFlexCellFormatter().setColSpan(0, 0, 4);
 
-        tTable.setWidget(1, 0, createLabel("Server"));
-        tTable.setWidget(1, 1, mServer);
+        tTable.setWidget(++curLine, 0, createTitle("Search Flows"));
+        tTable.getFlexCellFormatter().setColSpan(0, 0, 4);
 
-        tTable.setWidget(2, 0, createLabel("Thread name"));
-        tTable.setWidget(2, 1, mThreadName);
-        tTable.setWidget(2, 2, createLabel("Minimum Duration"));
-        tTable.setWidget(2, 3, mMinimumDuration);
+        tTable.setWidget(++curLine, 0, createLabel("Server"));
+        tTable.setWidget(curLine, 1, mServer);
 
-        tTable.setWidget(3, 0, createLabel("Group name"));
-        tTable.setWidget(3, 1, mGroupName);
-        tTable.setWidget(3, 2, createLabel("Begin date (dd/MM/yy)"));
-        tTable.setWidget(3, 3, mBeginDate);
+        tTable.setWidget(++curLine, 0, createLabel("Thread name"));
+        tTable.setWidget(curLine, 1, mThreadName);
+        tTable.setWidget(curLine, 2, createLabel("Minimum Duration"));
+        tTable.setWidget(curLine, 3, mMinimumDuration);
 
-        tTable.setWidget(4, 0, createLabel("First measure class name"));
-        tTable.setWidget(4, 1, mFirstMesureClassName);
-        tTable.setWidget(4, 2, createLabel("First measure method name"));
-        tTable.setWidget(4, 3, mFirstMeasureMethodName);
+        tTable.setWidget(++curLine, 0, createLabel("Group name"));
+        tTable.setWidget(curLine, 1, mGroupName);
+        tTable.setWidget(curLine, 2, createLabel("Begin date (dd/MM/yy)"));
+        tTable.setWidget(curLine, 3, mBeginDate);
 
-        mImage = PanelUtil.createClickImage(mMain.getImageBundle().ok(), "Search flows", mSearchClickListener);
-        tTable.setWidget(5, 0, mImage);
+        tTable.setWidget(++curLine, 0, createLabel("First measure class name"));
+        tTable.setWidget(curLine, 1, mFirstMesureClassName);
+        tTable.setWidget(curLine, 2, createLabel("First measure method name"));
+        tTable.setWidget(curLine, 3, mFirstMeasureMethodName);
+
+        mImage = PanelUtil.createClickImage(JMonitoring.getImageBundle().ok(), "Search flows", mSearchClickListener);
+        tTable.setWidget(++curLine, 0, mImage);
         mCriteria.add(tTable);
     }
 
@@ -97,27 +99,18 @@ public class SearchFlowPanel extends VerticalPanel
         }
     };
 
-    protected void callSearch()
+    public void callSearch()
     {
-        ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
-        ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
-        tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
-        AsyncCallback<List<ExecutionFlowDTO>> tCallBack = new AsyncCallback<List<ExecutionFlowDTO>>()
+        ExecutionFlowServiceAsync tService = Controller.getService();
+        mResult.clear();
+        clearMsg();
+        tService.search(getCriteria(), new DefaultCallBack<List<ExecutionFlowDTO>>()
         {
-            public void onFailure(Throwable e)
-            {
-                GWT.log("Error", e);
-                mResult.clear();
-                mResult.add(new HTML("<h2 class=\"error\">Unexpected error on server</h2>" + e.getMessage()));
-            }
-
             public void onSuccess(List<ExecutionFlowDTO> pList)
             {
                 bind(pList);
             }
-
-        };
-        tService.search(getCriteria(), tCallBack);
+        });
 
     }
 
@@ -164,4 +157,13 @@ public class SearchFlowPanel extends VerticalPanel
         mResult.add(tTable);
     }
 
+    private void clearMsg()
+    {
+        mMessage.clear();
+    }
+
+    public void setInfoMsg(String pMsg)
+    {
+        mMessage.add(new HTML("<div class=\"info\">" + pMsg + "</div>"));
+    }
 }

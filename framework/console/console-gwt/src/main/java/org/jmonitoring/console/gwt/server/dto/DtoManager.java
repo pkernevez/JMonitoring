@@ -60,6 +60,13 @@ public class DtoManager
         return tResult;
     }
 
+    public ExecutionFlowDTO getFullCopy(ExecutionFlowPO pFlowPO)
+    {
+        ExecutionFlowDTO tResult = getSimpleCopy(pFlowPO);
+        tResult.setFirstMethodCall(getMethodCallDto(pFlowPO.getFirstMethodCall(), tResult, 0, -1));
+        return tResult;
+    }
+
     public ExecutionFlowPO getDeepCopy(ExecutionFlowDTO pFlowDto)
     {
         ExecutionFlowPO tResult = getSimpleCopy(pFlowDto);
@@ -129,7 +136,7 @@ public class DtoManager
         MethodCallDTO curChildDto;
         MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
         int i = 0;
-        if (pRemainingLevel > 0)
+        if (pRemainingLevel != 0)
         {
             for (MethodCallPO curMethod : pCallPO.getChildren())
             {

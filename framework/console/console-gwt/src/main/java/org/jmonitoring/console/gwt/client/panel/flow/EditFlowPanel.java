@@ -12,6 +12,7 @@ import org.jmonitoring.console.gwt.client.dto.MapAreaDTO;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.main.Controller;
+import org.jmonitoring.console.gwt.client.main.DefaultCallBack;
 import org.jmonitoring.console.gwt.client.panel.PanelUtil;
 import org.jmonitoring.console.gwt.client.panel.flow.image.AreaWidget;
 import org.jmonitoring.console.gwt.client.panel.flow.image.MapWidget;
@@ -21,10 +22,10 @@ import org.jmonitoring.console.gwt.client.panel.flow.tree.MethCallTreeItem;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -35,6 +36,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.TreeListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -42,19 +44,55 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class EditFlowPanel extends VerticalPanel
 {
-    private final JMonitoring mMain;
+    private final FullExecutionFlowDTO mFlow;
 
-    public EditFlowPanel(JMonitoring pMain, FullExecutionFlowDTO pFlow)
+    private final ClickListener mDeleteListener = new ClickListener()
     {
-        mMain = pMain;
+        public void onClick(Widget pWidget)
+        {
+            if (Window.confirm("Delete this flow ?"))
+            {
+                ExecutionFlowServiceAsync tService = Controller.getService();
+                tService.delete(mFlow.getFlow().getId(), new DefaultCallBack<Void>()
+                {
+                    public void onSuccess(Void pArg0)
+                    {
+                        Controller.returnToSearch("Flow has been deleted...");
+                    }
+                });
+            }
+        }
+    };
+
+    private final ClickListener mExportListener = new ClickListener()
+    {
+        public void onClick(Widget pWidget)
+        {
+            Window.Location.assign("../ExportXml?id=" + mFlow.getFlow().getId());
+            // XMLHTTPReques
+            // ExecutionFlowServiceAsync tService = Controller.getService();
+            // tService.delete(mFlow.getFlow().getId(), new DefaultCallBack<Void>()
+            // {
+            // public void onSuccess(Void pArg0)
+            // {
+            // Controller.returnToSearch("Flow has been deleted...");
+            // }
+            // });
+        }
+    };
+
+    public EditFlowPanel(FullExecutionFlowDTO pFlow)
+    {
+        mFlow = pFlow;
         VerticalPanel tPanel = new VerticalPanel();
         tPanel.add(createTitle("Flow Edition"));
 
         HorizontalPanel tLine = new HorizontalPanel();
-        tLine.add(PanelUtil.createClickImage(JMonitoring.getImageBundle().delete(), "Delete this flow",
-                                             Controller.HISTORY_DELETE_FLOW + pFlow.getFlow().getId()));
+        tLine
+             .add(PanelUtil
+                           .createClickImage(JMonitoring.getImageBundle().delete(), "Delete this flow", mDeleteListener));
         tLine.add(PanelUtil.createClickImage(JMonitoring.getImageBundle().xml(), "Export this flow to Xml/gzip",
-                                             Controller.HISTORY_DELETE_FLOW + pFlow.getFlow().getId()));
+                                             mExportListener));
         tPanel.add(tLine);
 
         FlexTable tFlexTable = new FlexTable();
@@ -176,9 +214,7 @@ public class EditFlowPanel extends VerticalPanel
         {
             if (pList.size() > 0)
             {
-                ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
-                ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
-                tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
+                ExecutionFlowServiceAsync tService = Controller.getService();
                 int tFlowId = ((ExecFlowTree) pTreeitem.getTree()).getFlowId();
                 tService.load(tFlowId, pList, new AsynchroneLoad((MethCallTreeItem) pTreeitem));
             }

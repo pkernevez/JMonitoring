@@ -5,26 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import org.jmonitoring.console.gwt.client.main.DefaultCallBack;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class AsynchroneLoad implements AsyncCallback<Map<Integer, MethodCallDTO>>
+public class AsynchroneLoad extends DefaultCallBack<Map<Integer, MethodCallDTO>>
 {
     private final MethCallTreeItem mParent;
 
     public AsynchroneLoad(MethCallTreeItem pParent)
     {
         mParent = pParent;
-    }
-
-    public void onFailure(Throwable e)
-    {
-        GWT.log("Error", e);
     }
 
     public void onSuccess(Map<Integer, MethodCallDTO> pMap)

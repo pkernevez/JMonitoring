@@ -196,15 +196,16 @@ public class ConsoleManager
      * @param pFlow The flow to serialize.
      * @return The bytes of a GZip.
      */
-    public byte[] convertFlowToXml(ExecutionFlowDTO pFlow)
+    public byte[] convertFlowToXml(ExecutionFlowPO pFlow)
     {
         ByteArrayOutputStream tOutput = new ByteArrayOutputStream(10000);
+        ExecutionFlowDTO tFlow = dtoManager.getFullCopy(pFlow);
         GZIPOutputStream tZipStream;
         try
         {
             tZipStream = new GZIPOutputStream(tOutput);
             XMLEncoder tEncoder = new XMLEncoder(tZipStream);
-            tEncoder.writeObject(pFlow);
+            tEncoder.writeObject(tFlow);
             tEncoder.close();
             return tOutput.toByteArray();
         } catch (IOException e)

@@ -40,7 +40,7 @@ public class JMonitoring implements EntryPoint
     public void onModuleLoad()
     {
         sEntry = this;
-        History.addHistoryListener(new Controller(this));
+        History.addHistoryListener(new Controller());
         mBundle = GWT.create(ConsoleImageBundle.class);
 
         mMain = new DockPanel();
@@ -67,15 +67,15 @@ public class JMonitoring implements EntryPoint
         History.fireCurrentHistoryState();
     }
 
-    public void setContentMain(Widget pWidget)
+    public static void setContentMain(Widget pWidget)
     {
-        mContent.clear();
-        mContent.add(pWidget);
+        sEntry.mContent.clear();
+        sEntry.mContent.add(pWidget);
     }
 
-    public Widget getContentMain()
+    public static Widget getContentMain()
     {
-        return mContent.getWidget();
+        return sEntry.mContent.getWidget();
     }
 
     public static ConsoleImageBundle getImageBundle()

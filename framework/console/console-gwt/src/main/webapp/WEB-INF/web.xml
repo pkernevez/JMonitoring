@@ -13,6 +13,10 @@
         <servlet-name>DynamicImage</servlet-name>
         <servlet-class>org.jmonitoring.console.gwt.server.executionflow.images.DynamicImageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExportXml</servlet-name>
+        <servlet-class>org.jmonitoring.console.gwt.server.servlet.FlowExportServlet</servlet-class>
+    </servlet>
 
     <!-- Standard Action Servlet Mapping -->
     <servlet-mapping>
@@ -22,6 +26,10 @@
     <servlet-mapping>
         <servlet-name>DynamicImage</servlet-name>
         <url-pattern>/DynamicImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExportXml</servlet-name>
+        <url-pattern>/ExportXml</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

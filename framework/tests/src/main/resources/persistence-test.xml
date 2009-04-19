@@ -53,12 +53,8 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-    <!-- bean id="hibernateMappings" class="java.util.ArrayList">
-        <constructor-arg type="java.util.Collection">
-            <list>
-                <value>org/jmonitoring/core/domain/ExecutionFlowPO.hbm.xml</value>
-                <value>org/jmonitoring/core/domain/MethodCallPO.hbm.xml</value>
-            </list>
-        </constructor-arg>
-    </bean-->
+    <bean id="hibernateConfiguration" 
+       factory-bean="&amp;sessionFactory" 
+       factory-method="getConfiguration" />
+
 </beans>

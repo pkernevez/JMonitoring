@@ -7,6 +7,7 @@ import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.ClientUnknowFlowException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -27,6 +28,8 @@ public interface ExecutionFlowService extends RemoteService
     public List<ExecutionFlowDTO> search(SearchCriteria pCriteria);
 
     public Map<Integer, MethodCallDTO> load(int pFlowId, List<Integer> pMethID);
+
+    public void delete(int pFlowId) throws ClientUnknowFlowException;
 
     public FullExecutionFlowDTO load(int pFlowId);
 

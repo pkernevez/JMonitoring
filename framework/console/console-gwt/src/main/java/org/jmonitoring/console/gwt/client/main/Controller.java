@@ -11,6 +11,7 @@ import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -38,11 +39,11 @@ public class Controller implements HistoryListener
 
     private SearchFlowPanel mLastSearch;
 
-    private final JMonitoring mMain;
+    private static Controller sController;
 
-    public Controller(JMonitoring pMain)
+    public Controller()
     {
-        mMain = pMain;
+        sController = this;
     }
 
     public void onHistoryChanged(String pHisoryToken)
@@ -61,34 +62,26 @@ public class Controller implements HistoryListener
         {
             if (mLastSearch == null)
             {
-                mLastSearch = new SearchFlowPanel(mMain);
+                mLastSearch = new SearchFlowPanel();
             }
-            mMain.setContentMain(mLastSearch);
+            JMonitoring.setContentMain(mLastSearch);
         } else if (HISTORY_HOME.equals(pHisoryToken) || pHisoryToken.length() == 0)
         {
-            mMain.setContentMain(new SimplePanel());
+            JMonitoring.setContentMain(new SimplePanel());
         } else
         {
-            mMain.setContentMain(new HTML("Unknown panel..."));
+            JMonitoring.setContentMain(new HTML("Unknown panel..."));
         }
     }
 
     private void navigateEditMethodCall(int pFlowId, int pMethPosition)
     {
-        ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
-        ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
-        tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
-        AsyncCallback<RootMethodCallDTO> tCallBack = new AsyncCallback<RootMethodCallDTO>()
+        ExecutionFlowServiceAsync tService = getService();
+        AsyncCallback<RootMethodCallDTO> tCallBack = new DefaultCallBack<RootMethodCallDTO>()
         {
-            public void onFailure(Throwable e)
-            {
-                GWT.log("Error", e);
-                mMain.setContentMain(new HTML("<h2 class=\"error\">Unexpected error on server</h2>"));
-            }
-
             public void onSuccess(RootMethodCallDTO pMeth)
             {
-                mMain.setContentMain(new EditMethodCallPanel(mMain, pMeth));
+                JMonitoring.setContentMain(new EditMethodCallPanel(pMeth));
             }
 
         };
@@ -97,25 +90,18 @@ public class Controller implements HistoryListener
 
     private void navigateEditFlow(int pFlowId)
     {
-        ExecutionFlowServiceAsync tService = GWT.create(ExecutionFlowService.class);
-        ServiceDefTarget tEndpoint = (ServiceDefTarget) tService;
-        tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
-        AsyncCallback<FullExecutionFlowDTO> tCallBack = new AsyncCallback<FullExecutionFlowDTO>()
+        ExecutionFlowServiceAsync tService = getService();
+        AsyncCallback<FullExecutionFlowDTO> tCallBack = new DefaultCallBack<FullExecutionFlowDTO>()
         {
-            public void onFailure(Throwable e)
-            {
-                GWT.log("Error", e);
-                mMain.setContentMain(new HTML("<h2 class=\"error\">Unexpected error on server</h2>"));
-            }
 
             public void onSuccess(FullExecutionFlowDTO pFlow)
             {
-                Widget tWidget = mMain.getContentMain();
+                Widget tWidget = JMonitoring.getContentMain();
                 if (tWidget instanceof SearchFlowPanel)
                 {
                     mLastSearch = (SearchFlowPanel) tWidget;
                 }
-                mMain.setContentMain(new EditFlowPanel(mMain, pFlow));
+                JMonitoring.setContentMain(new EditFlowPanel(pFlow));
             }
 
         };
@@ -135,5 +121,35 @@ public class Controller implements HistoryListener
     public static String createEditMethToken(MethodCallDTO pMethod)
     {
         return Controller.HISTORY_EDIT_METH + pMethod.getFlowId() + "&" + pMethod.getPosition();
+    }
+
+    /**
+     * Show search panel and refresh it content.
+     * 
+     * @param pMessage
+     */
+    public static void returnToSearch(String pMessage)
+    {
+        if (sController.mLastSearch == null)
+        {
+            sController.mLastSearch = new SearchFlowPanel();
+        }
+        History.newItem(HISTORY_SEARCH);
+        JMonitoring.setContentMain(sController.mLastSearch);
+        sController.mLastSearch.callSearch();
+        sController.mLastSearch.setInfoMsg(pMessage);
+    }
+
+    private static ExecutionFlowServiceAsync sService;
+
+    public static ExecutionFlowServiceAsync getService()
+    {
+        if (sService == null)
+        {
+            sService = GWT.create(ExecutionFlowService.class);
+            ServiceDefTarget tEndpoint = (ServiceDefTarget) sService;
+            tEndpoint.setServiceEntryPoint(JMonitoring.SERVICE_URL);
+        }
+        return sService;
     }
 }

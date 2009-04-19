@@ -12,9 +12,9 @@ import javax.annotation.Resource;
 
 import junit.framework.TestCase;
 
-import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
@@ -39,73 +39,54 @@ public class FlowUtilTest extends TestCase implements ApplicationContextAware
 
     public static final long START_TIME = 1149282668046L;
 
-    MethodCallDTO getSampleMeasurePoint()
+    MethodCallPO getSampleMeasurePoint()
     {
-        MethodCallDTO tPoint;
+        MethodCallPO tPoint;
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);
-        tPoint = new MethodCallDTO();
-        tPoint.setParent(null);
+        tPoint = new MethodCallPO();
         tPoint.setClassName(FlowUtilTest.class.getName());
         tPoint.setMethodName("builNewFullFlow");
         tPoint.setGroupName("GrDefault");
         tPoint.setParams("[]");
-        tPoint.setBeginMilliSeconds(tRefDate.getTime());
-        tPoint.setBeginTimeString(mFormater.formatDateTime(tRefDate));
-        tPoint.setEndMilliSeconds(tRefDate.getTime() + 106);
-        tPoint.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
-        MethodCallDTO[] tChildren1 = new MethodCallDTO[2];
-        MethodCallDTO[] tChildren2 = new MethodCallDTO[2];
+        tPoint.setBeginTime(tRefDate.getTime());
+        tPoint.setEndTime(tRefDate.getTime() + 106);
 
-        MethodCallDTO tChild1 = new MethodCallDTO();
-        tChild1.setParent(tPoint);
-        tChildren1[0] = tChild1;
+        MethodCallPO tChild1 = new MethodCallPO();
+        tChild1.setParentMethodCall(tPoint);
         tChild1.setClassName(FlowUtilTest.class.getName());
         tChild1.setMethodName("builNewFullFlow2");
         tChild1.setGroupName("GrChild1");
         tChild1.setParams("[]");
-        tChild1.setBeginMilliSeconds(tRefDate.getTime() + 2);
-        tChild1.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
-        tChild1.setEndMilliSeconds(tRefDate.getTime() + 45);
-        tChild1.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
+        tChild1.setBeginTime(tRefDate.getTime() + 2);
+        tChild1.setEndTime(tRefDate.getTime() + 45);
 
-        MethodCallDTO tChild3 = new MethodCallDTO();
-        tChild3.setParent(tChild1);
-        tChildren2[0] = tChild3;
+        MethodCallPO tChild3 = new MethodCallPO();
+        tChild3.setParentMethodCall(tChild1);
         tChild3.setClassName(FlowUtilTest.class.getName());
         tChild3.setMethodName("builNewFullFlow4");
         tChild3.setGroupName("GrChild2");
         tChild3.setParams("[]");
-        tChild3.setBeginMilliSeconds(tRefDate.getTime() + 5);
-        tChild3.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 5)));
-        tChild3.setEndMilliSeconds(tRefDate.getTime() + 17);
-        tChild3.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 17)));
+        tChild3.setBeginTime(tRefDate.getTime() + 5);
+        tChild3.setEndTime(tRefDate.getTime() + 17);
 
-        MethodCallDTO tChild4 = new MethodCallDTO();
-        tChild4.setParent(tChild1);
-        tChildren2[1] = tChild4;
+        MethodCallPO tChild4 = new MethodCallPO();
+        tChild4.setParentMethodCall(tChild1);
         tChild4.setClassName(FlowUtilTest.class.getName());
         tChild4.setMethodName("builNewFullFlow4");
         tChild4.setGroupName("GrDefault");
         tChild4.setParams("[]");
-        tChild4.setBeginMilliSeconds(tRefDate.getTime() + 23);
-        tChild4.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 23)));
-        tChild4.setEndMilliSeconds(tRefDate.getTime() + 27);
-        tChild4.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 27)));
-        tChild1.setChildren(tChildren2);
+        tChild4.setBeginTime(tRefDate.getTime() + 23);
+        tChild4.setEndTime(tRefDate.getTime() + 27);
 
-        MethodCallDTO tChild2 = new MethodCallDTO();
-        tChild2.setParent(tPoint);
-        tChildren1[1] = tChild2;
+        MethodCallPO tChild2 = new MethodCallPO();
+        tChild2.setParentMethodCall(tPoint);
         tChild2.setClassName(FlowUtilTest.class.getName());
         tChild2.setMethodName("builNewFullFlow3");
         tChild2.setGroupName("GrChild2");
         tChild2.setParams("[]");
-        tChild2.setBeginMilliSeconds(tRefDate.getTime() + 48);
-        tChild2.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
-        tChild2.setEndMilliSeconds(tRefDate.getTime() + 75);
-        tChild2.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 75)));
-        tPoint.setChildren(tChildren1);
+        tChild2.setBeginTime(tRefDate.getTime() + 48);
+        tChild2.setEndTime(tRefDate.getTime() + 75);
 
         return tPoint;
     }

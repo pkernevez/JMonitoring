@@ -3,11 +3,12 @@ package org.jmonitoring.console.gwt.server.executionflow;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.jmonitoring.console.gwt.client.dto.ClientUnknowFlowException;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
@@ -20,6 +21,7 @@ import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.ChartManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowChartBarUtil;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowUtil;
+import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
@@ -37,31 +39,22 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements ExecutionFlowService
 {
-
-    private final ThreadLocal<Transaction> mTransaction = new ThreadLocal<Transaction>();
+    private static final long serialVersionUID = -331539104207957626L;
 
     private SessionFactory mSessionFactory;
 
     private final Logger sLog = LoggerFactory.getLogger(ExecutionFlowServiceImpl.class);
 
-    void before()
-    {
-        mSessionFactory = (SessionFactory) SpringConfigurationUtil.getBean("sessionFactory");
-        Session tSession = mSessionFactory.openSession();
-        mTransaction.set(tSession.beginTransaction());
-        TransactionSynchronizationManager.bindResource(mSessionFactory, new SessionHolder(tSession));
-    }
-
     public List<ExecutionFlowDTO> search(SearchCriteria pCriteria)
     {
         try
         {
-            before();
+            before(mSessionFactory);
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
             return tMgr.getListOfExecutionFlowDto(pCriteria);
         } finally
         {
-            afterRollBack();
+            afterRollBack(mSessionFactory);
         }
     }
 
@@ -69,14 +62,14 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
     {
         try
         {
-            before();
+            before(mSessionFactory);
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
             // Optimisation start to load the full flow from db in one read
             tMgr.readExecutionFlow(pFlowId);
             return tMgr.getListOfMethodCall(pFlowId, pMethIDs);
         } finally
         {
-            afterRollBack();
+            afterRollBack(mSessionFactory);
         }
     }
 
@@ -84,7 +77,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
     {
         try
         {
-            before();
+            before(mSessionFactory);
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
             DtoManager tDtoMgr = (DtoManager) SpringConfigurationUtil.getBean("dtoManager");
             sLog.debug("Read flow from database, Id=[" + pFlowId + "]");
@@ -106,7 +99,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             return tResult;
         } finally
         {
-            afterRollBack();
+            afterRollBack(mSessionFactory);
         }
     }
 
@@ -114,7 +107,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
     {
         try
         {
-            before();
+            before(mSessionFactory);
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
             return tMgr.readFullMethodCall(pFlowId, pMethPosition);
         } catch (RuntimeException e)
@@ -123,51 +116,105 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             throw e;
         } finally
         {
-            afterRollBack();
+            afterRollBack(mSessionFactory);
         }
     }
 
-    private void after()
+    public void delete(int pFlowId) throws ClientUnknowFlowException
     {
-        Session tSession = null;
         try
         {
-            tSession = (Session) TransactionSynchronizationManager.unbindResource(mSessionFactory);
+            before(mSessionFactory);
+            ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+            tMgr.deleteFlow(pFlowId);
+        } catch (RuntimeException e)
+        {
+            sLog.error("Unable to load Methodcall", e);
+            throw e;
+        } catch (UnknownFlowException e)
+        {
+            throw new ClientUnknowFlowException();
         } finally
         {
-            if (tSession != null && tSession.isOpen())
-            {
-                if (mTransaction.get().isActive())
-                {
-                    mTransaction.get().commit();
-                }
-                tSession.close();
-            }
+            after(mSessionFactory);
         }
     }
 
-    private void afterRollBack()
+    public static void before()
     {
-        if (mSessionFactory != null)
+        before((SessionFactory) SpringConfigurationUtil.getBean("sessionFactory"));
+    }
+
+    public static void before(SessionFactory pSessionFactory)
+    {
+        Session tSession = pSessionFactory.openSession();
+        tSession.beginTransaction();
+        TransactionSynchronizationManager.bindResource(pSessionFactory, new SessionHolder(tSession));
+    }
+
+    public static void after()
+    {
+        after((SessionFactory) SpringConfigurationUtil.getBean("sessionFactory"));
+    }
+
+    public static void after(SessionFactory pSessionFactory)
+    {
+        if (pSessionFactory != null)
         {
             Session tSession = null;
             try
             {
                 SessionHolder tHolder =
-                    (SessionHolder) TransactionSynchronizationManager.unbindResource(mSessionFactory);
+                    (SessionHolder) TransactionSynchronizationManager.unbindResource(pSessionFactory);
                 tSession = (tHolder == null ? null : tHolder.getSession());
             } finally
             {
                 if (tSession != null && tSession.isOpen())
                 {
-                    if (mTransaction.get().isActive())
+                    if (tSession.getTransaction().isActive())
                     {
-                        mTransaction.get().rollback();
+                        tSession.getTransaction().commit();
                     }
                     tSession.close();
                 }
             }
         }
+    }
+
+    public static void afterRollBack()
+    {
+        afterRollBack((SessionFactory) SpringConfigurationUtil.getBean("sessionFactory"));
+    }
+
+    private static void afterRollBack(SessionFactory pSessionFactory)
+    {
+        if (pSessionFactory != null)
+        {
+            Session tSession = null;
+            try
+            {
+                SessionHolder tHolder =
+                    (SessionHolder) TransactionSynchronizationManager.unbindResource(pSessionFactory);
+                tSession = (tHolder == null ? null : tHolder.getSession());
+            } finally
+            {
+                if (tSession != null && tSession.isOpen())
+                {
+                    if (tSession.getTransaction().isActive())
+                    {
+                        tSession.getTransaction().rollback();
+                    }
+                    tSession.close();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void init() throws ServletException
+    {
+        super.init();
+        mSessionFactory = (SessionFactory) SpringConfigurationUtil.getBean("sessionFactory");
     }
 
 }

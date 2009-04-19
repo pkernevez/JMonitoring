@@ -36,14 +36,11 @@ public class EditMethodCallPanel extends VerticalPanel
 
     private static final String VIEW_NEXT_METH = "View next method call...";
 
-    private final JMonitoring mMain;
-
     private final RootMethodCallDTO mMethod;
 
-    public EditMethodCallPanel(JMonitoring pMain, RootMethodCallDTO pMethod)
+    public EditMethodCallPanel(RootMethodCallDTO pMethod)
     {
         super();
-        mMain = pMain;
         mMethod = pMethod;
         add(createTitle("Method Call Details"));
         add(createSubTitle(mMethod.getClassName() + "." + mMethod.getMethodName()));
@@ -71,7 +68,7 @@ public class EditMethodCallPanel extends VerticalPanel
         String tFlowHistoryToken = Controller.HISTORY_EDIT_FLOW + mMethod.getFlowId();
         tPanel = new HorizontalPanel();
         tPanel.add(createHyperLink("" + mMethod.getFlowId(), tFlowHistoryToken, VIEW_FULL_FLOW));
-        tPanel.add(createClickImage(mMain.getImageBundle().edit(), VIEW_FULL_FLOW, tFlowHistoryToken));
+        tPanel.add(createClickImage(JMonitoring.getImageBundle().edit(), VIEW_FULL_FLOW, tFlowHistoryToken));
         tFlexTable.setWidget(curLine, 1, tPanel);
 
         String tStatHistoryToken = Controller.createStatToken(pMethod);
@@ -79,7 +76,7 @@ public class EditMethodCallPanel extends VerticalPanel
         tFlexTable.setWidget(++curLine, 0, createLabel("Id:"));
         tFlexTable.getFlexCellFormatter().setWordWrap(curLine, 0, false);
         tPanel.add(createHyperLink("" + mMethod.getPosition(), tStatHistoryToken, VIEW_STAT_METH));
-        tPanel.add(createClickImage(mMain.getImageBundle().graphique(), VIEW_STAT_METH, tStatHistoryToken));
+        tPanel.add(createClickImage(JMonitoring.getImageBundle().graphique(), VIEW_STAT_METH, tStatHistoryToken));
         tFlexTable.setWidget(curLine, 1, tPanel);
 
         tFlexTable.setWidget(++curLine, 0, createLabel("Begin date:"));
@@ -97,21 +94,21 @@ public class EditMethodCallPanel extends VerticalPanel
             tFlexTable.setWidget(++curLine, 0, createLabel("Parent id:"));
             tFlexTable.getFlexCellFormatter().setWordWrap(curLine, 0, false);
             tPanel.add(createHyperLink("" + mMethod.getParent().getPosition(), tParentHistoryToken, VIEW_EDIT_METH));
-            tPanel.add(createClickImage(mMain.getImageBundle().edit(), VIEW_EDIT_METH, tParentHistoryToken));
+            tPanel.add(createClickImage(JMonitoring.getImageBundle().edit(), VIEW_EDIT_METH, tParentHistoryToken));
             tFlexTable.setWidget(curLine, 1, tPanel);
         }
 
         String tNavHistoryToken = Controller.createEditMethShortToken(pMethod);
         tPanel = new HorizontalPanel();
         tFlexTable.setWidget(++curLine, 0, createLabel("Navigation:"));
-        tPanel.add(createClickMethod(mMain.getImageBundle().prevInGroup(), VIEW_PREVIOUS_METH_IN_GROUP,
+        tPanel.add(createClickMethod(JMonitoring.getImageBundle().prevInGroup(), VIEW_PREVIOUS_METH_IN_GROUP,
                                      tNavHistoryToken, mMethod.getPrevInGroup()));
-        tPanel.add(createClickMethod(mMain.getImageBundle().prevInThread(), VIEW_PREVIOUS_METH, tNavHistoryToken,
+        tPanel.add(createClickMethod(JMonitoring.getImageBundle().prevInThread(), VIEW_PREVIOUS_METH, tNavHistoryToken,
                                      mMethod.getPrev()));
-        tPanel.add(createClickMethod(mMain.getImageBundle().nextInThread(), VIEW_NEXT_METH, tNavHistoryToken,
+        tPanel.add(createClickMethod(JMonitoring.getImageBundle().nextInThread(), VIEW_NEXT_METH, tNavHistoryToken,
                                      mMethod.getNext()));
-        tPanel.add(createClickMethod(mMain.getImageBundle().nextInGroup(), VIEW_NEXT_METH_IN_GROUP, tNavHistoryToken,
-                                     mMethod.getNextInGroup()));
+        tPanel.add(createClickMethod(JMonitoring.getImageBundle().nextInGroup(), VIEW_NEXT_METH_IN_GROUP,
+                                     tNavHistoryToken, mMethod.getNextInGroup()));
         tFlexTable.setWidget(curLine, 1, tPanel);
 
         tFlexTable.setWidget(++curLine, 0, createLabel("Parameters:"));

@@ -95,3 +95,9 @@ h1 {
 	font-size: 12px; 
 	text-decoration: none;
 }
+
+div.info{
+	font-size: 14px;
+	color: green;
+	background-color: #EEEEEE; 
+}	

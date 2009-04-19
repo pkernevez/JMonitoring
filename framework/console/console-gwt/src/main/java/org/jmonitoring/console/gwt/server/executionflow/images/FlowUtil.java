@@ -26,7 +26,6 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
@@ -177,21 +176,14 @@ public class FlowUtil
      * 
      * @param pMeasure The current measure.
      */
-    void addNbCallWith(MethodCallDTO pMeasure)
+    void addNbCallWith(MethodCallPO pMeasure)
     {
         String tGroupName = pMeasure.getGroupName();
         Integer tNbCall = mListOfGroup.get(tGroupName);
-        if (tNbCall == null)
-        { // Nouveau groupe ou l'ajoute
-            mListOfGroup.put(tGroupName, new Integer(1));
-        } else
-        { // On ajoute la dur�e en cours
-            mListOfGroup.put(tGroupName, new Integer(tNbCall.intValue() + 1));
-        }
-        // On it�re sur les noeuds fils
-        for (int i = 0; i < pMeasure.getChildren().length; i++)
+        mListOfGroup.put(tGroupName, (tNbCall == null ? 1 : tNbCall + 1));
+        for (MethodCallPO curChild : pMeasure.getChildren())
         {
-            addNbCallWith(pMeasure.getChild(i));
+            addNbCallWith(curChild);
         }
     }
 

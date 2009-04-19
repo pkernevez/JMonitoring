@@ -23,4 +23,6 @@ public interface ExecutionFlowServiceAsync
     public void load(int pFlowId, AsyncCallback<FullExecutionFlowDTO> pCallback);
 
     public void load(int pFlowId, int pMethPosition, AsyncCallback<RootMethodCallDTO> pCallBack);
+
+    public void delete(int pFlowId, AsyncCallback<Void> pCallBack);
 }
