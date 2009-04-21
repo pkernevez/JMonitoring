@@ -4,9 +4,11 @@ import org.jmonitoring.console.gwt.client.JMonitoring;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.StatMethodCallDTO;
 import org.jmonitoring.console.gwt.client.panel.flow.EditFlowPanel;
 import org.jmonitoring.console.gwt.client.panel.flow.SearchFlowPanel;
 import org.jmonitoring.console.gwt.client.panel.methodcall.EditMethodCallPanel;
+import org.jmonitoring.console.gwt.client.panel.methodcall.StatMethodCallPanel;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowServiceAsync;
 
@@ -56,6 +58,12 @@ public class Controller implements HistoryListener
             navigateEditMethodCall(tFlowId, tMethPosition);
         } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
         {
+            int tSepPosition = pHisoryToken.indexOf("&");
+            String tClassName = pHisoryToken.substring(HISTORY_EDIT_METH.length(), tSepPosition);
+            String tMethodName = pHisoryToken.substring(tSepPosition + 1);
+            navigateStatMethodCall(tClassName, tMethodName);
+        } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_STAT_METH))
+        {
             int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_FLOW.length()));
             navigateEditFlow(pFlowId);
         } else if (HISTORY_SEARCH.equals(pHisoryToken))
@@ -72,6 +80,20 @@ public class Controller implements HistoryListener
         {
             JMonitoring.setContentMain(new HTML("Unknown panel..."));
         }
+    }
+
+    private void navigateStatMethodCall(String pClassName, String pMethodName)
+    {
+        ExecutionFlowServiceAsync tService = getService();
+        AsyncCallback<StatMethodCallDTO> tCallBack = new DefaultCallBack<StatMethodCallDTO>()
+        {
+            public void onSuccess(StatMethodCallDTO pMeth)
+            {
+                JMonitoring.setContentMain(new StatMethodCallPanel(pMeth));
+            }
+
+        };
+        tService.loadStat(pClassName, pMethodName, tCallBack);
     }
 
     private void navigateEditMethodCall(int pFlowId, int pMethPosition)

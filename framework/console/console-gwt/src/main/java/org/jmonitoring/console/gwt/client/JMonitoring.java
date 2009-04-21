@@ -83,4 +83,15 @@ public class JMonitoring implements EntryPoint
         return sEntry.mBundle;
     }
 
+    public static void setWaitCursor(Widget pButton)
+    {
+        RootPanel.get().addStyleName("wait");
+        pButton.addStyleName("wait");
+    }
+
+    public static void removeWaitCursor(Widget pButton)
+    {
+        RootPanel.get().removeStyleName("wait");
+        pButton.removeStyleName("wait");
+    }
 }

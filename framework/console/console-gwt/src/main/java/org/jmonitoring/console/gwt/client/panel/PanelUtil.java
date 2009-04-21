@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /***********************************************************************************************************************
@@ -49,6 +50,18 @@ public class PanelUtil
     public static Widget createData(long pValue)
     {
         return new HTML("" + pValue);
+    }
+
+    public static TextBox createTextBox()
+    {
+        return new TextBox();
+    }
+
+    public static Image createImage(String pChartBarFlows)
+    {
+        Image tImage = new Image("../DynamicImage?Id=" + pChartBarFlows);
+
+        return tImage;
     }
 
     public static Widget createSubTitle(String pTitle)

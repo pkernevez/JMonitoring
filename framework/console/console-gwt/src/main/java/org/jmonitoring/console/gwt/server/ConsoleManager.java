@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,15 +15,31 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.exception.SQLGrammarException;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.data.xy.IntervalXYDataset;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallFullExtractDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.StatMethodCallDTO;
 import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.dto.DtoManager;
+import org.jmonitoring.console.methodcall.MethodCallStatForm;
+import org.jmonitoring.console.methodcall.StatisticDataSet;
+import org.jmonitoring.console.methodcall.StatisticXYURLGenerator;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
@@ -40,6 +57,13 @@ import org.springframework.beans.BeanUtils;
 
 public class ConsoleManager
 {
+    private static final int NB_DEFAULT_INTERVAL_VALUE = 50;
+
+    private static final int INTERVAL_MULTIPLE_VALUE = 5;
+
+    /** Internal name of the full duration statistic image. */
+    public static final String FULL_DURATION_STAT = "FULL_DURATION_STAT";
+
     private static Logger sLog = LoggerFactory.getLogger(ConsoleManager.class);
 
     @Resource(name = "dtoManager")
@@ -266,6 +290,123 @@ public class ConsoleManager
         } else
         {
             return String.valueOf(tMethPo.getPosition());
+        }
+    }
+
+    public StatMethodCallDTO readStatMethodCall(String pClassName, String pMethodName)
+    {
+        StatMethodCallDTO tResult = new StatMethodCallDTO();
+        List<MethodCallPO> tMethods = mDao.getListOfMethodCall(pClassName, pMethodName);
+        tResult.setNbOccurence("" + tMethods.size());
+
+        return tResult;
+    }
+
+    /**
+     * Write the image of statistic duration image into session.
+     * 
+     * @param pSession The http session.
+     * @param pMeasures The list of <code>MethodCallDTO</code> to use for image generation.
+     * @param pForm The form associated to this Action.
+     */
+    public void writeFullDurationStat(HttpSession pSession, List<MethodCallDTO> pMeasures)
+    {
+        int tInterval = computeIntervalValue(pMeasures, pForm);
+        IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
+
+        JFreeChart tJFreeChart = createXYBarChart(tIntervalxydataset, pForm);
+
+        ChartRenderingInfo tChartRenderingInfo = new ChartRenderingInfo(new StandardEntityCollection());
+
+        ByteArrayOutputStream tImageStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream tMapStream = new ByteArrayOutputStream();
+        try
+        {
+            ChartUtilities.writeChartAsPNG(tImageStream, tJFreeChart, 800, 450, tChartRenderingInfo);
+            // todo regarder l'API avec FragmentURLGenerator...
+            PrintWriter tWriter = new PrintWriter(tMapStream);
+            ChartUtilities.writeImageMap(tWriter, "chart", tChartRenderingInfo);
+            tWriter.flush();
+            pForm.setImageMap(tMapStream.toString());
+        } catch (IOException e)
+        {
+            throw new MeasureException("Unable to write Image", e);
+        }
+        pSession.setAttribute(FULL_DURATION_STAT, tImageStream.toByteArray());
+        sLog.debug("Image " + FULL_DURATION_STAT + " add to session");
+    }
+
+    private IntervalXYDataset createFullDurationDataset(List<MethodCallDTO> pMeasures, int pInterval)
+    {
+        Map<Long, Integer> tMap = new HashMap<Long, Integer>();
+        Integer tCurNb;
+        Long tCurDurationAsLong;
+        long tCurDuration;
+        long tDurationMax = 0;
+        for (int i = 0; i < pMeasures.size(); i++)
+        {
+            tCurDuration = pMeasures.get(i).getDuration();
+            if (tCurDuration > tDurationMax)
+            {
+                tDurationMax = tCurDuration;
+            }
+            // Around the duration with duration groupvalue
+            tCurDuration = (tCurDuration / pInterval) * pInterval;
+            tCurDurationAsLong = new Long(tCurDuration);
+            tCurNb = tMap.get(tCurDurationAsLong);
+            if (tCurNb != null)
+            {
+                tCurNb = tCurNb.intValue() + 1;
+            } else
+            {
+                tCurNb = 1;
+            }
+            tMap.put(tCurDurationAsLong, tCurNb);
+        }
+        return new StatisticDataSet(tMap, pInterval, tDurationMax);
+    }
+
+    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, MethodCallStatForm pForm)
+    {
+        NumberAxis tAxis = new NumberAxis("duration (ms)");
+        tAxis.setAutoRangeIncludesZero(false);
+        ValueAxis tValueAxis = new NumberAxis("number of occurences");
+
+        XYBarRenderer renderer = new XYBarRenderer();
+        renderer.setToolTipGenerator(new StandardXYToolTipGenerator());
+
+        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(),
+                                                             pForm.getClassName(), pForm.getMethodName()));
+
+        XYPlot plot = new XYPlot(dataset, tAxis, tValueAxis, renderer);
+        plot.setOrientation(PlotOrientation.VERTICAL);
+
+        JFreeChart chart = new JFreeChart("Full duration statistics", JFreeChart.DEFAULT_TITLE_FONT, plot, false);
+
+        return chart;
+    }
+
+    private int computeIntervalValue(List<MethodCallDTO> pMeasures, int pIntervalValue)
+    {
+        if (pIntervalValue <= 0)
+        { // The Interval has not be specified explicitly
+            long tDurationMax = 0, curDuration;
+            // Get duration max
+            for (int i = 0; i < pMeasures.size(); i++)
+            {
+                curDuration = (pMeasures.get(i)).getDuration();
+                if (curDuration > tDurationMax)
+                {
+                    tDurationMax = curDuration;
+                }
+            }
+            int tInterval = (int) tDurationMax / NB_DEFAULT_INTERVAL_VALUE;
+            // We want an interval multiple of 5
+            tInterval = tInterval / INTERVAL_MULTIPLE_VALUE * INTERVAL_MULTIPLE_VALUE;
+            return Math.max(tInterval, 1);
+        } else
+        {
+            return pIntervalValue;
         }
     }
 

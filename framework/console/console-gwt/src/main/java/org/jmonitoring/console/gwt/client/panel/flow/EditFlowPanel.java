@@ -118,13 +118,13 @@ public class EditFlowPanel extends VerticalPanel
 
         MapWidget tMap = addMap(pFlow.getImageMap());
         FlowPanel tFlowPanel = new FlowPanel();
-        tFlowPanel.add(addImage(ExecutionFlowService.DURATION_IN_GROUP));
-        tFlowPanel.add(addImage(ExecutionFlowService.NB_CALL_TO_GROUP));
+        tFlowPanel.add(createImage(ExecutionFlowService.DURATION_IN_GROUP));
+        tFlowPanel.add(createImage(ExecutionFlowService.NB_CALL_TO_GROUP));
         tFlexTable.setWidget(4, 0, tFlowPanel);
         tFlexTable.getFlexCellFormatter().setColSpan(4, 0, 4);
         tFlexTable.getFlexCellFormatter().setAlignment(4, 0, HasHorizontalAlignment.ALIGN_CENTER,
                                                        HasVerticalAlignment.ALIGN_MIDDLE);
-        Image tImage = addImage(ExecutionFlowService.CHART_BAR_FLOWS);
+        Image tImage = createImage(ExecutionFlowService.CHART_BAR_FLOWS);
         tMap.bindImage(tImage);
         tFlexTable.setWidget(5, 0, tImage);
         tFlexTable.getFlexCellFormatter().setColSpan(5, 0, 4);
@@ -176,13 +176,6 @@ public class EditFlowPanel extends VerticalPanel
         {
             History.newItem(mUrl);
         }
-    }
-
-    private Image addImage(String pChartBarFlows)
-    {
-        Image tImage = new Image("../DynamicImage?Id=" + pChartBarFlows);
-
-        return tImage;
     }
 
     private static class ExecFlowTreeListener implements TreeListener

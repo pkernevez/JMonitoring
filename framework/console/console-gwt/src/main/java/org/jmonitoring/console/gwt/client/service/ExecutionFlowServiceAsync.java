@@ -7,6 +7,7 @@ import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.StatMethodCallDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -23,6 +24,8 @@ public interface ExecutionFlowServiceAsync
     public void load(int pFlowId, AsyncCallback<FullExecutionFlowDTO> pCallback);
 
     public void load(int pFlowId, int pMethPosition, AsyncCallback<RootMethodCallDTO> pCallBack);
+
+    public void loadStat(String pClassName, String pMethodName, AsyncCallback<StatMethodCallDTO> pCallBack);
 
     public void delete(int pFlowId, AsyncCallback<Void> pCallBack);
 }

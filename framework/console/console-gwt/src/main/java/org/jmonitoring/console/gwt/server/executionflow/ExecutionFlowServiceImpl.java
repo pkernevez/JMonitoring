@@ -14,6 +14,7 @@ import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.StatMethodCallDTO;
 import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.ConsoleManager;
@@ -110,6 +111,23 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             before(mSessionFactory);
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
             return tMgr.readFullMethodCall(pFlowId, pMethPosition);
+        } catch (RuntimeException e)
+        {
+            sLog.error("Unable to load Methodcall", e);
+            throw e;
+        } finally
+        {
+            afterRollBack(mSessionFactory);
+        }
+    }
+
+    public StatMethodCallDTO loadStat(String pClassName, String pMethodName)
+    {
+        try
+        {
+            before(mSessionFactory);
+            ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
+            return tMgr.readStatMethodCall(pClassName, pMethodName);
         } catch (RuntimeException e)
         {
             sLog.error("Unable to load Methodcall", e);

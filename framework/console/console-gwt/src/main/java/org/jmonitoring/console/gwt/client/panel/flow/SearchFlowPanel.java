@@ -104,11 +104,13 @@ public class SearchFlowPanel extends VerticalPanel
         ExecutionFlowServiceAsync tService = Controller.getService();
         mResult.clear();
         clearMsg();
+        JMonitoring.setWaitCursor(mImage);
         tService.search(getCriteria(), new DefaultCallBack<List<ExecutionFlowDTO>>()
         {
             public void onSuccess(List<ExecutionFlowDTO> pList)
             {
                 bind(pList);
+                JMonitoring.removeWaitCursor(mImage);
             }
         });
 

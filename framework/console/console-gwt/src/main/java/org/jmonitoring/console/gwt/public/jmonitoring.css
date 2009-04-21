@@ -1,3 +1,7 @@
+.wait {
+	cursor: wait;
+}
+
 .header {
 	border-bottom: 1px dotted #DD0000;
 	border-style: dotted;
@@ -101,3 +105,4 @@ div.info{
 	color: green;
 	background-color: #EEEEEE; 
 }	
+

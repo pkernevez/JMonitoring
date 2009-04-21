@@ -3,11 +3,12 @@ package org.jmonitoring.console.gwt.client.service;
 import java.util.List;
 import java.util.Map;
 
+import org.jmonitoring.console.gwt.client.dto.ClientUnknowFlowException;
 import org.jmonitoring.console.gwt.client.dto.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.FullExecutionFlowDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
-import org.jmonitoring.console.gwt.client.dto.ClientUnknowFlowException;
+import org.jmonitoring.console.gwt.client.dto.StatMethodCallDTO;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -18,6 +19,8 @@ import com.google.gwt.user.client.rpc.RemoteService;
 public interface ExecutionFlowService extends RemoteService
 {
     public static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
+
+    public static final String STAT_METHOD_CALL = "STAT_METHOD_CALL";
 
     /** Constant used for the URL generation of the PieChart representing the number of calls. */
     public static final String NB_CALL_TO_GROUP = "NB_CALL_TO_GROUP";
@@ -34,4 +37,6 @@ public interface ExecutionFlowService extends RemoteService
     public FullExecutionFlowDTO load(int pFlowId);
 
     public RootMethodCallDTO load(int pFlowId, int pMethPosition);
+
+    public StatMethodCallDTO loadStat(String pClassName, String pMethodName);
 }
