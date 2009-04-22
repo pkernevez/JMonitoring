@@ -21,7 +21,7 @@
       <property name="throwableClass" column="THROWABLE_CLASS_NAME" type="java.lang.String" length="120" />
       <property name="throwableMessage" column="THROWABLE_MESSAGE" type="java.lang.String" />
       <property name="returnValue" column="RESULT" type="text" />
-      <property name="groupName" column="GROUP_NAME" type="java.lang.String" length="145"/>
+      <property name="groupName" column="GROUP_NAME" type="java.lang.String" length="30"/>
 		
 		<many-to-one name="flow" column="FLOW_ID"
 			unique="false" not-null="false" insert="false" update="false"/>

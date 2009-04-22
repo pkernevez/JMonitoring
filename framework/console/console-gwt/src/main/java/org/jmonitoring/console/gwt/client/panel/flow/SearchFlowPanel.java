@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.KeyboardListener;
+import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -28,19 +30,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SearchFlowPanel extends VerticalPanel
 {
-    private final TextBox mThreadName = new TextBox();
+    private final TextBox mThreadName;
 
-    private final TextBox mGroupName = new TextBox();
+    private final TextBox mGroupName;
 
-    private final TextBox mMinimumDuration = new TextBox();
+    private final TextBox mMinimumDuration;
 
-    private final TextBox mBeginDate = new TextBox();
+    private final TextBox mBeginDate;
 
-    private final TextBox mServer = new TextBox();
+    private final TextBox mServer;
 
-    private final TextBox mFirstMesureClassName = new TextBox();
+    private final TextBox mFirstMesureClassName;
 
-    private final TextBox mFirstMeasureMethodName = new TextBox();
+    private final TextBox mFirstMeasureMethodName;
 
     private Image mImage;
 
@@ -52,6 +54,13 @@ public class SearchFlowPanel extends VerticalPanel
 
     public SearchFlowPanel()
     {
+        mThreadName = createTextBox(100, 30, mSearchKeyListener);
+        mGroupName = createTextBox(30, 30, mSearchKeyListener);
+        mMinimumDuration = createTextBox(10, 10, mSearchKeyListener);
+        mBeginDate = createTextBox(8, 8, mSearchKeyListener);
+        mServer = createTextBox(50, 30, mSearchKeyListener);
+        mFirstMesureClassName = createTextBox(120, 30, mSearchKeyListener);
+        mFirstMeasureMethodName = createTextBox(50, 30, mSearchKeyListener);
         addMask();
         add(mCriteria);
         add(mResult);
@@ -97,6 +106,19 @@ public class SearchFlowPanel extends VerticalPanel
         {
             callSearch();
         }
+    };
+
+    private final KeyboardListener mSearchKeyListener = new KeyboardListenerAdapter()
+    {
+        @Override
+        public void onKeyPress(Widget pWidget, char pC, int pI)
+        {
+            if (pC == '\r')
+            {
+                callSearch();
+            }
+        }
+
     };
 
     public void callSearch()

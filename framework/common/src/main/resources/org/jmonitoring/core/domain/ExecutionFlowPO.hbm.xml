@@ -7,9 +7,9 @@
          <generator class="native" />
       </id>
 
-      <property name="threadName" column="THREAD_NAME" type="java.lang.String" />
+      <property name="threadName" column="THREAD_NAME" type="java.lang.String" length="100"/>
 
-      <property name="jvmIdentifier" column="JVM" type="java.lang.String" />
+      <property name="jvmIdentifier" column="JVM" type="java.lang.String" length="50"/>
 
       <property name="beginTime" column="BEGIN_TIME" type="java.lang.Long" />
 

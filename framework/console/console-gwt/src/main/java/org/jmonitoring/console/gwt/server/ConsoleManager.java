@@ -34,12 +34,13 @@ import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.client.dto.MethodCallFullExtractDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
+import org.jmonitoring.console.gwt.client.dto.StatMapAreaDTO;
 import org.jmonitoring.console.gwt.client.dto.StatMethodCallDTO;
+import org.jmonitoring.console.gwt.client.service.ExecutionFlowService;
 import org.jmonitoring.console.gwt.client.service.SearchCriteria;
 import org.jmonitoring.console.gwt.server.dto.DtoManager;
-import org.jmonitoring.console.methodcall.MethodCallStatForm;
-import org.jmonitoring.console.methodcall.StatisticDataSet;
-import org.jmonitoring.console.methodcall.StatisticXYURLGenerator;
+import org.jmonitoring.console.gwt.server.jfreechart.StatisticDataSet;
+import org.jmonitoring.console.gwt.server.jfreechart.StatisticXYURLGenerator;
 import org.jmonitoring.core.common.UnknownFlowException;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
@@ -60,9 +61,6 @@ public class ConsoleManager
     private static final int NB_DEFAULT_INTERVAL_VALUE = 50;
 
     private static final int INTERVAL_MULTIPLE_VALUE = 5;
-
-    /** Internal name of the full duration statistic image. */
-    public static final String FULL_DURATION_STAT = "FULL_DURATION_STAT";
 
     private static Logger sLog = LoggerFactory.getLogger(ConsoleManager.class);
 
@@ -293,12 +291,17 @@ public class ConsoleManager
         }
     }
 
-    public StatMethodCallDTO readStatMethodCall(String pClassName, String pMethodName)
+    public StatMethodCallDTO readStatMethodCall(HttpSession pSession, String pClassName, String pMethodName,
+        int pAggregationScope)
     {
         StatMethodCallDTO tResult = new StatMethodCallDTO();
         List<MethodCallPO> tMethods = mDao.getListOfMethodCall(pClassName, pMethodName);
         tResult.setNbOccurence("" + tMethods.size());
-
+        tResult.setAggregationScope(pAggregationScope);
+        tResult.setClassName(pClassName);
+        tResult.setMethodName(pMethodName);
+        computeStat(tMethods, tResult);
+        writeFullDurationStat(pSession, tMethods, tResult);
         return tResult;
     }
 
@@ -309,12 +312,12 @@ public class ConsoleManager
      * @param pMeasures The list of <code>MethodCallDTO</code> to use for image generation.
      * @param pForm The form associated to this Action.
      */
-    public void writeFullDurationStat(HttpSession pSession, List<MethodCallDTO> pMeasures)
+    private void writeFullDurationStat(HttpSession pSession, List<MethodCallPO> pMeasures, StatMethodCallDTO pStat)
     {
-        int tInterval = computeIntervalValue(pMeasures, pForm);
+        int tInterval = computeIntervalValue(pMeasures, pStat.getAggregationScope());
         IntervalXYDataset tIntervalxydataset = createFullDurationDataset(pMeasures, tInterval);
 
-        JFreeChart tJFreeChart = createXYBarChart(tIntervalxydataset, pForm);
+        JFreeChart tJFreeChart = createXYBarChart(tIntervalxydataset, tInterval, pStat);
 
         ChartRenderingInfo tChartRenderingInfo = new ChartRenderingInfo(new StandardEntityCollection());
 
@@ -327,46 +330,63 @@ public class ConsoleManager
             PrintWriter tWriter = new PrintWriter(tMapStream);
             ChartUtilities.writeImageMap(tWriter, "chart", tChartRenderingInfo);
             tWriter.flush();
-            pForm.setImageMap(tMapStream.toString());
+            pStat.setImage(parseMap(tMapStream.toString()));
         } catch (IOException e)
         {
             throw new MeasureException("Unable to write Image", e);
         }
-        pSession.setAttribute(FULL_DURATION_STAT, tImageStream.toByteArray());
-        sLog.debug("Image " + FULL_DURATION_STAT + " add to session");
+        pSession.setAttribute(ExecutionFlowService.STAT_METHOD_CALL, tImageStream.toByteArray());
+        sLog.debug("Image " + ExecutionFlowService.STAT_METHOD_CALL + " add to session");
     }
 
-    private IntervalXYDataset createFullDurationDataset(List<MethodCallDTO> pMeasures, int pInterval)
+    private static final String DURATION_MIN = "&durationMin=";
+
+    private static final String DURATION_MAX = "&durationMax=";
+
+    private static final String COORDS = "COORDS=\"";
+
+    static List<StatMapAreaDTO> parseMap(String pMap)
+    {
+        List<StatMapAreaDTO> tResult = new ArrayList<StatMapAreaDTO>();
+
+        int tStartCoord, tEndCoord, tStartPosition, tEndPosition = 0;
+        while (pMap.indexOf(COORDS, tEndPosition) != -1)
+        {
+            tStartCoord = pMap.indexOf(COORDS, tEndPosition) + COORDS.length();
+            tEndCoord = pMap.indexOf("\" ", tStartCoord);
+            StatMapAreaDTO tArea = new StatMapAreaDTO();
+            tArea.setCoordinate(pMap.substring(tStartCoord, tEndCoord));
+            tStartPosition = pMap.indexOf(DURATION_MIN, tEndCoord) + DURATION_MIN.length();
+            tEndPosition = pMap.indexOf("&", tStartPosition);
+            tArea.setDurationMin(Integer.parseInt(pMap.substring(tStartPosition, tEndPosition)));
+            tStartPosition = pMap.indexOf(DURATION_MAX, tEndCoord) + DURATION_MAX.length();
+            tEndPosition = pMap.indexOf("\">", tStartPosition);
+            tArea.setDurationMax(Integer.parseInt(pMap.substring(tStartPosition, tEndPosition)));
+            tResult.add(tArea);
+        }
+        return tResult;
+    }
+
+    private IntervalXYDataset createFullDurationDataset(List<MethodCallPO> pMeasures, int pInterval)
     {
         Map<Long, Integer> tMap = new HashMap<Long, Integer>();
         Integer tCurNb;
-        Long tCurDurationAsLong;
         long tCurDuration;
         long tDurationMax = 0;
-        for (int i = 0; i < pMeasures.size(); i++)
+        for (MethodCallPO curMEasure : pMeasures)
         {
-            tCurDuration = pMeasures.get(i).getDuration();
-            if (tCurDuration > tDurationMax)
-            {
-                tDurationMax = tCurDuration;
-            }
+            tCurDuration = curMEasure.getDuration();
+            tDurationMax = Math.max(tCurDuration, tDurationMax);
             // Around the duration with duration groupvalue
             tCurDuration = (tCurDuration / pInterval) * pInterval;
-            tCurDurationAsLong = new Long(tCurDuration);
-            tCurNb = tMap.get(tCurDurationAsLong);
-            if (tCurNb != null)
-            {
-                tCurNb = tCurNb.intValue() + 1;
-            } else
-            {
-                tCurNb = 1;
-            }
-            tMap.put(tCurDurationAsLong, tCurNb);
+            tCurNb = tMap.get(tCurDuration);
+            tCurNb = (tCurNb == null ? 1 : tCurNb.intValue() + 1);
+            tMap.put(tCurDuration, tCurNb);
         }
         return new StatisticDataSet(tMap, pInterval, tDurationMax);
     }
 
-    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, MethodCallStatForm pForm)
+    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, int pInterval, StatMethodCallDTO pStat)
     {
         NumberAxis tAxis = new NumberAxis("duration (ms)");
         tAxis.setAutoRangeIncludesZero(false);
@@ -375,8 +395,8 @@ public class ConsoleManager
         XYBarRenderer renderer = new XYBarRenderer();
         renderer.setToolTipGenerator(new StandardXYToolTipGenerator());
 
-        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pForm.getInterval(),
-                                                             pForm.getClassName(), pForm.getMethodName()));
+        renderer.setURLGenerator(new StatisticXYURLGenerator("MethodCallListIn.do", pInterval, pStat.getClassName(),
+                                                             pStat.getMethodName()));
 
         XYPlot plot = new XYPlot(dataset, tAxis, tValueAxis, renderer);
         plot.setOrientation(PlotOrientation.VERTICAL);
@@ -386,19 +406,15 @@ public class ConsoleManager
         return chart;
     }
 
-    private int computeIntervalValue(List<MethodCallDTO> pMeasures, int pIntervalValue)
+    private int computeIntervalValue(List<MethodCallPO> pMeasures, int pIntervalValue)
     {
         if (pIntervalValue <= 0)
         { // The Interval has not be specified explicitly
-            long tDurationMax = 0, curDuration;
+            long tDurationMax = 0;
             // Get duration max
-            for (int i = 0; i < pMeasures.size(); i++)
+            for (MethodCallPO curMeasure : pMeasures)
             {
-                curDuration = (pMeasures.get(i)).getDuration();
-                if (curDuration > tDurationMax)
-                {
-                    tDurationMax = curDuration;
-                }
+                tDurationMax = Math.max(tDurationMax, curMeasure.getDuration());
             }
             int tInterval = (int) tDurationMax / NB_DEFAULT_INTERVAL_VALUE;
             // We want an interval multiple of 5
@@ -410,4 +426,30 @@ public class ConsoleManager
         }
     }
 
+    private void computeStat(List<MethodCallPO> pMeasures, StatMethodCallDTO pStat)
+    {
+        if (pMeasures.size() != 0)
+        {
+            long tMin = Long.MAX_VALUE, tMax = Long.MIN_VALUE, tSum = 0;
+            for (MethodCallPO curMeasure : pMeasures)
+            {
+                long curDuration = curMeasure.getDuration();
+                tSum += curDuration;
+                tMax = Math.max(tMax, curDuration);
+                tMin = Math.min(tMin, curDuration);
+            }
+            double tAvg = (double) tSum / (double) pMeasures.size();
+            // Standard Deviation
+            double tDelta, tVar = 0;
+            for (MethodCallPO curMeasure : pMeasures)
+            {
+                tDelta = tAvg - curMeasure.getDuration();
+                tVar += tDelta * tDelta;
+            }
+            pStat.setDurationAvg(String.valueOf(Math.round(tAvg)));
+            pStat.setDurationMin(String.valueOf(tMin));
+            pStat.setDurationMax(String.valueOf(tMax));
+            pStat.setDurationDev(String.valueOf(Math.round(Math.sqrt(tVar / pMeasures.size()))));
+        }
+    }
 }

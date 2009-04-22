@@ -35,6 +35,8 @@ public class Controller implements HistoryListener
 
     public static final String HISTORY_STAT_METH = "statMeth";
 
+    public static final String HISTORY_LIST_METH = "listMeth";
+
     public static String HISTORY_SEARCH = "search";
 
     public static String HISTORY_DELETE_FLOW = "deleteFlow";
@@ -56,13 +58,13 @@ public class Controller implements HistoryListener
             int tFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_METH.length(), tSepPosition));
             int tMethPosition = Integer.parseInt(pHisoryToken.substring(tSepPosition + 1));
             navigateEditMethodCall(tFlowId, tMethPosition);
-        } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
+        } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_STAT_METH))
         {
             int tSepPosition = pHisoryToken.indexOf("&");
-            String tClassName = pHisoryToken.substring(HISTORY_EDIT_METH.length(), tSepPosition);
+            String tClassName = pHisoryToken.substring(HISTORY_STAT_METH.length(), tSepPosition);
             String tMethodName = pHisoryToken.substring(tSepPosition + 1);
-            navigateStatMethodCall(tClassName, tMethodName);
-        } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_STAT_METH))
+            navigateStatMethodCall(tClassName, tMethodName, 0);
+        } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
         {
             int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_FLOW.length()));
             navigateEditFlow(pFlowId);
@@ -82,7 +84,7 @@ public class Controller implements HistoryListener
         }
     }
 
-    private void navigateStatMethodCall(String pClassName, String pMethodName)
+    private void navigateStatMethodCall(String pClassName, String pMethodName, int pAggregationScope)
     {
         ExecutionFlowServiceAsync tService = getService();
         AsyncCallback<StatMethodCallDTO> tCallBack = new DefaultCallBack<StatMethodCallDTO>()
@@ -93,7 +95,7 @@ public class Controller implements HistoryListener
             }
 
         };
-        tService.loadStat(pClassName, pMethodName, tCallBack);
+        tService.loadStat(pClassName, pMethodName, pAggregationScope, tCallBack);
     }
 
     private void navigateEditMethodCall(int pFlowId, int pMethPosition)
@@ -130,9 +132,14 @@ public class Controller implements HistoryListener
         tService.load(pFlowId, tCallBack);
     }
 
+    public static String createListMethodToken(String pClassName, String pMethodName, int pDurationMin, int pDurationMax)
+    {
+        return Controller.HISTORY_LIST_METH + pClassName + "&" + pMethodName + "&" + pDurationMin + "&" + pDurationMax;
+    }
+
     public static String createStatToken(MethodCallDTO pCall)
     {
-        return Controller.HISTORY_STAT_METH + pCall.getFlowId() + "&" + pCall.getPosition();
+        return Controller.HISTORY_STAT_METH + pCall.getClassName() + "&" + pCall.getMethodName();
     }
 
     public static String createEditMethShortToken(MethodCallDTO pMethod)

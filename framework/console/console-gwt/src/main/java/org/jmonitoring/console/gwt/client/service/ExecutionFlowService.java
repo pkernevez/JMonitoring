@@ -38,5 +38,5 @@ public interface ExecutionFlowService extends RemoteService
 
     public RootMethodCallDTO load(int pFlowId, int pMethPosition);
 
-    public StatMethodCallDTO loadStat(String pClassName, String pMethodName);
+    public StatMethodCallDTO loadStat(String pClassName, String pMethodName, int pAggregationScope);
 }

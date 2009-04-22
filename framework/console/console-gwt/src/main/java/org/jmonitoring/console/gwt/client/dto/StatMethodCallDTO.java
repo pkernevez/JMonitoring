@@ -1,12 +1,21 @@
 package org.jmonitoring.console.gwt.client.dto;
 
+import java.io.Serializable;
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class StatMethodCallDTO
+public class StatMethodCallDTO implements Serializable, IsSerializable
 {
-    private String mFullMethodCallName;
+    private static final long serialVersionUID = -1449222072284661892L;
+
+    private String mClassName;
+
+    private String mMethodName;
 
     private String mNbOccurence;
 
@@ -18,26 +27,23 @@ public class StatMethodCallDTO
 
     private String mDurationDev;
 
-    private String mAggregationScope;
+    private int mAggregationScope;
 
-    public String getAggregationScope()
+    private List<StatMapAreaDTO> mImage;
+
+    public int getAggregationScope()
     {
         return mAggregationScope;
     }
 
-    public void setAggregationScope(String pAggregationScope)
+    public void setAggregationScope(int pAggregationScope)
     {
         mAggregationScope = pAggregationScope;
     }
 
     public String getFullMethodCallName()
     {
-        return mFullMethodCallName;
-    }
-
-    public void setFullMethodCallName(String pFullMethodCallName)
-    {
-        mFullMethodCallName = pFullMethodCallName;
+        return mClassName + "." + mMethodName + "(...)";
     }
 
     public String getNbOccurence()
@@ -88,5 +94,35 @@ public class StatMethodCallDTO
     public void setDurationDev(String pDurationDev)
     {
         mDurationDev = pDurationDev;
+    }
+
+    public String getClassName()
+    {
+        return mClassName;
+    }
+
+    public void setClassName(String pClassName)
+    {
+        mClassName = pClassName;
+    }
+
+    public String getMethodName()
+    {
+        return mMethodName;
+    }
+
+    public void setMethodName(String pMethodName)
+    {
+        mMethodName = pMethodName;
+    }
+
+    public List<StatMapAreaDTO> getImageMap()
+    {
+        return mImage;
+    }
+
+    public void setImage(List<StatMapAreaDTO> pImage)
+    {
+        mImage = pImage;
     }
 }

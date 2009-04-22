@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import junit.framework.TestCase;
 
 import org.jfree.data.category.IntervalCategoryDataset;
-import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -29,9 +28,6 @@ public class FlowDetailURLGeneratorTest extends TestCase
 {
     @Resource(name = "formater")
     private FormaterBean mFormater;
-
-    @Resource(name = "dtoManager")
-    private DtoManager mDtoManager;
 
     @Resource(name = "color")
     private ColorManager mColor;

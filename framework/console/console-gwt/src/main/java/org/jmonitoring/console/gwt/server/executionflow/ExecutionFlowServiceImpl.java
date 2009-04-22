@@ -121,13 +121,14 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
         }
     }
 
-    public StatMethodCallDTO loadStat(String pClassName, String pMethodName)
+    public StatMethodCallDTO loadStat(String pClassName, String pMethodName, int pAggregationScope)
     {
         try
         {
             before(mSessionFactory);
             ConsoleManager tMgr = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
-            return tMgr.readStatMethodCall(pClassName, pMethodName);
+            return tMgr.readStatMethodCall(getThreadLocalRequest().getSession(), pClassName, pMethodName,
+                                           pAggregationScope);
         } catch (RuntimeException e)
         {
             sLog.error("Unable to load Methodcall", e);

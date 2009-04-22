@@ -6,6 +6,8 @@ package org.jmonitoring.console.gwt.client.dto;
 
 public class RootMethodCallDTO extends MethodCallDTO
 {
+    private static final long serialVersionUID = -3441459916159144366L;
+
     private String mPrevInGroup;
 
     private String mNextInGroup;

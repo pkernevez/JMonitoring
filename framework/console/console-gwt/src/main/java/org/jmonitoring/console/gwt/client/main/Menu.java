@@ -1,7 +1,5 @@
 package org.jmonitoring.console.gwt.client.main;
 
-import org.jmonitoring.console.gwt.client.JMonitoring;
-
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -12,11 +10,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Menu extends VerticalPanel
 {
-    private final JMonitoring mMain;
-
-    public Menu(JMonitoring pMain)
+    public Menu()
     {
-        mMain = pMain;
         VerticalPanel tSubMenu = new VerticalPanel();
         tSubMenu.add(getItem("Home", Controller.HISTORY_HOME));
         tSubMenu.add(getItem("Delete Flows", null));

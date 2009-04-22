@@ -25,7 +25,8 @@ public interface ExecutionFlowServiceAsync
 
     public void load(int pFlowId, int pMethPosition, AsyncCallback<RootMethodCallDTO> pCallBack);
 
-    public void loadStat(String pClassName, String pMethodName, AsyncCallback<StatMethodCallDTO> pCallBack);
+    public void loadStat(String pClassName, String pMethodName, int pAggregationScope,
+        AsyncCallback<StatMethodCallDTO> pCallBack);
 
     public void delete(int pFlowId, AsyncCallback<Void> pCallBack);
 }

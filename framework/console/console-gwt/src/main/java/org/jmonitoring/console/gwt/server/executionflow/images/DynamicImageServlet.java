@@ -48,6 +48,7 @@ public class DynamicImageServlet extends HttpServlet
         {
             pResp.getOutputStream().write(tOutput);
         }
+        tSession.removeAttribute(tKey);
     }
 
     /**

@@ -53,7 +53,7 @@ public class JMonitoring implements EntryPoint
         mHeader.add(tAbout);
 
         mMain.add(mHeader, DockPanel.NORTH);
-        mMenu = new Menu(this);
+        mMenu = new Menu();
         mMain.add(mMenu, DockPanel.WEST);
         mMain.setCellHeight(mMenu, "100%");
         mMain.setStyleName("main");

@@ -6,5 +6,6 @@ package org.jmonitoring.console.gwt.client.dto;
 
 public class ClientUnknowFlowException extends Exception
 {
+    private static final long serialVersionUID = 6971468656893351783L;
 
 }

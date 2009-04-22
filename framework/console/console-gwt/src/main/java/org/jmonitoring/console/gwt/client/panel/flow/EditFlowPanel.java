@@ -69,15 +69,6 @@ public class EditFlowPanel extends VerticalPanel
         public void onClick(Widget pWidget)
         {
             Window.Location.assign("../ExportXml?id=" + mFlow.getFlow().getId());
-            // XMLHTTPReques
-            // ExecutionFlowServiceAsync tService = Controller.getService();
-            // tService.delete(mFlow.getFlow().getId(), new DefaultCallBack<Void>()
-            // {
-            // public void onSuccess(Void pArg0)
-            // {
-            // Controller.returnToSearch("Flow has been deleted...");
-            // }
-            // });
         }
     };
 

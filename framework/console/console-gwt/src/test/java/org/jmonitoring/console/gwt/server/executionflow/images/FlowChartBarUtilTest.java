@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.time.TimePeriod;
 import org.jmonitoring.console.gwt.client.dto.MapDto;
-import org.jmonitoring.console.gwt.server.dto.DtoManager;
 import org.jmonitoring.console.gwt.server.executionflow.images.FlowChartBarUtil.TaskForGroupName;
 import org.jmonitoring.core.configuration.ColorManager;
 import org.jmonitoring.core.configuration.FormaterBean;
@@ -39,12 +38,6 @@ public class FlowChartBarUtilTest extends TestCase
 
     @Resource(name = "color")
     private ColorManager mColor;
-
-    @Resource(name = "dtoManager")
-    private DtoManager mDtoMgr;
-
-    @Autowired
-    private FlowUtilTest mFlowUtilTest;
 
     @Autowired
     private ChartManager mChartManager;

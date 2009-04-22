@@ -81,11 +81,13 @@
                     <compileTargets>
                         <value>org.jmonitoring.console.gwt.JMonitoring</value>
                     </compileTargets>
-                    <runTarget>org.jmonitoring.console.gwt.JMonitoring/JMonitoring.html</runTarget>
+                    <runTarget>http://127.0.0.1:8888/org.jmonitoring.console.gwt.JMonitoring/JMonitoring.html</runTarget>
+                    <!-- runTarget>org.jmonitoring.console.gwt.JMonitoring/JMonitoring.html</runTarget-->
                     <debugSuspend>false</debugSuspend>
                     <logLevel>INFO</logLevel>
                     <style>OBF</style>
-                    <extraJvmArgs>-Xmx512m</extraJvmArgs>
+                    <extraJvmArgs>-Xmx512m   -Dwhitelist="^http[:][/][/]127[.]0[.]0[.]1[:]8888"</extraJvmArgs>
+                    <!--extraJvmArgs>-Xmx512m</extraJvmArgs-->
                     <gwtVersion>${gwtVersion}</gwtVersion>
                     <!-- output>target/tomcat/webapps/ROOT</output-->
                 </configuration>

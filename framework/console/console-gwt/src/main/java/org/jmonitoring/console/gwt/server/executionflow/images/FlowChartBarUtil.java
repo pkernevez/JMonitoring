@@ -210,7 +210,7 @@ public class FlowChartBarUtil
         }
     }
 
-    static MapDto parseMap(String pMap)
+    public static MapDto parseMap(String pMap)
     {
         int tStart = pMap.indexOf("flowId=") + 7;
         int tEnd = pMap.indexOf("&");

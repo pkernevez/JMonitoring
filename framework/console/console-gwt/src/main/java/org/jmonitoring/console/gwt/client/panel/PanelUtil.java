@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -52,16 +53,28 @@ public class PanelUtil
         return new HTML("" + pValue);
     }
 
-    public static TextBox createTextBox()
+    public static TextBox createTextBox(int pMaxLenght, KeyboardListener pListener)
     {
-        return new TextBox();
+        return createTextBox(pMaxLenght, pMaxLenght, pListener);
+    }
+
+    public static TextBox createTextBox(int pMaxLenght)
+    {
+        return createTextBox(pMaxLenght, pMaxLenght, null);
+    }
+
+    public static TextBox createTextBox(int pMaxLenght, int pMaxVisible, KeyboardListener pListener)
+    {
+        TextBox tBox = new TextBox();
+        tBox.setMaxLength(pMaxLenght);
+        tBox.setVisibleLength(pMaxVisible);
+        tBox.addKeyboardListener(pListener);
+        return tBox;
     }
 
     public static Image createImage(String pChartBarFlows)
     {
-        Image tImage = new Image("../DynamicImage?Id=" + pChartBarFlows);
-
-        return tImage;
+        return new Image("../DynamicImage?Id=" + pChartBarFlows + "&nocache=" + Math.random());
     }
 
     public static Widget createSubTitle(String pTitle)
@@ -164,4 +177,5 @@ public class PanelUtil
         tResult.addStyleName("treeRoot");
         return tResult;
     }
+
 }
