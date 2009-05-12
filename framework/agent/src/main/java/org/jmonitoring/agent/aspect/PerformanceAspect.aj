@@ -10,7 +10,6 @@ import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
 import org.jmonitoring.agent.store.StoreManager;
-import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.info.IParamaterTracer;
 import org.jmonitoring.core.info.IResultTracer;

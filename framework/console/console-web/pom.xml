@@ -200,7 +200,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                    <execution>
+                    <!-- execution>
                         <id>delete</id>
                         <phase>verify</phase>
                         <configuration>
@@ -226,7 +226,7 @@
                         <goals>
                             <goal>run</goal>
                         </goals>
-                    </execution>
+                    </execution-->
 
                 </executions>
             </plugin>

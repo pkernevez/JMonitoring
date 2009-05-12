@@ -41,7 +41,7 @@ public class HttpWriterTest extends JMonitoringTestCase
         Thread.sleep(1000);
         assertEquals("Test server response", "POST /console-web/Store.do HTTP/1.1\r\n"
             + "Content-Type: JMonitoring/flow\r\n" + "User-Agent: Jakarta Commons-HttpClient/3.1-rc1\r\n"
-            + "Host: localhost:83\r\n" + "Transfer-Encoding: chunked\r\n\r", mRequest);
+            + "Host: localhost:8030\r\n" + "Transfer-Encoding: chunked\r\n\r", mRequest);
     }
 
     private void startServer() throws IOException
@@ -52,9 +52,9 @@ public class HttpWriterTest extends JMonitoringTestCase
             {
                 try
                 {
-                    sLog.info("Server start on port 83");
+                    sLog.info("Server start on port 8030");
                     ServerSocket tServerSock;
-                    tServerSock = ServerSocketFactory.getDefault().createServerSocket(83);
+                    tServerSock = ServerSocketFactory.getDefault().createServerSocket(8030);
                     Socket tSocket = tServerSock.accept();
                     InputStream tIn = tSocket.getInputStream();
                     int tRead = tIn.read();

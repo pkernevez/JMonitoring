@@ -6,6 +6,7 @@ import org.jmonitoring.console.gwt.client.dto.MethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.RootMethodCallDTO;
 import org.jmonitoring.console.gwt.client.dto.StatMethodCallDTO;
 import org.jmonitoring.console.gwt.client.panel.flow.EditFlowPanel;
+import org.jmonitoring.console.gwt.client.panel.flow.ImportPanel;
 import org.jmonitoring.console.gwt.client.panel.flow.SearchFlowPanel;
 import org.jmonitoring.console.gwt.client.panel.methodcall.EditMethodCallPanel;
 import org.jmonitoring.console.gwt.client.panel.methodcall.StatMethodCallPanel;
@@ -37,6 +38,8 @@ public class Controller implements HistoryListener
 
     public static final String HISTORY_LIST_METH = "listMeth";
 
+    public static final String HISTORY_IMPORT_FLOW = "importFlow";
+
     public static String HISTORY_SEARCH = "search";
 
     public static String HISTORY_DELETE_FLOW = "deleteFlow";
@@ -62,8 +65,11 @@ public class Controller implements HistoryListener
         {
             int tSepPosition = pHisoryToken.indexOf("&");
             String tClassName = pHisoryToken.substring(HISTORY_STAT_METH.length(), tSepPosition);
-            String tMethodName = pHisoryToken.substring(tSepPosition + 1);
-            navigateStatMethodCall(tClassName, tMethodName, 0);
+            int tNextSepPosition = pHisoryToken.indexOf("&", tSepPosition + 1);
+            String tMethodName = pHisoryToken.substring(tSepPosition + 1, tNextSepPosition);
+            String tAggregationScope = pHisoryToken.substring(tNextSepPosition + 1);
+            tAggregationScope = (tAggregationScope.length() == 0 ? "0" : tAggregationScope);
+            navigateStatMethodCall(tClassName, tMethodName, Integer.parseInt(tAggregationScope));
         } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
         {
             int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_FLOW.length()));
@@ -78,6 +84,9 @@ public class Controller implements HistoryListener
         } else if (HISTORY_HOME.equals(pHisoryToken) || pHisoryToken.length() == 0)
         {
             JMonitoring.setContentMain(new SimplePanel());
+        } else if (HISTORY_IMPORT_FLOW.equals(pHisoryToken))
+        {
+            JMonitoring.setContentMain(new ImportPanel());
         } else
         {
             JMonitoring.setContentMain(new HTML("Unknown panel..."));
@@ -137,9 +146,14 @@ public class Controller implements HistoryListener
         return Controller.HISTORY_LIST_METH + pClassName + "&" + pMethodName + "&" + pDurationMin + "&" + pDurationMax;
     }
 
-    public static String createStatToken(MethodCallDTO pCall)
+    public static String createStatToken(MethodCallDTO pMeth)
     {
-        return Controller.HISTORY_STAT_METH + pCall.getClassName() + "&" + pCall.getMethodName();
+        return createStatToken(pMeth.getClassName(), pMeth.getMethodName(), 0);
+    }
+
+    public static String createStatToken(String pClassName, String pMethodName, int pAggregationScope)
+    {
+        return Controller.HISTORY_STAT_METH + pClassName + "&" + pMethodName + "&" + pAggregationScope;
     }
 
     public static String createEditMethShortToken(MethodCallDTO pMethod)

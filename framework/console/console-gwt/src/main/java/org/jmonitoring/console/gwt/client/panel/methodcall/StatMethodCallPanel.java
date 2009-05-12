@@ -38,7 +38,7 @@ public class StatMethodCallPanel extends VerticalPanel implements ClickListener,
 
     private StatMethodCallDTO mData;
 
-    private final TextBox mAggregationScope = createTextBox(6);
+    private final TextBox mAggregationScope = createTextBox(6, 6, this);
 
     private final FlexTable mFlexTable;
 
@@ -72,7 +72,6 @@ public class StatMethodCallPanel extends VerticalPanel implements ClickListener,
 
         HorizontalPanel tPanel = new HorizontalPanel();
         tPanel.add(createLabel("Aggregation scope:"));
-        mAggregationScope.addKeyboardListener(this);
         tPanel.add(mAggregationScope);
         mAggregationScope.setText("" + mData.getAggregationScope());
         tPanel.add(createLabel(MS + "&nbsp;&nbsp;"));
@@ -131,7 +130,6 @@ public class StatMethodCallPanel extends VerticalPanel implements ClickListener,
 
     public void onKeyPress(Widget pWidget, char pChar, int pI)
     {
-
         if (pChar == '\r')
         {
             reloadMap();
@@ -146,12 +144,6 @@ public class StatMethodCallPanel extends VerticalPanel implements ClickListener,
             public void onSuccess(StatMethodCallDTO pMeth)
             {
                 mData = pMeth;
-                // int curLine = 0;
-                // mFlexTable.setWidget(curLine, 1, createData(mData.getNbOccurence()));
-                // mFlexTable.setWidget(++curLine, 1, createData(mData.getDurationMin() + MS));
-                // mFlexTable.setWidget(++curLine, 1, createData(mData.getDurationAvg() + MS));
-                // mFlexTable.setWidget(++curLine, 1, createData(mData.getDurationMax() + MS));
-                // mFlexTable.setWidget(++curLine, 1, createData(mData.getDurationDev() + MS));
                 Image tCreateImage = createImage(ExecutionFlowService.STAT_METHOD_CALL);
                 mStatImage.clear();
                 mStatImage.add(tCreateImage);
@@ -160,8 +152,10 @@ public class StatMethodCallPanel extends VerticalPanel implements ClickListener,
             }
 
         };
-        tService.loadStat(mData.getClassName(), mData.getMethodName(), Integer.parseInt(mAggregationScope.getText()),
-                          tCallBack);
+        int tParseInt = Integer.parseInt(mAggregationScope.getText());
+        String tToken = Controller.createStatToken(mData.getClassName(), mData.getMethodName(), tParseInt);
+        History.newItem(tToken);
+        tService.loadStat(mData.getClassName(), mData.getMethodName(), tParseInt, tCallBack);
     }
 
     public void onKeyUp(Widget pWidget, char pC, int pI)

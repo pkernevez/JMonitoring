@@ -5,7 +5,7 @@
 
     <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.HttpWriter" >
         <!-- property name="hostName" value="localhost"/-->
-        <property name="port" value="83"/>
+        <property name="port" value="8030"/>
         <!-- property name="uri" value="/console-web/Store.do"/>
         <property name="protocole" value="http"/ -->
     </bean>

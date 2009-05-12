@@ -198,7 +198,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                    <execution>
+                    <!-- execution>
                         <id>deplo</id>
                         <phase>install</phase>
                         <configuration>
@@ -210,7 +210,7 @@
                         <goals>
                             <goal>run</goal>
                         </goals>
-                    </execution>
+                    </execution-->
                     <execution>
                         <id>filtremapping</id>
                         <phase>process-classes</phase>

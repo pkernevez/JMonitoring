@@ -86,7 +86,8 @@
                     <debugSuspend>false</debugSuspend>
                     <logLevel>INFO</logLevel>
                     <style>OBF</style>
-                    <extraJvmArgs>-Xmx512m   -Dwhitelist="^http[:][/][/]127[.]0[.]0[.]1[:]8888"</extraJvmArgs>
+                    <extraJvmArgs>-Xmx512m</extraJvmArgs>
+                    <whitelist>^http[:][/][/]127[.]0[.]0[.]1[:]8888</whitelist>
                     <!--extraJvmArgs>-Xmx512m</extraJvmArgs-->
                     <gwtVersion>${gwtVersion}</gwtVersion>
                     <!-- output>target/tomcat/webapps/ROOT</output-->
@@ -147,6 +148,11 @@
             <artifactId>h2</artifactId>
             <version>1.0.77</version>
         </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.1</version>
+        </dependency>         
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
