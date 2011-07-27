@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jmonitoring.agent.sql.JMonitoringPreparedStatement;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil;
 import org.junit.After;

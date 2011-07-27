@@ -8,7 +8,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sample-core</artifactId>
-    <name>Sample-application</name>
+    <name>Sample-core</name>
     <description>
         This project provides Monitoring infrastructure for Java applications. It's based on aspectJ fonctionnalities.
     </description>
@@ -31,7 +31,7 @@
                     </buildcommands>
                 </configuration>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <executions>
@@ -57,7 +57,7 @@
                         </aspectLibrary>
                     </aspectLibraries>
                 </configuration>
-            </plugin-->
+            </plugin>
         </plugins>
     </build>
     <dependencies>

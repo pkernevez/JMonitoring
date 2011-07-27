@@ -14,6 +14,7 @@ public class TreeTracerTest extends SampleTestcase
     @Test
     public void testParameterTracer()
     {
+        assertEquals(0, MemoryWriter.countFlows());
         Mother tMother = new Mother();
         tMother.setChild1(new Child());
         tMother.setChild2(new Child());
