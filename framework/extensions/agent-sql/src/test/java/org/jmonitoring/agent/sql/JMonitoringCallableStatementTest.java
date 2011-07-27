@@ -19,9 +19,10 @@ public class JMonitoringCallableStatementTest extends SqlTestCase
     {
         Connection tCon = mSession.connection();
         CallableStatement tPStat = tCon.prepareCall("select * from EXECUTION_FLOW where Id=?");
+        assertEquals(JMonitoringCallableStatement.class, tPStat.getClass());
         tPStat.setInt(1, 34);
         tPStat.executeQuery();
-
+        
         assertEquals(1, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("CallableStatement with Sql=[select * from EXECUTION_FLOW where Id=?]\n");

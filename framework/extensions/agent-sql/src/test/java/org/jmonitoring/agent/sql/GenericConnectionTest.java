@@ -1,6 +1,7 @@
 package org.jmonitoring.agent.sql;
 
 import org.junit.Ignore;
+import org.junit.Test;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -55,12 +56,12 @@ public class GenericConnectionTest extends SqlTestCase
     // {
     // fail("Not yet implemented");
     // }
-    //
-    // @Test
-    // public void testPrepareStatementStringIntInt()
-    // {
-    // fail("Not yet implemented");
-    // }
+    
+     @Test
+     public void testPrepareStatementStringIntInt()
+     {
+     fail("Not yet implemented");
+     }
     //
     // @Test
     // public void testPrepareStatementStringInt()

@@ -243,12 +243,12 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <weaveDependencies>
+                    <!--weaveDependencies>
                         <weaveDependency>
                             <groupId>com.octo.opensource.jmonitoring</groupId>
                             <artifactId>sample-core</artifactId>
                         </weaveDependency>
-                    </weaveDependencies>
+                    </weaveDependencies-->
                     <aspectLibraries>
                         <aspectLibrary>
                             <groupId>com.octo.opensource.jmonitoring</groupId>

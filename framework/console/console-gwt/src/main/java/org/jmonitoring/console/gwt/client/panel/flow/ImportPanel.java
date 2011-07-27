@@ -1,6 +1,7 @@
 package org.jmonitoring.console.gwt.client.panel.flow;
 
-import com.google.gwt.user.client.Window;
+import org.jmonitoring.console.gwt.client.JMonitoring;
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -8,6 +9,7 @@ import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,7 +32,7 @@ public class ImportPanel extends FormPanel
 
         // Create a FileUpload widget.
         FileUpload upload = new FileUpload();
-        upload.setName("uploadFormElement");
+        upload.setName("file");
         panel.add(upload);
 
         // Add a 'submit' button.
@@ -51,11 +53,8 @@ public class ImportPanel extends FormPanel
 
             public void onSubmitComplete(FormSubmitCompleteEvent event)
             {
-                // When the form submission is successfully completed, this event is
-                // fired. Assuming the service returned a response of type text/html,
-                // we can get the result text here (see the FormPanel documentation for
-                // further explanation).
-                Window.alert(event.getResults());
+                JMonitoring.setContentMain(new HTML("<h2 class=\"info\">Flow successfully imported</h2><BR/>" + "Id="
+                    + event.getResults()));
             }
         });
 

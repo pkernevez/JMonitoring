@@ -31,7 +31,7 @@
                     </buildcommands>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <executions>
@@ -57,7 +57,7 @@
                         </aspectLibrary>
                     </aspectLibraries>
                 </configuration>
-            </plugin>
+            </plugin-->
         </plugins>
     </build>
     <dependencies>

@@ -1,5 +1,7 @@
 package org.jmonitoring.sample.aspects;
 
+import org.jmonitoring.agent.aspect.PerformanceAspect;
+
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
  * Please look at license.txt for more license detail.                     *

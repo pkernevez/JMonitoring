@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.tests.JMonitoringTestCase;
@@ -28,11 +29,14 @@ public class SqlTestCase extends JMonitoringTestCase
     {
         SpringConfigurationUtil.setContext(getApplicationContext());
         MemoryWriter.clear();
-
+        JMonitoringStatement.refresh();
+        
         ClassPathXmlApplicationContext tAContext =
             new ClassPathXmlApplicationContext(new String[] {"/jmonitoring-agent-test.xml", "/memory-test.xml" });
         SessionFactory tFacto = (SessionFactory) tAContext.getBean("sessionFactory");
+        IStoreWriter tSore = (IStoreWriter) tAContext.getBean("storeWriter");
         MemoryWriter.clear();
+        assertTrue( tAContext.getBean("storeWriter") instanceof org.jmonitoring.agent.store.impl.MemoryWriter);
         mSession = tFacto.openSession();
         mSession.beginTransaction();
     }

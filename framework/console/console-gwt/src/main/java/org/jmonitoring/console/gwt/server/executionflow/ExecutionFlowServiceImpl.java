@@ -100,7 +100,7 @@ public class ExecutionFlowServiceImpl extends RemoteServiceServlet implements Ex
             return tResult;
         } finally
         {
-            afterRollBack(mSessionFactory);
+            after(mSessionFactory);
         }
     }
 

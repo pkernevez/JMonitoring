@@ -1,6 +1,5 @@
 package org.jmonitoring.console.gwt.server.servlet;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -41,15 +40,9 @@ public class FileUploadServlet extends HttpServlet
                 ServletFileUpload tServlet = new ServletFileUpload(new DiskFileItemFactory(5 * 1024 * 1024, tRoot));
                 List<FileItem> tFiles = tServlet.parseRequest(pReq);
 
-                ByteArrayOutputStream tStream = new ByteArrayOutputStream();
-                byte[] tByte = new byte[500];
-                int tSize;
-                while ((tSize = tFiles.get(0).getInputStream().read(tByte)) > 0)
-                {
-                    tStream.write(tByte, 0, tSize);
-                }
                 ConsoleManager tConsoleManager = (ConsoleManager) SpringConfigurationUtil.getBean("consoleManager");
-                ExecutionFlowDTO tNewFlow = tConsoleManager.insertFlowFromXml(tStream.toByteArray());
+                ExecutionFlowDTO tResult = tConsoleManager.insertFlowFromXml(tFiles.get(0).getInputStream());
+                pResp.getWriter().print(tResult.getId());
                 ExecutionFlowServiceImpl.after();
             } catch (RuntimeException r)
             {

@@ -2,7 +2,6 @@ package org.jmonitoring.console.gwt.server;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -242,12 +241,11 @@ public class ConsoleManager
      * @param pFlowAsXml The GZip bytes.
      * @return The ExecutionFLow.
      */
-    public ExecutionFlowDTO convertFlowFromXml(byte[] pFlowAsXml)
+    public ExecutionFlowDTO convertFlowFromXml(InputStream pInput)
     {
-        InputStream tInput = new ByteArrayInputStream(pFlowAsXml);
         try
         {
-            GZIPInputStream tZipStream = new GZIPInputStream(tInput);
+            GZIPInputStream tZipStream = new GZIPInputStream(pInput);
             XMLDecoder tDecoder = new XMLDecoder(tZipStream);
             Object tResult = tDecoder.readObject();
             tDecoder.close();
@@ -258,9 +256,9 @@ public class ConsoleManager
         }
     }
 
-    public ExecutionFlowDTO insertFlowFromXml(byte[] pFlowAsXml)
+    public ExecutionFlowDTO insertFlowFromXml(InputStream pInput)
     {
-        ExecutionFlowDTO tFlowDto = convertFlowFromXml(pFlowAsXml);
+        ExecutionFlowDTO tFlowDto = convertFlowFromXml(pInput);
         ExecutionFlowPO tFlowPO = dtoManager.getDeepCopy(tFlowDto);
         tFlowPO.setId(-1);
         mDao.insertFullExecutionFlow(tFlowPO);

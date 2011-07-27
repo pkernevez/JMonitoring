@@ -558,4 +558,11 @@ public class JMonitoringStatement implements Statement, IProxyStatement
     {
         mRealStatement.setQueryTimeout(pSeconds);
     }
+
+    //TODO Mettre en place un bus 'configurationchangenotification'
+    public static void refresh()
+    {
+        sStoreManager = new ThreadLocal<StoreManager>();
+        
+    }
 }

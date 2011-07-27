@@ -46,6 +46,10 @@ public class Controller implements HistoryListener
 
     private SearchFlowPanel mLastSearch;
 
+    private EditFlowPanel mLastEdit;
+
+    private String mLastEditToken;
+
     private static Controller sController;
 
     public Controller()
@@ -72,8 +76,14 @@ public class Controller implements HistoryListener
             navigateStatMethodCall(tClassName, tMethodName, Integer.parseInt(tAggregationScope));
         } else if (pHisoryToken != null && pHisoryToken.startsWith(HISTORY_EDIT_FLOW))
         {
-            int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_FLOW.length()));
-            navigateEditFlow(pFlowId);
+            if (pHisoryToken.equals(mLastEditToken))
+            {
+                JMonitoring.setContentMain(mLastEdit);
+            } else
+            {
+                int pFlowId = Integer.parseInt(pHisoryToken.substring(HISTORY_EDIT_FLOW.length()));
+                navigateEditFlow(pFlowId);
+            }
         } else if (HISTORY_SEARCH.equals(pHisoryToken))
         {
             if (mLastSearch == null)
@@ -112,6 +122,7 @@ public class Controller implements HistoryListener
         ExecutionFlowServiceAsync tService = getService();
         AsyncCallback<RootMethodCallDTO> tCallBack = new DefaultCallBack<RootMethodCallDTO>()
         {
+
             public void onSuccess(RootMethodCallDTO pMeth)
             {
                 JMonitoring.setContentMain(new EditMethodCallPanel(pMeth));
@@ -135,6 +146,9 @@ public class Controller implements HistoryListener
                     mLastSearch = (SearchFlowPanel) tWidget;
                 }
                 JMonitoring.setContentMain(new EditFlowPanel(pFlow));
+
+                mLastEdit = (EditFlowPanel) JMonitoring.getContentMain();
+                mLastEditToken = History.getToken();
             }
 
         };

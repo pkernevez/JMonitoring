@@ -57,9 +57,9 @@
                                 <configuration>
                                     <tasks>
                                         <echo>*** Copy to serveur ***</echo>
-                                        <delete file="${application.server.deploy.dir}/${pom.artifactId}.war" />
-                                        <copy file="target/${pom.artifactId}-${pom.version}.war"
-                                            tofile="${application.server.deploy.dir}/${pom.artifactId}.war" />
+                                        <delete file="${application.server.deploy.dir}/${project.artifactId}.war" />
+                                        <copy file="target/${project.artifactId}-${project.version}.war"
+                                            tofile="${application.server.deploy.dir}/${project.artifactId}.war" />
                                     </tasks>
                                 </configuration>
                                 <goals>
@@ -86,7 +86,7 @@
                     <debugSuspend>false</debugSuspend>
                     <logLevel>INFO</logLevel>
                     <style>OBF</style>
-                    <extraJvmArgs>-Xmx512m</extraJvmArgs>
+                    <extraJvmArgs>-Xmx512m -verbose:gc</extraJvmArgs>
                     <whitelist>^http[:][/][/]127[.]0[.]0[.]1[:]8888</whitelist>
                     <!--extraJvmArgs>-Xmx512m</extraJvmArgs-->
                     <gwtVersion>${gwtVersion}</gwtVersion>
@@ -152,6 +152,11 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.2.1</version>
+        </dependency>         
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
         </dependency>         
         <dependency>
             <groupId>com.google.gwt</groupId>

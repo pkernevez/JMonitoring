@@ -36,7 +36,7 @@ public abstract aspect PerformanceAspect
     /** Allow to trace the returnValue of a method. */
     protected IResultTracer mResultTracer;
 
-    /** Allow to trace the d�tail of an Exception. */
+    /** Allow to trace the detail of an Exception. */
     protected IThrowableTracer mThowableTracer;
 
     /** Name associated to this Aspect */
