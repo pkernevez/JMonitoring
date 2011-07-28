@@ -35,16 +35,16 @@
 		<url>http://www.octo.com/</url>
 	</organization>
 	<url>http://forge.octo.com/</url>
-	<repositories>
+ 	<repositories>
 		<repository>
-			<id>forge-releases</id>
-			<name>Maven 2 forge Repository for releases</name>
-			<url>http://forge.octo.com/archiva/repository/forge-releases</url>
+			<id>jmxtoolss</id>
+			<name>Repo where can be find jmxtools-1.2.1.jar</name>
+			<url>http://simile.mit.edu/maven</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-		<repository>
+<!-- 		<repository>
 			<id>forge-snapshots</id>
 			<name>Maven 2 forge Repository for snapshots</name>
 			<url>http://forge.octo.com/archiva/repository/forge-snapshots</url>
@@ -56,7 +56,7 @@
 			<id>3rd-party</id>
 			<name>3rd party repository</name>
 			<url>http://forge.octo.com/archiva/repository/3rd-party</url>
-		</repository>
+		</repository> -->
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -80,7 +80,7 @@
 			<name>3rd party repository</name>
 			<url>http://forge.octo.com/archiva/repository/3rd-party</url>
 		</pluginRepository>
-	</pluginRepositories>
+	</pluginRepositories> -->
 	<scm>
 		<connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk</connection>
 		<developerConnection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk</developerConnection>
@@ -90,7 +90,7 @@
 		<system>jira</system>
 		<url>http://forge.octo.com/jira/browse/JMO</url>
 	</issueManagement>
-	<distributionManagement>
+<!-- 	<distributionManagement>
 		<repository>
 			<id>archiva.forge.octo.com</id>
 			<name>OCTO Release Distribution Repository</name>
@@ -105,7 +105,7 @@
 			<url>file:///${jmonitoring.site.deploy}</url>
 		</site>
 	</distributionManagement>
-	<mailingLists>
+ -->	<mailingLists>
 		<mailingList>
 			<name>jmonitoring-user@lists.sourceforge.net</name>
 			<subscribe>https://lists.sourceforge.net/lists/listinfo/jmonitoring-user</subscribe>
