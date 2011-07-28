@@ -27,7 +27,7 @@
     </definition>
     
     <definition name="ok" extends="staticlayout">
-        <put name="body" value="/pages/Ok.jsp"/>
+        <put name="body" value="/pages/ok.jsp"/>
     </definition>
     
     <definition name="errorpage" path="/pages/error.jsp"/>

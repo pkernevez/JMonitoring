@@ -3,7 +3,7 @@
                          "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app id="jmonitoring-old">
     <display-name>Java Monitoring Administration Console</display-name>
-    <description>This console allow to consult the log information in into the log DataBase.</description>
+    <description>JMonitoring log consultation.</description>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/classes/spring.xml</param-value>
