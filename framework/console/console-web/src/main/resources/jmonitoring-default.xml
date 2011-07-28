@@ -92,5 +92,6 @@
     </bean>
 
     <!-- Default configuration when the console is use for HttpLogging into H2 database -->
+   <!--  bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean>-->
     <bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean>
 </beans>
