@@ -19,7 +19,7 @@
     </description>
 
 	<properties>
-		<aspectj.version>1.6.1</aspectj.version>
+		<aspectj.version>1.6.2</aspectj.version>
 		<gwtVersion>1.5.3</gwtVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<organization.logo>http://www.octo.com/images/logo.gif</organization.logo>

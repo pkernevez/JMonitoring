@@ -78,6 +78,10 @@
                 <entry key="Jdbc" value="255, 255, 0" />
                 <entry key="SomeNonStatics" value="0, 255, 0" />
                 <entry key="SomeStatics" value="255, 0, 0" />
+                <entry key="BusinessDelegate" value="255, 0, 0" />
+                <entry key="BusinessFacadeEJB" value="255, 0, 255" />
+                <entry key="DAO" value="255, 255, 0" />
+                
             </map>
         </property>
     </bean>
