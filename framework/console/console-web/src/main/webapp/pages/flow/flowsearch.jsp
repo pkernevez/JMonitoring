@@ -24,7 +24,7 @@ FlowSearchForm tForm = (FlowSearchForm)request.getAttribute("flowsearchform");
 		<tr>
 			<td>Group name</td>
 			<td><html:text property="firstMeasureGroupName" size="20" maxlength="20"/></td>
-			<td>Begin date (<%=((FormaterBean)SpringConfigurationUtil.getBean("formater")).getDateFormater().toPattern()%>)</td>
+			<td>Begin date (<%=((FormaterBean)SpringConfigurationUtil.getBean("formater")).getDateFormatter().toPattern()%>)</td>
 			<td>
 				<html:text property="beginDate" size="8" maxlength="8"/>
 				<img class="mycalendar" src="images/img.gif" id="f_trigger_c" 

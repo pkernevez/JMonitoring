@@ -10,11 +10,11 @@ import java.util.Date;
 
 public class FormaterBean
 {
-    private SimpleDateFormat mDateTimeFormater;
+    private ThreadLocal<SimpleDateFormat> mDateTimeFormater;
 
-    private SimpleDateFormat mDateFormater;
+    private ThreadLocal<SimpleDateFormat> mDateFormater;
 
-    private SimpleDateFormat mTimeFormater;
+    private ThreadLocal<SimpleDateFormat> mTimeFormater;
 
     private String mDateFormat;
 
@@ -22,19 +22,19 @@ public class FormaterBean
 
     public Date parseTime(String tTime) throws ParseException
     {
-        return mTimeFormater.parse(tTime);
+        return getTimeFormatter().parse(tTime);
     }
 
     public String formatTime(Date tTime)
     {
-        return mTimeFormater.format(tTime);
+        return getTimeFormatter().format(tTime);
     }
 
     public Date parseDateTime(String tTime)
     {
         try
         {
-            return mDateTimeFormater.parse(tTime);
+            return getDateTimeFormatter().parse(tTime);
         } catch (ParseException e)
         {
             throw new MeasureException("Unable to parse Date", e);
@@ -45,7 +45,7 @@ public class FormaterBean
     {
         try
         {
-            return (pDate == null || pDate.length() == 0 ? null : mDateFormater.parse(pDate));
+            return (pDate == null || pDate.length() == 0 ? null : getDateFormatter().parse(pDate));
         } catch (ParseException e)
         {
             throw new MeasureException("Unable to parse Date", e);
@@ -54,12 +54,12 @@ public class FormaterBean
 
     public String formatDateTime(Date tTime)
     {
-        return mDateTimeFormater.format(tTime);
+        return getDateTimeFormatter().format(tTime);
     }
 
     public String formatDate(Date tTime)
     {
-        return mDateFormater.format(tTime);
+        return getDateFormatter().format(tTime);
     }
 
     public String formatDateTime(long tTime)
@@ -67,21 +67,15 @@ public class FormaterBean
         return formatDateTime(new Date(tTime));
     }
 
-    //
-    // public Object formatDate(Date pDate)
-    // {
-    // return mDateTimeFormater.format(pDate);
-    // }
-
     /**
      * @param pDateFormat the mDateTimeFormater to set
      */
     public void setDateFormat(String pDateFormat)
     {
         mDateFormat = pDateFormat;
-        String tFormat = (mTimeFormat == null ? pDateFormat : pDateFormat + " " + mTimeFormat);
-        mDateTimeFormater = new SimpleDateFormat(tFormat);
-        mDateFormater = new SimpleDateFormat(pDateFormat);
+        mDateFormater = new ThreadLocal<SimpleDateFormat>();
+        mDateTimeFormater = new ThreadLocal<SimpleDateFormat>();
+        mTimeFormater = new ThreadLocal<SimpleDateFormat>();
     }
 
     /**
@@ -90,18 +84,40 @@ public class FormaterBean
     public void setTimeFormat(String pTimeFormat)
     {
         mTimeFormat = pTimeFormat;
-        if (mDateFormat != null)
-        {
-            mDateTimeFormater = new SimpleDateFormat(mDateFormat + " " + mTimeFormat);
-        }
-        mTimeFormater = new SimpleDateFormat(pTimeFormat);
+        mDateFormater = new ThreadLocal<SimpleDateFormat>();
+        mDateTimeFormater = new ThreadLocal<SimpleDateFormat>();
+        mTimeFormater = new ThreadLocal<SimpleDateFormat>();
     }
 
+    private SimpleDateFormat getTimeFormatter(){
+        SimpleDateFormat tResult = mTimeFormater.get();
+        if (tResult == null){
+            tResult = new SimpleDateFormat(mTimeFormat);
+            mTimeFormater.set(tResult);
+        }
+        return tResult;       
+    }
+    
+    private SimpleDateFormat getDateTimeFormatter(){
+        SimpleDateFormat tResult = mDateTimeFormater.get();
+        if (tResult == null){
+            String tFormat = (mDateFormat == null?"":mDateFormat+" ")+(mTimeFormat==null?"":mTimeFormat);
+            tResult = new SimpleDateFormat(tFormat);
+            mDateTimeFormater.set(tResult);
+        }
+        return tResult;
+    }
+    
     /**
      * @return the dateFormater
      */
-    public synchronized SimpleDateFormat getDateFormater()
+    public synchronized SimpleDateFormat getDateFormatter()
     {
-        return mDateFormater;
+        SimpleDateFormat tResult = mDateFormater.get();
+        if (tResult == null){
+            tResult = new SimpleDateFormat(mDateFormat);
+            mDateFormater.set(tResult);
+        }
+        return tResult;  
     }
 }

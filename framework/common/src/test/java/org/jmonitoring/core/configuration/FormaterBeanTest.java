@@ -22,6 +22,15 @@ public class FormaterBeanTest extends TestCase
     @Resource(name = "formater")
     private FormaterBean mFormater;
 
+    /**
+     * Get the jet lag between the local of the test author and the runner.
+     * 
+     * @return
+     */
+//    private long getElapseTime(){
+//        long 
+//          }
+
     @Test
     public void testFormatDateTime()
     {
