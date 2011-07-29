@@ -36,23 +36,8 @@ public class FormaterBeanTest extends TestCase
     {
         TimeZone tAuthorTimeZone = TimeZone.getTimeZone("Europe/Zurich");
         TimeZone tDefaultTimeZone = TimeZone.getDefault();
-      return   tAuthorTimeZone.getOffset(10000000000L)-tDefaultTimeZone.getOffset(10000000000L);
-//        Locale tAuthorLocal =new Locale("en", "US"); 
-//                        //new Locale("fr", "CH");
-//        Locale tDefaultLocal = Locale.getDefault();
-//        SimpleDateFormat tAuthorFormatter = new SimpleDateFormat("26/04/70 18:46:40", tAuthorLocal);
-//        SimpleDateFormat tDefaultFormatter = new SimpleDateFormat("26/04/70 18:46:40", tDefaultLocal);
-//        long tResult =
-//            tDefaultFormatter.parse("26/04/70 18:46:40").getTime()
-//                - tAuthorFormatter.parse("26/04/70 18:46:40").getTime();
-//        return tResult;
+        return tAuthorTimeZone.getOffset(10000000000L) - tDefaultTimeZone.getOffset(10000000000L);
     }
-
-//    @Test
-//    public void testElapseTime() throws ParseException
-//    {
-//        assertEquals(TimeZone.getDefault().toString(), 5*60*60*1000, getElapseTime());
-//    }
 
     @Test
     public void testFormatDateTime() throws ParseException
@@ -65,19 +50,19 @@ public class FormaterBeanTest extends TestCase
                      mFormater.formatDateTime(new Date(10000000000L + getElapseTime())));
         mFormater.setDateFormat("yy/MM/dd");
         mFormater.setTimeFormat("HH:mm");
-        assertEquals("70/04/26 18:46", mFormater.formatDateTime(10000000000L));
-        assertEquals("70/04/26 18:46", mFormater.formatDateTime(new Date(10000000000L)));
+        assertEquals("70/04/26 18:46", mFormater.formatDateTime(10000000000L + getElapseTime()));
+        assertEquals("70/04/26 18:46", mFormater.formatDateTime(new Date(10000000000L + getElapseTime())));
     }
 
     @Test
-    public void testParseDateTime()
+    public void testParseDateTime() throws ParseException
     {
         mFormater.setDateFormat("dd/MM/yy");
         mFormater.setTimeFormat("HH:mm:ss");
-        assertEquals(10000000000L, mFormater.parseDateTime("26/04/70 18:46:40").getTime());
+        assertEquals(10000000000L + getElapseTime(), mFormater.parseDateTime("26/04/70 18:46:40").getTime());
         mFormater.setDateFormat("yy/MM/dd");
         mFormater.setTimeFormat("HH:mm");
-        assertEquals(9999960000L, mFormater.parseDateTime("70/04/26 18:46").getTime());
+        assertEquals(9999960000L + getElapseTime(), mFormater.parseDateTime("70/04/26 18:46").getTime());
     }
 
 }
