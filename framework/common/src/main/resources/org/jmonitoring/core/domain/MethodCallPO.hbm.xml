@@ -11,15 +11,15 @@
 		<!-- id name="id" column="ID" unsaved-value="-1">
         	<generator class="native" />
       	</id-->
-
+<!-- See InsertionDao before change some lenght value -->
       <property name="params" column="PARAMETERS" type="text" />
       <property name="beginTime" column="BEGIN_TIME" type="java.lang.Long" />
       <property name="endTime" column="END_TIME" type="java.lang.Long" />
       <property name="className" column="FULL_CLASS_NAME" type="java.lang.String" length="120"/>
       <property name="runtimeClassName" column="RUNTIME_CLASS_NAME" type="java.lang.String" length="120"/>
-      <property name="methodName" column="METHOD_NAME" type="java.lang.String" length="50"/>
+      <property name="methodName" column="METHOD_NAME" type="java.lang.String" length="80"/>
       <property name="throwableClass" column="THROWABLE_CLASS_NAME" type="java.lang.String" length="120" />
-      <property name="throwableMessage" column="THROWABLE_MESSAGE" type="java.lang.String" />
+      <property name="throwableMessage" column="THROWABLE_MESSAGE" type="java.lang.String" length="120" />
       <property name="returnValue" column="RESULT" type="text" />
       <property name="groupName" column="GROUP_NAME" type="java.lang.String" length="30"/>
 		

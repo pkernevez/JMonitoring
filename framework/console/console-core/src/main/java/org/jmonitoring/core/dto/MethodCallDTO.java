@@ -195,17 +195,6 @@ public class MethodCallDTO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The name of the <code>Class</code> of the <code>Exception</code> thrown by the method associated with
-     *         this <code>MethodCallDTO</code>. Null if the method ended normally.
-     */
-    public String getThrowableClassName()
-    {
-        return mThrowableClass;
-    }
-
-    /**
-     * Accessor.
-     * 
      * @return The message of the <code>Exception</code> thrown by the method associated with this
      *         <code>MethodCallDTO</code>. Null if the method ended normally.
      */
@@ -367,7 +356,7 @@ public class MethodCallDTO implements Serializable
     /**
      * @return Returns the throwableClass.
      */
-    protected String getThrowableClass()
+    public String getThrowableClass()
     {
         return mThrowableClass;
     }

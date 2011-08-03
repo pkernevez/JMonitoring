@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.jmonitoring.core.info.IResultTracer;
 
-public class TestToStringResultTracer extends TestCase {
+public class ToStringResultTracerTest extends TestCase {
 
     public void testConvertToString() {
         IResultTracer tTracer = new ToStringResultTracer();

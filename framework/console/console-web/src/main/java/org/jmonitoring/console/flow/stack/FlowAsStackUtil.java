@@ -168,9 +168,9 @@ public class FlowAsStackUtil
         {
             tBuffer.append("\n ReturnValue=[").append(pMeasure.getReturnValue()).append("]");
         }
-        if (pMeasure.getThrowableClassName() != null)
+        if (pMeasure.getThrowableClass() != null)
         {
-            tBuffer.append("\n ThrowableClassName=[").append(pMeasure.getThrowableClassName()).append("]");
+            tBuffer.append("\n ThrowableClassName=[").append(pMeasure.getThrowableClass()).append("]");
         }
         if (pMeasure.getThrowableMessage() != null)
         {

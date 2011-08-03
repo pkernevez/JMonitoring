@@ -37,6 +37,7 @@ public class DtoManager
         tResult.setEndTime(mFormater.formatDateTime(pFlowPO.getEndTime()));
         tResult.setClassName(pFlowPO.getFirstClassName());
         tResult.setMethodName(pFlowPO.getFirstMethodName());
+        tResult.setDuration(pFlowPO.getDuration());
         return tResult;
     }
 

@@ -75,12 +75,13 @@
             <map>
                 <entry key="Default" value="0, 255, 255" />
                 <entry key="SQL" value="0, 0, 255" />
-                <entry key="Jdbc" value="255, 255, 0" />
+                <entry key="Jdbc" value="120, 120, 120" />
                 <entry key="SomeNonStatics" value="0, 255, 0" />
                 <entry key="SomeStatics" value="255, 0, 0" />
                 <entry key="BusinessDelegate" value="255, 0, 0" />
                 <entry key="BusinessFacadeEJB" value="255, 0, 255" />
                 <entry key="DAO" value="255, 255, 0" />
+                <entry key="Conversion" value="255, 255, 0" />
                 
             </map>
         </property>

@@ -11,9 +11,13 @@ import org.jmonitoring.console.AbstractSpringAction;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.process.ConsoleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImportFlowActionOut extends AbstractSpringAction
 {
+    private static Logger sLog = LoggerFactory.getLogger(ImportFlowActionOut.class);
+    
     @Override
     public ActionForward executeWithSpringContext(ActionMapping pMapping, ActionForm pForm,
         HttpServletRequest pRequest, HttpServletResponse pResponse) throws Exception
@@ -23,6 +27,7 @@ public class ImportFlowActionOut extends AbstractSpringAction
 
         ImportFlowForm tForm = (ImportFlowForm) pForm;
 
+        try {
         FormFile myFile = tForm.getTheFile();
         byte[] tFileData = myFile.getFileData();
 
@@ -30,6 +35,10 @@ public class ImportFlowActionOut extends AbstractSpringAction
         tForm.setNewExecutionFlow(tNewFlow);
 
         return pMapping.findForward("success");
+        } catch(RuntimeException e){
+            sLog.error("Unable to insertFlow",e);
+            throw e;
+        }
     }
 
 }

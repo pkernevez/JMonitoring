@@ -24,7 +24,11 @@ public class GenericDriver implements Driver
 
     private String mUrl;
 
-    @SuppressWarnings("unchecked")
+    public GenericDriver()
+    {
+        this("oracle.jdbc.OracleDriver","jdbc:oracle:thin:@localhost:1521:INSAPOR0" );
+    }
+    
     public GenericDriver(String pDriverClassName, String pUrl)
     {
         super();

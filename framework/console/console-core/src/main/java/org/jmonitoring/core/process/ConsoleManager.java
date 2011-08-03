@@ -12,6 +12,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.annotation.Resource;
+import javax.management.RuntimeErrorException;
 
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.exception.SQLGrammarException;
@@ -166,7 +167,7 @@ public class ConsoleManager
      * @param pFlowAsXml The GZip bytes.
      * @return The ExecutionFLow.
      */
-    public ExecutionFlowDTO convertFlowFromXml(byte[] pFlowAsXml)
+    protected ExecutionFlowPO convertFlowFromXml(byte[] pFlowAsXml)
     {
         InputStream tInput = new ByteArrayInputStream(pFlowAsXml);
         try
@@ -175,7 +176,22 @@ public class ConsoleManager
             XMLDecoder tDecoder = new XMLDecoder(tZipStream);
             Object tResult = tDecoder.readObject();
             tDecoder.close();
-            return (ExecutionFlowDTO) tResult;
+            if (tResult instanceof ExecutionFlowDTO)
+            {
+                ExecutionFlowDTO tResult2 = (ExecutionFlowDTO) tResult;
+                ExecutionFlowPO tFlow = dtoManager.getDeepCopy(tResult2);
+                tFlow.setEndTime(tFlow.getBeginTime()+tResult2.getDuration());
+                return tFlow;
+            } else if (tResult instanceof ExecutionFlowPO)
+            {
+                ExecutionFlowPO tFlow = (ExecutionFlowPO) tResult;
+                tFlow.setId(-1);
+                return tFlow;
+            } else
+            {
+                throw new RuntimeException("invalid class in gzip file: " + tResult.getClass().getName());
+            }
+
         } catch (IOException e)
         {
             throw new MeasureException("Unable to Zip Xml ExecutionFlow", e);
@@ -184,11 +200,9 @@ public class ConsoleManager
 
     public ExecutionFlowDTO insertFlowFromXml(byte[] pFlowAsXml)
     {
-        ExecutionFlowDTO tFlowDto = convertFlowFromXml(pFlowAsXml);
-        ExecutionFlowPO tFlowPO = dtoManager.getDeepCopy(tFlowDto);
-        tFlowPO.setId(-1);
-        mDao.insertFullExecutionFlow(tFlowPO);
-        return dtoManager.getDeepCopy(tFlowPO);
+        ExecutionFlowPO tFlow = convertFlowFromXml(pFlowAsXml);
+        mDao.insertFullExecutionFlow(tFlow);
+        return dtoManager.getDeepCopy(tFlow);
     }
 
     public MethodCallDTO readPrevMethodCall(int pFlowId, int pPosition, String pGroupName)

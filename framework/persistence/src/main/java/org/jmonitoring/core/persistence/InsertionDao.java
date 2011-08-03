@@ -43,7 +43,9 @@ public class InsertionDao implements IInsertionDao
     /*
      * (non-Javadoc)
      * 
-     * @see org.jmonitoring.core.persistence.IInsertionDao#insertFullExecutionFlow(org.jmonitoring.core.domain.ExecutionFlowPO)
+     * @see
+     * org.jmonitoring.core.persistence.IInsertionDao#insertFullExecutionFlow(org.jmonitoring.core.domain.ExecutionFlowPO
+     * )
      */
     public int insertFullExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
@@ -135,12 +137,11 @@ public class InsertionDao implements IInsertionDao
         return tNewBatchBufferSize;
     }
 
-    private static final String SQL_INSERT_METHOD_CALL =
-        "INSERT INTO METHOD_CALL "
-            + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, RUNTIME_CLASS_NAME,"
-            + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
-            + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
-            + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String SQL_INSERT_METHOD_CALL = "INSERT INTO METHOD_CALL "
+        + "(FLOW_ID, INDEX_IN_FLOW, PARAMETERS, BEGIN_TIME, END_TIME, FULL_CLASS_NAME, RUNTIME_CLASS_NAME,"
+        + "METHOD_NAME, THROWABLE_CLASS_NAME, THROWABLE_MESSAGE, "
+        + "RESULT, GROUP_NAME, PARENT_INDEX_IN_FLOW, SUB_METH_INDEX )"
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     int saveMethodCall(MethodCallPO pMethodCall, int pCurIndex, int pBatchBufferSize)
     {
@@ -172,13 +173,13 @@ public class InsertionDao implements IInsertionDao
             mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getParams());
             mMethodCallInsertStatement.setLong(curIndex++, pMethodCall.getBeginTime());
             mMethodCallInsertStatement.setLong(curIndex++, pMethodCall.getEndTime());
-            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getClassName());
-            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getRuntimeClassName());
-            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getMethodName());
-            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getThrowableClass());
-            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getThrowableMessage());
+            mMethodCallInsertStatement.setString(curIndex++, limitString(pMethodCall.getClassName(), 120));
+            mMethodCallInsertStatement.setString(curIndex++, limitString(pMethodCall.getRuntimeClassName(), 120));
+            mMethodCallInsertStatement.setString(curIndex++, limitString(pMethodCall.getMethodName(), 80));
+            mMethodCallInsertStatement.setString(curIndex++, limitString(pMethodCall.getThrowableClass(), 120));
+            mMethodCallInsertStatement.setString(curIndex++, limitString(pMethodCall.getThrowableMessage(), 120));
             mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getReturnValue());
-            mMethodCallInsertStatement.setString(curIndex++, pMethodCall.getGroupName());
+            mMethodCallInsertStatement.setString(curIndex++,limitString(pMethodCall.getGroupName(), 30));
             if (pMethodCall.getParentMethodCall() == null)
             {
                 mMethodCallInsertStatement.setObject(curIndex++, null);
@@ -196,6 +197,11 @@ public class InsertionDao implements IInsertionDao
         {
             throw new DataBaseException("Unable to insert METHOD_CALL into DB", e);
         }
+    }
+
+    private String limitString(String pString, int pMaxSize)
+    {
+        return (pString==null||pString.length()<=120?pString:pString.substring(0, 117)+"...");
     }
 
     public int countFlows()

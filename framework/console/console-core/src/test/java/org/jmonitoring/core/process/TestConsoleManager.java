@@ -1,5 +1,8 @@
 package org.jmonitoring.core.process;
 
+import java.beans.XMLEncoder;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
@@ -150,7 +153,7 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
         assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
-        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClassName());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
         assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
         assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
         assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginMilliSeconds());
@@ -167,7 +170,7 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
         assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
-        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClassName());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
         assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
         assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
         assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
@@ -180,7 +183,7 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
         assertEquals("[]", tReadPoint.getParams());
         assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
-        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClassName());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
         assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
         assertEquals(mFormater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
         assertEquals(mFormater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
@@ -451,6 +454,28 @@ public class TestConsoleManager extends PersistanceTestCase
     }
 
     @Test
+    public void testConvertFlowToXmlThrowableClass()
+    {
+        // First insert a flow
+        ExecutionFlowPO tFlow = ConsoleDaoTest.buildNewFullFlow();
+
+        int tFlowId = mDao.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+        assertTrue(tFlowId > 0);
+
+        ExecutionFlowDTO tFlowDto = dtoManager.getDeepCopy(tFlow);
+        ByteArrayOutputStream tStream = new ByteArrayOutputStream();
+        XMLEncoder tEncoder = new XMLEncoder(tStream);
+        tEncoder.writeObject(tFlowDto);
+        tEncoder.close();
+        String tOutput = tStream.toString();
+        assertTrue(tOutput.contains("throwableMessage"));
+        assertTrue(tOutput.contains("throwableClass"));
+        byte[] tFlowAsXml = mManager.convertFlowToXml(tFlowDto);
+        assertTrue("The byte[] is to small...[" + tFlowAsXml.length + "]", tFlowAsXml.length > 100);
+    }
+
+    @Test
     public void testSerialisationConversion()
     {
         // First insert a flow
@@ -463,7 +488,7 @@ public class TestConsoleManager extends PersistanceTestCase
         ExecutionFlowDTO tFlowDto = dtoManager.getDeepCopy(tFlow);
         byte[] tFlowAsXml = mManager.convertFlowToXml(tFlowDto);
 
-        ExecutionFlowDTO tNewFlow = mManager.convertFlowFromXml(tFlowAsXml);
+        ExecutionFlowDTO tNewFlow = dtoManager.getDeepCopy(mManager.convertFlowFromXml(tFlowAsXml));
         assertNotSame(tFlowDto, tNewFlow);
         assertEquals(tFlowDto.getDuration(), tNewFlow.getDuration());
         assertEquals(tFlowDto.getBeginTime(), tNewFlow.getBeginTime());
@@ -489,7 +514,7 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tMeth.getParent(), tNewMeth.getParent());
         assertEquals(tMeth.getPosition(), tNewMeth.getPosition());
         assertEquals(tMeth.getReturnValue(), tNewMeth.getReturnValue());
-        assertEquals(tMeth.getThrowableClassName(), tNewMeth.getThrowableClassName());
+        assertEquals(tMeth.getThrowableClass(), tNewMeth.getThrowableClass());
         assertEquals(tMeth.getThrowableMessage(), tNewMeth.getThrowableMessage());
     }
 

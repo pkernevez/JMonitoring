@@ -124,7 +124,9 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         tSubPoint.setBeginTime(tStartTime + 2); // 3
         tSubPoint.setEndTime(tStartTime + 5);
         tSubPoint.setRuntimeClassName(PersistanceTestCase.class.getName() + "iuiu");
-
+        tSubPoint.setThrowableClass(RuntimeException.class.getName());
+        tSubPoint.setThrowableMessage("An error occured !");
+        
         tSubPoint2 =
             new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint2.setBeginTime(tStartTime + 8);// 21
