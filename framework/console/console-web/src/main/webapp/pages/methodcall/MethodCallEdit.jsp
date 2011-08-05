@@ -98,7 +98,7 @@
 	<logic:empty name="methodcallform" property="methodCall.returnValue">
 		<tr>
 			<td NOWRAP>ThrowableClass:</td>
-			<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.throwableClassName"/></b></td>
+			<td NOWRAP colSpan="2"><b><bean:write name="methodcallform" property="methodCall.throwableClass"/></b></td>
 		</tr>
 		<tr>
 			<td NOWRAP>ThrowableMsg:</td>
