@@ -126,10 +126,8 @@ public class FlowChartBarUtil
         // List tListOfClidren = pCurMeasure.getChildren();
         Date tBeginDate;
         Date tEndDate = new Date(pCurMeasure.getBeginMilliSeconds());
-        MethodCallDTO curChild;
-        for (int i = 0; i < pCurMeasure.getChildren().length; i++)
+        for (MethodCallDTO curChild : pCurMeasure.getChildren())
         {
-            curChild = pCurMeasure.getChild(i);
             tBeginDate = tEndDate;
             tEndDate = new Date(curChild.getBeginMilliSeconds());
             addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
