@@ -54,8 +54,9 @@ public final class SpringConfigurationUtil
                 tContext = new ClassPathXmlApplicationContext(DEFAULT_SPRING_FILE_NAME);
             } catch (BeansException e2)
             {
-                sLog.error("Unable to find any configuration, check jmonitoring configuration", e2);
-                throw e2;
+                sLog.error("Unable to load specific configuration, check jmonitoring configuration", e);
+                sLog.error("Unable to load default configuration, check jmonitoring configuration", e2);
+                throw new RuntimeException(e2);
             }
         } catch (RuntimeException e)
         {
