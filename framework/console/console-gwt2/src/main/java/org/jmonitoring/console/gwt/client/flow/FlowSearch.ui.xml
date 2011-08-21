@@ -27,6 +27,6 @@
 				<g:customCell><g:TextBox></g:TextBox></g:customCell>
 			</g:row>
 		</g:Grid>
-		<g:Image resource="{res.ok}"></g:Image>
+		<g:Image resource="{res.ok}" ui:field="image"></g:Image>
 	</g:VerticalPanel>
 </ui:UiBinder> 

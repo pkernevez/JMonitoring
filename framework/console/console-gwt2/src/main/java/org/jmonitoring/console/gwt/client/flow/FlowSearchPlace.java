@@ -7,10 +7,12 @@ import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
+import com.google.gwt.place.shared.Prefix;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class FlowSearchPlace extends Place implements ActivityAware {
 
+    @Prefix("flowsearch")
     public static class FlowSearchTokenizer implements PlaceTokenizer<FlowSearchPlace> {
 
         public FlowSearchPlace getPlace(String token) {

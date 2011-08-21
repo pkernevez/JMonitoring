@@ -15,7 +15,7 @@ public class Menu extends VerticalPanel
         VerticalPanel tSubMenu = new VerticalPanel();
 //        tSubMenu.add(getItem("Home", Controller.HISTORY_HOME));
         tSubMenu.add(getItem("Delete Flows", "delete"));
-//        tSubMenu.add(getItem("Search Flows", Controller.HISTORY_SEARCH));
+        tSubMenu.add(getItem("Flows Search", "flowsearch"));
         tSubMenu.add(getItem("Search Methods", "search"));
 //        tSubMenu.add(getItem("Import Flow", Controller.HISTORY_IMPORT_FLOW));
 //        this.setStyleName("menu");
