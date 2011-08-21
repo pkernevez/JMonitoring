@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <!-- Inherit our applications main module.                      -->
+  <inherits name='org.jmonitoring.console.gwt.JMonitoring'/>
+				  
+  <!-- Specify the path to any remote services.                   -->
+  <!--servlet path="/ProjetFormation/greet" class="org.jmonitoring.console.gwt.server.GreetingServiceImpl" /-->
+
+</module>
