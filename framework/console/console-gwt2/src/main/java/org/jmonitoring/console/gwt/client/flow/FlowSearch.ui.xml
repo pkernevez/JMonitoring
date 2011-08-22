@@ -10,21 +10,21 @@
 		<g:Grid>
 			<g:row>
 				<g:cell><div class="{style.label}">Thread</div></g:cell>
-				<g:customCell><g:TextBox ui:field="threadName"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="thread"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">Minimum Duration</div></g:cell>
-				<g:customCell><g:TextBox></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="minDuration"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
 				<g:cell><div class="{style.label}">Group</div></g:cell>
-				<g:customCell><g:TextBox></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Begin date (dd/MM/yy)</div></g:cell>
-				<g:customCell><g:TextBox></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="group"></g:TextBox></g:customCell>
+				<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
+				<g:customCell><g:TextBox ui:field="beginDate"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
-				<g:cell><div class="{style.label}">First Measure ClassName</div></g:cell>
-				<g:customCell><g:TextBox></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">First Measure MethodeName</div></g:cell>
-				<g:customCell><g:TextBox></g:TextBox></g:customCell>
+				<g:cell><div class="{style.label}">First Measure Class Name</div></g:cell>
+				<g:customCell><g:TextBox ui:field="firstMeasureClassName"></g:TextBox></g:customCell>
+				<g:cell><div class="{style.label}">First Measure Method Name</div></g:cell>
+				<g:customCell><g:TextBox ui:field="firstMeasureMethodName"></g:TextBox></g:customCell>
 			</g:row>
 		</g:Grid>
 		<g:Image resource="{res.ok}" ui:field="image"></g:Image>

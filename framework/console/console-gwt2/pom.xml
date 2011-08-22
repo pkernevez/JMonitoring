@@ -106,7 +106,7 @@
 						<goals>
 							<goal>compile</goal>
 							<goal>test</goal>
-							<!-- goal>i18n</goal-->
+							<!-- goal>i18n</goal -->
 							<!--goal>generateAsync</goal -->
 						</goals>
 					</execution>
@@ -116,7 +116,7 @@
 				<configuration>
 					<runTarget>ProjetFormation.html</runTarget>
 					<hostedWebapp>${webappDirectory}</hostedWebapp>
-					<!-- i18nMessagesBundle>org.jmonitoring.console.gwt.client.Messages</i18nMessagesBundle-->
+					<!-- i18nMessagesBundle>org.jmonitoring.console.gwt.client.Messages</i18nMessagesBundle -->
 					<mode>htmlunit</mode>
 					<!-- <logLevel>INFO</logLevel> <style>DETAILED</style> -->
 				</configuration>
@@ -138,6 +138,19 @@
 				<configuration>
 					<webappDirectory>${webappDirectory}</webappDirectory>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-rebel-xml</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>

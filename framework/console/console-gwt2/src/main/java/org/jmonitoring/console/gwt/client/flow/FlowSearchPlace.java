@@ -30,12 +30,6 @@ public class FlowSearchPlace extends Place implements ActivityAware {
         public void start(AcceptsOneWidget panel, EventBus eventBus) {
             panel.setWidget(new FlowSearch());
         }
-
-        @Override
-        public String mayStop() {
-            // Return non null pour demander à l'utilisateur d'arreter le traitement
-            return null;
-        }
     }
     
     public Activity getActivity() {

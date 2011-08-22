@@ -1,6 +1,7 @@
 package org.jmonitoring.console.gwt.client.flow;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
@@ -23,9 +24,18 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
 
     private static FlowSearchUiBinder uiBinder = GWT.create(FlowSearchUiBinder.class);
 
+    private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
+    
     @UiField
     Image image;
-    @UiField TextBox threadName;
+
+    @UiField
+    TextBox thread;
+    @UiField TextBox minDuration;
+    @UiField TextBox group;
+    @UiField TextBox beginDate;
+    @UiField TextBox firstMeasureClassName;
+    @UiField TextBox firstMeasureMethodName;
 
     interface FlowSearchUiBinder extends UiBinder<Widget, FlowSearch>
     {

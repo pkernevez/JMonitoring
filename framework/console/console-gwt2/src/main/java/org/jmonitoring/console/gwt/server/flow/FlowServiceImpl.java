@@ -11,7 +11,7 @@ public class FlowServiceImpl implements FlowService
 
     public List<FlowExtractDTO> search(FlowSearchRequestDTO pRequest)
     {
-        System.out.println("YES !!!"+pRequest.getThreadName());
+        System.out.println("YES !!!"+pRequest.getThread());
         return null;
     }
 
