@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-    xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client">
 	<ui:with
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle"
 		field="res"></ui:with>
@@ -10,21 +10,21 @@
 		<g:Grid>
 			<g:row>
 				<g:cell><div class="{style.label}">Thread</div></g:cell>
-				<g:customCell><g:TextBox ui:field="thread"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="thread" maxLength="25" visibleLength="25"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">Minimum Duration</div></g:cell>
-				<g:customCell><g:TextBox ui:field="minDuration"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="minDuration" maxLength="20"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
 				<g:cell><div class="{style.label}">Group</div></g:cell>
-				<g:customCell><g:TextBox ui:field="group"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="group" maxLength="20" visibleLength="25"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
-				<g:customCell><g:TextBox ui:field="beginDate"></g:TextBox></g:customCell>
+				<g:customCell><p1:DateBox ui:field="beginDate"></p1:DateBox></g:customCell>
 			</g:row>
 			<g:row>
 				<g:cell><div class="{style.label}">First Measure Class Name</div></g:cell>
-				<g:customCell><g:TextBox ui:field="firstMeasureClassName"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="firstMeasureClassName" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">First Measure Method Name</div></g:cell>
-				<g:customCell><g:TextBox ui:field="firstMeasureMethodName"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="firstMeasureMethodName" maxLength="80" visibleLength="40"></g:TextBox></g:customCell>
 			</g:row>
 		</g:Grid>
 		<g:Image resource="{res.ok}" ui:field="image"></g:Image>

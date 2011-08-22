@@ -4104,3 +4104,163 @@ Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
 Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314043891338_GenBundle
    Adding '1' new generated units
       Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314048069977_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314048070278_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314048122368_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314048185698_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314048185846_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049561797_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049561956_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049572641_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049577379_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049598404_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049635345_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049638662_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049652572_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049655526_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049723703_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1314049727818_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units

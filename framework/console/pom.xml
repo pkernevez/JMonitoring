@@ -16,7 +16,7 @@
         <module>console-core</module>
         <module>console-web</module>
         <!-- module>console-gwt</module-->
-        <!-- module>console-gwt2</module>-->
+        <module>console-gwt2</module>
     </modules>
 
     <name>Fwk-console-main</name>

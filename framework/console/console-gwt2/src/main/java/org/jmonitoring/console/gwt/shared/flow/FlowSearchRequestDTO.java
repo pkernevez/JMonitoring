@@ -1,6 +1,7 @@
 package org.jmonitoring.console.gwt.shared.flow;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -14,7 +15,7 @@ public class FlowSearchRequestDTO implements Serializable
 
     private String mGroup;
 
-    private String mBeginDate;
+    private Date mBeginDate;
 
     private String mFirstMeasureClassName;
 
@@ -50,12 +51,12 @@ public class FlowSearchRequestDTO implements Serializable
         mGroup = group;
     }
 
-    public String getBeginDate()
+    public Date getBeginDate()
     {
         return mBeginDate;
     }
 
-    public void setBeginDate(String beginDate)
+    public void setBeginDate(Date beginDate)
     {
         mBeginDate = beginDate;
     }
