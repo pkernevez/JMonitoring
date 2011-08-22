@@ -10,7 +10,7 @@
 		<g:Grid>
 			<g:row>
 				<g:cell><div class="{style.label}">Thread</div></g:cell>
-				<g:customCell><g:TextBox></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="threadName"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">Minimum Duration</div></g:cell>
 				<g:customCell><g:TextBox></g:TextBox></g:customCell>
 			</g:row>

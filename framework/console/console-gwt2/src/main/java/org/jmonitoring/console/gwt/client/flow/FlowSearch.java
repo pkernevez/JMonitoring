@@ -16,6 +16,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO>
 {
@@ -24,6 +25,7 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
 
     @UiField
     Image image;
+    @UiField TextBox threadName;
 
     interface FlowSearchUiBinder extends UiBinder<Widget, FlowSearch>
     {
@@ -40,12 +42,15 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
     public FlowSearch()
     {
         initWidget(uiBinder.createAndBindUi(this));
+        driver.initialize(this);
+        driver.edit(new FlowSearchRequestDTO());
     }
 
     @UiHandler("image")
     void onImageClick(ClickEvent event)
     {
-        service.search(null, new JMonitoringAsyncCallBack<List<FlowExtractDTO>>()
+        FlowSearchRequestDTO tDto = driver.flush();
+        service.search(tDto, new JMonitoringAsyncCallBack<List<FlowExtractDTO>>()
         {
             public void onSuccess(List<FlowExtractDTO> arg0)
             {

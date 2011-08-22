@@ -11,8 +11,11 @@
   <inherits name="com.google.gwt.activity.Activity"/>
   
   <set-property name="gwt.logging.logLevel" value="FINE"/>          # To change the default logLevel
-  <set-property name="gwt.logging.enabled" value="FALSE"/>            # To disable logging
-  <set-property name="gwt.logging.consoleHandler" value="DISABLED"/>  # To disable a default Handler
+  <set-property name="gwt.logging.enabled" value="TRUE"/>            # To disable logging
+  <set-property name="gwt.logging.firebugHandler" value="ENABLED" />
+  <set-property name="gwt.logging.consoleHandler" value="DISABLED" /> # To disable a default Handler
+  <set-property name="gwt.logging.popupHandler" value="DISABLED" />
+  
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->

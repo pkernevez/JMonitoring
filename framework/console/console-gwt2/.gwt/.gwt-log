@@ -3664,3 +3664,13 @@ Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
 Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1313968476364_GenBundle
    Adding '1' new generated units
       Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch.FlowSearchUiBinder
+   Invoking generator com.google.gwt.uibinder.rebind.UiBinderGenerator
+      validating {style.label}
+      validating {res.ok}
+      validating {style.searchmask}
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.jmonitoring.console.gwt.client.flow.FlowSearch_FlowSearchUiBinderImpl_designTime1313970348941_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
