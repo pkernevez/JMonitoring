@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.client.ui.FlexTable;
 
 public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO>
 {
@@ -27,17 +28,30 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
     private static FlowSearchUiBinder uiBinder = GWT.create(FlowSearchUiBinder.class);
 
     private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
-    
+
     @UiField
     Image image;
 
     @UiField
     TextBox thread;
-    @UiField TextBox minDuration;
-    @UiField TextBox group;
-    @UiField DateBox beginDate;
-    @UiField TextBox firstMeasureClassName;
-    @UiField TextBox firstMeasureMethodName;
+
+    @UiField
+    TextBox minDuration;
+
+    @UiField
+    TextBox group;
+
+    @UiField
+    DateBox beginDate;
+
+    @UiField
+    TextBox firstMeasureClassName;
+
+    @UiField
+    TextBox firstMeasureMethodName;
+
+    @UiField
+    FlexTable result;
 
     interface FlowSearchUiBinder extends UiBinder<Widget, FlowSearch>
     {
@@ -54,7 +68,7 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
     public FlowSearch()
     {
         initWidget(uiBinder.createAndBindUi(this));
-        beginDate.setFormat(new DateBox.DefaultFormat( DateTimeFormat.getFormat("dd/MM/yy")));
+        beginDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yy")));
         beginDate.getTextBox().setVisibleLength(8);
         beginDate.getTextBox().setMaxLength(8);
         driver.initialize(this);
@@ -69,9 +83,16 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
         {
             public void onSuccess(List<FlowExtractDTO> arg0)
             {
+                displayResult(result);
                 System.out.println("OK");
             }
 
         });
+    }
+
+    private void displayResult(FlexTable result)
+    {
+       result.removeAllRows();
+       
     }
 }

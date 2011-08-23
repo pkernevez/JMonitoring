@@ -28,5 +28,6 @@
 			</g:row>
 		</g:Grid>
 		<g:Image resource="{res.ok}" ui:field="image"></g:Image>
+		<g:FlexTable ui:field="result"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 
