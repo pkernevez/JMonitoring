@@ -88,6 +88,11 @@
 			<classifier>sources</classifier>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>it.pianetatecno.gwt</groupId>
+			<artifactId>gwt-table</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<description>Second version of the new GWT console</description>

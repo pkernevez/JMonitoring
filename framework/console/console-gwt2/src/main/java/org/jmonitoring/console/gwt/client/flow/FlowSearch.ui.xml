@@ -5,7 +5,7 @@
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle"
 		field="res"></ui:with>
 	<ui:style src="../resources/main.css" />
-	<g:VerticalPanel styleName="{style.searchmask}">
+	<g:VerticalPanel styleName="{style.searchmask}" ui:field="vPanel">
 		<g:HTML><h1>Flow Search</h1></g:HTML> 
 		<g:Grid>
 			<g:row>
@@ -28,6 +28,5 @@
 			</g:row>
 		</g:Grid>
 		<g:Image resource="{res.ok}" ui:field="image"></g:Image>
-		<g:FlexTable ui:field="result"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

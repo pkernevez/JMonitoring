@@ -57,6 +57,14 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>CloudBeesJMonitoring</id>
+			<name>CloudBees JMonitoring</name>
+			<url>http://repository-pkernevez.forge.cloudbees.com/release/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 	<!-- <pluginRepositories> <pluginRepository> <id>forge-snapshots</id> <name>Forge 
 		Snapshot Repository</name> <url>http://forge.octo.com/archiva/repository/forge-snapshots</url> 

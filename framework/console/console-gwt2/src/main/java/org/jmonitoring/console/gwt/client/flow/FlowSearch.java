@@ -1,9 +1,12 @@
 package org.jmonitoring.console.gwt.client.flow;
 
+import it.pianetatecno.gwt.utility.client.table.Filter;
+import it.pianetatecno.gwt.utility.client.table.PagingTable;
+
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowSearchRequestDTO;
 
@@ -18,9 +21,9 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.client.ui.FlexTable;
 
 public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO>
 {
@@ -51,7 +54,7 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
     TextBox firstMeasureMethodName;
 
     @UiField
-    FlexTable result;
+    VerticalPanel vPanel;
 
     interface FlowSearchUiBinder extends UiBinder<Widget, FlowSearch>
     {
@@ -78,21 +81,10 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
     @UiHandler("image")
     void onImageClick(ClickEvent event)
     {
-        FlowSearchRequestDTO tDto = driver.flush();
-        service.search(tDto, new JMonitoringAsyncCallBack<List<FlowExtractDTO>>()
-        {
-            public void onSuccess(List<FlowExtractDTO> arg0)
-            {
-                displayResult(result);
-                System.out.println("OK");
-            }
-
-        });
+        PagingTable<FlowExtractDTO> tTable = new FlowSearchTableModel(null, service).getTable();
+        vPanel.add(tTable);
+//        List<Filter> tFilters = new LinkedList<Filter>();
+//        tTable.filterData(tFilters);
     }
 
-    private void displayResult(FlexTable result)
-    {
-       result.removeAllRows();
-       
-    }
 }
