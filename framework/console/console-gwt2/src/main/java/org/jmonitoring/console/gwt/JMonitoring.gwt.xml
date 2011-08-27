@@ -14,10 +14,8 @@
   <set-property name="gwt.logging.logLevel" value="FINE"/>          # To change the default logLevel
   <set-property name="gwt.logging.enabled" value="TRUE"/>            # To disable logging
   <set-property name="gwt.logging.firebugHandler" value="ENABLED" />
-  <set-property name="gwt.logging.consoleHandler" value="DISABLED" /> # To disable a default Handler
+  <set-property name="gwt.logging.consoleHandler" value="DISABLED" /> # To diþsable a default Handler
   <set-property name="gwt.logging.popupHandler" value="DISABLED" />
-<extend-property name="locale" values="en"/>
-  <set-property-fallback name="locale" value="en"/>
   
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->

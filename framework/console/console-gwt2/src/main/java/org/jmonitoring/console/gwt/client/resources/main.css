@@ -29,6 +29,10 @@
 	height: 100%;
 }
 
+.main-panel {
+	padding: 10px;
+}
+
 .menu {
 	padding: 2px 4px;
 	border-right: 1px dotted #DD0000;

@@ -2,17 +2,14 @@ package org.jmonitoring.console.gwt.client.flow;
 
 import it.pianetatecno.gwt.utility.client.table.Filter;
 import it.pianetatecno.gwt.utility.client.table.PagingTable;
+import it.pianetatecno.gwt.utility.client.table.StringFilter;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
-import org.jmonitoring.console.gwt.shared.flow.FlowSearchRequestDTO;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.editor.client.Editor;
-import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -25,12 +22,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
-public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO>
+public class FlowSearch extends Composite
 {
 
     private static FlowSearchUiBinder uiBinder = GWT.create(FlowSearchUiBinder.class);
 
-    private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
+    // private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
 
     @UiField
     Image image;
@@ -60,13 +57,9 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
     {
     }
 
-    interface RequestDTO extends SimpleBeanEditorDriver<FlowSearchRequestDTO, FlowSearch>
-    {
-    }
-
-    RequestDTO driver = GWT.create(RequestDTO.class);
-
     FlowServiceAsync service = GWT.create(FlowService.class);
+
+    private PagingTable<FlowExtractDTO> table;
 
     public FlowSearch()
     {
@@ -74,17 +67,44 @@ public class FlowSearch extends Composite implements Editor<FlowSearchRequestDTO
         beginDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yy")));
         beginDate.getTextBox().setVisibleLength(8);
         beginDate.getTextBox().setMaxLength(8);
-        driver.initialize(this);
-        driver.edit(new FlowSearchRequestDTO());
+        table = new FlowSearchTableModel(service).getTable();
+        vPanel.add(table);
     }
 
     @UiHandler("image")
     void onImageClick(ClickEvent event)
     {
-        PagingTable<FlowExtractDTO> tTable = new FlowSearchTableModel(null, service).getTable();
-        vPanel.add(tTable);
-//        List<Filter> tFilters = new LinkedList<Filter>();
-//        tTable.filterData(tFilters);
+        table.filterData(createFilters());
+    }
+
+    @SuppressWarnings("rawtypes")
+    private List<Filter> createFilters()
+    {
+        List<Filter> tFilters = new ArrayList<Filter>();
+        addFilter(tFilters, thread, "thread");
+        addFilter(tFilters, group, "group");
+        addFilter(tFilters, firstMeasureClassName, "firstmeasure");
+        addFilter(tFilters, minDuration, "minDuration");
+        addFilter(tFilters, beginDate, "beginDte");
+        addFilter(tFilters, firstMeasureMethodName, "methodname");
+        return tFilters;
+    }
+
+    private void addFilter(List<Filter> pFilters, DateBox pDate, String pPropertyName)
+    {
+        addFilter(pFilters, pDate.getTextBox(), pPropertyName);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void addFilter(List<Filter> pFilters, TextBox pTextBox, String pPropertyName)
+    {
+        if (pTextBox.getText().length() > 0)
+        {
+            StringFilter curFilter = new StringFilter();
+            curFilter.setPropertyName(pPropertyName);
+            curFilter.setValue(pTextBox.getText());
+            pFilters.add(curFilter);
+        }
     }
 
 }
