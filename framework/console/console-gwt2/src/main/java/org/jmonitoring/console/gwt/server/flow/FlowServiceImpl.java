@@ -14,7 +14,12 @@ import org.slf4j.LoggerFactory;
 public class FlowServiceImpl implements FlowService
 {
 
-    static Logger sLog = LoggerFactory.getLogger(FlowServiceImpl.class);
+    static Logger sLog = getLogger();
+
+    private static Logger getLogger()
+    {
+        return LoggerFactory.getLogger(FlowServiceImpl.class);
+    }
     
     public SerializableResponse<FlowExtractDTO> search(Request pRequest)
     {
