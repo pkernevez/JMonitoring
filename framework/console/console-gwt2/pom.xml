@@ -123,11 +123,21 @@
 							<!--goal>generateAsync</goal -->
 						</goals>
 					</execution>
+					<execution><id>clean</id>
+					<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+						<!-- Clean DEVMODE code -->
+						<inplace>true</inplace>
+						</configuration>
+					</execution>
 				</executions>
 				<!-- Plugin configuration. There are many available options, see gwt-maven-plugin 
 					documentation at codehaus.org -->
 				<configuration>
-					<runTarget>ProjetFormation.html</runTarget>
+					<runTarget>JMonitoring.html</runTarget>
 					<hostedWebapp>${webappDirectory}</hostedWebapp>
 					<!-- i18nMessagesBundle>org.jmonitoring.console.gwt.client.Messages</i18nMessagesBundle -->
 					<mode>htmlunit</mode>
