@@ -1,10 +1,12 @@
 package org.jmonitoring.console.gwt.server.flow;
 
+import it.pianetatecno.gwt.utility.client.table.Request;
+import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import it.pianetatecno.gwt.utility.client.table.Request;
-import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
+import javax.annotation.Resource;
 
 import org.jmonitoring.console.gwt.client.flow.FlowService;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
@@ -16,6 +18,9 @@ public class FlowServiceImpl implements FlowService
 
     static Logger sLog = getLogger();
 
+    @Resource(name = "consoleDao")
+    protected ConsoleDao dao;
+
     private static Logger getLogger()
     {
         return LoggerFactory.getLogger(FlowServiceImpl.class);
@@ -26,16 +31,8 @@ public class FlowServiceImpl implements FlowService
         sLog.info("call search");
         SerializableResponse<FlowExtractDTO> tResponse = new SerializableResponse<FlowExtractDTO>();
         tResponse.setRequest(pRequest);
-        tResponse.setTotalResults(306);
-        List<FlowExtractDTO> tResult = new ArrayList<FlowExtractDTO>();
-        for(int i=0; i<pRequest.getPageSize(); i++){
-            FlowExtractDTO tFlow = new  FlowExtractDTO();
-            tFlow.setThread("tread"+i);
-            tResult.add(tFlow);
-        }
-        
-        System.out.println("YES !!!" );
-        tResponse.setRows(tResult);
+        tResponse.setTotalResults(dao.countFlows(pRequest));
+        tResponse.setRows(dao.search(pRequest));
         return tResponse;
     }
 

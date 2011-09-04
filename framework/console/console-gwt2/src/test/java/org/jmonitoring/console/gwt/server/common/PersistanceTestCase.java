@@ -1,4 +1,4 @@
-package org.jmonitoring.test.dao;
+package org.jmonitoring.console.gwt.server.common;
 
 import javax.annotation.Resource;
 
@@ -17,13 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /***********************************************************************************************************************
@@ -31,21 +24,15 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  **********************************************************************************************************************/
 
 @ContextConfiguration(locations = {"/persistence-test.xml" })
-//@TestExecutionListeners( {TransactionalTestExecutionListener.class })
-//@TransactionConfiguration(transactionManager="transactionManager")
-//@Transactional
 public abstract class PersistanceTestCase extends JMonitoringTestCase
 {
-    // , "classpath*:/*-dao.xml" })
     Session mSession;
+
     Transaction transaction;
-    
-    @Resource(name="sessionFactory")
+
+    @Resource(name = "sessionFactory")
     SessionFactory sessionFactory;
 
-//    @Resource(name="transactionManager")
-//    PlatformTransactionManager transactionManager;
-    
     private Statistics mStats;
 
     private static Logger sLog = LoggerFactory.getLogger(PersistanceTestCase.class.getName());
@@ -62,12 +49,13 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
     }
 
     @After
-    public void clearDb(){
+    public void clearDb()
+    {
         transaction.rollback();
         mSession.close();
         TransactionSynchronizationManager.unbindResource(sessionFactory);
     }
-    
+
     public void commitAndRestartSession()
     {
         if (mSession.isOpen())
@@ -82,7 +70,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         mSession = sessionFactory.openSession();
         transaction = mSession.beginTransaction();
         TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(mSession));
-        
+
     }
 
     protected void assertStatistics(Class<MethodCallPO> pEntity, int pInserts, int pUpdates, int pLoads, int pFetchs)
@@ -111,13 +99,13 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         return mStats;
     }
 
-    public static ExecutionFlowPO buildNewFullFlow()
+     static ExecutionFlowPO buildNewFullFlow(int pVariante)
     {
         MethodCallPO tPoint;
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, PersistanceTestCase.class.getName(), "builNewFullFlow", "GrDefault", "[]");
+        tPoint = new MethodCallPO(null, PersistanceTestCase.class.getName(), "builNewFullFlow"+pVariante, "GrDefault", "[]");
         tPoint.setBeginTime(tStartTime); // 35
         tSubPoint = new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
         tSubPoint.setBeginTime(tStartTime + 2); // 3
@@ -125,7 +113,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         tSubPoint.setRuntimeClassName(PersistanceTestCase.class.getName() + "iuiu");
         tSubPoint.setThrowableClass(RuntimeException.class.getName());
         tSubPoint.setThrowableMessage("An error occured !");
-        
+
         tSubPoint2 =
             new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint2.setBeginTime(tStartTime + 8);// 21
@@ -148,7 +136,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         tSubPoint2.setEndTime(tStartTime + 29);
 
         tPoint.setEndTime(tStartTime + 35);
-        ExecutionFlowPO tFlow = new ExecutionFlowPO("TEST-main", tPoint, "myJVM");
+        ExecutionFlowPO tFlow = new ExecutionFlowPO("TEST-main"+pVariante, tPoint, "myJVM");
         tPoint.setMethId(new MethodCallPK(tFlow, 1));
         tSubPoint.setMethId(new MethodCallPK(tFlow, 2));
         tSubPoint2.setMethId(new MethodCallPK(tFlow, 3));

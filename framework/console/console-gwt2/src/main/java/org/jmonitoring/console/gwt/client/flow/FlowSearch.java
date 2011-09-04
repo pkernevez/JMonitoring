@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
+import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -81,12 +82,12 @@ public class FlowSearch extends Composite
     private List<Filter> createFilters()
     {
         List<Filter> tFilters = new ArrayList<Filter>();
-        addFilter(tFilters, thread, "thread");
-        addFilter(tFilters, group, "group");
-        addFilter(tFilters, firstMeasureClassName, "firstmeasure");
-        addFilter(tFilters, minDuration, "minDuration");
-        addFilter(tFilters, beginDate, "beginDte");
-        addFilter(tFilters, firstMeasureMethodName, "methodname");
+        addFilter(tFilters, thread, HibernateConstant.THREAD);
+        addFilter(tFilters, group, HibernateConstant.GROUP);
+        addFilter(tFilters, firstMeasureClassName, HibernateConstant.FIRST_MEASURE_CLASS_NAME);
+        addFilter(tFilters, minDuration, HibernateConstant.MIN_DURATION);
+        addFilter(tFilters, beginDate, HibernateConstant.BEGIN_DATE);
+        addFilter(tFilters, firstMeasureMethodName, HibernateConstant.FIRST_MEASURE_METHOD_NAME);
         return tFilters;
     }
 

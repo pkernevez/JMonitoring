@@ -20,6 +20,8 @@ import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.test.dao.PersistanceTestCase;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author pke
@@ -28,6 +30,8 @@ import org.springframework.test.context.ContextConfiguration;
  *       Templates
  */
 @ContextConfiguration(locations = {"/console.xml" })
+@TransactionConfiguration(transactionManager="transactionManager")
+@Transactional
 public class ConsoleDaoTest extends PersistanceTestCase
 {
     @Resource(name = "dao")

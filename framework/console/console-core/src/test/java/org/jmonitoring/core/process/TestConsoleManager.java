@@ -27,13 +27,21 @@ import org.jmonitoring.test.dao.PersistanceTestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.NotTransactional;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
 @ContextConfiguration(locations = {"/console.xml" })
+//@TestExecutionListeners( {TransactionalTestExecutionListener.class })
+//@TransactionConfiguration(transactionManager="transactionManager")
+//@Transactional
 public class TestConsoleManager extends PersistanceTestCase
 {
     @Autowired
@@ -62,7 +70,6 @@ public class TestConsoleManager extends PersistanceTestCase
     {
         assertTrue(mManager.doDatabaseExist());
 
-        closeAndRestartSession();
         Connection tCon = getSession().connection();
         SchemaExport tDdlexport = new SchemaExport(mConfiguation, tCon);
         tDdlexport.drop(true, true);
@@ -73,7 +80,7 @@ public class TestConsoleManager extends PersistanceTestCase
 
         mManager.createDataBase();
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertTrue(mManager.doDatabaseExist());
 
     }
@@ -92,7 +99,7 @@ public class TestConsoleManager extends PersistanceTestCase
 
         mManager.deleteFlow(tFlowId);
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tNewNbFlow = mDao.countFlows();
         assertEquals(tNbFlow, tNewNbFlow);
 
@@ -118,7 +125,7 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(tNbFlow + 2, tNewNbFlow);
 
         mManager.deleteAllFlows();
-        closeAndRestartSession();
+        commitAndRestartSession();
 
         tNewNbFlow = mDao.countFlows();
         assertEquals(tNbFlow, tNewNbFlow);
@@ -224,28 +231,28 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(0, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setThreadName("");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(2, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setThreadName("TEST-main");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setThreadName("TEST");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(2, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tExecPo = ConsoleDaoTest.buildNewFullFlow();
         tExecPo.setThreadName("TEST-13main");
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         mDao.insertFullExecutionFlow(tExecPo);
         getSession().flush();
         tCriterion.setThreadName("TEST");
         assertEquals(3, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         mDao.deleteAllFlows();
-        closeAndRestartSession();
+        commitAndRestartSession();
 
     }
 
@@ -261,7 +268,7 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setDurationMin(new Long(35));
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(0, mManager.getListOfExecutionFlowDto(tCriterion).size());
     }
 
@@ -285,12 +292,12 @@ public class TestConsoleManager extends PersistanceTestCase
 
         // Yesterday
         tCriterion.setBeginDate(new Date(tToday.getTime() - ConsoleDao.ONE_DAY));
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(0, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         // Tomorrow
         tCriterion.setBeginDate(new Date(tToday.getTime() + ConsoleDao.ONE_DAY));
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(0, mManager.getListOfExecutionFlowDto(tCriterion).size());
     }
 
@@ -307,11 +314,11 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setGroupName("GrDefa");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setGroupName("toto");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(0, mManager.getListOfExecutionFlowDto(tCriterion).size());
         // Todo : groupName, className et methodName
     }
@@ -330,11 +337,11 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setClassName(tClassName.substring(0, 3));
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setClassName("toto");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(0, mManager.getListOfExecutionFlowDto(tCriterion).size());
         // Todo : groupName, className et methodName
     }
@@ -352,11 +359,11 @@ public class TestConsoleManager extends PersistanceTestCase
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setMethodName("builNewFull");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(1, mManager.getListOfExecutionFlowDto(tCriterion).size());
 
         tCriterion.setMethodName("toto");
-        closeAndRestartSession();
+        commitAndRestartSession();
         assertEquals(0, mManager.getListOfExecutionFlowDto(tCriterion).size());
     }
 
@@ -366,42 +373,42 @@ public class TestConsoleManager extends PersistanceTestCase
         mDao.insertFullExecutionFlow(ConsoleDaoTest.buildNewFullFlow());
         getSession().flush();
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         List<MethodCallDTO> tMethodsDto = mManager.getListOfMethodCallFromClassAndMethodName(null, null);
         assertEquals(0, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto = mManager.getListOfMethodCallFromClassAndMethodName(PersistanceTestCase.class.getName(), "");
         assertEquals(6, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto =
             mManager.getListOfMethodCallFromClassAndMethodName(PersistanceTestCase.class.getName().substring(0, 5), "");
         assertEquals(6, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto = mManager.getListOfMethodCallFromClassAndMethodName("3333", "");
         assertEquals(0, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto = mManager.getListOfMethodCallFromClassAndMethodName("", "builNewFullFlow");
         assertEquals(6, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto = mManager.getListOfMethodCallFromClassAndMethodName("", "builNewFullFlow2");
         assertEquals(1, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto = mManager.getListOfMethodCallFromClassAndMethodName("", "builNewFullFlow3");
         assertEquals(4, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto =
             mManager.getListOfMethodCallFromClassAndMethodName(PersistanceTestCase.class.getName().substring(0, 25),
                                                                "builNewFullFlow");
         assertEquals(6, tMethodsDto.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tMethodsDto =
             mManager.getListOfMethodCallFromClassAndMethodName(PersistanceTestCase.class.getName().substring(0, 25),
                                                                "builNewFullFlow2");
@@ -421,19 +428,19 @@ public class TestConsoleManager extends PersistanceTestCase
             mManager.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 5L, 5L);
         assertEquals(0, tResult.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tResult = mManager.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 36L, 36L);
         assertEquals(0, tResult.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tResult = mManager.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow", 15L, 36L);
         assertEquals(1, tResult.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tResult = mManager.getListOfMethodCallFullExtract("kj", "builNewFullFlow", 15L, 36L);
         assertEquals(0, tResult.size());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
         tResult = mManager.getListOfMethodCallFullExtract(tClassName, "builNewFullFlow2", 15L, 36L);
         assertEquals(0, tResult.size());
     }

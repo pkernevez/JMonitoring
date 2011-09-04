@@ -24,7 +24,7 @@ public class TestJdbcWriter extends PersistanceTestCase
 
         mWriter.writeExecutionFlow(buildNewFullFlow());
 
-        closeAndRestartSession();
+        commitAndRestartSession();
 
         assertEquals(1, mFlowDao.countFlows());
     }
