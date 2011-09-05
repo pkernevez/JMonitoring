@@ -7,6 +7,8 @@ import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.management.RuntimeErrorException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,43 +16,77 @@ import org.slf4j.LoggerFactory;
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-public class GenericDriver implements Driver
+/**
+ * Generic driver for logging sql access. URL are like "jmonitoring:<URL>" Where * DriverName is the real driver class *
+ * URL is the real url For exemple with Oracle, URL should be like :
+ * "jmonitoring:jdbc:oracle:thin:@localhost:1521:INSAPOR0" This mecanism is quite complexe but the real driver can't be
+ * pass by the url, as the URL are not provided during registering and that the same Driver may be use with several
+ * database connxion inside the same JVM.
+ * 
+ * @author pke
+ * 
+ */
+public abstract class GenericDriver implements Driver
 {
-    private static final String JMONITORING = "jmonitoring";
+    private static final String JMONITORING = "jmonitoring:";
 
     private static Logger sLog = LoggerFactory.getLogger(GenericDriver.class);
 
-    private Driver mRealDriver;
+    Driver realDriver;
 
-    private String mUrl;
-
-    public GenericDriver()
+    public GenericDriver(Driver pRealDriver)
     {
-        this("oracle.jdbc.OracleDriver","jdbc:oracle:thin:@localhost:1521:INSAPOR0" );
+        // if (pRealDriverClass!=null && pRealDriverClass.length()>0){
+        // realDriver = Class.forName(pRealDriverClass);
+        // } else{
+        // sLog.error("Invalid configuration, you should provide the real driver class in you jmonitoring-driver.properties file");
+        // }
+        // ;
+        realDriver = pRealDriver;
     }
-    
-    public GenericDriver(String pDriverClassName, String pUrl)
-    {
-        super();
-        try
-        {
-            mUrl = pUrl;
-            Class<Driver> tClass = (Class<Driver>) Class.forName(pDriverClassName);
-            mRealDriver = tClass.newInstance();
-            DriverManager.println("Registering the CrossAccess JDBC Driver");
-            try
-            {
-                DriverManager.registerDriver(this);
-            } catch (SQLException e)
-            {
-                sLog.error("Cannot register the driver with the Manager ");
-            }
-            DriverManager.println("Registered");
-        } catch (Exception e)
-        {
-            throw new RuntimeException("Unable to load real driver class:" + pDriverClassName, e);
-        }
 
+    @SuppressWarnings("unchecked")
+    private String getRealUrl(String pUrl) throws SQLException
+    {
+        if (pUrl != null && pUrl.startsWith(JMONITORING))
+        {
+            return pUrl.substring(JMONITORING.length());
+        } else
+        {
+            throw new RuntimeException("Invalid URL, it must start with [jmonitoring:] but was [" + pUrl + "]");
+        }
+        // int tUrlStartPosition = pUrl.indexOf(":", tDriverStartPosition);
+        // if (0 < tDriverStartPosition && tDriverStartPosition < tUrlStartPosition)
+        // {
+        // String tRealDriverClassName = pUrl.substring(tDriverStartPosition + 1, tDriverStartPosition);
+        // try
+        // {
+        // Connector tResult = new Connector();
+        // tResult.realDriver = tClass.newInstance();
+        // DriverManager.registerDriver(this);
+        // tResult.url = pUrl.substring(tDriverStartPosition + 1, pUrl.length());
+        // sLog.info("The driver [" + tClass + "] has been instanciated and initialized with url ["
+        // + tResult.url);
+        // return tResult;
+        // } catch (ClassNotFoundException e)
+        // {
+        // sLog.error("Cannot register the driver [" + tRealDriverClassName + "] with the Manager ");
+        // throw new RuntimeException("Cannot register the driver [" + tRealDriverClassName
+        // + "] with the Manager ", e);
+        // } catch (InstantiationException e)
+        // {
+        // sLog.error("Cannot register the driver [" + tRealDriverClassName + "] with the Manager ");
+        // throw new RuntimeException("Cannot register the driver [" + tRealDriverClassName
+        // + "] with the Manager ", e);
+        // } catch (IllegalAccessException e)
+        // {
+        // sLog.error("Cannot register the driver [" + tRealDriverClassName + "] with the Manager ");
+        // throw new RuntimeException("Cannot register the driver [" + tRealDriverClassName
+        // + "] with the Manager ", e);
+        // }
+        // }
+        // }
+        // return null;
     }
 
     /**
@@ -61,13 +97,7 @@ public class GenericDriver implements Driver
      */
     public boolean acceptsURL(String pUrl) throws SQLException
     {
-        if (JMONITORING.equals(pUrl))
-        {
-            return mRealDriver.acceptsURL(mUrl);
-        } else
-        {
-            return false;
-        }
+        return pUrl != null && pUrl.startsWith(JMONITORING) && realDriver.acceptsURL(getRealUrl(pUrl));
     }
 
     /**
@@ -79,7 +109,13 @@ public class GenericDriver implements Driver
      */
     public Connection connect(String pUrl, Properties pInfo) throws SQLException
     {
-        return (JMONITORING.equals(pUrl) ? new GenericConnection(mRealDriver.connect(mUrl, pInfo)) : null);
+        if (acceptsURL(pUrl))
+        {
+            return new GenericConnection(realDriver.connect(getRealUrl(pUrl), pInfo));
+        } else
+        {
+            return null;
+        }
     }
 
     /**
@@ -88,7 +124,7 @@ public class GenericDriver implements Driver
      */
     public int getMajorVersion()
     {
-        return mRealDriver.getMajorVersion();
+        return realDriver.getMajorVersion();
     }
 
     /**
@@ -97,7 +133,7 @@ public class GenericDriver implements Driver
      */
     public int getMinorVersion()
     {
-        return mRealDriver.getMinorVersion();
+        return realDriver.getMinorVersion();
     }
 
     /**
@@ -109,7 +145,7 @@ public class GenericDriver implements Driver
      */
     public DriverPropertyInfo[] getPropertyInfo(String pUrl, Properties pInfo) throws SQLException
     {
-        return mRealDriver.getPropertyInfo(pUrl, pInfo);
+        return realDriver.getPropertyInfo(pUrl, pInfo);
     }
 
     /**
@@ -118,7 +154,18 @@ public class GenericDriver implements Driver
      */
     public boolean jdbcCompliant()
     {
-        return mRealDriver.jdbcCompliant();
+        return realDriver.jdbcCompliant();
     }
 
+    protected static void registerDriver(Driver pDriver)
+    {
+        try
+        {
+            DriverManager.registerDriver(pDriver);
+        } catch (SQLException sqlexception)
+        {
+            sLog.error("Unable to register GenericDriver", sqlexception);
+            throw new RuntimeException("Unable to register GenericDriver", sqlexception);
+        }
+    }
 }

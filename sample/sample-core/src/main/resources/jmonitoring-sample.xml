@@ -4,15 +4,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
 
-    <bean id="genericDriver" class="org.jmonitoring.agent.sql.GenericDriver">
-        <constructor-arg value="org.h2.Driver"></constructor-arg>
-        <constructor-arg value="jdbc:h2:mem:jmonitoringsample"></constructor-arg>
-    </bean>
-
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
-        depends-on="genericDriver">
-        <property name="driverClass" value="org.jmonitoring.agent.sql.GenericDriver" />
-        <property name="jdbcUrl" value="jmonitoring" />
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="org.jmonitoring.sample.driver.H2Driver" />
+        <property name="jdbcUrl" value="jmonitoring:jdbc:h2:mem:jmonitoringsample" />
         <property name="user" value="sa" />
         <property name="password" value="" />
         <property name="acquireRetryAttempts" value="10"></property>

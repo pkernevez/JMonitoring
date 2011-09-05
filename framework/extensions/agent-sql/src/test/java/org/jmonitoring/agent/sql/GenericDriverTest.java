@@ -3,9 +3,11 @@ package org.jmonitoring.agent.sql;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.h2.Driver;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
@@ -41,6 +43,30 @@ public class GenericDriverTest extends TestCase
     }
 
     @Test
+    public void testAcceptUrl() throws SQLException
+    {
+        assertTrue(new Driver().acceptsURL("jdbc:h2:mem:jmonitoringsample"));
+        assertFalse(new Driver().acceptsURL("jdbc:jmonitoringsample"));
+
+        assertFalse(new H2Driver().acceptsURL("jmorwererkjewlkjrnitoring:org.h2.Driver:jdbc:h2:mem:jmonitoringsample"));
+        assertTrue(new H2Driver().acceptsURL("jmonitoring:jdbc:h2:mem:jmonitoringsample"));
+        assertFalse(new H2Driver().acceptsURL("jmonitoring:jdbc:em:jmonitoringsample"));
+    }
+
+    @Test
+    public void testConnect() throws SQLException
+    {
+        Properties tProps = new Properties();
+        tProps.setProperty("user", "sa");
+        assertNotNull(new Driver().connect("jdbc:h2:mem:jmonitoringsample", tProps));
+        assertNull(new Driver().connect("jdbc:jmonitoringsample", tProps));
+
+        assertNull(new H2Driver().connect("jmorwererkje:org.h2.Driver:jdbc:h2:mem:jmonitoringsample", tProps));
+        assertNotNull(new H2Driver().connect("jmonitoring:jdbc:h2:mem:jmonitoringsample", tProps));
+        assertNull(new H2Driver().connect("jmonitoring:jdbc:em:jmonitoringsample", tProps));
+    }
+
+    @Test
     public void testConnectStatement() throws Exception
     {
         Statement tStat = mSession.connection().createStatement();
@@ -60,6 +86,12 @@ public class GenericDriverTest extends TestCase
     {
         Connection tCon = mSession.connection();
         assertEquals(JMonitoringCallableStatement.class, tCon.prepareCall("select * from EXECUTION_FLOW").getClass());
+    }
+
+    @Test
+    public void testAcceptsURL()
+    {
+
     }
 
 }

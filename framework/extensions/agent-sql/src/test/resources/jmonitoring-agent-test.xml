@@ -3,14 +3,8 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <bean id="genericDriver" class="org.jmonitoring.agent.sql.GenericDriver" depends-on="storeManager">
-        <constructor-arg value="org.h2.Driver"></constructor-arg>
-        <constructor-arg value="jdbc:h2:mem:jmonitoringsample"></constructor-arg>
-    </bean>
-
     <!-- SessionFactory Hibernate : utilisation de la factory fournie par Spring -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
-        depends-on="genericDriver">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="mappingLocations" value="classpath*:/org/jmonitoring/core/domain/*.hbm.xml" />
         <!-- property name="mappingLocations">
             <list>
@@ -21,8 +15,8 @@
         <!-- Définition du dialect utilisé (HSQL) et d'autres propriétés utiles pour le debug -->
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.connection.driver_class">org.jmonitoring.agent.sql.GenericDriver</prop>
-                <prop key="hibernate.connection.url">jmonitoring</prop>
+                <prop key="hibernate.connection.driver_class">org.jmonitoring.agent.sql.H2Driver</prop>
+                <prop key="hibernate.connection.url">jmonitoring:jdbc:h2:mem:jmonitoringsample</prop>
                 <prop key="hibernate.connection.username">sa</prop>
                 <prop key="hibernate.connection.password"></prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
