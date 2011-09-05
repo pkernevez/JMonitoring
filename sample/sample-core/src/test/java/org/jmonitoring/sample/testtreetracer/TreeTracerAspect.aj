@@ -1,6 +1,6 @@
 package org.jmonitoring.sample.testtreetracer;
 
-import org.jmonitoring.agent.aspect.PerformanceAspect;
+import org.jmonitoring.agent.core.PerformanceAspect;
 import org.jmonitoring.agent.info.impl.TreeParameterTracer;
 import org.jmonitoring.agent.info.impl.TreeResultTracer;
 

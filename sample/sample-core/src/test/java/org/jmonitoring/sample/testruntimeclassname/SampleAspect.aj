@@ -1,6 +1,6 @@
 package org.jmonitoring.sample.testruntimeclassname;
 
-import org.jmonitoring.agent.aspect.PerformanceAspect;
+import org.jmonitoring.agent.core.PerformanceAspect;
 
 public aspect SampleAspect extends PerformanceAspect
 {

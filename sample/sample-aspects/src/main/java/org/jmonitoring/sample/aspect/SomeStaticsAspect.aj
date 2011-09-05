@@ -5,7 +5,7 @@ package org.jmonitoring.sample.aspect;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
-import org.jmonitoring.agent.aspect.PerformanceAspect;
+import org.jmonitoring.agent.core.PerformanceAspect;
 
 /**
  * @author pke
