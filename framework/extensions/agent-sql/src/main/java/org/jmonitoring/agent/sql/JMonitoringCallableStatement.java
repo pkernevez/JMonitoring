@@ -22,12 +22,11 @@ import java.util.Map;
 
 public class JMonitoringCallableStatement extends JMonitoringPreparedStatement implements java.sql.CallableStatement
 {
-
     private final CallableStatement mRealCallStat;
 
-    public JMonitoringCallableStatement(CallableStatement pCallStatement, String pSqlRequest)
+    public JMonitoringCallableStatement(CallableStatement pCallStatement, String pSqlRequest, String pGroupName)
     {
-        super("CallableStatement", pCallStatement, pSqlRequest);
+        super("CallableStatement", pCallStatement, pSqlRequest, pGroupName);
         mRealCallStat = pCallStatement;
     }
 

@@ -36,6 +36,8 @@ public class JMonitoringResultSet implements ResultSet
 
     protected static IThrowableTracer sThrowableTracer = new DefaultExceptionTracer();
 
+    private final String groupName;
+    
     private int mStatInsert = 0;
 
     private int mStatDelete = 0;
@@ -64,10 +66,11 @@ public class JMonitoringResultSet implements ResultSet
         }
     }
 
-    public JMonitoringResultSet(ResultSet pInternalRS)
+    public JMonitoringResultSet(ResultSet pInternalRS, String pGroupName)
     {
         super();
         mInternalRS = pInternalRS;
+        groupName = pGroupName;
     }
 
     /**
@@ -127,7 +130,7 @@ public class JMonitoringResultSet implements ResultSet
         tTrace.append("Statistics of resultSet :\n");
 
         StoreManager tManager = JMonitoringStatement.getStoreManager();
-        tManager.logBeginOfMethod(CLOSE, null, new Object[0], "Jdbc", this);
+        tManager.logBeginOfMethod(CLOSE, null, new Object[0], groupName, this);
         try
         {
             mInternalRS.close();

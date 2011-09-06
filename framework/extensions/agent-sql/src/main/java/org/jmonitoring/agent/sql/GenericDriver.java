@@ -34,7 +34,9 @@ public abstract class GenericDriver implements Driver
 
     Driver realDriver;
 
-    public GenericDriver(Driver pRealDriver)
+    private final String groupName;
+
+    public GenericDriver(Driver pRealDriver, String pGroupName)
     {
         // if (pRealDriverClass!=null && pRealDriverClass.length()>0){
         // realDriver = Class.forName(pRealDriverClass);
@@ -43,6 +45,12 @@ public abstract class GenericDriver implements Driver
         // }
         // ;
         realDriver = pRealDriver;
+        groupName = pGroupName;
+    }
+
+    public GenericDriver(Driver pRealDriver)
+    {
+        this(pRealDriver, "Jdbc");
     }
 
     @SuppressWarnings("unchecked")
@@ -111,7 +119,7 @@ public abstract class GenericDriver implements Driver
     {
         if (acceptsURL(pUrl))
         {
-            return new GenericConnection(realDriver.connect(getRealUrl(pUrl), pInfo));
+            return new GenericConnection(realDriver.connect(getRealUrl(pUrl), pInfo), groupName);
         } else
         {
             return null;

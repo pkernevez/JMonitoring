@@ -57,14 +57,15 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     private static Logger sLog = LoggerFactory.getLogger(JMonitoringPreparedStatement.class);
 
-    public JMonitoringPreparedStatement(PreparedStatement pRealPreparedStat, String pSql)
+    public JMonitoringPreparedStatement(PreparedStatement pRealPreparedStat, String pSql, String pGroupName)
     {
-        this("PrepareStatement", pRealPreparedStat, pSql);
+        this("PrepareStatement", pRealPreparedStat, pSql, pGroupName);
     }
 
-    protected JMonitoringPreparedStatement(String pStatementType, PreparedStatement pRealPreparedStat, String pSql)
+    protected JMonitoringPreparedStatement(String pStatementType, PreparedStatement pRealPreparedStat, String pSql,
+        String pGroupName)
     {
-        super(pRealPreparedStat, false);
+        super(pRealPreparedStat, pGroupName, false);
         if (sLog.isDebugEnabled())
         {
             sLog.debug(pStatementType + " detected and Weaved");
@@ -91,7 +92,7 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     {
         mTrace.append("Execute \n");
         StoreManager tManager = getStoreManager();
-        tManager.logBeginOfMethod(EXECUTE, null, new Object[0], GROUP_NAME, this);
+        tManager.logBeginOfMethod(EXECUTE, null, new Object[0], groupName, this);
         try
         {
             boolean tResult = mRealPreparedStat.execute();
@@ -120,13 +121,13 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     {
         mTrace.append("Execute query\n");
         StoreManager tManager = getStoreManager();
-        tManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], GROUP_NAME, this);
+        tManager.logBeginOfMethod(EXECUTE_QUERY, null, new Object[0], groupName, this);
         try
         {
             ResultSet tResult = mRealPreparedStat.executeQuery();
             mTrace.append("ResultSet=[").append(tResult).append("]\n");
             tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
-            return new JMonitoringResultSet(tResult);
+            return new JMonitoringResultSet(tResult, groupName);
         } catch (Error e)
         {
             tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
@@ -149,7 +150,7 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
     {
         mTrace.append("Execute update\n");
         StoreManager tManager = getStoreManager();
-        tManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], GROUP_NAME, this);
+        tManager.logBeginOfMethod(EXECUTE_UPDATE, null, new Object[0], groupName, this);
         try
         {
             int tResult = mRealPreparedStat.executeUpdate();
