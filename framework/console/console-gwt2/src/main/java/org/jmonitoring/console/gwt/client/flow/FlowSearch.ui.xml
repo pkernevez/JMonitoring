@@ -15,16 +15,14 @@
 				<g:customCell><g:TextBox ui:field="minDuration" maxLength="20"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
-				<g:cell><div class="{style.label}">Group</div></g:cell>
-				<g:customCell><g:TextBox ui:field="group" maxLength="20" visibleLength="25"></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
-				<g:customCell><p1:DateBox ui:field="beginDate"></p1:DateBox></g:customCell>
-			</g:row>
-			<g:row>
 				<g:cell><div class="{style.label}">First Measure Class Name</div></g:cell>
 				<g:customCell><g:TextBox ui:field="firstMeasureClassName" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">First Measure Method Name</div></g:cell>
 				<g:customCell><g:TextBox ui:field="firstMeasureMethodName" maxLength="80" visibleLength="40"></g:TextBox></g:customCell>
+			</g:row>
+			<g:row>
+				<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
+				<g:customCell><p1:DateBox ui:field="beginDate"></p1:DateBox></g:customCell>
 			</g:row>
 		</g:Grid>
 		<g:Image resource="{res.ok}" ui:field="image"></g:Image>

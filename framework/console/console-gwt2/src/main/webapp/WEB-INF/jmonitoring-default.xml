@@ -3,8 +3,27 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+    <context:annotation-config />
 
     <context:property-placeholder location="classpath:database.properties" />
+
+<!--     <context:component-scan  base-package="org.jmonitoring.console.gwt.server" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+    
+    
+    -->
+    <context:annotation-config/>
+   <!--  <context:component-scan base-package="org.jmonitoring.console.gwt"></context:component-scan>
+    -->
+    <bean class="org.jmonitoring.console.gwt.server.flow.FlowServiceImpl"> </bean>
+ <bean class="org.jmonitoring.console.gwt.server.flow.ConsoleDao" id="consoleDao"> </bean>
+     <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
+        <property name="dateFormat" value="dd/MM/yy" />
+        <property name="timeFormat" value="HH:mm:ss" />
+    </bean>
+
+ 
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${hibernate.connection.driver_class}" />
@@ -12,6 +31,8 @@
         <property name="user" value="${hibernate.connection.username}" />
         <property name="password" value="${hibernate.connection.password}" />
         <property name="acquireRetryAttempts" value="10"></property>
+        <property name="initialPoolSize" value="3"></property>
+        <property name="maxPoolSize" value="10"></property>
         <property name="preferredTestQuery" value="${connection.test.query}"></property>
         <property name="testConnectionOnCheckin" value="false"></property>
         <property name="testConnectionOnCheckout" value="${connection.test.oncheckout}"></property>
@@ -48,12 +69,6 @@
         </property>
     </bean>
 
-    <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
-        <property name="dateFormat" value="dd/MM/yy" />
-        <property name="timeFormat" value="HH:mm:ss" />
-    </bean>
-
-
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
@@ -62,4 +77,44 @@
        factory-bean="&amp;sessionFactory" 
        factory-method="getConfiguration" />
 
+    <!-- bean  name="consoleManager" class="org.jmonitoring.core.process.ConsoleManager" />
+
+    <bean name="dtoManager" class="org.jmonitoring.core.dto.DtoManager" />
+
+    <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" />
+
+    <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
+        <property name="dateFormat" value="dd/MM/yy" />
+        <property name="timeFormat" value="HH:mm:ss" />
+    </bean>
+
+    <bean name="color" class="org.jmonitoring.core.configuration.ColorManager">
+        <property name="groups">
+            <map>
+                <entry key="Default" value="0, 255, 255" />
+                <entry key="SQL" value="0, 0, 255" />
+                <entry key="Jdbc" value="120, 120, 120" />
+                <entry key="SomeNonStatics" value="0, 255, 0" />
+                <entry key="SomeStatics" value="255, 0, 0" />
+                <entry key="BusinessDelegate" value="255, 0, 0" />
+                <entry key="BusinessFacadeEJB" value="255, 0, 255" />
+                <entry key="DAO" value="255, 255, 0" />
+                <entry key="Conversion" value="255, 255, 0" />
+                
+            </map>
+        </property>
+    </bean>
+
+    <bean name="chartManager" class="org.jmonitoring.console.flow.jfreechart.ChartManager">
+        <property name="groupOrder">
+            <map>
+                You should defined you own configuration
+                <entry key="SQL" value="10" /
+            </map>
+        </property>
+    </bean> -->
+
+    <!-- Default configuration when the console is use for HttpLogging into H2 database -->
+   <!--  bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean>-->
+<!--     <bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean> -->
 </beans>

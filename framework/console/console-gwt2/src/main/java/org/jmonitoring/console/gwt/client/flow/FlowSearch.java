@@ -40,9 +40,6 @@ public class FlowSearch extends Composite
     TextBox minDuration;
 
     @UiField
-    TextBox group;
-
-    @UiField
     DateBox beginDate;
 
     @UiField
@@ -83,7 +80,6 @@ public class FlowSearch extends Composite
     {
         List<Filter> tFilters = new ArrayList<Filter>();
         addFilter(tFilters, thread, HibernateConstant.THREAD);
-        addFilter(tFilters, group, HibernateConstant.GROUP);
         addFilter(tFilters, firstMeasureClassName, HibernateConstant.FIRST_MEASURE_CLASS_NAME);
         addFilter(tFilters, minDuration, HibernateConstant.MIN_DURATION);
         addFilter(tFilters, beginDate, HibernateConstant.BEGIN_DATE);
@@ -91,7 +87,7 @@ public class FlowSearch extends Composite
         return tFilters;
     }
 
-    private void addFilter(List<Filter> pFilters, DateBox pDate, String pPropertyName)
+    private void addFilter(@SuppressWarnings("rawtypes") List<Filter> pFilters, DateBox pDate, String pPropertyName)
     {
         addFilter(pFilters, pDate.getTextBox(), pPropertyName);
     }

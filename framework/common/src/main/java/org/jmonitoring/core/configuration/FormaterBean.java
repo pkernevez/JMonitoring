@@ -10,6 +10,8 @@ import java.util.Date;
 
 public class FormaterBean
 {
+    public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
+
     private ThreadLocal<SimpleDateFormat> mDateTimeFormater;
 
     private ThreadLocal<SimpleDateFormat> mDateFormater;

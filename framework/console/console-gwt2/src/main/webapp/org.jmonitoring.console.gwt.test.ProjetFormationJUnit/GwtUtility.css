@@ -1,0 +1,62 @@
+/* 
+    Document   : main
+    Created on : 28-mar-2009, 12.27.11
+    Author     : Daniele
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.gwtutility-table-tr-even{
+    background-color:#FFFFFF;
+}
+.gwtutility-table-tr-odd{
+    background-color:#FAFAFA;
+}
+
+.gwtutility-table-tr-head{
+    background:#FFFFFF url(img/title-bg.gif) repeat-x scroll left bottom;
+    font-weight:bold;
+    text-align:center;
+}
+.gwtutility-table-td-head {
+    border:1px solid #EEEEEE;
+    padding:6px;
+    cursor:pointer;
+}
+.gwtutility-table-td{
+    font-size:14px;
+    border:1px solid #EEEEEE;
+    padding: 4px;
+}
+.gwtutility-table-sorting {
+    color:#CCCCCC;
+    font-size:9px;
+    padding-left:6px;
+}
+.gwtutility-footer{
+    font-weight: bold;
+    vertical-align: middle;
+    padding: 6px;
+}
+.gwtutility-textBox-error{
+    background:#FBE3E4 none repeat scroll 0 0;
+}
+.gwtutility-link{
+    color:#0000CC;
+    cursor: pointer;
+    padding:1px;
+}
+
+.gwtutility-pointer{
+    cursor: pointer;
+}
+.gwtutility-table-td-icon {
+    border:1px solid #EEEEEE;
+    padding:6px;
+    cursor:pointer;
+}

@@ -65,7 +65,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
             @Override
             public String getValue(FlowExtractDTO valore)
             {
-                return valore.getThread();
+                return valore.getThreadName();
             }
         });
         cf.addColumn(new Column<String, FlowExtractDTO>("Thread", "Thread", true)
@@ -73,7 +73,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
             @Override
             public String getValue(FlowExtractDTO valore)
             {
-                return valore.getThread();
+                return valore.getThreadName();
             }
         });
         return cf;

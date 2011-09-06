@@ -10,12 +10,14 @@ public class MethodCallBuilder
     private ExecutionFlowBuilder executionFlowBuilder;
 
     public MethodCallBuilder(ExecutionFlowBuilder pExecutionFlowBuilder, String pClassName, String pMethodName,
-        long pBeginTime, long pDuration)
+        String pGroupName, long pBeginTime, long pDuration)
     {
         executionFlowBuilder = pExecutionFlowBuilder;
         methodCall = new MethodCallPO();
+        methodCall.setFlow(pExecutionFlowBuilder.getInternal());
         methodCall.setClassName(pClassName);
         methodCall.setMethodName(pMethodName);
+        methodCall.setGroupName(pGroupName);
         methodCall.setBeginTime(pBeginTime);
         methodCall.setEndTime(pBeginTime + pDuration);
         methodCall.setDuration(pDuration);
@@ -31,12 +33,13 @@ public class MethodCallBuilder
         return methodCall;
     }
 
-    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, long pDuration)
+    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, String pGroupName, long pDuration)
     {
-        return addSubMethod(pClassName, pMethodName, 0, pDuration);
+        return addSubMethod(pClassName, pMethodName, pGroupName, 0, pDuration);
     }
 
-    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, long pOffSet, long pDuration)
+    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, String pGroupName, long pOffSet,
+        long pDuration)
     {
         if (methodCall.getChildren().size() > 0)
         {
@@ -69,9 +72,23 @@ public class MethodCallBuilder
                 + (methodCall.getBeginTime() + pDuration + pOffSet) + " and parent is " + methodCall.getEndTime());
         }
         MethodCallBuilder subMethodCallBuilder =
-            new MethodCallBuilder(executionFlowBuilder, pClassName, pMethodName, methodCall.getBeginTime() + pOffSet,
-                                  pDuration);
+            new MethodCallBuilder(executionFlowBuilder, pClassName, pMethodName, pGroupName, methodCall.getBeginTime()
+                + pOffSet, pDuration);
         methodCall.addChildren(subMethodCallBuilder.getInternal());
         return subMethodCallBuilder;
     }
+
+    public MethodCallBuilder setRuntimeClassName(String pClassName)
+    {
+        methodCall.setRuntimeClassName(pClassName);
+        return this;
+    }
+
+    public MethodCallBuilder setThrowable(String pThrowableClass, String pThrowableMessage)
+    {
+        methodCall.setThrowableClass(pThrowableClass);
+        methodCall.setThrowableMessage(pThrowableMessage);
+        return this;
+    }
+
 }

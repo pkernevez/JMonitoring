@@ -40,7 +40,7 @@ public class ExecutionFlowBuilder
         return executionFlow;
     }
 
-    public MethodCallBuilder setMethodCall(String pClassName, String pMethodName, long pDuration)
+    public MethodCallBuilder setMethodCall(String pClassName, String pMethodName, String pGroupName, long pDuration)
     {
         if (curMethodCallBuilder == null)
         {
@@ -49,9 +49,22 @@ public class ExecutionFlowBuilder
             executionFlow.setDuration(pDuration);
             executionFlow.setEndTime(executionFlow.getBeginTime() + pDuration);
         }
-        curMethodCallBuilder = new MethodCallBuilder(this, pClassName, pMethodName, executionFlow.getBeginTime(), pDuration);
+        curMethodCallBuilder =
+            new MethodCallBuilder(this, pClassName, pMethodName, pGroupName, executionFlow.getBeginTime(), pDuration);
         executionFlow.setFirstMethodCall(curMethodCallBuilder.getInternal());
         return curMethodCallBuilder;
+    }
+
+    public ExecutionFlowBuilder setRuntimeClassName(String pClassName)
+    {
+        curMethodCallBuilder.setRuntimeClassName(pClassName);
+        return this;
+    }
+
+    public ExecutionFlowBuilder setThrowable(String pThrowableClass, String pThrowableMessage)
+    {
+        curMethodCallBuilder.setThrowable(pThrowableClass, pThrowableMessage);
+        return this;
     }
 
     public ExecutionFlowBuilder setJvm(String pJvm)
@@ -64,6 +77,11 @@ public class ExecutionFlowBuilder
     {
         executionFlow.setThreadName(pThread);
         return this;
+    }
+
+    ExecutionFlowPO getInternal()
+    {
+        return executionFlow;
     }
 
 }
