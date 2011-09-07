@@ -40,7 +40,7 @@ public class JMonitoringResultSetTest extends SqlTestCase
         mResultSet.close();
         assertEquals("One flow should be log at this time", 1, MemoryWriter.countFlows());
         MethodCallPO tCall = MemoryWriter.getFlow(0).getFirstMethodCall();
-        assertEquals("GroupName test", "Jdbc", tCall.getGroupName());
+        assertEquals("GroupName test", "JdbcCloseRS", tCall.getGroupName());
         StringBuilder tExpectedTrace = new StringBuilder();
         tExpectedTrace.append("Statistics of resultSet :\n");
         tExpectedTrace.append("Inserted=[0]\n");

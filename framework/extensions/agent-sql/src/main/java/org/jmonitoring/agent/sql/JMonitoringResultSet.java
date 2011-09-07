@@ -70,7 +70,7 @@ public class JMonitoringResultSet implements ResultSet
     {
         super();
         mInternalRS = pInternalRS;
-        groupName = pGroupName;
+        groupName = pGroupName+"CloseRS";
     }
 
     /**
