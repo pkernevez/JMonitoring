@@ -19,7 +19,7 @@ public class MethodCallPO implements Serializable
 
     private static final long serialVersionUID = -3127062002122955735L;
 
-    private static final int MAX_STRING_SIZE = 65000;
+    static final int MAX_STRING_SIZE = 65000;
 
     private MethodCallPK mId;
 
@@ -68,8 +68,8 @@ public class MethodCallPO implements Serializable
 
     /**
      * 
-     * @param pParent The <code>MethodCallPO</code> from which we made the call to the current
-     *        <code>MethodCallPO</code>.
+     * @param pParent The <code>MethodCallPO</code> from which we made the call to the current <code>MethodCallPO</code>
+     *        .
      * @param pClassName The name of the <code>Class</code> on which we call the statement associated with this
      *        <code>MethodCallDTO</code>.
      * @param pMethodName The method name of the statement associated with this <code>MethodCallDTO</code>.
@@ -77,7 +77,7 @@ public class MethodCallPO implements Serializable
      * @param pParameters The parameters passed to the method <code>pMethodName</code>.
      */
     public MethodCallPO(MethodCallPO pParent, String pClassName, String pMethodName, String pGroupName,
-                    String pParameters)
+        String pParameters)
     {
         if (pParent != null)
         { // On chaine la hierachie
@@ -101,6 +101,17 @@ public class MethodCallPO implements Serializable
         mChildren.remove(pChild);
         pChild.mParent = null;
 
+    }
+
+    public void removeLastChildren()
+    {
+        int tSize = mChildren.size();
+        if (tSize > 0)
+        {
+            MethodCallPO tLastChild = mChildren.get(tSize - 1);
+            mChildren.remove(tSize - 1);
+            tLastChild.mParent = null;
+        }
     }
 
     public List<MethodCallPO> getChildren()
@@ -278,8 +289,8 @@ public class MethodCallPO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The return value of the method associated with this <code>MethodCallDTO</code>. Null if the method
-     *         ended with an <code>Exception</code>.
+     * @return The return value of the method associated with this <code>MethodCallDTO</code>. Null if the method ended
+     *         with an <code>Exception</code>.
      */
     public String getReturnValue()
     {
@@ -294,7 +305,7 @@ public class MethodCallPO implements Serializable
     {
         if (pReturnValue != null && pReturnValue.length() > MAX_STRING_SIZE)
         {
-            mReturnValue = pReturnValue.substring(MAX_STRING_SIZE);
+            mReturnValue = pReturnValue.substring(0, MAX_STRING_SIZE);
         } else
         {
             mReturnValue = pReturnValue;

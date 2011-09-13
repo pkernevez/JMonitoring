@@ -9,6 +9,7 @@ import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringParametersTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
+import org.jmonitoring.agent.store.Filter;
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.core.configuration.SpringConfigurationUtil;
 import org.jmonitoring.core.info.IParamaterTracer;
@@ -42,13 +43,15 @@ public abstract aspect PerformanceAspect
     /** Name associated to this Aspect */
     protected String mGroupName = "Default";
 
-    /** StoreManager for this Tread */
+    /** May defined a filter. */
+    protected Filter filter;
+
+    /**
+     * StoreManager for this Thread. Even StoreManager is a singleton, this avoid any synchronization for having a
+     * StoreManager even if <code>PerformanceAspect</code> i not a SpringBean.
+     */
     private ThreadLocal<StoreManager> mStoreManager = new ThreadLocal<StoreManager>();
 
-// {
-// SpringConfigurationUtil.loadContext();
-// }
-    
     /** Default constructor. */
     public PerformanceAspect()
     {
@@ -59,15 +62,17 @@ public abstract aspect PerformanceAspect
 
     }
 
-    private StoreManager getStoreManager(){
-        StoreManager tStoreManager=mStoreManager.get(); 
-        if (tStoreManager==null){
-            tStoreManager =(StoreManager) SpringConfigurationUtil.getBean(StoreManager.STORE_MANAGER_NAME);
+    private StoreManager getStoreManager()
+    {
+        StoreManager tStoreManager = mStoreManager.get();
+        if (tStoreManager == null)
+        {
+            tStoreManager = (StoreManager) SpringConfigurationUtil.getBean(StoreManager.STORE_MANAGER_NAME);
             mStoreManager.set(tStoreManager);
         }
         return tStoreManager;
     }
-    
+
     pointcut executionToLogInternal() : executionToLog() 
         && !within(org.jmonitoring.core.*.*);
 
@@ -80,8 +85,8 @@ public abstract aspect PerformanceAspect
         {
             if (tManager != null)
             {
-                tManager.logBeginOfMethod(tSig, mParamTracer, thisJoinPoint.getArgs(), mGroupName, thisJoinPoint
-                    .getTarget());
+                tManager.logBeginOfMethod(tSig, mParamTracer, thisJoinPoint.getArgs(), mGroupName,
+                                          thisJoinPoint.getTarget());
             } else
             {
                 mLog.error("executionToLogInternal Unable to log method parameters");
@@ -95,7 +100,7 @@ public abstract aspect PerformanceAspect
         {
             if (tManager != null)
             {
-                tManager.logEndOfMethodNormal(mResultTracer, thisJoinPoint.getTarget(), tResult);
+                tManager.logEndOfMethodNormal(mResultTracer, thisJoinPoint.getTarget(), tResult, filter);
 
             } else
             {
@@ -113,7 +118,7 @@ public abstract aspect PerformanceAspect
         try
         {
             StoreManager tManager = getStoreManager();
-            tManager.logEndOfMethodWithException(mThowableTracer, t);
+            tManager.logEndOfMethodWithException(mThowableTracer, t, null, filter);
         } catch (Throwable tT)
         {
             mLog.error("Unable to log execution Throwable", tT);

@@ -7,8 +7,7 @@ import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import javax.management.RuntimeErrorException;
-
+import org.jmonitoring.agent.store.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +35,20 @@ public abstract class GenericDriver implements Driver
 
     private final String groupName;
 
+    private final Filter methodCallFilter;
+
+    /**
+     * @param pRealDriver The real DB driver use by this delegating driver.
+     * @param pGroupName The group name use to log DB access.
+     * @param pFilter The filter that may be applied by <code>MethodCall</code> created by this SLQ interceptor.
+     */
+    public GenericDriver(Driver pRealDriver, String pGroupName, Filter pFilter)
+    {
+        realDriver = pRealDriver;
+        groupName = pGroupName;
+        methodCallFilter = pFilter;
+    }
+
     public GenericDriver(Driver pRealDriver, String pGroupName)
     {
         // if (pRealDriverClass!=null && pRealDriverClass.length()>0){
@@ -44,13 +57,12 @@ public abstract class GenericDriver implements Driver
         // sLog.error("Invalid configuration, you should provide the real driver class in you jmonitoring-driver.properties file");
         // }
         // ;
-        realDriver = pRealDriver;
-        groupName = pGroupName;
+        this(pRealDriver, pGroupName, null);
     }
 
     public GenericDriver(Driver pRealDriver)
     {
-        this(pRealDriver, "Jdbc");
+        this(pRealDriver, "Jdbc", null);
     }
 
     @SuppressWarnings("unchecked")
@@ -119,7 +131,7 @@ public abstract class GenericDriver implements Driver
     {
         if (acceptsURL(pUrl))
         {
-            return new GenericConnection(realDriver.connect(getRealUrl(pUrl), pInfo), groupName);
+            return new GenericConnection(realDriver.connect(getRealUrl(pUrl), pInfo), groupName,methodCallFilter);
         } else
         {
             return null;

@@ -11,6 +11,8 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
  */
 public interface PostProcessor
 {
-    /** Allow to change the flow. */
-    void process(ExecutionFlowPO pFlow);
+    /** Allow to change the flow.
+     * @return true if we want to keep the flow and send it to the store. If return false, the flow is forgotten.
+     *  */
+    boolean process(ExecutionFlowPO pFlow);
 }

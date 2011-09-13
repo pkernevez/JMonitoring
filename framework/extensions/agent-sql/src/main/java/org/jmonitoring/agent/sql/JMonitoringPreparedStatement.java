@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.aspectj.lang.Signature;
+import org.jmonitoring.agent.store.Filter;
 import org.jmonitoring.agent.store.StoreManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,15 +58,16 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
 
     private static Logger sLog = LoggerFactory.getLogger(JMonitoringPreparedStatement.class);
 
-    public JMonitoringPreparedStatement(PreparedStatement pRealPreparedStat, String pSql, String pGroupName)
+    public JMonitoringPreparedStatement(PreparedStatement pRealPreparedStat, String pSql, String pGroupName,
+        Filter pFilter)
     {
-        this("PrepareStatement", pRealPreparedStat, pSql, pGroupName);
+        this("PrepareStatement", pRealPreparedStat, pSql, pGroupName, pFilter);
     }
 
     protected JMonitoringPreparedStatement(String pStatementType, PreparedStatement pRealPreparedStat, String pSql,
-        String pGroupName)
+        String pGroupName, Filter pFilter)
     {
-        super(pRealPreparedStat, pGroupName, false);
+        super(pRealPreparedStat, pGroupName, false, pFilter);
         if (sLog.isDebugEnabled())
         {
             sLog.debug(pStatementType + " detected and Weaved");
@@ -97,19 +99,19 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
         {
             boolean tResult = mRealPreparedStat.execute();
             mTrace.append("Result=[").append(tResult).append("]\n");
-            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace, mFilter);
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace, mFilter);
             throw e;
         } catch (SQLException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace, mFilter);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace,mFilter);
             throw e;
         } finally
         {
@@ -126,19 +128,19 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
         {
             ResultSet tResult = mRealPreparedStat.executeQuery();
             mTrace.append("ResultSet=[").append(tResult).append("]\n");
-            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
-            return new JMonitoringResultSet(tResult, groupName);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace,mFilter);
+            return new JMonitoringResultSet(tResult, groupName,mFilter);
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace,mFilter);
             throw e;
         } catch (SQLException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace,mFilter);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace,mFilter);
             throw e;
         } finally
         {
@@ -155,19 +157,19 @@ public class JMonitoringPreparedStatement extends JMonitoringStatement implement
         {
             int tResult = mRealPreparedStat.executeUpdate();
             mTrace.append("Result=[").append(tResult).append("]\n");
-            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, mTrace,mFilter);
             return tResult;
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace,mFilter);
             throw e;
         } catch (SQLException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace,mFilter);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, mTrace,mFilter);
             throw e;
         } finally
         {

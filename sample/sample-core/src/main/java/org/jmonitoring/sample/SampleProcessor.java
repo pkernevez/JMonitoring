@@ -10,7 +10,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 public class SampleProcessor implements PostProcessor
 {
 
-    public void process(ExecutionFlowPO pFlow)
+    public boolean process(ExecutionFlowPO pFlow)
     {
         if (pFlow.getFirstMethodCall().getClassName()
                  .equals("org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn"))
@@ -21,8 +21,8 @@ public class SampleProcessor implements PostProcessor
         {
             pFlow.setFirstClassName(pFlow.getFirstMethodCall().getClassName());
             pFlow.setFirstMethodName(pFlow.getFirstMethodCall().getMethodName());
-
         }
+        return true;
     }
 
 }

@@ -9,6 +9,6 @@
         <constructor-arg index="1" value="5" />
     </bean>
     
-    <bean name="realStoreWriter" class="org.jmonitoring.agent.store.impl.MockWriter" />
+    <bean name="realStoreWriter" class="org.jmonitoring.agent.store.impl.MockWriter.SlowMockWriter" />
     
 </beans>

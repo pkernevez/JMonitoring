@@ -64,6 +64,9 @@ public class ExecutionFlowPO implements Serializable
         mBeginTime = mFirstMethodCall.getBeginTime();
         mEndTime = mFirstMethodCall.getEndTime();
         mFirstMethodCall.setFlowRecusivly(this);
+        mFirstClassName =pFirstMeasure.getClassName();
+        mFirstMethodName = pFirstMeasure.getMethodName();
+
     }
 
     /**

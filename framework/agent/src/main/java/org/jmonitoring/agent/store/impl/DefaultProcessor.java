@@ -10,14 +10,9 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 public class DefaultProcessor implements PostProcessor
 {
 
-    public void process(ExecutionFlowPO pFlow)
+    public boolean process(ExecutionFlowPO pFlow)
     {
-        if (pFlow.getFirstClassName() == null)
-        {
-            pFlow.setFirstClassName(pFlow.getFirstMethodCall().getClassName());
-            pFlow.setFirstMethodName(pFlow.getFirstMethodCall().getMethodName());
-        }
-
+        return true;
     }
 
 }

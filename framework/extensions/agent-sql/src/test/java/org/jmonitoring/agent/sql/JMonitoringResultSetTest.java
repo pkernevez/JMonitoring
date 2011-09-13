@@ -28,7 +28,7 @@ public class JMonitoringResultSetTest extends SqlTestCase
         String tSql = JMonitoringStatementTest.UPDATE_1 + sCurId++ + JMonitoringStatementTest.UPDATE_2;
         tStat.executeUpdate(tSql);
 
-        mResultSet = new JMonitoringResultSet(tStat.executeQuery("select * from EXECUTION_FLOW"), "Jdbc");
+        mResultSet = new JMonitoringResultSet(tStat.executeQuery("select * from EXECUTION_FLOW"), "Jdbc", null);
 
         MemoryWriter.clear();
     }

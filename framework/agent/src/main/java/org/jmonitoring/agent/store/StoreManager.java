@@ -17,10 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Permet de logger sous forme XML l'ensemble des appels avec les signature et les temps d'ex�cution dans un fichier XML �
- * l'aide de log4j.
+ * Permet de logger sous forme XML l'ensemble des appels avec les signature et les temps d'ex�cution dans un fichier XML
+ * � l'aide de log4j.
  * 
- * This class is not Synchronized.
+ * TODO Check this comment ! This class is not Synchronized.
  * 
  * @author PKE
  */
@@ -29,7 +29,7 @@ public class StoreManager
 
     public static final String STORE_MANAGER_NAME = "storeManager";
 
-    private final ThreadLocal<MethodCallPO> mCurrentLogPoint = new ThreadLocal<MethodCallPO>();
+    final ThreadLocal<MethodCallPO> mCurrentLogPoint = new ThreadLocal<MethodCallPO>();
 
     private static Logger sLog = LoggerFactory.getLogger(StoreManager.class);
 
@@ -111,8 +111,9 @@ public class StoreManager
      * @param pTarget The target instance on which the Method was called.
      * @param pResult The result of the execution of the method.
      */
-    public void logEndOfMethodNormal(IResultTracer pTracer, Object pTarget, Object pResult)
+    public void logEndOfMethodNormal(IResultTracer pTracer, Object pTarget, Object pResult, Filter pFilter)
     {
+        MethodCallPO tCurrentMethodCall = mCurrentLogPoint.get();
         String tResultAsString;
         try
         {
@@ -125,27 +126,59 @@ public class StoreManager
             tResultAsString = "";
         }
         // To limit call to toString on business object, that could be expensive
-        MethodCallPO tCurrentMethodCall = mCurrentLogPoint.get();
-        endMethod(tCurrentMethodCall, tResultAsString);
-        if (tCurrentMethodCall.getParentMethodCall() == null)
-        { // Dernier appel du Thread
-            if (sLog.isDebugEnabled())
+        tCurrentMethodCall.setEndTime(System.currentTimeMillis());
+        tCurrentMethodCall.setReturnValue(tResultAsString);
+
+        MethodCallPO tParentMethodCall = tCurrentMethodCall.getParentMethodCall();
+        boolean tKeep = true;
+        try
+        {
+            tKeep = (pFilter == null || pFilter.keep(tCurrentMethodCall));
+        } catch (Throwable t)
+        {
+            sLog.error("The filter [" + pFilter.getClass().getName()
+                + "] is buggy and throw an Exception during filtering, the measure will be kept");
+        }
+        if (!tKeep)
+        {
+            // Just forgot this measure
+            if (sLog.isInfoEnabled())
             {
-                sLog.debug("logEndOfMethodNormal Last Time" + tResultAsString);
+                sLog.info("The current measure have been forgiven class=[" + tCurrentMethodCall.getClassName()
+                    + "], methodName=[" + tCurrentMethodCall.getMethodName() + "]");
             }
-            ExecutionFlowPO tFlow =
-                new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
-            // Process this flow
-            mProcessor.process(tFlow);
-            mStoreWriter.writeExecutionFlow(tFlow);
-            mCurrentLogPoint.set(null);
+            if (tParentMethodCall != null)
+            {
+                tParentMethodCall.removeLastChildren();
+            }
+            mCurrentLogPoint.set(tParentMethodCall);
         } else
         {
-            if (sLog.isDebugEnabled())
+            if (tParentMethodCall == null)
+            { // Dernier appel du Thread
+                if (sLog.isDebugEnabled())
+                {
+                    sLog.debug("logEndOfMethodNormal Last Time" + tResultAsString);
+                }
+                ExecutionFlowPO tFlow =
+                    new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
+                // Process this flow
+                if (mProcessor.process(tFlow))
+                {
+                    mStoreWriter.writeExecutionFlow(tFlow);
+                } else
+                {
+                    sLog.info("Post processor decide to forgive the flow " + tFlow);
+                }
+                mCurrentLogPoint.set(null);
+            } else
             {
-                sLog.debug("logEndOfMethodNormal Any Time" + tResultAsString);
+                if (sLog.isDebugEnabled())
+                {
+                    sLog.debug("logEndOfMethodNormal Any Time" + tResultAsString);
+                }
+                mCurrentLogPoint.set(tParentMethodCall);
             }
-            mCurrentLogPoint.set(tCurrentMethodCall.getParentMethodCall());
         }
     }
 
@@ -154,118 +187,99 @@ public class StoreManager
      * 
      * @param pTracer The tracer for logging Exception.
      * @param pException The <code>Exception</code> to trace.
+     * @param pOptionnalMsg Use by sql agent
      */
-    public void logEndOfMethodWithException(IThrowableTracer pTracer, Throwable pException)
-    {
-        logEndOfMethodWithException(pTracer, pException, null);
-    }
-
-    /**
-     * Trace the <code>Exception</code> thrown during its execution.
-     * 
-     * @param pTracer The tracer for logging Exception.
-     * @param pException The <code>Exception</code> to trace.
-     * @param pAdditionnalMsg Additionnal message that should be add to the Exception message.
-     */
-    public void logEndOfMethodWithException(IThrowableTracer pTracer, Throwable pException, CharSequence pAdditionnalMsg)
+    public void logEndOfMethodWithException(IThrowableTracer pTracer, Throwable pException, CharSequence pOptionnalMsg,
+        Filter pFilter)
     {
         if (sLog.isDebugEnabled())
         {
             sLog.debug("logEndOfMethodWithException " + (pException == null ? "" : pException.getMessage()));
         }
         MethodCallPO tCurrentMethodCall = mCurrentLogPoint.get();
-        if (pException == null)
-        { // Don't log the detail
-            endMethodWithException(tCurrentMethodCall, null, null);
+        CharSequence tOutput = buildExceptionMsg(pTracer, pException, pOptionnalMsg);
+        tCurrentMethodCall.setEndTime(System.currentTimeMillis());
+        tCurrentMethodCall.setThrowableClass(pException.getClass().getName());
+        tCurrentMethodCall.setThrowableMessage(tOutput.toString());
+        boolean tKeep = true;
+        try
+        {
+            tKeep = (pFilter == null || pFilter.keep(tCurrentMethodCall));
+        } catch (Throwable t)
+        {
+            sLog.error("The filter [" + pFilter.getClass().getName()
+                + "] is buggy and throw an Exception during filtering, the measure will be kept");
+        }
+        MethodCallPO tParentMethodCall = tCurrentMethodCall.getParentMethodCall();
+        if (!tKeep)
+        {
+            // Just forgot this measure
+            if (sLog.isInfoEnabled())
+            {
+                sLog.info("The current measure have been forgiven class=[" + tCurrentMethodCall.getClassName()
+                    + "], methodName=[" + tCurrentMethodCall.getMethodName() + "]");
+            }
+            if (tParentMethodCall != null)
+            {
+                tParentMethodCall.removeLastChildren();
+            }
+            mCurrentLogPoint.set(tParentMethodCall);
         } else
         {
-            CharSequence tOutput = null;
-            try
-            {
-                tOutput = (pTracer == null ? "" : pTracer.convertToString(pException));
-            } catch (Throwable e)
-            {
-                String tExceptionClass = pException.getClass().getName();
-                String tLogClass = (pTracer == null ? "" : pTracer.getClass().getName());
-                sLog.error("The log of the Exception as Throw an exception during it, Exception=[" + tExceptionClass
-                    + "] Traccer=[" + tLogClass + "]");
-            }
-            if (tOutput == null)
-            {
-                if (pAdditionnalMsg == null)
+            if (tCurrentMethodCall.getParentMethodCall() == null)
+            { // Dernier appel du Thread
+                if (sLog.isDebugEnabled())
                 {
-                    tOutput = "";
+                    sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
+                }
+                ExecutionFlowPO tFlow =
+                    new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
+                if (mProcessor.process(tFlow))
+                {
+                    mStoreWriter.writeExecutionFlow(tFlow);
                 } else
                 {
-                    tOutput = pAdditionnalMsg;
+                    sLog.info("Post processor decide to forgive the flow " + tFlow);
                 }
+                mCurrentLogPoint.set(null);
             } else
             {
-                if (pAdditionnalMsg != null)
+                if (sLog.isDebugEnabled())
                 {
-                    tOutput = tOutput + "\n" + pAdditionnalMsg;
+                    sLog.debug("logEndOfMethodWithException Any Time"
+                        + (pException == null ? "" : pException.getMessage()));
                 }
-            }
-            endMethodWithException(tCurrentMethodCall, pException.getClass().getName(), tOutput.toString());
-        }
-
-        if (tCurrentMethodCall.getParentMethodCall() == null)
-        { // Dernier appel du Thread
-            if (sLog.isDebugEnabled())
-            {
-                sLog.debug("logEndOfMethodWithException Last Time" + pException.getMessage());
-            }
-            ExecutionFlowPO tFlow =
-                new ExecutionFlowPO(Thread.currentThread().getName(), tCurrentMethodCall, mServerName);
-            mProcessor.process(tFlow);
-            mStoreWriter.writeExecutionFlow(tFlow);
-            mCurrentLogPoint.set(null);
-        } else
-        {
-            if (sLog.isDebugEnabled())
-            {
-                sLog
-                    .debug("logEndOfMethodWithException Any Time" + (pException == null ? "" : pException.getMessage()));
-            }
-            mCurrentLogPoint.set(tCurrentMethodCall.getParentMethodCall());
-        }
-
-    }
-
-    /**
-     * Define the return value of the method associated with this <code>MethodCallPO</code> when it didn't throw a
-     * <code>Throwable</code>.
-     * 
-     * @param pMethodCall the current methodcall to manage.
-     * @param pReturnValue The return value of the method.
-     */
-    public void endMethod(MethodCallPO pMethodCall, String pReturnValue)
-    {
-        pMethodCall.setEndTime(System.currentTimeMillis());
-        if (pReturnValue != null)
-        {
-            try
-            {
-                pMethodCall.setReturnValue(pReturnValue);
-            } catch (Throwable tT)
-            {
-                sLog.error("Unable to trace return value of call.", tT);
+                mCurrentLogPoint.set(tCurrentMethodCall.getParentMethodCall());
             }
         }
     }
 
-    /**
-     * Define the <code>Throwable</code> thrown by the method associated with this <code>MethodCallDTO</code>.
-     * 
-     * @param pMethodCall the current methodcall to manage.
-     * @param pExceptionClassName The name of the <code>Class</code> of the <code>Exception</code>.
-     * @param pExceptionMessage The message of the <code>Exception</code>.
-     */
-    private void endMethodWithException(MethodCallPO pMethodCall, String pExceptionClassName, String pExceptionMessage)
+    CharSequence buildExceptionMsg(IThrowableTracer pTracer, Throwable pException, CharSequence pOptionnalMsg)
     {
-        pMethodCall.setEndTime(System.currentTimeMillis());
-        pMethodCall.setThrowableClass(pExceptionClassName);
-        pMethodCall.setThrowableMessage(pExceptionMessage);
+        StringBuilder tOutput = new StringBuilder("");
+        try
+        {
+            CharSequence tSequ = (pTracer == null ? null : pTracer.convertToString(pException));
+            if (tSequ != null)
+            {
+                tOutput.append(tSequ);
+            }
+        } catch (Throwable e)
+        {
+            String tExceptionClass = pException.getClass().getName();
+            String tLogClass = (pTracer == null ? "" : pTracer.getClass().getName());
+            sLog.error("The log of the Exception as Throw an exception during it, Exception=[" + tExceptionClass
+                + "] Traccer=[" + tLogClass + "]");
+        }
+        if (pOptionnalMsg != null)
+        {
+            if (tOutput.length() > 0)
+            {
+                tOutput.append("\n");
+            }
+            tOutput.append(pOptionnalMsg);
+        }
+        return tOutput;
     }
 
     static void setLog(Logger pLog)

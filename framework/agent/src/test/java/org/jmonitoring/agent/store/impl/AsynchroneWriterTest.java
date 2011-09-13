@@ -14,17 +14,19 @@ import org.springframework.test.context.ContextConfiguration;
  **********************************************************************************************************************/
 
 @ContextConfiguration(locations = {"/asynchrone-test-writer.xml" })
-public class TestAsynchroneWriter extends JMonitoringTestCase
+public class AsynchroneWriterTest extends JMonitoringTestCase
 {
 
-    private static final int TIME_TO_WAIT = 2000;
+    private static final int NB_TIME_TO_WAIT = 20;
+
+    private static final int TIME_TO_WAIT = 1000;
 
     private static final int NB_FLOW_TO_LOG = 100;
 
     @Before
     public void init() throws Exception
     {
-        MockWriter.resetNbLog();
+        MockWriter.clear();
     }
 
     @Test
@@ -44,7 +46,12 @@ public class TestAsynchroneWriter extends JMonitoringTestCase
             tWriter.writeExecutionFlow(tFlows[i]);
         }
         assertTrue("All flow should not be writtren synchronously", NB_FLOW_TO_LOG > MockWriter.getNbLog());
-        Thread.sleep(TIME_TO_WAIT);
+        int i = 0;
+        while (i<NB_TIME_TO_WAIT &&  NB_FLOW_TO_LOG != MockWriter.getNbLog())
+        {
+            Thread.sleep(TIME_TO_WAIT);
+            i++;
+        }
         assertEquals(NB_FLOW_TO_LOG, MockWriter.getNbLog());
     }
 
@@ -54,29 +61,29 @@ public class TestAsynchroneWriter extends JMonitoringTestCase
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint = new MethodCallPO(null, TestAsynchroneWriter.class.getName(), "builNewFullFlow", "GrDefault", "[]");
+        tPoint = new MethodCallPO(null, AsynchroneWriterTest.class.getName(), "builNewFullFlow", "GrDefault", "[]");
         tPoint.setBeginTime(tStartTime); // 35
         tSubPoint =
-            new MethodCallPO(tPoint, TestAsynchroneWriter.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
+            new MethodCallPO(tPoint, AsynchroneWriterTest.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
         tSubPoint.setBeginTime(tStartTime + 2); // 3
         tSubPoint.setEndTime(tStartTime + 5);
-        tSubPoint.setRuntimeClassName(TestAsynchroneWriter.class.getName() + "iuiu");
+        tSubPoint.setRuntimeClassName(AsynchroneWriterTest.class.getName() + "iuiu");
 
         tSubPoint2 =
-            new MethodCallPO(tPoint, TestAsynchroneWriter.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
+            new MethodCallPO(tPoint, AsynchroneWriterTest.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint2.setBeginTime(tStartTime + 8);// 21
 
         tSubPoint3 =
-            new MethodCallPO(tSubPoint2, TestAsynchroneWriter.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
+            new MethodCallPO(tSubPoint2, AsynchroneWriterTest.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint3.setBeginTime(tStartTime + 14);// 1
         tSubPoint3.setEndTime(tStartTime + 15);
 
         tSubPoint4 =
-            new MethodCallPO(tSubPoint2, TestAsynchroneWriter.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
+            new MethodCallPO(tSubPoint2, AsynchroneWriterTest.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint4.setBeginTime(tStartTime + 16);// 12
 
         tSubPoint5 =
-            new MethodCallPO(tSubPoint4, TestAsynchroneWriter.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
+            new MethodCallPO(tSubPoint4, AsynchroneWriterTest.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
         tSubPoint5.setBeginTime(tStartTime + 26);// 1
         tSubPoint5.setEndTime(tStartTime + 27);
 

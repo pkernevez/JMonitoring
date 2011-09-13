@@ -41,7 +41,7 @@ public final class AsynchroneWriter implements IStoreWriter
     public AsynchroneWriter(int pBufferSize, int pMaxTreadPoolSize)
     {
         BoundedBuffer tBuffer = new BoundedBuffer(pBufferSize);
-        mExecutor = new PooledExecutor(tBuffer, DEFAULT_MAX_THREAD_POOL_SIZE);
+        mExecutor = new PooledExecutor(tBuffer, pMaxTreadPoolSize);
         sLog.info("Start PoolExecutor of AsynchroneJdbcLogger with " + pMaxTreadPoolSize + " Threads and a buffer of ["
             + pBufferSize + "].");
     }

@@ -16,6 +16,8 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
 
+import org.jmonitoring.agent.store.Filter;
+
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
@@ -24,9 +26,9 @@ public class JMonitoringCallableStatement extends JMonitoringPreparedStatement i
 {
     private final CallableStatement mRealCallStat;
 
-    public JMonitoringCallableStatement(CallableStatement pCallStatement, String pSqlRequest, String pGroupName)
+    public JMonitoringCallableStatement(CallableStatement pCallStatement, String pSqlRequest, String pGroupName, Filter pFilter)
     {
-        super("CallableStatement", pCallStatement, pSqlRequest, pGroupName);
+        super("CallableStatement", pCallStatement, pSqlRequest, pGroupName,pFilter);
         mRealCallStat = pCallStatement;
     }
 

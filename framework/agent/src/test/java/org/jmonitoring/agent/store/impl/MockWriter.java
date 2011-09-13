@@ -1,5 +1,9 @@
 package org.jmonitoring.agent.store.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 import org.jmonitoring.agent.store.IStoreWriter;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.slf4j.Logger;
@@ -18,16 +22,11 @@ public class MockWriter implements IStoreWriter
 {
     private static Logger sLog = LoggerFactory.getLogger(MockWriter.class);
 
-    private static int sNbLog;
+    private static Vector<ExecutionFlowPO> sExecutionsFlows = new Vector<ExecutionFlowPO>();
 
-    public static void clear()
+    public static synchronized void clear()
     {
-        sNbLog = 0;
-    }
-
-    private static synchronized void incrementNbLog()
-    {
-        sNbLog++;
+        sExecutionsFlows = new Vector<ExecutionFlowPO>();
     }
 
     /**
@@ -35,31 +34,36 @@ public class MockWriter implements IStoreWriter
      * 
      * @return The number of <code>ExecutionFlow</code> already log by the ThreadPool.
      */
-    public static synchronized int getNbLog()
+    public static int getNbLog()
     {
-        return sNbLog;
-    }
-
-    /**
-     * Accessor.
-     * 
-     */
-    public static synchronized void resetNbLog()
-    {
-        sNbLog = 0;
+        return sExecutionsFlows.size();
     }
 
     public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
     {
-        incrementNbLog();
-        try
-        {
-            Thread.sleep(1);
-        } catch (InterruptedException e)
-        {
-            throw new RuntimeException(e);
-        }
+        sExecutionsFlows.add(pExecutionFlow);
         sLog.info("Log ExecutionFlow, increment=[" + getNbLog() + "], Thread=" + Thread.currentThread().getName());
     }
 
+    public static Vector<ExecutionFlowPO> getExecutionsFlows()
+    {
+        return sExecutionsFlows;
+    }
+
+    public static class SlowMockWriter extends MockWriter{
+
+        @Override
+        public void writeExecutionFlow(ExecutionFlowPO pExecutionFlow)
+        {
+            try
+            {
+                Thread.sleep(50);
+            } catch (InterruptedException e)
+            {
+                sLog.error("Unable to sleep !", e);
+            }
+            super.writeExecutionFlow(pExecutionFlow);
+        }
+        
+    }
 }

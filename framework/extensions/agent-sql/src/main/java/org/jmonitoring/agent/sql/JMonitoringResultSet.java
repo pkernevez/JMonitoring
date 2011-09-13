@@ -22,6 +22,7 @@ import java.util.Map;
 import org.aspectj.lang.Signature;
 import org.jmonitoring.agent.info.impl.DefaultExceptionTracer;
 import org.jmonitoring.agent.info.impl.ToStringResultTracer;
+import org.jmonitoring.agent.store.Filter;
 import org.jmonitoring.agent.store.StoreManager;
 import org.jmonitoring.core.info.IResultTracer;
 import org.jmonitoring.core.info.IThrowableTracer;
@@ -37,7 +38,7 @@ public class JMonitoringResultSet implements ResultSet
     protected static IThrowableTracer sThrowableTracer = new DefaultExceptionTracer();
 
     private final String groupName;
-    
+
     private int mStatInsert = 0;
 
     private int mStatDelete = 0;
@@ -51,6 +52,8 @@ public class JMonitoringResultSet implements ResultSet
     private final ResultSet mInternalRS;
 
     private static Signature CLOSE;
+
+    private Filter mFilter;
 
     {
         try
@@ -66,11 +69,12 @@ public class JMonitoringResultSet implements ResultSet
         }
     }
 
-    public JMonitoringResultSet(ResultSet pInternalRS, String pGroupName)
+    public JMonitoringResultSet(ResultSet pInternalRS, String pGroupName, Filter pFilter)
     {
         super();
         mInternalRS = pInternalRS;
-        groupName = pGroupName+"CloseRS";
+        groupName = pGroupName + "CloseRS";
+        mFilter = pFilter;
     }
 
     /**
@@ -139,14 +143,14 @@ public class JMonitoringResultSet implements ResultSet
             tTrace.append("Delete=[" + mStatDelete + "]\n");
             tTrace.append("Previous=[" + mStatPrevious + "]\n");
             tTrace.append("Next=[" + mStatNext + "]");
-            tManager.logEndOfMethodNormal(sResultTracer, this, tTrace);
+            tManager.logEndOfMethodNormal(sResultTracer, this, tTrace, mFilter);
         } catch (Error e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, tTrace, mFilter);
             throw e;
         } catch (RuntimeException e)
         {
-            tManager.logEndOfMethodWithException(sThrowableTracer, e);
+            tManager.logEndOfMethodWithException(sThrowableTracer, e, tTrace, mFilter);
             throw e;
         }
     }

@@ -9,10 +9,12 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 public class MockProcessor implements PostProcessor
 {
     private static int sNbCall = 0;
-
-    public void process(ExecutionFlowPO pFlow)
+    private static boolean sKeepFlow = false;
+    
+    public boolean process(ExecutionFlowPO pFlow)
     {
         sNbCall++;
+        return sKeepFlow;
     }
 
     /**
@@ -29,6 +31,11 @@ public class MockProcessor implements PostProcessor
     public static void clear()
     {
         sNbCall = 0;
+    }
+
+    public static void setKeepFlow(boolean pKeepFlow)
+    {
+        MockProcessor.sKeepFlow = pKeepFlow;
     }
 
 }
