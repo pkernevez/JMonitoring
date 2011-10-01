@@ -22,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 @Ignore
 public class SqlTestCase extends JMonitoringTestCase
 {
+    /** This is the connection use to simulate an application database interaction. */
     protected Session mSession;
 
     @Before

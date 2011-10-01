@@ -35,7 +35,7 @@ public final class SpringConfigurationUtil
             return sContext.getBean(pString);
         } catch (Throwable t)
         {
-            sLog.error("Unable to find bean : " + pString + t.getMessage());
+            sLog.error("Unable to find bean : {} in context {}, message is {}",  new Object[] {pString, sContext,  t.getMessage()});
             throw new RuntimeException("Unable to find bean : " + pString, t);
         }
     }

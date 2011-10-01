@@ -89,8 +89,8 @@ public class GenericDriverTest extends TestCase
     }
 
     @Test
-    public void testAcceptsURL()
-    {
+    public void testFiter()
+    {   
 
     }
 

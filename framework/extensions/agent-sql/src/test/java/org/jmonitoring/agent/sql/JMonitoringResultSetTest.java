@@ -1,34 +1,50 @@
 package org.jmonitoring.agent.sql;
 
 import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.jmonitoring.agent.store.Filter;
 import org.jmonitoring.agent.store.impl.MemoryWriter;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
-
+//@RunWith( MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class JMonitoringResultSetTest extends SqlTestCase
 {
     ResultSet mResultSet;
 
     private static int sCurId;
 
+    @Mock
+    private Filter filter; 
+    
+    @Mock
+    private Driver mockDriver;
+    
     @Before
     public void initResultSet() throws SQLException
     {
         Connection tCon = mSession.connection();
-        Statement tStat = tCon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        Statement tStatement = tCon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         String tSql = JMonitoringStatementTest.UPDATE_1 + sCurId++ + JMonitoringStatementTest.UPDATE_2;
-        tStat.executeUpdate(tSql);
+        tStatement.executeUpdate(tSql);
 
-        mResultSet = new JMonitoringResultSet(tStat.executeQuery("select * from EXECUTION_FLOW"), "Jdbc", null);
+        mResultSet = new JMonitoringResultSet(tStatement.executeQuery("select * from EXECUTION_FLOW"), "Jdbc", null);
 
         MemoryWriter.clear();
     }
@@ -112,4 +128,20 @@ public class JMonitoringResultSetTest extends SqlTestCase
         MethodCallPO tCall = MemoryWriter.getFlow(0).getFirstMethodCall();
         assertTrue("Should contain log, " + tCall.getReturnValue(), tCall.getReturnValue().contains("Updated=[1]\n"));
     }
+    
+    private class TestDriver extends GenericDriver {
+
+        public TestDriver()
+        {
+            super(mockDriver);
+        }
+        
+    }
+    //TODO Restore this test : it requires to have both Mockito and Spring @RunWith
+//    @Test
+//    public void testFilterIsUsed() throws SQLException{
+//        when(mockDriver.acceptsURL("customUrl")).thenReturn(true);
+//        DriverManager.getConnection("jmonitoring:customUrl");
+//    }
+    
 }
