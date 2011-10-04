@@ -57,7 +57,7 @@ public class ConsoleDao
 
             } else
             {
-                tCrit.add(Restrictions.like(curFilter.getPropertyName(), curFilter.getValue()));
+                tCrit.add(Restrictions.like(curFilter.getPropertyName(), curFilter.getValue()+"%"));
             }
         }
         return tCrit;
