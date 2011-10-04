@@ -63,20 +63,68 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
         cf.addColumn(new Column<String, FlowExtractDTO>("Id", "Id", true)
         {
             @Override
-            public String getValue(FlowExtractDTO valore)
+            public String getValue(FlowExtractDTO pValue)
             {
-                return valore.getThreadName();
+                return String.valueOf(pValue.getId());
             }
         });
         cf.addColumn(new Column<String, FlowExtractDTO>("Thread", "Thread", true)
         {
             @Override
-            public String getValue(FlowExtractDTO valore)
+            public String getValue(FlowExtractDTO pValue)
             {
-                return valore.getThreadName();
+                return pValue.getThreadName();
             }
         });
-        return cf;
+        cf.addColumn(new Column<String, FlowExtractDTO>("Server", "Server", true)
+        {
+            @Override
+            public String getValue(FlowExtractDTO pValue)
+            {
+                return pValue.getServer();
+            }
+        });
+        cf.addColumn(new Column<String, FlowExtractDTO>("Duration", "Duration", true)
+        {
+            @Override
+            public String getValue(FlowExtractDTO pValue)
+            {
+                return String.valueOf( pValue.getDuration());
+            }
+        });
+        cf.addColumn(new Column<String, FlowExtractDTO>("Begin", "Begin", true)
+        {
+            @Override
+            public String getValue(FlowExtractDTO pValue)
+            {
+                return pValue.getBeginTime();
+            }
+        });
+        cf.addColumn(new Column<String, FlowExtractDTO>("End", "End", true)
+        {
+            @Override
+            public String getValue(FlowExtractDTO pValue)
+            {
+                return pValue.getEndTime();
+            }
+        });
+        cf.addColumn(new Column<String, FlowExtractDTO>("Class", "Class", true)
+        {
+            @Override
+            public String getValue(FlowExtractDTO pValue)
+            {
+                return pValue.getClassName();
+            }
+        });
+        cf.addColumn(new Column<String, FlowExtractDTO>("Method", "Method", true)
+        {
+            @Override
+            public String getValue(FlowExtractDTO pValue)
+            {
+                return pValue.getMethodName();
+            }
+        });
+       return cf;
     }
 
 }

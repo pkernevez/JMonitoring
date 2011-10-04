@@ -5,7 +5,8 @@
 
     <context:annotation-config />
 
-    <context:property-placeholder location="classpath:database.properties" />
+<!--      <context:property-placeholder location="classpath:database.properties" />-->
+    <context:property-placeholder location="/WEB-INF/database.properties" />
 
 <!--     <context:component-scan  base-package="org.jmonitoring.console.gwt.server" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
