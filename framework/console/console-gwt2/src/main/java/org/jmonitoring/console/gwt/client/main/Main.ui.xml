@@ -16,7 +16,7 @@
 			<p1:Menu ui:field="menu" styleName="{style.menu}" />
 		</g:west>
 		<g:center>
-			<g:SimplePanel ui:field="content" styleName="{style.main-panel}"/>
+			<g:ScrollPanel ui:field="content" styleName="{style.main-panel}"/>
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 
