@@ -5,26 +5,37 @@
 
 <web-app>
 
-<context-param>
-	<param-name>contextConfigLocation</param-name>
-	<param-value>/WEB-INF/jmonitoring-default.xml</param-value>
-</context-param>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.gwtrpcspring.RemoteServiceDispatcher</servlet-class>
-    </servlet>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/jmonitoring-default.xml</param-value>
+	</context-param>
 
-    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
+    <filter>
+        <filter-name>TransactionFilter</filter-name>
+        <filter-class>org.jmonitoring.console.gwt.server.flow.TransactionFilter</filter-class>
+	</filter>
+
+    <filter-mapping>
+        <filter-name>TransactionFilter</filter-name>
         <url-pattern>*.rpc</url-pattern>
-    </servlet-mapping>
+    </filter-mapping>
 
-    <!-- Default page to serve -->
-    <welcome-file-list>
-        <welcome-file>JMonitoring.html</welcome-file>
-    </welcome-file-list>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.gwtrpcspring.RemoteServiceDispatcher</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.rpc</url-pattern>
+	</servlet-mapping>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>JMonitoring.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>
