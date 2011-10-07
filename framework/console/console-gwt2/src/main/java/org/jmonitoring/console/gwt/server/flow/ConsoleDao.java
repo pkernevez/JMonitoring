@@ -48,7 +48,7 @@ public class ConsoleDao
         {
             if (HibernateConstant.MIN_DURATION.equals(curFilter.getPropertyName()))
             {
-                tCrit.add(Restrictions.gt(curFilter.getPropertyName(), curFilter.getValue()));
+                tCrit.add(Restrictions.gt(curFilter.getPropertyName(), Long.valueOf((String)curFilter.getValue())));
             } else if (HibernateConstant.BEGIN_DATE.equals(curFilter.getPropertyName()))
             {
                 long tBeginTime = formater.parseDate((String)curFilter.getValue()).getTime();

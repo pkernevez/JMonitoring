@@ -6,18 +6,26 @@ import it.pianetatecno.gwt.utility.client.table.StringFilter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+
+import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.LocalizableResource.Key;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.KeyboardListener;
+import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,10 +36,12 @@ public class FlowSearch extends Composite
 
     private static FlowSearchUiBinder uiBinder = GWT.create(FlowSearchUiBinder.class);
 
-    // private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
+    private static ConsoleImageBundle resources = GWT.create(ConsoleImageBundle.class);
+
+     private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
 
     @UiField
-    Image image;
+    Image buttonOk;
 
     @UiField
     TextBox thread;
@@ -66,13 +76,12 @@ public class FlowSearch extends Composite
         beginDate.getTextBox().setVisibleLength(8);
         beginDate.getTextBox().setMaxLength(8);
         table = new FlowSearchTableModel(service).getTable();
-        vPanel.add(table);
-    }
+        // table.setStylePrimaryName(resources.main().tableUtility());
+        // this.setStylePrimaryName(resources.main().tableUtility());
 
-    @UiHandler("image")
-    void onImageClick(ClickEvent event)
-    {
-        table.filterData(createFilters());
+        // this.setWidth("100%");
+        // table.setWidth("100%");
+        vPanel.add(table);
     }
 
     @SuppressWarnings("rawtypes")
@@ -104,4 +113,29 @@ public class FlowSearch extends Composite
         }
     }
 
+    private void filterData(KeyPressEvent pEvent)
+    {
+        if (pEvent == null || (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER))
+        {
+            table.filterData(createFilters());
+        }
+    }
+
+    @UiHandler("buttonOk")
+    void onButtonOkClick(ClickEvent pEvent)
+    {
+        filterData(null);
+    }
+
+    @UiHandler("thread")
+    void onThreadKeyPress(KeyPressEvent pEvent)
+    {
+        filterData(pEvent);
+    }
+
+    @UiHandler("minDuration")
+    void onMinDurationKeyPress(KeyPressEvent pEvent)
+    {
+        filterData(pEvent);
+    }
 }

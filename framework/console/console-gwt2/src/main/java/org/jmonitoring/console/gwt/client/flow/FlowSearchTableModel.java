@@ -53,14 +53,13 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
         // Window.alert("Action "+eventName+" object "+object.getCognome()+" "+object.getNome());
         // }
         // });
-
         return tTable;
     }
 
     private ColumnDefinition getColumnDefinition()
     {
         ColumnDefinition cf = new ColumnDefinition();
-        cf.addColumn(new Column<String, FlowExtractDTO>("Id", "Id", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("Id", "id", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)
@@ -68,7 +67,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return String.valueOf(pValue.getId());
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Thread", "Thread", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("Thread", "thread", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)
@@ -76,7 +75,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return pValue.getThreadName();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Server", "Server", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("Server", "jvmIdentifier", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)
@@ -84,7 +83,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return pValue.getServer();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Duration", "Duration", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("Duration", "duration", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)
@@ -92,7 +91,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return String.valueOf( pValue.getDuration());
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Begin", "Begin", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("Begin", "beginTime", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)
@@ -100,7 +99,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return pValue.getBeginTime();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("End", "End", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("End", "endTime", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)
@@ -108,7 +107,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return pValue.getEndTime();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Class", "Class", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("Class", "firstClassName", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)
@@ -116,7 +115,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return pValue.getClassName();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Method", "Method", true)
+        cf.addColumn(new Column<String, FlowExtractDTO>("Method", "firstMethodName", true)
         {
             @Override
             public String getValue(FlowExtractDTO pValue)

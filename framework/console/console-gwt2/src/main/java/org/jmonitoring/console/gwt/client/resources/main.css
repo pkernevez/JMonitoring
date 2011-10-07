@@ -31,6 +31,7 @@
 
 .main-panel {
 	padding: 10px;
+	width: 100%;
 }
 
 .menu {
@@ -45,7 +46,11 @@
 }
 
 .searchmask table {
-	width: 100%
+	/*width: 100%*/
+}
+
+div.table-utility  {
+	width:100%;
 }
 
 body,input,select,td,textarea,h1 {
@@ -60,7 +65,7 @@ h1 {
 
 .label {
 	text-align: right;
-    width: 100%;
+	padding: 3px 3px 3px 10px;
 }
 
 /* To check */
@@ -123,3 +128,6 @@ div.info{
 	background-color: #EEEEEE; 
 }	
 
+.gwtutility-table-td {
+     white-space:nowrap;
+}

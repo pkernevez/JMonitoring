@@ -7,7 +7,7 @@
 	<ui:style src="../resources/main.css" />
 	<g:VerticalPanel styleName="{style.searchmask}" ui:field="vPanel">
 		<g:HTML><h1>Flow Search</h1></g:HTML> 
-		<g:Grid>
+		<g:Grid >
 			<g:row>
 				<g:cell><div class="{style.label}">Thread</div></g:cell>
 				<g:customCell><g:TextBox ui:field="thread" maxLength="25" visibleLength="25"></g:TextBox></g:customCell>
@@ -25,6 +25,6 @@
 				<g:customCell><p1:DateBox ui:field="beginDate"></p1:DateBox></g:customCell>
 			</g:row>
 		</g:Grid>
-		<g:Image resource="{res.ok}" ui:field="image"></g:Image>
+		<g:Image resource="{res.ok}" ui:field="buttonOk"></g:Image>
 	</g:VerticalPanel>
 </ui:UiBinder> 
