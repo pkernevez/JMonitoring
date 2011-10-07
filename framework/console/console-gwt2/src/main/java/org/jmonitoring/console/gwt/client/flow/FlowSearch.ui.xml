@@ -4,10 +4,10 @@
 	<ui:with
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle"
 		field="res"></ui:with>
-	<ui:style src="../resources/main.css" />
-	<g:VerticalPanel styleName="{style.searchmask}" ui:field="vPanel">
+	<ui:style src="../resources/main-style.css" />
+	<g:VerticalPanel styleName="{style.searchpanel}" ui:field="vPanel">
 		<g:HTML><h1>Flow Search</h1></g:HTML> 
-		<g:Grid >
+		<g:Grid styleName="{style.searchmask}" >
 			<g:row>
 				<g:cell><div class="{style.label}">Thread</div></g:cell>
 				<g:customCell><g:TextBox ui:field="thread" maxLength="25" visibleLength="25"></g:TextBox></g:customCell>
@@ -26,5 +26,6 @@
 			</g:row>
 		</g:Grid>
 		<g:Image resource="{res.ok}" ui:field="buttonOk"></g:Image>
+		<g:SimplePanel styleName="{style.searchresult}" ui:field="searchResult"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

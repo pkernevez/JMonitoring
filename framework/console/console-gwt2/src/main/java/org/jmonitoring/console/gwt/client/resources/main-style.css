@@ -39,14 +39,26 @@
 	border-right: 1px dotted #DD0000;
 	vertical-align: top;
 	height: 100%;
+	width: 100%;
 }
 
 .menu a {
 	font-size: 13px;
 }
 
-.searchmask table {
-	/*width: 100%*/
+.searchmask {
+}
+
+
+.searchresult div table:FIRST-CHILD{
+	width: 100%;
+}
+
+.searchresult {
+}
+
+.searchpanel {
+	width: 100%;	
 }
 
 div.table-utility  {
@@ -128,6 +140,3 @@ div.info{
 	background-color: #EEEEEE; 
 }	
 
-.gwtutility-table-td {
-     white-space:nowrap;
-}

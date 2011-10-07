@@ -4,7 +4,7 @@
 	<ui:with
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle"
 		field="res"></ui:with>
-	<ui:style src="../resources/main.css" />
+	<ui:style src="../resources/main-style.css" />
 		
 	<g:DockLayoutPanel styleName="{style.main}" unit="PX">
 		<g:north size="65">
@@ -12,7 +12,7 @@
 				<g:Image resource="{res.jmonitoring}" />
 			</g:HorizontalPanel>
 		</g:north>
-		<g:west size='150'>
+		<g:west size='130'>
 			<p1:Menu ui:field="menu" styleName="{style.menu}" />
 		</g:west>
 		<g:center>

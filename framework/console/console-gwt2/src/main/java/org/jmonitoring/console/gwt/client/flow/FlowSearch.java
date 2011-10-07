@@ -30,15 +30,16 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class FlowSearch extends Composite
 {
 
-    private static FlowSearchUiBinder uiBinder = GWT.create(FlowSearchUiBinder.class);
+    private static FlowSearchUiBinder sUiBinder = GWT.create(FlowSearchUiBinder.class);
 
-    private static ConsoleImageBundle resources = GWT.create(ConsoleImageBundle.class);
+    private static ConsoleImageBundle sResources = GWT.create(ConsoleImageBundle.class);
 
-     private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
+//     private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
 
     @UiField
     Image buttonOk;
@@ -58,8 +59,9 @@ public class FlowSearch extends Composite
     @UiField
     TextBox firstMeasureMethodName;
 
-    @UiField
-    VerticalPanel vPanel;
+//    @UiFieldd
+//    VerticalPanel vPanel;
+    @UiField SimplePanel searchResult;
 
     interface FlowSearchUiBinder extends UiBinder<Widget, FlowSearch>
     {
@@ -71,17 +73,14 @@ public class FlowSearch extends Composite
 
     public FlowSearch()
     {
-        initWidget(uiBinder.createAndBindUi(this));
+        initWidget(sUiBinder.createAndBindUi(this));
         beginDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yy")));
         beginDate.getTextBox().setVisibleLength(8);
         beginDate.getTextBox().setMaxLength(8);
         table = new FlowSearchTableModel(service).getTable();
-        // table.setStylePrimaryName(resources.main().tableUtility());
-        // this.setStylePrimaryName(resources.main().tableUtility());
-
-        // this.setWidth("100%");
-        // table.setWidth("100%");
-        vPanel.add(table);
+//        table.setStyleName(sResources.mainStyle().searchresult());
+//        table.get().t
+        searchResult.add(table);
     }
 
     @SuppressWarnings("rawtypes")
