@@ -17,6 +17,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.LocalizableResource.Key;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -31,6 +32,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 
 public class FlowSearch extends Composite
 {
@@ -77,6 +79,13 @@ public class FlowSearch extends Composite
         beginDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yy")));
         beginDate.getTextBox().setVisibleLength(8);
         beginDate.getTextBox().setMaxLength(8);
+        beginDate.getTextBox().addKeyPressHandler(new KeyPressHandler()
+        {
+            public void onKeyPress(KeyPressEvent pEvent)
+            {
+                filterData(pEvent);
+            }
+        });
         table = new FlowSearchTableModel(service).getTable();
 //        table.setStyleName(sResources.mainStyle().searchresult());
 //        table.get().t
@@ -137,4 +146,13 @@ public class FlowSearch extends Composite
     {
         filterData(pEvent);
     }
+    @UiHandler("firstMeasureClassName")
+    void onFirstMeasureClassNameKeyPress(KeyPressEvent pEvent) {
+        filterData(pEvent);
+    }
+    @UiHandler("firstMeasureMethodName")
+    void onFirstMeasureMethodNameKeyPress(KeyPressEvent pEvent) {
+        filterData(pEvent);
+    }
+  
 }
