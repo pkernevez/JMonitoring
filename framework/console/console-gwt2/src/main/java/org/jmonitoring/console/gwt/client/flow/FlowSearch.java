@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
@@ -25,6 +24,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.TextBox;
@@ -41,7 +41,7 @@ public class FlowSearch extends Composite
 
     private static ConsoleImageBundle sResources = GWT.create(ConsoleImageBundle.class);
 
-//     private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
+    // private static Logger sLog = Logger.getLogger(FlowSearch.class.getName());
 
     @UiField
     Image buttonOk;
@@ -61,9 +61,12 @@ public class FlowSearch extends Composite
     @UiField
     TextBox firstMeasureMethodName;
 
-//    @UiFieldd
-//    VerticalPanel vPanel;
-    @UiField SimplePanel searchResult;
+    // @UiFieldd
+    // VerticalPanel vPanel;
+    @UiField
+    SimplePanel searchResult;
+
+    private FlowSearchActivity presenter;
 
     interface FlowSearchUiBinder extends UiBinder<Widget, FlowSearch>
     {
@@ -87,8 +90,8 @@ public class FlowSearch extends Composite
             }
         });
         table = new FlowSearchTableModel(service).getTable();
-//        table.setStyleName(sResources.mainStyle().searchresult());
-//        table.get().t
+        // table.setStyleName(sResources.mainStyle().searchresult());
+        // table.get().t
         searchResult.add(table);
     }
 
@@ -146,13 +149,23 @@ public class FlowSearch extends Composite
     {
         filterData(pEvent);
     }
+
     @UiHandler("firstMeasureClassName")
-    void onFirstMeasureClassNameKeyPress(KeyPressEvent pEvent) {
+    void onFirstMeasureClassNameKeyPress(KeyPressEvent pEvent)
+    {
         filterData(pEvent);
     }
+
     @UiHandler("firstMeasureMethodName")
-    void onFirstMeasureMethodNameKeyPress(KeyPressEvent pEvent) {
+    void onFirstMeasureMethodNameKeyPress(KeyPressEvent pEvent)
+    {
         filterData(pEvent);
     }
-  
+
+    public FlowSearch setPresenter(FlowSearchActivity pFlowSearchActivity)
+    {
+        presenter = pFlowSearchActivity;
+        return this;
+    }
+
 }

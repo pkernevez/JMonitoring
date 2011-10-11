@@ -1,14 +1,9 @@
 package org.jmonitoring.console.gwt.client;
 
-import org.jmonitoring.console.gwt.client.flow.FlowSearchPlace;
 import org.jmonitoring.console.gwt.client.main.Main;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -16,23 +11,19 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class JMonitoring implements EntryPoint
 {
 
-    private static PlaceHistoryMapper historyMapper = GWT.create(GwtPlaceHistoryMapper.class);
-
-    public static PlaceController placeController;
-
-//    private ConsoleImageBundle bundle;
+    // private ConsoleImageBundle bundle;
 
     /**
      * This is the entry point method.
      */
     public void onModuleLoad()
     {
-//        bundle = GWT.create(ConsoleImageBundle.class);
+        // bundle = GWT.create(ConsoleImageBundle.class);
 
+        JMonitoringClientFactory tClientFactory = JMonitoringClientFactory.init();
         Main tMain = new Main();
-        RootLayoutPanel.get().add(tMain); 
-        placeController = PlaceUtil.getController(tMain.getContent(), historyMapper, new FlowSearchPlace());
-
+        RootLayoutPanel.get().add(tMain);
+        tClientFactory.displayDefaultPlace(tMain);
     }
 
 }

@@ -4,13 +4,22 @@ import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 
-public class JMonitoringActivityMapper implements ActivityMapper {
+public class JMonitoringActivityMapper implements ActivityMapper
+{
+    private final JMonitoringClientFactory clientFactory;
 
-    public Activity getActivity(Place place) {
-        return ((ActivityAware)place).getActivity();
+    public JMonitoringActivityMapper(JMonitoringClientFactory pClientFactory)
+    {
+        clientFactory = pClientFactory;
     }
 
-    public interface ActivityAware {
-        Activity getActivity();
+    public Activity getActivity(Place place)
+    {
+        return ((ActivityAware) place).getActivity(clientFactory);
+    }
+
+    public interface ActivityAware
+    {
+        Activity getActivity(JMonitoringClientFactory pClientFactory);
     }
 }

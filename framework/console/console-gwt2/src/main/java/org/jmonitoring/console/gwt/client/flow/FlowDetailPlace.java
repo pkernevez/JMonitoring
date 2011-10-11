@@ -8,20 +8,16 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
-public class FlowSearchPlace extends Place implements ActivityAware
-{
+public class FlowDetailPlace extends Place implements ActivityAware {
 
-    @Prefix("flowsearch")
-    public static class FlowSearchTokenizer implements PlaceTokenizer<FlowSearchPlace>
-    {
+    @Prefix("flowdetail")
+    public static class FlowDetailTokenizer implements PlaceTokenizer<FlowDetailPlace> {
 
-        public FlowSearchPlace getPlace(String token)
-        {
-            return new FlowSearchPlace();
+        public FlowDetailPlace getPlace(String token) {
+            return new FlowDetailPlace();
         }
 
-        public String getToken(FlowSearchPlace place)
-        {
+        public String getToken(FlowDetailPlace place) {
             return "";
         }
 
@@ -29,6 +25,7 @@ public class FlowSearchPlace extends Place implements ActivityAware
 
     public Activity getActivity(JMonitoringClientFactory pClientFactory)
     {
-        return new FlowSearchActivity(this, pClientFactory);
+        return new FlowDetailActivity(this, pClientFactory);
     }
+    
 }
