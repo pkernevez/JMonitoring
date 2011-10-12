@@ -3,23 +3,28 @@ package org.jmonitoring.console.gwt.client.flow;
 import it.pianetatecno.gwt.utility.client.table.Callback;
 import it.pianetatecno.gwt.utility.client.table.Column;
 import it.pianetatecno.gwt.utility.client.table.ColumnDefinition;
-import it.pianetatecno.gwt.utility.client.table.Filter;
 import it.pianetatecno.gwt.utility.client.table.PagingTable;
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
 import it.pianetatecno.gwt.utility.client.table.TableActions;
 import it.pianetatecno.gwt.utility.client.table.TableModel;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 
 public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
 {
-    private FlowServiceAsync service;
-    
-    public FlowSearchTableModel(  FlowServiceAsync pService)
+    private final FlowServiceAsync service;
+
+    /**
+     * Workaround to no do a first call during the creation of the Tqble as will do that just after the filter
+     * initialization. This is necessary to handle history.
+     */
+    private boolean firstTime = true;
+
+    public FlowSearchTableModel(FlowServiceAsync pService)
     {
         super();
         service = pService;
@@ -28,15 +33,28 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
     @Override
     public void requestRows(final Request pRequest, final Callback<FlowExtractDTO> pCallback)
     {
-        service.search(pRequest, new JMonitoringAsyncCallBack<SerializableResponse<FlowExtractDTO>>()
+        if (firstTime)
         {
-            public void onSuccess(SerializableResponse<FlowExtractDTO> pResult)
+            pCallback.onRowsReady(pRequest, createResponse());
+            firstTime = false;
+        } else
+        {
+            service.search(pRequest, new JMonitoringAsyncCallBack<SerializableResponse<FlowExtractDTO>>()
             {
-                pCallback.onRowsReady(pRequest, pResult);
-            }
+                public void onSuccess(SerializableResponse<FlowExtractDTO> pResult)
+                {
+                    pCallback.onRowsReady(pRequest, pResult);
+                }
 
-        });
+            });
+        }
+    }
 
+    private SerializableResponse<FlowExtractDTO> createResponse()
+    {
+        SerializableResponse<FlowExtractDTO> tResult = new SerializableResponse<FlowExtractDTO>();
+        tResult.setRows(new ArrayList<FlowExtractDTO>());
+        return tResult;
     }
 
     public PagingTable<FlowExtractDTO> getTable()
@@ -45,8 +63,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
         TableActions tTableActions = new TableActions();
         // tableActions.addAction("Edit", MainEntryPoint.immaginiApp.iconCloseSmall().getHTML());
         PagingTable<FlowExtractDTO> tTable =
-            new PagingTable<FlowExtractDTO>(this, getColumnDefinition(), tTableActions, 10, "id",
-                                            Column.SORTING_ASC);
+            new PagingTable<FlowExtractDTO>(this, getColumnDefinition(), tTableActions, 10, "id", Column.SORTING_ASC);
         // table.addActionHandler(new ActionHandler<Operatore>() {
         // @Override
         // public void onActionPerformed(String eventName, Operatore object) {
@@ -88,7 +105,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
             @Override
             public String getValue(FlowExtractDTO pValue)
             {
-                return String.valueOf( pValue.getDuration());
+                return String.valueOf(pValue.getDuration());
             }
         });
         cf.addColumn(new Column<String, FlowExtractDTO>("Begin", "beginTime", true)
@@ -123,7 +140,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return pValue.getMethodName();
             }
         });
-       return cf;
+        return cf;
     }
 
 }

@@ -14,6 +14,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
+import com.google.gwt.user.client.History;
 
 public class JMonitoringClientFactory
 {
@@ -23,9 +24,7 @@ public class JMonitoringClientFactory
 
     private static PlaceHistoryMapper sHistoryMapper;
 
-    private FlowDetail flowDetail = new FlowDetail();
-
-    private FlowSearch flowSearch = new FlowSearch();
+    private final FlowDetail flowDetail = new FlowDetail();
 
     private static JMonitoringClientFactory sClientFactory;
 
@@ -48,7 +47,7 @@ public class JMonitoringClientFactory
 
     public FlowSearch getFlowSearch()
     {
-        return flowSearch;
+        return new FlowSearch();
     }
 
     public static JMonitoringClientFactory init()
@@ -64,7 +63,7 @@ public class JMonitoringClientFactory
 
     public static String getToken(Place pPlace)
     {
-       return sHistoryMapper.getToken(pPlace);
+        return sHistoryMapper.getToken(pPlace);
     }
 
     public void displayDefaultPlace(Main pMain)
@@ -73,5 +72,10 @@ public class JMonitoringClientFactory
         ActivityManager activityManager = new ActivityManager(activityMapper, sEventBus);
         activityManager.setDisplay(pMain.getContent());
         sHistoryHandler.handleCurrentHistory();
+    }
+
+    public static void addHistory(Place pPlace)
+    {
+        History.newItem(getToken(pPlace), false);
     }
 }

@@ -1,25 +1,81 @@
 package org.jmonitoring.console.gwt.client.flow;
 
+import it.pianetatecno.gwt.utility.client.table.Filter;
+import it.pianetatecno.gwt.utility.client.table.StringFilter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jmonitoring.console.gwt.client.JMonitoringClientFactory;
+import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 class FlowSearchActivity extends AbstractActivity
 {
-   private final FlowSearchPlace place;
-   private final JMonitoringClientFactory clientFactory;
-    
+    private FlowSearchPlace place;
+
+    private final JMonitoringClientFactory clientFactory;
+
     public FlowSearchActivity(FlowSearchPlace pPlace, JMonitoringClientFactory pClientFactory)
     {
-        place=pPlace;
-        clientFactory=pClientFactory;
+        place = pPlace;
+        clientFactory = pClientFactory;
     }
 
     public void start(AcceptsOneWidget panel, EventBus eventBus)
     {
-        
-        panel.setWidget(new FlowSearch().setPresenter(this));
+
+        FlowSearch tPanel = clientFactory.getFlowSearch();
+        tPanel.thread.setText(place.thread);
+        tPanel.minDuration.setText(place.minDuration);
+        tPanel.firstMeasureClassName.setText(place.firstMeasureClassName);
+        tPanel.firstMeasureMethodName.setText(place.firstMeasureMethodName);
+        tPanel.beginDate.getTextBox().setText(place.beginDate);
+        filterData(tPanel, null);
+        panel.setWidget(tPanel.setPresenter(this));
     }
+
+    void filterData(FlowSearch pFlowSearch, KeyPressEvent pEvent)
+    {
+        if (pEvent == null || (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER))
+        {
+            place =
+                new FlowSearchPlace(pFlowSearch.thread.getText(), pFlowSearch.minDuration.getText(),
+                                    pFlowSearch.firstMeasureClassName.getText(),
+                                    pFlowSearch.firstMeasureMethodName.getText(), pFlowSearch.beginDate.getTextBox()
+                                                                                                       .getText());
+            JMonitoringClientFactory.addHistory(place);
+            pFlowSearch.table.filterData(createFilters());
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    List<Filter> createFilters()
+    {
+        List<Filter> tFilters = new ArrayList<Filter>();
+        addFilter(tFilters, place.thread, HibernateConstant.THREAD);
+        addFilter(tFilters, place.firstMeasureClassName, HibernateConstant.FIRST_MEASURE_CLASS_NAME);
+        addFilter(tFilters, place.minDuration, HibernateConstant.MIN_DURATION);
+        addFilter(tFilters, place.beginDate, HibernateConstant.BEGIN_DATE);
+        addFilter(tFilters, place.firstMeasureMethodName, HibernateConstant.FIRST_MEASURE_METHOD_NAME);
+        return tFilters;
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void addFilter(List<Filter> pFilters, String pText, String pPropertyName)
+    {
+        if (pText.length() > 0)
+        {
+            StringFilter curFilter = new StringFilter();
+            curFilter.setPropertyName(pPropertyName);
+            curFilter.setValue(pText);
+            pFilters.add(curFilter);
+        }
+    }
+
 }
