@@ -24,6 +24,8 @@ public class JMonitoringClientFactory
 
     private static PlaceHistoryMapper sHistoryMapper;
 
+    private final FlowSearch flowSearch = new FlowSearch();
+
     private final FlowDetail flowDetail = new FlowDetail();
 
     private static JMonitoringClientFactory sClientFactory;
@@ -47,7 +49,7 @@ public class JMonitoringClientFactory
 
     public FlowSearch getFlowSearch()
     {
-        return new FlowSearch();
+        return flowSearch;
     }
 
     public static JMonitoringClientFactory init()
