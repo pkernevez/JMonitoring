@@ -1,7 +1,7 @@
 package org.jmonitoring.console.gwt.client.flow;
 
 import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;
-import org.jmonitoring.console.gwt.client.JMonitoringClientFactory;
+import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.common.AbstractPlace;
 
 import com.google.gwt.activity.shared.Activity;
@@ -60,7 +60,7 @@ public class FlowSearchPlace extends AbstractPlace implements ActivityAware
         beginDate = pBeginDate;
     }
 
-    public Activity getActivity(JMonitoringClientFactory pClientFactory)
+    public Activity getActivity(ClientFactory pClientFactory)
     {
         return new FlowSearchActivity(this, pClientFactory);
     }

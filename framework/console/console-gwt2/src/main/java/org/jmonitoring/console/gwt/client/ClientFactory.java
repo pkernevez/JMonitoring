@@ -4,6 +4,7 @@ import org.jmonitoring.console.gwt.client.flow.FlowDetail;
 import org.jmonitoring.console.gwt.client.flow.FlowSearch;
 import org.jmonitoring.console.gwt.client.flow.FlowSearchPlace;
 import org.jmonitoring.console.gwt.client.main.Main;
+import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -16,7 +17,7 @@ import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.user.client.History;
 
-public class JMonitoringClientFactory
+public class ClientFactory
 {
     private static final EventBus sEventBus = new SimpleEventBus();
 
@@ -28,7 +29,9 @@ public class JMonitoringClientFactory
 
     private final FlowDetail flowDetail = new FlowDetail();
 
-    private static JMonitoringClientFactory sClientFactory;
+    public final static ConsoleImageBundle imageBundle = GWT.create(ConsoleImageBundle.class);
+
+    private static ClientFactory sClientFactory;
 
     private static PlaceHistoryHandler sHistoryHandler;
 
@@ -52,9 +55,9 @@ public class JMonitoringClientFactory
         return flowSearch;
     }
 
-    public static JMonitoringClientFactory init()
+    public static ClientFactory init()
     {
-        sClientFactory = new JMonitoringClientFactory();
+        sClientFactory = new ClientFactory();
         // Start ActivityManager for the main widget with our ActivityMapper
 
         sHistoryMapper = GWT.create(JMonitoringPlaceHistoryMapper.class);

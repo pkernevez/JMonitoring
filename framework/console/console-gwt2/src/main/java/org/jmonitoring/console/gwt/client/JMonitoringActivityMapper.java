@@ -6,9 +6,9 @@ import com.google.gwt.place.shared.Place;
 
 public class JMonitoringActivityMapper implements ActivityMapper
 {
-    private final JMonitoringClientFactory clientFactory;
+    private final ClientFactory clientFactory;
 
-    public JMonitoringActivityMapper(JMonitoringClientFactory pClientFactory)
+    public JMonitoringActivityMapper(ClientFactory pClientFactory)
     {
         clientFactory = pClientFactory;
     }
@@ -20,6 +20,6 @@ public class JMonitoringActivityMapper implements ActivityMapper
 
     public interface ActivityAware
     {
-        Activity getActivity(JMonitoringClientFactory pClientFactory);
+        Activity getActivity(ClientFactory pClientFactory);
     }
 }

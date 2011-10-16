@@ -6,7 +6,7 @@ import it.pianetatecno.gwt.utility.client.table.StringFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jmonitoring.console.gwt.client.JMonitoringClientFactory;
+import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -19,9 +19,9 @@ class FlowSearchActivity extends AbstractActivity
 {
     private FlowSearchPlace place;
 
-    private final JMonitoringClientFactory clientFactory;
+    private final ClientFactory clientFactory;
 
-    public FlowSearchActivity(FlowSearchPlace pPlace, JMonitoringClientFactory pClientFactory)
+    public FlowSearchActivity(FlowSearchPlace pPlace, ClientFactory pClientFactory)
     {
         place = pPlace;
         clientFactory = pClientFactory;
@@ -49,15 +49,14 @@ class FlowSearchActivity extends AbstractActivity
                                     pFlowSearch.firstMeasureClassName.getText(),
                                     pFlowSearch.firstMeasureMethodName.getText(), pFlowSearch.beginDate.getTextBox()
                                                                                                        .getText());
-            JMonitoringClientFactory.addHistory(place);
+            ClientFactory.addHistory(place);
             pFlowSearch.table.filterData(createFilters());
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    List<Filter> createFilters()
+    List<Filter<?>> createFilters()
     {
-        List<Filter> tFilters = new ArrayList<Filter>();
+        List<Filter<?>> tFilters = new ArrayList<Filter<?>>();
         addFilter(tFilters, place.thread, HibernateConstant.THREAD);
         addFilter(tFilters, place.firstMeasureClassName, HibernateConstant.FIRST_MEASURE_CLASS_NAME);
         addFilter(tFilters, place.minDuration, HibernateConstant.MIN_DURATION);
@@ -66,8 +65,7 @@ class FlowSearchActivity extends AbstractActivity
         return tFilters;
     }
 
-    @SuppressWarnings("rawtypes")
-    private void addFilter(List<Filter> pFilters, String pText, String pPropertyName)
+    private void addFilter(List<Filter<?>> pFilters, String pText, String pPropertyName)
     {
         if (pText.length() > 0)
         {

@@ -17,8 +17,8 @@ public class Menu extends VerticalPanel
     {
         VerticalPanel tSubMenu = new VerticalPanel();
         // tSubMenu.add(getItem("Home", Controller.HISTORY_HOME));
-        tSubMenu.add(getItem("Delete Flows", JMonitoringClientFactory.getToken(new FlowDetailPlace())));
-        tSubMenu.add(getItem("Flows Search", JMonitoringClientFactory.getToken(new FlowSearchPlace())));
+        tSubMenu.add(getItem("Delete Flows", ClientFactory.getToken(new FlowDetailPlace(0))));
+        tSubMenu.add(getItem("Flows Search", ClientFactory.getToken(new FlowSearchPlace())));
         tSubMenu.add(getItem("Search Methods", "search"));
         // tSubMenu.add(getItem("Import Flow", Controller.HISTORY_IMPORT_FLOW));
         // this.setStyleName("menu");

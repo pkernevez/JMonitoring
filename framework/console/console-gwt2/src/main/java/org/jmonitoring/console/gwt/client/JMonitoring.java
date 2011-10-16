@@ -20,7 +20,7 @@ public class JMonitoring implements EntryPoint
     {
         // bundle = GWT.create(ConsoleImageBundle.class);
 
-        JMonitoringClientFactory tClientFactory = JMonitoringClientFactory.init();
+        ClientFactory tClientFactory = ClientFactory.init();
         Main tMain = new Main();
         RootLayoutPanel.get().add(tMain);
         tClientFactory.displayDefaultPlace(tMain);

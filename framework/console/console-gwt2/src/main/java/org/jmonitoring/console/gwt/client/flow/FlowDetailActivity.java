@@ -1,6 +1,6 @@
 package org.jmonitoring.console.gwt.client.flow;
 
-import org.jmonitoring.console.gwt.client.JMonitoringClientFactory;
+import org.jmonitoring.console.gwt.client.ClientFactory;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
@@ -10,9 +10,9 @@ class FlowDetailActivity extends AbstractActivity
 {
     private final FlowDetailPlace place;
 
-    private final JMonitoringClientFactory clientFactory;
+    private final ClientFactory clientFactory;
 
-    public FlowDetailActivity(FlowDetailPlace pFlowDetailPlace, JMonitoringClientFactory pClientFactory)
+    public FlowDetailActivity(FlowDetailPlace pFlowDetailPlace, ClientFactory pClientFactory)
     {
         place = pFlowDetailPlace;
         clientFactory = pClientFactory;

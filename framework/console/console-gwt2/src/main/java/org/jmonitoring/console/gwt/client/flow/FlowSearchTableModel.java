@@ -1,8 +1,11 @@
 package org.jmonitoring.console.gwt.client.flow;
 
+import it.pianetatecno.gwt.utility.client.table.ActionHandler;
 import it.pianetatecno.gwt.utility.client.table.Callback;
 import it.pianetatecno.gwt.utility.client.table.Column;
+import it.pianetatecno.gwt.utility.client.table.ColumnAction;
 import it.pianetatecno.gwt.utility.client.table.ColumnDefinition;
+import it.pianetatecno.gwt.utility.client.table.ColumnString;
 import it.pianetatecno.gwt.utility.client.table.PagingTable;
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
@@ -11,11 +14,16 @@ import it.pianetatecno.gwt.utility.client.table.TableModel;
 
 import java.util.ArrayList;
 
+import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 
+import com.google.gwt.user.client.ui.Image;
+
 public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
 {
+    private static final String VIEW_FLOW = "viewFlow";
+
     private final FlowServiceAsync service;
 
     /**
@@ -61,86 +69,90 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
     {
         // Add the actions on the table
         TableActions tTableActions = new TableActions();
-        // tableActions.addAction("Edit", MainEntryPoint.immaginiApp.iconCloseSmall().getHTML());
         PagingTable<FlowExtractDTO> tTable =
             new PagingTable<FlowExtractDTO>(this, getColumnDefinition(), tTableActions, 10, "id", Column.SORTING_ASC);
-        // table.addActionHandler(new ActionHandler<Operatore>() {
-        // @Override
-        // public void onActionPerformed(String eventName, Operatore object) {
-        // Window.alert("Action "+eventName+" object "+object.getCognome()+" "+object.getNome());
-        // }
-        // });
+        tTable.addActionHandler(new ActionHandler<FlowExtractDTO>()
+        {
+            public void onActionPerformed(String actionName, FlowExtractDTO pRow)
+            {
+                if (VIEW_FLOW.equals(actionName))
+                {
+                    ClientFactory.getPlaceController().goTo(new FlowDetailPlace(pRow.getId()));
+                }
+            }
+        });
         return tTable;
     }
 
-    private ColumnDefinition getColumnDefinition()
+    private ColumnDefinition<FlowExtractDTO> getColumnDefinition()
     {
-        ColumnDefinition cf = new ColumnDefinition();
-        cf.addColumn(new Column<String, FlowExtractDTO>("Id", "id", true)
+        ColumnDefinition<FlowExtractDTO> cf = new ColumnDefinition<FlowExtractDTO>();
+        cf.addColumn(new ColumnAction<FlowExtractDTO>(VIEW_FLOW, new Image(ClientFactory.imageBundle.edit()), null));
+
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Id", "id", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
                 return String.valueOf(pValue.getId());
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Thread", "thread", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Thread", "thread", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
-                return pValue.getThreadName();
+                return "<i>" + pValue.getThreadName() + "</i>";
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Server", "jvmIdentifier", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Server", "jvmIdentifier", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
                 return pValue.getServer();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Duration", "duration", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Duration", "duration", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
                 return String.valueOf(pValue.getDuration());
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Begin", "beginTime", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Begin", "beginTime", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
                 return pValue.getBeginTime();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("End", "endTime", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("End", "endTime", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
                 return pValue.getEndTime();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Class", "firstClassName", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Class", "firstClassName", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
                 return pValue.getClassName();
             }
         });
-        cf.addColumn(new Column<String, FlowExtractDTO>("Method", "firstMethodName", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Method", "firstMethodName", true)
         {
             @Override
-            public String getValue(FlowExtractDTO pValue)
+            public String getStringValue(FlowExtractDTO pValue)
             {
                 return pValue.getMethodName();
             }
         });
         return cf;
     }
-
 }

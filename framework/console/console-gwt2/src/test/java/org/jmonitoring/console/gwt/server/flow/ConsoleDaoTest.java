@@ -22,13 +22,12 @@ public class ConsoleDaoTest extends PersistanceTestCase
     @Resource(name = "consoleDao")
     private ConsoleDao dao;
 
-    @SuppressWarnings("rawtypes")
     @Test
     public void testCreateCriteriaWithoutParam()
     {
 
         Request tRequest = new Request();
-        List<Filter> tFilter = new ArrayList<Filter>();
+        List<Filter<?>> tFilter = new ArrayList<Filter<?>>();
         tRequest.setFilters(tFilter);
 
         assertEquals(5, dao.createCriteria(tRequest).list().size());
@@ -81,13 +80,12 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(1, tResult.get(1).getId());
     }
 
-    @SuppressWarnings("rawtypes")
     private Request createRequestWithAllRows()
     {
         Request tRequest = new Request();
         tRequest.setPageSize(2);
         tRequest.setStartRow(3);
-        List<Filter> tFilter = new ArrayList<Filter>();
+        List<Filter<?>> tFilter = new ArrayList<Filter<?>>();
         StringFilter curFilter = new StringFilter();
         curFilter.setPropertyName(HibernateConstant.FIRST_MEASURE_CLASS_NAME);
         curFilter.setValue("MainClass%");
@@ -96,12 +94,11 @@ public class ConsoleDaoTest extends PersistanceTestCase
         return tRequest;
     }
 
-    @SuppressWarnings("rawtypes")
     private void checkFilter(String pPropertyName, String pValue, int pExceptedLines)
     {
         Request tRequest = new Request();
         tRequest.setPageSize(20);
-        List<Filter> tFilter = new ArrayList<Filter>();
+        List<Filter<?>> tFilter = new ArrayList<Filter<?>>();
         StringFilter curFilter = new StringFilter();
         curFilter.setPropertyName(pPropertyName);
         curFilter.setValue(pValue);
@@ -110,11 +107,10 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(pExceptedLines, dao.createCriteria(tRequest).list().size());
     }
 
-    @SuppressWarnings("rawtypes")
     private void checkFilter(String pPropertyName, Long pValue, int pExceptedLines)
     {
         Request tRequest = new Request();
-        List<Filter> tFilter = new ArrayList<Filter>();
+        List<Filter<?>> tFilter = new ArrayList<Filter<?>>();
         LongFilter curFilter = new LongFilter();
         curFilter.setPropertyName(pPropertyName);
         curFilter.setValue(pValue);
