@@ -28,9 +28,19 @@
 		<servlet-class>org.gwtrpcspring.RemoteServiceDispatcher</servlet-class>
 	</servlet>
 
+<servlet>
+<servlet-name>exportFlow</servlet-name>
+<servlet-class>org.jmonitoring.console.gwt.server.flow.FlowExportServlet</servlet-class>
+</servlet>
+
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.rpc</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>exportFlow</servlet-name>
+		<url-pattern>flow.export</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

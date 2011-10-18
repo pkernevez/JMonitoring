@@ -2,6 +2,15 @@
 	cursor: wait;
 }
 
+.button {
+	font-weight: bold;
+	cursor: pointer;
+	cursor: hand;
+}
+.button:over {
+	font-weight: bold;
+}
+
 .header {
 	border-bottom: 1px dotted #DD0000;
 	border-style: dotted;
@@ -46,22 +55,23 @@
 }
 
 .searchmask {
+	
 }
 
-
-.searchresult div table:FIRST-CHILD{
+.searchresult div table:FIRST-CHILD {
 	width: 100%;
 }
 
 .searchresult {
+	
 }
 
 .searchpanel {
-	width: 100%;	
+	width: 100%;
 }
 
-div.table-utility  {
-	width:100%;
+div.table-utility {
+	width: 100%;
 }
 
 body,input,select,td,textarea,h1 {
@@ -77,6 +87,13 @@ h1 {
 .label {
 	text-align: right;
 	padding: 3px 3px 3px 10px;
+}
+
+.data-label{
+	text-align: left;
+	padding: 3px 10px 3px 10px;
+	font-weight: bold;
+	background-color: #DDF; 
 }
 
 /* To check */
@@ -99,12 +116,10 @@ a:hover {
 	cursor: pointer;
 }
 
-
 .gwt-HTML {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 }
-
 
 .gwt-Tree .gwt-TreeItem {
 	cursor: pointer;
@@ -129,13 +144,12 @@ a:hover {
 	background-color: transparent;
 	color: #219919;
 	font-style: italic;
-	font-size: 12px; 
+	font-size: 12px;
 	text-decoration: none;
 }
 
-div.info{
+div.info {
 	font-size: 14px;
 	color: green;
-	background-color: #EEEEEE; 
-}	
-
+	background-color: #EEEEEE;
+}

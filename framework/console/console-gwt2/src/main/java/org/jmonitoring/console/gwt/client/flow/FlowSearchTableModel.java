@@ -9,7 +9,6 @@ import it.pianetatecno.gwt.utility.client.table.ColumnString;
 import it.pianetatecno.gwt.utility.client.table.PagingTable;
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
-import it.pianetatecno.gwt.utility.client.table.TableActions;
 import it.pianetatecno.gwt.utility.client.table.TableModel;
 
 import java.util.ArrayList;
@@ -68,9 +67,8 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
     public PagingTable<FlowExtractDTO> getTable()
     {
         // Add the actions on the table
-        TableActions tTableActions = new TableActions();
         PagingTable<FlowExtractDTO> tTable =
-            new PagingTable<FlowExtractDTO>(this, getColumnDefinition(), tTableActions, 10, "id", Column.SORTING_ASC);
+            new PagingTable<FlowExtractDTO>(this, getColumnDefinition(), 10, "id", Column.SORTING_ASC);
         tTable.addActionHandler(new ActionHandler<FlowExtractDTO>()
         {
             public void onActionPerformed(String actionName, FlowExtractDTO pRow)

@@ -1,6 +1,9 @@
 package org.jmonitoring.console.gwt.client.flow;
 
+import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.Editor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -8,10 +11,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FlowDetail extends Composite implements HasText
+public class FlowDetail extends Composite implements Editor<ExecutionFlowDTO>
 {
 
     private static FlowDetailUiBinder uiBinder = GWT.create(FlowDetailUiBinder.class);
@@ -26,28 +29,46 @@ public class FlowDetail extends Composite implements HasText
     }
 
     @UiField
-    Button button;
+    Button delete;
+
+    @UiField
+    Button exportXml;
+
+    @UiField
+    Label jvmIdentifier;
+
+    @UiField
+    Label threadName;
+
+    @UiField
+    Label beginTime;
+
+    @UiField
+    Label endTime;
+
+    @UiField
+    Label duration;
+
+    @UiField
+    Label groupName;
+
+    @UiField
+    Label firstCall;
 
     public FlowDetail(String firstName)
     {
         initWidget(uiBinder.createAndBindUi(this));
-        button.setText(firstName);
     }
 
-    @UiHandler("button")
-    void onClick(ClickEvent e)
+    @UiHandler("delete")
+    void onDeleteClick(ClickEvent event)
     {
-        Window.alert("Hello!");
+        Window.alert("Delete !");
     }
 
-    public void setText(String text)
+    @UiHandler("exportXml")
+    void onExportXmlClick(ClickEvent event)
     {
-        button.setText(text);
+        Window.alert("Export !");
     }
-
-    public String getText()
-    {
-        return button.getText();
-    }
-
 }

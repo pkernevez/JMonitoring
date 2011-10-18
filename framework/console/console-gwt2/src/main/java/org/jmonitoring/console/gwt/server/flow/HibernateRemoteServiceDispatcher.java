@@ -1,11 +1,5 @@
 package org.jmonitoring.console.gwt.server.flow;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.gwtrpcspring.RemoteServiceDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +23,5 @@ public class HibernateRemoteServiceDispatcher extends RemoteServiceDispatcher
         sLog.debug("Create Hibernate session and transaction");
         super.onAfterServiceCall(obj);
     }
-
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-//    {
-//        // TODO Auto-generated method stub
-//        super.doPut(req, resp);
-//    }
 
 }

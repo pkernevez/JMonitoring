@@ -13,20 +13,17 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConsoleDao
 {
-    private static final Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
+    // private static final Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
 
     @Resource(name = "sessionFactory")
     private SessionFactory mSessionFactory;
@@ -48,16 +45,16 @@ public class ConsoleDao
         {
             if (HibernateConstant.MIN_DURATION.equals(curFilter.getPropertyName()))
             {
-                tCrit.add(Restrictions.gt(curFilter.getPropertyName(), Long.valueOf((String)curFilter.getValue())));
+                tCrit.add(Restrictions.gt(curFilter.getPropertyName(), Long.valueOf((String) curFilter.getValue())));
             } else if (HibernateConstant.BEGIN_DATE.equals(curFilter.getPropertyName()))
             {
-                long tBeginTime = formater.parseDate((String)curFilter.getValue()).getTime();
+                long tBeginTime = formater.parseDate((String) curFilter.getValue()).getTime();
                 tCrit.add(Restrictions.gt("beginTime", tBeginTime));
                 tCrit.add(Restrictions.lt("beginTime", tBeginTime + FormaterBean.ONE_DAY));
 
             } else
             {
-                tCrit.add(Restrictions.like(curFilter.getPropertyName(), curFilter.getValue()+"%"));
+                tCrit.add(Restrictions.like(curFilter.getPropertyName(), curFilter.getValue() + "%"));
             }
         }
         return tCrit;
@@ -67,32 +64,41 @@ public class ConsoleDao
     List<FlowExtractDTO> search(Request pRequest)
     {
         Criteria tCrit = createCriteria(pRequest);
-        tCrit.setFirstResult(pRequest.getStartRow()-1);
+        tCrit.setFirstResult(pRequest.getStartRow() - 1);
         tCrit.setMaxResults(pRequest.getPageSize());
-        
-        if (pRequest.getSortingColumn() != null) {
-            if (pRequest.getSortType() == Column.SORTING_ASC) {
+
+        if (pRequest.getSortingColumn() != null)
+        {
+            if (pRequest.getSortType() == Column.SORTING_ASC)
+            {
                 tCrit.addOrder(Order.asc(pRequest.getSortingColumn()));
-            } else {
+            } else
+            {
                 tCrit.addOrder(Order.desc(pRequest.getSortingColumn()));
             }
         }
 
         List<FlowExtractDTO> tResult = new ArrayList<FlowExtractDTO>();
-        for (ExecutionFlowPO curExecFlow : (List<ExecutionFlowPO>)tCrit.list())
+        for (ExecutionFlowPO curExecFlow : (List<ExecutionFlowPO>) tCrit.list())
         {
             tResult.add(toDto(curExecFlow));
         }
         return tResult;
     }
-    
-    FlowExtractDTO toDto(ExecutionFlowPO pExecFlow){
+
+    ExecutionFlowPO loadFlow(int pId)
+    {
+        return (ExecutionFlowPO) mSessionFactory.getCurrentSession().load(ExecutionFlowPO.class, Integer.valueOf(pId));
+    }
+
+    FlowExtractDTO toDto(ExecutionFlowPO pExecFlow)
+    {
         FlowExtractDTO tResult = new FlowExtractDTO();
         tResult.setId(pExecFlow.getId());
         tResult.setThreadName(pExecFlow.getThreadName());
         tResult.setServer(pExecFlow.getJvmIdentifier());
         tResult.setDuration(pExecFlow.getDuration());
-        tResult.setBeginTime(formater.formatDateTime( pExecFlow.getBeginTime()));
+        tResult.setBeginTime(formater.formatDateTime(pExecFlow.getBeginTime()));
         tResult.setEndTime(formater.formatDateTime(pExecFlow.getEndTime()));
         tResult.setClassName(pExecFlow.getFirstClassName());
         tResult.setMethodName(pExecFlow.getFirstMethodName());

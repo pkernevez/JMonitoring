@@ -6,7 +6,7 @@ public class FlowExtractDTO implements Serializable
 {
     private static final long serialVersionUID = -8885958767279114532L;
 
-    private long id;
+    private int id;
 
     private String threadName;
 
@@ -32,12 +32,12 @@ public class FlowExtractDTO implements Serializable
         this.threadName = threadName;
     }
 
-    public long getId()
+    public int getId()
     {
         return id;
     }
 
-    public void setId(long id)
+    public void setId(int id)
     {
         this.id = id;
     }

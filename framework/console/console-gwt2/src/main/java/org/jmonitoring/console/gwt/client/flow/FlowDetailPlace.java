@@ -11,7 +11,7 @@ import com.google.gwt.place.shared.Prefix;
 public class FlowDetailPlace extends Place implements ActivityAware
 {
 
-    private long id;
+    private int id;
 
     @Prefix("flowdetail")
     public static class FlowDetailTokenizer implements PlaceTokenizer<FlowDetailPlace>
@@ -19,7 +19,7 @@ public class FlowDetailPlace extends Place implements ActivityAware
 
         public FlowDetailPlace getPlace(String token)
         {
-            long tId = Long.parseLong(token);
+            int tId = Integer.parseInt(token);
             return new FlowDetailPlace(tId);
         }
 
@@ -30,7 +30,7 @@ public class FlowDetailPlace extends Place implements ActivityAware
 
     }
 
-    public FlowDetailPlace(long pId)
+    public FlowDetailPlace(int pId)
     {
         id = pId;
     }
@@ -38,6 +38,11 @@ public class FlowDetailPlace extends Place implements ActivityAware
     public Activity getActivity(ClientFactory pClientFactory)
     {
         return new FlowDetailActivity(this, pClientFactory);
+    }
+
+    public int getId()
+    {
+        return id;
     }
 
 }
