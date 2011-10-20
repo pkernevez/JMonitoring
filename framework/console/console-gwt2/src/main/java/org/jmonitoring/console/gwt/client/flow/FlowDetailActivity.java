@@ -8,6 +8,7 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 class FlowDetailActivity extends AbstractActivity
@@ -40,9 +41,14 @@ class FlowDetailActivity extends AbstractActivity
                 FlowDetail tFlowDetail = clientFactory.getFlowDetail();
                 driver.initialize(tFlowDetail);
                 driver.edit(pResult);
-                panel.setWidget(tFlowDetail);
+                panel.setWidget(tFlowDetail.setPresenter(FlowDetailActivity.this));
             }
 
         });
+    }
+
+    public void exportXml()
+    {
+        Window.open("/flow.export?id=" + place.getId(), "download", "");
     }
 }

@@ -55,9 +55,14 @@ public class FlowDetail extends Composite implements Editor<ExecutionFlowDTO>
     @UiField
     Label firstCall;
 
-    public FlowDetail(String firstName)
+    private int flowId;
+
+    private FlowDetailActivity presenter;
+
+    public FlowDetail(int pFlowId)
     {
         initWidget(uiBinder.createAndBindUi(this));
+        flowId = pFlowId;
     }
 
     @UiHandler("delete")
@@ -69,6 +74,13 @@ public class FlowDetail extends Composite implements Editor<ExecutionFlowDTO>
     @UiHandler("exportXml")
     void onExportXmlClick(ClickEvent event)
     {
-        Window.alert("Export !");
+        presenter.exportXml();
     }
+
+    public FlowDetail setPresenter(FlowDetailActivity pFlowDetailActivity)
+    {
+        presenter = pFlowDetailActivity;
+        return this;
+    }
+
 }

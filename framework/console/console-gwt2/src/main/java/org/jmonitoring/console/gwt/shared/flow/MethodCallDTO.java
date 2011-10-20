@@ -10,8 +10,8 @@ import java.io.Serializable;
 /**
  * @author pke
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
- * Templates
+ *         TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style -
+ *         Code Templates
  */
 public class MethodCallDTO implements Serializable
 {
@@ -21,8 +21,7 @@ public class MethodCallDTO implements Serializable
     /** Flow Technical Id. */
     private int mFlowId;
 
-    /** Flow Technical Id. */
-    private ExecutionFlowDTO_old mFlow;
+    private ExecutionFlowDTO mFlow;
 
     /** Technical Id. */
     private int mPosition;
@@ -105,8 +104,8 @@ public class MethodCallDTO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The start time of the call to the method associated to this <code>MethodCallDTO</code>. //TODO Change
-     *         to setEndTime
+     * @return The start time of the call to the method associated to this <code>MethodCallDTO</code>. //TODO Change to
+     *         setEndTime
      */
     public String getBeginTimeString()
     {
@@ -153,8 +152,7 @@ public class MethodCallDTO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The end time of the method associated with this <code>MethodCallDTO</code>. //TODO Change to
-     *         setEndTime
+     * @return The end time of the method associated with this <code>MethodCallDTO</code>. //TODO Change to setEndTime
      */
     public String getEndTimeString()
     {
@@ -184,8 +182,8 @@ public class MethodCallDTO implements Serializable
     /**
      * Accessor.
      * 
-     * @return The return value of the method associated with this <code>MethodCallDTO</code>. Null if the method
-     *         ended with an <code>Exception</code>.
+     * @return The return value of the method associated with this <code>MethodCallDTO</code>. Null if the method ended
+     *         with an <code>Exception</code>.
      */
     public String getReturnValue()
     {
@@ -396,7 +394,7 @@ public class MethodCallDTO implements Serializable
         mParent = pParent;
     }
 
-    public void setFlow(ExecutionFlowDTO_old pFlow)
+    public void setFlow(ExecutionFlowDTO pFlow)
     {
         mFlow = pFlow;
     }
@@ -424,7 +422,7 @@ public class MethodCallDTO implements Serializable
     /**
      * @return the flow
      */
-    public ExecutionFlowDTO_old getFlow()
+    public ExecutionFlowDTO getFlow()
     {
         return mFlow;
     }

@@ -4,7 +4,7 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-
+<!--    //TODO hardcode the default and configure the specialized one-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/jmonitoring-default.xml</param-value>
@@ -40,7 +40,7 @@
 
 	<servlet-mapping>
 		<servlet-name>exportFlow</servlet-name>
-		<url-pattern>flow.export</url-pattern>
+		<url-pattern>/flow.export</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

@@ -20,6 +20,18 @@
 		<property name="timeFormat" value="HH:mm:ss" />
 	</bean>
 
+	<bean name="color"
+		class="org.jmonitoring.console.gwt.server.common.ColorManager">
+		<property name="groups">
+			<map>
+				<entry key="Default" value="0, 255, 255" />
+				<entry key="SQL" value="0, 0, 255" />
+				<entry key="SomeNonStatics" value="0, 255, 0" />
+				<entry key="SomeStatics" value="255, 0, 0" />
+			</map>
+		</property>
+	</bean>
+
 
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
@@ -80,21 +92,21 @@
 
 	<!-- bean name="consoleManager" class="org.jmonitoring.core.process.ConsoleManager" 
 		/> <bean name="dtoManager" class="org.jmonitoring.core.dto.DtoManager" /> 
-		<bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" /> 
- 
-		<bean name="color" class="org.jmonitoring.core.configuration.ColorManager"> 
-		<property name="groups"> <map> <entry key="Default" value="0, 255, 255" /> 
-		<entry key="SQL" value="0, 0, 255" /> <entry key="Jdbc" value="120, 120, 
-		120" /> <entry key="SomeNonStatics" value="0, 255, 0" /> <entry key="SomeStatics" 
-		value="255, 0, 0" /> <entry key="BusinessDelegate" value="255, 0, 0" /> <entry 
-		key="BusinessFacadeEJB" value="255, 0, 255" /> <entry key="DAO" value="255, 
-		255, 0" /> <entry key="Conversion" value="255, 255, 0" /> </map> </property> 
-		</bean> <bean name="chartManager" class="org.jmonitoring.console.flow.jfreechart.ChartManager"> 
-		<property name="groupOrder"> <map> You should defined you own configuration 
-		<entry key="SQL" value="10" / </map> </property> </bean> -->
+		<bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" /> <bean name="color" 
+		class="org.jmonitoring.core.configuration.ColorManager"> <property name="groups"> 
+		<map> <entry key="Default" value="0, 255, 255" /> <entry key="SQL" value="0, 
+		0, 255" /> <entry key="Jdbc" value="120, 120, 120" /> <entry key="SomeNonStatics" 
+		value="0, 255, 0" /> <entry key="SomeStatics" value="255, 0, 0" /> <entry 
+		key="BusinessDelegate" value="255, 0, 0" /> <entry key="BusinessFacadeEJB" 
+		value="255, 0, 255" /> <entry key="DAO" value="255, 255, 0" /> <entry key="Conversion" 
+		value="255, 255, 0" /> </map> </property> </bean> <bean name="chartManager" 
+		class="org.jmonitoring.console.flow.jfreechart.ChartManager"> <property name="groupOrder"> 
+		<map> You should defined you own configuration <entry key="SQL" value="10" 
+		/ </map> </property> </bean> -->
 
 	<!-- Default configuration when the console is use for HttpLogging into 
 		H2 database -->
 	<!-- bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean> -->
 	<!-- <bean name="storeWriter" class="org.jmonitoring.server.store.impl.JdbcWriter"></bean> -->
+
 </beans>

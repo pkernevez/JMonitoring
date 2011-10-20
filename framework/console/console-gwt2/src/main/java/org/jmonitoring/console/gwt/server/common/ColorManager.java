@@ -1,0 +1,108 @@
+package org.jmonitoring.console.gwt.server.common;
+
+/***************************************************************************
+ * Copyright 2005 Philippe Kernevez All rights reserved.                   *
+ * Please look at license.txt for more license detail.                     *
+ **************************************************************************/
+
+import java.awt.Color;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class ColorManager
+{
+
+    private Map<String, String> groups;
+
+    private static final int NB_COLOR_BIT = 128;
+
+    /**
+     * Generate a <code>Color</code> for a <code>String</code> using hashcode.
+     * 
+     * @param pGroupName The name of the group.
+     * @return The generated <code>Color</code>.
+     */
+    Color calculColor(String pGroupName)
+    {
+        Color tColor;
+        if (pGroupName == null || pGroupName.length() == 0)
+        {
+            tColor = Color.BLACK;
+        } else
+        {
+            int tInt = Math.abs(pGroupName.hashCode());
+            int tR, tG, tB;
+            tR = tInt % NB_COLOR_BIT;
+            tG = (tInt / NB_COLOR_BIT) % NB_COLOR_BIT;
+            tB = (tInt / (NB_COLOR_BIT * NB_COLOR_BIT)) % NB_COLOR_BIT;
+            tColor = new Color(tR * 2, tG * 2, tB * 2);
+        }
+        return tColor;
+    }
+
+    /**
+     * Get the <code>Color</code> of a group as <code>String</code>.
+     * 
+     * @param pGroupName The group name.
+     * @return The RGB format like "#00FF88" of the <code>Color</code>.
+     */
+    public String getGroupAsColorString(Color pColor)
+    {
+        String tRed = Integer.toHexString(pColor.getRed());
+        if (tRed.length() == 1)
+        {
+            tRed = "0" + tRed;
+        }
+        String tGreen = Integer.toHexString(pColor.getGreen());
+        if (tGreen.length() == 1)
+        {
+            tGreen = "0" + tGreen;
+        }
+        String tBlue = Integer.toHexString(pColor.getBlue());
+        if (tBlue.length() == 1)
+        {
+            tBlue = "0" + tBlue;
+        }
+        return "#" + tRed + tGreen + tBlue;
+    }
+
+    public Color getColor(String pGroupName)
+    {
+        String tColorAsString = groups.get(pGroupName);
+        Color tColor;
+        if (tColorAsString == null)
+        {
+            tColor = calculColor(pGroupName);
+        } else
+        {
+            StringTokenizer tToken = new StringTokenizer(tColorAsString, ",");
+            assert (tToken.countTokens() == 3);
+            int tR = Integer.parseInt(tToken.nextToken().trim());
+            int tG = Integer.parseInt(tToken.nextToken().trim());
+            int tB = Integer.parseInt(tToken.nextToken().trim());
+            tColor = new Color(tR, tG, tB);
+        }
+        return tColor;
+    }
+
+    public String getColorString(String pGroupName)
+    {
+        return getGroupAsColorString(getColor(pGroupName));
+    }
+
+    /**
+     * @return the mGroups
+     */
+    public Map<String, String> getGroups()
+    {
+        return groups;
+    }
+
+    /**
+     * @param pGroups the mGroups to set
+     */
+    public void setGroups(Map<String, String> pGroups)
+    {
+        groups = pGroups;
+    }
+}

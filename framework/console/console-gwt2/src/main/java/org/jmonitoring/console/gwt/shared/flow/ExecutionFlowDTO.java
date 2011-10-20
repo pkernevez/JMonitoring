@@ -140,4 +140,22 @@ public class ExecutionFlowDTO implements Serializable
         return className + "." + methodName + "( )";
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder tBuffer = new StringBuilder();
+        tBuffer.append("FlowId=[").append(id).append("] ");
+        if (firstMethodCall != null)
+        {
+            tBuffer.append("SequenceId=[").append(firstMethodCall.getPosition()).append("] ");
+            tBuffer.append("GroupName=[").append(firstMethodCall.getGroupName()).append("] ");
+            tBuffer.append("ClassName=[").append(firstMethodCall.getClassName()).append("] ");
+            tBuffer.append("MethodName=[").append(firstMethodCall.getMethodName()).append("] ");
+        } else
+        {
+            tBuffer.append("SequenceId=[NULL] ");
+        }
+        return tBuffer.toString();
+    }
+
 }

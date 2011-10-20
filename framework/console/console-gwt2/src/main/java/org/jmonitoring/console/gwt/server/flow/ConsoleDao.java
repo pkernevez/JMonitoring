@@ -10,6 +10,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -18,15 +20,16 @@ import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConsoleDao
+public class ConsoleDao extends InsertionDao
 {
     // private static final Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
 
     @Resource(name = "sessionFactory")
-    private SessionFactory mSessionFactory;
+    private SessionFactory sessionFactory;
 
     @Resource(name = "formater")
     private FormaterBean formater;
@@ -40,7 +43,7 @@ public class ConsoleDao
 
     Criteria createCriteria(Request pRequest)
     {
-        Criteria tCrit = mSessionFactory.getCurrentSession().createCriteria(ExecutionFlowPO.class);
+        Criteria tCrit = sessionFactory.getCurrentSession().createCriteria(ExecutionFlowPO.class);
         for (Filter<?> curFilter : pRequest.getFilters())
         {
             if (HibernateConstant.MIN_DURATION.equals(curFilter.getPropertyName()))
@@ -88,7 +91,21 @@ public class ConsoleDao
 
     ExecutionFlowPO loadFlow(int pId)
     {
-        return (ExecutionFlowPO) mSessionFactory.getCurrentSession().load(ExecutionFlowPO.class, Integer.valueOf(pId));
+        return (ExecutionFlowPO) sessionFactory.getCurrentSession().load(ExecutionFlowPO.class, Integer.valueOf(pId));
+    }
+
+    /**
+     * @param pFlowId The execution flow identifier to read.
+     * @return The corresponding ExecutionFlowDTO.
+     */
+    ExecutionFlowPO loadFullFlow(int pFlowId)
+    {
+        Session tSession = sessionFactory.getCurrentSession();
+        ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.get(ExecutionFlowPO.class, new Integer(pFlowId));
+        Criteria tCriteria = tSession.createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
+        tCriteria.add(Restrictions.eq("flow.id", new Integer(pFlowId)));
+        tCriteria.list();
+        return tFlow;
     }
 
     FlowExtractDTO toDto(ExecutionFlowPO pExecFlow)

@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  **********************************************************************************************************************/
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/color-test.xml", "/formater-test.xml" })
+@ContextConfiguration(locations = {"/color-test.xml", "/formater-test.xml", "/default-test.xml" })
 public class MethodCallDTOTest extends JMonitoringTestCase
 {
     @Autowired

@@ -1,6 +1,9 @@
 package org.jmonitoring.console.gwt.server.flow;
 
+import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.jmonitoring.console.gwt.client.flow.FlowService;
+import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
+import org.jmonitoring.core.configuration.MeasureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.SessionHolder;
@@ -27,6 +31,8 @@ public class FlowExportServlet extends HttpServlet
     private static Logger sLog = LoggerFactory.getLogger(FlowExportServlet.class);
 
     private SessionFactory sessionFactory;
+
+    private FlowServiceImpl flowService;
 
     @Override
     protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException
@@ -64,17 +70,19 @@ public class FlowExportServlet extends HttpServlet
         // List tList = new ArrayList();
         int tFlowId = Integer.parseInt(pReq.getParameter("id"));
         sLog.debug("Read flow from database, Id=[" + tFlowId + "]");
+        ExecutionFlowDTO tFlow = flowService.loadFull(tFlowId);
         // ExecutionFlowDTO tFlow = tConsoleManager.readFullExecutionFlow(tFlowId);
-        // sLog.debug("End Read from database of Flow, Id=[" + tFlowId + "]");
-        // pResp.setContentType("application/x-zip");
-        // String tFileName =
-        // "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_" + tFlow.getBeginTime() + ".gzip";
-        // pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
-        // byte[] tFlowAsBytes = tConsoleManager.convertFlowToXml(tFlow);
-        // pResp.setContentLength(tFlowAsBytes.length);
-        // pResp.getOutputStream().write(tFlowAsBytes);
-        // pResp.getOutputStream().flush();
-        // pResp.getOutputStream().close();
+        sLog.debug("End Read from database of Flow, Id=[" + tFlowId + "]");
+        pResp.setContentType("application/x-zip");
+        String tFileName =
+            "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_" + tFlow.getBeginTime() + ".gzip";
+        pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
+
+        byte[] tFlowAsBytes = convertFlowToXml(tFlow);
+        pResp.setContentLength(tFlowAsBytes.length);
+        pResp.getOutputStream().write(tFlowAsBytes);
+        pResp.getOutputStream().flush();
+        pResp.getOutputStream().close();
     }
 
     @Override
@@ -84,8 +92,7 @@ public class FlowExportServlet extends HttpServlet
         WebApplicationContext tSpringContext =
             WebApplicationContextUtils.getWebApplicationContext(pConfig.getServletContext());
         sessionFactory = tSpringContext.getBean(SessionFactory.class);
-        // ConsoleManager tConsoleManager = (ConsoleManager) tSpringContext.getBean(ConsoleManager.cl);
-        FlowService tService = tSpringContext.getBean(FlowService.class);
+        flowService = tSpringContext.getBean(FlowServiceImpl.class);
     }
 
     /**
@@ -94,21 +101,20 @@ public class FlowExportServlet extends HttpServlet
      * @param pFlow The flow to serialize.
      * @return The bytes of a GZip.
      */
-    // public OutputStream convertFlowToXml(ExecutionFlowDTO_old pFlow)
-    // {
-    // ByteArrayOutputStream tOutput = new ByteArrayOutputStream(10000);
-    // GZIPOutputStream tZipStream;
-    // try
-    // {
-    // tZipStream = new GZIPOutputStream(tOutput);
-    // XMLEncoder tEncoder = new XMLEncoder(tZipStream);
-    // tEncoder.writeObject(pFlow);
-    // tEncoder.close();
-    // return tOutput.toByteArray();
-    // } catch (IOException e)
-    // {
-    // throw new MeasureException("Unable to Zip Xml ExecutionFlow", e);
-    // }
-    // }
+    public byte[] convertFlowToXml(ExecutionFlowDTO pFlow)
+    {
+        try
+        {
+            ByteArrayOutputStream tOutput = new ByteArrayOutputStream(10000);
+            GZIPOutputStream tZipStream = new GZIPOutputStream(tOutput);
+            XMLEncoder tEncoder = new XMLEncoder(tZipStream);
+            tEncoder.writeObject(pFlow);
+            tEncoder.close();
+            return tOutput.toByteArray();
+        } catch (IOException e)
+        {
+            throw new MeasureException("Unable to Zip Xml ExecutionFlow", e);
+        }
+    }
 
 }

@@ -6,7 +6,6 @@ import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -16,8 +15,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
  **********************************************************************************************************************/
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners( {DependencyInjectionTestExecutionListener.class })
-@ContextConfiguration(locations = {"/default-test.xml" })
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class })
 @Ignore
 public class JMonitoringTestCase extends TestCase implements ApplicationContextAware
 {

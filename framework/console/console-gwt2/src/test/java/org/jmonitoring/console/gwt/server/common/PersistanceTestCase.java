@@ -23,14 +23,14 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/persistence-test.xml" })
+@ContextConfiguration(locations = {"/persistence-test.xml", "/default-test.xml", "/color-test.xml" })
 public abstract class PersistanceTestCase extends JMonitoringTestCase
 {
     Session session;
 
     Transaction transaction;
 
-    private static boolean dataInitialized = false;
+    protected boolean dataInitialized = false;
 
     @Resource(name = "sessionFactory")
     SessionFactory sessionFactory;
@@ -50,7 +50,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         if (!dataInitialized)
         {
             insertTestData();
-            commitAndRestartSession();
+            session.flush();
             stats.clear();
             dataInitialized = true;
         }
@@ -167,7 +167,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         }
     }
 
-    static ExecutionFlowPO buildNewFullFlow(int pVariante)
+    public static ExecutionFlowPO buildNewFullFlow(int pVariante)
     {
         MethodCallPO tPoint;
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
