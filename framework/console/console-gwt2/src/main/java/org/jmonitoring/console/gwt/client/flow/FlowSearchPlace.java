@@ -1,11 +1,10 @@
 package org.jmonitoring.console.gwt.client.flow;
 
-import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;
 import org.jmonitoring.console.gwt.client.ClientFactory;
+import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;
 import org.jmonitoring.console.gwt.client.common.AbstractPlace;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 

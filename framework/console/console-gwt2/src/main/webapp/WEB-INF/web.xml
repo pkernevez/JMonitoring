@@ -4,21 +4,21 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-<!--    //TODO hardcode the default and configure the specialized one-->
+	<!-- //TODO hardcode the default and configure the specialized one -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/jmonitoring-default.xml</param-value>
 	</context-param>
 
-    <filter>
-        <filter-name>TransactionFilter</filter-name>
-        <filter-class>org.jmonitoring.console.gwt.server.flow.TransactionFilter</filter-class>
+	<filter>
+		<filter-name>TransactionFilter</filter-name>
+		<filter-class>org.jmonitoring.console.gwt.server.flow.TransactionFilter</filter-class>
 	</filter>
 
-    <filter-mapping>
-        <filter-name>TransactionFilter</filter-name>
-        <url-pattern>*.rpc</url-pattern>
-    </filter-mapping>
+	<filter-mapping>
+		<filter-name>TransactionFilter</filter-name>
+		<url-pattern>*.rpc</url-pattern>
+	</filter-mapping>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -28,10 +28,15 @@
 		<servlet-class>org.gwtrpcspring.RemoteServiceDispatcher</servlet-class>
 	</servlet>
 
-<servlet>
-<servlet-name>exportFlow</servlet-name>
-<servlet-class>org.jmonitoring.console.gwt.server.flow.FlowExportServlet</servlet-class>
-</servlet>
+	<servlet>
+		<servlet-name>exportFlow</servlet-name>
+		<servlet-class>org.jmonitoring.console.gwt.server.flow.FlowExportServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>DynamicImageServlet</servlet-name>
+		<servlet-class>org.jmonitoring.console.gwt.server.image.DynamicImageServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
@@ -41,6 +46,10 @@
 	<servlet-mapping>
 		<servlet-name>exportFlow</servlet-name>
 		<url-pattern>/flow.export</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DynamicImageServlet</servlet-name>
+		<url-pattern>/image.dynamic</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

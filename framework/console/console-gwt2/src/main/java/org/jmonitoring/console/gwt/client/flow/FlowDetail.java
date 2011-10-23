@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -54,6 +55,12 @@ public class FlowDetail extends Composite implements Editor<ExecutionFlowDTO>
 
     @UiField
     Label firstCall;
+
+    @UiField
+    Image durationInGroups;
+
+    @UiField
+    Image groupsCalls;
 
     private int flowId;
 

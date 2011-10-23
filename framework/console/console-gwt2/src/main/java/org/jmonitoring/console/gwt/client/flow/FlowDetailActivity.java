@@ -42,6 +42,8 @@ class FlowDetailActivity extends AbstractActivity
                 driver.initialize(tFlowDetail);
                 driver.edit(pResult);
                 panel.setWidget(tFlowDetail.setPresenter(FlowDetailActivity.this));
+                tFlowDetail.durationInGroups.setUrl("image.dynamic?id=" + place.getId() + "&type=DurationInGroups");
+                tFlowDetail.groupsCalls.setUrl("image.dynamic?id=" + place.getId() + "&type=GroupsCalls");
             }
 
         });

@@ -56,7 +56,7 @@ public class FlowServiceImpl implements FlowService
 
     public ExecutionFlowDTO loadFull(int pFlowId)
     {
-        return convertToDtoDeeply(dao.loadFlow(pFlowId));
+        return convertToDtoDeeply(dao.loadFullFlow(pFlowId));
     }
 
     public ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)

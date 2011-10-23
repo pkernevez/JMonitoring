@@ -10,57 +10,65 @@
 		<g:Button styleName="{style.button}" ui:field="delete" text="Delete" />
 		<g:Button styleName="{style.button}" ui:field="exportXml"
 			text="Export" />
-		<g:Grid>
-			<g:row>
-				<g:cell>
-					<div class="{style.label}">Server name</div>
-				</g:cell>
-				<g:customCell>
-					<g:Label styleName="{style.data-label}" ui:field="jvmIdentifier" />
-				</g:customCell>
-				<g:cell>
-					<div class="{style.label}">Thread</div>
-				</g:cell>
-				<g:customCell>
-					<g:Label styleName="{style.data-label}" ui:field="threadName" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell>
-					<div class="{style.label}">Begin Time</div>
-				</g:cell>
-				<g:customCell>
-					<g:Label styleName="{style.data-label}" ui:field="beginTime" />
-				</g:customCell>
-				<g:cell>
-					<div class="{style.label}">End Time</div>
-				</g:cell>
-				<g:customCell>
-					<g:Label styleName="{style.data-label}" ui:field="endTime" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell>
-					<div class="{style.label}">Duration</div>
-				</g:cell>
-				<g:customCell>
-					<g:Label styleName="{style.data-label}" ui:field="duration" />
-				</g:customCell>
-				<g:cell>
-					<div class="{style.label}">Group Name</div>
-				</g:cell>
-				<g:customCell>
-					<g:Label styleName="{style.data-label}" ui:field="groupName" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell>
-					<div class="{style.label}">First Call</div>
-				</g:cell>
-				<g:customCell colSpan="3">
-					<g:Label styleName="{style.data-label}" ui:field="firstCall" />
-				</g:customCell>
-			</g:row>
-		</g:Grid>
+		<g:HTMLPanel>
+			<table>
+				<tr>
+					<td>
+						<div class="{style.label}">Server name</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="jvmIdentifier" />
+					</td>
+					<td>
+						<div class="{style.label}">Thread</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="threadName" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Begin Time</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="beginTime" />
+					</td>
+					<td>
+						<div class="{style.label}">End Time</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="endTime" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Duration</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="duration" />
+					</td>
+					<td>
+						<div class="{style.label}">Group Name</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="groupName" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">First Call</div>
+					</td>
+					<td colSpan="3">
+						<g:Label styleName="{style.data-label}" ui:field="firstCall" />
+					</td>
+				</tr>
+			</table>
+			<table> 
+			 <tr>
+			 <td><g:Image ui:field="durationInGroups"></g:Image></td>
+			 <td><g:Image ui:field="groupsCalls" ></g:Image></td>
+			 </tr>
+			 </table>
+		</g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
