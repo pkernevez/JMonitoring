@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(locations = {"/color-test.xml" })
+@ContextConfiguration(locations = {"/all-test.xml" })
 public class ColorManagerTest extends JMonitoringTestCase
 {
     @Autowired

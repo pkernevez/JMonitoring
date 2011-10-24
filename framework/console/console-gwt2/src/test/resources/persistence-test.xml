@@ -48,11 +48,8 @@
         </property>
     </bean>
 
-    <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
-        <property name="dateFormat" value="dd/MM/yy" />
-        <property name="timeFormat" value="HH:mm:ss" />
-    </bean>
-
+	<bean name="flowBuilderUtil" class="org.jmonitoring.console.gwt.server.flow.FlowBuilderUtil"/>
+	<bean name="consoleDao" class="org.jmonitoring.console.gwt.server.flow.ConsoleDao"/>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />

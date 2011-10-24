@@ -10,9 +10,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(locations = {"/color-test.xml" })
 public class FlowServiceImplTest extends PersistanceTestCase
 {
     @Resource(name = "consoleDao")

@@ -23,7 +23,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
 
-@ContextConfiguration(locations = {"/persistence-test.xml", "/default-test.xml", "/color-test.xml" })
+@ContextConfiguration(locations = {"/persistence-test.xml", "/default-test.xml", "/all-test.xml" })
 public abstract class PersistanceTestCase extends JMonitoringTestCase
 {
     Session session;
@@ -39,6 +39,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
 
     private static Logger sLog = LoggerFactory.getLogger(PersistanceTestCase.class.getName());
 
+    @SuppressWarnings("deprecation")
     @Before
     public void initDb() throws Exception
     {
@@ -47,6 +48,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session));
         stats = sessionFactory.getStatistics();
         stats.clear();
+        session.connection().createStatement().execute("ALTER TABLE EXECUTION_FLOW ALTER COLUMN ID RESTART WITH 1");
         if (!dataInitialized)
         {
             insertTestData();
