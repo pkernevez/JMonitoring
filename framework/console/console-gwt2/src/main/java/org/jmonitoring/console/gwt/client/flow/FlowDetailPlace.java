@@ -17,15 +17,15 @@ public class FlowDetailPlace extends Place implements ActivityAware
     public static class FlowDetailTokenizer implements PlaceTokenizer<FlowDetailPlace>
     {
 
-        public FlowDetailPlace getPlace(String token)
+        public FlowDetailPlace getPlace(String pToken)
         {
-            int tId = Integer.parseInt(token);
+            int tId = Integer.parseInt(pToken);
             return new FlowDetailPlace(tId);
         }
 
-        public String getToken(FlowDetailPlace place)
+        public String getToken(FlowDetailPlace pPlace)
         {
-            return String.valueOf(place.id);
+            return String.valueOf(pPlace.id);
         }
 
     }

@@ -4,6 +4,7 @@
 	<ui:style src="../resources/main-style.css" />
 		
 	<g:HTMLPanel>
+	
 		<g:HTML>
 			<h1>Flow view</h1>
 		</g:HTML>
@@ -63,12 +64,22 @@
 					</td>
 				</tr>
 			</table>
-			<table> 
-			 <tr>
-			 <td><g:Image ui:field="durationInGroups"></g:Image></td>
-			 <td><g:Image ui:field="groupsCalls" ></g:Image></td>
-			 </tr>
-			 </table>
+			<table>
+				<tr>
+					<td>
+						<g:Image ui:field="durationInGroups"></g:Image>
+					</td>
+					<td>
+						<g:Image ui:field="groupsCalls"></g:Image>
+					</td>
+				</tr>
+				<tr>
+					<td colSpan="2">
+						<g:HTMLPanel ui:field="detailFlowImageMap"></g:HTMLPanel>
+						<g:Image ui:field="detailFlowImage"></g:Image>
+					</td>
+				</tr>
+			</table>
 		</g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -4,6 +4,7 @@ import org.jmonitoring.console.gwt.client.flow.FlowDetail;
 import org.jmonitoring.console.gwt.client.flow.FlowSearch;
 import org.jmonitoring.console.gwt.client.flow.FlowSearchPlace;
 import org.jmonitoring.console.gwt.client.main.Main;
+import org.jmonitoring.console.gwt.client.methodcall.MethodCallDetail;
 import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 
 import com.google.gwt.activity.shared.ActivityManager;
@@ -29,6 +30,8 @@ public class ClientFactory
 
     private final FlowDetail flowDetail = new FlowDetail();
 
+    private MethodCallDetail methodCallDetail = new MethodCallDetail();
+
     public final static ConsoleImageBundle imageBundle = GWT.create(ConsoleImageBundle.class);
 
     private static ClientFactory sClientFactory;
@@ -43,16 +46,6 @@ public class ClientFactory
     public static PlaceController getPlaceController()
     {
         return sPlaceController;
-    }
-
-    public FlowDetail getFlowDetail()
-    {
-        return flowDetail;
-    }
-
-    public FlowSearch getFlowSearch()
-    {
-        return flowSearch;
     }
 
     public static ClientFactory init()
@@ -82,5 +75,20 @@ public class ClientFactory
     public static void addHistory(Place pPlace)
     {
         History.newItem(getToken(pPlace), false);
+    }
+
+    public FlowDetail getFlowDetail()
+    {
+        return flowDetail;
+    }
+
+    public FlowSearch getFlowSearch()
+    {
+        return flowSearch;
+    }
+
+    public MethodCallDetail getMethodCallDetail()
+    {
+        return methodCallDetail;
     }
 }

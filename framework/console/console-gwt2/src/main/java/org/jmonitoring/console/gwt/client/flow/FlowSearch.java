@@ -46,8 +46,6 @@ public class FlowSearch extends Composite
     @UiField
     TextBox firstMeasureMethodName;
 
-    // @UiFieldd
-    // VerticalPanel vPanel;
     @UiField
     SimplePanel searchResult;
 
@@ -75,8 +73,6 @@ public class FlowSearch extends Composite
             }
         });
         table = new FlowSearchTableModel(service).getTable();
-        // table.setStyleName(sResources.mainStyle().searchresult());
-        // table.get().t
         searchResult.add(table);
     }
 

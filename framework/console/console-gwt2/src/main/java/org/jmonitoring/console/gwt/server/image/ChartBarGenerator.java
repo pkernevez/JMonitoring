@@ -36,8 +36,6 @@ public class ChartBarGenerator
 {
     private static final Logger sLog = LoggerFactory.getLogger(ChartBarGenerator.class);
 
-    private static final String CHART_BAR_FLOWS = "CHART_BAR_FLOWS";
-
     private static final float LABEL_WIDTH_RATIO = 10F;
 
     private static final int IMAGE_WIDTH = 930;
@@ -115,7 +113,7 @@ public class ChartBarGenerator
 
     }
 
-    public void chainAllMethodCallToMainTaskOfGroup()
+    void chainAllMethodCallToMainTaskOfGroup()
     {
         chainAllMethodCallToMainTaskOfGroup(firstMeasure);
     }
@@ -170,7 +168,7 @@ public class ChartBarGenerator
         return tTaskEntry;
     }
 
-    public IntervalCategoryDataset createDataset()
+    IntervalCategoryDataset createDataset()
     {
         sLog.debug("Start createDataset");
         TaskSeriesCollection taskseriescollection = new TaskSeriesCollection();
@@ -212,7 +210,7 @@ public class ChartBarGenerator
      * @param pDataset the dataset for the chart (<code>null</code> permitted).
      * @return A Gantt chart.
      */
-    public JFreeChart createGanttChart(IntervalCategoryDataset pDataset)
+    JFreeChart createGanttChart(IntervalCategoryDataset pDataset)
     {
         CategoryAxis categoryAxis = new CategoryAxis("Flow Groups");
         DateAxis dateAxis = new DateAxis("Date");
@@ -226,16 +224,22 @@ public class ChartBarGenerator
 
     }
 
-    public byte[] getDurationInGroup(MethodCallDTO pFirstMeasure)
+    public static class FlowDetailChart
     {
-        chainAllMethodCallToMainTaskOfGroup(pFirstMeasure);
+        public byte[] image;
+
+        public String map;
+    }
+
+    public FlowDetailChart getImage()
+    {
+        chainAllMethodCallToMainTaskOfGroup();
         IntervalCategoryDataset intervalcategorydataset = createDataset();
         JFreeChart tChart = createGanttChart(intervalcategorydataset);
         tChart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(LABEL_WIDTH_RATIO);
 
         // addChartToSession(jfreechart, null, CHART_BAR_FLOWS, null);
         Plot tPlot = tChart.getPlot();
-        // tPlot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
         tPlot.setNoDataMessage("No data available");
         sLog.debug("PlotClass=" + tPlot.getClass());
 
@@ -249,11 +253,14 @@ public class ChartBarGenerator
             PrintWriter tWriter = new PrintWriter(tMapStream);
             ChartUtilities.writeImageMap(tWriter, "ChartBar", tChartRenderingInfo);
             tWriter.flush();
-            // pForm.setImageMap(tMapStream.toString());
-            return null;
+            FlowDetailChart tResult = new FlowDetailChart();
+            tResult.image = tStream.toByteArray();
+            tResult.map = tMapStream.toString();
+            return tResult;
         } catch (IOException e)
         {
             throw new MeasureException("Unable to write Image", e);
         }
     }
+
 }

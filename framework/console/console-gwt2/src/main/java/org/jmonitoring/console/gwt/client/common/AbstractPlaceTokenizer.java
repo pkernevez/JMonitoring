@@ -1,10 +1,8 @@
 package org.jmonitoring.console.gwt.client.common;
 
-import com.google.gwt.place.shared.Place;
-
-public class AbstractPlace extends Place
+public class AbstractPlaceTokenizer
 {
-    public final static String SEPARATOR = "#";
+    public final static String SEPARATOR = "&";
 
     private String[] tokens;
 

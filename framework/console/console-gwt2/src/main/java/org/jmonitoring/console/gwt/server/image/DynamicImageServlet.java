@@ -55,6 +55,10 @@ public class DynamicImageServlet extends HibernateServlet
             } else if ("GroupsCalls".equals(tType))
             {
                 tOutput = flowService.generateGroupsCallsChart(pReq.getSession(), tSessionId, Integer.parseInt(tId));
+            } else if ("FlowDetail".equals(tType))
+            {
+                tOutput =
+                    flowService.generateFlowDetailChart(pReq.getSession(), tSessionId, Integer.parseInt(tId)).image;
             } else
             {
                 sLog.warn("Unable to create Image id={} type={}", tId, tType);

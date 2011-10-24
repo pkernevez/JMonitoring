@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.gwtrpcspring.RemoteServiceUtil;
 import org.jmonitoring.console.gwt.client.flow.FlowService;
 import org.jmonitoring.console.gwt.server.common.ColorManager;
+import org.jmonitoring.console.gwt.server.image.ChartBarGenerator;
+import org.jmonitoring.console.gwt.server.image.ChartBarGenerator.FlowDetailChart;
 import org.jmonitoring.console.gwt.server.image.PieChartGenerator;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
@@ -52,11 +54,6 @@ public class FlowServiceImpl implements FlowService
         return tResponse;
     }
 
-    // public ExecutionFlowDTO load(int pFlowId)
-    // {
-    // return convertToDto(dao.loadFlow(pFlowId));
-    // }
-
     public ExecutionFlowDTO loadFull(int pFlowId)
     {
         return convertToDtoDeeply(dao.loadFullFlow(pFlowId));
@@ -69,7 +66,10 @@ public class FlowServiceImpl implements FlowService
         ExecutionFlowDTO tFlow = convertToDtoDeeply(tFlowPo);
         generateDurationInGroupChart(tSession, "DurationInGroups&" + pFlowId, tFlow.getFirstMethodCall());
         generateGroupsCallsChart(tSession, "GroupsCalls&" + pFlowId, tFlow.getFirstMethodCall());
-        return convertToDto(tFlowPo);
+        String tMap = generateFlowDetailChart(tSession, "FlowDetail&" + pFlowId, tFlow.getFirstMethodCall()).map;
+        tFlow = convertToDto(tFlowPo);
+        tFlow.setDetailMap(tMap);
+        return tFlow;
     }
 
     public byte[] generateDurationInGroupChart(HttpSession pSession, String pSessionId, int pFlowId)
@@ -101,6 +101,22 @@ public class FlowServiceImpl implements FlowService
         byte[] tOutput = tGenerator.getGroupCalls(pFirstMeasure);
         pSession.setAttribute(pSessionId, tOutput);
         return tOutput;
+    }
+
+    public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, int pFlowId)
+    {
+        ExecutionFlowPO tLoadFullFlow = dao.loadFullFlow(pFlowId);
+        ExecutionFlowDTO tConvertToDtoDeeply = convertToDtoDeeply(tLoadFullFlow);
+        MethodCallDTO tFirstMeasure = tConvertToDtoDeeply.getFirstMethodCall();
+        return generateFlowDetailChart(pSession, pSessionId, tFirstMeasure);
+    }
+
+    public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, MethodCallDTO pFirstMeasure)
+    {
+        ChartBarGenerator tGenerator = new ChartBarGenerator(color, pFirstMeasure);
+        FlowDetailChart tResult = tGenerator.getImage();
+        pSession.setAttribute(pSessionId, tResult.image);
+        return tResult;
     }
 
     public ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)
@@ -153,6 +169,11 @@ public class FlowServiceImpl implements FlowService
         tResult.setClassName(pLoadFlow.getFirstClassName());
         tResult.setMethodName(pLoadFlow.getFirstMethodName());
         return tResult;
+    }
+
+    public MethodCallDTO loadMethodCall(int pMethodCallId, int pPosition)
+    {
+        return convertToDto(dao.loadMethodCall(pMethodCallId, pPosition), -1);
     }
 
 }

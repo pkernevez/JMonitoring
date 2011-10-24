@@ -35,6 +35,9 @@ public class ExecutionFlowDTO implements Serializable
 
     private String groupName;
 
+    /** Html Map for the FlowDetailImage */
+    private String detailMap;
+
     public int getId()
     {
         return id;
@@ -156,6 +159,16 @@ public class ExecutionFlowDTO implements Serializable
             tBuffer.append("SequenceId=[NULL] ");
         }
         return tBuffer.toString();
+    }
+
+    public String getDetailMap()
+    {
+        return detailMap;
+    }
+
+    public void setDetailMap(String pMap)
+    {
+        detailMap = pMap;
     }
 
 }

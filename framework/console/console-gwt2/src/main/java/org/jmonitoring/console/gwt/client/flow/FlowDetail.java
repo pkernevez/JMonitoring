@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -62,15 +63,13 @@ public class FlowDetail extends Composite implements Editor<ExecutionFlowDTO>
     @UiField
     Image groupsCalls;
 
-    private int flowId;
+    @UiField
+    Image detailFlowImage;
+
+    @UiField
+    HTMLPanel detailFlowImageMap;
 
     private FlowDetailActivity presenter;
-
-    public FlowDetail(int pFlowId)
-    {
-        initWidget(uiBinder.createAndBindUi(this));
-        flowId = pFlowId;
-    }
 
     @UiHandler("delete")
     void onDeleteClick(ClickEvent event)

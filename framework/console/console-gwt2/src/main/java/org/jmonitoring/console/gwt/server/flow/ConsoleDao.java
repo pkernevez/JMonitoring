@@ -20,6 +20,7 @@ import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.springframework.stereotype.Service;
 
@@ -126,4 +127,10 @@ public class ConsoleDao extends InsertionDao
         return tResult;
     }
 
+    public MethodCallPO loadMethodCall(int pFlowId, int pPosition)
+    {
+        Session tSession = sessionFactory.getCurrentSession();
+        ExecutionFlowPO tFlow = loadFlow(pFlowId);
+        return (MethodCallPO) tSession.get(MethodCallPO.class, new MethodCallPK(tFlow, pPosition));
+    }
 }
