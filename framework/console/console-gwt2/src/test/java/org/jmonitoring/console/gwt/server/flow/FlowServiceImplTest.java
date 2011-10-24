@@ -95,4 +95,21 @@ public class FlowServiceImplTest extends PersistanceTestCase
 
     }
 
+    @Test
+    public void testConvertToDtoDeeply()
+    {
+        ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow(0);
+        int tId = dao.insertFullExecutionFlow(tFlowPO);
+        getSession().flush();
+        getSession().clear();
+        getStats().clear();
+
+        assertEquals("We don't not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+        service.convertToDtoDeeply(dao.loadFullFlow(tId)).getFirstMethodCall();
+        dao.mSessionFactory.getCurrentSession().flush();
+        getSession().flush();
+        assertEquals("We don not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+
+    }
+
 }

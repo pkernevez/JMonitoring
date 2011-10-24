@@ -1,5 +1,8 @@
 package org.jmonitoring.console.gwt.server.common;
 
+import java.sql.Connection;
+import java.sql.Statement;
+
 import javax.annotation.Resource;
 
 import org.hibernate.Session;
@@ -48,7 +51,25 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session));
         stats = sessionFactory.getStatistics();
         stats.clear();
-        session.connection().createStatement().execute("ALTER TABLE EXECUTION_FLOW ALTER COLUMN ID RESTART WITH 1");
+        Connection tConnection = null;
+        Statement tCreateStatement = null;
+
+        try
+        {
+            tConnection = session.connection();
+            tCreateStatement = tConnection.createStatement();
+            tCreateStatement.execute("ALTER TABLE EXECUTION_FLOW ALTER COLUMN ID RESTART WITH 1");
+        } finally
+        {
+            if (tCreateStatement != null)
+            {
+                tCreateStatement.close();
+            }
+            if (tConnection != null)
+            {
+                tConnection.close();
+            }
+        }
         if (!dataInitialized)
         {
             insertTestData();

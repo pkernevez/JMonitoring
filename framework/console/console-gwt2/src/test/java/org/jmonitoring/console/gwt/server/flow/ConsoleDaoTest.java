@@ -139,4 +139,12 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(tFlow.getId(), curMeth.getChild(0).getFlow().getId());
         assertEquals(tFlow.getId(), curMeth.getChild(1).getFlow().getId());
     }
+
+    @Test
+    public void testLoadFullFlow()
+    {
+        dao.loadFullFlow(1);
+        getSession().flush();
+        assertEquals("We don not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+    }
 }

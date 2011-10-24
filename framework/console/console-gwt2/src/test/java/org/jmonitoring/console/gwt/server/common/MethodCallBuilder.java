@@ -9,6 +9,12 @@ public class MethodCallBuilder
 
     private ExecutionFlowBuilder executionFlowBuilder;
 
+    public MethodCallBuilder(ExecutionFlowBuilder pExecutionFlowBuilder, MethodCallPO pMeth)
+    {
+        executionFlowBuilder = pExecutionFlowBuilder;
+        methodCall = pMeth;
+    }
+
     public MethodCallBuilder(ExecutionFlowBuilder pExecutionFlowBuilder, String pClassName, String pMethodName,
         String pGroupName, long pBeginTime, long pDuration)
     {
@@ -76,6 +82,16 @@ public class MethodCallBuilder
                 + pOffSet, pDuration);
         methodCall.addChildren(subMethodCallBuilder.getInternal());
         return subMethodCallBuilder;
+    }
+
+    public MethodCallBuilder goToParent()
+    {
+        return new MethodCallBuilder(executionFlowBuilder, methodCall.getParentMethodCall());
+    }
+
+    public MethodCallBuilder goToLastChildren()
+    {
+        return new MethodCallBuilder(executionFlowBuilder, methodCall.getChild(methodCall.getChildren().size() - 1));
     }
 
     public MethodCallBuilder setRuntimeClassName(String pClassName)

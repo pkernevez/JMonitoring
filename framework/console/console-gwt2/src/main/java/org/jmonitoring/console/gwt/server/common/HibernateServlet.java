@@ -19,6 +19,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public abstract class HibernateServlet extends HttpServlet
 {
+    private static final long serialVersionUID = -8205553699294648902L;
+
     protected SessionFactory sessionFactory;
 
     protected FlowServiceImpl flowService;
@@ -62,6 +64,15 @@ public abstract class HibernateServlet extends HttpServlet
         sessionFactory = tSpringContext.getBean(SessionFactory.class);
         flowService = tSpringContext.getBean(FlowServiceImpl.class);
         init(tSpringContext);
+    }
+
+    /**
+     * @see HttpServlet.doPost(HttpServletRequest, HttpServletResponse)
+     */
+    @Override
+    public void doPost(HttpServletRequest pRequest, HttpServletResponse pResponse) throws ServletException, IOException
+    {
+        doGet(pRequest, pResponse);
     }
 
     protected void init(WebApplicationContext pSpringContext)

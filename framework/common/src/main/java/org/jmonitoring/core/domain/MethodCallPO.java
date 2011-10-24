@@ -26,13 +26,17 @@ public class MethodCallPO implements Serializable
     /** Flow Technical Id. */
     private ExecutionFlowPO mFlow;
 
-    /** Lien sur le père de ce point dans la hierachie d'appel. */
+    /** Parent call of this call, null for the root object */
     private MethodCallPO mParent;
 
-    /** Liste des points de mesure fils dans la cha�ne d'appel. */
+    /** Sub-calls of this method call */
     private List<MethodCallPO> mChildren = new LinkedList<MethodCallPO>();
 
-    /** Repr�sentation sous forme de <code>String</code> des param�tres pass�s lors de l'appel � la m�thode. */
+    /**
+     * String representation of the parameter passed to the method.
+     * 
+     * @See ToStringParametersTracer
+     */
     private String mParams;
 
     /** Date/Heure de d�but d'appel de la m�thode. */

@@ -14,6 +14,6 @@ public interface FlowService extends RemoteService
 {
     SerializableResponse<FlowExtractDTO> search(Request pRequest);
 
-    ExecutionFlowDTO load(int pFlowId);
+    ExecutionFlowDTO loadAndGenerateImage(int pFlowId);
 
 }

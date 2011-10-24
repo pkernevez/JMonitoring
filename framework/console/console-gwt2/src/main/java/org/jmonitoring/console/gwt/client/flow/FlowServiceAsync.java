@@ -13,6 +13,6 @@ public interface FlowServiceAsync
 
     void search(Request pRequest, AsyncCallback<SerializableResponse<FlowExtractDTO>> callback);
 
-    void load(int pFlowId, AsyncCallback<ExecutionFlowDTO> callback);
+    void loadAndGenerateImage(int pFlowId, AsyncCallback<ExecutionFlowDTO> callback);
 
 }

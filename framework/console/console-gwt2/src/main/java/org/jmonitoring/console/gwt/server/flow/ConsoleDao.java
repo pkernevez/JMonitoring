@@ -34,6 +34,8 @@ public class ConsoleDao extends InsertionDao
     @Resource(name = "formater")
     private FormaterBean formater;
 
+    // private static final Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
+
     int countFlows(Request pRequest)
     {
         Criteria tCrit = createCriteria(pRequest);
@@ -105,6 +107,8 @@ public class ConsoleDao extends InsertionDao
         Criteria tCriteria = tSession.createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
         tCriteria.add(Restrictions.eq("flow.id", new Integer(pFlowId)));
         tCriteria.list();
+        // Evict to avoid unusefull updates into DB
+        tSession.evict(tFlow);
         return tFlow;
     }
 

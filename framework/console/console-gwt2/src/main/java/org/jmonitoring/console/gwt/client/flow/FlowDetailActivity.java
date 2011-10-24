@@ -33,7 +33,7 @@ class FlowDetailActivity extends AbstractActivity
 
     public void start(final AcceptsOneWidget panel, EventBus eventBus)
     {
-        service.load(place.getId(), new JMonitoringAsyncCallBack<ExecutionFlowDTO>()
+        service.loadAndGenerateImage(place.getId(), new JMonitoringAsyncCallBack<ExecutionFlowDTO>()
         {
 
             public void onSuccess(ExecutionFlowDTO pResult)
