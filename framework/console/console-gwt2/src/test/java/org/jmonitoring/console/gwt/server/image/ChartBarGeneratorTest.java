@@ -150,7 +150,7 @@ public class ChartBarGeneratorTest extends JMonitoringTestCase
         // Fri Jun 02 23:11:08 CEST 2006
         Date tRefDate = new Date(START_TIME);
         tPoint = new MethodCallDTO();
-        tPoint.setPosition(1);
+        tPoint.setPosition("1");
         tPoint.setParent(null);
         tPoint.setClassName(ChartBarGeneratorTest.class.getName());
         tPoint.setMethodName("builNewFullFlow");
@@ -164,7 +164,7 @@ public class ChartBarGeneratorTest extends JMonitoringTestCase
         MethodCallDTO[] tChildren = new MethodCallDTO[2];
 
         MethodCallDTO tChild1 = new MethodCallDTO();
-        tChild1.setPosition(2);
+        tChild1.setPosition("2");
         tChild1.setParent(tPoint);
         tChildren[0] = tChild1;
         tChild1.setClassName(ChartBarGeneratorTest.class.getName());
@@ -178,7 +178,7 @@ public class ChartBarGeneratorTest extends JMonitoringTestCase
         tChild1.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
 
         MethodCallDTO tChild2 = new MethodCallDTO();
-        tChild2.setPosition(3);
+        tChild2.setPosition("3");
         tChild2.setParent(tPoint);
         tChildren[1] = tChild2;
         tChild2.setClassName(ChartBarGeneratorTest.class.getName());

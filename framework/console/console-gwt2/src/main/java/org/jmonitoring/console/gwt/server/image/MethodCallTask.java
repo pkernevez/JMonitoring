@@ -3,24 +3,28 @@ package org.jmonitoring.console.gwt.server.image;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.time.SimpleTimePeriod;
 
-public class MethodCallTask extends Task {
+public class MethodCallTask extends Task
+{
     private static final long serialVersionUID = 7030808811626064063L;
 
-    private int position;
+    private String flowId;
 
-    private int flowId;
+    private String position;
 
-    public MethodCallTask(int pFlowId, int pMethodCallId, SimpleTimePeriod tTimePeriod) {
+    public MethodCallTask(String pFlowId, String pMethodCallId, SimpleTimePeriod tTimePeriod)
+    {
         super("", tTimePeriod);
         flowId = pFlowId;
         position = pMethodCallId;
     }
 
-    public int getMethodCallId() {
+    public String getMethodCallId()
+    {
         return position;
     }
 
-    public int getFlowId() {
+    public String getFlowId()
+    {
         return flowId;
     }
 

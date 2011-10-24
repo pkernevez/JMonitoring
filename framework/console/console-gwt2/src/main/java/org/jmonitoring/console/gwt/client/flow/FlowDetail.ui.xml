@@ -4,10 +4,8 @@
 	<ui:style src="../resources/main-style.css" />
 		
 	<g:HTMLPanel>
-	
-		<g:HTML>
-			<h1>Flow view</h1>
-		</g:HTML>
+
+		<h1>Flow View</h1>
 		<g:Button styleName="{style.button}" ui:field="delete" text="Delete" />
 		<g:Button styleName="{style.button}" ui:field="exportXml"
 			text="Export" />
@@ -15,7 +13,7 @@
 			<table>
 				<tr>
 					<td>
-						<div class="{style.label}">Server name</div>
+						<div class="{style.label}">Server Name</div>
 					</td>
 					<td>
 						<g:Label styleName="{style.data-label}" ui:field="jvmIdentifier" />

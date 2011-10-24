@@ -146,13 +146,15 @@ public class FlowServiceImpl implements FlowService
     public MethodCallDTO convertToDto(MethodCallPO pCallPO, int pOrderInTheParentChildren)
     {
         MethodCallDTO tResult = new MethodCallDTO();
-        BeanUtils.copyProperties(pCallPO, tResult, new String[] {"beginTime", "endTime", "children", "flow" });
+        BeanUtils.copyProperties(pCallPO, tResult,
+                                 new String[] {"position", "beginTime", "endTime", "children", "flow" });
         tResult.setGroupColor(color.getColorString(pCallPO.getGroupName()));
-        tResult.setPosition(pCallPO.getMethId().getPosition());
+        tResult.setPosition(String.valueOf(pCallPO.getMethId().getPosition()));
         tResult.setBeginTime(formater.formatDateTime(pCallPO.getBeginTime()), pCallPO.getBeginTime());
         tResult.setEndTime(formater.formatDateTime(pCallPO.getEndTime()), pCallPO.getEndTime());
-        tResult.setFlowId(pCallPO.getFlow().getId());
+        tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
         tResult.setChildPosition(pOrderInTheParentChildren);
+        tResult.setPosition(String.valueOf(pCallPO.getPosition()));
         return tResult;
     }
 

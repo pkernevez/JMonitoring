@@ -19,62 +19,62 @@ public class MethodCallDTO implements Serializable
     private static final long serialVersionUID = -497249515537353769L;
 
     /** Flow Technical Id. */
-    private int mFlowId;
+    private String flowId;
 
-    private ExecutionFlowDTO mFlow;
+    private ExecutionFlowDTO flow;
 
     /** Technical Id. */
-    private int mPosition;
+    private String position;
 
     /** Position of the Child. */
-    private int mChildPosition;
+    private int childPosition;
 
     /** Link to the parent Node. */
-    private MethodCallDTO mParent;
+    private MethodCallDTO parent;
 
     /** Link to the children nodes. */
-    private MethodCallDTO[] mChildren = new MethodCallDTO[0];
+    private MethodCallDTO[] children = new MethodCallDTO[0];
 
     /**
      * String representation of the parameters. This attribute has a value only if there is a parameter tracer defined.
      */
-    private String mParams;
+    private String params;
 
     /** Beginning time of the method as <code>String</code>. */
-    private String mBeginTime;
+    private String beginTime;
 
     /** Beginning time of the method as <code>milliseconds</code>. */
-    private long mBeginMilliSeconds;
+    private long beginMilliSeconds;
 
     /** End time of the method as <code>String</code>. */
-    private String mEndTime;
+    private String endTime;
 
     /** End time of the method as <code>milliseconds</code>. */
-    private long mEndMilliSeconds;
+    private long endMilliSeconds;
 
     /** Name of the class on which the Method is defined. */
-    private String mClassName;
+    private String className;
 
     /** Name of the class on which the Method is called. Null if it's the same as <code>mClassName</code>. */
-    private String mRuntimeClassName;
+    private String runtimeClassName;
 
     /** Name of the method. */
-    private String mMethodName;
+    private String methodName;
 
     /** Exception class name. This attribute has a value only if the method end with an exception. */
-    private String mThrowableClass;
+    private String throwableClass;
 
     /** Exception message. This attribute has a value only if the method end with an exception. */
-    private String mThrowableMessage;
+    private String throwableMessage;
 
     /** Method return value. If a return value tracer is defined and if the method isn't <code>void</code> type. */
-    private String mReturnValue;
+    private String returnValue;
 
     /** Group name associated to this method call. */
-    private String mGroupName;
+    private String groupName;
 
     /** Color associated to this group. */
-    private String mGroupColor;
+    private String groupColor;
 
     public MethodCallDTO()
     {
@@ -87,7 +87,7 @@ public class MethodCallDTO implements Serializable
      */
     public boolean isReturnCallException()
     {
-        return mThrowableClass != null;
+        return throwableClass != null;
 
     }
 
@@ -98,7 +98,7 @@ public class MethodCallDTO implements Serializable
      */
     public MethodCallDTO getParent()
     {
-        return mParent;
+        return parent;
     }
 
     /**
@@ -109,7 +109,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getBeginTimeString()
     {
-        return mBeginTime;
+        return beginTime;
     }
 
     /**
@@ -117,7 +117,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setBeginMilliSeconds(long pBeginMilliSeconds)
     {
-        mBeginMilliSeconds = pBeginMilliSeconds;
+        beginMilliSeconds = pBeginMilliSeconds;
     }
 
     /**
@@ -125,7 +125,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setEndMilliSeconds(long pEndMilliSeconds)
     {
-        mEndMilliSeconds = pEndMilliSeconds;
+        endMilliSeconds = pEndMilliSeconds;
     }
 
     /**
@@ -136,7 +136,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getClassName()
     {
-        return mClassName;
+        return className;
     }
 
     /**
@@ -146,7 +146,7 @@ public class MethodCallDTO implements Serializable
      */
     public long getDuration()
     {
-        return mEndMilliSeconds - mBeginMilliSeconds;
+        return endMilliSeconds - beginMilliSeconds;
     }
 
     /**
@@ -156,7 +156,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getEndTimeString()
     {
-        return mEndTime;
+        return endTime;
     }
 
     /**
@@ -166,7 +166,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getMethodName()
     {
-        return mMethodName;
+        return methodName;
     }
 
     /**
@@ -176,7 +176,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getParams()
     {
-        return mParams;
+        return params;
     }
 
     /**
@@ -187,7 +187,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getReturnValue()
     {
-        return mReturnValue;
+        return returnValue;
     }
 
     /**
@@ -198,7 +198,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getThrowableMessage()
     {
-        return mThrowableMessage;
+        return throwableMessage;
     }
 
     /**
@@ -208,7 +208,7 @@ public class MethodCallDTO implements Serializable
      */
     public MethodCallDTO[] getChildren()
     {
-        return mChildren;
+        return children;
     }
 
     /**
@@ -219,7 +219,7 @@ public class MethodCallDTO implements Serializable
      */
     public MethodCallDTO getChild(int pPos)
     {
-        return mChildren[pPos];
+        return children[pPos];
     }
 
     /**
@@ -227,17 +227,17 @@ public class MethodCallDTO implements Serializable
      * 
      * @return Returns the sequence identifier.
      */
-    public int getPosition()
+    public String getPosition()
     {
-        return mPosition;
+        return position;
     }
 
     /**
      * @param pPosition The mId to set.
      */
-    public void setPosition(int pPosition)
+    public void setPosition(String pPosition)
     {
-        mPosition = pPosition;
+        position = pPosition;
     }
 
     /**
@@ -245,8 +245,8 @@ public class MethodCallDTO implements Serializable
      */
     public void setBeginTime(String pBeginTime, long pBeginMs)
     {
-        mBeginTime = pBeginTime;
-        mBeginMilliSeconds = pBeginMs;
+        beginTime = pBeginTime;
+        beginMilliSeconds = pBeginMs;
     }
 
     /**
@@ -254,8 +254,8 @@ public class MethodCallDTO implements Serializable
      */
     public void setEndTime(String pEndTime, long pEndMs)
     {
-        mEndTime = pEndTime;
-        mEndMilliSeconds = pEndMs;
+        endTime = pEndTime;
+        endMilliSeconds = pEndMs;
     }
 
     /**
@@ -263,7 +263,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setReturnValue(String pReturnValue)
     {
-        mReturnValue = pReturnValue;
+        returnValue = pReturnValue;
     }
 
     /**
@@ -271,7 +271,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setThrowableClass(String pThrowableClass)
     {
-        mThrowableClass = pThrowableClass;
+        throwableClass = pThrowableClass;
     }
 
     /**
@@ -279,7 +279,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setThrowableMessage(String pThrowableMessage)
     {
-        mThrowableMessage = pThrowableMessage;
+        throwableMessage = pThrowableMessage;
     }
 
     /**
@@ -287,7 +287,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getGroupName()
     {
-        return mGroupName;
+        return groupName;
     }
 
     /**
@@ -295,7 +295,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setGroupName(String pGroupName)
     {
-        mGroupName = pGroupName;
+        groupName = pGroupName;
     }
 
     /**
@@ -303,9 +303,9 @@ public class MethodCallDTO implements Serializable
      * 
      * @return The flow identifier.
      */
-    public int getFlowId()
+    public String getFlowId()
     {
-        return mFlowId;
+        return flowId;
     }
 
     /**
@@ -313,9 +313,9 @@ public class MethodCallDTO implements Serializable
      * 
      * @param pFlowId The flow identifier.
      */
-    public void setFlowId(int pFlowId)
+    public void setFlowId(String pFlowId)
     {
-        mFlowId = pFlowId;
+        flowId = pFlowId;
     }
 
     /**
@@ -327,9 +327,9 @@ public class MethodCallDTO implements Serializable
     {
         int tNbMeasure = 1;
         MethodCallDTO curChild;
-        for (int i = 0; i < mChildren.length; i++)
+        for (int i = 0; i < children.length; i++)
         {
-            curChild = mChildren[i];
+            curChild = children[i];
             tNbMeasure += curChild.getSubMeasureCount();
         }
         return tNbMeasure;
@@ -340,7 +340,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setClassName(String pClassName)
     {
-        mClassName = pClassName;
+        className = pClassName;
     }
 
     /**
@@ -348,7 +348,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setMethodName(String pMethodName)
     {
-        mMethodName = pMethodName;
+        methodName = pMethodName;
     }
 
     /**
@@ -356,7 +356,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getThrowableClass()
     {
-        return mThrowableClass;
+        return throwableClass;
     }
 
     /**
@@ -364,7 +364,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setChildren(MethodCallDTO[] pChildren)
     {
-        mChildren = pChildren;
+        children = pChildren;
     }
 
     /**
@@ -372,10 +372,10 @@ public class MethodCallDTO implements Serializable
      */
     public void removeChild(int pIndex)
     {
-        MethodCallDTO[] tNewMeth = new MethodCallDTO[mChildren.length - 1];
-        System.arraycopy(mChildren, 0, tNewMeth, 0, pIndex);
-        System.arraycopy(mChildren, pIndex + 1, tNewMeth, pIndex, mChildren.length - pIndex - 1);
-        mChildren = tNewMeth;
+        MethodCallDTO[] tNewMeth = new MethodCallDTO[children.length - 1];
+        System.arraycopy(children, 0, tNewMeth, 0, pIndex);
+        System.arraycopy(children, pIndex + 1, tNewMeth, pIndex, children.length - pIndex - 1);
+        children = tNewMeth;
     }
 
     /**
@@ -383,7 +383,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setParams(String pParams)
     {
-        mParams = pParams;
+        params = pParams;
     }
 
     /**
@@ -391,32 +391,32 @@ public class MethodCallDTO implements Serializable
      */
     public void setParent(MethodCallDTO pParent)
     {
-        mParent = pParent;
+        parent = pParent;
     }
 
     public void setFlow(ExecutionFlowDTO pFlow)
     {
-        mFlow = pFlow;
+        flow = pFlow;
     }
 
     public int getChildPosition()
     {
-        return mChildPosition;
+        return childPosition;
     }
 
     public void setChildPosition(int pChildPosition)
     {
-        mChildPosition = pChildPosition;
+        childPosition = pChildPosition;
     }
 
     public String getRuntimeClassName()
     {
-        return (mRuntimeClassName != null ? mRuntimeClassName : mClassName);
+        return (runtimeClassName != null ? runtimeClassName : className);
     }
 
     public void setRuntimeClassName(String pRuntimeClassName)
     {
-        mRuntimeClassName = pRuntimeClassName;
+        runtimeClassName = pRuntimeClassName;
     }
 
     /**
@@ -424,7 +424,7 @@ public class MethodCallDTO implements Serializable
      */
     public ExecutionFlowDTO getFlow()
     {
-        return mFlow;
+        return flow;
     }
 
     public long getDurationFromPreviousCall()
@@ -456,7 +456,7 @@ public class MethodCallDTO implements Serializable
      */
     public long getBeginMilliSeconds()
     {
-        return mBeginMilliSeconds;
+        return beginMilliSeconds;
     }
 
     /**
@@ -464,7 +464,7 @@ public class MethodCallDTO implements Serializable
      */
     public long getEndMilliSeconds()
     {
-        return mEndMilliSeconds;
+        return endMilliSeconds;
     }
 
     /**
@@ -472,7 +472,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setBeginTimeString(String pBeginTime)
     {
-        mBeginTime = pBeginTime;
+        beginTime = pBeginTime;
     }
 
     /**
@@ -480,7 +480,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setEndTimeString(String pEndTime)
     {
-        mEndTime = pEndTime;
+        endTime = pEndTime;
     }
 
     /**
@@ -488,7 +488,7 @@ public class MethodCallDTO implements Serializable
      */
     public String getGroupColor()
     {
-        return mGroupColor;
+        return groupColor;
     }
 
     /**
@@ -496,7 +496,7 @@ public class MethodCallDTO implements Serializable
      */
     public void setGroupColor(String pGroupColor)
     {
-        mGroupColor = pGroupColor;
+        groupColor = pGroupColor;
     }
 
 }

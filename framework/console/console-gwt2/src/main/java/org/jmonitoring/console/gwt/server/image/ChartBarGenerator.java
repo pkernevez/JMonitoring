@@ -140,8 +140,8 @@ public class ChartBarGenerator
         addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
     }
 
-    private void addSubTask(TaskForGroupName pTaskForTheGroupName, int pFlowId, int pMethodCallId, Date pBeginDate,
-        Date pEndDate)
+    private void addSubTask(TaskForGroupName pTaskForTheGroupName, String pFlowId, String pMethodCallId,
+        Date pBeginDate, Date pEndDate)
     {
         // Contournement du bug
         Date tNewEndDate = (pEndDate.before(pBeginDate) ? pBeginDate : pEndDate);

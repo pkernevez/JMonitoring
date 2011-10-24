@@ -42,18 +42,13 @@ public class MethodCallDetailActivity extends AbstractActivity
                 MethodCallDetail tMethodCallDetail = clientFactory.getMethodCallDetail();
                 driver.initialize(tMethodCallDetail);
                 driver.edit(pResult);
+                tMethodCallDetail.groupName.getElement().setAttribute("style",
+                                                                      "background-color: " + pResult.getGroupColor()
+                                                                          + ";");
+                tMethodCallDetail.fulClassName.setText(pResult.getClassName() + "." + pResult.getMethodName() + "()");
                 panel.setWidget(tMethodCallDetail.setPresenter(MethodCallDetailActivity.this));
-                // tMethodCallDetail.durationInGroups.setUrl("image.dynamic?id=" + place.getId()
-                // + "&type=DurationInGroups");
-                // tMethodCallDetail.groupsCalls.setUrl("image.dynamic?id=" + place.getId() + "&type=GroupsCalls");
-                // tMethodCallDetail.detailFlowImage.setUrl("image.dynamic?id=" + place.getId() +
-                // "&type=MethodCallDetail");
-                // tMethodCallDetail.detailFlowImageMap.add(new HTML(pResult.getDetailMap()));
-                // tMethodCallDetail.detailFlowImage.getElement().setAttribute("usemap", "#ChartBar");
-                // tMethodCallDetail.detailMap.
             }
 
         });
     }
-
 }

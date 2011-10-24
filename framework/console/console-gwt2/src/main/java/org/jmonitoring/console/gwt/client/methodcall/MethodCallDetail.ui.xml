@@ -1,13 +1,102 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		.important {
-			font-weight: bold;
-		}
-	</ui:style>
+	<ui:style src="../resources/main-style.css" />
+		
 	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}"  />
+		<g:HTMLPanel>
+			<h1>Method Call View</h1>
+			<h2><g:Label ui:field="fulClassName" /></h2>
+			<table>
+				<tr>
+					<td>
+						<div class="{style.label}">Runtime Class Name</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="runtimeClassName"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Group Name</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="groupName"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Flow Id</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="flowId"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Id</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="position"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Begin Date</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="beginTimeString"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">End Date</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="endTimeString"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Navigation</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Parameters</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="params"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Throwable Class Name</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="throwableClass"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Throwable Message</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="throwableMessage"   />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Children</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}"   />
+					</td>
+				</tr>
+			</table>
+		</g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
