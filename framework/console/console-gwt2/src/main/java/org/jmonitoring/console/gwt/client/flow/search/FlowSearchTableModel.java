@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.flow.search;
 
 import it.pianetatecno.gwt.utility.client.table.ActionHandler;
 import it.pianetatecno.gwt.utility.client.table.Callback;
@@ -14,6 +14,8 @@ import it.pianetatecno.gwt.utility.client.table.TableModel;
 import java.util.ArrayList;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
+import org.jmonitoring.console.gwt.client.flow.FlowServiceAsync;
+import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 
@@ -75,7 +77,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
             {
                 if (VIEW_FLOW.equals(actionName))
                 {
-                    ClientFactory.getPlaceController().goTo(new FlowDetailPlace(pRow.getId()));
+                    ClientFactory.goTo(new FlowDetailPlace(pRow.getId()));
                 }
             }
         });

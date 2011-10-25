@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.flow.search;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;

@@ -1,8 +1,10 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.flow.detail;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
+import org.jmonitoring.console.gwt.client.flow.FlowService;
+import org.jmonitoring.console.gwt.client.flow.FlowServiceAsync;
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
-import org.jmonitoring.console.gwt.client.methodcall.MethodCallDetailPlace;
+import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetailPlace;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -56,12 +58,12 @@ class FlowDetailActivity extends AbstractActivity
     }
 
     public static native void exportMapMethClick() /*-{
-                                                   $wnd.methClick = $entry(@org.jmonitoring.console.gwt.client.flow.FlowDetailActivity::methClick(II));
+                                                   $wnd.methClick = $entry(@org.jmonitoring.console.gwt.client.flow.detail.FlowDetailActivity::methClick(II));
                                                    }-*/;
 
     public static void methClick(int pFlowId, int pPosition)
     {
-        ClientFactory.getPlaceController().goTo(new MethodCallDetailPlace(pFlowId, pPosition));
+        ClientFactory.goTo(new MethodCallDetailPlace(pFlowId, pPosition));
     }
 
     public void exportXml()

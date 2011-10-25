@@ -4,7 +4,7 @@
 	<ui:with
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle"
 		field="res"></ui:with>
-	<ui:style src="../resources/main-style.css" />
+	<ui:style src="../../resources/main-style.css" />
 	<g:VerticalPanel styleName="{style.searchpanel}" ui:field="vPanel">
 		<g:HTML><h1>Flow Search</h1></g:HTML> 
 		<g:Grid styleName="{style.searchmask}" >

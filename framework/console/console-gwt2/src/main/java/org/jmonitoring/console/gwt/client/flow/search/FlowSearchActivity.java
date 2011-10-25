@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.flow.search;
 
 import it.pianetatecno.gwt.utility.client.table.Filter;
 import it.pianetatecno.gwt.utility.client.table.StringFilter;

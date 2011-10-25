@@ -1,7 +1,9 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.flow.search;
 
 import it.pianetatecno.gwt.utility.client.table.PagingTable;
 
+import org.jmonitoring.console.gwt.client.flow.FlowService;
+import org.jmonitoring.console.gwt.client.flow.FlowServiceAsync;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 
 import com.google.gwt.core.client.GWT;

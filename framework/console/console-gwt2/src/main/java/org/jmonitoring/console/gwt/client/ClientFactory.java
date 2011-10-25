@@ -1,10 +1,11 @@
 package org.jmonitoring.console.gwt.client;
 
-import org.jmonitoring.console.gwt.client.flow.FlowDetail;
-import org.jmonitoring.console.gwt.client.flow.FlowSearch;
-import org.jmonitoring.console.gwt.client.flow.FlowSearchPlace;
+import org.jmonitoring.console.gwt.client.flow.detail.FlowDetail;
+import org.jmonitoring.console.gwt.client.flow.search.FlowSearch;
+import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace;
 import org.jmonitoring.console.gwt.client.main.Main;
-import org.jmonitoring.console.gwt.client.methodcall.MethodCallDetail;
+import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetail;
+import org.jmonitoring.console.gwt.client.methodcall.stat.MethodCallStat;
 import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 
 import com.google.gwt.activity.shared.ActivityManager;
@@ -32,6 +33,8 @@ public class ClientFactory
 
     private MethodCallDetail methodCallDetail = new MethodCallDetail();
 
+    private MethodCallStat methodCallStat = new MethodCallStat();
+
     public final static ConsoleImageBundle imageBundle = GWT.create(ConsoleImageBundle.class);
 
     private static ClientFactory sClientFactory;
@@ -43,9 +46,9 @@ public class ClientFactory
         return sEventBus;
     }
 
-    public static PlaceController getPlaceController()
+    public static void goTo(Place pPlace)
     {
-        return sPlaceController;
+        sPlaceController.goTo(pPlace);
     }
 
     public static ClientFactory init()
@@ -90,5 +93,10 @@ public class ClientFactory
     public MethodCallDetail getMethodCallDetail()
     {
         return methodCallDetail;
+    }
+
+    public MethodCallStat getMethodCallStat()
+    {
+        return methodCallStat;
     }
 }

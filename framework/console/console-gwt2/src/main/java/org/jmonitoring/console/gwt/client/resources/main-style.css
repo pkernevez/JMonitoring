@@ -87,7 +87,16 @@ h1 {
 .label {
 	text-align: right;
 	padding: 3px 3px 3px 10px;
+	white-space: nowrap;
 }
+
+/*
+.free-label {
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-size: small;
+	padding: 3px 3px 3px 10px;
+}
+*/
 
 .data-label{
 	text-align: left;
@@ -95,6 +104,16 @@ h1 {
 	font-weight: bold;
 	background-color: #DDF; 
 	min-height: 1.3em;
+}
+
+.group-name-color {
+	height: 1.1em;
+	width: 2em;
+	margin: 0px 5px 0px 0px;
+}
+
+.clickable{ 
+	cursor: pointer;
 }
 
 /* To check */

@@ -122,20 +122,21 @@ public class FlowServiceImpl implements FlowService
     public ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = convertToDto(pFlowPO);
-        tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), tResult, 0));
+        tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), tResult, null, 0));
         return tResult;
     }
 
-    MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, ExecutionFlowDTO pFlow, int pOrderInTheParentChildren)
+    MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, ExecutionFlowDTO pFlow, MethodCallDTO pParent,
+        int pOrderInTheParentChildren)
     {
-        MethodCallDTO tResult = convertToDto(pCallPO, pOrderInTheParentChildren);
+        MethodCallDTO tResult = convertToDto(pCallPO, pParent, pOrderInTheParentChildren);
         tResult.setFlow(pFlow);
         MethodCallDTO curChildDto;
         MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
         int i = 0;
         for (MethodCallPO curMethod : pCallPO.getChildren())
         {
-            curChildDto = convertToDtoDeeply(curMethod, pFlow, i);
+            curChildDto = convertToDtoDeeply(curMethod, pFlow, tResult, i);
             curChildDto.setParent(tResult);
             tChildren[i++] = curChildDto;
         }
@@ -143,7 +144,24 @@ public class FlowServiceImpl implements FlowService
         return tResult;
     }
 
-    public MethodCallDTO convertToDto(MethodCallPO pCallPO, int pOrderInTheParentChildren)
+    public MethodCallDTO convertToDtoFull(MethodCallPO pCallPO, int pOrderInTheParentChildren)
+    {
+        MethodCallDTO tResult = convertToDto(pCallPO, null, pOrderInTheParentChildren);
+        if (pCallPO.getParentMethodCall() != null)
+        {
+            // tResult.setParent(tResult)
+        }
+        int tSize = pCallPO.getChildren().size();
+        MethodCallDTO[] tChildren = new MethodCallDTO[tSize];
+        for (int i = 0; i < tSize; i++)
+        {
+            tChildren[i] = convertToDto(pCallPO.getChild(i), tResult, i);
+        }
+        tResult.setChildren(tChildren);
+        return tResult;
+    }
+
+    public MethodCallDTO convertToDto(MethodCallPO pCallPO, MethodCallDTO pParent, int pOrderInTheParentChildren)
     {
         MethodCallDTO tResult = new MethodCallDTO();
         BeanUtils.copyProperties(pCallPO, tResult,
@@ -155,6 +173,7 @@ public class FlowServiceImpl implements FlowService
         tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
         tResult.setChildPosition(pOrderInTheParentChildren);
         tResult.setPosition(String.valueOf(pCallPO.getPosition()));
+        tResult.setParent(pParent);
         return tResult;
     }
 
@@ -175,7 +194,7 @@ public class FlowServiceImpl implements FlowService
 
     public MethodCallDTO loadMethodCall(int pMethodCallId, int pPosition)
     {
-        return convertToDto(dao.loadMethodCall(pMethodCallId, pPosition), -1);
+        return convertToDtoFull(dao.loadMethodCall(pMethodCallId, pPosition), -1);
     }
 
 }

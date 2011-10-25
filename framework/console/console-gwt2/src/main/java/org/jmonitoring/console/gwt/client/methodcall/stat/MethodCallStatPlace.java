@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.methodcall;
+package org.jmonitoring.console.gwt.client.methodcall.stat;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;
@@ -9,34 +9,34 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.google.gwt.place.shared.Prefix;
 
-public class MethodCallDetailPlace extends Place implements ActivityAware
+public class MethodCallStatPlace extends Place implements ActivityAware
 {
 
     int flowId;
 
     int position;
 
-    @Prefix("methodcalldetail")
-    public static class MethodCallDetailTokenizer extends AbstractPlaceTokenizer implements
-                    PlaceTokenizer<MethodCallDetailPlace>
+    @Prefix("methodcallstat")
+    public static class MethodCallStatTokenizer extends AbstractPlaceTokenizer implements
+                    PlaceTokenizer<MethodCallStatPlace>
     {
 
-        public MethodCallDetailPlace getPlace(String pToken)
+        public MethodCallStatPlace getPlace(String pToken)
         {
             tokenize(pToken);
             int tFlowId = Integer.parseInt(nextToken());
             int tPosition = Integer.parseInt(nextToken());
-            return new MethodCallDetailPlace(tFlowId, tPosition);
+            return new MethodCallStatPlace(tFlowId, tPosition);
         }
 
-        public String getToken(MethodCallDetailPlace pPlace)
+        public String getToken(MethodCallStatPlace pPlace)
         {
             return getToken(String.valueOf(pPlace.flowId), String.valueOf(pPlace.position));
         }
 
     }
 
-    public MethodCallDetailPlace(int pFlowId, int pPosition)
+    public MethodCallStatPlace(int pFlowId, int pPosition)
     {
         flowId = pFlowId;
         position = pPosition;
@@ -44,7 +44,7 @@ public class MethodCallDetailPlace extends Place implements ActivityAware
 
     public Activity getActivity(ClientFactory pClientFactory)
     {
-        return new MethodCallDetailActivity(this, pClientFactory);
+        return new MethodCallStatActivity(this, pClientFactory);
     }
 
 }

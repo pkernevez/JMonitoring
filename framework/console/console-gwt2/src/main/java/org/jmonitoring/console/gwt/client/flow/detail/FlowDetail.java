@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.flow.detail;
 
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 

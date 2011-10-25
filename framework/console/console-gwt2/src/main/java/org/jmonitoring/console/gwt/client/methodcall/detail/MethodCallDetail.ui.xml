@@ -1,0 +1,137 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:j="urn:import:org.jmonitoring.console.gwt.client.common">
+	<ui:style src="../../resources/main-style.css" />
+		
+	<ui:with field="image"
+		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle" />
+
+	<g:HTMLPanel>
+		<g:HTMLPanel>
+			<h1>Method Call View</h1>
+			<h2>
+				<g:Label ui:field="fulClassName" />
+			</h2>
+			<table>
+				<tr>
+					<td class="{style.label}">
+						<div>Runtime Class Name</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label ui:field="runtimeClassName" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Group Name</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:HorizontalPanel verticalAlignment="middle">
+							<g:Label styleName="{style.group-name-color}" ui:field="groupNameColor" />
+							<g:Label ui:field="groupName" />
+						</g:HorizontalPanel>
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Flow Id</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:HorizontalPanel>
+							<g:Image styleName="{style.clickable}" resource="{image.edit}"
+								ui:field="goToFlow" />
+							<g:Label ui:field="flowId" />
+						</g:HorizontalPanel>
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Id</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:HorizontalPanel>
+							<g:Image styleName="{style.clickable}" resource="{image.graphique}"
+								ui:field="goToStat" />
+							<g:Label ui:field="position" />
+						</g:HorizontalPanel>
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Parent Id</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:HorizontalPanel>
+							<g:Image styleName="{style.clickable}" resource="{image.edit}" ui:field="goToParent" />
+							<g:Label ui:field="parentId" />
+						</g:HorizontalPanel>
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Begin Date</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label ui:field="beginTimeString" />
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>End Date</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label ui:field="endTimeString" />
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Navigation</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label />
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Parameters</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label ui:field="params" />
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Result</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label ui:field="returnValue" />
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Throwable Class Name</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label ui:field="throwableClass" />
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}">
+						<div>Throwable Message</div>
+					</td>
+					<td class="{style.data-label}">
+						<g:Label ui:field="throwableMessage" />
+					</td>
+				</tr>
+				<tr>
+					<td class="{style.label}" style="vertical-align: top;">
+						<div>Children</div>
+					</td>
+					<td>
+					</td>
+				</tr>
+			</table>
+			<j:ULPanel ui:field="children" />
+		</g:HTMLPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 
