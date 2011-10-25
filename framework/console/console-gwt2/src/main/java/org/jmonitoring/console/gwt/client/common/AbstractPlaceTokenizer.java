@@ -32,7 +32,7 @@ public class AbstractPlaceTokenizer
         {
             tBuilder.append(tField == null ? "" : tField).append(SEPARATOR);
         }
-        return tBuilder.toString();
+        return (tBuilder.length() == 0 ? "" : tBuilder.substring(0, tBuilder.length() - 1));
     }
 
 }
