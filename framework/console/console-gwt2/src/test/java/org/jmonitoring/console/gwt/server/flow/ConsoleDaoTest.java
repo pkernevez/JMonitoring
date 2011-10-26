@@ -126,7 +126,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
         int tOldNbFlow = dao.countFlows();
         int tOldNbMeth = countMethods();
 
-        ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow(1);
+        ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow();
         dao.insertFullExecutionFlow(tFlow);
         getSession().flush();
         int tNewNbFlow = dao.countFlows();

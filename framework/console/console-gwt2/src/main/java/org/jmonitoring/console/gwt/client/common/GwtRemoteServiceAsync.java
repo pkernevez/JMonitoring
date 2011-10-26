@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.common;
 
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
@@ -9,7 +9,7 @@ import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface FlowServiceAsync
+public interface GwtRemoteServiceAsync
 {
 
     void search(Request pRequest, AsyncCallback<SerializableResponse<FlowExtractDTO>> callback);

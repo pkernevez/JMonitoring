@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.server.flow;
+package org.jmonitoring.console.gwt.server.common;
 
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
@@ -9,8 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.gwtrpcspring.RemoteServiceUtil;
-import org.jmonitoring.console.gwt.client.flow.FlowService;
-import org.jmonitoring.console.gwt.server.common.ColorManager;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.server.image.ChartBarGenerator;
 import org.jmonitoring.console.gwt.server.image.ChartBarGenerator.FlowDetailChart;
 import org.jmonitoring.console.gwt.server.image.PieChartGenerator;
@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FlowServiceImpl implements FlowService
+public class GwtRemoteServiceImpl implements GwtRemoteService
 {
 
     static Logger sLog = getLogger();
@@ -44,7 +44,7 @@ public class FlowServiceImpl implements FlowService
 
     private static Logger getLogger()
     {
-        return LoggerFactory.getLogger(FlowServiceImpl.class);
+        return LoggerFactory.getLogger(GwtRemoteServiceImpl.class);
     }
 
     public SerializableResponse<FlowExtractDTO> search(Request pRequest)
@@ -117,14 +117,14 @@ public class FlowServiceImpl implements FlowService
         return tResult;
     }
 
-    public ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)
+    ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = convertToDto(pFlowPO);
         tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), pFlowPO.getId()));
         return tResult;
     }
 
-    MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pFlowId)
+    private MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pFlowId)
     {
         MethodCallDTO tResult = convertToDto(pCallPO, null, 0);
         tResult.setFlowId(String.valueOf(pFlowId));
@@ -133,7 +133,7 @@ public class FlowServiceImpl implements FlowService
         return tResult;
     }
 
-    MethodCallExtractDTO convertToExtract(MethodCallPO pMethodCall, int pChildPosition)
+    private MethodCallExtractDTO convertToExtract(MethodCallPO pMethodCall, int pChildPosition)
     {
         MethodCallExtractDTO tExtract = new MethodCallExtractDTO();
         tExtract.setFullMethodName(pMethodCall.getClassName() + "." + pMethodCall.getMethodName() + "()");
@@ -161,7 +161,7 @@ public class FlowServiceImpl implements FlowService
         return tExtract;
     }
 
-    MethodCallExtractDTO[] convertToDtoDeeply(List<MethodCallPO> pCallPO, MethodCallExtractDTO pParent)
+    private MethodCallExtractDTO[] convertToDtoDeeply(List<MethodCallPO> pCallPO, MethodCallExtractDTO pParent)
     {
         MethodCallExtractDTO[] tResult = new MethodCallExtractDTO[pCallPO.size()];
         int i = 0;
@@ -175,7 +175,7 @@ public class FlowServiceImpl implements FlowService
         return tResult;
     }
 
-    public MethodCallDTO convertToDto(MethodCallPO pCallPO, MethodCallDTO pParent, int pOrderInTheParentChildren)
+    private MethodCallDTO convertToDto(MethodCallPO pCallPO, MethodCallDTO pParent, int pOrderInTheParentChildren)
     {
         MethodCallDTO tResult = new MethodCallDTO();
         BeanUtils.copyProperties(pCallPO, tResult,

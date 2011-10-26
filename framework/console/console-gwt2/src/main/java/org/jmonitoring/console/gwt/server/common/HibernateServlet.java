@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.jmonitoring.console.gwt.server.flow.FlowServiceImpl;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.context.WebApplicationContext;
@@ -23,7 +22,7 @@ public abstract class HibernateServlet extends HttpServlet
 
     protected SessionFactory sessionFactory;
 
-    protected FlowServiceImpl flowService;
+    protected GwtRemoteServiceImpl flowService;
 
     @Override
     protected void doGet(HttpServletRequest pReq, HttpServletResponse pResp) throws ServletException, IOException
@@ -62,7 +61,7 @@ public abstract class HibernateServlet extends HttpServlet
         WebApplicationContext tSpringContext =
             WebApplicationContextUtils.getWebApplicationContext(pConfig.getServletContext());
         sessionFactory = tSpringContext.getBean(SessionFactory.class);
-        flowService = tSpringContext.getBean(FlowServiceImpl.class);
+        flowService = tSpringContext.getBean(GwtRemoteServiceImpl.class);
         init(tSpringContext);
     }
 

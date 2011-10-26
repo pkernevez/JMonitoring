@@ -48,7 +48,6 @@
         </property>
     </bean>
 
-	<bean name="flowBuilderUtil" class="org.jmonitoring.console.gwt.server.flow.FlowBuilderUtil"/>
 	<bean name="consoleDao" class="org.jmonitoring.console.gwt.server.flow.ConsoleDao"/>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">

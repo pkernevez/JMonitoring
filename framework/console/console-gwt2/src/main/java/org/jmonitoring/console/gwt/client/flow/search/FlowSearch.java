@@ -2,8 +2,8 @@ package org.jmonitoring.console.gwt.client.flow.search;
 
 import it.pianetatecno.gwt.utility.client.table.PagingTable;
 
-import org.jmonitoring.console.gwt.client.flow.FlowService;
-import org.jmonitoring.console.gwt.client.flow.FlowServiceAsync;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 
 import com.google.gwt.core.client.GWT;
@@ -57,7 +57,7 @@ public class FlowSearch extends Composite
     {
     }
 
-    FlowServiceAsync service = GWT.create(FlowService.class);
+    GwtRemoteServiceAsync service = GWT.create(GwtRemoteService.class);
 
     PagingTable<FlowExtractDTO> table;
 

@@ -68,8 +68,7 @@ public class MethodCallDetail extends Composite implements Editor<MethodCallDTO>
     Image goToParent;
 
     @UiField
-    @Path("parent.position")
-    Label parentId;
+    Label parentPosition;
 
     interface MethodCallDetailUiBinder extends UiBinder<Widget, MethodCallDetail>
     {

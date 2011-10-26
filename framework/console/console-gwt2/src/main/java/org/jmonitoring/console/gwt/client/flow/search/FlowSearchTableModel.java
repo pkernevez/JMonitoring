@@ -14,7 +14,7 @@ import it.pianetatecno.gwt.utility.client.table.TableModel;
 import java.util.ArrayList;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
-import org.jmonitoring.console.gwt.client.flow.FlowServiceAsync;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
@@ -25,7 +25,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
 {
     private static final String VIEW_FLOW = "viewFlow";
 
-    private final FlowServiceAsync service;
+    private final GwtRemoteServiceAsync service;
 
     /**
      * Workaround to no do a first call during the creation of the Tqble as will do that just after the filter
@@ -33,7 +33,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
      */
     private boolean firstTime = true;
 
-    public FlowSearchTableModel(FlowServiceAsync pService)
+    public FlowSearchTableModel(GwtRemoteServiceAsync pService)
     {
         super();
         service = pService;

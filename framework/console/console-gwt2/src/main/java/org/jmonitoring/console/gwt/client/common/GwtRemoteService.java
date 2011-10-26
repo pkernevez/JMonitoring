@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.flow;
+package org.jmonitoring.console.gwt.client.common;
 
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
@@ -11,7 +11,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("operationcaisse.rpc")
-public interface FlowService extends RemoteService
+public interface GwtRemoteService extends RemoteService
 {
     SerializableResponse<FlowExtractDTO> search(Request pRequest);
 

@@ -1,8 +1,8 @@
-package org.jmonitoring.console.gwt.server.flow;
+package org.jmonitoring.console.gwt.server.common;
 
 import javax.annotation.Resource;
 
-import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
@@ -12,7 +12,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class FlowServiceImplTest extends PersistanceTestCase
+public class GwtRemoteServiceImplTest extends PersistanceTestCase
 {
     @Resource(name = "consoleDao")
     protected ConsoleDao dao;
@@ -21,9 +21,9 @@ public class FlowServiceImplTest extends PersistanceTestCase
     private FormaterBean formater;
 
     @Autowired
-    private FlowServiceImpl service;
+    private GwtRemoteServiceImpl service;
 
-    public FlowServiceImplTest()
+    public GwtRemoteServiceImplTest()
     {
         dataInitialized = true;// Don't insert data before those test
     }
@@ -31,13 +31,12 @@ public class FlowServiceImplTest extends PersistanceTestCase
     @Test
     public void testLoadFull()
     {
-        ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow(0);
+        ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow();
         int tId = dao.insertFullExecutionFlow(tFlowPO);
         getSession().flush();
 
         int tNewNbFlow = dao.countFlows();
         assertEquals(1, tNewNbFlow);
-
         getSession().flush();
         getSession().clear();
 
@@ -89,7 +88,7 @@ public class FlowServiceImplTest extends PersistanceTestCase
     @Test
     public void testConvertToDtoDeeply()
     {
-        ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow(0);
+        ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow();
         int tId = dao.insertFullExecutionFlow(tFlowPO);
         getSession().flush();
         getSession().clear();
@@ -97,7 +96,7 @@ public class FlowServiceImplTest extends PersistanceTestCase
 
         assertEquals("We don't not need to update the execution flow", 0, getStats().getEntityUpdateCount());
         service.convertToDtoDeeply(dao.loadFullFlow(tId)).getFirstMethodCall();
-        dao.mSessionFactory.getCurrentSession().flush();
+        sessionFactory.getCurrentSession().flush();
         getSession().flush();
         assertEquals("We don not need to update the execution flow", 0, getStats().getEntityUpdateCount());
 

@@ -27,17 +27,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConsoleDao extends InsertionDao
 {
-    // private static final Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
-
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
     @Resource(name = "formater")
     private FormaterBean formater;
 
-    // private static final Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
-
-    int countFlows(Request pRequest)
+    public int countFlows(Request pRequest)
     {
         Criteria tCrit = createCriteria(pRequest);
         tCrit.setProjection(Projections.rowCount());
@@ -67,7 +63,7 @@ public class ConsoleDao extends InsertionDao
     }
 
     @SuppressWarnings("unchecked")
-    List<FlowExtractDTO> search(Request pRequest)
+    public List<FlowExtractDTO> search(Request pRequest)
     {
         Criteria tCrit = createCriteria(pRequest);
         tCrit.setFirstResult(pRequest.getStartRow() - 1);

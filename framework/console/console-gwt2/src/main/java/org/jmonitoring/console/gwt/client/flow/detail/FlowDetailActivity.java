@@ -1,8 +1,8 @@
 package org.jmonitoring.console.gwt.client.flow.detail;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
-import org.jmonitoring.console.gwt.client.flow.FlowService;
-import org.jmonitoring.console.gwt.client.flow.FlowServiceAsync;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetailPlace;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
@@ -21,7 +21,7 @@ class FlowDetailActivity extends AbstractActivity
 
     private final ClientFactory clientFactory;
 
-    FlowServiceAsync service = GWT.create(FlowService.class);
+    GwtRemoteServiceAsync service = GWT.create(GwtRemoteService.class);
 
     FlowDetailDriver driver = GWT.create(FlowDetailDriver.class);
 

@@ -63,7 +63,7 @@
 					<td class="{style.data-label}">
 						<g:HorizontalPanel>
 							<g:Image styleName="{style.clickable}" resource="{image.edit}" ui:field="goToParent" />
-							<g:Label ui:field="parentId" />
+							<g:Label ui:field="parentPosition" />
 						</g:HorizontalPanel>
 					</td>
 				</tr>

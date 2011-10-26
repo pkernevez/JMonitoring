@@ -1,8 +1,8 @@
 package org.jmonitoring.console.gwt.client.methodcall.stat;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
-import org.jmonitoring.console.gwt.client.flow.FlowService;
-import org.jmonitoring.console.gwt.client.flow.FlowServiceAsync;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
+import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
@@ -15,7 +15,7 @@ public class MethodCallStatActivity extends AbstractActivity
 
     private final ClientFactory clientFactory;
 
-    FlowServiceAsync service = GWT.create(FlowService.class);
+    GwtRemoteServiceAsync service = GWT.create(GwtRemoteService.class);
 
     public MethodCallStatActivity(MethodCallStatPlace pMethodCallDetailPlace, ClientFactory pClientFactory)
     {

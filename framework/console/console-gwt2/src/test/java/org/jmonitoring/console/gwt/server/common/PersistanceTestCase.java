@@ -130,6 +130,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         return stats;
     }
 
+    // TODO Remove me or unified with FlowBuilderUtil and PieChartGeneratorTest.getSampleMeasurePoint
     public void insertTestData()
     {
         sLog.info("Start Insert test data");
@@ -173,15 +174,14 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         sLog.info("End Insert test data");
     }
 
-    public static ExecutionFlowPO buildNewFullFlow(int pVariante)
+    // TODO Remove me ?
+    public static ExecutionFlowPO buildNewFullFlow()
     {
         MethodCallPO tPoint;
         MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();
 
-        tPoint =
-            new MethodCallPO(null, PersistanceTestCase.class.getName(), "builNewFullFlow" + pVariante, "GrDefault",
-                             "[]");
+        tPoint = new MethodCallPO(null, PersistanceTestCase.class.getName(), "builNewFullFlow0", "GrDefault", "[]");
         tPoint.setBeginTime(tStartTime); // 35
         tSubPoint = new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
         tSubPoint.setBeginTime(tStartTime + 2); // 3
@@ -212,7 +212,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         tSubPoint2.setEndTime(tStartTime + 29);
 
         tPoint.setEndTime(tStartTime + 35);
-        ExecutionFlowPO tFlow = new ExecutionFlowPO("TEST-main" + pVariante, tPoint, "myJVM");
+        ExecutionFlowPO tFlow = new ExecutionFlowPO("TEST-main0", tPoint, "myJVM");
         tPoint.setMethId(new MethodCallPK(tFlow, 1));
         tSubPoint.setMethId(new MethodCallPK(tFlow, 2));
         tSubPoint2.setMethId(new MethodCallPK(tFlow, 3));
