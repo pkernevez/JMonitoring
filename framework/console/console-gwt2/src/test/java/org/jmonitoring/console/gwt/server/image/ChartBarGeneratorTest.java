@@ -8,15 +8,15 @@ import javax.annotation.Resource;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.time.TimePeriod;
 import org.jmonitoring.console.gwt.server.common.ColorManager;
+import org.jmonitoring.console.gwt.server.common.ExecutionFlowBuilder;
+import org.jmonitoring.console.gwt.server.common.MethodCallBuilder;
+import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.server.image.ChartBarGenerator.TaskForGroupName;
-import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
-import org.jmonitoring.core.tests.JMonitoringTestCase;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(locations = {"/all-test.xml", "/default-test.xml", "/persistence-test.xml" })
-public class ChartBarGeneratorTest extends JMonitoringTestCase
+public class ChartBarGeneratorTest extends PersistanceTestCase
 {
     @Resource(name = "formater")
     private FormaterBean mFormater;
@@ -24,10 +24,15 @@ public class ChartBarGeneratorTest extends JMonitoringTestCase
     @Resource(name = "color")
     private ColorManager mColor;
 
+    public ChartBarGeneratorTest()
+    {
+        dataInitialized = true;
+    }
+
     @Test
     public void testChainAllMethodCallToMainTaskOfGroup()
     {
-        MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
+        MethodCallPO tFirstMethod = getVerySimpleMeasurePoint();
         ChartBarGenerator tChartGenerator = new ChartBarGenerator(mColor, tFirstMethod);
         tChartGenerator.chainAllMethodCallToMainTaskOfGroup();
 
@@ -73,7 +78,8 @@ public class ChartBarGeneratorTest extends JMonitoringTestCase
     @Test
     public void testFillListOfGroup()
     {
-        MethodCallDTO tFirstMethod = PieChartGeneratorTest.getSampleMeasurePoint(mFormater, mColor);
+        MethodCallPO tFirstMethod =
+            PieChartGeneratorTest.getSampleMeasurePoint(mFormater, mColor, sessionFactory.getCurrentSession());
 
         ChartBarGenerator tUtil = new ChartBarGenerator(mColor, tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup();
@@ -144,65 +150,29 @@ public class ChartBarGeneratorTest extends JMonitoringTestCase
 
     public static final long START_TIME = 1149282668046L;
 
-    MethodCallDTO getVerySimpleMeasurePoint()
+    MethodCallPO getVerySimpleMeasurePoint()
     {
-        MethodCallDTO tPoint;
-        // Fri Jun 02 23:11:08 CEST 2006
-        Date tRefDate = new Date(START_TIME);
-        tPoint = new MethodCallDTO();
-        tPoint.setPosition("1");
-        tPoint.setParent(null);
-        tPoint.setClassName(ChartBarGeneratorTest.class.getName());
-        tPoint.setMethodName("builNewFullFlow");
-        tPoint.setGroupName("GrDefault");
-        tPoint.setParams("[]");
-        tPoint.setBeginMilliSeconds(tRefDate.getTime());
-        tPoint.setBeginTimeString(mFormater.formatDateTime(tRefDate));
-        tPoint.setGroupColor("234567");
-        tPoint.setEndMilliSeconds(tRefDate.getTime() + 106);
-        tPoint.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
-        MethodCallDTO[] tChildren = new MethodCallDTO[2];
+        long tRefDate = new Date(START_TIME).getTime();
 
-        MethodCallDTO tChild1 = new MethodCallDTO();
-        tChild1.setPosition("2");
-        tChild1.setParent(tPoint);
-        tChildren[0] = tChild1;
-        tChild1.setClassName(ChartBarGeneratorTest.class.getName());
-        tChild1.setMethodName("builNewFullFlow2");
-        tChild1.setGroupName("GrChild1");
-        tChild1.setParams("[]");
-        tChild1.setBeginMilliSeconds(tRefDate.getTime() + 2);
-        tChild1.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
-        tChild1.setGroupColor("234567");
-        tChild1.setEndMilliSeconds(tRefDate.getTime() + 45);
-        tChild1.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
+        ExecutionFlowBuilder tBuilder = ExecutionFlowBuilder.create(tRefDate);
+        MethodCallBuilder tParentBuilder =
+            tBuilder.createMethodCall(ChartBarGeneratorTest.class.getName(), "builNewFullFlow", "GrDefault", 106);
+        tParentBuilder.addSubMethod(ChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 2, 43);
+        tParentBuilder.addSubMethod(ChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 48, 6);
 
-        MethodCallDTO tChild2 = new MethodCallDTO();
-        tChild2.setPosition("3");
-        tChild2.setParent(tPoint);
-        tChildren[1] = tChild2;
-        tChild2.setClassName(ChartBarGeneratorTest.class.getName());
-        tChild2.setMethodName("builNewFullFlow2");
-        tChild2.setGroupName("GrChild1");
-        tChild2.setParams("[]");
-        tChild2.setBeginMilliSeconds(tRefDate.getTime() + 48);
-        tChild2.setBeginTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
-        tChild2.setEndMilliSeconds(tRefDate.getTime() + 54);
-        tChild2.setEndTimeString(mFormater.formatDateTime(new Date(tRefDate.getTime() + 54)));
-        tPoint.setChildren(tChildren);
-        return tPoint;
+        return tParentBuilder.getAndSave(sessionFactory.getCurrentSession()).getFirstMethodCall();
     }
 
     @Test
     public void testComputeStatForThisFlow()
     {
         // Simple
-        MethodCallDTO tFirstMethod = getVerySimpleMeasurePoint();
+        MethodCallPO tFirstMethod = getVerySimpleMeasurePoint();
         ChartBarGenerator tUtil = new ChartBarGenerator(mColor, tFirstMethod);
         assertEquals(2, tUtil.maxMethodPerGroup);
 
         // One group with couple of children
-        tFirstMethod.removeChild(1);
+        tFirstMethod.getChildren().remove(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
         tUtil = new ChartBarGenerator(mColor, tFirstMethod);
         assertEquals(2, tUtil.maxMethodPerGroup);
@@ -214,7 +184,7 @@ public class ChartBarGeneratorTest extends JMonitoringTestCase
 
         // 2 groups and one child
         tFirstMethod = getVerySimpleMeasurePoint();
-        tFirstMethod.removeChild(0);
+        tFirstMethod.getChildren().remove(0);
         tUtil = new ChartBarGenerator(mColor, tFirstMethod);
         assertEquals(1, tUtil.maxMethodPerGroup);
     }

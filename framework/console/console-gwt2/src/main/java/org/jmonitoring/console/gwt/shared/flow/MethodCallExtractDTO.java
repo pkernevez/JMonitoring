@@ -16,9 +16,9 @@ public class MethodCallExtractDTO implements Serializable
     private String position;
 
     /** Position in the parent childlist. */
-    private int childPosition;
+    private String childPosition;
 
-    private int parentPosition;
+    private String parentPosition;
 
     /** Link to the children nodes. */
     private MethodCallExtractDTO[] children = new MethodCallExtractDTO[0];
@@ -35,8 +35,91 @@ public class MethodCallExtractDTO implements Serializable
     /** Group name associated to this method call. */
     private String groupName;
 
+    /** The name as "{fullClassName}.{methodName}()" */
+    private String fullMethodName;
+
     public MethodCallExtractDTO()
     {
+    }
+
+    public String getPosition()
+    {
+        return position;
+    }
+
+    public void setPosition(String pPosition)
+    {
+        position = pPosition;
+    }
+
+    public String getChildPosition()
+    {
+        return childPosition;
+    }
+
+    public void setChildPosition(String pChildPosition)
+    {
+        childPosition = pChildPosition;
+    }
+
+    public String getParentPosition()
+    {
+        return parentPosition;
+    }
+
+    public void setParentPosition(String pParentPosition)
+    {
+        parentPosition = pParentPosition;
+    }
+
+    public MethodCallExtractDTO[] getChildren()
+    {
+        return children;
+    }
+
+    public void setChildren(MethodCallExtractDTO[] pChildren)
+    {
+        children = pChildren;
+    }
+
+    public String getTimeFromPrevChild()
+    {
+        return timeFromPrevChild;
+    }
+
+    public void setTimeFromPrevChild(String pTimeFromPrevChild)
+    {
+        timeFromPrevChild = pTimeFromPrevChild;
+    }
+
+    public String getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(String pDuration)
+    {
+        duration = pDuration;
+    }
+
+    public String getGroupName()
+    {
+        return groupName;
+    }
+
+    public void setGroupName(String pGroupName)
+    {
+        groupName = pGroupName;
+    }
+
+    public String getFullMethodName()
+    {
+        return fullMethodName;
+    }
+
+    public void setFullMethodName(String pFullMethodName)
+    {
+        fullMethodName = pFullMethodName;
     }
 
 }

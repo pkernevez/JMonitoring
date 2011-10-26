@@ -46,7 +46,7 @@ public class FlowBuilderUtil
         }
     }
 
-    public ExecutionFlowPO buildNewFullFlow(int pNbMethods)
+    public static ExecutionFlowPO buildNewFullFlow(int pNbMethods)
     {
         ExecutionFlowPO tFlow;
         MethodCallPO tPoint;

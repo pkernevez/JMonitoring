@@ -2,7 +2,7 @@ package org.jmonitoring.console.gwt.client.methodcall.detail;
 
 import org.jmonitoring.console.gwt.client.common.NavHandler;
 import org.jmonitoring.console.gwt.client.methodcall.stat.MethodCallStatPlace;
-import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
+import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -41,14 +41,13 @@ public class SubMethodCall extends Composite
         initWidget(uiBinder.createAndBindUi(this));
     }
 
-    public SubMethodCall(MethodCallDTO pChild)
+    public SubMethodCall(MethodCallExtractDTO pChild, String pFlowId)
     {
         initWidget(uiBinder.createAndBindUi(this));
-        prevDuration.setText(String.valueOf(pChild.getBeginMilliSeconds() - pChild.getParent().getBeginMilliSeconds()));
-        localDuration.setText(String.valueOf(pChild.getEndMilliSeconds() - pChild.getBeginMilliSeconds()));
-        text.setText(pChild.getGroupName() + " --> " + pChild.getRuntimeClassName() + "." + pChild.getMethodName()
-            + "()");
-        edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(pChild.getFlowId(), pChild.getPosition())));
+        prevDuration.setText(pChild.getTimeFromPrevChild());
+        localDuration.setText(pChild.getDuration());
+        text.setText(pChild.getGroupName() + " --> " + pChild.getFullMethodName());
+        edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(pFlowId, pChild.getPosition())));
         stats.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
     }
 }

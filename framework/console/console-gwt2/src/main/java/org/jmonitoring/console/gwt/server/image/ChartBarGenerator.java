@@ -27,8 +27,8 @@ import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jmonitoring.console.gwt.server.common.ColorManager;
-import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.core.configuration.MeasureException;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,13 +46,13 @@ public class ChartBarGenerator
 
     private final ColorManager colorManager;
 
-    private final MethodCallDTO firstMeasure;
+    private final MethodCallPO firstMeasure;
 
     Map<String, TaskForGroupName> listOfGroup = new HashMap<String, TaskForGroupName>();
 
     int maxMethodPerGroup;
 
-    public ChartBarGenerator(ColorManager pColorManager, MethodCallDTO pFirstMeasure)
+    public ChartBarGenerator(ColorManager pColorManager, MethodCallPO pFirstMeasure)
     {
         super();
         colorManager = pColorManager;
@@ -72,13 +72,13 @@ public class ChartBarGenerator
         maxMethodPerGroup = tMaxMethodPerGroup;
     }
 
-    private void getResursiveStatOfThisMethodCall(MethodCallDTO pCurrentMeasure, Map<String, Integer> pMapOfGroup)
+    private void getResursiveStatOfThisMethodCall(MethodCallPO pCurrentMeasure, Map<String, Integer> pMapOfGroup)
     {
         String tCurGroupName = pCurrentMeasure.getGroupName();
         Integer tCurrentNbOfMeth = pMapOfGroup.get(tCurGroupName);
         tCurrentNbOfMeth = (tCurrentNbOfMeth == null ? 0 : tCurrentNbOfMeth);
         pMapOfGroup.put(tCurGroupName, tCurrentNbOfMeth + 1);
-        for (int i = 0; i < pCurrentMeasure.getChildren().length; i++)
+        for (int i = 0; i < pCurrentMeasure.getChildren().size(); i++)
         {
             getResursiveStatOfThisMethodCall(pCurrentMeasure.getChild(i), pMapOfGroup);
         }
@@ -118,26 +118,28 @@ public class ChartBarGenerator
         chainAllMethodCallToMainTaskOfGroup(firstMeasure);
     }
 
-    private void chainAllMethodCallToMainTaskOfGroup(MethodCallDTO pCurMeasure)
+    private void chainAllMethodCallToMainTaskOfGroup(MethodCallPO pCurMeasure)
     {
         String tGroupName = pCurMeasure.getGroupName();
         TaskForGroupName tTask = getTaskForGroupName(pCurMeasure, tGroupName);
 
         // List tListOfClidren = pCurMeasure.getChildren();
         Date tBeginDate;
-        Date tEndDate = new Date(pCurMeasure.getBeginMilliSeconds());
-        for (MethodCallDTO curChild : pCurMeasure.getChildren())
+        Date tEndDate = new Date(pCurMeasure.getBeginTime());
+        for (MethodCallPO curChild : pCurMeasure.getChildren())
         {
             tBeginDate = tEndDate;
-            tEndDate = new Date(curChild.getBeginMilliSeconds());
-            addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
+            tEndDate = new Date(curChild.getBeginTime());
+            addSubTask(tTask, String.valueOf(pCurMeasure.getFlow().getId()), String.valueOf(pCurMeasure.getPosition()),
+                       tBeginDate, tEndDate);
             chainAllMethodCallToMainTaskOfGroup(curChild);
-            tEndDate = new Date(curChild.getEndMilliSeconds());
+            tEndDate = new Date(curChild.getEndTime());
         }
 
         tBeginDate = tEndDate;
-        tEndDate = new Date(pCurMeasure.getEndMilliSeconds());
-        addSubTask(tTask, pCurMeasure.getFlowId(), pCurMeasure.getPosition(), tBeginDate, tEndDate);
+        tEndDate = new Date(pCurMeasure.getEndTime());
+        addSubTask(tTask, String.valueOf(pCurMeasure.getFlow().getId()), String.valueOf(pCurMeasure.getPosition()),
+                   tBeginDate, tEndDate);
     }
 
     private void addSubTask(TaskForGroupName pTaskForTheGroupName, String pFlowId, String pMethodCallId,
@@ -152,7 +154,7 @@ public class ChartBarGenerator
                                                                            new SimpleTimePeriod(pBeginDate, tNewEndDate)));
     }
 
-    private TaskForGroupName getTaskForGroupName(MethodCallDTO pCurMeasure, String pGroupName)
+    private TaskForGroupName getTaskForGroupName(MethodCallPO pCurMeasure, String pGroupName)
     {
         TaskForGroupName tTaskEntry = listOfGroup.get(pGroupName);
         if (tTaskEntry == null)
@@ -160,8 +162,8 @@ public class ChartBarGenerator
             tTaskEntry = new TaskForGroupName();
             tTaskEntry.positionOfTheGroup = chartManager.getPosition(pGroupName);
             tTaskEntry.mainTaskOfGroup =
-                new Task(pGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginMilliSeconds()),
-                                                          new Date(pCurMeasure.getEndMilliSeconds())));
+                new Task(pGroupName, new SimpleTimePeriod(new Date(pCurMeasure.getBeginTime()),
+                                                          new Date(pCurMeasure.getEndTime())));
             tTaskEntry.groupName = pGroupName;
             listOfGroup.put(pGroupName, tTaskEntry);
         }

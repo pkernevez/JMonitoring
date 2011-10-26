@@ -1,6 +1,9 @@
 package org.jmonitoring.console.gwt.server.common;
 
+import org.hibernate.Session;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.jmonitoring.core.domain.MethodCallPK;
+import org.jmonitoring.core.domain.MethodCallPO;
 
 public class ExecutionFlowBuilder
 {
@@ -26,11 +29,6 @@ public class ExecutionFlowBuilder
 
     }
 
-    public void setJVM(String pJvm)
-    {
-
-    }
-
     public ExecutionFlowPO get()
     {
         if (curMethodCallBuilder == null)
@@ -40,7 +38,25 @@ public class ExecutionFlowBuilder
         return executionFlow;
     }
 
-    public MethodCallBuilder setMethodCall(String pClassName, String pMethodName, String pGroupName, long pDuration)
+    public ExecutionFlowPO getAndSave(Session pSession)
+    {
+        pSession.save(executionFlow);
+        createPK(executionFlow.getFirstMethodCall(), 0);
+        pSession.save(executionFlow.getFirstMethodCall());
+        return get();
+    }
+
+    private int createPK(MethodCallPO pMethodCall, int pCpt)
+    {
+        pMethodCall.setMethId(new MethodCallPK(pMethodCall.getFlow(), pCpt));
+        for (MethodCallPO tCurMeth : pMethodCall.getChildren())
+        {
+            pCpt = createPK(tCurMeth, ++pCpt);
+        }
+        return pCpt;
+    }
+
+    public MethodCallBuilder createMethodCall(String pClassName, String pMethodName, String pGroupName, long pDuration)
     {
         if (curMethodCallBuilder == null)
         {
@@ -53,18 +69,6 @@ public class ExecutionFlowBuilder
             new MethodCallBuilder(this, pClassName, pMethodName, pGroupName, executionFlow.getBeginTime(), pDuration);
         executionFlow.setFirstMethodCall(curMethodCallBuilder.getInternal());
         return curMethodCallBuilder;
-    }
-
-    public ExecutionFlowBuilder setRuntimeClassName(String pClassName)
-    {
-        curMethodCallBuilder.setRuntimeClassName(pClassName);
-        return this;
-    }
-
-    public ExecutionFlowBuilder setThrowable(String pThrowableClass, String pThrowableMessage)
-    {
-        curMethodCallBuilder.setThrowable(pThrowableClass, pThrowableMessage);
-        return this;
     }
 
     public ExecutionFlowBuilder setJvm(String pJvm)

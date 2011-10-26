@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
+import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -69,29 +70,19 @@ public class FlowServiceImplTest extends PersistanceTestCase
         assertEquals(2, tInitialPoint.getChildren().size());
         assertEquals(2, tReadPoint.getChildren().length);
         tInitialPoint = tInitialPoint.getChildren().get(0);
-        tReadPoint = tReadPoint.getChild(0);
-        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
-        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
-        assertEquals("[]", tReadPoint.getParams());
-        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
-        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
-        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-        assertEquals(formater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
-        assertEquals(formater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
-        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+        MethodCallExtractDTO tExtractPoint = tReadPoint.getChild(0);
+        assertEquals(tInitialPoint.getClassName() + "." + tInitialPoint.getMethodName() + "()",
+                     tExtractPoint.getFullMethodName());
+        assertEquals("" + tInitialPoint.getDuration(), tExtractPoint.getDuration());
+        assertEquals(tInitialPoint.getGroupName(), tExtractPoint.getGroupName());
 
         // Check equality of the second child measure point
         tInitialPoint = tInitialPoint.getParentMethodCall().getChildren().get(1);
-        tReadPoint = tReadPoint.getParent().getChild(1);
-        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
-        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
-        assertEquals("[]", tReadPoint.getParams());
-        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
-        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
-        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-        assertEquals(formater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
-        assertEquals(formater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
-        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+        tExtractPoint = tReadPoint.getChild(1);
+        assertEquals(tInitialPoint.getClassName() + "." + tInitialPoint.getMethodName() + "()",
+                     tExtractPoint.getFullMethodName());
+        assertEquals("" + tInitialPoint.getDuration(), tExtractPoint.getDuration());
+        assertEquals(tInitialPoint.getGroupName(), tExtractPoint.getGroupName());
 
     }
 
@@ -109,6 +100,15 @@ public class FlowServiceImplTest extends PersistanceTestCase
         dao.mSessionFactory.getCurrentSession().flush();
         getSession().flush();
         assertEquals("We don not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+
+        tFlowPO = dao.loadFullFlow(tId);
+        MethodCallDTO tRoot = service.convertToDtoDeeply(tFlowPO).getFirstMethodCall();
+        MethodCallExtractDTO tExtract = tRoot.getChild(0);
+        // From first children : time from Parent
+        assertEquals("2", tExtract.getTimeFromPrevChild());
+        tExtract = tRoot.getChild(1);
+        // From 2nd child : time from Brother
+        assertEquals("3", tExtract.getTimeFromPrevChild());
 
     }
 

@@ -21,8 +21,6 @@ public class MethodCallDTO implements Serializable
     /** Flow Technical Id. */
     private String flowId;
 
-    private ExecutionFlowDTO flow;
-
     /** Technical Id. */
     private String position;
 
@@ -30,10 +28,10 @@ public class MethodCallDTO implements Serializable
     private int childPosition;
 
     /** Link to the parent Node. */
-    private MethodCallDTO parent;
+    private String parentPosition;
 
     /** Link to the children nodes. */
-    private MethodCallDTO[] children = new MethodCallDTO[0];
+    private MethodCallExtractDTO[] children = new MethodCallExtractDTO[0];
 
     /**
      * String representation of the parameters. This attribute has a value only if there is a parameter tracer defined.
@@ -89,16 +87,6 @@ public class MethodCallDTO implements Serializable
     {
         return throwableClass != null;
 
-    }
-
-    /**
-     * Accessor.
-     * 
-     * @return The parent <code>MethodCallDTO</code> of this <code>MethodCallDTO</code>.
-     */
-    public MethodCallDTO getParent()
-    {
-        return parent;
     }
 
     /**
@@ -206,7 +194,7 @@ public class MethodCallDTO implements Serializable
      * 
      * @return The list of the sub-method of this <code>MethodCallDTO</code>.
      */
-    public MethodCallDTO[] getChildren()
+    public MethodCallExtractDTO[] getChildren()
     {
         return children;
     }
@@ -217,7 +205,7 @@ public class MethodCallDTO implements Serializable
      * @param pPos The position of the child in the list of children.
      * @return The list of the sub-method of this <code>MethodCallDTO</code>.
      */
-    public MethodCallDTO getChild(int pPos)
+    public MethodCallExtractDTO getChild(int pPos)
     {
         return children[pPos];
     }
@@ -318,22 +306,22 @@ public class MethodCallDTO implements Serializable
         flowId = pFlowId;
     }
 
-    /**
-     * Count the number of sub <code>MethodCallDTO</code> of this measure.
-     * 
-     * @return The number of measure.
-     */
-    int getSubMeasureCount()
-    {
-        int tNbMeasure = 1;
-        MethodCallDTO curChild;
-        for (int i = 0; i < children.length; i++)
-        {
-            curChild = children[i];
-            tNbMeasure += curChild.getSubMeasureCount();
-        }
-        return tNbMeasure;
-    }
+    // /**
+    // * Count the number of sub <code>MethodCallDTO</code> of this measure.
+    // *
+    // * @return The number of measure.
+    // */
+    // int getSubMeasureCount()
+    // {
+    // int tNbMeasure = 1;
+    // MethodCallDTO curChild;
+    // for (int i = 0; i < children.length; i++)
+    // {
+    // curChild = children[i];
+    // tNbMeasure += curChild.getSubMeasureCount();
+    // }
+    // return tNbMeasure;
+    // }
 
     /**
      * @param pClassName The className to set.
@@ -362,21 +350,22 @@ public class MethodCallDTO implements Serializable
     /**
      * @param pChildren The children to set.
      */
-    public void setChildren(MethodCallDTO[] pChildren)
+    public void setChildren(MethodCallExtractDTO[] pChildren)
     {
         children = pChildren;
     }
 
-    /**
-     * @param pIndex The index of the Child to remove.
-     */
-    public void removeChild(int pIndex)
-    {
-        MethodCallDTO[] tNewMeth = new MethodCallDTO[children.length - 1];
-        System.arraycopy(children, 0, tNewMeth, 0, pIndex);
-        System.arraycopy(children, pIndex + 1, tNewMeth, pIndex, children.length - pIndex - 1);
-        children = tNewMeth;
-    }
+    //
+    // /**
+    // * @param pIndex The index of the Child to remove.
+    // */
+    // public void removeChild(int pIndex)
+    // {
+    // MethodCallDTO[] tNewMeth = new MethodCallDTO[children.length - 1];
+    // System.arraycopy(children, 0, tNewMeth, 0, pIndex);
+    // System.arraycopy(children, pIndex + 1, tNewMeth, pIndex, children.length - pIndex - 1);
+    // children = tNewMeth;
+    // }
 
     /**
      * @param pParams The params to set.
@@ -384,19 +373,6 @@ public class MethodCallDTO implements Serializable
     public void setParams(String pParams)
     {
         params = pParams;
-    }
-
-    /**
-     * @param pParent The parent to set.
-     */
-    public void setParent(MethodCallDTO pParent)
-    {
-        parent = pParent;
-    }
-
-    public void setFlow(ExecutionFlowDTO pFlow)
-    {
-        flow = pFlow;
     }
 
     public int getChildPosition()
@@ -417,38 +393,6 @@ public class MethodCallDTO implements Serializable
     public void setRuntimeClassName(String pRuntimeClassName)
     {
         runtimeClassName = pRuntimeClassName;
-    }
-
-    /**
-     * @return the flow
-     */
-    public ExecutionFlowDTO getFlow()
-    {
-        return flow;
-    }
-
-    public long getDurationFromPreviousCall()
-    {
-        long tDuration;
-        if (this.getChildPosition() == 0)
-        {
-            if (this.getParent() == null)
-            {
-                tDuration = 0;
-            } else
-            {
-                long tMethStart = this.getBeginMilliSeconds();
-                long tParentStart = this.getParent().getBeginMilliSeconds();
-                tDuration = tMethStart - tParentStart;
-            }
-        } else
-        {
-            MethodCallDTO tPrecMethodCall = this.getParent().getChild(this.getChildPosition() - 1);
-            long tEndTime = this.getBeginMilliSeconds();
-            long tBeginTime = tPrecMethodCall.getEndMilliSeconds();
-            tDuration = tEndTime - tBeginTime;
-        }
-        return tDuration;
     }
 
     /**
@@ -497,6 +441,16 @@ public class MethodCallDTO implements Serializable
     public void setGroupColor(String pGroupColor)
     {
         groupColor = pGroupColor;
+    }
+
+    public String getParentPosition()
+    {
+        return parentPosition;
+    }
+
+    public void setParentPosition(String pParentPosition)
+    {
+        parentPosition = pParentPosition;
     }
 
 }

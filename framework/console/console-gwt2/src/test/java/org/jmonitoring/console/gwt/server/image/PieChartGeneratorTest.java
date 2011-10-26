@@ -5,9 +5,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Session;
 import org.jmonitoring.console.gwt.server.common.ColorManager;
-import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
+import org.jmonitoring.console.gwt.server.common.ExecutionFlowBuilder;
+import org.jmonitoring.console.gwt.server.common.MethodCallBuilder;
 import org.jmonitoring.core.configuration.FormaterBean;
+import org.jmonitoring.core.domain.MethodCallPK;
+import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,79 +28,42 @@ public class PieChartGeneratorTest extends JMonitoringTestCase
 
     public static final long START_TIME = 1149282668046L;
 
-    private MethodCallDTO getSampleMeasurePoint()
+    private MethodCallPO getSampleMeasurePoint()
     {
-        return getSampleMeasurePoint(formater, color);
+        return getSampleMeasurePoint(formater, color, null);
     }
 
-    static MethodCallDTO getSampleMeasurePoint(FormaterBean pFormater, ColorManager pColor)
+    static MethodCallPO getSampleMeasurePoint(FormaterBean pFormater, ColorManager pColor, Session pSession)
     {
-        MethodCallDTO tPoint;
         // Fri Jun 02 23:11:08 CEST 2006
-        Date tRefDate = new Date(START_TIME);
-        tPoint = new MethodCallDTO();
-        tPoint.setParent(null);
-        tPoint.setClassName(PieChartGeneratorTest.class.getName());
-        tPoint.setMethodName("builNewFullFlow");
-        tPoint.setGroupName("GrDefault");
-        tPoint.setParams("[]");
-        tPoint.setBeginMilliSeconds(tRefDate.getTime());
-        tPoint.setBeginTimeString(pFormater.formatDateTime(tRefDate));
-        tPoint.setEndMilliSeconds(tRefDate.getTime() + 106);
-        tPoint.setEndTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 106)));
-        MethodCallDTO[] tChildren1 = new MethodCallDTO[2];
-        MethodCallDTO[] tChildren2 = new MethodCallDTO[2];
+        long tRefDate = new Date(START_TIME).getTime();
+        ExecutionFlowBuilder tBuilder = ExecutionFlowBuilder.create(tRefDate);
+        MethodCallBuilder tParentBuilder =
+            tBuilder.createMethodCall(PieChartGeneratorTest.class.getName(), "builNewFullFlow", "GrDefault", 106);
+        MethodCallBuilder tChild1 =
+            tParentBuilder.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 2, 43);
+        tChild1.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrChild2", 3, 12);
 
-        MethodCallDTO tChild1 = new MethodCallDTO();
-        tChild1.setParent(tPoint);
-        tChildren1[0] = tChild1;
-        tChild1.setClassName(PieChartGeneratorTest.class.getName());
-        tChild1.setMethodName("builNewFullFlow2");
-        tChild1.setGroupName("GrChild1");
-        tChild1.setParams("[]");
-        tChild1.setBeginMilliSeconds(tRefDate.getTime() + 2);
-        tChild1.setBeginTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 2)));
-        tChild1.setEndMilliSeconds(tRefDate.getTime() + 45);
-        tChild1.setEndTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 45)));
+        tChild1.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrDefault", 21, 4);
 
-        MethodCallDTO tChild3 = new MethodCallDTO();
-        tChild3.setParent(tChild1);
-        tChildren2[0] = tChild3;
-        tChild3.setClassName(PieChartGeneratorTest.class.getName());
-        tChild3.setMethodName("builNewFullFlow4");
-        tChild3.setGroupName("GrChild2");
-        tChild3.setParams("[]");
-        tChild3.setBeginMilliSeconds(tRefDate.getTime() + 5);
-        tChild3.setBeginTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 5)));
-        tChild3.setEndMilliSeconds(tRefDate.getTime() + 17);
-        tChild3.setEndTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 17)));
+        tParentBuilder.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow3", "GrChild2", 48, 27);
+        return (pSession == null ? tParentBuilder.get() : tParentBuilder.getAndSave(pSession)).getFirstMethodCall();
+    }
 
-        MethodCallDTO tChild4 = new MethodCallDTO();
-        tChild4.setParent(tChild1);
-        tChildren2[1] = tChild4;
-        tChild4.setClassName(PieChartGeneratorTest.class.getName());
-        tChild4.setMethodName("builNewFullFlow4");
-        tChild4.setGroupName("GrDefault");
-        tChild4.setParams("[]");
-        tChild4.setBeginMilliSeconds(tRefDate.getTime() + 23);
-        tChild4.setBeginTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 23)));
-        tChild4.setEndMilliSeconds(tRefDate.getTime() + 27);
-        tChild4.setEndTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 27)));
-        tChild1.setChildren(tChildren2);
-
-        MethodCallDTO tChild2 = new MethodCallDTO();
-        tChild2.setParent(tPoint);
-        tChildren1[1] = tChild2;
-        tChild2.setClassName(PieChartGeneratorTest.class.getName());
-        tChild2.setMethodName("builNewFullFlow3");
-        tChild2.setGroupName("GrChild2");
-        tChild2.setParams("[]");
-        tChild2.setBeginMilliSeconds(tRefDate.getTime() + 48);
-        tChild2.setBeginTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 48)));
-        tChild2.setEndMilliSeconds(tRefDate.getTime() + 75);
-        tChild2.setEndTimeString(pFormater.formatDateTime(new Date(tRefDate.getTime() + 75)));
-        tPoint.setChildren(tChildren1);
-
+    public static MethodCallPO createSample(MethodCallPO pParent, int pFlowId, int pPosition, String pClassName,
+        String pMethodName, String pGroupName, String pParams, long pBegin, long pEnd)
+    {
+        MethodCallPO tPoint;
+        tPoint = new MethodCallPO();
+        tPoint.setMethId(new MethodCallPK());
+        tPoint.setPosition(pPosition);
+        tPoint.setParentMethodCall(pParent);
+        tPoint.setClassName(pClassName);
+        tPoint.setMethodName(pMethodName);
+        tPoint.setGroupName(pGroupName);
+        tPoint.setParams(pParams);
+        tPoint.setBeginTime(pBegin);
+        tPoint.setEndTime(pEnd);
         return tPoint;
     }
 

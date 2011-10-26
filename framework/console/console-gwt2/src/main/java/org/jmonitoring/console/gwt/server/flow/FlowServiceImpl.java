@@ -3,6 +3,8 @@ package org.jmonitoring.console.gwt.server.flow;
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.jmonitoring.console.gwt.server.image.PieChartGenerator;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
+import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -63,22 +66,21 @@ public class FlowServiceImpl implements FlowService
     {
         HttpSession tSession = RemoteServiceUtil.getThreadLocalSession();
         ExecutionFlowPO tFlowPo = dao.loadFullFlow(pFlowId);
-        ExecutionFlowDTO tFlow = convertToDtoDeeply(tFlowPo);
-        generateDurationInGroupChart(tSession, "DurationInGroups&" + pFlowId, tFlow.getFirstMethodCall());
-        generateGroupsCallsChart(tSession, "GroupsCalls&" + pFlowId, tFlow.getFirstMethodCall());
-        String tMap = generateFlowDetailChart(tSession, "FlowDetail&" + pFlowId, tFlow.getFirstMethodCall()).map;
-        tFlow = convertToDto(tFlowPo);
+        generateDurationInGroupChart(tSession, "DurationInGroups&" + pFlowId, tFlowPo.getFirstMethodCall());
+        generateGroupsCallsChart(tSession, "GroupsCalls&" + pFlowId, tFlowPo.getFirstMethodCall());
+        String tMap = generateFlowDetailChart(tSession, "FlowDetail&" + pFlowId, tFlowPo.getFirstMethodCall()).map;
+        ExecutionFlowDTO tFlow = convertToDto(tFlowPo);
         tFlow.setDetailMap(tMap);
         return tFlow;
     }
 
     public byte[] generateDurationInGroupChart(HttpSession pSession, String pSessionId, int pFlowId)
     {
-        MethodCallDTO tFirstMeasure = convertToDtoDeeply(dao.loadFullFlow(pFlowId)).getFirstMethodCall();
+        MethodCallPO tFirstMeasure = dao.loadFullFlow(pFlowId).getFirstMethodCall();
         return generateDurationInGroupChart(pSession, pSessionId, tFirstMeasure);
     }
 
-    public byte[] generateDurationInGroupChart(HttpSession pSession, String pSessionId, MethodCallDTO pFirstMeasure)
+    public byte[] generateDurationInGroupChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
     {
         PieChartGenerator tGenerator = new PieChartGenerator(color);
         byte[] tOutput = tGenerator.getDurationInGroup(pFirstMeasure);
@@ -90,12 +92,10 @@ public class FlowServiceImpl implements FlowService
     {
         ExecutionFlowPO tLoadFullFlow = dao.loadFullFlow(pFlowId);
 
-        ExecutionFlowDTO tConvertToDtoDeeply = convertToDtoDeeply(tLoadFullFlow);
-        MethodCallDTO tFirstMeasure = tConvertToDtoDeeply.getFirstMethodCall();
-        return generateGroupsCallsChart(pSession, pSessionId, tFirstMeasure);
+        return generateGroupsCallsChart(pSession, pSessionId, tLoadFullFlow.getFirstMethodCall());
     }
 
-    public byte[] generateGroupsCallsChart(HttpSession pSession, String pSessionId, MethodCallDTO pFirstMeasure)
+    public byte[] generateGroupsCallsChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
     {
         PieChartGenerator tGenerator = new PieChartGenerator(color);
         byte[] tOutput = tGenerator.getGroupCalls(pFirstMeasure);
@@ -106,12 +106,10 @@ public class FlowServiceImpl implements FlowService
     public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, int pFlowId)
     {
         ExecutionFlowPO tLoadFullFlow = dao.loadFullFlow(pFlowId);
-        ExecutionFlowDTO tConvertToDtoDeeply = convertToDtoDeeply(tLoadFullFlow);
-        MethodCallDTO tFirstMeasure = tConvertToDtoDeeply.getFirstMethodCall();
-        return generateFlowDetailChart(pSession, pSessionId, tFirstMeasure);
+        return generateFlowDetailChart(pSession, pSessionId, tLoadFullFlow.getFirstMethodCall());
     }
 
-    public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, MethodCallDTO pFirstMeasure)
+    public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
     {
         ChartBarGenerator tGenerator = new ChartBarGenerator(color, pFirstMeasure);
         FlowDetailChart tResult = tGenerator.getImage();
@@ -122,42 +120,58 @@ public class FlowServiceImpl implements FlowService
     public ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = convertToDto(pFlowPO);
-        tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), tResult, null, 0));
+        tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), pFlowPO.getId()));
         return tResult;
     }
 
-    MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, ExecutionFlowDTO pFlow, MethodCallDTO pParent,
-        int pOrderInTheParentChildren)
+    MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pFlowId)
     {
-        MethodCallDTO tResult = convertToDto(pCallPO, pParent, pOrderInTheParentChildren);
-        tResult.setFlow(pFlow);
-        MethodCallDTO curChildDto;
-        MethodCallDTO[] tChildren = new MethodCallDTO[pCallPO.getChildren().size()];
+        MethodCallDTO tResult = convertToDto(pCallPO, null, 0);
+        tResult.setFlowId(String.valueOf(pFlowId));
+        MethodCallExtractDTO tRootDuplication = convertToExtract(pCallPO, 0);
+        tResult.setChildren(convertToDtoDeeply(pCallPO.getChildren(), tRootDuplication));
+        return tResult;
+    }
+
+    MethodCallExtractDTO convertToExtract(MethodCallPO pMethodCall, int pChildPosition)
+    {
+        MethodCallExtractDTO tExtract = new MethodCallExtractDTO();
+        tExtract.setFullMethodName(pMethodCall.getClassName() + "." + pMethodCall.getMethodName() + "()");
+        tExtract.setChildPosition(String.valueOf(pChildPosition));
+        tExtract.setDuration(String.valueOf(pMethodCall.getDuration()));
+        tExtract.setGroupName(pMethodCall.getGroupName());
+        tExtract.setPosition(String.valueOf(pMethodCall.getPosition()));
+        if (pMethodCall.getParentMethodCall() != null)
+        {
+            tExtract.setParentPosition(String.valueOf((pMethodCall.getParentMethodCall().getPosition())));
+        }
+        long tDurationFromPrev;
+        MethodCallPO tParent = pMethodCall.getParentMethodCall();
+        if (tParent == null)
+        {
+            tDurationFromPrev = 0;
+        } else if (pChildPosition == 0)
+        {
+            tDurationFromPrev = pMethodCall.getBeginTime() - tParent.getBeginTime();
+        } else
+        {
+            tDurationFromPrev = pMethodCall.getBeginTime() - tParent.getChild(pChildPosition - 1).getEndTime();
+        }
+        tExtract.setTimeFromPrevChild(String.valueOf(tDurationFromPrev));
+        return tExtract;
+    }
+
+    MethodCallExtractDTO[] convertToDtoDeeply(List<MethodCallPO> pCallPO, MethodCallExtractDTO pParent)
+    {
+        MethodCallExtractDTO[] tResult = new MethodCallExtractDTO[pCallPO.size()];
         int i = 0;
-        for (MethodCallPO curMethod : pCallPO.getChildren())
+        for (MethodCallPO tMethodCallPO : pCallPO)
         {
-            curChildDto = convertToDtoDeeply(curMethod, pFlow, tResult, i);
-            curChildDto.setParent(tResult);
-            tChildren[i++] = curChildDto;
+            MethodCallExtractDTO tExtract = convertToExtract(tMethodCallPO, i);
+            tExtract.setChildren(convertToDtoDeeply(tMethodCallPO.getChildren(), tExtract));
+            tResult[i] = tExtract;
+            i++;
         }
-        tResult.setChildren(tChildren);
-        return tResult;
-    }
-
-    public MethodCallDTO convertToDtoFull(MethodCallPO pCallPO, int pOrderInTheParentChildren)
-    {
-        MethodCallDTO tResult = convertToDto(pCallPO, null, pOrderInTheParentChildren);
-        if (pCallPO.getParentMethodCall() != null)
-        {
-            // tResult.setParent(tResult)
-        }
-        int tSize = pCallPO.getChildren().size();
-        MethodCallDTO[] tChildren = new MethodCallDTO[tSize];
-        for (int i = 0; i < tSize; i++)
-        {
-            tChildren[i] = convertToDto(pCallPO.getChild(i), tResult, i);
-        }
-        tResult.setChildren(tChildren);
         return tResult;
     }
 
@@ -173,7 +187,10 @@ public class FlowServiceImpl implements FlowService
         tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
         tResult.setChildPosition(pOrderInTheParentChildren);
         tResult.setPosition(String.valueOf(pCallPO.getPosition()));
-        tResult.setParent(pParent);
+        if (pParent != null)
+        {
+            tResult.setParentPosition(pParent.getParentPosition());
+        }
         return tResult;
     }
 
@@ -194,7 +211,7 @@ public class FlowServiceImpl implements FlowService
 
     public MethodCallDTO loadMethodCall(int pMethodCallId, int pPosition)
     {
-        return convertToDtoFull(dao.loadMethodCall(pMethodCallId, pPosition), -1);
+        return convertToDtoDeeply(dao.loadMethodCall(pMethodCallId, pPosition), -1);
     }
 
 }

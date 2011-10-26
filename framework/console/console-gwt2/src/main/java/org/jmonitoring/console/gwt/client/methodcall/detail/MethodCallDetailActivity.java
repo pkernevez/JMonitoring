@@ -8,6 +8,7 @@ import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
 import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.methodcall.stat.MethodCallStatPlace;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
+import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
@@ -50,21 +51,21 @@ public class MethodCallDetailActivity extends AbstractActivity
                                                                                + pResult.getGroupColor() + ";");
                 tMethodCallDetail.goToFlow.addClickHandler(new NavHandler(new FlowDetailPlace(place.flowId)));
                 tMethodCallDetail.goToStat.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
-                if (pResult.getParent() != null)
+                if (pResult.getParentPosition() != null)
                 {
 
                     MethodCallDetailPlace tPlace =
-                        new MethodCallDetailPlace(pResult.getFlowId(), pResult.getParent().getPosition());
+                        new MethodCallDetailPlace(pResult.getFlowId(), pResult.getParentPosition());
                     tMethodCallDetail.goToParent.addClickHandler(new NavHandler(tPlace));
                     tMethodCallDetail.goToParent.setVisible(true);
                 } else
                 {
                     tMethodCallDetail.goToParent.setVisible(false);
                 }
-                for (MethodCallDTO tChild : pResult.getChildren())
+                for (MethodCallExtractDTO tChild : pResult.getChildren())
                 {
-                    SubMethodCall tLigne = new SubMethodCall(tChild);
-                    tLigne.edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(tChild.getFlowId(),
+                    SubMethodCall tLigne = new SubMethodCall(tChild, pResult.getFlowId());
+                    tLigne.edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(pResult.getFlowId(),
                                                                                          tChild.getPosition())));
                     tMethodCallDetail.children.add(tLigne);
                 }

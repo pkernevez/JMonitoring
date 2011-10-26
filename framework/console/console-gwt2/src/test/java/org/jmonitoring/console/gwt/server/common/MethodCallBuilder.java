@@ -1,5 +1,6 @@
 package org.jmonitoring.console.gwt.server.common;
 
+import org.hibernate.Session;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 
@@ -27,11 +28,17 @@ public class MethodCallBuilder
         methodCall.setBeginTime(pBeginTime);
         methodCall.setEndTime(pBeginTime + pDuration);
         methodCall.setDuration(pDuration);
+        methodCall.setParams("[]");
     }
 
     public ExecutionFlowPO get()
     {
         return executionFlowBuilder.get();
+    }
+
+    public ExecutionFlowPO getAndSave(Session pSession)
+    {
+        return executionFlowBuilder.getAndSave(pSession);
     }
 
     public MethodCallPO getInternal()
@@ -97,6 +104,12 @@ public class MethodCallBuilder
     public MethodCallBuilder setRuntimeClassName(String pClassName)
     {
         methodCall.setRuntimeClassName(pClassName);
+        return this;
+    }
+
+    public MethodCallBuilder setParams(String pParams)
+    {
+        methodCall.setParams(pParams);
         return this;
     }
 

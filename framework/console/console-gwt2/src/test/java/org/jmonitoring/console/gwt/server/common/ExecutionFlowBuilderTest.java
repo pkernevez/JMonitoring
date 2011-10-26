@@ -14,7 +14,7 @@ public class ExecutionFlowBuilderTest
     @Test
     public void testGetSimple()
     {
-        ExecutionFlowPO tExecFlow = ExecutionFlowBuilder.create(11111L).setMethodCall("class", "meth", "grp", 4).get();
+        ExecutionFlowPO tExecFlow = ExecutionFlowBuilder.create(11111L).createMethodCall("class", "meth", "grp", 4).get();
         assertNotNull(tExecFlow);
         assertEquals("Main", tExecFlow.getThreadName());
         assertEquals("DefaultJvm", tExecFlow.getJvmIdentifier());
@@ -39,7 +39,7 @@ public class ExecutionFlowBuilderTest
     {
         ExecutionFlowPO tExecFlow =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth", "grp", 4).setRuntimeClassName("runtimeclass").get();
+                                .createMethodCall("class", "meth", "grp", 4).setRuntimeClassName("runtimeclass").get();
         assertNotNull(tExecFlow);
         assertEquals("MyThread", tExecFlow.getThreadName());
         assertEquals("myJvm", tExecFlow.getJvmIdentifier());
@@ -51,7 +51,7 @@ public class ExecutionFlowBuilderTest
     {
         MethodCallBuilder tFirstMeth =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth", "grp", 40);
+                                .createMethodCall("class", "meth", "grp", 40);
         tFirstMeth.addSubMethod("class1", "meth1", "grp1", 4);
         tFirstMeth.addSubMethod("class2", "meth2", "grp2", 4, 10);
         tFirstMeth.addSubMethod("class3", "meth3", "grp3", 30, 5).setThrowable("Error", "An error occured");
@@ -96,7 +96,7 @@ public class ExecutionFlowBuilderTest
     {
         MethodCallBuilder tFirstMeth =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth","grp", 40);
+                                .createMethodCall("class", "meth","grp", 40);
         tFirstMeth.addSubMethod("class1", "meth1","grp1", 4).addSubMethod("class1_1", "method1_1", "grp1_1",2, 1);
         tFirstMeth.addSubMethod("class2", "meth2","grp2", 4, 10);
     }
@@ -106,7 +106,7 @@ public class ExecutionFlowBuilderTest
     {
         MethodCallBuilder tFirstMeth =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth", "grp",40);
+                                .createMethodCall("class", "meth", "grp",40);
         try
         {
             tFirstMeth.addSubMethod("class", "meth","grp", 50);
@@ -123,7 +123,7 @@ public class ExecutionFlowBuilderTest
     {
         MethodCallBuilder tFirstMeth =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth", "grp",40);
+                                .createMethodCall("class", "meth", "grp",40);
         try
         {
             tFirstMeth.addSubMethod("class", "meth","grp", 20, 30);
@@ -140,7 +140,7 @@ public class ExecutionFlowBuilderTest
     {
         MethodCallBuilder tFirstMeth =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth","grp", 40);
+                                .createMethodCall("class", "meth","grp", 40);
         try
         {
             tFirstMeth.addSubMethod("class", "meth", "grp",45, 10);
@@ -157,7 +157,7 @@ public class ExecutionFlowBuilderTest
     {
         MethodCallBuilder tFirstMeth =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth","grp", 40);
+                                .createMethodCall("class", "meth","grp", 40);
         try
         {
             tFirstMeth.addSubMethod("class", "meth", "grp",-5, 10);
@@ -174,7 +174,7 @@ public class ExecutionFlowBuilderTest
     {
         MethodCallBuilder tFirstMeth =
             ExecutionFlowBuilder.create(11111L).setJvm("myJvm").setThread("MyThread")
-                                .setMethodCall("class", "meth","grp", 40);
+                                .createMethodCall("class", "meth","grp", 40);
         try
         {
             tFirstMeth.addSubMethod("class", "meth","grp", 10, 10);

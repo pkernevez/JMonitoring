@@ -101,7 +101,7 @@ public class ConsoleDao extends InsertionDao
      * @param pFlowId The execution flow identifier to read.
      * @return The corresponding ExecutionFlowDTO.
      */
-    ExecutionFlowPO loadFullFlow(int pFlowId)
+    public ExecutionFlowPO loadFullFlow(int pFlowId)
     {
         Session tSession = sessionFactory.getCurrentSession();
         ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.get(ExecutionFlowPO.class, new Integer(pFlowId));

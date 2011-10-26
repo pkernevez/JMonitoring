@@ -5,18 +5,22 @@ import javax.annotation.Resource;
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jmonitoring.console.gwt.server.common.ColorManager;
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.server.flow.FlowBuilderUtil;
-import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class FlowDetailURLGeneratorTest extends PersistanceTestCase
 {
     @Resource(name = "color")
-    private ColorManager mColor;
+    private ColorManager color;
 
     @Autowired
-    private FlowBuilderUtil mFlowBuilder;
+    private FlowBuilderUtil flowBuilder;
+
+    @Autowired
+    private ConsoleDao dao;
 
     public FlowDetailURLGeneratorTest()
     {
@@ -26,10 +30,12 @@ public class FlowDetailURLGeneratorTest extends PersistanceTestCase
     @Test
     public void testUGRGeneration()
     {
-        // dropCreate();
-        ExecutionFlowDTO tFlow = mFlowBuilder.buildAndSaveNewDto(2);
+        ExecutionFlowPO tFlow = FlowBuilderUtil.buildNewFullFlow(2);
+        int tId = dao.insertFullExecutionFlow(tFlow);
+        sessionFactory.getCurrentSession().clear();
+        tFlow = dao.loadFullFlow(tId);
 
-        ChartBarGenerator tUtil = new ChartBarGenerator(mColor, tFlow.getFirstMethodCall());
+        ChartBarGenerator tUtil = new ChartBarGenerator(color, tFlow.getFirstMethodCall());
         tUtil.chainAllMethodCallToMainTaskOfGroup();
         IntervalCategoryDataset tIntervalcategorydataset = tUtil.createDataset();
         tUtil.createGanttChart(tIntervalcategorydataset);
