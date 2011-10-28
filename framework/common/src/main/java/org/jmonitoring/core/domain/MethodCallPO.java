@@ -449,4 +449,49 @@ public class MethodCallPO implements Serializable
         mRuntimeClassName = pRuntimeClassName;
     }
 
+    @Override
+    public int hashCode()
+    {
+        return ((mId == null) ? 0 : mId.hashCode());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        MethodCallPO other = (MethodCallPO) obj;
+        if (mId == null)
+        {
+            return false;
+        } else if (!mId.equals(other.mId))
+        {
+            return false;
+        } else
+        {
+            return true;
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        if (mId != null)
+        {
+            return mId.toString();
+        } else
+        {
+            return super.toString();
+        }
+    }
 }
