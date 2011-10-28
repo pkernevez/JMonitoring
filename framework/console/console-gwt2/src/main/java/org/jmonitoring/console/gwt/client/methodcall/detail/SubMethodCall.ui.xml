@@ -5,11 +5,14 @@
 		
 	<ui:with field="image"
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle" />
-	<g:HorizontalPanel>
-		<g:Label ui:field="prevDuration"></g:Label>
-		<g:Label ui:field="localDuration"></g:Label>
-		<g:Label ui:field="text"></g:Label>
-		<g:Image resource="{image.edit}" styleName="{style.clickable}" ui:field="edit"/> 
-		<g:Image resource="{image.graphique}" styleName="{style.clickable}" ui:field="stats"/>
-	</g:HorizontalPanel>
+	<g:HTMLPanel>
+		<span ui:field="prevDuration" class="{style.prevDuration}"
+			title="Duration since the prev MethodCall" />
+		<span ui:field="curDuration" class="{style.curDuration}" title="Duration of this MethodCall" />
+		<g:Anchor styleName="style.clickable" ui:field="description"
+			title="View details..." />
+		<g:Image resource="{image.edit}" ui:field="edit" styleName="{style.clickable}" />
+		<g:Image resource="{image.graphique}" ui:field="stats"
+			styleName="{style.clickable}" />
+	</g:HTMLPanel>
 </ui:UiBinder> 

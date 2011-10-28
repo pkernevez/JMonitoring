@@ -64,12 +64,15 @@ public class MethodCallDetailActivity extends AbstractActivity
                 {
                     methodCallDetail.goToParent.setVisible(false);
                 }
+                methodCallDetail.children.resize(pResult.getChildren().length, 1);
+                int tRow = 0;
                 for (MethodCallExtractDTO tChild : pResult.getChildren())
                 {
                     SubMethodCall tLigne = new SubMethodCall(tChild, pResult.getFlowId());
                     tLigne.edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(pResult.getFlowId(),
                                                                                          tChild.getPosition())));
-                    methodCallDetail.children.add(tLigne);
+                    methodCallDetail.children.setWidget(tRow, 0, tLigne);
+                    tRow++;
                 }
                 methodCallDetail.fulClassName.setText(pResult.getClassName() + "." + pResult.getMethodName() + "()");
                 panel.setWidget(methodCallDetail.setPresenter(MethodCallDetailActivity.this));
@@ -77,5 +80,4 @@ public class MethodCallDetailActivity extends AbstractActivity
 
         });
     }
-
 }

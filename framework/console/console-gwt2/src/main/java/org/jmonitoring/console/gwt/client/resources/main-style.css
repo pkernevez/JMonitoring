@@ -116,22 +116,40 @@ h1 {
 	cursor: pointer;
 }
 
-/* To check */
+span.prevDuration {
+	font-style: italic;
+	color: #219919;
+}
+
+span.curDuration {
+	color: #d00;
+}
+
 a {
 	text-decoration: none;
-	color: #FF0000;
+	color: #666;
 }
 
 a:visited {
 	text-decoration: none;
-	color: #FF0000;
+	color: #666;
 }
 
 a:hover {
 	text-decoration: none;
-	color: #FF0000;
+	color: #666;
+	cursor: pointer;
 }
 
+table.meth-child a,span,img {
+	vertical-align: middle;
+}
+
+table.meth-child div {
+	list-style: circle;
+}
+
+/* To check */
 .click-image-hover {
 	cursor: pointer;
 }
