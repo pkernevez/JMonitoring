@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.stat.EntityStatistics;
 import org.hibernate.stat.Statistics;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -18,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -37,6 +39,9 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
 
     @Resource(name = "sessionFactory")
     protected SessionFactory sessionFactory;
+
+    @Autowired
+    private ConsoleDao dao;
 
     private Statistics stats;
 
@@ -139,19 +144,19 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         tBuilder.addSubMethod("MainClass", "sub1", "grp1", 0, 15);
         tBuilder.addSubMethod("SubClass1", "meth1", "grp2", 20, 20);
         tBuilder.addSubMethod("SubClass2", "meth2", "grp3", 50, 40);
-        tBuilder.getAndSave(session);
+        tBuilder.getAndSave(dao);
 
         tBuilder = ExecutionFlowBuilder.create(1100000000L).createMethodCall("MainClass", "main", "grp", 110);
         tBuilder.addSubMethod("MainClass", "sub1", "grp1", 0, 15);
         tBuilder.addSubMethod("SubClass1", "meth", "grp1", 25, 10);
         tBuilder.addSubMethod("SubClass2", "meth", "grp3", 50, 10);
-        tBuilder.getAndSave(session);
+        tBuilder.getAndSave(dao);
 
         tBuilder = ExecutionFlowBuilder.create(12000000000L).createMethodCall("MainClass2", "main", "grp", 200);
         tBuilder.addSubMethod("SubClass1_1", "meth1", "grp1", 10, 15);
         tBuilder.addSubMethod("SubClass1_2", "meth2", "grp1", 125, 10);
         tBuilder.addSubMethod("SubClass1_3", "meth3", "grp1", 150, 10);
-        tBuilder.getAndSave(session);
+        tBuilder.getAndSave(dao);
 
         tBuilder =
             ExecutionFlowBuilder.create(1300000000L).setThread("SpecificThread")
@@ -159,17 +164,19 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         tBuilder.addSubMethod("SubClass1_1", "meth1", "grp1", 10, 15);
         tBuilder.addSubMethod("SubClass1_2", "meth2", "grp1", 125, 10);
         tBuilder.addSubMethod("SubClass1_3", "meth3", "grp3", 150, 10).setThrowable("Error", "Error message");
-        tBuilder.getAndSave(session);
+        tBuilder.getAndSave(dao);
 
         tBuilder =
             ExecutionFlowBuilder.create(1400000000L).setThread("SpecificThread4")
                                 .createMethodCall("MainClass4", "main3", "grp", 80);
         tBuilder.addSubMethod("SubClass2_1", "meth2_1", "grp1", 0, 15);
-        tBuilder.addSubMethod("SubClass2_2", "meth2_2", "grp1", 16, 10);
+        tBuilder.addSubMethod("SubClass2_2", "meth2_2", "grp1", 16, 10).addSubMethod("SubClass2_2_1", "meth2_2_1",
+                                                                                     "grp1", 2, 4);
         tBuilder.addSubMethod("SubClass2_3", "meth2_3", "grp3", 27, 10).setThrowable("Error", "Error message");
-        tBuilder.getAndSave(session);
+        tBuilder.getAndSave(dao);
 
         session.flush();
+        session.clear();
         stats.clear();
         sLog.info("End Insert test data");
     }

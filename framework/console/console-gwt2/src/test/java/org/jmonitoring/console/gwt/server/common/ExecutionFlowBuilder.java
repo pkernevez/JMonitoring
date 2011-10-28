@@ -1,9 +1,7 @@
 package org.jmonitoring.console.gwt.server.common;
 
-import org.hibernate.Session;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.jmonitoring.core.domain.MethodCallPK;
-import org.jmonitoring.core.domain.MethodCallPO;
 
 public class ExecutionFlowBuilder
 {
@@ -38,22 +36,13 @@ public class ExecutionFlowBuilder
         return executionFlow;
     }
 
-    public ExecutionFlowPO getAndSave(Session pSession)
+    public ExecutionFlowPO getAndSave(ConsoleDao pDao)
     {
-        pSession.save(executionFlow);
-        createPK(executionFlow.getFirstMethodCall(), 0);
-        pSession.save(executionFlow.getFirstMethodCall());
+        pDao.insertFullExecutionFlow(executionFlow);
+        executionFlow = pDao.loadFullFlow(executionFlow.getId());
+        pDao.getSession().flush();
+        pDao.getSession().clear();
         return get();
-    }
-
-    private int createPK(MethodCallPO pMethodCall, int pCpt)
-    {
-        pMethodCall.setMethId(new MethodCallPK(pMethodCall.getFlow(), pCpt));
-        for (MethodCallPO tCurMeth : pMethodCall.getChildren())
-        {
-            pCpt = createPK(tCurMeth, ++pCpt);
-        }
-        return pCpt;
     }
 
     public MethodCallBuilder createMethodCall(String pClassName, String pMethodName, String pGroupName, long pDuration)

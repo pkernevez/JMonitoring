@@ -30,10 +30,10 @@ public class FlowDetailURLGeneratorTest extends PersistanceTestCase
 
         FlowDetailURLGenerator tGenerator = new FlowDetailURLGenerator();
         String tUrl = tGenerator.generateURL(tIntervalcategorydataset, 0, 0);
-        assertEquals("javascript:window.methClick(1,0);", tUrl);
-        assertEquals("javascript:window.methClick(1,0);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
-        assertEquals("javascript:window.methClick(1,0);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
-        assertEquals("javascript:window.methClick(1,1);", tGenerator.generateURL(tIntervalcategorydataset, 0, 1));
+        assertEquals("javascript:window.methClick(1,1);", tUrl);
+        assertEquals("javascript:window.methClick(1,1);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
+        assertEquals("javascript:window.methClick(1,1);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
+        assertEquals("javascript:window.methClick(1,2);", tGenerator.generateURL(tIntervalcategorydataset, 0, 1));
 
     }
 

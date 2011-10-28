@@ -1,6 +1,6 @@
 package org.jmonitoring.console.gwt.server.common;
 
-import org.hibernate.Session;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 
@@ -36,9 +36,10 @@ public class MethodCallBuilder
         return executionFlowBuilder.get();
     }
 
-    public ExecutionFlowPO getAndSave(Session pSession)
+    // TODO Check the utility of Save and mainly ReLoad
+    public ExecutionFlowPO getAndSave(ConsoleDao pDao)
     {
-        return executionFlowBuilder.getAndSave(pSession);
+        return executionFlowBuilder.getAndSave(pDao);
     }
 
     public MethodCallPO getInternal()

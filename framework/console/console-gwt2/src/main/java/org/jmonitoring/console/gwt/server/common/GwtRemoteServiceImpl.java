@@ -120,16 +120,23 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)
     {
         ExecutionFlowDTO tResult = convertToDto(pFlowPO);
-        tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), pFlowPO.getId()));
+        tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), -1));
         return tResult;
     }
 
-    private MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pFlowId)
+    /**
+     * Depth to recurse is the children tree.
+     * 
+     * @param pCallPO The MethodCall root
+     * @param pDepth The pDepth, stop when pDepth is 0. Passe negative value to recurse without limit.
+     * @return The converted value.
+     */
+    private MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pDepth)
     {
-        MethodCallDTO tResult = convertToDto(pCallPO, null, 0);
-        tResult.setFlowId(String.valueOf(pFlowId));
-        MethodCallExtractDTO tRootDuplication = convertToExtract(pCallPO, 0);
-        tResult.setChildren(convertToDtoDeeply(pCallPO.getChildren(), tRootDuplication));
+        MethodCallDTO tResult = convertToDto(pCallPO);
+        tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
+        // MethodCallExtractDTO tRootDuplication = convertToExtract(pCallPO, 0);
+        tResult.setChildren(convertToDtoDeeply(pCallPO.getChildren(), pDepth - 1));
         return tResult;
     }
 
@@ -137,16 +144,15 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     {
         MethodCallExtractDTO tExtract = new MethodCallExtractDTO();
         tExtract.setFullMethodName(pMethodCall.getClassName() + "." + pMethodCall.getMethodName() + "()");
-        tExtract.setChildPosition(String.valueOf(pChildPosition));
         tExtract.setDuration(String.valueOf(pMethodCall.getDuration()));
         tExtract.setGroupName(pMethodCall.getGroupName());
         tExtract.setPosition(String.valueOf(pMethodCall.getPosition()));
-        if (pMethodCall.getParentMethodCall() != null)
+        MethodCallPO tParent = pMethodCall.getParentMethodCall();
+        if (tParent != null)
         {
-            tExtract.setParentPosition(String.valueOf((pMethodCall.getParentMethodCall().getPosition())));
+            tExtract.setParentPosition(String.valueOf((tParent.getMethId().getPosition())));
         }
         long tDurationFromPrev;
-        MethodCallPO tParent = pMethodCall.getParentMethodCall();
         if (tParent == null)
         {
             tDurationFromPrev = 0;
@@ -161,21 +167,24 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tExtract;
     }
 
-    private MethodCallExtractDTO[] convertToDtoDeeply(List<MethodCallPO> pCallPO, MethodCallExtractDTO pParent)
+    private MethodCallExtractDTO[] convertToDtoDeeply(List<MethodCallPO> pCallPOs, int pDepth)
     {
-        MethodCallExtractDTO[] tResult = new MethodCallExtractDTO[pCallPO.size()];
+        MethodCallExtractDTO[] tResult = new MethodCallExtractDTO[pCallPOs.size()];
         int i = 0;
-        for (MethodCallPO tMethodCallPO : pCallPO)
+        for (MethodCallPO tMethodCallPO : pCallPOs)
         {
             MethodCallExtractDTO tExtract = convertToExtract(tMethodCallPO, i);
-            tExtract.setChildren(convertToDtoDeeply(tMethodCallPO.getChildren(), tExtract));
+            if (pDepth != 0)
+            {
+                tExtract.setChildren(convertToDtoDeeply(tMethodCallPO.getChildren(), pDepth - 1));
+            }
             tResult[i] = tExtract;
             i++;
         }
         return tResult;
     }
 
-    private MethodCallDTO convertToDto(MethodCallPO pCallPO, MethodCallDTO pParent, int pOrderInTheParentChildren)
+    private MethodCallDTO convertToDto(MethodCallPO pCallPO)
     {
         MethodCallDTO tResult = new MethodCallDTO();
         BeanUtils.copyProperties(pCallPO, tResult,
@@ -185,12 +194,11 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         tResult.setBeginTime(formater.formatDateTime(pCallPO.getBeginTime()), pCallPO.getBeginTime());
         tResult.setEndTime(formater.formatDateTime(pCallPO.getEndTime()), pCallPO.getEndTime());
         tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
-        tResult.setChildPosition(pOrderInTheParentChildren);
-        tResult.setPosition(String.valueOf(pCallPO.getPosition()));
-        if (pParent != null)
+        if (pCallPO.getParentMethodCall() != null)
         {
-            tResult.setParentPosition(pParent.getParentPosition());
+            tResult.setParentPosition(String.valueOf(pCallPO.getParentMethodCall().getMethId().getPosition()));
         }
+        tResult.setPosition(String.valueOf(pCallPO.getPosition()));
         return tResult;
     }
 
@@ -209,9 +217,10 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tResult;
     }
 
-    public MethodCallDTO loadMethodCall(int pMethodCallId, int pPosition)
+    public MethodCallDTO loadMethodCall(int pFlowId, int pPosition)
     {
-        return convertToDtoDeeply(dao.loadMethodCall(pMethodCallId, pPosition), -1);
+        MethodCallDTO tResult = convertToDtoDeeply(dao.loadMethodCall(pFlowId, pPosition), 1);
+        return tResult;
     }
 
 }

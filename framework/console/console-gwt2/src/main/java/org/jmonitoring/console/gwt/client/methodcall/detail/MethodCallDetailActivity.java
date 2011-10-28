@@ -22,6 +22,8 @@ public class MethodCallDetailActivity extends AbstractActivity
 
     private final ClientFactory clientFactory;
 
+    private MethodCallDetail methodCallDetail;
+
     GwtRemoteServiceAsync service = GWT.create(GwtRemoteService.class);
 
     MethodCallDetailDriver driver = GWT.create(MethodCallDetailDriver.class);
@@ -43,36 +45,37 @@ public class MethodCallDetailActivity extends AbstractActivity
 
             public void onSuccess(MethodCallDTO pResult)
             {
-                MethodCallDetail tMethodCallDetail = clientFactory.getMethodCallDetail();
-                driver.initialize(tMethodCallDetail);
+                methodCallDetail = clientFactory.getMethodCallDetail();
+                driver.initialize(methodCallDetail);
                 driver.edit(pResult);
-                tMethodCallDetail.groupNameColor.getElement().setAttribute("style",
-                                                                           "background-color: "
-                                                                               + pResult.getGroupColor() + ";");
-                tMethodCallDetail.goToFlow.addClickHandler(new NavHandler(new FlowDetailPlace(place.flowId)));
-                tMethodCallDetail.goToStat.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
+                methodCallDetail.groupNameColor.getElement().setAttribute("style",
+                                                                          "background-color: "
+                                                                              + pResult.getGroupColor() + ";");
+                methodCallDetail.goToFlow.addClickHandler(new NavHandler(new FlowDetailPlace(place.flowId)));
+                methodCallDetail.goToStat.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
                 if (pResult.getParentPosition() != null)
                 {
 
                     MethodCallDetailPlace tPlace =
                         new MethodCallDetailPlace(pResult.getFlowId(), pResult.getParentPosition());
-                    tMethodCallDetail.goToParent.addClickHandler(new NavHandler(tPlace));
-                    tMethodCallDetail.goToParent.setVisible(true);
+                    methodCallDetail.goToParent.addClickHandler(new NavHandler(tPlace));
+                    methodCallDetail.goToParent.setVisible(true);
                 } else
                 {
-                    tMethodCallDetail.goToParent.setVisible(false);
+                    methodCallDetail.goToParent.setVisible(false);
                 }
                 for (MethodCallExtractDTO tChild : pResult.getChildren())
                 {
                     SubMethodCall tLigne = new SubMethodCall(tChild, pResult.getFlowId());
                     tLigne.edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(pResult.getFlowId(),
                                                                                          tChild.getPosition())));
-                    tMethodCallDetail.children.add(tLigne);
+                    methodCallDetail.children.add(tLigne);
                 }
-                tMethodCallDetail.fulClassName.setText(pResult.getClassName() + "." + pResult.getMethodName() + "()");
-                panel.setWidget(tMethodCallDetail.setPresenter(MethodCallDetailActivity.this));
+                methodCallDetail.fulClassName.setText(pResult.getClassName() + "." + pResult.getMethodName() + "()");
+                panel.setWidget(methodCallDetail.setPresenter(MethodCallDetailActivity.this));
             }
 
         });
     }
+
 }

@@ -24,9 +24,6 @@ public class MethodCallDTO implements Serializable
     /** Technical Id. */
     private String position;
 
-    /** Position of the Child. */
-    private int childPosition;
-
     /** Link to the parent Node. */
     private String parentPosition;
 
@@ -375,16 +372,6 @@ public class MethodCallDTO implements Serializable
         params = pParams;
     }
 
-    public int getChildPosition()
-    {
-        return childPosition;
-    }
-
-    public void setChildPosition(int pChildPosition)
-    {
-        childPosition = pChildPosition;
-    }
-
     public String getRuntimeClassName()
     {
         return (runtimeClassName != null ? runtimeClassName : className);
@@ -451,6 +438,12 @@ public class MethodCallDTO implements Serializable
     public void setParentPosition(String pParentPosition)
     {
         parentPosition = pParentPosition;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MethodCallDTO flowId=" + flowId + " , position=" + position;
     }
 
 }

@@ -9,19 +9,16 @@ import java.io.Serializable;
 
 public class MethodCallExtractDTO implements Serializable
 {
-
+    // TODO Add an attribute : hasThrownException
     private static final long serialVersionUID = -497249515537353769L;
 
     /** Technical Id. */
     private String position;
 
-    /** Position in the parent childlist. */
-    private String childPosition;
-
     private String parentPosition;
 
     /** Link to the children nodes. */
-    private MethodCallExtractDTO[] children = new MethodCallExtractDTO[0];
+    private MethodCallExtractDTO[] children;
 
     /**
      * Time since the prev brother method call had finished. It's the time spend in the execution of the parent since
@@ -50,16 +47,6 @@ public class MethodCallExtractDTO implements Serializable
     public void setPosition(String pPosition)
     {
         position = pPosition;
-    }
-
-    public String getChildPosition()
-    {
-        return childPosition;
-    }
-
-    public void setChildPosition(String pChildPosition)
-    {
-        childPosition = pChildPosition;
     }
 
     public String getParentPosition()
@@ -120,6 +107,12 @@ public class MethodCallExtractDTO implements Serializable
     public void setFullMethodName(String pFullMethodName)
     {
         fullMethodName = pFullMethodName;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MethodCallExctractDTO position=" + position;
     }
 
 }

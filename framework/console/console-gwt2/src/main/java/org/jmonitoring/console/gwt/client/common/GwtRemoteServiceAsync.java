@@ -16,6 +16,6 @@ public interface GwtRemoteServiceAsync
 
     void loadAndGenerateImage(int pFlowId, AsyncCallback<ExecutionFlowDTO> callback);
 
-    void loadMethodCall(int pId, int pPosition, AsyncCallback<MethodCallDTO> pJMonitoringAsyncCallBack);
+    void loadMethodCall(int pFlowId, int pPosition, AsyncCallback<MethodCallDTO> pJMonitoringAsyncCallBack);
 
 }

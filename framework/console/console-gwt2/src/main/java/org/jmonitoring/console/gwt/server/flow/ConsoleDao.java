@@ -62,6 +62,11 @@ public class ConsoleDao extends InsertionDao
         return tCrit;
     }
 
+    public Session getSession()
+    {
+        return mSessionFactory.getCurrentSession();
+    }
+
     @SuppressWarnings("unchecked")
     public List<FlowExtractDTO> search(Request pRequest)
     {

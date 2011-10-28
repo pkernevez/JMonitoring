@@ -52,22 +52,9 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         // Check equality of the first measure point
         MethodCallPO tInitialPoint = tFlowPO.getFirstMethodCall();
         MethodCallDTO tReadPoint = tReadFlow.getFirstMethodCall();
-        assertNotNull("The flow didn't load sub calls", tReadPoint);
-        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
-        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
-        assertEquals("[]", tReadPoint.getParams());
-        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
-        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
-        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
-        assertEquals(formater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
-        assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginMilliSeconds());
-        assertEquals(formater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
-        assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndMilliSeconds());
-        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+        assertNotNull(tReadPoint);
+        assertEquals(tInitialPoint, tReadPoint);
 
-        // Check equality of the first child measure point
-        assertEquals(2, tInitialPoint.getChildren().size());
-        assertEquals(2, tReadPoint.getChildren().length);
         tInitialPoint = tInitialPoint.getChildren().get(0);
         MethodCallExtractDTO tExtractPoint = tReadPoint.getChild(0);
         assertEquals(tInitialPoint.getClassName() + "." + tInitialPoint.getMethodName() + "()",
@@ -83,6 +70,28 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         assertEquals("" + tInitialPoint.getDuration(), tExtractPoint.getDuration());
         assertEquals(tInitialPoint.getGroupName(), tExtractPoint.getGroupName());
 
+    }
+
+    private void assertEquals(MethodCallPO tInitialPoint, MethodCallDTO tReadPoint)
+    {
+        assertNotNull("The flow didn't load sub calls", tReadPoint);
+        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
+        MethodCallPO tParentMethodCall = tInitialPoint.getParentMethodCall();
+        assertEquals((tParentMethodCall == null ? null : String.valueOf(tParentMethodCall.getPosition())),
+                     tReadPoint.getParentPosition());
+        assertEquals(tInitialPoint.getClassName(), tReadPoint.getClassName());
+        assertEquals(tInitialPoint.getMethodName(), tReadPoint.getMethodName());
+        assertEquals(tInitialPoint.getParams(), tReadPoint.getParams());
+        assertEquals(tInitialPoint.getReturnValue(), tReadPoint.getReturnValue());
+        assertEquals(tInitialPoint.getThrowableClass(), tReadPoint.getThrowableClass());
+        assertEquals(tInitialPoint.getThrowableMessage(), tReadPoint.getThrowableMessage());
+        assertEquals(formater.formatDateTime(tInitialPoint.getBeginTime()), tReadPoint.getBeginTimeString());
+        assertEquals(tInitialPoint.getBeginTime(), tReadPoint.getBeginMilliSeconds());
+        assertEquals(formater.formatDateTime(tInitialPoint.getEndTime()), tReadPoint.getEndTimeString());
+        assertEquals(tInitialPoint.getEndTime(), tReadPoint.getEndMilliSeconds());
+        assertEquals(tInitialPoint.getGroupName(), tReadPoint.getGroupName());
+        // Check equality of the first child measure point
+        assertEquals(tInitialPoint.getChildren().size(), tReadPoint.getChildren().length);
     }
 
     @Test
@@ -111,4 +120,33 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
 
     }
 
+    @Test
+    public void testLoadMethodCallLoadingAttribute()
+    {
+        insertTestData();
+        MethodCallPO tRootPo = dao.loadFullFlow(1).getFirstMethodCall();
+        MethodCallDTO tReadDto = service.loadMethodCall(1, 1);
+        assertEquals(tRootPo, tReadDto);
+        assertEquals("1", tReadDto.getFlowId());
+
+    }
+
+    @Test
+    public void testLoadMethodCallLoadingCollection()
+    {
+        insertTestData();
+        // MethodCallPO tRootPo = dao.loadFullFlow(1).getFirstMethodCall();
+        MethodCallDTO tReadDto = service.loadMethodCall(4, 1);
+        assertNotNull(tReadDto.getChildren());
+        assertEquals(3, tReadDto.getChildren().length);
+        // Don't load grandchild collection when having no grandchild
+        assertNull(tReadDto.getChild(0).getChildren()); // FAIL
+        // Don't load grandchild collection when having grandchilds
+        assertNull(tReadDto.getChild(1).getChildren());
+        // Check DB Call
+        assertEquals(1, getStats().getCollectionFetchCount());// 4
+        assertEquals(4, getStats().getEntityLoadCount());// 4
+        assertEquals(0, getStats().getEntityFetchCount());
+        assertEquals(0, getStats().getEntityUpdateCount());// 0
+    }
 }

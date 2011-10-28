@@ -5,10 +5,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.hibernate.Session;
 import org.jmonitoring.console.gwt.server.common.ColorManager;
 import org.jmonitoring.console.gwt.server.common.ExecutionFlowBuilder;
 import org.jmonitoring.console.gwt.server.common.MethodCallBuilder;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -33,7 +33,7 @@ public class PieChartGeneratorTest extends JMonitoringTestCase
         return getSampleMeasurePoint(formater, color, null);
     }
 
-    static MethodCallPO getSampleMeasurePoint(FormaterBean pFormater, ColorManager pColor, Session pSession)
+    static MethodCallPO getSampleMeasurePoint(FormaterBean pFormater, ColorManager pColor, ConsoleDao pDao)
     {
         // Fri Jun 02 23:11:08 CEST 2006
         long tRefDate = new Date(START_TIME).getTime();
@@ -47,7 +47,7 @@ public class PieChartGeneratorTest extends JMonitoringTestCase
         tChild1.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrDefault", 21, 4);
 
         tParentBuilder.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow3", "GrChild2", 48, 27);
-        return (pSession == null ? tParentBuilder.get() : tParentBuilder.getAndSave(pSession)).getFirstMethodCall();
+        return (pDao == null ? tParentBuilder.get() : tParentBuilder.getAndSave(pDao)).getFirstMethodCall();
     }
 
     public static MethodCallPO createSample(MethodCallPO pParent, int pFlowId, int pPosition, String pClassName,

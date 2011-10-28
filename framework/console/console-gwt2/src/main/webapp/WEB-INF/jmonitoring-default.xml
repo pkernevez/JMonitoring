@@ -10,11 +10,8 @@
 	<context:property-placeholder location="/WEB-INF/database.properties" />
 
 	<context:annotation-config />
-	<bean class="org.jmonitoring.console.gwt.server.flow.FlowServiceImpl">
-	</bean>
-	<bean class="org.jmonitoring.console.gwt.server.flow.ConsoleDao"
-		id="consoleDao">
-	</bean>
+	<bean class="org.jmonitoring.console.gwt.server.common.GwtRemoteServiceImpl"/>
+	<bean id="consoleDao" class="org.jmonitoring.console.gwt.server.flow.ConsoleDao"/>
 	<bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">
 		<property name="dateFormat" value="dd/MM/yy" />
 		<property name="timeFormat" value="HH:mm:ss" />

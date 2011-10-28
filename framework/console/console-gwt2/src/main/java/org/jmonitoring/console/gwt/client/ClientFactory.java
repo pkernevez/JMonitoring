@@ -29,9 +29,9 @@ public class ClientFactory
 
     private final FlowSearch flowSearch = new FlowSearch();
 
-    private final FlowDetail flowDetail = new FlowDetail();
+    // private final FlowDetail flowDetail = new FlowDetail();
 
-    private MethodCallDetail methodCallDetail = new MethodCallDetail();
+    // private MethodCallDetail methodCallDetail = new MethodCallDetail();
 
     private MethodCallStat methodCallStat = new MethodCallStat();
 
@@ -82,7 +82,7 @@ public class ClientFactory
 
     public FlowDetail getFlowDetail()
     {
-        return flowDetail;
+        return new FlowDetail();
     }
 
     public FlowSearch getFlowSearch()
@@ -92,7 +92,7 @@ public class ClientFactory
 
     public MethodCallDetail getMethodCallDetail()
     {
-        return methodCallDetail;
+        return new MethodCallDetail();
     }
 
     public MethodCallStat getMethodCallStat()

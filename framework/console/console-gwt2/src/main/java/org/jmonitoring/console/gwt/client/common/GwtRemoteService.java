@@ -17,6 +17,6 @@ public interface GwtRemoteService extends RemoteService
 
     ExecutionFlowDTO loadAndGenerateImage(int pFlowId);
 
-    MethodCallDTO loadMethodCall(int pId, int pPosition);
+    MethodCallDTO loadMethodCall(int pFlowId, int pPosition);
 
 }

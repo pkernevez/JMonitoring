@@ -11,10 +11,12 @@ import org.jmonitoring.console.gwt.server.common.ColorManager;
 import org.jmonitoring.console.gwt.server.common.ExecutionFlowBuilder;
 import org.jmonitoring.console.gwt.server.common.MethodCallBuilder;
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
+import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.server.image.ChartBarGenerator.TaskForGroupName;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ChartBarGeneratorTest extends PersistanceTestCase
 {
@@ -23,6 +25,9 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
 
     @Resource(name = "color")
     private ColorManager mColor;
+
+    @Autowired
+    private ConsoleDao dao;
 
     public ChartBarGeneratorTest()
     {
@@ -78,8 +83,7 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
     @Test
     public void testFillListOfGroup()
     {
-        MethodCallPO tFirstMethod =
-            PieChartGeneratorTest.getSampleMeasurePoint(mFormater, mColor, sessionFactory.getCurrentSession());
+        MethodCallPO tFirstMethod = PieChartGeneratorTest.getSampleMeasurePoint(mFormater, mColor, dao);
 
         ChartBarGenerator tUtil = new ChartBarGenerator(mColor, tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup();
@@ -160,7 +164,7 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
         tParentBuilder.addSubMethod(ChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 2, 43);
         tParentBuilder.addSubMethod(ChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 48, 6);
 
-        return tParentBuilder.getAndSave(sessionFactory.getCurrentSession()).getFirstMethodCall();
+        return tParentBuilder.getAndSave(dao).getFirstMethodCall();
     }
 
     @Test

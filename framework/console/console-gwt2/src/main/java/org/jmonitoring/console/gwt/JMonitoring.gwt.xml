@@ -18,7 +18,8 @@
   <set-property name="gwt.logging.consoleHandler" value="DISABLED" /> # To diþsable a default Handler
   <set-property name="gwt.logging.popupHandler" value="DISABLED" />
   
-  
+ <set-configuration-property name="UiBinder.useSafeHtmlTemplates"
+         value="true" /> 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
