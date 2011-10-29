@@ -13,7 +13,7 @@
 				<g:Label ui:field="fulClassName" />
 			</h2>
 			<table>
-				<col span="2" width="5%"/>
+				<col width="160" />
 				<tr>
 					<td class="{style.label}">
 						<div>Runtime Class Name</div>
@@ -21,7 +21,6 @@
 					<td class="{style.data-label}">
 						<g:Label ui:field="runtimeClassName" />
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td>
@@ -33,7 +32,6 @@
 							<g:Label ui:field="groupName" />
 						</g:HorizontalPanel>
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -46,7 +44,6 @@
 							<g:Label ui:field="flowId" />
 						</g:HorizontalPanel>
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -59,7 +56,6 @@
 							<g:Label ui:field="position" />
 						</g:HorizontalPanel>
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -72,7 +68,6 @@
 							<g:Label ui:field="parentPosition" />
 						</g:HorizontalPanel>
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -81,7 +76,6 @@
 					<td class="{style.data-label}">
 						<g:Label ui:field="beginTimeString" />
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -90,7 +84,6 @@
 					<td class="{style.data-label}">
 						<g:Label ui:field="endTimeString" />
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -98,7 +91,6 @@
 					</td>
 					<td class="{style.data-label}">
 						<g:Label />
-					<td/>
 					</td>
 				</tr>
 				<tr>
@@ -108,7 +100,6 @@
 					<td class="{style.data-label}">
 						<g:Label ui:field="params" />
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -117,7 +108,6 @@
 					<td class="{style.data-label}">
 						<g:Label ui:field="returnValue" />
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -126,7 +116,6 @@
 					<td class="{style.data-label}">
 						<g:Label ui:field="throwableClass" />
 					</td>
-					<td/>
 				</tr>
 				<tr>
 					<td class="{style.label}">
@@ -135,13 +124,15 @@
 					<td class="{style.data-label}">
 						<g:Label ui:field="throwableMessage" />
 					</td>
-					<td/>
 				</tr>
+			</table>
+			<table>
+				<col width="160" />
 				<tr>
 					<td class="{style.label}" style="vertical-align: top;">
 						<div>Children</div>
 					</td>
-					<td colSpan="2">
+					<td>
 						<g:Grid ui:field="children" styleName="{style.meth-child}" />
 					</td>
 				</tr>
