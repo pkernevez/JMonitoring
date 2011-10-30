@@ -3,7 +3,9 @@ package org.jmonitoring.console.gwt.client.methodcall.detail;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -69,6 +71,23 @@ public class MethodCallDetail extends Composite implements Editor<MethodCallDTO>
 
     @UiField
     Label parentPosition;
+
+    @UiField
+    Style customStyle;
+
+    @UiField
+    TableRowElement resultRow;
+
+    @UiField
+    TableRowElement throwableRow1;
+
+    @UiField
+    TableRowElement throwableRow2;
+
+    interface Style extends CssResource
+    {
+        String mask();
+    }
 
     interface MethodCallDetailUiBinder extends UiBinder<Widget, MethodCallDetail>
     {

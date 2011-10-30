@@ -53,6 +53,14 @@ public class MethodCallDetailActivity extends AbstractActivity
                                                                               + pResult.getGroupColor() + ";");
                 methodCallDetail.goToFlow.addClickHandler(new NavHandler(new FlowDetailPlace(place.flowId)));
                 methodCallDetail.goToStat.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
+                if (pResult.getThrowableClass() == null)
+                {
+                    methodCallDetail.throwableRow1.addClassName(methodCallDetail.customStyle.mask());
+                    methodCallDetail.throwableRow2.addClassName(methodCallDetail.customStyle.mask());
+                } else
+                {
+                    methodCallDetail.resultRow.addClassName(methodCallDetail.customStyle.mask());
+                }
                 if (pResult.getParentPosition() != null)
                 {
 
