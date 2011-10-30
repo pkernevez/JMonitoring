@@ -9,13 +9,14 @@ import java.io.Serializable;
 
 public class MethodCallExtractDTO implements Serializable
 {
-    // TODO Add an attribute : hasThrownException
     private static final long serialVersionUID = -497249515537353769L;
 
     /** Technical Id. */
     private String position;
 
     private String parentPosition;
+
+    private boolean thrownException;
 
     /** Link to the children nodes. */
     private MethodCallExtractDTO[] children;
@@ -113,6 +114,16 @@ public class MethodCallExtractDTO implements Serializable
     public String toString()
     {
         return "MethodCallExctractDTO position=" + position;
+    }
+
+    public boolean hasThrownException()
+    {
+        return thrownException;
+    }
+
+    public void setThrownException(boolean pHasThrownException)
+    {
+        thrownException = pHasThrownException;
     }
 
 }

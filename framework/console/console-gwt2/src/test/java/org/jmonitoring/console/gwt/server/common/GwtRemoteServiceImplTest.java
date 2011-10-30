@@ -129,6 +129,11 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         assertEquals(tRootPo, tReadDto);
         assertEquals("1", tReadDto.getFlowId());
 
+        tReadDto = service.loadMethodCall(4, 1);
+        assertEquals("MainClass3", tReadDto.getClassName());
+        assertEquals(false, tReadDto.getChild(0).hasThrownException());
+        assertEquals(true, tReadDto.getChild(2).hasThrownException());
+
     }
 
     @Test

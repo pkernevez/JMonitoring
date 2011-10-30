@@ -164,6 +164,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
             tDurationFromPrev = pMethodCall.getBeginTime() - tParent.getChild(pChildPosition - 1).getEndTime();
         }
         tExtract.setTimeFromPrevChild(String.valueOf(tDurationFromPrev));
+        tExtract.setThrownException(pMethodCall.getThrowableClass() != null);
         return tExtract;
     }
 

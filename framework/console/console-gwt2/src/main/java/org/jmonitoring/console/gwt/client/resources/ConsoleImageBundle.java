@@ -31,4 +31,6 @@ public interface ConsoleImageBundle extends ClientBundle
 
     public ImageResource xml();
 
+    public ImageResource warn();
+
 }

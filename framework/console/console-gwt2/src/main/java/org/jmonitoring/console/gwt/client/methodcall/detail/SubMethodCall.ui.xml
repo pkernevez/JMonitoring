@@ -2,6 +2,11 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style src="../../resources/main-style.css" />
+	<ui:style type="org.jmonitoring.console.gwt.client.methodcall.detail.SubMethodCall.Style" field="customStyle">
+		.mask {
+			display: none;
+		}
+	</ui:style>	
 		
 	<ui:with field="image"
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle" />
@@ -9,6 +14,7 @@
 		<span ui:field="prevDuration" class="{style.prevDuration}"
 			title="Duration since the prev MethodCall" />
 		<span ui:field="curDuration" class="{style.curDuration}" title="Duration of this MethodCall" />
+		<g:Image width="13" height="14" ui:field="throwImage"/>
 		<g:Anchor styleName="style.clickable" ui:field="description"
 			title="View details..." />
 		<g:Image resource="{image.edit}" ui:field="edit" styleName="{style.clickable}" />

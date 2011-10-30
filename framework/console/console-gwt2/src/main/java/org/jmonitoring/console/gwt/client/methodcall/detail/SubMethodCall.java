@@ -2,10 +2,12 @@ package org.jmonitoring.console.gwt.client.methodcall.detail;
 
 import org.jmonitoring.console.gwt.client.common.NavHandler;
 import org.jmonitoring.console.gwt.client.methodcall.stat.MethodCallStatPlace;
+import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
@@ -33,8 +35,19 @@ public class SubMethodCall extends Composite
     @UiField
     Image stats;
 
+    @UiField
+    Image throwImage;
+
+    @UiField
+    ConsoleImageBundle image;
+
     interface SubMethodCallUiBinder extends UiBinder<Widget, SubMethodCall>
     {
+    }
+
+    interface Style extends CssResource
+    {
+        String mask();
     }
 
     public SubMethodCall()
@@ -52,5 +65,10 @@ public class SubMethodCall extends Composite
         description.addClickHandler(tHandler);
         edit.addClickHandler(tHandler);
         stats.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
+        if (pChild.hasThrownException())
+        {
+            throwImage.setResource(image.warn());
+            throwImage.setTitle("This method thrown an Exception");
+        }
     }
 }
