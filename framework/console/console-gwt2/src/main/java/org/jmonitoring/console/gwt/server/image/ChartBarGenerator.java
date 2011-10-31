@@ -218,6 +218,7 @@ public class ChartBarGenerator
         DateAxis dateAxis = new DateAxis("Date");
         CategoryItemRenderer renderer = new FlowRenderer(colorManager);
         renderer.setItemURLGenerator(new FlowDetailURLGenerator());
+        renderer.setToolTipGenerator(new FlowDetailToolTipGenerator());
         CategoryPlot plot = new CategoryPlot(pDataset, categoryAxis, dateAxis, renderer);
         plot.setOrientation(PlotOrientation.HORIZONTAL);
         JFreeChart chart = new JFreeChart("Flow Group Details", JFreeChart.DEFAULT_TITLE_FONT, plot, false);

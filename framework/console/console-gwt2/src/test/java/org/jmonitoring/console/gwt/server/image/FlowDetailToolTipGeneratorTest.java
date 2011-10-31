@@ -10,7 +10,7 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class FlowDetailURLGeneratorTest extends PersistanceTestCase
+public class FlowDetailToolTipGeneratorTest extends PersistanceTestCase
 {
     @Resource(name = "color")
     private ColorManager color;
@@ -19,7 +19,7 @@ public class FlowDetailURLGeneratorTest extends PersistanceTestCase
     private ConsoleDao dao;
 
     @Test
-    public void testGenerateURL()
+    public void testGenerateToolTip()
     {
         ExecutionFlowPO tFlow = dao.loadFullFlow(1);
 
@@ -28,12 +28,12 @@ public class FlowDetailURLGeneratorTest extends PersistanceTestCase
         IntervalCategoryDataset tIntervalcategorydataset = tUtil.createDataset();
         tUtil.createGanttChart(tIntervalcategorydataset);
 
-        FlowDetailURLGenerator tGenerator = new FlowDetailURLGenerator();
-        String tUrl = tGenerator.generateURL(tIntervalcategorydataset, 0, 0);
-        assertEquals("javascript:window.methClick(1,1);", tUrl);
-        assertEquals("javascript:window.methClick(1,1);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
-        assertEquals("javascript:window.methClick(1,1);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
-        assertEquals("javascript:window.methClick(1,2);", tGenerator.generateURL(tIntervalcategorydataset, 0, 1));
+        FlowDetailToolTipGenerator tGenerator = new FlowDetailToolTipGenerator();
+        String tUrl = tGenerator.generateToolTip(tIntervalcategorydataset, 0, 0);
+        assertEquals("goto (flowId=1, position=1)", tUrl);
+        assertEquals("goto (flowId=1, position=1)", tGenerator.generateToolTip(tIntervalcategorydataset, 0, 0));
+        assertEquals("goto (flowId=1, position=1)", tGenerator.generateToolTip(tIntervalcategorydataset, 0, 0));
+        assertEquals("goto (flowId=1, position=2)", tGenerator.generateToolTip(tIntervalcategorydataset, 0, 1));
 
     }
 
