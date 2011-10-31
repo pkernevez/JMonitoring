@@ -9,13 +9,17 @@ import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.methodcall.stat.MethodCallStatPlace;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
+import org.jmonitoring.console.gwt.shared.method.MethodNavType;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.Image;
 
 public class MethodCallDetailActivity extends AbstractActivity
 {
@@ -74,14 +78,10 @@ public class MethodCallDetailActivity extends AbstractActivity
                     methodCallDetail.goToParent.setVisible(false);
                 }
 
-                Place tPlace =
-                    new MethodCallDetailPlace(pResult.getFlowId(),
-                                              String.valueOf(Integer.parseInt(pResult.getPosition()) - 1));
-                methodCallDetail.prevInThread.addClickHandler(new NavHandler(tPlace));
-                tPlace =
-                    new MethodCallDetailPlace(pResult.getFlowId(),
-                                              String.valueOf(Integer.parseInt(pResult.getPosition()) + 1));
-                methodCallDetail.nextInThread.addClickHandler(new NavHandler(tPlace));
+                addNavHandler(methodCallDetail.prevInGroup, pResult, MethodNavType.PREV_IN_GROUP);
+                addNavHandler(methodCallDetail.prevInThread, pResult, MethodNavType.PREV_IN_THREAD);
+                addNavHandler(methodCallDetail.nextInThread, pResult, MethodNavType.NEXT_IN_THREAD);
+                addNavHandler(methodCallDetail.nextInGroup, pResult, MethodNavType.NEXT_IN_GROUP);
 
                 methodCallDetail.children.resize(pResult.getChildren().length, 1);
                 int tRow = 0;
@@ -97,6 +97,65 @@ public class MethodCallDetailActivity extends AbstractActivity
                 panel.setWidget(methodCallDetail.setPresenter(MethodCallDetailActivity.this));
             }
 
+            private void addNavHandler(Image pImage, MethodCallDTO pResult, MethodNavType pType)
+            {
+                pImage.addClickHandler(new MethodNavHandler(service, pResult, pType));
+            }
+
         });
+    }
+
+    private static class MethodNavHandler implements ClickHandler
+    {
+        private int flowId;
+
+        private int currentPosition;
+
+        private MethodNavType type;
+
+        private GwtRemoteServiceAsync service;
+
+        private String groupName;
+
+        public MethodNavHandler(GwtRemoteServiceAsync pService, MethodCallDTO pCurrentMeth, MethodNavType pType)
+        {
+            flowId = Integer.valueOf(pCurrentMeth.getFlowId());
+            currentPosition = Integer.valueOf(pCurrentMeth.getPosition());
+            type = pType;
+            service = pService;
+            groupName = pCurrentMeth.getGroupName();
+        }
+
+        public void onClick(ClickEvent pEvent)
+        {
+            if (MethodNavType.PREV_IN_THREAD == type)
+            {
+                if (currentPosition > 1)
+                {
+                    ClientFactory.goTo(new MethodCallDetailPlace(flowId, currentPosition - 1));
+                } else
+                {
+                    Window.alert("You reach the bound of the call list.");
+                }
+            } else
+            {
+                service.getMethodPositionWhenNavigate(flowId, currentPosition, groupName, type,
+                                                      new JMonitoringAsyncCallBack<Integer>()
+                                                      {
+                                                          public void onSuccess(Integer pResult)
+                                                          {
+                                                              if (pResult > 1)
+                                                              {
+                                                                  ClientFactory.goTo(new MethodCallDetailPlace(flowId,
+                                                                                                               pResult));
+                                                              } else
+                                                              {
+                                                                  Window.alert("You reach the bound of the call list.");
+                                                              }
+                                                          }
+                                                      });
+            }
+        }
+
     }
 }

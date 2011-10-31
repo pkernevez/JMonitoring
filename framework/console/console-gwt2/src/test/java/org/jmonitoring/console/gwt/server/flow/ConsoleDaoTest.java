@@ -147,4 +147,47 @@ public class ConsoleDaoTest extends PersistanceTestCase
         getSession().flush();
         assertEquals("We don not need to update the execution flow", 0, getStats().getEntityUpdateCount());
     }
+
+    @Test
+    public void testGetNextInGroup()
+    {
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        dao.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+
+        int tFlowId = tFlow.getId();
+        assertEquals(1, dao.getNextInGroup(tFlowId, 0, "GrDefault"));
+        assertEquals(-1, dao.getNextInGroup(tFlowId, 1, "GrDefault"));
+
+        assertEquals(2, dao.getNextInGroup(tFlowId, 0, "GrChild1"));
+        assertEquals(-1, dao.getNextInGroup(tFlowId, 2, "GrChild1"));
+
+        assertEquals(3, dao.getNextInGroup(tFlowId, 0, "GrChild2"));
+        assertEquals(4, dao.getNextInGroup(tFlowId, 3, "GrChild2"));
+        assertEquals(5, dao.getNextInGroup(tFlowId, 4, "GrChild2"));
+        assertEquals(6, dao.getNextInGroup(tFlowId, 5, "GrChild2"));
+        assertEquals(-1, dao.getNextInGroup(tFlowId, 6, "GrChild2"));
+    }
+
+    @Test
+    public void testGetPrevInGroup()
+    {
+        ExecutionFlowPO tFlow = buildNewFullFlow();
+        dao.insertFullExecutionFlow(tFlow);
+        getSession().flush();
+
+        int tFlowId = tFlow.getId();
+
+        assertEquals(6, dao.getPrevInGroup(tFlowId, 7, "GrChild2"));
+        assertEquals(5, dao.getPrevInGroup(tFlowId, 6, "GrChild2"));
+        assertEquals(4, dao.getPrevInGroup(tFlowId, 5, "GrChild2"));
+        assertEquals(3, dao.getPrevInGroup(tFlowId, 4, "GrChild2"));
+        assertEquals(-1, dao.getPrevInGroup(tFlowId, 3, "GrChild2"));
+
+        assertEquals(2, dao.getPrevInGroup(tFlowId, 7, "GrChild1"));
+        assertEquals(-1, dao.getPrevInGroup(tFlowId, 2, "GrChild1"));
+
+        assertEquals(1, dao.getPrevInGroup(tFlowId, 7, "GrDefault"));
+        assertEquals(-1, dao.getPrevInGroup(tFlowId, 1, "GrDefault"));
+    }
 }

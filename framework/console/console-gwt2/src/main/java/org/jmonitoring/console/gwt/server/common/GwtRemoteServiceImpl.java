@@ -18,6 +18,7 @@ import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
+import org.jmonitoring.console.gwt.shared.method.MethodNavType;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -224,4 +225,26 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tResult;
     }
 
+    public int getMethodPositionWhenNavigate(int pFlowId, int pCurrentPosition, String pGroupName, MethodNavType pType)
+    {
+        int tResult = -1;
+        if (MethodNavType.NEXT_IN_THREAD == pType)
+        {
+            ExecutionFlowPO tFlow = dao.loadFlow(pFlowId);
+            if (pCurrentPosition < tFlow.getFirstMethodCall().getChildren().size())
+            {
+                tResult = pCurrentPosition + 1;
+            }
+        } else if (MethodNavType.PREV_IN_GROUP == pType)
+        {
+            tResult = dao.getPrevInGroup(pFlowId, pCurrentPosition, pGroupName);
+        } else if (MethodNavType.NEXT_IN_GROUP == pType)
+        {
+            tResult = dao.getNextInGroup(pFlowId, pCurrentPosition, pGroupName);
+        } else
+        {
+            throw new RuntimeException("Unsupported MethodNavType");
+        }
+        return tResult;
+    }
 }

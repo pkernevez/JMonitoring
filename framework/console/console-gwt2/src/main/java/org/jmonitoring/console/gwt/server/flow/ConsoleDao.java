@@ -93,7 +93,7 @@ public class ConsoleDao extends InsertionDao
         return tResult;
     }
 
-    ExecutionFlowPO loadFlow(int pId)
+    public ExecutionFlowPO loadFlow(int pId)
     {
         return (ExecutionFlowPO) sessionFactory.getCurrentSession().load(ExecutionFlowPO.class, Integer.valueOf(pId));
     }
@@ -134,4 +134,32 @@ public class ConsoleDao extends InsertionDao
         ExecutionFlowPO tFlow = loadFlow(pFlowId);
         return (MethodCallPO) tSession.get(MethodCallPO.class, new MethodCallPK(tFlow, pPosition));
     }
+
+    /** Return the previous <code>MethodCall</code>'s position from the same <code>ExecutionFlow</code> and group */
+    public int getPrevInGroup(int pFlowId, int pPosition, String pGroupName)
+    {
+        Criteria tCrit = mSessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
+        tCrit.add(Restrictions.eq("groupName", pGroupName));
+        tCrit.add(Restrictions.eq("flow.id", pFlowId));
+        tCrit.add(Restrictions.lt("id.position", pPosition));
+        tCrit.addOrder(Order.desc("id.position"));
+        tCrit.setMaxResults(1);
+        MethodCallPO tUniqueResult = (MethodCallPO) tCrit.uniqueResult();
+        return (tUniqueResult == null ? -1 : tUniqueResult.getPosition());
+
+    }
+
+    /** Return the next <code>MethodCall</code>'s position from the same <code>ExecutionFlow</code> and group */
+    public int getNextInGroup(int pFlowId, int pPosition, String pGroupName)
+    {
+        Criteria tCrit = mSessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
+        tCrit.add(Restrictions.eq("groupName", pGroupName));
+        tCrit.add(Restrictions.eq("flow.id", pFlowId));
+        tCrit.add(Restrictions.gt("id.position", pPosition));
+        tCrit.setMaxResults(1);
+        tCrit.addOrder(Order.asc("id.position"));
+        MethodCallPO tUniqueResult = (MethodCallPO) tCrit.uniqueResult();
+        return (tUniqueResult == null ? -1 : tUniqueResult.getPosition());
+    }
+
 }
