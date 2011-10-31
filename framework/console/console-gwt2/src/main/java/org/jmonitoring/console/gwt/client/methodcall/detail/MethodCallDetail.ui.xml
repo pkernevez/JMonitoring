@@ -94,7 +94,10 @@
 						<div>Navigation</div>
 					</td>
 					<td class="{style.data-label}">
-						<g:Label />
+						<g:Image ui:field="prevInGroup"  styleName="{style.clickable}" resource="{image.prevInGroup}"/> 
+						<g:Image ui:field="prevInThread" styleName="{style.clickable}" resource="{image.prevInThread}"/> 
+						<g:Image ui:field="nextInThread" styleName="{style.clickable}" resource="{image.nextInThread}"/> 
+						<g:Image ui:field="nextInGroup"  styleName="{style.clickable}" resource="{image.nextInGroup}"/> 
 					</td>
 				</tr>
 				<tr>

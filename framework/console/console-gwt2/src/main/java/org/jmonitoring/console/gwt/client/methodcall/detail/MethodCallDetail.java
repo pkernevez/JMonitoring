@@ -84,6 +84,18 @@ public class MethodCallDetail extends Composite implements Editor<MethodCallDTO>
     @UiField
     TableRowElement throwableRow2;
 
+    @UiField
+    Image prevInGroup;
+
+    @UiField
+    Image prevInThread;
+
+    @UiField
+    Image nextInThread;
+
+    @UiField
+    Image nextInGroup;
+
     interface Style extends CssResource
     {
         String mask();

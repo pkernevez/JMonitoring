@@ -14,6 +14,7 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class MethodCallDetailActivity extends AbstractActivity
@@ -72,6 +73,16 @@ public class MethodCallDetailActivity extends AbstractActivity
                 {
                     methodCallDetail.goToParent.setVisible(false);
                 }
+
+                Place tPlace =
+                    new MethodCallDetailPlace(pResult.getFlowId(),
+                                              String.valueOf(Integer.parseInt(pResult.getPosition()) - 1));
+                methodCallDetail.prevInThread.addClickHandler(new NavHandler(tPlace));
+                tPlace =
+                    new MethodCallDetailPlace(pResult.getFlowId(),
+                                              String.valueOf(Integer.parseInt(pResult.getPosition()) + 1));
+                methodCallDetail.nextInThread.addClickHandler(new NavHandler(tPlace));
+
                 methodCallDetail.children.resize(pResult.getChildren().length, 1);
                 int tRow = 0;
                 for (MethodCallExtractDTO tChild : pResult.getChildren())
