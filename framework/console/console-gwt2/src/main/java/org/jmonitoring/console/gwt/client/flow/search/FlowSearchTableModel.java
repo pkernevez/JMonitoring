@@ -97,7 +97,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
                 return String.valueOf(pValue.getId());
             }
         });
-        cf.addColumn(new ColumnString<FlowExtractDTO>("Thread", "thread", true)
+        cf.addColumn(new ColumnString<FlowExtractDTO>("Thread", "threadName", true)
         {
             @Override
             public String getStringValue(FlowExtractDTO pValue)
