@@ -3,7 +3,8 @@ package org.jmonitoring.console.gwt.client.flow.detail;
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
-import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
+import org.jmonitoring.console.gwt.client.common.JMonitoringAsyncCallBack;
+import org.jmonitoring.console.gwt.client.common.message.MessagePlace;
 import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetailPlace;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 
@@ -61,6 +62,7 @@ class FlowDetailActivity extends AbstractActivity
                                                    $wnd.methClick = $entry(@org.jmonitoring.console.gwt.client.flow.detail.FlowDetailActivity::methClick(II));
                                                    }-*/;
 
+    /** Method use to trap clicks on the map of the flow. Used by native javascript. */
     public static void methClick(int pFlowId, int pPosition)
     {
         ClientFactory.goTo(new MethodCallDetailPlace(pFlowId, pPosition));
@@ -69,5 +71,20 @@ class FlowDetailActivity extends AbstractActivity
     public void exportXml()
     {
         Window.open("/flow.export?id=" + place.getId(), "download", "");
+    }
+
+    public void deleteExecutionFlow()
+    {
+        if (Window.confirm("Do you really want to delete flow id=" + place.getId()))
+        {
+            service.delete(place.getId(), new JMonitoringAsyncCallBack<Void>()
+            {
+                public void onSuccess(Void pResult)
+                {
+                    ClientFactory.goTo(new MessagePlace("The Flow " + place.getId() + " has been deleted"));
+                }
+            });
+            ClientFactory.goTo(new MessagePlace("The ExecutionFlow (id=" + place.getId() + " has been delete."));
+        }
     }
 }

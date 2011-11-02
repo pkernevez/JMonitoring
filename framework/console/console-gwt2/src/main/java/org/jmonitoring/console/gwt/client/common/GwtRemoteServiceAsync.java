@@ -22,4 +22,6 @@ public interface GwtRemoteServiceAsync
     void getMethodPositionWhenNavigate(int pFlowId, int pCurrentPosition, String pGroupName, MethodNavType pType,
         AsyncCallback<Integer> pJMonitoringAsyncCallBack);
 
+    void delete(int pFlowId, AsyncCallback<Void> callback);
+
 }

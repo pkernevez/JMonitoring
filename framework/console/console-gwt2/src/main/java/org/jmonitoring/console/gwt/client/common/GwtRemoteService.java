@@ -22,4 +22,5 @@ public interface GwtRemoteService extends RemoteService
 
     int getMethodPositionWhenNavigate(int pFlowId, int pCurrentPosition, String pGroupName, MethodNavType pType);
 
+    void delete(int pFlowId);
 }

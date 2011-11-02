@@ -247,4 +247,10 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         }
         return tResult;
     }
+
+    public void delete(int pFlowId)
+    {
+        dao.deleteFlow(pFlowId);
+
+    }
 }

@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.main;
+package org.jmonitoring.console.gwt.client.common;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

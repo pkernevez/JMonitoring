@@ -1,5 +1,6 @@
 package org.jmonitoring.console.gwt.client;
 
+import org.jmonitoring.console.gwt.client.common.message.Message;
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetail;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearch;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace;
@@ -28,6 +29,8 @@ public class ClientFactory
     private static PlaceHistoryMapper sHistoryMapper;
 
     private final FlowSearch flowSearch = new FlowSearch();
+
+    private final Message message = new Message();
 
     // private final FlowDetail flowDetail = new FlowDetail();
 
@@ -59,6 +62,11 @@ public class ClientFactory
         sHistoryMapper = GWT.create(JMonitoringPlaceHistoryMapper.class);
         sHistoryHandler = new PlaceHistoryHandler(sHistoryMapper);
         sHistoryHandler.register(sPlaceController, sEventBus, new FlowSearchPlace());
+        return sClientFactory;
+    }
+
+    public static ClientFactory getInstance()
+    {
         return sClientFactory;
     }
 
@@ -98,5 +106,10 @@ public class ClientFactory
     public MethodCallStat getMethodCallStat()
     {
         return methodCallStat;
+    }
+
+    public Message getMessage()
+    {
+        return message;
     }
 }

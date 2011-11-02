@@ -4,6 +4,10 @@ import it.pianetatecno.gwt.utility.client.table.Column;
 import it.pianetatecno.gwt.utility.client.table.Filter;
 import it.pianetatecno.gwt.utility.client.table.Request;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +23,19 @@ import org.hibernate.criterion.Restrictions;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.core.configuration.FormaterBean;
+import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConsoleDao extends InsertionDao
 {
+    Logger sLog = LoggerFactory.getLogger(ConsoleDao.class);
+
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
@@ -160,6 +169,109 @@ public class ConsoleDao extends InsertionDao
         tCrit.addOrder(Order.asc("id.position"));
         MethodCallPO tUniqueResult = (MethodCallPO) tCrit.uniqueResult();
         return (tUniqueResult == null ? -1 : tUniqueResult.getPosition());
+    }
+
+    // /**
+    // * Delete all flows and linked objects. This method, drop and recreate the schema that is faster than the deletion
+    // * of all instances.
+    // */
+    // @SuppressWarnings("deprecation")
+    // public void deleteAllFlows()
+    // {
+    // Session tSession = mSessionFactory.getCurrentSession();
+    // Connection tCon = tSession.connection();
+    // try
+    // {
+    // SchemaExport tDdlexport = new SchemaExport(mConfiguration, tCon);
+    // tDdlexport.drop(true, true);
+    // tSession.flush();
+    // } finally
+    // {
+    // try
+    // {
+    // tCon.close();
+    // } catch (SQLException e)
+    // {
+    // sLog.error("Unable to release resources", e);
+    // }
+    // }
+    // try
+    // {
+    // tCon = tSession.connection();
+    // SchemaExport tDdlexport = new SchemaExport(mConfiguration, tCon);
+    // tDdlexport.create(true, true);
+    // } finally
+    // {
+    // try
+    // {
+    // tCon.close();
+    // } catch (SQLException e)
+    // {
+    // sLog.error("Unable to release resources", e);
+    // }
+    // }
+    // }
+
+    /**
+     * Delete an <code>ExcecutionFlow</code> an its nested <code>MethodCallDTO</code>.
+     * 
+     * @param pId The <code>ExecutionFlowDTO</code> identifier.
+     * @throws UnknownFlowException If the flow can't be find in db.
+     */
+    @SuppressWarnings("deprecation")
+    public void deleteFlow(int pId)
+    {
+        PreparedStatement tStat = null;
+        try
+        {
+            try
+            {
+                Session tSession = mSessionFactory.getCurrentSession();
+                Connection tCon = tSession.connection();
+                tStat = tCon.prepareStatement("UPDATE EXECUTION_FLOW set FIRST_METHOD_CALL_INDEX_IN_FLOW=? where ID=?");
+                tStat.setNull(1, Types.INTEGER);
+                tStat.setInt(2, pId);
+                tStat.execute();
+                tStat.close();
+                tStat = null;
+
+                tStat = tCon.prepareStatement("UPDATE METHOD_CALL set PARENT_INDEX_IN_FLOW=? Where FLOW_ID=?");
+                tStat.setNull(1, Types.INTEGER);
+                tStat.setInt(2, pId);
+                tStat.execute();
+                tStat.close();
+                tStat = null;
+
+                tStat = tCon.prepareStatement("DELETE FROM METHOD_CALL Where FLOW_ID=?");
+                tStat.setInt(1, pId);
+                tStat.execute();
+                tStat.close();
+                tStat = null;
+
+                tStat = tCon.prepareStatement("DELETE FROM EXECUTION_FLOW Where ID=?");
+                tStat.setInt(1, pId);
+                tStat.execute();
+                int tResultCount = tStat.getUpdateCount();
+                tStat.close();
+                tStat = null;
+                if (tResultCount != 1)
+                {
+                    throw new RuntimeException("Flow with Id=" + pId
+                        + " could not be retreive from database, and can't be delete");
+                }
+
+            } finally
+            {
+                if (tStat != null)
+                {
+                    tStat.close();
+                }
+            }
+        } catch (SQLException e)
+        {
+            sLog.error("Unable to UPDATE the link of ExecutionFlowPO in DataBase", e);
+            throw new MeasureException("Unable to delete the ExecutionFlowPO in DataBase");
+        }
     }
 
 }

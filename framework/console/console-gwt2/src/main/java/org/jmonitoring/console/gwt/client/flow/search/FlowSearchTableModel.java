@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
+import org.jmonitoring.console.gwt.client.common.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
-import org.jmonitoring.console.gwt.client.main.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 
 import com.google.gwt.user.client.ui.Image;
