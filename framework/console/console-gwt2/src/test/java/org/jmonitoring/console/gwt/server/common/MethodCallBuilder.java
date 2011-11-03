@@ -1,6 +1,7 @@
 package org.jmonitoring.console.gwt.server.common;
 
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 
@@ -37,7 +38,7 @@ public class MethodCallBuilder
     }
 
     // TODO Check the utility of Save and mainly ReLoad
-    public ExecutionFlowPO getAndSave(ConsoleDao pDao)
+    public ExecutionFlowPO getAndSave(ConsoleDao pDao) throws UnknownEntity
     {
         return executionFlowBuilder.getAndSave(pDao);
     }

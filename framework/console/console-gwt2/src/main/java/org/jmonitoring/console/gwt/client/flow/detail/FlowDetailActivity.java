@@ -7,6 +7,7 @@ import org.jmonitoring.console.gwt.client.common.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.common.message.MessagePlace;
 import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetailPlace;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
@@ -53,6 +54,18 @@ class FlowDetailActivity extends AbstractActivity
                 tFlowDetail.detailFlowImage.setUrl("image.dynamic?id=" + place.getId() + "&type=FlowDetail");
                 tFlowDetail.detailFlowImageMap.add(new HTML(pResult.getDetailMap()));
                 tFlowDetail.detailFlowImage.getElement().setAttribute("usemap", "#ChartBar");
+            }
+
+            @Override
+            public void onFailure(Throwable pThrowable)
+            {
+                if (pThrowable instanceof UnknownEntity)
+                {
+                    ClientFactory.goTo(new MessagePlace("The ExecutionFlow id=[" + place.getId() + "] doesn't exist"));
+                } else
+                {
+                    super.onFailure(pThrowable);
+                }
             }
 
         });

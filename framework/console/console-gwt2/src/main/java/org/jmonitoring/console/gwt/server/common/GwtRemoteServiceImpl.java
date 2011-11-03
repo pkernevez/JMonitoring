@@ -18,6 +18,7 @@ import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -58,12 +59,12 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tResponse;
     }
 
-    public ExecutionFlowDTO loadFull(int pFlowId)
+    public ExecutionFlowDTO loadFull(int pFlowId) throws UnknownEntity
     {
         return convertToDtoDeeply(dao.loadFullFlow(pFlowId));
     }
 
-    public ExecutionFlowDTO loadAndGenerateImage(int pFlowId)
+    public ExecutionFlowDTO loadAndGenerateImage(int pFlowId) throws UnknownEntity
     {
         HttpSession tSession = RemoteServiceUtil.getThreadLocalSession();
         ExecutionFlowPO tFlowPo = dao.loadFullFlow(pFlowId);
@@ -76,6 +77,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     }
 
     public byte[] generateDurationInGroupChart(HttpSession pSession, String pSessionId, int pFlowId)
+        throws UnknownEntity
     {
         MethodCallPO tFirstMeasure = dao.loadFullFlow(pFlowId).getFirstMethodCall();
         return generateDurationInGroupChart(pSession, pSessionId, tFirstMeasure);
@@ -89,7 +91,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tOutput;
     }
 
-    public byte[] generateGroupsCallsChart(HttpSession pSession, String pSessionId, int pFlowId)
+    public byte[] generateGroupsCallsChart(HttpSession pSession, String pSessionId, int pFlowId) throws UnknownEntity
     {
         ExecutionFlowPO tLoadFullFlow = dao.loadFullFlow(pFlowId);
 
@@ -105,6 +107,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     }
 
     public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, int pFlowId)
+        throws UnknownEntity
     {
         ExecutionFlowPO tLoadFullFlow = dao.loadFullFlow(pFlowId);
         return generateFlowDetailChart(pSession, pSessionId, tLoadFullFlow.getFirstMethodCall());

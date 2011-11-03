@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jmonitoring.console.gwt.server.common.HibernateServlet;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
@@ -45,30 +46,37 @@ public class DynamicImageServlet extends HibernateServlet
         String tType = pReq.getParameter("type");
         String tSessionId = tType + "&" + tId;
         byte[] tOutput = (byte[]) pReq.getSession().getAttribute(tSessionId);
-        if (tOutput == null)
+        try
         {
-            sLog.warn("Image not found in memory, recreate new one {}", tSessionId);
-            if ("DurationInGroups".equals(tType))
+            if (tOutput == null)
             {
-                tOutput =
-                    flowService.generateDurationInGroupChart(pReq.getSession(), tSessionId, Integer.parseInt(tId));
-            } else if ("GroupsCalls".equals(tType))
-            {
-                tOutput = flowService.generateGroupsCallsChart(pReq.getSession(), tSessionId, Integer.parseInt(tId));
-            } else if ("FlowDetail".equals(tType))
-            {
-                tOutput =
-                    flowService.generateFlowDetailChart(pReq.getSession(), tSessionId, Integer.parseInt(tId)).image;
-            } else
-            {
-                sLog.warn("Unable to create Image id={} type={}", tId, tType);
-                pResp.sendError(404);
-                tOutput = new byte[0];
+                sLog.warn("Image not found in memory, recreate new one {}", tSessionId);
+                if ("DurationInGroups".equals(tType))
+                {
+                    tOutput =
+                        flowService.generateDurationInGroupChart(pReq.getSession(), tSessionId, Integer.parseInt(tId));
+                } else if ("GroupsCalls".equals(tType))
+                {
+                    tOutput =
+                        flowService.generateGroupsCallsChart(pReq.getSession(), tSessionId, Integer.parseInt(tId));
+                } else if ("FlowDetail".equals(tType))
+                {
+                    tOutput =
+                        flowService.generateFlowDetailChart(pReq.getSession(), tSessionId, Integer.parseInt(tId)).image;
+                } else
+                {
+                    sLog.warn("Unable to create Image id={} type={}", tId, tType);
+                    pResp.sendError(404);
+                    tOutput = new byte[0];
+                }
             }
+            pResp.getOutputStream().write(tOutput);
+            // Clear image from session to avoid memory leaks
+            pReq.getSession().removeAttribute(tSessionId);
+        } catch (UnknownEntity e)
+        {
+            pResp.setStatus(500);
         }
-        pResp.getOutputStream().write(tOutput);
-        // Clear image from session to avoid memory leaks
-        pReq.getSession().removeAttribute(tSessionId);
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.jfree.data.category.IntervalCategoryDataset;
 import org.jmonitoring.console.gwt.server.common.ColorManager;
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class FlowDetailURLGeneratorTest extends PersistanceTestCase
     private ConsoleDao dao;
 
     @Test
-    public void testGenerateURL()
+    public void testGenerateURL() throws UnknownEntity
     {
         ExecutionFlowPO tFlow = dao.loadFullFlow(1);
 

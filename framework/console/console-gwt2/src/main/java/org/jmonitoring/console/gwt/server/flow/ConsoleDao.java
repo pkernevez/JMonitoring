@@ -22,6 +22,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -111,10 +112,14 @@ public class ConsoleDao extends InsertionDao
      * @param pFlowId The execution flow identifier to read.
      * @return The corresponding ExecutionFlowDTO.
      */
-    public ExecutionFlowPO loadFullFlow(int pFlowId)
+    public ExecutionFlowPO loadFullFlow(int pFlowId) throws UnknownEntity
     {
         Session tSession = sessionFactory.getCurrentSession();
         ExecutionFlowPO tFlow = (ExecutionFlowPO) tSession.get(ExecutionFlowPO.class, new Integer(pFlowId));
+        if (tFlow == null)
+        {
+            throw new UnknownEntity("Unable to find ExecFlow with id = " + pFlowId);
+        }
         Criteria tCriteria = tSession.createCriteria(MethodCallPO.class).setFetchMode("children", FetchMode.JOIN);
         tCriteria.add(Restrictions.eq("flow.id", new Integer(pFlowId)));
         tCriteria.list();

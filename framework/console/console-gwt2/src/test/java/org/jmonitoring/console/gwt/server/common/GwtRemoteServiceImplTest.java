@@ -6,6 +6,7 @@ import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -29,7 +30,7 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
     }
 
     @Test
-    public void testLoadFull()
+    public void testLoadFull() throws UnknownEntity
     {
         ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow();
         int tId = dao.insertFullExecutionFlow(tFlowPO);
@@ -72,6 +73,19 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
 
     }
 
+    @Test
+    public void testLoadFulNotFoundl()
+    {
+        try
+        {
+            service.loadFull(314159265);
+            fail("Should not pass !");
+        } catch (UnknownEntity e)
+        {
+            assertTrue(e.getMessage().contains("314159265"));
+        }
+    }
+
     private void assertEquals(MethodCallPO tInitialPoint, MethodCallDTO tReadPoint)
     {
         assertNotNull("The flow didn't load sub calls", tReadPoint);
@@ -95,7 +109,7 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
     }
 
     @Test
-    public void testConvertToDtoDeeply()
+    public void testConvertToDtoDeeply() throws UnknownEntity
     {
         ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow();
         int tId = dao.insertFullExecutionFlow(tFlowPO);
@@ -121,7 +135,7 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
     }
 
     @Test
-    public void testLoadMethodCallLoadingAttribute()
+    public void testLoadMethodCallLoadingAttribute() throws UnknownEntity
     {
         insertTestData();
         MethodCallPO tRootPo = dao.loadFullFlow(1).getFirstMethodCall();

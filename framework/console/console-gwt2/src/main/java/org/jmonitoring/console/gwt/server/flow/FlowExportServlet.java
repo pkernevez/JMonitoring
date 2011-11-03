@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jmonitoring.console.gwt.server.common.HibernateServlet;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,19 +30,25 @@ public class FlowExportServlet extends HibernateServlet
         // List tList = new ArrayList();
         int tFlowId = Integer.parseInt(pReq.getParameter("id"));
         sLog.debug("Read flow from database, Id=[" + tFlowId + "]");
-        ExecutionFlowDTO tFlow = flowService.loadFull(tFlowId);
-        // ExecutionFlowDTO tFlow = tConsoleManager.readFullExecutionFlow(tFlowId);
-        sLog.debug("End Read from database of Flow, Id=[" + tFlowId + "]");
-        pResp.setContentType("application/x-zip");
-        String tFileName =
-            "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_" + tFlow.getBeginTime() + ".gzip";
-        pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
+        try
+        {
+            ExecutionFlowDTO tFlow = flowService.loadFull(tFlowId);
+            // ExecutionFlowDTO tFlow = tConsoleManager.readFullExecutionFlow(tFlowId);
+            sLog.debug("End Read from database of Flow, Id=[" + tFlowId + "]");
+            pResp.setContentType("application/x-zip");
+            String tFileName =
+                "ExecutionFlow_" + tFlow.getJvmIdentifier() + "_Id" + tFlowId + "_" + tFlow.getBeginTime() + ".gzip";
+            pResp.setHeader("Content-Disposition", "attachment; filename=\"" + tFileName + "\"");
 
-        byte[] tFlowAsBytes = convertFlowToXml(tFlow);
-        pResp.setContentLength(tFlowAsBytes.length);
-        pResp.getOutputStream().write(tFlowAsBytes);
-        pResp.getOutputStream().flush();
-        pResp.getOutputStream().close();
+            byte[] tFlowAsBytes = convertFlowToXml(tFlow);
+            pResp.setContentLength(tFlowAsBytes.length);
+            pResp.getOutputStream().write(tFlowAsBytes);
+            pResp.getOutputStream().flush();
+            pResp.getOutputStream().close();
+        } catch (UnknownEntity e)
+        {
+            pResp.setStatus(500);
+        }
     }
 
     /**

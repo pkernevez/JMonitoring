@@ -15,6 +15,7 @@ import org.hibernate.SQLQuery;
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
@@ -141,11 +142,24 @@ public class ConsoleDaoTest extends PersistanceTestCase
     }
 
     @Test
-    public void testLoadFullFlow()
+    public void testLoadFullFlow() throws UnknownEntity
     {
         dao.loadFullFlow(1);
         getSession().flush();
         assertEquals("We don not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+    }
+
+    @Test
+    public void testLoadFullFlowNotFound()
+    {
+        try
+        {
+            dao.loadFullFlow(314159265);
+            fail("Should not pass !");
+        } catch (UnknownEntity e)
+        {
+            assertTrue(e.getMessage().contains("314159265"));
+        }
     }
 
     @Test

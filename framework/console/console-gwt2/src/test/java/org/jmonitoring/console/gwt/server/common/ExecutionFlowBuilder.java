@@ -1,6 +1,7 @@
 package org.jmonitoring.console.gwt.server.common;
 
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 
 public class ExecutionFlowBuilder
@@ -36,7 +37,7 @@ public class ExecutionFlowBuilder
         return executionFlow;
     }
 
-    public ExecutionFlowPO getAndSave(ConsoleDao pDao)
+    public ExecutionFlowPO getAndSave(ConsoleDao pDao) throws UnknownEntity
     {
         pDao.insertFullExecutionFlow(executionFlow);
         executionFlow = pDao.loadFullFlow(executionFlow.getId());

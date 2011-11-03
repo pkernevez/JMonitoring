@@ -9,6 +9,7 @@ import org.jmonitoring.console.gwt.server.common.ColorManager;
 import org.jmonitoring.console.gwt.server.common.ExecutionFlowBuilder;
 import org.jmonitoring.console.gwt.server.common.MethodCallBuilder;
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
+import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.MethodCallPK;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -47,7 +48,13 @@ public class PieChartGeneratorTest extends JMonitoringTestCase
         tChild1.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrDefault", 21, 4);
 
         tParentBuilder.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow3", "GrChild2", 48, 27);
-        return (pDao == null ? tParentBuilder.get() : tParentBuilder.getAndSave(pDao)).getFirstMethodCall();
+        try
+        {
+            return (pDao == null ? tParentBuilder.get() : tParentBuilder.getAndSave(pDao)).getFirstMethodCall();
+        } catch (UnknownEntity e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public static MethodCallPO createSample(MethodCallPO pParent, int pFlowId, int pPosition, String pClassName,
