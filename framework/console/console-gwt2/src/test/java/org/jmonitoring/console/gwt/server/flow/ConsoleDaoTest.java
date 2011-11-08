@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
+import org.jmonitoring.console.gwt.server.common.ExecutionFlowBuilder;
+import org.jmonitoring.console.gwt.server.common.MethodCallBuilder;
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
@@ -203,5 +205,58 @@ public class ConsoleDaoTest extends PersistanceTestCase
 
         assertEquals(1, dao.getPrevInGroup(tFlowId, 7, "GrDefault"));
         assertEquals(-1, dao.getPrevInGroup(tFlowId, 1, "GrDefault"));
+    }
+
+    @Test
+    public void testGetDistribution() throws UnknownEntity
+    {
+        MethodCallBuilder tBuilder =
+            ExecutionFlowBuilder.create(1000000000L).createMethodCall("MainClass", "main", "grp", 200);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 0, 15);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 17, 13);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 42, 12);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 56, 12);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 70, 11);
+        tBuilder.getAndSave(dao);
+        tBuilder = ExecutionFlowBuilder.create(1000000000L).createMethodCall("MainClass3", "main22", "grp", 33);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 2, 7);
+        tBuilder.getAndSave(dao);
+
+        assertEquals(0, dao.getDistribution("Unkmown", "Unknown", 10).size());
+        assertEquals(0, dao.getDistribution("Unkmown", "Unknown", 1).size());
+        assertEquals(0, dao.getDistribution("Unkmown", "Unknown", 20).size());
+
+        assertEquals(0, dao.getDistribution("Unkmown", "method1", 10).size());
+        assertEquals(0, dao.getDistribution("MainClass", "Unknown", 10).size());
+
+        List<Distribution> tDistribution = dao.getDistribution("MainClass", "method1", 10);
+        assertEquals(2, tDistribution.size());
+        assertEquals(0, tDistribution.get(0).duration);
+        assertEquals(1, tDistribution.get(0).numberOfOccurence);
+        assertEquals(10, tDistribution.get(1).duration);
+        assertEquals(5, tDistribution.get(1).numberOfOccurence);
+
+        tDistribution = dao.getDistribution("MainClass", "method1", 5);
+        assertEquals(3, tDistribution.size());
+        assertEquals(5, tDistribution.get(0).duration);
+        assertEquals(1, tDistribution.get(0).numberOfOccurence);
+        assertEquals(10, tDistribution.get(1).duration);
+        assertEquals(4, tDistribution.get(1).numberOfOccurence);
+        assertEquals(15, tDistribution.get(2).duration);
+        assertEquals(1, tDistribution.get(2).numberOfOccurence);
+
+        tDistribution = dao.getDistribution("MainClass", "method1", 2);
+        assertEquals(5, tDistribution.size());
+        assertEquals(6, tDistribution.get(0).duration);
+        assertEquals(1, tDistribution.get(0).numberOfOccurence);
+        assertEquals(8, tDistribution.get(1).duration);
+        assertEquals(0, tDistribution.get(1).numberOfOccurence);
+        assertEquals(10, tDistribution.get(2).duration);
+        assertEquals(1, tDistribution.get(2).numberOfOccurence);
+        assertEquals(12, tDistribution.get(3).duration);
+        assertEquals(3, tDistribution.get(3).numberOfOccurence);
+        assertEquals(14, tDistribution.get(4).duration);
+        assertEquals(1, tDistribution.get(4).numberOfOccurence);
+
     }
 }

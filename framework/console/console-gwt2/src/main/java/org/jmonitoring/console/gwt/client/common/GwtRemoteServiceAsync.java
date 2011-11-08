@@ -6,6 +6,7 @@ import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
+import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,5 +24,8 @@ public interface GwtRemoteServiceAsync
         AsyncCallback<Integer> pJMonitoringAsyncCallBack);
 
     void delete(int pFlowId, AsyncCallback<Void> callback);
+
+    void getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, int pGapDuration,
+        AsyncCallback<MethodCallDistributionDTO> callback);
 
 }

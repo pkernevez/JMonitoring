@@ -1,7 +1,7 @@
 package org.jmonitoring.console.gwt.client.methodcall.detail;
 
 import org.jmonitoring.console.gwt.client.common.NavHandler;
-import org.jmonitoring.console.gwt.client.methodcall.stat.MethodCallStatPlace;
+import org.jmonitoring.console.gwt.client.methodcall.distribution.MethodCallDistributionPlace;
 import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 
@@ -64,7 +64,7 @@ public class SubMethodCall extends Composite
         description.setText(pChild.getGroupName() + " -> " + pChild.getFullMethodName());
         description.addClickHandler(tHandler);
         edit.addClickHandler(tHandler);
-        stats.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
+        stats.addClickHandler(new NavHandler(new MethodCallDistributionPlace(0, 0)));
         if (pChild.hasThrownException())
         {
             throwImage.setResource(image.warn());

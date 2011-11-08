@@ -19,6 +19,7 @@ import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
+import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -256,4 +257,13 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         dao.deleteFlow(pFlowId);
 
     }
+
+    public MethodCallDistributionDTO getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, int pGapDuration)
+        throws UnknownEntity
+    {
+        MethodCallPO tMeth = dao.loadMethodCall(pFlowId, pMethodPosition);
+
+        return null;
+    }
+
 }

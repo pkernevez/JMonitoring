@@ -6,7 +6,7 @@ import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 import org.jmonitoring.console.gwt.client.common.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.common.NavHandler;
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
-import org.jmonitoring.console.gwt.client.methodcall.stat.MethodCallStatPlace;
+import org.jmonitoring.console.gwt.client.methodcall.distribution.MethodCallDistributionPlace;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
@@ -57,7 +57,7 @@ public class MethodCallDetailActivity extends AbstractActivity
                                                                           "background-color: "
                                                                               + pResult.getGroupColor() + ";");
                 methodCallDetail.goToFlow.addClickHandler(new NavHandler(new FlowDetailPlace(place.flowId)));
-                methodCallDetail.goToStat.addClickHandler(new NavHandler(new MethodCallStatPlace(0, 0)));
+                methodCallDetail.goToStat.addClickHandler(new NavHandler(new MethodCallDistributionPlace(0, 0)));
                 if (pResult.getThrowableClass() == null)
                 {
                     methodCallDetail.throwableRow1.addClassName(methodCallDetail.customStyle.mask());

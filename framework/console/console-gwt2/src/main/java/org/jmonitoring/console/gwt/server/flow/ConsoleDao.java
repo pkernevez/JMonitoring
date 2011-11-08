@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -279,4 +280,35 @@ public class ConsoleDao extends InsertionDao
         }
     }
 
+    public List<Distribution> getDistribution(String pClassName, String pMethodName, int pGapDuration)
+    {
+        // TODO Find a better way for the gapDuration
+        String tHql =
+            "select new org.jmonitoring.console.gwt.server.flow.Distribution( count(*) as n , (meth.endTime-meth.beginTime) / "
+                + pGapDuration + ") from MethodCallPO meth "
+                + "WHERE meth.className = :className AND meth.methodName = :methodName "
+                + "group by  (meth.endTime-meth.beginTime) / " + pGapDuration
+                + " order by  (meth.endTime-meth.beginTime) / " + pGapDuration;
+        Query tQuery = getSession().createQuery(tHql);
+        tQuery.setString("className", pClassName);
+        tQuery.setString("methodName", pMethodName);
+        // tQuery.setInteger("gapDuration", pGapDuration);
+        @SuppressWarnings("unchecked")
+        List<Distribution> tList = tQuery.list();
+
+        long tFinalSize = (tList.size() == 0 ? 0 : tList.get(tList.size() - 1).duration - tList.get(0).duration + 1);
+        List<Distribution> tResult = new ArrayList<Distribution>((int) tFinalSize);
+        int tDurationPosition = Integer.MAX_VALUE;
+        for (Distribution tDist : tList)
+        {
+            for (int i = tDurationPosition; i < tDist.duration; i++)
+            {
+                tResult.add(new Distribution(0, i * pGapDuration));
+            }
+            tDurationPosition = (int) tDist.duration + 1;
+            tDist.duration = tDist.duration * pGapDuration;
+            tResult.add(tDist);
+        }
+        return tResult;
+    }
 }

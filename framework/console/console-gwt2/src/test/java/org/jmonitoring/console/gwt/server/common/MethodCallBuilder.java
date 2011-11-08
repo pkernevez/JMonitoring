@@ -53,42 +53,42 @@ public class MethodCallBuilder
         return addSubMethod(pClassName, pMethodName, pGroupName, 0, pDuration);
     }
 
-    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, String pGroupName, long pOffSet,
+    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, String pGroupName, long pOffSetFromParent,
         long pDuration)
     {
         if (methodCall.getChildren().size() > 0)
         {
             MethodCallPO tPrevious = methodCall.getChild(methodCall.getChildren().size() - 1);
-            if (tPrevious.getEndTime() > (methodCall.getBeginTime() + pOffSet))
+            if (tPrevious.getEndTime() > (methodCall.getBeginTime() + pOffSetFromParent))
             {
                 throw new ExecutionFlowInvalidExeption(
                                                        "The next methodCall could not start before the previous endTime. Previous endTime is "
                                                            + tPrevious.getEndTime() + " and next beginTime is "
-                                                           + (methodCall.getBeginTime() + pOffSet));
+                                                           + (methodCall.getBeginTime() + pOffSetFromParent));
             }
         }
-        if (pOffSet < 0)
+        if (pOffSetFromParent < 0)
         {
             throw new ExecutionFlowInvalidExeption(
                                                    "The child could not start before the parent beginTime. Child beginTime is "
-                                                       + (methodCall.getBeginTime() + pOffSet)
+                                                       + (methodCall.getBeginTime() + pOffSetFromParent)
                                                        + " and parent beginTime is " + methodCall.getBeginTime());
         }
-        if (pOffSet > methodCall.getDuration())
+        if (pOffSetFromParent > methodCall.getDuration())
         {
             throw new ExecutionFlowInvalidExeption(
                                                    "The child could not start after the parent ended. Child beginTime is "
-                                                       + (methodCall.getBeginTime() + pOffSet)
+                                                       + (methodCall.getBeginTime() + pOffSetFromParent)
                                                        + " and parent endTime is " + methodCall.getEndTime());
         }
-        if ((pOffSet + pDuration) > methodCall.getDuration())
+        if ((pOffSetFromParent + pDuration) > methodCall.getDuration())
         {
             throw new ExecutionFlowInvalidExeption("The child could not end after the parent. Child endTime is "
-                + (methodCall.getBeginTime() + pDuration + pOffSet) + " and parent is " + methodCall.getEndTime());
+                + (methodCall.getBeginTime() + pDuration + pOffSetFromParent) + " and parent is " + methodCall.getEndTime());
         }
         MethodCallBuilder subMethodCallBuilder =
             new MethodCallBuilder(executionFlowBuilder, pClassName, pMethodName, pGroupName, methodCall.getBeginTime()
-                + pOffSet, pDuration);
+                + pOffSetFromParent, pDuration);
         methodCall.addChildren(subMethodCallBuilder.getInternal());
         return subMethodCallBuilder;
     }

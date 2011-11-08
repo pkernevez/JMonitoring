@@ -1,0 +1,72 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style src="../../resources/main-style.css" />
+		
+	<ui:with field="res"
+		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle" />
+
+	<g:HTMLPanel>
+
+		<h1>MethodCall Distribution</h1>
+
+		<g:HTMLPanel>
+			<table>
+				<tr>
+					<td>
+						<div class="{style.label}">Full Method Name</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="fullMethodName" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Number of MethodCall Found</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="nbFound" />
+					</td>
+				</tr>
+				<tr>
+					<td colSpan="2">
+						<div class="{style.label}">Duration</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Min Duration</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="durationMin" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Average Duration</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="durationAvg" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Max Duration</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="durationMax" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="{style.label}">Value to use for grouping duration value:</div>
+					</td>
+					<td>
+						<g:TextBox ui:field="gapDuration" maxLength="6" visibleLength="6"></g:TextBox>
+					</td>
+				</tr>
+			</table>
+			<g:Image resource="{res.refresh}" ui:field="buttonOk"></g:Image>
+		</g:HTMLPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 
