@@ -262,7 +262,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         throws UnknownEntity
     {
         MethodCallPO tMeth = dao.loadMethodCall(pFlowId, pMethodPosition);
-
+        dao.getDistribution(tMeth.getClassName(), tMeth.getMethodName(), pGapDuration);
         return null;
     }
 

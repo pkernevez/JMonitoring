@@ -298,14 +298,14 @@ public class ConsoleDao extends InsertionDao
 
         long tFinalSize = (tList.size() == 0 ? 0 : tList.get(tList.size() - 1).duration - tList.get(0).duration + 1);
         List<Distribution> tResult = new ArrayList<Distribution>((int) tFinalSize);
-        int tDurationPosition = Integer.MAX_VALUE;
+        long tDurationPosition = Long.MAX_VALUE;
         for (Distribution tDist : tList)
         {
-            for (int i = tDurationPosition; i < tDist.duration; i++)
+            for (long i = tDurationPosition; i < tDist.duration; i++)
             {
                 tResult.add(new Distribution(0, i * pGapDuration));
             }
-            tDurationPosition = (int) tDist.duration + 1;
+            tDurationPosition = tDist.duration + 1;
             tDist.duration = tDist.duration * pGapDuration;
             tResult.add(tDist);
         }
