@@ -28,19 +28,24 @@ public class MethodCallDistributionActivity extends AbstractActivity
 
     public void start(final AcceptsOneWidget pPanel, EventBus pEventBus)
     {
-        JMonitoringAsyncCallBack<MethodCallDistributionDTO> tCallback = new JMonitoringAsyncCallBack<MethodCallDistributionDTO>()
-        {
-
-            public void onSuccess(MethodCallDistributionDTO pResult)
+        JMonitoringAsyncCallBack<MethodCallDistributionDTO> tCallback =
+            new JMonitoringAsyncCallBack<MethodCallDistributionDTO>()
             {
-                MethodCallDistribution tMethodCallStat =
-                    clientFactory.getMethodCallStat();
-                tMethodCallStat.gapDuration.setText(String.valueOf(place.gapDuration));
-                pPanel.setWidget(tMethodCallStat.setPresenter(MethodCallDistributionActivity.this));
-            }
 
-        };
-        service.getDistributionAndGenerateImage(place.flowId, place.position, 10,
-                                                tCallback);
+                public void onSuccess(MethodCallDistributionDTO pResult)
+                {
+                    MethodCallDistribution tMethodCallStat = clientFactory.getMethodCallStat();
+                    tMethodCallStat.gapDuration.setText(String.valueOf(place.gapDuration));
+                    tMethodCallStat.fullMethodName.setText(pResult.getFullName());
+                    tMethodCallStat.durationMin.setText(pResult.getMinDuration());
+                    tMethodCallStat.durationAvg.setText(pResult.getAvgDuration());
+                    tMethodCallStat.durationDeviance.setText(pResult.getDevianceDuration());
+                    tMethodCallStat.durationMax.setText(pResult.getMaxDuration());
+                    tMethodCallStat.nbOccurences.setText(pResult.getNbOccurences());
+                    pPanel.setWidget(tMethodCallStat.setPresenter(MethodCallDistributionActivity.this));
+                }
+
+            };
+        service.getDistributionAndGenerateImage(place.flowId, place.position, 10, tCallback);
     }
 }

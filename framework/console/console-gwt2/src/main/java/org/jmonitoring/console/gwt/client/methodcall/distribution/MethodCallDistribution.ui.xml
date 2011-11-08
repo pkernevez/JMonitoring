@@ -25,7 +25,7 @@
 						<div class="{style.label}">Number of MethodCall Found</div>
 					</td>
 					<td>
-						<g:Label styleName="{style.data-label}" ui:field="nbFound" />
+						<g:Label styleName="{style.data-label}" ui:field="nbOccurences" />
 					</td>
 				</tr>
 				<tr>
@@ -51,6 +51,14 @@
 				</tr>
 				<tr>
 					<td>
+						<div class="{style.label}">Deviance Duration</div>
+					</td>
+					<td>
+						<g:Label styleName="{style.data-label}" ui:field="durationDeviance" />
+					</td>
+				</tr>
+				<tr>
+					<td>
 						<div class="{style.label}">Max Duration</div>
 					</td>
 					<td>
@@ -59,7 +67,7 @@
 				</tr>
 				<tr>
 					<td>
-						<div class="{style.label}">Value to use for grouping duration value:</div>
+						<div class="{style.label}">Value to use for grouping duration value</div>
 					</td>
 					<td>
 						<g:TextBox ui:field="gapDuration" maxLength="6" visibleLength="6"></g:TextBox>

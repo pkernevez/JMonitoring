@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,6 +19,24 @@ public class MethodCallDistribution extends Composite
 
     @UiField
     TextBox gapDuration;
+
+    @UiField
+    Label fullMethodName;
+
+    @UiField
+    Label nbOccurences;
+
+    @UiField
+    Label durationMin;
+
+    @UiField
+    Label durationAvg;
+
+    @UiField
+    Label durationDeviance;
+
+    @UiField
+    Label durationMax;
 
     private MethodCallDistributionActivity presenter;
 

@@ -263,7 +263,14 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     {
         MethodCallPO tMeth = dao.loadMethodCall(pFlowId, pMethodPosition);
         dao.getDistribution(tMeth.getClassName(), tMeth.getMethodName(), pGapDuration);
-        return null;
+        MethodCallDistributionDTO tResult = new MethodCallDistributionDTO();
+        tResult.setFullName(tMeth.getClassName() + "." + tMeth.getMethodName() + "(...)");
+        tResult.setNbOccurences("0");
+        tResult.setMinDuration("10");
+        tResult.setAvgDuration("15");
+        tResult.setMaxDuration("20");
+        tResult.setDevianceDuration("3");
+        return tResult;
     }
 
 }
