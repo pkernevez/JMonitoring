@@ -1,5 +1,6 @@
 package org.jmonitoring.core.configuration;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +18,8 @@ public class FormaterBean
     private ThreadLocal<SimpleDateFormat> mDateFormater;
 
     private ThreadLocal<SimpleDateFormat> mTimeFormater;
+
+    private ThreadLocal<DecimalFormat> mDecimalFormater = new ThreadLocal<DecimalFormat>();
 
     private String mDateFormat;
 
@@ -91,35 +94,54 @@ public class FormaterBean
         mTimeFormater = new ThreadLocal<SimpleDateFormat>();
     }
 
-    private SimpleDateFormat getTimeFormatter(){
+    private SimpleDateFormat getTimeFormatter()
+    {
         SimpleDateFormat tResult = mTimeFormater.get();
-        if (tResult == null){
+        if (tResult == null)
+        {
             tResult = new SimpleDateFormat(mTimeFormat);
             mTimeFormater.set(tResult);
         }
-        return tResult;       
+        return tResult;
     }
-    
-    private SimpleDateFormat getDateTimeFormatter(){
+
+    private SimpleDateFormat getDateTimeFormatter()
+    {
         SimpleDateFormat tResult = mDateTimeFormater.get();
-        if (tResult == null){
-            String tFormat = (mDateFormat == null?"":mDateFormat+" ")+(mTimeFormat==null?"":mTimeFormat);
+        if (tResult == null)
+        {
+            String tFormat = (mDateFormat == null ? "" : mDateFormat + " ") + (mTimeFormat == null ? "" : mTimeFormat);
             tResult = new SimpleDateFormat(tFormat);
             mDateTimeFormater.set(tResult);
         }
         return tResult;
     }
-    
+
     /**
      * @return the dateFormater
      */
     public synchronized SimpleDateFormat getDateFormatter()
     {
         SimpleDateFormat tResult = mDateFormater.get();
-        if (tResult == null){
+        if (tResult == null)
+        {
             tResult = new SimpleDateFormat(mDateFormat);
             mDateFormater.set(tResult);
         }
-        return tResult;  
+        return tResult;
+    }
+
+    /**
+     * @return the dateFormater
+     */
+    public synchronized DecimalFormat get2DecimalFormatter()
+    {
+        DecimalFormat tResult = mDecimalFormater.get();
+        if (tResult == null)
+        {
+            tResult = new DecimalFormat("#.##");
+            mDecimalFormater.set(tResult);
+        }
+        return tResult;
     }
 }

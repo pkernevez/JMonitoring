@@ -25,7 +25,7 @@ public interface GwtRemoteServiceAsync
 
     void delete(int pFlowId, AsyncCallback<Void> callback);
 
-    void getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, int pGapDuration,
+    void getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, long pGapDuration,
         AsyncCallback<MethodCallDistributionDTO> callback);
 
 }

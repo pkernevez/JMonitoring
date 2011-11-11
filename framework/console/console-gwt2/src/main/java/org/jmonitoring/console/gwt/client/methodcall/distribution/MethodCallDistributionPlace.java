@@ -16,7 +16,7 @@ public class MethodCallDistributionPlace extends Place implements ActivityAware
 
     int position;
 
-    int gapDuration;
+    long gapDuration;
 
     @Prefix("methodcallstat")
     public static class MethodCallStatTokenizer extends AbstractPlaceTokenizer implements

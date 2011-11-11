@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.gwtrpcspring.RemoteServiceUtil;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
+import org.jmonitoring.console.gwt.server.flow.Distribution;
+import org.jmonitoring.console.gwt.server.flow.Stats;
 import org.jmonitoring.console.gwt.server.image.ChartBarGenerator;
 import org.jmonitoring.console.gwt.server.image.ChartBarGenerator.FlowDetailChart;
 import org.jmonitoring.console.gwt.server.image.PieChartGenerator;
@@ -33,6 +35,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class GwtRemoteServiceImpl implements GwtRemoteService
 {
+    private static final int NB_DEFAULT_INTERVAL_VALUE = 50;
+
+    private static final int INTERVAL_MULTIPLE_VALUE = 5;
 
     static Logger sLog = getLogger();
 
@@ -40,7 +45,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     protected ConsoleDao dao;
 
     @Resource(name = "formater")
-    private FormaterBean formater;
+    FormaterBean formater;
 
     @Autowired
     private ColorManager color;
@@ -258,19 +263,40 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
 
     }
 
-    public MethodCallDistributionDTO getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, int pGapDuration)
-        throws UnknownEntity
+    public MethodCallDistributionDTO getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, long pGapDuration)
     {
         MethodCallPO tMeth = dao.loadMethodCall(pFlowId, pMethodPosition);
-        dao.getDistribution(tMeth.getClassName(), tMeth.getMethodName(), pGapDuration);
+        // The Interval has not be specified explicitly
+        Stats tStat = dao.getDurationStats(tMeth.getClassName(), tMeth.getMethodName());
+
+        if (pGapDuration <= 0)
+        {
+            pGapDuration = getDefaultGapDuration(tStat.max);
+        }
+        List<Distribution> tDistribList =
+            dao.getDistribution(tMeth.getClassName(), tMeth.getMethodName(), pGapDuration);
         MethodCallDistributionDTO tResult = new MethodCallDistributionDTO();
         tResult.setFullName(tMeth.getClassName() + "." + tMeth.getMethodName() + "(...)");
-        tResult.setNbOccurences("0");
-        tResult.setMinDuration("10");
-        tResult.setAvgDuration("15");
-        tResult.setMaxDuration("20");
-        tResult.setDevianceDuration("3");
+        tResult.setNbOccurences(String.valueOf(tStat.nbOccurence));
+        tResult.setMinDuration(String.valueOf(tStat.min));
+        tResult.setAvgDuration(round(tStat.average));
+        tResult.setMaxDuration(String.valueOf(tStat.max));
+        tResult.setDevianceDuration(round(tStat.stdDeviation));
         return tResult;
+    }
+
+    String round(double tValue)
+    {
+        return formater.get2DecimalFormatter().format(tValue);
+    }
+
+    long getDefaultGapDuration(long pDurationMax)
+    {
+        pDurationMax = pDurationMax / NB_DEFAULT_INTERVAL_VALUE;
+        // We want an interval multiple of 5
+        pDurationMax = pDurationMax / INTERVAL_MULTIPLE_VALUE * INTERVAL_MULTIPLE_VALUE;
+        pDurationMax = Math.max(pDurationMax, 1);
+        return pDurationMax;
     }
 
 }

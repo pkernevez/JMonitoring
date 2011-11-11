@@ -1,25 +1,35 @@
 package org.jmonitoring.console.gwt.server.common;
 
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
+import org.jmonitoring.console.gwt.server.flow.Distribution;
+import org.jmonitoring.console.gwt.server.flow.Stats;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
+import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class GwtRemoteServiceImplTest extends PersistanceTestCase
 {
-    @Resource(name = "consoleDao")
-    protected ConsoleDao dao;
-
     @Resource(name = "formater")
     private FormaterBean formater;
+
+    @Mock
+    protected ConsoleDao mockDao;
 
     @Autowired
     private GwtRemoteServiceImpl service;
@@ -167,5 +177,59 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         assertEquals(4, getStats().getEntityLoadCount());// 4
         assertEquals(0, getStats().getEntityFetchCount());
         assertEquals(0, getStats().getEntityUpdateCount());// 0
+    }
+
+    @Test
+    public void testGetDefaultGapDuration()
+    {
+        // TODO Use mockito every where here ?
+        // mock(null)
+        MockitoAnnotations.initMocks(this);
+        // @MockitoJUnitRunner.
+        GwtRemoteServiceImpl tService = new GwtRemoteServiceImpl();
+        tService.dao = mockDao;
+
+        // when(mockDao.getDurationMinMax(anyString(), anyString())).thenReturn(10L);
+        assertEquals(1, tService.getDefaultGapDuration(10L));
+        assertEquals(1, tService.getDefaultGapDuration(249L));
+        assertEquals(5, tService.getDefaultGapDuration(250L));
+        assertEquals(10, tService.getDefaultGapDuration(500L));
+    }
+
+    @Test
+    public void testGetDistributionAndGenerateImage()
+    {
+        MockitoAnnotations.initMocks(this);
+        // @MockitoJUnitRunner.
+        GwtRemoteServiceImpl tService = new GwtRemoteServiceImpl();
+        tService.dao = mockDao;
+        tService.formater = formater;
+
+        MethodCallPO tMeth = new MethodCallPO();
+        tMeth.setClassName("TestClassName");
+        tMeth.setMethodName("Methode");
+        when(mockDao.loadMethodCall(2, 4)).thenReturn(tMeth);
+        Stats tStat = new Stats(2, 234, 50.4567, 1256).setStdDeviation(12.678809);
+        when(mockDao.getDurationStats("TestClassName", "Methode")).thenReturn(tStat);
+        List<Distribution> tDistribList = new ArrayList<Distribution>();
+        when(mockDao.getDistribution("2", "4", 10)).thenReturn(tDistribList);
+
+        MethodCallDistributionDTO tResult = tService.getDistributionAndGenerateImage(2, 4, 10);
+        assertEquals("2", tResult.getMinDuration());
+        assertEquals("234", tResult.getMaxDuration());
+        assertEquals("50.46", tResult.getAvgDuration());
+        assertEquals("1256", tResult.getNbOccurences());
+        assertEquals("12.68", tResult.getStdDeviationDuration());
+    }
+
+    @Test
+    public void testRound()
+    {
+        GwtRemoteServiceImpl tService = new GwtRemoteServiceImpl();
+        tService.formater = formater;
+        assertEquals("45", tService.round(45.0));
+        assertEquals("78.2", tService.round(78.2));
+        assertEquals("45.98", tService.round(45.9846));
+        assertEquals("45.99", tService.round(45.9876));
     }
 }

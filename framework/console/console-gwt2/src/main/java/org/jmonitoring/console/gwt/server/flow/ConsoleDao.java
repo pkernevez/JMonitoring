@@ -280,7 +280,7 @@ public class ConsoleDao extends InsertionDao
         }
     }
 
-    public List<Distribution> getDistribution(String pClassName, String pMethodName, int pGapDuration)
+    public List<Distribution> getDistribution(String pClassName, String pMethodName, long pGapDuration)
     {
         // TODO Find a better way for the gapDuration
         String tHql =
@@ -298,7 +298,7 @@ public class ConsoleDao extends InsertionDao
 
         long tFinalSize = (tList.size() == 0 ? 0 : tList.get(tList.size() - 1).duration - tList.get(0).duration + 1);
         List<Distribution> tResult = new ArrayList<Distribution>((int) tFinalSize);
-        long tDurationPosition = Long.MAX_VALUE;
+        long tDurationPosition = 0;
         for (Distribution tDist : tList)
         {
             for (long i = tDurationPosition; i < tDist.duration; i++)
@@ -309,6 +309,28 @@ public class ConsoleDao extends InsertionDao
             tDist.duration = tDist.duration * pGapDuration;
             tResult.add(tDist);
         }
+        return tResult;
+    }
+
+    public Stats getDurationStats(String pClassName, String pMethodName)
+    {
+        String tHql =
+            "select new org.jmonitoring.console.gwt.server.flow.Stats(min(endTime-beginTime), max(endTime-beginTime), "
+                + "avg(endTime-beginTime), count(*)) from MethodCallPO "
+                + "WHERE className = :className AND methodName = :methodName ";
+        Query tQuery = getSession().createQuery(tHql);
+        tQuery.setString("className", pClassName);
+        tQuery.setString("methodName", pMethodName);
+        Stats tResult = (Stats) tQuery.list().get(0);
+
+        tHql =
+            "select sum((:average - (endTime-beginTime))*(:average - (endTime-beginTime))) from MethodCallPO "
+                + "WHERE className = :className AND methodName = :methodName ";
+        tQuery = getSession().createQuery(tHql);
+        tQuery.setString("className", pClassName);
+        tQuery.setString("methodName", pMethodName);
+        tQuery.setDouble("average", tResult.average);
+        tResult.stdDeviation = Math.sqrt((Long) tQuery.list().get(0) / tResult.nbOccurence);
         return tResult;
     }
 }

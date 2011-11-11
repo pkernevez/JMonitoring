@@ -237,26 +237,58 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(5, tDistribution.get(1).numberOfOccurence);
 
         tDistribution = dao.getDistribution("MainClass", "method1", 5);
-        assertEquals(3, tDistribution.size());
-        assertEquals(5, tDistribution.get(0).duration);
-        assertEquals(1, tDistribution.get(0).numberOfOccurence);
-        assertEquals(10, tDistribution.get(1).duration);
-        assertEquals(4, tDistribution.get(1).numberOfOccurence);
-        assertEquals(15, tDistribution.get(2).duration);
-        assertEquals(1, tDistribution.get(2).numberOfOccurence);
+        assertEquals(4, tDistribution.size());
+        assertEquals(0, tDistribution.get(0).duration);
+        assertEquals(0, tDistribution.get(0).numberOfOccurence);
+        assertEquals(5, tDistribution.get(1).duration);
+        assertEquals(1, tDistribution.get(1).numberOfOccurence);
+        assertEquals(10, tDistribution.get(2).duration);
+        assertEquals(4, tDistribution.get(2).numberOfOccurence);
+        assertEquals(15, tDistribution.get(3).duration);
+        assertEquals(1, tDistribution.get(3).numberOfOccurence);
 
         tDistribution = dao.getDistribution("MainClass", "method1", 2);
-        assertEquals(5, tDistribution.size());
-        assertEquals(6, tDistribution.get(0).duration);
-        assertEquals(1, tDistribution.get(0).numberOfOccurence);
-        assertEquals(8, tDistribution.get(1).duration);
+        assertEquals(8, tDistribution.size());
+        assertEquals(0, tDistribution.get(0).duration);
+        assertEquals(0, tDistribution.get(0).numberOfOccurence);
+        assertEquals(2, tDistribution.get(1).duration);
         assertEquals(0, tDistribution.get(1).numberOfOccurence);
-        assertEquals(10, tDistribution.get(2).duration);
-        assertEquals(1, tDistribution.get(2).numberOfOccurence);
-        assertEquals(12, tDistribution.get(3).duration);
-        assertEquals(3, tDistribution.get(3).numberOfOccurence);
-        assertEquals(14, tDistribution.get(4).duration);
-        assertEquals(1, tDistribution.get(4).numberOfOccurence);
+        assertEquals(4, tDistribution.get(2).duration);
+        assertEquals(0, tDistribution.get(2).numberOfOccurence);
+        assertEquals(6, tDistribution.get(3).duration);
+        assertEquals(1, tDistribution.get(3).numberOfOccurence);
+        assertEquals(8, tDistribution.get(4).duration);
+        assertEquals(0, tDistribution.get(4).numberOfOccurence);
+        assertEquals(10, tDistribution.get(5).duration);
+        assertEquals(1, tDistribution.get(5).numberOfOccurence);
+        assertEquals(12, tDistribution.get(6).duration);
+        assertEquals(3, tDistribution.get(6).numberOfOccurence);
+        assertEquals(14, tDistribution.get(7).duration);
+        assertEquals(1, tDistribution.get(7).numberOfOccurence);
 
+    }
+
+    @Test
+    public void testGetDurationStats()
+    {
+        assertEquals(15, dao.getDurationStats("MainClass", "sub1").max);
+        assertEquals(40, dao.getDurationStats("SubClass2", "meth2").max);
+        assertEquals(110, dao.getDurationStats("MainClass", "main").max);
+
+        assertEquals(15, dao.getDurationStats("MainClass", "sub1").min);
+        assertEquals(40, dao.getDurationStats("SubClass2", "meth2").min);
+        assertEquals(100, dao.getDurationStats("MainClass", "main").min);
+
+        assertEquals(2, dao.getDurationStats("MainClass", "sub1").nbOccurence);
+        assertEquals(1, dao.getDurationStats("SubClass2", "meth2").nbOccurence);
+        assertEquals(2, dao.getDurationStats("MainClass", "main").nbOccurence);
+
+        assertEquals(15.0, dao.getDurationStats("MainClass", "sub1").average, 0.01);
+        assertEquals(40.0, dao.getDurationStats("SubClass2", "meth2").average, 0.01);
+        assertEquals(105.0, dao.getDurationStats("MainClass", "main").average, 0.01);
+
+        assertEquals(0.0, dao.getDurationStats("MainClass", "sub1").stdDeviation, 0.01);
+        assertEquals(0.0, dao.getDurationStats("SubClass2", "meth2").stdDeviation, 0.01);
+        assertEquals(5.0, dao.getDurationStats("MainClass", "main").stdDeviation, 0.01);
     }
 }

@@ -58,7 +58,7 @@ public class MethodCallDistributionDTO implements Serializable
         maxDuration = pMaxDuration;
     }
 
-    public String getDevianceDuration()
+    public String getStdDeviationDuration()
     {
         return devianceDuration;
     }

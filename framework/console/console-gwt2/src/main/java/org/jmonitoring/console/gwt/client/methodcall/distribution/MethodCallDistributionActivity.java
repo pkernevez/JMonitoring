@@ -39,7 +39,7 @@ public class MethodCallDistributionActivity extends AbstractActivity
                     tMethodCallStat.fullMethodName.setText(pResult.getFullName());
                     tMethodCallStat.durationMin.setText(pResult.getMinDuration());
                     tMethodCallStat.durationAvg.setText(pResult.getAvgDuration());
-                    tMethodCallStat.durationDeviance.setText(pResult.getDevianceDuration());
+                    tMethodCallStat.durationDeviance.setText(pResult.getStdDeviationDuration());
                     tMethodCallStat.durationMax.setText(pResult.getMaxDuration());
                     tMethodCallStat.nbOccurences.setText(pResult.getNbOccurences());
                     pPanel.setWidget(tMethodCallStat.setPresenter(MethodCallDistributionActivity.this));

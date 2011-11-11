@@ -42,7 +42,7 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
     protected SessionFactory sessionFactory;
 
     @Autowired
-    private ConsoleDao dao;
+    protected ConsoleDao dao;
 
     private Statistics stats;
 
