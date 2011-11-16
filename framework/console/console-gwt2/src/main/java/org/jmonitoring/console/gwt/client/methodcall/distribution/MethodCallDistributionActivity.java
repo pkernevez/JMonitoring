@@ -35,6 +35,8 @@ public class MethodCallDistributionActivity extends AbstractActivity
                 public void onSuccess(MethodCallDistributionDTO pResult)
                 {
                     MethodCallDistribution tMethodCallStat = clientFactory.getMethodCallStat();
+                    tMethodCallStat.distribution.setUrl("image.dynamic?id=" + pResult.getClassName() + "/"
+                        + pResult.getMethodName() + "/10" + "&type=Distribution");
                     tMethodCallStat.gapDuration.setText(String.valueOf(place.gapDuration));
                     tMethodCallStat.fullMethodName.setText(pResult.getFullName());
                     tMethodCallStat.durationMin.setText(pResult.getMinDuration());

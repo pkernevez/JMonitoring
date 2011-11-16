@@ -227,14 +227,7 @@ public class ChartBarGenerator
 
     }
 
-    public static class FlowDetailChart
-    {
-        public byte[] image;
-
-        public String map;
-    }
-
-    public FlowDetailChart getImage()
+    public MappedChart getImage()
     {
         chainAllMethodCallToMainTaskOfGroup();
         IntervalCategoryDataset intervalcategorydataset = createDataset();
@@ -256,7 +249,7 @@ public class ChartBarGenerator
             PrintWriter tWriter = new PrintWriter(tMapStream);
             ChartUtilities.writeImageMap(tWriter, "ChartBar", tChartRenderingInfo);
             tWriter.flush();
-            FlowDetailChart tResult = new FlowDetailChart();
+            MappedChart tResult = new MappedChart();
             tResult.image = tStream.toByteArray();
             tResult.map = tMapStream.toString();
             return tResult;

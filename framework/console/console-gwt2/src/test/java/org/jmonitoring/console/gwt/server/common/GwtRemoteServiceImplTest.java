@@ -1,11 +1,13 @@
 package org.jmonitoring.console.gwt.server.common;
 
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.server.flow.Distribution;
@@ -180,7 +182,7 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
     }
 
     @Test
-    public void testGetDefaultGapDuration()
+    public void testGetDefaultInterval()
     {
         // TODO Use mockito every where here ?
         // mock(null)
@@ -190,10 +192,10 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         tService.dao = mockDao;
 
         // when(mockDao.getDurationMinMax(anyString(), anyString())).thenReturn(10L);
-        assertEquals(1, tService.getDefaultGapDuration(10L));
-        assertEquals(1, tService.getDefaultGapDuration(249L));
-        assertEquals(5, tService.getDefaultGapDuration(250L));
-        assertEquals(10, tService.getDefaultGapDuration(500L));
+        assertEquals(1, tService.getDefaultInterval(10L));
+        assertEquals(1, tService.getDefaultInterval(249L));
+        assertEquals(5, tService.getDefaultInterval(250L));
+        assertEquals(10, tService.getDefaultInterval(500L));
     }
 
     @Test
@@ -213,8 +215,11 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         when(mockDao.getDurationStats("TestClassName", "Methode")).thenReturn(tStat);
         List<Distribution> tDistribList = new ArrayList<Distribution>();
         when(mockDao.getDistribution("2", "4", 10)).thenReturn(tDistribList);
+        HttpSession tSession = mock(HttpSession.class);
 
-        MethodCallDistributionDTO tResult = tService.getDistributionAndGenerateImage(2, 4, 10);
+        MethodCallDistributionDTO tResult =
+            tService.getDistributionAndGenerateImage(tSession, "TestClassName", "Methode", 10);
+        verify(tSession).setAttribute(eq("Distribution&TestClassName/Methode/10"), anyObject());
         assertEquals("2", tResult.getMinDuration());
         assertEquals("234", tResult.getMaxDuration());
         assertEquals("50.46", tResult.getAvgDuration());

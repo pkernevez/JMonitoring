@@ -6,7 +6,9 @@ public class MethodCallDistributionDTO implements Serializable
 {
     private static final long serialVersionUID = -3517045932991784784L;
 
-    private String fullName;
+    private String className;
+
+    private String methodName;
 
     private String nbOccurences;
 
@@ -18,14 +20,11 @@ public class MethodCallDistributionDTO implements Serializable
 
     private String devianceDuration;
 
+    private String map;
+
     public String getFullName()
     {
-        return fullName;
-    }
-
-    public void setFullName(String pFullName)
-    {
-        fullName = pFullName;
+        return className + "." + methodName + "(...)";
     }
 
     public String getMinDuration()
@@ -76,6 +75,36 @@ public class MethodCallDistributionDTO implements Serializable
     public void setNbOccurences(String pNbOccurences)
     {
         nbOccurences = pNbOccurences;
+    }
+
+    public String getMap()
+    {
+        return map;
+    }
+
+    public void setMap(String pMap)
+    {
+        map = pMap;
+    }
+
+    public String getClassName()
+    {
+        return className;
+    }
+
+    public void setClassName(String pClassName)
+    {
+        className = pClassName;
+    }
+
+    public String getMethodName()
+    {
+        return methodName;
+    }
+
+    public void setMethodName(String pMethodName)
+    {
+        methodName = pMethodName;
     }
 
 }

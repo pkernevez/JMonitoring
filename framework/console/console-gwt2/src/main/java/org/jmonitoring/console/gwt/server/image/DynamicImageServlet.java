@@ -44,25 +44,32 @@ public class DynamicImageServlet extends HibernateServlet
     {
         String tId = pReq.getParameter("id");
         String tType = pReq.getParameter("type");
-        String tSessionId = tType + "&" + tId;
-        byte[] tOutput = (byte[]) pReq.getSession().getAttribute(tSessionId);
+        String tIdInSession = tType + "&" + tId;
+        byte[] tOutput = (byte[]) pReq.getSession().getAttribute(tIdInSession);
         try
         {
             if (tOutput == null)
             {
-                sLog.warn("Image not found in memory, recreate new one {}", tSessionId);
+                sLog.warn("Image not found in memory, recreate new one {}", tIdInSession);
                 if ("DurationInGroups".equals(tType))
                 {
                     tOutput =
-                        flowService.generateDurationInGroupChart(pReq.getSession(), tSessionId, Integer.parseInt(tId));
+                        flowService.generateDurationInGroupChart(pReq.getSession(), tIdInSession, Integer.parseInt(tId));
                 } else if ("GroupsCalls".equals(tType))
                 {
                     tOutput =
-                        flowService.generateGroupsCallsChart(pReq.getSession(), tSessionId, Integer.parseInt(tId));
+                        flowService.generateGroupsCallsChart(pReq.getSession(), tIdInSession, Integer.parseInt(tId));
                 } else if ("FlowDetail".equals(tType))
                 {
                     tOutput =
-                        flowService.generateFlowDetailChart(pReq.getSession(), tSessionId, Integer.parseInt(tId)).image;
+                        flowService.generateFlowDetailChart(pReq.getSession(), tIdInSession, Integer.parseInt(tId)).image;
+                } else if ("Distribution".equals(tType))
+                {
+                    String[] tParams = tId.split("/");
+                    assert tParams.length == 3;
+                    flowService.getDistributionAndGenerateImage(pReq.getSession(), tParams[0], tParams[1],
+                                                                Long.valueOf(tParams[2]));
+                    tOutput = (byte[]) pReq.getSession().getAttribute(tIdInSession);
                 } else
                 {
                     sLog.warn("Unable to create Image id={} type={}", tId, tType);
@@ -72,7 +79,7 @@ public class DynamicImageServlet extends HibernateServlet
             }
             pResp.getOutputStream().write(tOutput);
             // Clear image from session to avoid memory leaks
-            pReq.getSession().removeAttribute(tSessionId);
+            pReq.getSession().removeAttribute(tIdInSession);
         } catch (UnknownEntity e)
         {
             pResp.setStatus(500);

@@ -14,7 +14,8 @@ import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.server.flow.Distribution;
 import org.jmonitoring.console.gwt.server.flow.Stats;
 import org.jmonitoring.console.gwt.server.image.ChartBarGenerator;
-import org.jmonitoring.console.gwt.server.image.ChartBarGenerator.FlowDetailChart;
+import org.jmonitoring.console.gwt.server.image.DistributionChartGenerator;
+import org.jmonitoring.console.gwt.server.image.MappedChart;
 import org.jmonitoring.console.gwt.server.image.PieChartGenerator;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
@@ -112,17 +113,17 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tOutput;
     }
 
-    public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, int pFlowId)
+    public MappedChart generateFlowDetailChart(HttpSession pSession, String pSessionId, int pFlowId)
         throws UnknownEntity
     {
         ExecutionFlowPO tLoadFullFlow = dao.loadFullFlow(pFlowId);
         return generateFlowDetailChart(pSession, pSessionId, tLoadFullFlow.getFirstMethodCall());
     }
 
-    public FlowDetailChart generateFlowDetailChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
+    public MappedChart generateFlowDetailChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
     {
         ChartBarGenerator tGenerator = new ChartBarGenerator(color, pFirstMeasure);
-        FlowDetailChart tResult = tGenerator.getImage();
+        MappedChart tResult = tGenerator.getImage();
         pSession.setAttribute(pSessionId, tResult.image);
         return tResult;
     }
@@ -263,26 +264,43 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
 
     }
 
-    public MethodCallDistributionDTO getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, long pGapDuration)
+    public MethodCallDistributionDTO getDistributionAndGenerateImage(HttpSession pSession, String pClassName,
+        String pMethodName, long pInterval)
     {
-        MethodCallPO tMeth = dao.loadMethodCall(pFlowId, pMethodPosition);
-        // The Interval has not be specified explicitly
-        Stats tStat = dao.getDurationStats(tMeth.getClassName(), tMeth.getMethodName());
+        Stats tStat = dao.getDurationStats(pClassName, pMethodName);
 
-        if (pGapDuration <= 0)
+        if (pInterval <= 0)
         {
-            pGapDuration = getDefaultGapDuration(tStat.max);
+            pInterval = getDefaultInterval(tStat.max);
         }
-        List<Distribution> tDistribList =
-            dao.getDistribution(tMeth.getClassName(), tMeth.getMethodName(), pGapDuration);
+        List<Distribution> tDistribList = dao.getDistribution(pClassName, pMethodName, pInterval);
+
+        MappedChart tChart = new DistributionChartGenerator().generateDistributionChart(tDistribList, tStat, pInterval);
+
         MethodCallDistributionDTO tResult = new MethodCallDistributionDTO();
-        tResult.setFullName(tMeth.getClassName() + "." + tMeth.getMethodName() + "(...)");
+        tResult.setMap(tChart.map);
+        tResult.setClassName(pClassName);
+        tResult.setMethodName(pMethodName);
         tResult.setNbOccurences(String.valueOf(tStat.nbOccurence));
         tResult.setMinDuration(String.valueOf(tStat.min));
         tResult.setAvgDuration(round(tStat.average));
         tResult.setMaxDuration(String.valueOf(tStat.max));
         tResult.setDevianceDuration(round(tStat.stdDeviation));
+        pSession.setAttribute("Distribution&" + pClassName + "/" + pMethodName + "/" + pInterval, tChart.image);
         return tResult;
+
+        // ChartBarGenerator tGenerator = new ChartBarGenerator(color, pFirstMeasure);
+        // MappedChart tResult = tGenerator.getImage();
+        // pSession.setAttribute(pSessionId, tResult.image);
+        // return tResult;
+    }
+
+    public MethodCallDistributionDTO getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, long pInterval)
+    {
+        HttpSession tSession = RemoteServiceUtil.getThreadLocalSession();
+        MethodCallPO tMeth = dao.loadMethodCall(pFlowId, pMethodPosition);
+        // The Interval has not be specified explicitly
+        return getDistributionAndGenerateImage(tSession, tMeth.getClassName(), tMeth.getMethodName(), pInterval);
     }
 
     String round(double tValue)
@@ -290,7 +308,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return formater.get2DecimalFormatter().format(tValue);
     }
 
-    long getDefaultGapDuration(long pDurationMax)
+    long getDefaultInterval(long pDurationMax)
     {
         pDurationMax = pDurationMax / NB_DEFAULT_INTERVAL_VALUE;
         // We want an interval multiple of 5
