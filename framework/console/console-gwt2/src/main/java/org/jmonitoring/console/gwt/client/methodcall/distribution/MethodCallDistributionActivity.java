@@ -36,8 +36,8 @@ public class MethodCallDistributionActivity extends AbstractActivity
                 {
                     MethodCallDistribution tMethodCallStat = clientFactory.getMethodCallStat();
                     tMethodCallStat.distribution.setUrl("image.dynamic?id=" + pResult.getClassName() + "/"
-                        + pResult.getMethodName() + "/10" + "&type=Distribution");
-                    tMethodCallStat.gapDuration.setText(String.valueOf(place.gapDuration));
+                        + pResult.getMethodName() + "/" + pResult.getInterval() + "&type=Distribution");
+                    tMethodCallStat.interval.setText(String.valueOf(pResult.getInterval()));
                     tMethodCallStat.fullMethodName.setText(pResult.getFullName());
                     tMethodCallStat.durationMin.setText(pResult.getMinDuration());
                     tMethodCallStat.durationAvg.setText(pResult.getAvgDuration());
@@ -45,9 +45,17 @@ public class MethodCallDistributionActivity extends AbstractActivity
                     tMethodCallStat.durationMax.setText(pResult.getMaxDuration());
                     tMethodCallStat.nbOccurences.setText(pResult.getNbOccurences());
                     pPanel.setWidget(tMethodCallStat.setPresenter(MethodCallDistributionActivity.this));
+                    tMethodCallStat.interval.setFocus(true);
                 }
 
             };
-        service.getDistributionAndGenerateImage(place.flowId, place.position, 10, tCallback);
+        service.getDistributionAndGenerateImage(place.flowId, place.position, place.interval, tCallback);
+    }
+
+    public void changeInterval(String pInterval)
+    {
+        MethodCallDistributionPlace tNewPlace = new MethodCallDistributionPlace(place.flowId, place.position);
+        tNewPlace.interval = Integer.parseInt(pInterval);
+        ClientFactory.goTo(tNewPlace);
     }
 }

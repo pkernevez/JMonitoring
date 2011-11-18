@@ -1,8 +1,11 @@
 package org.jmonitoring.console.gwt.client.methodcall.distribution;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -19,7 +22,7 @@ public class MethodCallDistribution extends Composite
     }
 
     @UiField
-    TextBox gapDuration;
+    TextBox interval;
 
     @UiField
     Label fullMethodName;
@@ -55,4 +58,19 @@ public class MethodCallDistribution extends Composite
         return this;
     }
 
+    @UiHandler("buttonOk")
+    void onButtonOkClick(ClickEvent pEvent)
+    {
+        presenter.changeInterval(interval.getText());
+    }
+
+    @UiHandler("interval")
+    void onIntervalKeyPress(KeyPressEvent pEvent)
+    {
+        if (pEvent.getCharCode() == 13)
+        {
+            presenter.changeInterval(interval.getText());
+        }
+
+    }
 }

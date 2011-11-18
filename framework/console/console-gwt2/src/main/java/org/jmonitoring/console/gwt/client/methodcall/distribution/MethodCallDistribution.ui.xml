@@ -30,11 +30,6 @@
 						</td>
 					</tr>
 					<tr>
-						<td colSpan="2">
-							<div class="{style.label}">Duration</div>
-						</td>
-					</tr>
-					<tr>
 						<td>
 							<div class="{style.label}">Min Duration</div>
 						</td>
@@ -71,7 +66,7 @@
 							<div class="{style.label}">Value to use for grouping duration value</div>
 						</td>
 						<td>
-							<g:TextBox ui:field="gapDuration" maxLength="6"
+							<g:TextBox ui:field="interval" maxLength="6"
 								visibleLength="6"></g:TextBox>
 						</td>
 					</tr>

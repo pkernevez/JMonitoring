@@ -16,7 +16,7 @@ public class MethodCallDistributionPlace extends Place implements ActivityAware
 
     int position;
 
-    long gapDuration;
+    long interval;
 
     @Prefix("methodcallstat")
     public static class MethodCallStatTokenizer extends AbstractPlaceTokenizer implements
@@ -28,28 +28,33 @@ public class MethodCallDistributionPlace extends Place implements ActivityAware
             tokenize(pToken);
             int tFlowId = Integer.parseInt(nextToken());
             int tPosition = Integer.parseInt(nextToken());
-            int tGapDuration = Integer.parseInt(nextToken());
-            return new MethodCallDistributionPlace(tFlowId, tPosition, tGapDuration);
+            int tInterval = Integer.parseInt(nextToken());
+            return new MethodCallDistributionPlace(tFlowId, tPosition, tInterval);
         }
 
         public String getToken(MethodCallDistributionPlace pPlace)
         {
             return getToken(String.valueOf(pPlace.flowId), String.valueOf(pPlace.position),
-                            String.valueOf(pPlace.gapDuration));
+                            String.valueOf(pPlace.interval));
         }
 
     }
 
     public MethodCallDistributionPlace(int pFlowId, int pPosition)
     {
-        this(pFlowId, pPosition, 10);
+        this(pFlowId, pPosition, -1);
+    }
+
+    public MethodCallDistributionPlace(String pFlowId, String pPosition)
+    {
+        this(Integer.parseInt(pFlowId), Integer.parseInt(pPosition), -1);
     }
 
     public MethodCallDistributionPlace(int pFlowId, int pPosition, int pGapDuration)
     {
         flowId = pFlowId;
         position = pPosition;
-        gapDuration = pGapDuration;
+        interval = pGapDuration;
     }
 
     public Activity getActivity(ClientFactory pClientFactory)

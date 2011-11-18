@@ -286,6 +286,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         tResult.setAvgDuration(round(tStat.average));
         tResult.setMaxDuration(String.valueOf(tStat.max));
         tResult.setDevianceDuration(round(tStat.stdDeviation));
+        tResult.setInterval(String.valueOf(pInterval));
         pSession.setAttribute("Distribution&" + pClassName + "/" + pMethodName + "/" + pInterval, tChart.image);
         return tResult;
 

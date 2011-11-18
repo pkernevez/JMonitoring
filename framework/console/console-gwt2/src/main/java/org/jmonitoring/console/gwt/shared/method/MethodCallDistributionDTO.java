@@ -22,6 +22,8 @@ public class MethodCallDistributionDTO implements Serializable
 
     private String map;
 
+    private String interval;
+
     public String getFullName()
     {
         return className + "." + methodName + "(...)";
@@ -105,6 +107,18 @@ public class MethodCallDistributionDTO implements Serializable
     public void setMethodName(String pMethodName)
     {
         methodName = pMethodName;
+    }
+
+    public void setInterval(String pInterval)
+    {
+        interval = pInterval;
+
+    }
+
+    public String getInterval()
+    {
+        return interval;
+
     }
 
 }
