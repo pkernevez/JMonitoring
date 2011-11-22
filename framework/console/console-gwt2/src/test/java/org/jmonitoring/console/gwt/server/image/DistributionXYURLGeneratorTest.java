@@ -29,15 +29,15 @@ public class DistributionXYURLGeneratorTest extends TestCase
         IntervalXYDataset tIntervalxydataset = new DistributionDataSet(tDistribList, 50L);
 
         DistributionXYURLGenerator tGenerator = new DistributionXYURLGenerator("theClass", "theMeth", 50L);
-        assertEquals("javascript:window.methClick('theClass', 'theMeth', 0, 50);",
+        assertEquals("javascript:window.methClick('theClass', 'theMeth', '0', '50');",
                      tGenerator.generateURL(tIntervalxydataset, 0, 0));
-        assertEquals("javascript:window.methClick('theClass', 'theMeth', 50, 100);",
+        assertEquals("javascript:window.methClick('theClass', 'theMeth', '50', '100');",
                      tGenerator.generateURL(tIntervalxydataset, 0, 1));
-        assertEquals("javascript:window.methClick('theClass', 'theMeth', 100, 150);",
+        assertEquals("javascript:window.methClick('theClass', 'theMeth', '100', '150');",
                      tGenerator.generateURL(tIntervalxydataset, 0, 2));
-        assertEquals("javascript:window.methClick('theClass', 'theMeth', 150, 200);",
+        assertEquals("javascript:window.methClick('theClass', 'theMeth', '150', '200');",
                      tGenerator.generateURL(tIntervalxydataset, 0, 3));
-        assertEquals("javascript:window.methClick('theClass', 'theMeth', 200, 250);",
+        assertEquals("javascript:window.methClick('theClass', 'theMeth', '200', '250');",
                      tGenerator.generateURL(tIntervalxydataset, 0, 4));
 
     }

@@ -10,7 +10,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.jmonitoring" level="debug" />
+	<logger name="org.jmonitoring" level="info" />
 
 	<root level="info">
 		<appender-ref ref="STDOUT" />

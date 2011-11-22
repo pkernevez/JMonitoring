@@ -52,9 +52,9 @@ public class DistributionXYURLGenerator implements XYURLGenerator, Serializable
         StringBuilder tBuffer = new StringBuilder();
         tBuffer.append("javascript:window.methClick('");
         tBuffer.append(className).append("', '");
-        tBuffer.append(methodName).append("', ");
-        tBuffer.append(interval * pBarChartNumber).append(", ");
-        tBuffer.append(interval * (pBarChartNumber + 1)).append(");");
+        tBuffer.append(methodName).append("', '");
+        tBuffer.append(interval * pBarChartNumber).append("', '");
+        tBuffer.append(interval * (pBarChartNumber + 1)).append("');");
         String tUrl = tBuffer.toString();
         sLog.debug("Generate URL:{}", tUrl);
         return tUrl;
