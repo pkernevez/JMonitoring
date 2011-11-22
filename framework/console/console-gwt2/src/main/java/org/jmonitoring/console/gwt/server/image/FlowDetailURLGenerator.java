@@ -1,7 +1,6 @@
 package org.jmonitoring.console.gwt.server.image;
 
 import org.jfree.chart.urls.CategoryURLGenerator;
-import org.jfree.chart.urls.XYURLGenerator;
 import org.jfree.data.category.CategoryDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +19,6 @@ public class FlowDetailURLGenerator extends FlowDetailGenerator implements Categ
         super();
     }
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see XYURLGenerator#generateURL(org.jfree.data.xy.XYDataset, int, int)
-     */
     public String generateURL(CategoryDataset categorydataset, int i, int j)
     {
         MethodCallTask tCurrentTask = getCurrentTask(categorydataset, j);

@@ -7,6 +7,7 @@ import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace;
 import org.jmonitoring.console.gwt.client.main.Main;
 import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetail;
 import org.jmonitoring.console.gwt.client.methodcall.distribution.MethodCallDistribution;
+import org.jmonitoring.console.gwt.client.methodcall.search.MethodCallSearch;
 import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 
 import com.google.gwt.activity.shared.ActivityManager;
@@ -37,6 +38,8 @@ public class ClientFactory
     // private MethodCallDetail methodCallDetail = new MethodCallDetail();
 
     private MethodCallDistribution methodCallStat = new MethodCallDistribution();
+
+    private MethodCallSearch methodCallSearch = new MethodCallSearch();
 
     public final static ConsoleImageBundle imageBundle = GWT.create(ConsoleImageBundle.class);
 
@@ -111,5 +114,10 @@ public class ClientFactory
     public Message getMessage()
     {
         return message;
+    }
+
+    public MethodCallSearch getMethodCallSearch()
+    {
+        return methodCallSearch;
     }
 }

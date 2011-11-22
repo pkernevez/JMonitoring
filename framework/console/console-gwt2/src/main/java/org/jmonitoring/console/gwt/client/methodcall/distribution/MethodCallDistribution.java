@@ -6,7 +6,9 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -45,11 +47,15 @@ public class MethodCallDistribution extends Composite
     @UiField
     Image distribution;
 
+    @UiField
+    HTMLPanel distributionImageMap;
+
     private MethodCallDistributionActivity presenter;
 
     public MethodCallDistribution()
     {
         initWidget(uiBinder.createAndBindUi(this));
+        Window.setTitle("Method calls' distribution");
     }
 
     public MethodCallDistribution setPresenter(MethodCallDistributionActivity pActivity)

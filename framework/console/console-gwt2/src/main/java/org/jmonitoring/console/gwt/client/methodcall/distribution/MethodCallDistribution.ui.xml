@@ -74,6 +74,7 @@
 			</g:HTMLPanel>
 			<g:Image resource="{res.refresh}" ui:field="buttonOk"></g:Image>
 			<g:Image ui:field="distribution"></g:Image>
+			<g:HTMLPanel ui:field="distributionImageMap"></g:HTMLPanel>
 		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -24,14 +24,12 @@ public class FlowDetailURLGeneratorTest extends PersistanceTestCase
     {
         ExecutionFlowPO tFlow = dao.loadFullFlow(1);
 
-        ChartBarGenerator tUtil = new ChartBarGenerator(color, tFlow.getFirstMethodCall());
+        FlowDetailChartBarGenerator tUtil = new FlowDetailChartBarGenerator(color, tFlow.getFirstMethodCall());
         tUtil.chainAllMethodCallToMainTaskOfGroup();
         IntervalCategoryDataset tIntervalcategorydataset = tUtil.createDataset();
         tUtil.createGanttChart(tIntervalcategorydataset);
 
         FlowDetailURLGenerator tGenerator = new FlowDetailURLGenerator();
-        String tUrl = tGenerator.generateURL(tIntervalcategorydataset, 0, 0);
-        assertEquals("javascript:window.methClick(1,1);", tUrl);
         assertEquals("javascript:window.methClick(1,1);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
         assertEquals("javascript:window.methClick(1,1);", tGenerator.generateURL(tIntervalcategorydataset, 0, 0));
         assertEquals("javascript:window.methClick(1,2);", tGenerator.generateURL(tIntervalcategorydataset, 0, 1));

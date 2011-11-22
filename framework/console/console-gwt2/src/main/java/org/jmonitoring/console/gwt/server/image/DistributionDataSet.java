@@ -25,8 +25,9 @@ public class DistributionDataSet extends AbstractIntervalXYDataset implements In
 
     private final long interval;
 
-    public DistributionDataSet(List<Distribution> pDistribList, long pInterval, long pDurationMax)
-    { // Map<Long, Integer> pMap
+    public DistributionDataSet(List<Distribution> pDistribList, long pInterval)
+    { // TODO Cleaning
+      // Map<Long, Integer> pMap
         distribList = pDistribList;
         interval = pInterval;
         // int tSize = pDistribList.size() + 1; // +1 ??

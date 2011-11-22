@@ -284,11 +284,14 @@ public class ConsoleDao extends InsertionDao
     {
         // TODO Find a better way for the gapDuration
         String tHql =
-            "select new org.jmonitoring.console.gwt.server.flow.Distribution( count(*) as n , (meth.endTime-meth.beginTime) / "
-                + pGapDuration + ") from MethodCallPO meth "
+            "select new org.jmonitoring.console.gwt.server.flow.Distribution( count(*) as n , round(((meth.endTime-meth.beginTime) / "
+                + pGapDuration
+                + ")-0.49, 0 )) from MethodCallPO meth "
                 + "WHERE meth.className = :className AND meth.methodName = :methodName "
-                + "group by  (meth.endTime-meth.beginTime) / " + pGapDuration
-                + " order by  (meth.endTime-meth.beginTime) / " + pGapDuration;
+                + "group by  round(((meth.endTime-meth.beginTime) / "
+                + pGapDuration
+                + ")-0.49, 0 )"
+                + " order by  round(((meth.endTime-meth.beginTime) / " + pGapDuration + ")-0.49, 0 )";
         Query tQuery = getSession().createQuery(tHql);
         tQuery.setString("className", pClassName);
         tQuery.setString("methodName", pMethodName);

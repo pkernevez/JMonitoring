@@ -38,5 +38,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl JMonitoring.html -logLevel INFO -codeServerPort 9997 -port 8888 -war /Users/pkernevez/SCM/ProjetGit/JMonitoring/framework/console/console-gwt2/src/main/webapp org.jmonitoring.console.gwt.JMonitoring org.jmonitoring.console.gwt.test.ProjetFormationJUnit"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="console-gwt2"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Drebel.workspace.path=/Users/pkernevez/workspace/jmonitoring -Drebel.metadata.path=/Users/pkernevez/workspace/jmonitoring/.metadata/.jrebel -Xmx768m -XX:MaxPermSize=256M -verbose:gc -XstartOnFirstThread -Dgwt.nowarn.webapp.classpath"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value=" -Drebel.metadata.path=/Users/pkernevez/workspace/jmonitoring/.metadata/.jrebel -javaagent:/Applications/soft/eclipse-3.7/plugins/org.zeroturnaround.eclipse.embedder_4.5.2.201111071655/jrebel/jrebel.jar -Drebel.workspace.path=/Users/pkernevez/workspace/jmonitoring -Xmx768m -XX:MaxPermSize=256M -verbose:gc -XstartOnFirstThread -Dgwt.nowarn.webapp.classpath"/>
 </launchConfiguration>

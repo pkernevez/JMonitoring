@@ -32,9 +32,9 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChartBarGenerator
+public class FlowDetailChartBarGenerator
 {
-    private static final Logger sLog = LoggerFactory.getLogger(ChartBarGenerator.class);
+    private static final Logger sLog = LoggerFactory.getLogger(FlowDetailChartBarGenerator.class);
 
     private static final float LABEL_WIDTH_RATIO = 10F;
 
@@ -52,7 +52,7 @@ public class ChartBarGenerator
 
     int maxMethodPerGroup;
 
-    public ChartBarGenerator(ColorManager pColorManager, MethodCallPO pFirstMeasure)
+    public FlowDetailChartBarGenerator(ColorManager pColorManager, MethodCallPO pFirstMeasure)
     {
         super();
         colorManager = pColorManager;

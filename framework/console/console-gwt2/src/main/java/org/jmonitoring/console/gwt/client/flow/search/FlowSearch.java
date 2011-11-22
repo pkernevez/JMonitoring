@@ -14,6 +14,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -64,6 +65,7 @@ public class FlowSearch extends Composite
     public FlowSearch()
     {
         initWidget(sUiBinder.createAndBindUi(this));
+        Window.setTitle("Flow search");
         beginDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yy")));
         beginDate.getTextBox().setVisibleLength(8);
         beginDate.getTextBox().setMaxLength(8);

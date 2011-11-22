@@ -4,12 +4,14 @@ import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 import org.jmonitoring.console.gwt.client.common.JMonitoringAsyncCallBack;
+import org.jmonitoring.console.gwt.client.methodcall.search.MethodCallSearchPlace;
 import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.HTML;
 
 public class MethodCallDistributionActivity extends AbstractActivity
 {
@@ -28,15 +30,18 @@ public class MethodCallDistributionActivity extends AbstractActivity
 
     public void start(final AcceptsOneWidget pPanel, EventBus pEventBus)
     {
+        exportMapMethClick();
         JMonitoringAsyncCallBack<MethodCallDistributionDTO> tCallback =
             new JMonitoringAsyncCallBack<MethodCallDistributionDTO>()
             {
-
                 public void onSuccess(MethodCallDistributionDTO pResult)
                 {
                     MethodCallDistribution tMethodCallStat = clientFactory.getMethodCallStat();
                     tMethodCallStat.distribution.setUrl("image.dynamic?id=" + pResult.getClassName() + "/"
                         + pResult.getMethodName() + "/" + pResult.getInterval() + "&type=Distribution");
+                    tMethodCallStat.distributionImageMap.clear();
+                    tMethodCallStat.distributionImageMap.add(new HTML(pResult.getMap()));
+                    tMethodCallStat.distribution.getElement().setAttribute("usemap", "#chart");
                     tMethodCallStat.interval.setText(String.valueOf(pResult.getInterval()));
                     tMethodCallStat.fullMethodName.setText(pResult.getFullName());
                     tMethodCallStat.durationMin.setText(pResult.getMinDuration());
@@ -50,6 +55,16 @@ public class MethodCallDistributionActivity extends AbstractActivity
 
             };
         service.getDistributionAndGenerateImage(place.flowId, place.position, place.interval, tCallback);
+    }
+
+    public static native void exportMapMethClick() /*-{
+                                                   $wnd.methClick = $entry(@org.jmonitoring.console.gwt.client.methodcall.distribution.MethodCallDistributionActivity::methClick(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;));
+                                                   }-*/;
+
+    /** Method use to trap clicks on the map of the flow. Used by native javascript. */
+    public static void methClick(String pClassName, String pMethodName, String pMinDuration, String pMaxDuration)
+    {
+        ClientFactory.goTo(new MethodCallSearchPlace(pClassName, pMethodName, pMinDuration, pMaxDuration));
     }
 
     public void changeInterval(String pInterval)

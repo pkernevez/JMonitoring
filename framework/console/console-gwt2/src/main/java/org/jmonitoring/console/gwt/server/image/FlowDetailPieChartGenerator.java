@@ -25,7 +25,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PieChartGenerator
+public class FlowDetailPieChartGenerator
 {
     /** Constant used for the URL generation of the PieChart representing the number of calls. */
     public static final String NB_CALL_TO_GROUP = "NB_CALL_TO_GROUP";
@@ -33,13 +33,13 @@ public class PieChartGenerator
     /** Constant used for the URL generation of the PieChart representing the duration of calls. */
     public static final String DURATION_IN_GROUP = "DURATION_IN_GROUP";
 
-    private static Logger sLog = LoggerFactory.getLogger(PieChartGenerator.class);
+    private static Logger sLog = LoggerFactory.getLogger(FlowDetailPieChartGenerator.class);
 
     Map<String, Integer> listOfGroup = new HashMap<String, Integer>();
 
     private final ColorManager colorMgr;
 
-    public PieChartGenerator(ColorManager pColorMgr)
+    public FlowDetailPieChartGenerator(ColorManager pColorMgr)
     {
         super();
         colorMgr = pColorMgr;

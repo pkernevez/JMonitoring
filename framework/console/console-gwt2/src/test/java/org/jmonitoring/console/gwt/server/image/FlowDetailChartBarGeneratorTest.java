@@ -12,14 +12,14 @@ import org.jmonitoring.console.gwt.server.common.ExecutionFlowBuilder;
 import org.jmonitoring.console.gwt.server.common.MethodCallBuilder;
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
-import org.jmonitoring.console.gwt.server.image.ChartBarGenerator.TaskForGroupName;
+import org.jmonitoring.console.gwt.server.image.FlowDetailChartBarGenerator.TaskForGroupName;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ChartBarGeneratorTest extends PersistanceTestCase
+public class FlowDetailChartBarGeneratorTest extends PersistanceTestCase
 {
     @Resource(name = "formater")
     private FormaterBean mFormater;
@@ -30,7 +30,7 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
     @Autowired
     private ConsoleDao dao;
 
-    public ChartBarGeneratorTest()
+    public FlowDetailChartBarGeneratorTest()
     {
         dataInitialized = true;
     }
@@ -39,7 +39,7 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
     public void testChainAllMethodCallToMainTaskOfGroup()
     {
         MethodCallPO tFirstMethod = getVerySimpleMeasurePoint();
-        ChartBarGenerator tChartGenerator = new ChartBarGenerator(mColor, tFirstMethod);
+        FlowDetailChartBarGenerator tChartGenerator = new FlowDetailChartBarGenerator(mColor, tFirstMethod);
         tChartGenerator.chainAllMethodCallToMainTaskOfGroup();
 
         Map<String, TaskForGroupName> tGroups = tChartGenerator.listOfGroup;
@@ -84,9 +84,9 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
     @Test
     public void testFillListOfGroup()
     {
-        MethodCallPO tFirstMethod = PieChartGeneratorTest.getSampleMeasurePoint(mFormater, mColor, dao);
+        MethodCallPO tFirstMethod = FlowDetailPieChartGeneratorTest.getSampleMeasurePoint(mFormater, mColor, dao);
 
-        ChartBarGenerator tUtil = new ChartBarGenerator(mColor, tFirstMethod);
+        FlowDetailChartBarGenerator tUtil = new FlowDetailChartBarGenerator(mColor, tFirstMethod);
         tUtil.chainAllMethodCallToMainTaskOfGroup();
 
         Map<String, TaskForGroupName> tGroups = tUtil.listOfGroup;
@@ -161,9 +161,12 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
 
         ExecutionFlowBuilder tBuilder = ExecutionFlowBuilder.create(tRefDate);
         MethodCallBuilder tParentBuilder =
-            tBuilder.createMethodCall(ChartBarGeneratorTest.class.getName(), "builNewFullFlow", "GrDefault", 106);
-        tParentBuilder.addSubMethod(ChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 2, 43);
-        tParentBuilder.addSubMethod(ChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 48, 6);
+            tBuilder.createMethodCall(FlowDetailChartBarGeneratorTest.class.getName(), "builNewFullFlow", "GrDefault",
+                                      106);
+        tParentBuilder.addSubMethod(FlowDetailChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 2,
+                                    43);
+        tParentBuilder.addSubMethod(FlowDetailChartBarGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1",
+                                    48, 6);
 
         try
         {
@@ -179,24 +182,24 @@ public class ChartBarGeneratorTest extends PersistanceTestCase
     {
         // Simple
         MethodCallPO tFirstMethod = getVerySimpleMeasurePoint();
-        ChartBarGenerator tUtil = new ChartBarGenerator(mColor, tFirstMethod);
+        FlowDetailChartBarGenerator tUtil = new FlowDetailChartBarGenerator(mColor, tFirstMethod);
         assertEquals(2, tUtil.maxMethodPerGroup);
 
         // One group with couple of children
         tFirstMethod.getChildren().remove(1);
         tFirstMethod.getChild(0).setGroupName(tFirstMethod.getGroupName());
-        tUtil = new ChartBarGenerator(mColor, tFirstMethod);
+        tUtil = new FlowDetailChartBarGenerator(mColor, tFirstMethod);
         assertEquals(2, tUtil.maxMethodPerGroup);
 
         // 1 group and one child
         tFirstMethod = tFirstMethod.getChild(0);
-        tUtil = new ChartBarGenerator(mColor, tFirstMethod);
+        tUtil = new FlowDetailChartBarGenerator(mColor, tFirstMethod);
         assertEquals(1, tUtil.maxMethodPerGroup);
 
         // 2 groups and one child
         tFirstMethod = getVerySimpleMeasurePoint();
         tFirstMethod.getChildren().remove(0);
-        tUtil = new ChartBarGenerator(mColor, tFirstMethod);
+        tUtil = new FlowDetailChartBarGenerator(mColor, tFirstMethod);
         assertEquals(1, tUtil.maxMethodPerGroup);
     }
 

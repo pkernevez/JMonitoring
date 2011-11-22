@@ -265,7 +265,28 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(3, tDistribution.get(6).numberOfOccurence);
         assertEquals(14, tDistribution.get(7).duration);
         assertEquals(1, tDistribution.get(7).numberOfOccurence);
+    }
 
+    @Test
+    public void testGetDistributionRounded() throws UnknownEntity
+    {
+        MethodCallBuilder tBuilder =
+            ExecutionFlowBuilder.create(1000000000L).createMethodCall("MainClass", "main", "grp", 200);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 0, 9);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 20, 8);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 40, 0);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 60, 10);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 80, 11);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 100, 19);
+        tBuilder.addSubMethod("MainClass", "method1", "grp1", 120, 18);
+        tBuilder.getAndSave(dao);
+
+        List<Distribution> tDistribution = dao.getDistribution("MainClass", "method1", 10);
+        assertEquals(2, tDistribution.size());
+        assertEquals(0, tDistribution.get(0).duration);
+        assertEquals(3, tDistribution.get(0).numberOfOccurence);
+        assertEquals(10, tDistribution.get(1).duration);
+        assertEquals(4, tDistribution.get(1).numberOfOccurence);
     }
 
     @Test

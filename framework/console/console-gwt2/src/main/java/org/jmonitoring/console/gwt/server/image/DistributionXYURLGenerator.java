@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.jfree.chart.urls.XYURLGenerator;
 import org.jfree.data.xy.XYDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved.                   *
@@ -13,49 +15,49 @@ import org.jfree.data.xy.XYDataset;
 /**
  * @author pke
  * 
- * Generate the URL link for the statistics char bar. Each link reference the list of the measures that have the same
- * duration.
+ *         Generate the URL link for the statistics char bar. Each link reference the list of the measures that have the
+ *         same duration.
  */
 public class DistributionXYURLGenerator implements XYURLGenerator, Serializable
 {
+    Logger sLog = LoggerFactory.getLogger(DistributionXYURLGenerator.class);
+
     private static final long serialVersionUID = 3478122271738115018L;
 
     /** The interval duration used for the char bar generation. */
-    private final int mInterval;
-
-    /** The URL of the Html link. */
-    private final String mBaseURL;
+    private final long interval;
 
     /** ClassName of the MethodCallDTO. */
-    private final String mClassName;
+    private final String className;
 
     /** Name of the MethodCallDTO method. */
-    private final String mMethodName;
+    private final String methodName;
 
     /**
      * Default constructor.
      * 
-     * @param pBaseURL The URL of the Html link.
-     * @param pInterval The interval duration used for the char bar generation.
      * @param pClassName ClassName of the MethodCallDTO.
      * @param pMethodName Name of the MethodCallDTO method.
+     * @param pInterval The interval duration used for the char bar generation.
      */
-    public DistributionXYURLGenerator(String pBaseURL, int pInterval, String pClassName, String pMethodname)
+    public DistributionXYURLGenerator(String pClassName, String pMethodname, long pInterval)
     {
-        mInterval = pInterval;
-        mBaseURL = pBaseURL;
-        mClassName = pClassName;
-        mMethodName = pMethodname;
+        interval = pInterval;
+        className = pClassName;
+        methodName = pMethodname;
     }
 
     public String generateURL(XYDataset pDataSet, int pSeries, int pBarChartNumber)
     {
         StringBuilder tBuffer = new StringBuilder();
-        tBuffer.append(mBaseURL).append("?className=").append(mClassName);
-        tBuffer.append("&methodName=").append(mMethodName);
-        tBuffer.append("&durationMin=").append(mInterval * pBarChartNumber);
-        tBuffer.append("&durationMax=").append(mInterval * (pBarChartNumber + 1));
-        return tBuffer.toString();
+        tBuffer.append("javascript:window.methClick('");
+        tBuffer.append(className).append("', '");
+        tBuffer.append(methodName).append("', ");
+        tBuffer.append(interval * pBarChartNumber).append(", ");
+        tBuffer.append(interval * (pBarChartNumber + 1)).append(");");
+        String tUrl = tBuffer.toString();
+        sLog.debug("Generate URL:{}", tUrl);
+        return tUrl;
     }
 
 }

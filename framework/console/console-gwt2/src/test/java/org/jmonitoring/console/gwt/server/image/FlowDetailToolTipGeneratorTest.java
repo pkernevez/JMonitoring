@@ -24,7 +24,7 @@ public class FlowDetailToolTipGeneratorTest extends PersistanceTestCase
     {
         ExecutionFlowPO tFlow = dao.loadFullFlow(1);
 
-        ChartBarGenerator tUtil = new ChartBarGenerator(color, tFlow.getFirstMethodCall());
+        FlowDetailChartBarGenerator tUtil = new FlowDetailChartBarGenerator(color, tFlow.getFirstMethodCall());
         tUtil.chainAllMethodCallToMainTaskOfGroup();
         IntervalCategoryDataset tIntervalcategorydataset = tUtil.createDataset();
         tUtil.createGanttChart(tIntervalcategorydataset);

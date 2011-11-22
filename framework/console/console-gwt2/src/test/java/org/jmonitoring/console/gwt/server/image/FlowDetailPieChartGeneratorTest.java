@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(locations = {"/all-test.xml" })
-public class PieChartGeneratorTest extends JMonitoringTestCase
+public class FlowDetailPieChartGeneratorTest extends JMonitoringTestCase
 {
 
     @Resource(name = "formater")
@@ -40,14 +40,14 @@ public class PieChartGeneratorTest extends JMonitoringTestCase
         long tRefDate = new Date(START_TIME).getTime();
         ExecutionFlowBuilder tBuilder = ExecutionFlowBuilder.create(tRefDate);
         MethodCallBuilder tParentBuilder =
-            tBuilder.createMethodCall(PieChartGeneratorTest.class.getName(), "builNewFullFlow", "GrDefault", 106);
+            tBuilder.createMethodCall(FlowDetailPieChartGeneratorTest.class.getName(), "builNewFullFlow", "GrDefault", 106);
         MethodCallBuilder tChild1 =
-            tParentBuilder.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 2, 43);
-        tChild1.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrChild2", 3, 12);
+            tParentBuilder.addSubMethod(FlowDetailPieChartGeneratorTest.class.getName(), "builNewFullFlow2", "GrChild1", 2, 43);
+        tChild1.addSubMethod(FlowDetailPieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrChild2", 3, 12);
 
-        tChild1.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrDefault", 21, 4);
+        tChild1.addSubMethod(FlowDetailPieChartGeneratorTest.class.getName(), "builNewFullFlow4", "GrDefault", 21, 4);
 
-        tParentBuilder.addSubMethod(PieChartGeneratorTest.class.getName(), "builNewFullFlow3", "GrChild2", 48, 27);
+        tParentBuilder.addSubMethod(FlowDetailPieChartGeneratorTest.class.getName(), "builNewFullFlow3", "GrChild2", 48, 27);
         try
         {
             return (pDao == null ? tParentBuilder.get() : tParentBuilder.getAndSave(pDao)).getFirstMethodCall();
@@ -77,7 +77,7 @@ public class PieChartGeneratorTest extends JMonitoringTestCase
     @Test
     public void testAddTimeWith()
     {
-        PieChartGenerator tUtil = new PieChartGenerator(color);
+        FlowDetailPieChartGenerator tUtil = new FlowDetailPieChartGenerator(color);
         tUtil.addTimeWith(getSampleMeasurePoint());
         Map<String, Integer> tMap = tUtil.listOfGroup;
         assertEquals(40, (int) tMap.get("GrDefault"));
@@ -89,7 +89,7 @@ public class PieChartGeneratorTest extends JMonitoringTestCase
     @Test
     public void testAddNbCallWith()
     {
-        PieChartGenerator tUtil = new PieChartGenerator(color);
+        FlowDetailPieChartGenerator tUtil = new FlowDetailPieChartGenerator(color);
         tUtil.addNbCallWith(getSampleMeasurePoint());
         Map<String, Integer> tMap = tUtil.listOfGroup;
         assertEquals(2, (int) tMap.get("GrDefault"));

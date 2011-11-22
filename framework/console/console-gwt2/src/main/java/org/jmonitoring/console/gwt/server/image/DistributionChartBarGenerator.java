@@ -20,13 +20,14 @@ import org.jmonitoring.console.gwt.server.flow.Distribution;
 import org.jmonitoring.console.gwt.server.flow.Stats;
 import org.jmonitoring.core.configuration.MeasureException;
 
-public class DistributionChartGenerator
+public class DistributionChartBarGenerator
 {
-    public MappedChart generateDistributionChart(List<Distribution> tDistribList, Stats pStats, long pInterval)
+    public MappedChart generateDistributionChart(List<Distribution> tDistribList, Stats pStats, String pClassName,
+        String pMethodName, long pInterval)
     {
-        IntervalXYDataset tIntervalxydataset = new DistributionDataSet(tDistribList, pInterval, pStats.max);
+        IntervalXYDataset tIntervalxydataset = new DistributionDataSet(tDistribList, pInterval);
 
-        JFreeChart tJFreeChart = createXYBarChart(tIntervalxydataset, pInterval);
+        JFreeChart tJFreeChart = createXYBarChart(tIntervalxydataset, pClassName, pMethodName, pInterval);
 
         ChartRenderingInfo tChartRenderingInfo = new ChartRenderingInfo(new StandardEntityCollection());
 
@@ -47,21 +48,19 @@ public class DistributionChartGenerator
         {
             throw new MeasureException("Unable to write Image", e);
         }
-        // pSession.setAttribute(FULL_DURATION_STAT, tImageStream.toByteArray());
-        // sLog.debug("Image " + FULL_DURATION_STAT + " add to session");
     }
 
-    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, long pInterval)
+    private static JFreeChart createXYBarChart(IntervalXYDataset dataset, String pClassName, String pMethodName,
+        long pInterval)
     {
         NumberAxis tAxis = new NumberAxis("duration (ms)");
         tAxis.setAutoRangeIncludesZero(false);
         ValueAxis tValueAxis = new NumberAxis("number of occurences");
 
         XYBarRenderer renderer = new XYBarRenderer();
+        // TODO use constructor with appropriate constructor
         renderer.setToolTipGenerator(new StandardXYToolTipGenerator());
-        // TODO
-        // renderer.setURLGenerator(new DistributionXYURLGenerator("MethodCallListIn.do", pForm.getInterval(),
-        // pForm.getClassName(), pForm.getMethodName()));
+        renderer.setURLGenerator(new DistributionXYURLGenerator(pClassName, pMethodName, pInterval));
 
         XYPlot plot = new XYPlot(dataset, tAxis, tValueAxis, renderer);
         plot.setOrientation(PlotOrientation.VERTICAL);
@@ -70,35 +69,5 @@ public class DistributionChartGenerator
 
         return chart;
     }
-
-    // IntervalXYDataset createFullDurationDataset(List<Distribution> pDistribList, Stats pStats, int pInterval)
-    // {
-    // Map<Long, Integer> tMap = new HashMap<Long, Integer>();
-    // Integer tCurNb;
-    // Long tCurDurationAsLong;
-    // long tCurDuration;
-    // long tDurationMax = 0;
-    // for (int i = 0; i < pMeasures.size(); i++)
-    // {
-    // tCurDuration = pMeasures.get(i).getDuration();
-    // if (tCurDuration > tDurationMax)
-    // {
-    // tDurationMax = tCurDuration;
-    // }
-    // // Around the duration with duration groupvalue
-    // tCurDuration = (tCurDuration / pInterval) * pInterval;
-    // tCurDurationAsLong = new Long(tCurDuration);
-    // tCurNb = tMap.get(tCurDurationAsLong);
-    // if (tCurNb != null)
-    // {
-    // tCurNb = tCurNb.intValue() + 1;
-    // } else
-    // {
-    // tCurNb = 1;
-    // }
-    // tMap.put(tCurDurationAsLong, tCurNb);
-    // }
-    // return new DistributionDataSet(tMap, pInterval, tDurationMax);
-    // }
 
 }

@@ -13,10 +13,10 @@ import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.server.flow.Distribution;
 import org.jmonitoring.console.gwt.server.flow.Stats;
-import org.jmonitoring.console.gwt.server.image.ChartBarGenerator;
-import org.jmonitoring.console.gwt.server.image.DistributionChartGenerator;
+import org.jmonitoring.console.gwt.server.image.DistributionChartBarGenerator;
+import org.jmonitoring.console.gwt.server.image.FlowDetailChartBarGenerator;
+import org.jmonitoring.console.gwt.server.image.FlowDetailPieChartGenerator;
 import org.jmonitoring.console.gwt.server.image.MappedChart;
-import org.jmonitoring.console.gwt.server.image.PieChartGenerator;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
@@ -92,7 +92,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
 
     public byte[] generateDurationInGroupChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
     {
-        PieChartGenerator tGenerator = new PieChartGenerator(color);
+        FlowDetailPieChartGenerator tGenerator = new FlowDetailPieChartGenerator(color);
         byte[] tOutput = tGenerator.getDurationInGroup(pFirstMeasure);
         pSession.setAttribute(pSessionId, tOutput);
         return tOutput;
@@ -107,7 +107,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
 
     public byte[] generateGroupsCallsChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
     {
-        PieChartGenerator tGenerator = new PieChartGenerator(color);
+        FlowDetailPieChartGenerator tGenerator = new FlowDetailPieChartGenerator(color);
         byte[] tOutput = tGenerator.getGroupCalls(pFirstMeasure);
         pSession.setAttribute(pSessionId, tOutput);
         return tOutput;
@@ -122,7 +122,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
 
     public MappedChart generateFlowDetailChart(HttpSession pSession, String pSessionId, MethodCallPO pFirstMeasure)
     {
-        ChartBarGenerator tGenerator = new ChartBarGenerator(color, pFirstMeasure);
+        FlowDetailChartBarGenerator tGenerator = new FlowDetailChartBarGenerator(color, pFirstMeasure);
         MappedChart tResult = tGenerator.getImage();
         pSession.setAttribute(pSessionId, tResult.image);
         return tResult;
@@ -275,7 +275,9 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         }
         List<Distribution> tDistribList = dao.getDistribution(pClassName, pMethodName, pInterval);
 
-        MappedChart tChart = new DistributionChartGenerator().generateDistributionChart(tDistribList, tStat, pInterval);
+        MappedChart tChart =
+            new DistributionChartBarGenerator().generateDistributionChart(tDistribList, tStat, pClassName, pMethodName,
+                                                                          pInterval);
 
         MethodCallDistributionDTO tResult = new MethodCallDistributionDTO();
         tResult.setMap(tChart.map);

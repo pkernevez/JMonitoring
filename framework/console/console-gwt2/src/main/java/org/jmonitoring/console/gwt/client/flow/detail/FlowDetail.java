@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -27,6 +28,7 @@ public class FlowDetail extends Composite implements Editor<ExecutionFlowDTO>
     public FlowDetail()
     {
         initWidget(uiBinder.createAndBindUi(this));
+        Window.setTitle("Flow detail");
     }
 
     @UiField
