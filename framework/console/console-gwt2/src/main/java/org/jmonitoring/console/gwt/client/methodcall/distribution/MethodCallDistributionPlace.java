@@ -18,7 +18,7 @@ public class MethodCallDistributionPlace extends Place implements ActivityAware
 
     long interval;
 
-    @Prefix("methodcallstat")
+    @Prefix("methodcalldistribution")
     public static class MethodCallDistributionTokenizer extends AbstractPlaceTokenizer implements
                     PlaceTokenizer<MethodCallDistributionPlace>
     {

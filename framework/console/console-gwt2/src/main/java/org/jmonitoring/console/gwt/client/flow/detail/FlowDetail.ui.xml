@@ -13,7 +13,7 @@
 			<table>
 				<tr>
 					<td>
-						<div class="{style.label}">Server Name</div>
+						<div class="{style.label}">Server</div>
 					</td>
 					<td>
 						<g:Label styleName="{style.data-label}" ui:field="jvmIdentifier" />
@@ -47,7 +47,7 @@
 						<g:Label styleName="{style.data-label}" ui:field="duration" />
 					</td>
 					<td>
-						<div class="{style.label}">Group Name</div>
+						<div class="{style.label}">Group</div>
 					</td>
 					<td>
 						<g:Label styleName="{style.data-label}" ui:field="groupName" />

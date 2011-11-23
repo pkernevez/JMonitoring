@@ -65,6 +65,7 @@ public class FlowSearch extends Composite
     public FlowSearch()
     {
         initWidget(sUiBinder.createAndBindUi(this));
+        // TODO Replace this hack with a changeTitleEvent
         Window.setTitle("Flow search");
         beginDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yy")));
         beginDate.getTextBox().setVisibleLength(8);

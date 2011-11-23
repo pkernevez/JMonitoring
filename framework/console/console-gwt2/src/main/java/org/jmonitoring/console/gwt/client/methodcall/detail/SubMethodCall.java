@@ -70,7 +70,7 @@ public class SubMethodCall extends Composite
         description.setText(pChild.getGroupName() + " -> " + pChild.getFullMethodName());
         description.addClickHandler(tHandler);
         edit.addClickHandler(tHandler);
-        stats.addClickHandler(new NavHandler(new MethodCallDistributionPlace(0, 0)));
+        stats.addClickHandler(new NavHandler(new MethodCallDistributionPlace(pFlowId, pChild.getPosition())));
         if (pChild.hasThrownException())
         {
             throwImage.setResource(image.warn());

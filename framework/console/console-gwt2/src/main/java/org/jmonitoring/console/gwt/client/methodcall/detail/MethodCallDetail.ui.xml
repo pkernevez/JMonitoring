@@ -110,7 +110,7 @@
 				</tr>
 				<tr ui:field="resultRow">
 					<td class="{style.label}">
-						<div>Result</div>
+						<div>Return value</div>
 					</td>
 					<td class="{style.data-label}">
 						<g:Label ui:field="returnValue" />

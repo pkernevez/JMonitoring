@@ -3,6 +3,7 @@ package org.jmonitoring.console.gwt.client.methodcall.search;
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;
 import org.jmonitoring.console.gwt.client.common.AbstractPlaceTokenizer;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.place.shared.Place;
@@ -20,7 +21,7 @@ public class MethodCallSearchPlace extends Place implements ActivityAware
 
     long maxDuration;
 
-    @Prefix("methodcallstat")
+    @Prefix("methodcallsearch")
     public static class MethodCallSearchTokenizer extends AbstractPlaceTokenizer implements
                     PlaceTokenizer<MethodCallSearchPlace>
     {
@@ -45,6 +46,11 @@ public class MethodCallSearchPlace extends Place implements ActivityAware
         methodName = pMethodName;
         minDuration = Long.parseLong(pMinDuration);
         maxDuration = Long.parseLong(pMaxDuration);
+    }
+
+    public MethodCallSearchPlace(MethodCallSearchCriterion pCriterion)
+    {
+        // TODO Auto-generated constructor stub
     }
 
     public Activity getActivity(ClientFactory pClientFactory)
