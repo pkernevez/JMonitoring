@@ -426,9 +426,9 @@ public class ConsoleDaoTest extends PersistanceTestCase
 
         tCriterion = new MethodCallSearchCriterion();
         tCriterion.setClassName("MainClass");
-        tCriterion.setPosition("0");
-        assertEquals(5, dao.searchMethodCall(tRequest, tCriterion).size());
         tCriterion.setPosition("1");
+        assertEquals(5, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setPosition("2");
         assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
 
         tCriterion = new MethodCallSearchCriterion();

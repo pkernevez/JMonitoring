@@ -403,12 +403,34 @@ public class ConsoleDao extends InsertionDao
         {
             tCrit.add(Restrictions.like("params", pCriterion.getParameters() + "%"));
         }
+        if (hasValue(pCriterion.getPosition()))
+        {
+            tCrit.add(Restrictions.eq("id.position", Integer.parseInt(pCriterion.getPosition())));
+        }
+        if (hasValue(pCriterion.getParameters()))
+        {
+            tCrit.add(Restrictions.like("params", pCriterion.getParameters() + "%"));
+        }
+        if (hasValue(pCriterion.getReturnValue()))
+        {
+            tCrit.add(Restrictions.like("returnValue", pCriterion.getReturnValue() + "%"));
+        }
+        if (hasValue(pCriterion.getThrownExceptionClass()))
+        {
+            tCrit.add(Restrictions.like("throwableClass", pCriterion.getThrownExceptionClass() + "%"));
+        }
+        if (hasValue(pCriterion.getThrownExceptionMessage()))
+        {
+            tCrit.add(Restrictions.like("throwableMessage", pCriterion.getThrownExceptionMessage() + "%"));
+        }
+
+        // Parent properties
         if (hasValue(pCriterion.getParentPosition()))
         {
             tCrit.add(Restrictions.eq("parent.id.position", Integer.parseInt(pCriterion.getParentPosition())));
         }
 
-        // Execution properties
+        // ExecutionFlow properties
         Criteria tFlowCrit = null;
         if (pCriterion.getFlowBeginDate() != null)
         { // Check this part for non exact day
