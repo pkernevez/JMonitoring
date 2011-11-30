@@ -1,10 +1,8 @@
 package org.jmonitoring.console.gwt.client.methodcall.search;
 
 import it.pianetatecno.gwt.utility.client.table.Filter;
-import it.pianetatecno.gwt.utility.client.table.StringFilter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
@@ -70,23 +68,12 @@ public class MethodCallSearchActivity extends AbstractActivity
         pPanel.setWidget(tMethodCallSearch.setPresenter(MethodCallSearchActivity.this));
         driver.initialize(tMethodCallSearch);
         MethodCallSearchCriterion tCrit = new MethodCallSearchCriterion();
-        tCrit.setFlowThread("Threaddddd");
+        tCrit.setMethodName("executeQuery");
         driver.edit(tCrit);
         filterData(tCrit, tMethodCallSearch, null);
 
     }
 
-    // public static native void exportMapMethClick() /*-{
-    // $wnd.methClick =
-    // $entry(@org.jmonitoring.console.gwt.client.methodcall.distribution.MethodCallDistributionActivity::methClick(Ljava/lang/String;Ljava/lang/String;II));
-    // }-*/;
-    //
-    // /** Method use to trap clicks on the map of the flow. Used by native javascript. */
-    // public static void methClick(String pClassName, String pMethodName, int pFlowId, int pPosition)
-    // {
-    // ClientFactory.goTo(new MethodCallDetailPlace(pFlowId, pPosition));
-    // }
-    //
     void filterData(MethodCallSearch pView, KeyPressEvent pEvent)
     {
         filterData(driver.flush(), pView, pEvent);
@@ -98,25 +85,8 @@ public class MethodCallSearchActivity extends AbstractActivity
         {
             place = new MethodCallSearchPlace(pCriterion);
             ClientFactory.addHistory(place);
-            pView.table.filterData(createFilters());
-        }
-    }
-
-    List<Filter<?>> createFilters()
-    {
-        List<Filter<?>> tFilters = new ArrayList<Filter<?>>();
-        // addFilter(tFilters, place.thread, HibernateConstant.THREAD);
-        return tFilters;
-    }
-
-    private void addFilter(List<Filter<?>> pFilters, String pText, String pPropertyName)
-    {
-        if (pText.length() > 0)
-        {
-            StringFilter curFilter = new StringFilter();
-            curFilter.setPropertyName(pPropertyName);
-            curFilter.setValue(pText);
-            pFilters.add(curFilter);
+            pView.setSearchCriterion(pCriterion);
+            pView.table.filterData(new ArrayList<Filter<?>>());
         }
     }
 

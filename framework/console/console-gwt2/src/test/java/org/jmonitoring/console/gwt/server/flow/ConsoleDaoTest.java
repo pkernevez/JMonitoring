@@ -6,6 +6,7 @@ import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.StringFilter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,15 +19,22 @@ import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
+import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ConsoleDaoTest extends PersistanceTestCase
 {
 
     @Resource(name = "consoleDao")
     private ConsoleDao dao;
+
+    @Autowired
+    private FormaterBean formater;
 
     @Test
     public void testCreateCriteriaWithoutParam()
@@ -311,5 +319,140 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(0.0, dao.getDurationStats("MainClass", "sub1").stdDeviation, 0.01);
         assertEquals(0.0, dao.getDurationStats("SubClass2", "meth2").stdDeviation, 0.01);
         assertEquals(5.0, dao.getDurationStats("MainClass", "main").stdDeviation, 0.01);
+    }
+
+    @Test
+    public void testToDto() throws UnknownEntity
+    {
+        MethodCallBuilder tBuilder =
+            ExecutionFlowBuilder.create(1000000000L).createMethodCall("MainClass", "main", "grp", 100);
+        tBuilder.addSubMethod("MainClass", "sub1", "grp1", 0, 15);
+        tBuilder.addSubMethod("SubClass1", "meth1", "grp2", 20, 20);
+        tBuilder.addSubMethod("SubClass2", "meth2", "grp3", 50, 40);
+        ExecutionFlowPO tExec = tBuilder.getAndSave(dao);
+        MethodCallSearchExtractDTO tDto = dao.toDto(tExec.getFirstMethodCall().getChild(1));
+        assertEquals("6", tDto.getFlowId());
+        assertEquals(formater.formatDateTime(new Date(1000000000L)), tDto.getFlowBeginDate());
+        assertEquals("100", tDto.getFlowDuration());
+        assertEquals("DefaultJvm", tDto.getFlowServer());
+        assertEquals("Main", tDto.getFlowThread());
+        assertEquals("3", tDto.getPosition());
+        assertEquals("20", tDto.getDuration());
+        assertEquals("SubClass1", tDto.getClassName());
+        assertEquals("meth1", tDto.getMethodName());
+        assertEquals("grp2", tDto.getGroup());
+        assertEquals("", tDto.getHasException());
+    }
+
+    private Request createRequestForMethodCallSearch()
+    {
+        Request tRequest = new Request();
+        tRequest.setPageSize(40);
+        tRequest.setStartRow(0);
+        List<Filter<?>> tFilter = new ArrayList<Filter<?>>();
+        StringFilter curFilter = new StringFilter();
+        curFilter.setPropertyName(HibernateConstant.FIRST_MEASURE_CLASS_NAME);
+        curFilter.setValue("MainClass");
+        tFilter.add(curFilter);
+        tRequest.setFilters(tFilter);
+        return tRequest;
+    }
+
+    @Test
+    public void testCreateMethodCallSearchCriteriaReturnedValue()
+    {
+        Request tRequest = createRequestForMethodCallSearch();
+        MethodCallSearchCriterion tCriterion = new MethodCallSearchCriterion();
+        tCriterion.setClassName("SubClass2_3");
+        tCriterion.setMethodName("meth2");
+        List<MethodCallSearchExtractDTO> tResult = dao.searchMethodCall(tRequest, tCriterion);
+        assertEquals(1, tResult.size());
+        MethodCallSearchExtractDTO tMeth = tResult.get(0);
+        assertEquals("SubClass2_3", tMeth.getClassName());
+        assertEquals("meth2_3", tMeth.getMethodName());
+        assertEquals("10", tMeth.getDuration());
+        assertEquals(formater.formatDateTime(new Date(1400000000L)), tMeth.getFlowBeginDate());
+        assertEquals("80", tMeth.getFlowDuration());
+        assertEquals("5", tMeth.getFlowId());
+        assertEquals("OtherJvm", tMeth.getFlowServer());
+        assertEquals("SpecificThread4", tMeth.getFlowThread());
+        assertEquals("grp3", tMeth.getGroup());
+        assertEquals("yes", tMeth.getHasException());
+        assertEquals("5", tMeth.getPosition());
+    }
+
+    @Test
+    public void testCreateMethodCallSearchCriteriaWithCriteria()
+    {
+        Request tRequest = createRequestForMethodCallSearch();
+        MethodCallSearchCriterion tCriterion = new MethodCallSearchCriterion();
+        assertEquals(21, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        // Collection<MethodCallSearchExtractDTO> tResult = dao.searchMethodCall(tRequest, tCriterion);
+
+        tCriterion.setClassName("MainClass");
+        assertEquals(7, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion.setMethodName("main");
+        assertEquals(5, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion.setFlowBeginDate(new Date(1100000000L));
+        assertEquals(4, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion.setFlowMinDuration("100");
+        assertEquals(3, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setFlowMinDuration("70");
+        assertEquals(4, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion.setFlowServer("DefaultJvm");
+        assertEquals(3, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion.setFlowServer("");
+        tCriterion.setFlowThread("SpecificThread4");
+        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion = new MethodCallSearchCriterion();
+        tCriterion.setParameters("param");
+        assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setParameters("other");
+        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion = new MethodCallSearchCriterion();
+        tCriterion.setClassName("SubClass2_2_1");
+        tCriterion.setParentPosition("1");
+        assertEquals(0, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setParentPosition("3");
+        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion = new MethodCallSearchCriterion();
+        tCriterion.setClassName("MainClass");
+        tCriterion.setPosition("0");
+        assertEquals(5, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setPosition("1");
+        assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion = new MethodCallSearchCriterion();
+        tCriterion.setReturnValue("tru");
+        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setReturnValue("false");
+        assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setClassName("SubClass1_1");
+        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion = new MethodCallSearchCriterion();
+        tCriterion.setThrownExceptionClass("Error");
+        assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setThrownExceptionMessage("Error message2");
+        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+    }
+
+    @Test
+    public void testHasValue()
+    {
+        assertTrue(ConsoleDao.hasValue("a"));
+        assertTrue(ConsoleDao.hasValue("0"));
+        assertTrue(ConsoleDao.hasValue("null"));
+        assertFalse(ConsoleDao.hasValue(""));
+        assertFalse(ConsoleDao.hasValue(null));
     }
 }

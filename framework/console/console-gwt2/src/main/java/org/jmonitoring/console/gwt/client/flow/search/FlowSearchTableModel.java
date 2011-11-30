@@ -48,7 +48,7 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
             firstTime = false;
         } else
         {
-            service.search(pRequest, new JMonitoringAsyncCallBack<SerializableResponse<FlowExtractDTO>>()
+            service.searchFlow(pRequest, new JMonitoringAsyncCallBack<SerializableResponse<FlowExtractDTO>>()
             {
                 public void onSuccess(SerializableResponse<FlowExtractDTO> pResult)
                 {
@@ -87,7 +87,8 @@ public class FlowSearchTableModel extends TableModel<FlowExtractDTO>
     private ColumnDefinition<FlowExtractDTO> getColumnDefinition()
     {
         ColumnDefinition<FlowExtractDTO> cf = new ColumnDefinition<FlowExtractDTO>();
-        cf.addColumn(new ColumnAction<FlowExtractDTO>(VIEW_FLOW, new Image(ClientFactory.imageBundle.edit()), null));
+        cf.addColumn(new ColumnAction<FlowExtractDTO>("Flow", VIEW_FLOW, new Image(ClientFactory.imageBundle.edit()),
+                                                      null));
 
         cf.addColumn(new ColumnString<FlowExtractDTO>("Id", "id", true)
         {

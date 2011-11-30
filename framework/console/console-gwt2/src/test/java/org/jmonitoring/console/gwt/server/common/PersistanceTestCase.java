@@ -151,31 +151,31 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
 
             tBuilder = ExecutionFlowBuilder.create(1100000000L).createMethodCall("MainClass", "main", "grp", 110);
             tBuilder.addSubMethod("MainClass", "sub1", "grp1", 0, 15);
-            tBuilder.addSubMethod("SubClass1", "meth", "grp1", 25, 10);
+            tBuilder.addSubMethod("SubClass1", "meth", "grp1", 25, 10).setResult("false");
             tBuilder.addSubMethod("SubClass2", "meth", "grp3", 50, 10);
             tBuilder.getAndSave(dao);
 
             tBuilder = ExecutionFlowBuilder.create(12000000000L).createMethodCall("MainClass2", "main", "grp", 200);
-            tBuilder.addSubMethod("SubClass1_1", "meth1", "grp1", 10, 15);
-            tBuilder.addSubMethod("SubClass1_2", "meth2", "grp1", 125, 10);
-            tBuilder.addSubMethod("SubClass1_3", "meth3", "grp1", 150, 10);
+            tBuilder.addSubMethod("SubClass1_1", "meth1", "grp1", 10, 15).setResult("false");
+            tBuilder.addSubMethod("SubClass1_2", "meth2", "grp1", 125, 10).setParams("param1");;
+            tBuilder.addSubMethod("SubClass1_3", "meth3", "grp1", 150, 10).setResult("true");
             tBuilder.getAndSave(dao);
 
             tBuilder =
                 ExecutionFlowBuilder.create(1300000000L).setThread("SpecificThread")
                                     .createMethodCall("MainClass3", "main2", "grp", 250);
             tBuilder.addSubMethod("SubClass1_1", "meth1", "grp1", 10, 15);
-            tBuilder.addSubMethod("SubClass1_2", "meth2", "grp1", 125, 10);
+            tBuilder.addSubMethod("SubClass1_2", "meth2", "grp1", 125, 10).setParams("param1");
             tBuilder.addSubMethod("SubClass1_3", "meth3", "grp3", 150, 10).setThrowable("Error", "Error message");
             tBuilder.getAndSave(dao);
 
             tBuilder =
-                ExecutionFlowBuilder.create(1400000000L).setThread("SpecificThread4")
+                ExecutionFlowBuilder.create(1400000000L).setThread("SpecificThread4").setJvm("OtherJvm")
                                     .createMethodCall("MainClass4", "main3", "grp", 80);
-            tBuilder.addSubMethod("SubClass2_1", "meth2_1", "grp1", 0, 15);
+            tBuilder.addSubMethod("SubClass2_1", "meth2_1", "grp1", 0, 15).setParams("other param");;
             tBuilder.addSubMethod("SubClass2_2", "meth2_2", "grp1", 16, 10).addSubMethod("SubClass2_2_1", "meth2_2_1",
                                                                                          "grp1", 2, 4);
-            tBuilder.addSubMethod("SubClass2_3", "meth2_3", "grp3", 27, 10).setThrowable("Error", "Error message");
+            tBuilder.addSubMethod("SubClass2_3", "meth2_3", "grp3", 27, 10).setThrowable("Error", "Error message2");
             tBuilder.getAndSave(dao);
 
             session.flush();

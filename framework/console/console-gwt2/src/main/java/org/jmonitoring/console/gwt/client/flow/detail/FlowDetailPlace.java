@@ -35,6 +35,11 @@ public class FlowDetailPlace extends Place implements ActivityAware
         id = pId;
     }
 
+    public FlowDetailPlace(String pId)
+    {
+        id = Integer.parseInt(pId);
+    }
+
     public Activity getActivity(ClientFactory pClientFactory)
     {
         return new FlowDetailActivity(this, pClientFactory);

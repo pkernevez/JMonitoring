@@ -53,8 +53,8 @@ public class MethodCallBuilder
         return addSubMethod(pClassName, pMethodName, pGroupName, 0, pDuration);
     }
 
-    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, String pGroupName, long pOffSetFromParent,
-        long pDuration)
+    public MethodCallBuilder addSubMethod(String pClassName, String pMethodName, String pGroupName,
+        long pOffSetFromParent, long pDuration)
     {
         if (methodCall.getChildren().size() > 0)
         {
@@ -84,7 +84,8 @@ public class MethodCallBuilder
         if ((pOffSetFromParent + pDuration) > methodCall.getDuration())
         {
             throw new ExecutionFlowInvalidExeption("The child could not end after the parent. Child endTime is "
-                + (methodCall.getBeginTime() + pDuration + pOffSetFromParent) + " and parent is " + methodCall.getEndTime());
+                + (methodCall.getBeginTime() + pDuration + pOffSetFromParent) + " and parent is "
+                + methodCall.getEndTime());
         }
         MethodCallBuilder subMethodCallBuilder =
             new MethodCallBuilder(executionFlowBuilder, pClassName, pMethodName, pGroupName, methodCall.getBeginTime()
@@ -122,4 +123,9 @@ public class MethodCallBuilder
         return this;
     }
 
+    public MethodCallBuilder setResult(String pResult)
+    {
+        methodCall.setReturnValue(pResult);
+        return this;
+    }
 }

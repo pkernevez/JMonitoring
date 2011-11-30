@@ -23,6 +23,8 @@ import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -56,9 +58,9 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return LoggerFactory.getLogger(GwtRemoteServiceImpl.class);
     }
 
-    public SerializableResponse<FlowExtractDTO> search(Request pRequest)
+    public SerializableResponse<FlowExtractDTO> searchFlow(Request pRequest)
     {
-        sLog.info("call search");
+        sLog.info("call search flow");
         SerializableResponse<FlowExtractDTO> tResponse = new SerializableResponse<FlowExtractDTO>();
         tResponse.setRequest(pRequest);
         tResponse.setTotalResults(dao.countFlows(pRequest));
@@ -318,6 +320,18 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         pDurationMax = pDurationMax / INTERVAL_MULTIPLE_VALUE * INTERVAL_MULTIPLE_VALUE;
         pDurationMax = Math.max(pDurationMax, 1);
         return pDurationMax;
+    }
+
+    public SerializableResponse<MethodCallSearchExtractDTO> searchMethodCall(Request pRequest,
+        MethodCallSearchCriterion pCriterion)
+    {
+        sLog.info("call search flow");
+        SerializableResponse<MethodCallSearchExtractDTO> tResponse =
+            new SerializableResponse<MethodCallSearchExtractDTO>();
+        tResponse.setRequest(pRequest);
+        tResponse.setTotalResults(dao.countFlows(pRequest));
+        tResponse.setRows(dao.searchMethodCall(pRequest, pCriterion));
+        return tResponse;
     }
 
 }

@@ -4,9 +4,8 @@ import it.pianetatecno.gwt.utility.client.table.PagingTable;
 
 import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
-import org.jmonitoring.console.gwt.client.flow.search.FlowSearchTableModel;
-import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
@@ -60,7 +59,9 @@ public class MethodCallSearch extends Composite implements Editor<MethodCallSear
     @UiField
     TextBox thrownExceptionMessage;
 
-    PagingTable<FlowExtractDTO> table;
+    PagingTable<MethodCallSearchExtractDTO> table;
+
+    MetodCallSearchTableModel tableModel;
 
     @UiField
     SimplePanel searchResult;
@@ -89,7 +90,8 @@ public class MethodCallSearch extends Composite implements Editor<MethodCallSear
                 presenter.filterData(MethodCallSearch.this, pEvent);
             }
         });
-        table = new FlowSearchTableModel(service).getTable();
+        tableModel = new MetodCallSearchTableModel(service);
+        table = tableModel.getTable();
         searchResult.add(table);
 
     }
@@ -99,5 +101,12 @@ public class MethodCallSearch extends Composite implements Editor<MethodCallSear
         presenter = pActivity;
         return this;
     }
+
+    public void setSearchCriterion(MethodCallSearchCriterion pCriterion)
+    {
+        tableModel.setSearchCriterion(pCriterion);
+    }
+
+    // TODO Add filters : groupName and flowid
 
 }

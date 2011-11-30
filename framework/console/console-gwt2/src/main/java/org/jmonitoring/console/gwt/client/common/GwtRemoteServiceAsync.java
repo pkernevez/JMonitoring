@@ -7,6 +7,8 @@ import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -14,7 +16,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface GwtRemoteServiceAsync
 {
 
-    void search(Request pRequest, AsyncCallback<SerializableResponse<FlowExtractDTO>> callback);
+    void searchFlow(Request pRequest, AsyncCallback<SerializableResponse<FlowExtractDTO>> callback);
 
     void loadAndGenerateImage(int pFlowId, AsyncCallback<ExecutionFlowDTO> callback);
 
@@ -27,5 +29,8 @@ public interface GwtRemoteServiceAsync
 
     void getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, long pGapDuration,
         AsyncCallback<MethodCallDistributionDTO> callback);
+
+    void searchMethodCall(Request pRequest, MethodCallSearchCriterion pCriterion,
+        AsyncCallback<SerializableResponse<MethodCallSearchExtractDTO>> callback);
 
 }

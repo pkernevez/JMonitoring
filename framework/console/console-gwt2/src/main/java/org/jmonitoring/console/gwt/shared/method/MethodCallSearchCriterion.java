@@ -1,9 +1,12 @@
 package org.jmonitoring.console.gwt.shared.method;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MethodCallSearchCriterion
+public class MethodCallSearchCriterion implements Serializable
 {
+    private static final long serialVersionUID = 7778614314993149539L;
+
     private String flowThread;
 
     private String flowServer;

@@ -24,6 +24,8 @@ import org.hibernate.criterion.Restrictions;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -335,5 +337,99 @@ public class ConsoleDao extends InsertionDao
         tQuery.setDouble("average", tResult.average);
         tResult.stdDeviation = Math.sqrt((Long) tQuery.list().get(0) / tResult.nbOccurence);
         return tResult;
+    }
+
+    public List<MethodCallSearchExtractDTO> searchMethodCall(Request pRequest,
+        MethodCallSearchCriterion pSearchCriterion)
+    {
+        Criteria tCrit = createMethodCallSearchCriteria(pSearchCriterion);
+        tCrit.setFirstResult(pRequest.getStartRow() - 1);
+        tCrit.setMaxResults(pRequest.getPageSize());
+
+        if (pRequest.getSortingColumn() != null)
+        {
+            if (pRequest.getSortType() == Column.SORTING_ASC)
+            {
+                tCrit.addOrder(Order.asc(pRequest.getSortingColumn()));
+            } else
+            {
+                tCrit.addOrder(Order.desc(pRequest.getSortingColumn()));
+            }
+        }
+
+        List<MethodCallSearchExtractDTO> tResult = new ArrayList<MethodCallSearchExtractDTO>();
+        for (MethodCallPO curExecFlow : (List<MethodCallPO>) tCrit.list())
+        {
+            tResult.add(toDto(curExecFlow));
+        }
+        return tResult;
+    }
+
+    MethodCallSearchExtractDTO toDto(MethodCallPO pMethodCall)
+    {
+        MethodCallSearchExtractDTO tResult = new MethodCallSearchExtractDTO();
+        tResult.setFlowId(String.valueOf(pMethodCall.getFlow().getId()));
+        tResult.setFlowBeginDate(formater.formatDateTime(pMethodCall.getFlow().getBeginTime()));
+        tResult.setFlowServer(pMethodCall.getFlow().getJvmIdentifier());
+        tResult.setFlowDuration(String.valueOf(pMethodCall.getFlow().getDuration()));
+        tResult.setFlowThread(pMethodCall.getFlow().getThreadName());
+        tResult.setPosition(String.valueOf(pMethodCall.getPosition()));
+        tResult.setDuration(String.valueOf(pMethodCall.getDuration()));
+        tResult.setClassName(pMethodCall.getClassName());
+        tResult.setMethodName(pMethodCall.getMethodName());
+        tResult.setGroup(pMethodCall.getGroupName());
+        tResult.setHasException(pMethodCall.getThrowableClass() == null ? "" : "yes");
+        return tResult;
+    }
+
+    static boolean hasValue(String pString)
+    {
+        return (pString != null) && (pString.length() > 0);
+    }
+
+    Criteria createMethodCallSearchCriteria(MethodCallSearchCriterion pCriterion)
+    {
+        Criteria tCrit = sessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
+        tCrit.setFetchMode("flow", FetchMode.JOIN);
+        if (hasValue(pCriterion.getMethodName()))
+        {
+            tCrit.add(Restrictions.like("methodName", pCriterion.getMethodName() + "%"));
+        }
+        if (hasValue(pCriterion.getClassName()))
+        {
+            tCrit.add(Restrictions.like("className", pCriterion.getClassName() + "%"));
+        }
+        if (hasValue(pCriterion.getParameters()))
+        {
+            tCrit.add(Restrictions.like("params", pCriterion.getParameters() + "%"));
+        }
+        if (hasValue(pCriterion.getParentPosition()))
+        {
+            tCrit.add(Restrictions.eq("parent.id.position", Integer.parseInt(pCriterion.getParentPosition())));
+        }
+
+        // Execution properties
+        Criteria tFlowCrit = null;
+        if (pCriterion.getFlowBeginDate() != null)
+        { // Check this part for non exact day
+            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
+            tFlowCrit.add(Restrictions.ge("beginTime", pCriterion.getFlowBeginDate().getTime()));
+        }
+        if (hasValue(pCriterion.getFlowMinDuration()))
+        {
+            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
+            tFlowCrit.add(Restrictions.ge("duration", Long.parseLong(pCriterion.getFlowMinDuration())));
+        }
+        if (hasValue(pCriterion.getFlowServer()))
+        {
+            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
+            tFlowCrit.add(Restrictions.eq("jvmIdentifier", pCriterion.getFlowServer()));
+        }
+        if (hasValue(pCriterion.getFlowThread()))
+        {
+            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
+            tFlowCrit.add(Restrictions.eq("threadName", pCriterion.getFlowThread()));
+        }
+        return tCrit;
     }
 }
