@@ -329,7 +329,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         SerializableResponse<MethodCallSearchExtractDTO> tResponse =
             new SerializableResponse<MethodCallSearchExtractDTO>();
         tResponse.setRequest(pRequest);
-        tResponse.setTotalResults(dao.countFlows(pRequest));
+        tResponse.setTotalResults(dao.countMethodCall(pCriterion));
         tResponse.setRows(dao.searchMethodCall(pRequest, pCriterion));
         return tResponse;
     }

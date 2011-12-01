@@ -6,6 +6,7 @@ import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 import org.jmonitoring.console.gwt.client.common.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.methodcall.search.MethodCallSearchPlace;
 import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
+import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
@@ -64,7 +65,9 @@ public class MethodCallDistributionActivity extends AbstractActivity
     /** Method use to trap clicks on the map of the flow. Used by native javascript. */
     public static void methClick(String pClassName, String pMethodName, String pMinDuration, String pMaxDuration)
     {
-        ClientFactory.goTo(new MethodCallSearchPlace(pClassName, pMethodName, pMinDuration, pMaxDuration));
+        MethodCallSearchCriterion tCrit =
+            new MethodCallSearchCriterion(pClassName, pMethodName, pMinDuration, pMaxDuration);
+        ClientFactory.goTo(new MethodCallSearchPlace(tCrit));
     }
 
     public void changeInterval(String pInterval)

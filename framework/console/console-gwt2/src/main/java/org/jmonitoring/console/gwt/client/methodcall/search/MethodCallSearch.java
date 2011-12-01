@@ -79,7 +79,7 @@ public class MethodCallSearch extends Composite implements Editor<MethodCallSear
     public MethodCallSearch()
     {
         initWidget(uiBinder.createAndBindUi(this));
-        Window.setTitle("Method call detail");
+        Window.setTitle("Method call search");
         flowBeginDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yy")));
         flowBeginDate.getTextBox().setVisibleLength(8);
         flowBeginDate.getTextBox().setMaxLength(8);

@@ -388,7 +388,9 @@ public class ConsoleDaoTest extends PersistanceTestCase
         MethodCallSearchCriterion tCriterion = new MethodCallSearchCriterion();
         assertEquals(21, dao.searchMethodCall(tRequest, tCriterion).size());
 
-        // Collection<MethodCallSearchExtractDTO> tResult = dao.searchMethodCall(tRequest, tCriterion);
+        tRequest.setPageSize(10);
+        assertEquals(10, dao.searchMethodCall(tRequest, tCriterion).size());
+        tRequest.setPageSize(40);
 
         tCriterion.setClassName("MainClass");
         assertEquals(7, dao.searchMethodCall(tRequest, tCriterion).size());
@@ -444,6 +446,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
         tCriterion.setThrownExceptionMessage("Error message2");
         assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+        // TODO Manage duration min&max
     }
 
     @Test
@@ -454,5 +457,15 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertTrue(ConsoleDao.hasValue("null"));
         assertFalse(ConsoleDao.hasValue(""));
         assertFalse(ConsoleDao.hasValue(null));
+    }
+
+    @Test
+    public void testCountMethodCall()
+    {
+        MethodCallSearchCriterion tCriterion = new MethodCallSearchCriterion();
+        assertEquals(21, dao.countMethodCall(tCriterion));
+
+        tCriterion.setClassName("MainClass");
+        assertEquals(7, dao.countMethodCall(tCriterion));
     }
 }

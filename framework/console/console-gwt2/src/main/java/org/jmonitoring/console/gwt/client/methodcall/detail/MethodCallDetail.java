@@ -8,6 +8,7 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
@@ -110,6 +111,7 @@ public class MethodCallDetail extends Composite implements Editor<MethodCallDTO>
     public MethodCallDetail()
     {
         initWidget(uiBinder.createAndBindUi(this));
+        Window.setTitle("Method call detail");
     }
 
     public MethodCallDetail setPresenter(MethodCallDetailActivity pActivity)

@@ -36,13 +36,14 @@ class FlowSearchActivity extends AbstractActivity
         tPanel.firstMeasureClassName.setText(place.firstMeasureClassName);
         tPanel.firstMeasureMethodName.setText(place.firstMeasureMethodName);
         tPanel.beginDate.getTextBox().setText(place.beginDate);
-        filterData(tPanel, null);
+
+        tPanel.table.filterData(createFilters());
         panel.setWidget(tPanel.setPresenter(this));
     }
 
     void filterData(FlowSearch pFlowSearch, KeyPressEvent pEvent)
     {
-        if (pEvent == null || (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER))
+        if (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
         {
             place =
                 new FlowSearchPlace(pFlowSearch.thread.getText(), pFlowSearch.minDuration.getText(),

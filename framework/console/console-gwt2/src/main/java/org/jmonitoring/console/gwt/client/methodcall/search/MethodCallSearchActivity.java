@@ -67,27 +67,28 @@ public class MethodCallSearchActivity extends AbstractActivity
         MethodCallSearch tMethodCallSearch = clientFactory.getMethodCallSearch();
         pPanel.setWidget(tMethodCallSearch.setPresenter(MethodCallSearchActivity.this));
         driver.initialize(tMethodCallSearch);
-        MethodCallSearchCriterion tCrit = new MethodCallSearchCriterion();
-        tCrit.setMethodName("executeQuery");
-        driver.edit(tCrit);
-        filterData(tCrit, tMethodCallSearch, null);
+        MethodCallSearchCriterion tCriterion = place.getCriterion();
+        driver.edit(tCriterion);
+        filterData(tCriterion, tMethodCallSearch, null);
 
     }
 
     void filterData(MethodCallSearch pView, KeyPressEvent pEvent)
     {
-        filterData(driver.flush(), pView, pEvent);
+        if (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+        {
+            MethodCallSearchCriterion tCriterion = driver.flush();
+            place = new MethodCallSearchPlace(tCriterion);
+            ClientFactory.addHistory(place);
+
+            filterData(tCriterion, pView, pEvent);
+        }
     }
 
     void filterData(MethodCallSearchCriterion pCriterion, MethodCallSearch pView, KeyPressEvent pEvent)
     {
-        if (pEvent == null || (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER))
-        {
-            place = new MethodCallSearchPlace(pCriterion);
-            ClientFactory.addHistory(place);
-            pView.setSearchCriterion(pCriterion);
-            pView.table.filterData(new ArrayList<Filter<?>>());
-        }
+        pView.setSearchCriterion(pCriterion);
+        pView.table.filterData(new ArrayList<Filter<?>>());
     }
 
 }

@@ -339,6 +339,7 @@ public class ConsoleDao extends InsertionDao
         return tResult;
     }
 
+    @SuppressWarnings("unchecked")
     public List<MethodCallSearchExtractDTO> searchMethodCall(Request pRequest,
         MethodCallSearchCriterion pSearchCriterion)
     {
@@ -454,4 +455,12 @@ public class ConsoleDao extends InsertionDao
         }
         return tCrit;
     }
+
+    public int countMethodCall(MethodCallSearchCriterion pCrit)
+    {
+        Criteria tCrit = createMethodCallSearchCriteria(pCrit);
+        tCrit.setProjection(Projections.rowCount());
+        return ((Integer) tCrit.list().get(0)).intValue();
+    }
+
 }

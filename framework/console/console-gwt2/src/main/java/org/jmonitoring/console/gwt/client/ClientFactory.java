@@ -29,7 +29,7 @@ public class ClientFactory
 
     private static PlaceHistoryMapper sHistoryMapper;
 
-    private final FlowSearch flowSearch = new FlowSearch();
+    // private final FlowSearch flowSearch = new FlowSearch();
 
     private final Message message = new Message();
 
@@ -37,9 +37,9 @@ public class ClientFactory
 
     // private MethodCallDetail methodCallDetail = new MethodCallDetail();
 
-    private MethodCallDistribution methodCallStat = new MethodCallDistribution();
+    // private MethodCallDistribution methodCallStat = new MethodCallDistribution();
 
-    private MethodCallSearch methodCallSearch = new MethodCallSearch();
+    // private MethodCallSearch methodCallSearch = new MethodCallSearch();
 
     public final static ConsoleImageBundle imageBundle = GWT.create(ConsoleImageBundle.class);
 
@@ -98,7 +98,7 @@ public class ClientFactory
 
     public FlowSearch getFlowSearch()
     {
-        return flowSearch;
+        return new FlowSearch();
     }
 
     public MethodCallDetail getMethodCallDetail()
@@ -108,7 +108,7 @@ public class ClientFactory
 
     public MethodCallDistribution getMethodCallStat()
     {
-        return methodCallStat;
+        return new MethodCallDistribution();
     }
 
     public Message getMessage()
@@ -118,6 +118,6 @@ public class ClientFactory
 
     public MethodCallSearch getMethodCallSearch()
     {
-        return methodCallSearch;
+        return new MethodCallSearch();
     }
 }

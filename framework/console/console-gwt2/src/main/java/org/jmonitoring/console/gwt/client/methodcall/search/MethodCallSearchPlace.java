@@ -13,13 +13,7 @@ import com.google.gwt.place.shared.Prefix;
 public class MethodCallSearchPlace extends Place implements ActivityAware
 {
 
-    String className;
-
-    String methodName;
-
-    long minDuration;
-
-    long maxDuration;
+    private MethodCallSearchCriterion criterion;
 
     @Prefix("methodcallsearch")
     public static class MethodCallSearchTokenizer extends AbstractPlaceTokenizer implements
@@ -34,28 +28,30 @@ public class MethodCallSearchPlace extends Place implements ActivityAware
 
         public String getToken(MethodCallSearchPlace pPlace)
         {
-            return getToken(pPlace.className, pPlace.methodName, String.valueOf(pPlace.minDuration),
-                            String.valueOf(pPlace.maxDuration));
+            return getToken(pPlace.criterion.getClassName(), pPlace.criterion.getMethodName(),
+                            pPlace.criterion.getMinDuration(), pPlace.criterion.getMaxDuration());
         }
 
     }
 
     public MethodCallSearchPlace(String pClassName, String pMethodName, String pMinDuration, String pMaxDuration)
     {
-        className = pClassName;
-        methodName = pMethodName;
-        minDuration = Long.parseLong(pMinDuration);
-        maxDuration = Long.parseLong(pMaxDuration);
+        criterion = new MethodCallSearchCriterion(pClassName, pMaxDuration, pMinDuration, pMaxDuration);
     }
 
     public MethodCallSearchPlace(MethodCallSearchCriterion pCriterion)
     {
-        // TODO Auto-generated constructor stub
+        criterion = pCriterion;
     }
 
     public Activity getActivity(ClientFactory pClientFactory)
     {
         return new MethodCallSearchActivity(this, pClientFactory);
+    }
+
+    public MethodCallSearchCriterion getCriterion()
+    {
+        return criterion;
     }
 
 }
