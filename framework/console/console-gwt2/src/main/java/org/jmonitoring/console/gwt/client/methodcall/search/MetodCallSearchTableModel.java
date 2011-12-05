@@ -16,6 +16,7 @@ import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
 import org.jmonitoring.console.gwt.client.common.JMonitoringAsyncCallBack;
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
+import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetailPlace;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 
@@ -80,11 +81,14 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
             new PagingTable<MethodCallSearchExtractDTO>(this, getColumnDefinition(), 10, "flow.id", Column.SORTING_ASC);
         tTable.addActionHandler(new ActionHandler<MethodCallSearchExtractDTO>()
         {
-            public void onActionPerformed(String actionName, MethodCallSearchExtractDTO pRow)
+            public void onActionPerformed(String pActionName, MethodCallSearchExtractDTO pRow)
             {
-                if (VIEW_FLOW.equals(actionName))
+                if (VIEW_FLOW.equals(pActionName))
                 {
                     ClientFactory.goTo(new FlowDetailPlace(pRow.getFlowId()));
+                } else if (VIEW_METHOD.equals(pActionName))
+                {
+                    ClientFactory.goTo(new MethodCallDetailPlace(pRow.getFlowId(), pRow.getPosition()));
                 }
             }
         });

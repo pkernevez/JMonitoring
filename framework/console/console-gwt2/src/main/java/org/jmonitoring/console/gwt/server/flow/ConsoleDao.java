@@ -391,7 +391,7 @@ public class ConsoleDao extends InsertionDao
     Criteria createMethodCallSearchCriteria(MethodCallSearchCriterion pCriterion)
     {
         Criteria tCrit = sessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
-        tCrit.createAlias("flow", "flow");
+        Criteria tFlowCrit = tCrit.createAlias("flow", "flow");
         tCrit.setFetchMode("flow", FetchMode.JOIN);
         if (hasValue(pCriterion.getMethodName()))
         {
@@ -433,26 +433,21 @@ public class ConsoleDao extends InsertionDao
         }
 
         // ExecutionFlow properties
-        Criteria tFlowCrit = null;
         if (pCriterion.getFlowBeginDate() != null)
         { // Check this part for non exact day
-            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
-            tFlowCrit.add(Restrictions.ge("beginTime", pCriterion.getFlowBeginDate().getTime()));
+            tFlowCrit.add(Restrictions.ge("flow.beginTime", pCriterion.getFlowBeginDate().getTime()));
         }
         if (hasValue(pCriterion.getFlowMinDuration()))
         {
-            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
-            tFlowCrit.add(Restrictions.ge("duration", Long.parseLong(pCriterion.getFlowMinDuration())));
+            tFlowCrit.add(Restrictions.ge("flow.duration", Long.parseLong(pCriterion.getFlowMinDuration())));
         }
         if (hasValue(pCriterion.getFlowServer()))
         {
-            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
-            tFlowCrit.add(Restrictions.eq("jvmIdentifier", pCriterion.getFlowServer()));
+            tFlowCrit.add(Restrictions.eq("flow.jvmIdentifier", pCriterion.getFlowServer()));
         }
         if (hasValue(pCriterion.getFlowThread()))
         {
-            tFlowCrit = (tFlowCrit == null ? tCrit.createCriteria("flow") : tFlowCrit);
-            tFlowCrit.add(Restrictions.eq("threadName", pCriterion.getFlowThread()));
+            tFlowCrit.add(Restrictions.eq("flow.threadName", pCriterion.getFlowThread()));
         }
         return tCrit;
     }
