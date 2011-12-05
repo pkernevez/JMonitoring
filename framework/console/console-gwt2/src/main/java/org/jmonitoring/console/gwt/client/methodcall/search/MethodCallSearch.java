@@ -36,6 +36,12 @@ public class MethodCallSearch extends Composite implements Editor<MethodCallSear
     TextBox flowMinDuration;
 
     @UiField
+    TextBox durationMin;
+
+    @UiField
+    TextBox durationMax;
+
+    @UiField
     TextBox className;
 
     @UiField

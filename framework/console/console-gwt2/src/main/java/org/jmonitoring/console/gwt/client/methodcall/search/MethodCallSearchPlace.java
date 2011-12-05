@@ -31,8 +31,8 @@ public class MethodCallSearchPlace extends Place implements ActivityAware
         {
             addParam("className", pPlace.criterion.getClassName());
             addParam("methodName", pPlace.criterion.getMethodName());
-            addParam("minDuration", pPlace.criterion.getMinDuration());
-            addParam("maxDuration", pPlace.criterion.getMaxDuration());
+            addParam("minDuration", pPlace.criterion.getDurationMin());
+            addParam("maxDuration", pPlace.criterion.getDurationMax());
             return getToken();
         }
 

@@ -13,15 +13,15 @@
 		<g:Grid styleName="{style.searchmask}" >
 			<g:row>
 				<g:cell><div class="{style.label}">Thread</div></g:cell>
-				<g:customCell><g:TextBox ui:field="flowThread" maxLength="25" visibleLength="25"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="flowThread" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">Server</div></g:cell>
-				<g:customCell><g:TextBox ui:field="flowServer" maxLength="20"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="flowServer" maxLength="50" visibleLength="40"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
 				<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
 				<g:customCell><p1:DateBox ui:field="flowBeginDate"></p1:DateBox></g:customCell>
 				<g:cell><div class="{style.label}">Minimum Duration</div></g:cell>
-				<g:customCell><g:TextBox ui:field="flowMinDuration" maxLength="20"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="flowMinDuration" maxLength="10"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
 				<g:cell><div class="{style.label}">Class Name</div></g:cell>
@@ -30,10 +30,16 @@
 				<g:customCell><g:TextBox ui:field="methodName" maxLength="80" visibleLength="40"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
+				<g:cell><div class="{style.label}">Duration Min.</div></g:cell>
+				<g:customCell><g:TextBox ui:field="durationMin" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
+				<g:cell><div class="{style.label}">Duration Max.</div></g:cell>
+				<g:customCell><g:TextBox ui:field="durationMax" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
+			</g:row>
+			<g:row>
 				<g:cell><div class="{style.label}">Position</div></g:cell>
-				<g:customCell><g:TextBox ui:field="position" maxLength="25" visibleLength="25"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="position" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
 				<g:cell><div class="{style.label}">Parent position</div></g:cell>
-				<g:customCell><g:TextBox ui:field="parentPosition" maxLength="25" visibleLength="25"></g:TextBox></g:customCell>
+				<g:customCell><g:TextBox ui:field="parentPosition" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>
 				<g:cell><div class="{style.label}">Parameters</div></g:cell>

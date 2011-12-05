@@ -31,9 +31,9 @@ public class MethodCallSearchCriterion implements Serializable
 
     private String thrownExceptionMessage;
 
-    private String minDuration;
+    private String durationMin;
 
-    private String maxDuration;
+    private String durationMax;
 
     public MethodCallSearchCriterion()
     {
@@ -43,8 +43,8 @@ public class MethodCallSearchCriterion implements Serializable
     {
         className = pClassName;
         methodName = pMethodName;
-        minDuration = pMinDuration;
-        maxDuration = pMaxDuration;
+        durationMin = pMinDuration;
+        durationMax = pMaxDuration;
     }
 
     public String getFlowThread()
@@ -167,24 +167,24 @@ public class MethodCallSearchCriterion implements Serializable
         thrownExceptionMessage = pThrownExceptionMessage;
     }
 
-    public String getMinDuration()
+    public String getDurationMin()
     {
-        return minDuration;
+        return durationMin;
     }
 
-    public void setMinDuration(String pMinDuration)
+    public void setDurationMin(String pMinDuration)
     {
-        minDuration = pMinDuration;
+        durationMin = pMinDuration;
     }
 
-    public String getMaxDuration()
+    public String getDurationMax()
     {
-        return maxDuration;
+        return durationMax;
     }
 
-    public void setMaxDuration(String pMaxDuration)
+    public void setDurationMax(String pMaxDuration)
     {
-        maxDuration = pMaxDuration;
+        durationMax = pMaxDuration;
     }
 
 }
