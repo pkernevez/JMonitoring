@@ -17,9 +17,10 @@ public class ColumnFlowIdAction extends Column<MethodCallSearchExtractDTO>
         super();
     }
 
-    public ColumnFlowIdAction(String pTitle, String pActionName, Image pImage, HorizontalAlignmentConstant pAlignement)
+    public ColumnFlowIdAction(String pTitle, String pActionName, Image pImage, HorizontalAlignmentConstant pAlignement,
+        String pPropertyName)
     {
-        super(pTitle, null, false, pAlignement, pActionName);
+        super(pTitle, pPropertyName, true, pAlignement, pActionName);
         image = pImage;
     }
 

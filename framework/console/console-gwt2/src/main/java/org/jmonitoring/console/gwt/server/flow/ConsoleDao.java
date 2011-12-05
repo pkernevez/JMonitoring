@@ -391,6 +391,7 @@ public class ConsoleDao extends InsertionDao
     Criteria createMethodCallSearchCriteria(MethodCallSearchCriterion pCriterion)
     {
         Criteria tCrit = sessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
+        tCrit.createAlias("flow", "flow");
         tCrit.setFetchMode("flow", FetchMode.JOIN);
         if (hasValue(pCriterion.getMethodName()))
         {

@@ -24,14 +24,16 @@ public class MethodCallDetailPlace extends Place implements ActivityAware
         public MethodCallDetailPlace getPlace(String pToken)
         {
             tokenize(pToken);
-            int tFlowId = Integer.parseInt(nextToken());
-            int tPosition = Integer.parseInt(nextToken());
+            int tFlowId = getParamInt("flowId");
+            int tPosition = getParamInt("position");
             return new MethodCallDetailPlace(tFlowId, tPosition);
         }
 
         public String getToken(MethodCallDetailPlace pPlace)
         {
-            return getToken(String.valueOf(pPlace.flowId), String.valueOf(pPlace.position));
+            addParamInt("flowId", pPlace.flowId);
+            addParamInt("position", pPlace.position);
+            return getToken();
         }
 
     }

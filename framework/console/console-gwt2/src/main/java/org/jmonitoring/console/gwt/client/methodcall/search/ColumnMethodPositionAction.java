@@ -18,9 +18,9 @@ public class ColumnMethodPositionAction extends Column<MethodCallSearchExtractDT
     }
 
     public ColumnMethodPositionAction(String pTitle, String pActionName, Image pImage,
-        HorizontalAlignmentConstant pAlignement)
+        HorizontalAlignmentConstant pAlignement, String pPropertyName)
     {
-        super(pTitle, null, false, pAlignement, pActionName);
+        super(pTitle, pPropertyName, true, pAlignement, pActionName);
         image = pImage;
     }
 

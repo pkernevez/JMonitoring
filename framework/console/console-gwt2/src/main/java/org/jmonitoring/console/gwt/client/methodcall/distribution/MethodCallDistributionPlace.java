@@ -26,16 +26,18 @@ public class MethodCallDistributionPlace extends Place implements ActivityAware
         public MethodCallDistributionPlace getPlace(String pToken)
         {
             tokenize(pToken);
-            int tFlowId = Integer.parseInt(nextToken());
-            int tPosition = Integer.parseInt(nextToken());
-            int tInterval = Integer.parseInt(nextToken());
+            int tFlowId = getParamInt("flowId");
+            int tPosition = getParamInt("position");
+            long tInterval = getParamLong("interval");
             return new MethodCallDistributionPlace(tFlowId, tPosition, tInterval);
         }
 
         public String getToken(MethodCallDistributionPlace pPlace)
         {
-            return getToken(String.valueOf(pPlace.flowId), String.valueOf(pPlace.position),
-                            String.valueOf(pPlace.interval));
+            addParamInt("flowId", pPlace.flowId);
+            addParamInt("position", pPlace.position);
+            addParamLong("interval", pPlace.interval);
+            return getToken();
         }
 
     }
@@ -50,7 +52,7 @@ public class MethodCallDistributionPlace extends Place implements ActivityAware
         this(Integer.parseInt(pFlowId), Integer.parseInt(pPosition), -1);
     }
 
-    public MethodCallDistributionPlace(int pFlowId, int pPosition, int pGapDuration)
+    public MethodCallDistributionPlace(int pFlowId, int pPosition, long pGapDuration)
     {
         flowId = pFlowId;
         position = pPosition;

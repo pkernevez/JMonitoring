@@ -68,7 +68,7 @@ class FlowSearchActivity extends AbstractActivity
 
     private void addFilter(List<Filter<?>> pFilters, String pText, String pPropertyName)
     {
-        if (pText.length() > 0)
+        if (pText != null && pText.length() > 0)
         {
             StringFilter curFilter = new StringFilter();
             curFilter.setPropertyName(pPropertyName);

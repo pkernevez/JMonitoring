@@ -30,20 +30,23 @@ public class FlowSearchPlace extends Place implements ActivityAware
         {
             FlowSearchPlace tPlace = new FlowSearchPlace();
             tokenize(pToken);
-            tPlace.thread = nextToken();
-            tPlace.minDuration = nextToken();
-            tPlace.firstMeasureClassName = nextToken();
-            tPlace.firstMeasureMethodName = nextToken();
-            tPlace.beginDate = nextToken();
+            tPlace.thread = getParam("thread");
+            tPlace.minDuration = getParam("minDuration");
+            tPlace.firstMeasureClassName = getParam("className");
+            tPlace.firstMeasureMethodName = getParam("methodName");
+            tPlace.beginDate = getParam("beginDate");
             return tPlace;
         }
 
         public String getToken(FlowSearchPlace place)
         {
-            return getToken(place.thread, place.minDuration, place.firstMeasureClassName, place.firstMeasureMethodName,
-                            place.beginDate);
+            addParam("thread", place.thread);
+            addParam("minDuration", place.minDuration);
+            addParam("className", place.firstMeasureClassName);
+            addParam("methodName", place.firstMeasureMethodName);
+            addParam("beginDate", place.beginDate);
+            return getToken();
         }
-
     }
 
     public FlowSearchPlace()

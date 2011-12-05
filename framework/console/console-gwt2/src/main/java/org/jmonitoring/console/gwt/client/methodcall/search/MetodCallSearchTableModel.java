@@ -94,11 +94,13 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
     private ColumnDefinition<MethodCallSearchExtractDTO> getColumnDefinition()
     {
         ColumnDefinition<MethodCallSearchExtractDTO> cf = new ColumnDefinition<MethodCallSearchExtractDTO>();
-        cf.addColumn(new ColumnFlowIdAction("FlowId", VIEW_FLOW, new Image(ClientFactory.imageBundle.edit()), null));
+        cf.addColumn(new ColumnFlowIdAction("FlowId", VIEW_FLOW, new Image(ClientFactory.imageBundle.edit()), null,
+                                            "flow.id"));
         cf.addColumn(new ColumnMethodPositionAction("Position", VIEW_METHOD,
-                                                    new Image(ClientFactory.imageBundle.edit()), null));
+                                                    new Image(ClientFactory.imageBundle.edit()), null,
+                                                    "methId.position"));
 
-        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Thread", "threadName", true)
+        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Thread", "flow.threadName", true)
         {
             @Override
             public String getStringValue(MethodCallSearchExtractDTO pValue)
@@ -106,7 +108,7 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
                 return "<i>" + pValue.getFlowThread() + "</i>";
             }
         });
-        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Server", "jvmIdentifier", true)
+        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Server", "flow.jvmIdentifier", true)
         {
             @Override
             public String getStringValue(MethodCallSearchExtractDTO pValue)
@@ -114,7 +116,7 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
                 return pValue.getFlowServer();
             }
         });
-        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Duration", "duration", true)
+        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Duration", "flow.duration", true)
         {
             @Override
             public String getStringValue(MethodCallSearchExtractDTO pValue)
@@ -130,7 +132,8 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
                 return pValue.getFlowBeginDate();
             }
         });
-        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Method call duration", "duration", true)
+        // TODO Add ordering on duration
+        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Method call duration", null, false)
         {
             @Override
             public String getStringValue(MethodCallSearchExtractDTO pValue)
@@ -138,7 +141,7 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
                 return pValue.getDuration();
             }
         });
-        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Group", "group", true)
+        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Group", "groupName", true)
         {
             @Override
             public String getStringValue(MethodCallSearchExtractDTO pValue)
@@ -146,7 +149,7 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
                 return pValue.getGroup();
             }
         });
-        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Class", "firstClassName", true)
+        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Class", "className", true)
         {
             @Override
             public String getStringValue(MethodCallSearchExtractDTO pValue)
@@ -154,7 +157,7 @@ public class MetodCallSearchTableModel extends TableModel<MethodCallSearchExtrac
                 return pValue.getClassName();
             }
         });
-        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Method", "firstMethodName", true)
+        cf.addColumn(new ColumnString<MethodCallSearchExtractDTO>("Method", "methodName", true)
         {
             @Override
             public String getStringValue(MethodCallSearchExtractDTO pValue)

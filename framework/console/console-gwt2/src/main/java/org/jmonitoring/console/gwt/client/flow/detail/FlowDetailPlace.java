@@ -2,6 +2,7 @@ package org.jmonitoring.console.gwt.client.flow.detail;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;
+import org.jmonitoring.console.gwt.client.common.AbstractPlaceTokenizer;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.place.shared.Place;
@@ -14,18 +15,18 @@ public class FlowDetailPlace extends Place implements ActivityAware
     private int id;
 
     @Prefix("flowdetail")
-    public static class FlowDetailTokenizer implements PlaceTokenizer<FlowDetailPlace>
+    public static class FlowDetailTokenizer extends AbstractPlaceTokenizer implements PlaceTokenizer<FlowDetailPlace>
     {
 
         public FlowDetailPlace getPlace(String pToken)
         {
-            int tId = Integer.parseInt(pToken);
-            return new FlowDetailPlace(tId);
+            tokenize(pToken);
+            return new FlowDetailPlace(getParamInt("flowId"));
         }
 
         public String getToken(FlowDetailPlace pPlace)
         {
-            return String.valueOf(pPlace.id);
+            return addParamInt("flowId", pPlace.id).getToken();
         }
 
     }

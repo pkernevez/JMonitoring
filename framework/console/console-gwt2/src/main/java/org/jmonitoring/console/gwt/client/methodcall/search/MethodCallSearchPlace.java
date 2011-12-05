@@ -23,20 +23,24 @@ public class MethodCallSearchPlace extends Place implements ActivityAware
         public MethodCallSearchPlace getPlace(String pToken)
         {
             tokenize(pToken);
-            return new MethodCallSearchPlace(nextToken(), nextToken(), nextToken(), nextToken());
+            return new MethodCallSearchPlace(getParam("className"), getParam("methodName"), getParam("minDuration"),
+                                             getParam("maxDuration"));
         }
 
         public String getToken(MethodCallSearchPlace pPlace)
         {
-            return getToken(pPlace.criterion.getClassName(), pPlace.criterion.getMethodName(),
-                            pPlace.criterion.getMinDuration(), pPlace.criterion.getMaxDuration());
+            addParam("className", pPlace.criterion.getClassName());
+            addParam("methodName", pPlace.criterion.getMethodName());
+            addParam("minDuration", pPlace.criterion.getMinDuration());
+            addParam("maxDuration", pPlace.criterion.getMaxDuration());
+            return getToken();
         }
 
     }
 
     public MethodCallSearchPlace(String pClassName, String pMethodName, String pMinDuration, String pMaxDuration)
     {
-        criterion = new MethodCallSearchCriterion(pClassName, pMaxDuration, pMinDuration, pMaxDuration);
+        criterion = new MethodCallSearchCriterion(pClassName, pMethodName, pMinDuration, pMaxDuration);
     }
 
     public MethodCallSearchPlace(MethodCallSearchCriterion pCriterion)

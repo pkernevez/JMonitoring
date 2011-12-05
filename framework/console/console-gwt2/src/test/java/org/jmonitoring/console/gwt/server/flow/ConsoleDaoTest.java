@@ -468,4 +468,16 @@ public class ConsoleDaoTest extends PersistanceTestCase
         tCriterion.setClassName("MainClass");
         assertEquals(7, dao.countMethodCall(tCriterion));
     }
+
+    @Test
+    public void testSearchMethodCall()
+    {
+        MethodCallSearchCriterion tCriterion = new MethodCallSearchCriterion();
+        Request tRequest = new Request();
+        tRequest.setPageSize(10);
+        tRequest.setStartRow(0);
+        tRequest.setSortingColumn("flow.beginTime");
+        List<MethodCallSearchExtractDTO> tSearchMethodCall = dao.searchMethodCall(tRequest, tCriterion);
+        assertEquals(10, tSearchMethodCall.size());
+    }
 }
