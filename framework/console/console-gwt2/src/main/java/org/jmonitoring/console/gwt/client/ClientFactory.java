@@ -8,6 +8,7 @@ import org.jmonitoring.console.gwt.client.main.Main;
 import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetail;
 import org.jmonitoring.console.gwt.client.methodcall.distribution.MethodCallDistribution;
 import org.jmonitoring.console.gwt.client.methodcall.search.MethodCallSearch;
+import org.jmonitoring.console.gwt.client.methodcall.tree.MethodCallTreeSearch;
 import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 
 import com.google.gwt.activity.shared.ActivityManager;
@@ -119,5 +120,10 @@ public class ClientFactory
     public MethodCallSearch getMethodCallSearch()
     {
         return new MethodCallSearch();
+    }
+
+    public MethodCallTreeSearch getMethodCallTreeSearch()
+    {
+        return new MethodCallTreeSearch();
     }
 }

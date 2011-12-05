@@ -6,12 +6,14 @@ import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace.FlowSearch
 import org.jmonitoring.console.gwt.client.methodcall.detail.MethodCallDetailPlace.MethodCallDetailTokenizer;
 import org.jmonitoring.console.gwt.client.methodcall.distribution.MethodCallDistributionPlace.MethodCallDistributionTokenizer;
 import org.jmonitoring.console.gwt.client.methodcall.search.MethodCallSearchPlace.MethodCallSearchTokenizer;
+import org.jmonitoring.console.gwt.client.methodcall.tree.MethodCallTreeSearchPlace.MethodCallTreeSearchTokenizer;
 
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.WithTokenizers;
 
 @WithTokenizers({FlowSearchTokenizer.class, FlowDetailTokenizer.class, MethodCallDetailTokenizer.class,
-    MethodCallDistributionTokenizer.class, MessageTokenizer.class, MethodCallSearchTokenizer.class })
+    MethodCallDistributionTokenizer.class, MessageTokenizer.class, MethodCallSearchTokenizer.class,
+    MethodCallTreeSearchTokenizer.class })
 public interface JMonitoringPlaceHistoryMapper extends PlaceHistoryMapper
 {
 
