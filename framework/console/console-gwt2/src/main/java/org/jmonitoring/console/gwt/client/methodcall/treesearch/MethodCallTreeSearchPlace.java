@@ -1,4 +1,4 @@
-package org.jmonitoring.console.gwt.client.methodcall.tree;
+package org.jmonitoring.console.gwt.client.methodcall.treesearch;
 
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.JMonitoringActivityMapper.ActivityAware;

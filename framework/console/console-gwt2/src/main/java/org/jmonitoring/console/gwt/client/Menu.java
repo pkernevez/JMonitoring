@@ -2,7 +2,7 @@ package org.jmonitoring.console.gwt.client;
 
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace;
-import org.jmonitoring.console.gwt.client.methodcall.tree.MethodCallTreeSearchPlace;
+import org.jmonitoring.console.gwt.client.methodcall.treesearch.MethodCallTreeSearchPlace;
 
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
