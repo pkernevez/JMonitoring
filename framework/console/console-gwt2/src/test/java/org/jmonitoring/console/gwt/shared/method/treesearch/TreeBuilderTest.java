@@ -20,7 +20,7 @@ public class TreeBuilderTest extends TestCase
     public void testAddMethod()
     {
         TreeBuilder tBuilder = new TreeBuilder();
-        tBuilder.addMethod("com.octo.TestClass.run");
+        tBuilder.addMethod("com.octo.TestClass.run", 5);
         assertEquals("", tBuilder.getRoot().getName());
         assertEquals(0, tBuilder.getRoot().getClasses().size());
         assertEquals(1, tBuilder.getRoot().getSubPackages().size());
@@ -34,14 +34,16 @@ public class TreeBuilderTest extends TestCase
         assertEquals(0, tOctoNode.getSubPackages().size());
         ClassDTO tTestClass = tOctoNode.getClasses().get(0);
         assertEquals(1, tTestClass.getMethods().size());
-        assertEquals("run", tTestClass.getMethods().get(0));
+        MethodDTO tMethod = tTestClass.getMethods().get(0);
+        assertEquals("run", tMethod.getName());
+        assertEquals(5, tMethod.getNbOccurence());
     }
 
     @Test
     public void testAddMethodInDefaultPackage()
     {
         TreeBuilder tBuilder = new TreeBuilder();
-        tBuilder.addMethod("TestClass.go");
+        tBuilder.addMethod("TestClass.go", 6);
         PackageDTO tRoot = tBuilder.getRoot();
         assertEquals("", tRoot.getName());
         assertEquals(1, tRoot.getClasses().size());
@@ -49,23 +51,27 @@ public class TreeBuilderTest extends TestCase
         ClassDTO tTestClass = tRoot.getClasses().get(0);
         assertEquals("TestClass", tTestClass.getName());
         assertEquals(1, tTestClass.getMethods().size());
-        assertEquals("go", tTestClass.getMethods().get(0));
+        MethodDTO tActual = tTestClass.getMethods().get(0);
+        assertEquals("go", tActual.getName());
+        assertEquals(6, tActual.getNbOccurence());
     }
 
     @Test
     public void testAddMethodSeveral()
     {
         TreeBuilder tBuilder = new TreeBuilder();
-        tBuilder.addMethod("com.octo.testClass.go1");
-        tBuilder.addMethod("com.Octo.TestClass.go1");
-        tBuilder.addMethod("testClass.go2");
+        tBuilder.addMethod("com.octo.testClass.go1", 1);
+        tBuilder.addMethod("com.Octo.TestClass.go1", 2);
+        tBuilder.addMethod("testClass.go2", 3);
         PackageDTO tRoot = tBuilder.getRoot();
         assertEquals("", tRoot.getName());
         assertEquals(1, tRoot.getClasses().size());
         ClassDTO tRootTestClass = tRoot.getClasses().get(0);
         assertEquals("testClass", tRootTestClass.getName());
         assertEquals(1, tRootTestClass.getMethods().size());
-        assertEquals("go2", tRootTestClass.getMethods().get(0));
+        MethodDTO tGo2 = tRootTestClass.getMethods().get(0);
+        assertEquals("go2", tGo2.getName());
+        assertEquals(3, tGo2.getNbOccurence());
         assertEquals(1, tRoot.getSubPackages().size());
         PackageDTO tComNode = tRoot.getSubPackages().get(0);
         assertEquals("com", tComNode.getName());
@@ -83,11 +89,15 @@ public class TreeBuilderTest extends TestCase
         ClassDTO tLowerOctoClass = tOctoLower.getClasses().get(0);
         assertEquals("testClass", tLowerOctoClass.getName());
         assertEquals(1, tLowerOctoClass.getMethods().size());
-        assertEquals("go1", tLowerOctoClass.getMethods().get(0));
+        MethodDTO tGo1A = tLowerOctoClass.getMethods().get(0);
+        assertEquals("go1", tGo1A.getName());
+        assertEquals(1, tGo1A.getNbOccurence());
         ClassDTO tUpperOctoClass = tOctoUpper.getClasses().get(0);
         assertEquals("TestClass", tUpperOctoClass.getName());
         assertEquals(1, tUpperOctoClass.getMethods().size());
-        assertEquals("go1", tUpperOctoClass.getMethods().get(0));
+        MethodDTO tGo1B = tUpperOctoClass.getMethods().get(0);
+        assertEquals("go1", tGo1B.getName());
+        assertEquals(2, tGo1B.getNbOccurence());
     }
 
     @Test
@@ -96,7 +106,7 @@ public class TreeBuilderTest extends TestCase
         TreeBuilder tBuilder = new TreeBuilder();
         try
         {
-            tBuilder.addMethod(null);
+            tBuilder.addMethod(null, 1);
             fail("Should not pass !");
         } catch (RuntimeException e)
         {
@@ -106,7 +116,7 @@ public class TreeBuilderTest extends TestCase
         }
         try
         {
-            tBuilder.addMethod("");
+            tBuilder.addMethod("", 3);
             fail("Should not pass !");
         } catch (RuntimeException e)
         {
@@ -116,7 +126,7 @@ public class TreeBuilderTest extends TestCase
         }
         try
         {
-            tBuilder.addMethod("main");
+            tBuilder.addMethod("main", 6);
             fail("Should not pass !");
         } catch (RuntimeException e)
         {

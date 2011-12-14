@@ -3,17 +3,12 @@ package org.jmonitoring.console.gwt.client.methodcall.treesearch;
 import org.jmonitoring.console.gwt.client.ClientFactory;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteServiceAsync;
-import org.jmonitoring.console.gwt.shared.method.treesearch.ClassDTO;
-import org.jmonitoring.console.gwt.shared.method.treesearch.PackageDTO;
 import org.jmonitoring.console.gwt.shared.method.treesearch.TreeBuilder;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasTreeItems;
-import com.google.gwt.user.client.ui.TreeItem;
 
 public class MethodCallTreeSearchActivity extends AbstractActivity
 {
@@ -58,43 +53,14 @@ public class MethodCallTreeSearchActivity extends AbstractActivity
         // service.getDistributionAndGenerateImage(place.flowId, place.position, place.interval, tCallback);
         // Create a model for the tree.
         TreeBuilder tBuilder = new TreeBuilder();
-        tBuilder.addMethod("com.toto.Test");
-        tBuilder.addMethod("org.Test");
+        tBuilder.addMethod("com.toto.Test.main", 2);
+        tBuilder.addMethod("org.Test.run", 4);
 
         MethodCallTreeSearch tView = clientFactory.getMethodCallTreeSearch();
-        buildRoot(tView.tree, tBuilder.getRoot());
+        tView.buildRoot(tBuilder.getRoot());
+        tView.tree.setAnimationEnabled(true);
         pPanel.setWidget(tView.setPresenter(MethodCallTreeSearchActivity.this));
 
-    }
-
-    private void buildRoot(HasTreeItems pParent, PackageDTO pPackage)
-    {
-        for (PackageDTO curChild : pPackage.getSubPackages())
-        {
-            buildNode(pParent, curChild);
-        }
-        for (ClassDTO curClass : pPackage.getClasses())
-        {
-            buildNode(pParent, curClass);
-        }
-    }
-
-    private void buildNode(HasTreeItems pParent, PackageDTO pPackage)
-    {
-        TreeItem curWidget = pParent.addItem(new HTML(pPackage.getName()));
-        for (PackageDTO curChild : pPackage.getSubPackages())
-        {
-            buildNode(curWidget, curChild);
-        }
-        for (ClassDTO curClass : pPackage.getClasses())
-        {
-            buildNode(curWidget, curClass);
-        }
-    }
-
-    private void buildNode(HasTreeItems pParent, ClassDTO pClass)
-    {
-        pParent.addItem(new HTML(pClass.getName()));
     }
 
 }

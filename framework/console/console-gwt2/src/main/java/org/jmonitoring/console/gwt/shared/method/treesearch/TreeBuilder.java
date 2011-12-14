@@ -25,7 +25,7 @@ public class TreeBuilder
         myPackage = pPackageName;
     }
 
-    private void addPart(String[] pPart)
+    private void addPart(String[] pPart, int pNbOccurence)
     {
         String tName = pPart[0];
         if (pPart.length == 2)
@@ -36,7 +36,7 @@ public class TreeBuilder
                 tClass = new ClassDTO(tName);
                 classes.put(tName, tClass);
             }
-            tClass.addMethod(pPart[1]);
+            tClass.addMethod(pPart[1], pNbOccurence);
         } else
         {
             TreeBuilder tSubPackage = subPackageBuilders.get(tName);
@@ -47,18 +47,18 @@ public class TreeBuilder
             }
             String[] tNewPart = new String[pPart.length - 1];
             System.arraycopy(pPart, 1, tNewPart, 0, pPart.length - 1);
-            tSubPackage.addPart(tNewPart);
+            tSubPackage.addPart(tNewPart, pNbOccurence);
         }
     }
 
-    public void addMethod(String pName)
+    public void addMethod(String pName, int pNbOccurence)
     {
         if (pName == null || pName.length() == 0 || !pName.contains("."))
         {
             throw new RuntimeException(
                                        "Invalid name, should contains at least a class and a name : \"$classs.$method\".");
         }
-        addPart(pName.split("\\."));
+        addPart(pName.split("\\."), pNbOccurence);
     }
 
     public PackageDTO getRoot()

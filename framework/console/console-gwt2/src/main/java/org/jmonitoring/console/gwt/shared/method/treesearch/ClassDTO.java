@@ -9,7 +9,7 @@ public class ClassDTO implements Serializable, HasName
 
     private String name;
 
-    private ArrayList<String> methods = new ArrayList<String>();
+    private ArrayList<MethodDTO> methods = new ArrayList<MethodDTO>();
 
     /**
      * @param pName The short name of the class (not includes the package name)
@@ -29,18 +29,18 @@ public class ClassDTO implements Serializable, HasName
         name = pName;
     }
 
-    public ArrayList<String> getMethods()
+    public ArrayList<MethodDTO> getMethods()
     {
         return methods;
     }
 
-    public void setMethods(ArrayList<String> pMethods)
+    public void setMethods(ArrayList<MethodDTO> pMethods)
     {
         methods = pMethods;
     }
 
-    public void addMethod(String pString)
+    public void addMethod(String pName, int pNbOccurence)
     {
-        methods.add(pString);
+        methods.add(new MethodDTO(pName, pNbOccurence));
     }
 }
