@@ -2,6 +2,7 @@ package org.jmonitoring.console.gwt.server.common;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.TimeZone;
 
 import javax.annotation.Resource;
 
@@ -18,6 +19,7 @@ import org.jmonitoring.core.domain.MethodCallPO;
 import org.jmonitoring.core.tests.JMonitoringTestCase;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,12 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
     private Statistics stats;
 
     private static Logger sLog = LoggerFactory.getLogger(PersistanceTestCase.class.getName());
+
+    @BeforeClass
+    public static void initClass()
+    {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+    }
 
     @SuppressWarnings("deprecation")
     @Before
