@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -67,7 +68,10 @@ public class ConsoleDao extends InsertionDao
             {
                 long tBeginTime = formater.parseDate((String) curFilter.getValue()).getTime();
                 tCrit.add(Restrictions.gt("beginTime", tBeginTime));
-                tCrit.add(Restrictions.lt("beginTime", tBeginTime + FormaterBean.ONE_DAY));
+                Calendar tCal = Calendar.getInstance();
+                tCal.setTimeInMillis(tBeginTime);
+                tCal.add(Calendar.DAY_OF_YEAR, 1);
+                tCrit.add(Restrictions.lt("beginTime", tCal.getTimeInMillis()));
 
             } else
             {

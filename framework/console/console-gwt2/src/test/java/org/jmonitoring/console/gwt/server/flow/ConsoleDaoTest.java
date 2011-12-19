@@ -41,6 +41,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
     @Test
     public void testCreateCriteriaWithoutParam()
     {
+        assertEquals("", new Date(1206000000L));
 
         Request tRequest = new Request();
         List<Filter<?>> tFilter = new ArrayList<Filter<?>>();
