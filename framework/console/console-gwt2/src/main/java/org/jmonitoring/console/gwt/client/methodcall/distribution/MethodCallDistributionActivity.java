@@ -55,7 +55,7 @@ public class MethodCallDistributionActivity extends AbstractActivity
                 }
 
             };
-        service.getDistributionAndGenerateImage(place.flowId, place.position, place.interval, tCallback);
+        service.getDistributionAndGenerateImage(place.fullClassName, place.methodName, place.interval, tCallback);
     }
 
     public static native void exportMapMethClick() /*-{
@@ -72,7 +72,7 @@ public class MethodCallDistributionActivity extends AbstractActivity
 
     public void changeInterval(String pInterval)
     {
-        MethodCallDistributionPlace tNewPlace = new MethodCallDistributionPlace(place.flowId, place.position);
+        MethodCallDistributionPlace tNewPlace = new MethodCallDistributionPlace(place.fullClassName, place.methodName);
         tNewPlace.interval = Integer.parseInt(pInterval);
         ClientFactory.goTo(tNewPlace);
     }

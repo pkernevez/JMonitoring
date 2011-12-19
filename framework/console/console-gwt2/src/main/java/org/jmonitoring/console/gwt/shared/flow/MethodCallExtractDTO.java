@@ -33,8 +33,9 @@ public class MethodCallExtractDTO implements Serializable
     /** Group name associated to this method call. */
     private String groupName;
 
-    /** The name as "{fullClassName}.{methodName}()" */
-    private String fullMethodName;
+    private String methodName;
+
+    private String fullClassName;
 
     public MethodCallExtractDTO()
     {
@@ -102,12 +103,7 @@ public class MethodCallExtractDTO implements Serializable
 
     public String getFullMethodName()
     {
-        return fullMethodName;
-    }
-
-    public void setFullMethodName(String pFullMethodName)
-    {
-        fullMethodName = pFullMethodName;
+        return fullClassName + "." + methodName + "()";
     }
 
     @Override
@@ -124,6 +120,26 @@ public class MethodCallExtractDTO implements Serializable
     public void setThrownException(boolean pHasThrownException)
     {
         thrownException = pHasThrownException;
+    }
+
+    public String getMethodName()
+    {
+        return methodName;
+    }
+
+    public void setMethodName(String pMethodName)
+    {
+        methodName = pMethodName;
+    }
+
+    public String getFullClassName()
+    {
+        return fullClassName;
+    }
+
+    public void setFullClassName(String pFullClassName)
+    {
+        fullClassName = pFullClassName;
     }
 
 }

@@ -157,7 +157,8 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     private MethodCallExtractDTO convertToExtract(MethodCallPO pMethodCall, int pChildPosition)
     {
         MethodCallExtractDTO tExtract = new MethodCallExtractDTO();
-        tExtract.setFullMethodName(pMethodCall.getClassName() + "." + pMethodCall.getMethodName() + "()");
+        tExtract.setFullClassName(pMethodCall.getClassName());
+        tExtract.setMethodName(pMethodCall.getMethodName());
         tExtract.setDuration(String.valueOf(pMethodCall.getDuration()));
         tExtract.setGroupName(pMethodCall.getGroupName());
         tExtract.setPosition(String.valueOf(pMethodCall.getPosition()));
@@ -301,12 +302,12 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         // return tResult;
     }
 
-    public MethodCallDistributionDTO getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, long pInterval)
+    public MethodCallDistributionDTO getDistributionAndGenerateImage(String pFullClassName, String pMethodName,
+        long pInterval)
     {
         HttpSession tSession = RemoteServiceUtil.getThreadLocalSession();
-        MethodCallPO tMeth = dao.loadMethodCall(pFlowId, pMethodPosition);
         // The Interval has not be specified explicitly
-        return getDistributionAndGenerateImage(tSession, tMeth.getClassName(), tMeth.getMethodName(), pInterval);
+        return getDistributionAndGenerateImage(tSession, pFullClassName, pMethodName, pInterval);
     }
 
     String round(double tValue)

@@ -12,9 +12,9 @@ import com.google.gwt.place.shared.Prefix;
 public class MethodCallDistributionPlace extends Place implements ActivityAware
 {
 
-    int flowId;
+    String fullClassName;
 
-    int position;
+    String methodName;
 
     long interval;
 
@@ -26,36 +26,31 @@ public class MethodCallDistributionPlace extends Place implements ActivityAware
         public MethodCallDistributionPlace getPlace(String pToken)
         {
             tokenize(pToken);
-            int tFlowId = getParamInt("flowId");
-            int tPosition = getParamInt("position");
+            String tFullClassName = getParam("class");
+            String tMethodName = getParam("method");
             long tInterval = getParamLong("interval");
-            return new MethodCallDistributionPlace(tFlowId, tPosition, tInterval);
+            return new MethodCallDistributionPlace(tFullClassName, tMethodName, tInterval);
         }
 
         public String getToken(MethodCallDistributionPlace pPlace)
         {
-            addParamInt("flowId", pPlace.flowId);
-            addParamInt("position", pPlace.position);
+            addParam("class", pPlace.fullClassName);
+            addParam("method", pPlace.methodName);
             addParamLong("interval", pPlace.interval);
             return getToken();
         }
 
     }
 
-    public MethodCallDistributionPlace(int pFlowId, int pPosition)
+    public MethodCallDistributionPlace(String pFullClassName, String pMethodName)
     {
-        this(pFlowId, pPosition, -1);
+        this(pFullClassName, pMethodName, -1);
     }
 
-    public MethodCallDistributionPlace(String pFlowId, String pPosition)
+    public MethodCallDistributionPlace(String pFullClassName, String pMethodName, long pGapDuration)
     {
-        this(Integer.parseInt(pFlowId), Integer.parseInt(pPosition), -1);
-    }
-
-    public MethodCallDistributionPlace(int pFlowId, int pPosition, long pGapDuration)
-    {
-        flowId = pFlowId;
-        position = pPosition;
+        fullClassName = pFullClassName;
+        methodName = pMethodName;
         interval = pGapDuration;
     }
 

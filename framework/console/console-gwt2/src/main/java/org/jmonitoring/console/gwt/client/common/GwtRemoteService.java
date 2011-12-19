@@ -23,7 +23,8 @@ public interface GwtRemoteService extends RemoteService
 
     ExecutionFlowDTO loadAndGenerateImage(int pFlowId) throws UnknownEntity;
 
-    MethodCallDistributionDTO getDistributionAndGenerateImage(int pFlowId, int pMethodPosition, long pGapDuration);
+    MethodCallDistributionDTO getDistributionAndGenerateImage(String pFullClassName, String pMethodName,
+        long pGapDuration);
 
     MethodCallDTO loadMethodCall(int pFlowId, int pPosition);
 

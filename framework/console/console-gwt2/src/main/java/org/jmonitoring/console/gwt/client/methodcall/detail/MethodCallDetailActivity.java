@@ -58,7 +58,7 @@ public class MethodCallDetailActivity extends AbstractActivity
                                                                               + pResult.getGroupColor() + ";");
                 methodCallDetail.goToFlow.addClickHandler(new NavHandler(new FlowDetailPlace(place.flowId)));
                 MethodCallDistributionPlace tDistribPlace =
-                    new MethodCallDistributionPlace(pResult.getFlowId(), pResult.getPosition());
+                    new MethodCallDistributionPlace(pResult.getClassName(), pResult.getMethodName());
                 methodCallDetail.goToStat.addClickHandler(new NavHandler(tDistribPlace));
                 if (pResult.getThrowableClass() == null)
                 {
