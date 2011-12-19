@@ -77,7 +77,7 @@ public class TreeBuilderTest extends TestCase
         assertEquals("com", tComNode.getName());
         assertEquals(0, tComNode.getClasses().size());
         assertEquals(2, tComNode.getSubPackages().size());
-        int tLowerPosition = tComNode.getSubPackages().indexOf(new PackageDTO("octo"));
+        int tLowerPosition = tComNode.getSubPackages().indexOf(new PackageDTO(null, "octo"));
         PackageDTO tOctoLower = tComNode.getSubPackages().get(tLowerPosition);
         PackageDTO tOctoUpper = tComNode.getSubPackages().get(1 - tLowerPosition);
         assertEquals("octo", tOctoLower.getName());

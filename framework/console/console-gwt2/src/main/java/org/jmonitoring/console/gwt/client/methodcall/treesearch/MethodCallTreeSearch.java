@@ -6,6 +6,8 @@ import org.jmonitoring.console.gwt.shared.method.treesearch.MethodDTO;
 import org.jmonitoring.console.gwt.shared.method.treesearch.PackageDTO;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -14,6 +16,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -82,13 +85,22 @@ public class MethodCallTreeSearch extends Composite
 
     }
 
-    private void buildNode(HasTreeItems pParent, MethodDTO pMeth)
+    private void buildNode(HasTreeItems pParent, final MethodDTO pMeth)
     {
         StringBuilder tBuilder = new StringBuilder();
-        tBuilder.append(pMeth.getName()).append("    ( ").append(pMeth.getNbOccurence()).append(" )&nbsp;");
+        tBuilder.append(pMeth.getName()).append("    ( ").append(pMeth.getNbOccurence()).append(" )    ");
         Panel tPanel = new HorizontalPanel();
-        tPanel.add(new HTML(tBuilder.toString()));
-        tPanel.add(new Image(ressource.graphique()));
+        tPanel.add(new Label(tBuilder.toString()));
+        Image tImage = new Image(ressource.graphique());
+        tImage.addClickHandler(new ClickHandler()
+        {
+            public void onClick(ClickEvent pEvent)
+            {
+                presenter.goToDistribution(pMeth.getFullClassName(), pMeth.getName());
+                // pEvent.stopPropagation();
+            }
+        });
+        tPanel.add(tImage);
         pParent.addItem(tPanel);
     }
 }

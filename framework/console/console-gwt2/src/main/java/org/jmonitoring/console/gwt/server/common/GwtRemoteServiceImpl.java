@@ -26,6 +26,7 @@ import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
+import org.jmonitoring.console.gwt.shared.method.treesearch.PackageDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -332,6 +333,11 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         tResponse.setTotalResults(dao.countMethodCall(pCriterion));
         tResponse.setRows(dao.searchMethodCall(pRequest, pCriterion));
         return tResponse;
+    }
+
+    public PackageDTO loadMethodCallTreeSearch()
+    {
+        return dao.loadMethodCallTreeSearch();
     }
 
 }

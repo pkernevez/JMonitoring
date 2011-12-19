@@ -21,6 +21,8 @@ import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
+import org.jmonitoring.console.gwt.shared.method.treesearch.ClassDTO;
+import org.jmonitoring.console.gwt.shared.method.treesearch.PackageDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
@@ -479,5 +481,20 @@ public class ConsoleDaoTest extends PersistanceTestCase
         tRequest.setSortingColumn("flow.beginTime");
         List<MethodCallSearchExtractDTO> tSearchMethodCall = dao.searchMethodCall(tRequest, tCriterion);
         assertEquals(10, tSearchMethodCall.size());
+    }
+
+    @Test
+    public void testLoadMethodCallTreeSearch()
+    {
+        PackageDTO tRoot = dao.loadMethodCallTreeSearch();
+        assertEquals("", tRoot.getName());
+        assertEquals(0, tRoot.getSubPackages().size());
+        assertEquals(13, tRoot.getClasses().size());
+        int tPosition = tRoot.getClasses().indexOf(new ClassDTO(null, "MainClass"));
+        ClassDTO tMainClass = tRoot.getClasses().get(tPosition);
+        assertEquals("MainClass", tMainClass.getName());
+        assertEquals(2, tMainClass.getMethods().size());
+        assertEquals(2, tMainClass.getMethods().get(0).getNbOccurence());
+        assertEquals(2, tMainClass.getMethods().get(1).getNbOccurence());
     }
 }

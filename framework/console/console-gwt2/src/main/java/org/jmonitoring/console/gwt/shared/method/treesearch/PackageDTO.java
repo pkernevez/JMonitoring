@@ -3,7 +3,7 @@ package org.jmonitoring.console.gwt.shared.method.treesearch;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PackageDTO implements Serializable, HasName
+public class PackageDTO implements Serializable
 {
     private static final long serialVersionUID = 7913081024289332085L;
 
@@ -13,13 +13,20 @@ public class PackageDTO implements Serializable, HasName
 
     private String name;
 
-    public PackageDTO(String pName)
+    private PackageDTO parent;
+
+    public PackageDTO()
     {
-        this(pName, new ArrayList<PackageDTO>(), new ArrayList<ClassDTO>());
     }
 
-    public PackageDTO(String pName, ArrayList<PackageDTO> pSubPackages, ArrayList<ClassDTO> pClasses)
+    public PackageDTO(PackageDTO pParent, String pName)
     {
+        this(pParent, pName, new ArrayList<PackageDTO>(), new ArrayList<ClassDTO>());
+    }
+
+    public PackageDTO(PackageDTO pParent, String pName, ArrayList<PackageDTO> pSubPackages, ArrayList<ClassDTO> pClasses)
+    {
+        parent = pParent;
         name = pName;
         subPackages = pSubPackages;
         classes = pClasses;
@@ -91,6 +98,11 @@ public class PackageDTO implements Serializable, HasName
             return false;
         }
         return true;
+    }
+
+    public String getFullName()
+    {
+        return (parent == null ? name : parent.getFullName() + name + ".");
     }
 
 }

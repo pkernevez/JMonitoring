@@ -10,8 +10,15 @@ public class MethodDTO implements Serializable
 
     private int nbOccurence;
 
-    public MethodDTO(String pName, int pNbOccurence)
+    private ClassDTO parent;
+
+    public MethodDTO()
     {
+    }
+
+    public MethodDTO(ClassDTO pParent, String pName, int pNbOccurence)
+    {
+        parent = pParent;
         name = pName;
         nbOccurence = pNbOccurence;
     }
@@ -34,6 +41,11 @@ public class MethodDTO implements Serializable
     public void setNbOccurence(int pNbOccurence)
     {
         nbOccurence = pNbOccurence;
+    }
+
+    public String getFullClassName()
+    {
+        return parent.getFullName();
     }
 
 }

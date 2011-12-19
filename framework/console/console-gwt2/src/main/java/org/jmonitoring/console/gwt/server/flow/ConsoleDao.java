@@ -26,6 +26,8 @@ import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
+import org.jmonitoring.console.gwt.shared.method.treesearch.PackageDTO;
+import org.jmonitoring.console.gwt.shared.method.treesearch.TreeBuilder;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.configuration.MeasureException;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -459,4 +461,18 @@ public class ConsoleDao extends InsertionDao
         return ((Integer) tCrit.list().get(0)).intValue();
     }
 
+    public PackageDTO loadMethodCallTreeSearch()
+    {
+        String tHql = "select className, methodName, count(*) from MethodCallPO GROUP BY className, methodName";
+        List<Object[]> tList = getSession().createQuery(tHql).list();
+        TreeBuilder tBuilder = new TreeBuilder();
+        for (Object[] tObject : tList)
+        {
+            String tClass = (String) tObject[0];
+            String tMethod = (String) tObject[1];
+            Long tNbOccurence = (Long) tObject[2];
+            tBuilder.addMethod(tClass + "." + tMethod, tNbOccurence.intValue());
+        }
+        return tBuilder.getRoot();
+    }
 }

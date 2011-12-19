@@ -10,6 +10,7 @@ import org.jmonitoring.console.gwt.shared.method.MethodCallDistributionDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchCriterion;
 import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 import org.jmonitoring.console.gwt.shared.method.MethodNavType;
+import org.jmonitoring.console.gwt.shared.method.treesearch.PackageDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -32,5 +33,7 @@ public interface GwtRemoteServiceAsync
 
     void searchMethodCall(Request pRequest, MethodCallSearchCriterion pCriterion,
         AsyncCallback<SerializableResponse<MethodCallSearchExtractDTO>> callback);
+
+    void loadMethodCallTreeSearch(AsyncCallback<PackageDTO> callback);
 
 }

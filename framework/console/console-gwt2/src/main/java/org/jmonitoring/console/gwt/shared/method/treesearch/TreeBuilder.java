@@ -11,18 +11,23 @@ public class TreeBuilder
 
     Map<String, ClassDTO> classes;
 
-    String myPackage;
+    PackageDTO myPackage;
 
     public TreeBuilder()
     {
-        this("");
+        this(null, "");
     }
 
     public TreeBuilder(String pPackageName)
     {
+        this(null, pPackageName);
+    }
+
+    public TreeBuilder(PackageDTO pParent, String pPackageName)
+    {
         subPackageBuilders = new HashMap<String, TreeBuilder>();
         classes = new HashMap<String, ClassDTO>();
-        myPackage = pPackageName;
+        myPackage = new PackageDTO(pParent, pPackageName);
     }
 
     private void addPart(String[] pPart, int pNbOccurence)
@@ -33,7 +38,7 @@ public class TreeBuilder
             ClassDTO tClass = classes.get(tName);
             if (tClass == null)
             {
-                tClass = new ClassDTO(tName);
+                tClass = new ClassDTO(myPackage, tName);
                 classes.put(tName, tClass);
             }
             tClass.addMethod(pPart[1], pNbOccurence);
@@ -42,7 +47,7 @@ public class TreeBuilder
             TreeBuilder tSubPackage = subPackageBuilders.get(tName);
             if (tSubPackage == null)
             {
-                tSubPackage = new TreeBuilder(tName);
+                tSubPackage = new TreeBuilder(myPackage, tName);
                 subPackageBuilders.put(tName, tSubPackage);
             }
             String[] tNewPart = new String[pPart.length - 1];
@@ -68,7 +73,8 @@ public class TreeBuilder
         {
             tPackages.add(tBuilder.getRoot());
         }
-        PackageDTO tResult = new PackageDTO(myPackage, tPackages, new ArrayList<ClassDTO>(classes.values()));
-        return tResult;
+        myPackage.setSubPackages(tPackages);
+        myPackage.setClasses(new ArrayList<ClassDTO>(classes.values()));
+        return myPackage;
     }
 }

@@ -6,13 +6,20 @@
 		type="org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle"
 		field="res"></ui:with>
 	<ui:style src="../../resources/main-style.css" />
-	<!-- TODO The css is KO -->
-	<ui:style field="decorator" src="../../resources/decorator.css" />
+	<ui:style field="customStyle">
+	.my-Gwt-Tree table {
+  border-spacing: 0px;
+  color: red;
+}
+	.tree-selected {
+	background-color: blue;
+	
+}
+	</ui:style>
 	<g:HTMLPanel>
-		<g:VerticalPanel>
+		<g:VerticalPanel styleName="{customStyle.my-Gwt-Tree}">
 			<g:HTML><h1>Method Call Tree Search</h1></g:HTML> 
- <!--            addStyleNames='{style.tree}'  -->
-<g:Tree ui:field='tree'></g:Tree>
+			<g:Tree ui:field='tree' ></g:Tree>
          	
            </g:VerticalPanel>
 	</g:HTMLPanel>
