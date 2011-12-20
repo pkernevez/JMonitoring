@@ -22,7 +22,7 @@
       <property name="throwableMessage" column="THROWABLE_MESSAGE" type="java.lang.String" length="120" />
       <property name="returnValue" column="RESULT" type="text" />
       <property name="groupName" column="GROUP_NAME" type="java.lang.String" length="30"/>
-		
+	  <property name="duration" type="java.lang.Long" formula="END_TIME-BEGIN_TIME"/>
 		<many-to-one name="flow" column="FLOW_ID"
 			unique="false" not-null="false" insert="false" update="false"/>
 		

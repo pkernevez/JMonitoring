@@ -447,7 +447,13 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
         tCriterion.setThrownExceptionMessage("Error message2");
         assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
-        // TODO Manage duration min&max
+
+        tCriterion = new MethodCallSearchCriterion();
+        tCriterion.setDurationMin("20");
+        assertEquals(7, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setDurationMax("30");
+        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+
     }
 
     @Test

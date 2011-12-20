@@ -39,38 +39,12 @@ public class MethodCallSearchActivity extends AbstractActivity
 
     public void start(final AcceptsOneWidget pPanel, EventBus pEventBus)
     {
-
-        // exportMapMethClick();
-        // JMonitoringAsyncCallBack<MethodCallDistributionDTO> tCallback =
-        // new JMonitoringAsyncCallBack<MethodCallDistributionDTO>()
-        // {
-        // public void onSuccess(MethodCallDistributionDTO pResult)
-        // {
-        // MethodCallDistribution tMethodCallStat = clientFactory.getMethodCallStat();
-        // tMethodCallStat.distribution.setUrl("image.dynamic?id=" + pResult.getClassName() + "/"
-        // + pResult.getMethodName() + "/" + pResult.getInterval() + "&type=Distribution");
-        // tMethodCallStat.distributionImageMap.add(new HTML(pResult.getMap()));
-        // tMethodCallStat.distribution.getElement().setAttribute("usemap", "#chart");
-        // tMethodCallStat.interval.setText(String.valueOf(pResult.getInterval()));
-        // tMethodCallStat.fullMethodName.setText(pResult.getFullName());
-        // tMethodCallStat.durationMin.setText(pResult.getMinDuration());
-        // tMethodCallStat.durationAvg.setText(pResult.getAvgDuration());
-        // tMethodCallStat.durationDeviance.setText(pResult.getStdDeviationDuration());
-        // tMethodCallStat.durationMax.setText(pResult.getMaxDuration());
-        // tMethodCallStat.nbOccurences.setText(pResult.getNbOccurences());
-        // pPanel.setWidget(tMethodCallStat.setPresenter(MethodCallSearchActivity.this));
-        // tMethodCallStat.interval.setFocus(true);
-        // }
-        //
-        // };
-        // service.getDistributionAndGenerateImage(place.flowId, place.position, place.interval, tCallback);
         MethodCallSearch tMethodCallSearch = clientFactory.getMethodCallSearch();
         pPanel.setWidget(tMethodCallSearch.setPresenter(MethodCallSearchActivity.this));
         driver.initialize(tMethodCallSearch);
         MethodCallSearchCriterion tCriterion = place.getCriterion();
         driver.edit(tCriterion);
         filterData(tCriterion, tMethodCallSearch, null);
-
     }
 
     void filterData(MethodCallSearch pView, KeyPressEvent pEvent)

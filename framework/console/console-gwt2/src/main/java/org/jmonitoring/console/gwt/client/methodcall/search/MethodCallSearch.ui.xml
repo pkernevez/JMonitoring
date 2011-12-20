@@ -10,7 +10,7 @@
 	<g:VerticalPanel styleName="{style.searchpanel}" ui:field="vPanel">
 		<g:HTML><h1>Method Call Search</h1></g:HTML> 
 	<g:DecoratorPanel>
-		<g:Grid styleName="{style.searchmask}" >
+		<g:Grid styleName="{style.searchmask}" ui:field="criterion" >
 			<g:row>
 				<g:cell><div class="{style.label}">Thread</div></g:cell>
 				<g:customCell><g:TextBox ui:field="flowThread" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
@@ -20,7 +20,7 @@
 			<g:row>
 				<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
 				<g:customCell><p1:DateBox ui:field="flowBeginDate"></p1:DateBox></g:customCell>
-				<g:cell><div class="{style.label}">Minimum Duration</div></g:cell>
+				<g:cell><div class="{style.label}">Minimum Flow Duration</div></g:cell>
 				<g:customCell><g:TextBox ui:field="flowMinDuration" maxLength="10"></g:TextBox></g:customCell>
 			</g:row>
 			<g:row>

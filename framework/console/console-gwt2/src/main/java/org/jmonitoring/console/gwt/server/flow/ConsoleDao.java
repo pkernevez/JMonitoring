@@ -411,6 +411,14 @@ public class ConsoleDao extends InsertionDao
         {
             tCrit.add(Restrictions.like("params", pCriterion.getParameters() + "%"));
         }
+        if (hasValue(pCriterion.getDurationMin()))
+        {
+            tCrit.add(Restrictions.ge("duration", Long.parseLong(pCriterion.getDurationMin())));
+        }
+        if (hasValue(pCriterion.getDurationMax()))
+        {
+            tCrit.add(Restrictions.le("duration", Long.parseLong(pCriterion.getDurationMax())));
+        }
         if (hasValue(pCriterion.getPosition()))
         {
             tCrit.add(Restrictions.eq("id.position", Integer.parseInt(pCriterion.getPosition())));

@@ -9,11 +9,13 @@ import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -113,6 +115,89 @@ public class MethodCallSearch extends Composite implements Editor<MethodCallSear
         tableModel.setSearchCriterion(pCriterion);
     }
 
+    @UiHandler("buttonOk")
+    void onButtonOkClick(ClickEvent pEvent)
+    {
+        presenter.filterData(this, null);
+    }
+
     // TODO Add filters : groupName and flowid
 
+    @UiHandler("flowThread")
+    void onFlowThreadKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("className")
+    void onClassNameKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("durationMin")
+    void onDurationMinKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("position")
+    void onPositionKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("parameters")
+    void onParametersKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("thrownExceptionClass")
+    void onThrownExceptionClassKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("flowServer")
+    void onFlowServerKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("flowMinDuration")
+    void onFlowMinDurationKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("methodName")
+    void onMethodNameKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("durationMax")
+    void onDurationMaxKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("parentPosition")
+    void onParentPositionKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("returnValue")
+    void onReturnValueKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
+
+    @UiHandler("thrownExceptionMessage")
+    void onThrownExceptionMessageKeyPress(KeyPressEvent pEvent)
+    {
+        presenter.filterData(this, pEvent);
+    }
 }
