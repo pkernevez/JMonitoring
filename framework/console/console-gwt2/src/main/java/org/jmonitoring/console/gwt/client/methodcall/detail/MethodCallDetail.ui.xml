@@ -94,10 +94,10 @@
 						<div>Navigation</div>
 					</td>
 					<td class="{style.data-label}">
-						<g:Image ui:field="prevInGroup"  styleName="{style.clickable}" resource="{image.prevInGroup}"/> 
-						<g:Image ui:field="prevInThread" styleName="{style.clickable}" resource="{image.prevInThread}"/> 
-						<g:Image ui:field="nextInThread" styleName="{style.clickable}" resource="{image.nextInThread}"/> 
-						<g:Image ui:field="nextInGroup"  styleName="{style.clickable}" resource="{image.nextInGroup}"/> 
+						<g:Image ui:field="prevInGroup"  styleName="{style.clickable}" resource="{image.prevInGroup}" title="Previous MethodCall of the same group"/> 
+						<g:Image ui:field="prevInThread" styleName="{style.clickable}" resource="{image.prevInThread}" title="Previous MethodCall"/> 
+						<g:Image ui:field="nextInThread" styleName="{style.clickable}" resource="{image.nextInThread}" title="Next MethodCall"/> 
+						<g:Image ui:field="nextInGroup"  styleName="{style.clickable}" resource="{image.nextInGroup}" title="Next MethodCall of the same group"/> 
 					</td>
 				</tr>
 				<tr>

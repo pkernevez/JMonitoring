@@ -106,18 +106,10 @@ public class MethodCallDetail extends Composite implements Editor<MethodCallDTO>
     {
     }
 
-    private MethodCallDetailActivity presenter;
-
     public MethodCallDetail()
     {
         initWidget(uiBinder.createAndBindUi(this));
         Window.setTitle("Method call detail");
-    }
-
-    public MethodCallDetail setPresenter(MethodCallDetailActivity pActivity)
-    {
-        presenter = pActivity;
-        return this;
     }
 
 }

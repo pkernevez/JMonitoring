@@ -19,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 
 public class MethodCallDetailActivity extends AbstractActivity
@@ -85,18 +86,26 @@ public class MethodCallDetailActivity extends AbstractActivity
                 addNavHandler(methodCallDetail.nextInThread, pResult, MethodNavType.NEXT_IN_THREAD);
                 addNavHandler(methodCallDetail.nextInGroup, pResult, MethodNavType.NEXT_IN_GROUP);
 
-                methodCallDetail.children.resize(pResult.getChildren().length, 1);
                 int tRow = 0;
-                for (MethodCallExtractDTO tChild : pResult.getChildren())
+                if (pResult.getChildren().length > 0)
                 {
-                    SubMethodCall tLigne = new SubMethodCall(tChild, pResult.getFlowId());
-                    tLigne.edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(pResult.getFlowId(),
-                                                                                         tChild.getPosition())));
-                    methodCallDetail.children.setWidget(tRow, 0, tLigne);
-                    tRow++;
+                    methodCallDetail.children.resize(pResult.getChildren().length, 1);
+                    for (MethodCallExtractDTO tChild : pResult.getChildren())
+                    {
+                        SubMethodCall tLigne = new SubMethodCall(tChild, pResult.getFlowId());
+                        tLigne.edit.addClickHandler(new NavHandler(new MethodCallDetailPlace(pResult.getFlowId(),
+                                                                                             tChild.getPosition())));
+                        methodCallDetail.children.setWidget(tRow, 0, tLigne);
+                        tRow++;
+                    }
+                } else
+                {
+                    methodCallDetail.children.resize(1, 1);
+                    methodCallDetail.children.setWidget(0, 0, new HTML("<i>No child.</i>"));
                 }
+
                 methodCallDetail.fulClassName.setText(pResult.getClassName() + "." + pResult.getMethodName() + "()");
-                panel.setWidget(methodCallDetail.setPresenter(MethodCallDetailActivity.this));
+                panel.setWidget(methodCallDetail);
             }
 
             private void addNavHandler(Image pImage, MethodCallDTO pResult, MethodNavType pType)
