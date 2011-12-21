@@ -20,7 +20,11 @@ import org.slf4j.LoggerFactory;
  * URL is the real url For exemple with Oracle, URL should be like :
  * "jmonitoring:jdbc:oracle:thin:@localhost:1521:INSAPOR0" This mecanism is quite complexe but the real driver can't be
  * pass by the url, as the URL are not provided during registering and that the same Driver may be use with several
- * database connxion inside the same JVM.
+ * database connexion inside the same JVM.
+ * 
+ * 
+ * TODO Document How to do when you want to use specifi driver Aka OracleDriver and not only the jdbc interface (exemple
+ * : for using blob)
  * 
  * @author pke
  * 
@@ -131,7 +135,7 @@ public abstract class GenericDriver implements Driver
     {
         if (acceptsURL(pUrl))
         {
-            return new GenericConnection(realDriver.connect(getRealUrl(pUrl), pInfo), groupName,methodCallFilter);
+            return new GenericConnection(realDriver.connect(getRealUrl(pUrl), pInfo), groupName, methodCallFilter);
         } else
         {
             return null;

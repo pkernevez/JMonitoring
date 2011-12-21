@@ -20,18 +20,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <configuration>
-                    <buildcommands>
-                        <buildcommand>org.eclipse.wst.common.modulecore.ComponentStructuralBuilder</buildcommand>
-                        <buildcommand>
-                            org.eclipse.wst.common.modulecore.ComponentStructuralBuilderDependencyResolver
-                        </buildcommand>
-                    </buildcommands>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <executions>
@@ -44,8 +32,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
                     <encoding>UTF-8</encoding>
                     <aspectLibraries>
                         <aspectLibrary>
@@ -59,6 +45,14 @@
                     </aspectLibraries>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<verbose>true</verbose>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
     <dependencies>

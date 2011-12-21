@@ -25,6 +25,7 @@
 		</organization.logo>
 		<!-- default value, maube overided in your settings.xml -->
 		<platform>mac</platform>
+		<JDK_1.5>/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/bin</JDK_1.5>
 	</properties>
 	<prerequisites>
 		<maven>2.0.8</maven>

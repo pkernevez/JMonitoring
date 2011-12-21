@@ -20,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(locations = {"/memory-test.xml" })
 @Ignore
-public class SqlTestCase extends JMonitoringTestCase
+public abstract class SqlTestCase extends JMonitoringTestCase
 {
     /** This is the connection use to simulate an application database interaction. */
     protected Session mSession;
@@ -31,13 +31,13 @@ public class SqlTestCase extends JMonitoringTestCase
         SpringConfigurationUtil.setContext(getApplicationContext());
         MemoryWriter.clear();
         JMonitoringStatement.refresh();
-        
+
         ClassPathXmlApplicationContext tAContext =
             new ClassPathXmlApplicationContext(new String[] {"/jmonitoring-agent-test.xml", "/memory-test.xml" });
         SessionFactory tFacto = (SessionFactory) tAContext.getBean("sessionFactory");
         IStoreWriter tSore = (IStoreWriter) tAContext.getBean("storeWriter");
         MemoryWriter.clear();
-        assertTrue( tAContext.getBean("storeWriter") instanceof org.jmonitoring.agent.store.impl.MemoryWriter);
+        assertTrue(tAContext.getBean("storeWriter") instanceof org.jmonitoring.agent.store.impl.MemoryWriter);
         mSession = tFacto.openSession();
         mSession.beginTransaction();
     }

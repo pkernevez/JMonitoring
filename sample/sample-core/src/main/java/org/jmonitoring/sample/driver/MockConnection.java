@@ -5,21 +5,29 @@ package org.jmonitoring.sample.driver;
  * Please look at license.txt for more license detail.                     *
  **************************************************************************/
 
+import java.sql.Array;
+import java.sql.Blob;
 import java.sql.CallableStatement;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.NClob;
 import java.sql.PreparedStatement;
+import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
+import java.sql.SQLXML;
 import java.sql.Savepoint;
 import java.sql.Statement;
+import java.sql.Struct;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author pke
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
- * Templates
+ *         TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style -
+ *         Code Templates
  */
 public class MockConnection implements Connection
 {
@@ -200,7 +208,7 @@ public class MockConnection implements Connection
      * @see java.sql.Connection#prepareStatement(java.lang.String, int, int)
      */
     public PreparedStatement prepareStatement(String pSql, int pResultSetType, int pResultSetConcurrency)
-                    throws SQLException
+        throws SQLException
     {
         return null;
     }
@@ -209,7 +217,7 @@ public class MockConnection implements Connection
      * @see java.sql.Connection#prepareCall(java.lang.String, int, int)
      */
     public CallableStatement prepareCall(String pSql, int pResultSetType, int pResultSetConcurrency)
-                    throws SQLException
+        throws SQLException
     {
         return null;
     }
@@ -285,7 +293,7 @@ public class MockConnection implements Connection
      * @see java.sql.Connection#createStatement(int, int, int)
      */
     public Statement createStatement(int pResultSetType, int pResultSetConcurrency, int pResultSetHoldability)
-                    throws SQLException
+        throws SQLException
     {
 
         return null;
@@ -295,7 +303,7 @@ public class MockConnection implements Connection
      * @see java.sql.Connection#prepareStatement(java.lang.String, int, int, int)
      */
     public PreparedStatement prepareStatement(String pSql, int pResultSetType, int pResultSetConcurrency,
-                    int pResultSetHoldability) throws SQLException
+        int pResultSetHoldability) throws SQLException
     {
 
         return null;
@@ -305,7 +313,7 @@ public class MockConnection implements Connection
      * @see java.sql.Connection#prepareCall(java.lang.String, int, int, int)
      */
     public CallableStatement prepareCall(String pSql, int pResultSetType, int pResultSetConcurrency,
-                    int pResultSetHoldability) throws SQLException
+        int pResultSetHoldability) throws SQLException
     {
 
         return null;
@@ -335,6 +343,69 @@ public class MockConnection implements Connection
     public PreparedStatement prepareStatement(String pSql, String[] pColumnNames) throws SQLException
     {
 
+        return null;
+    }
+
+    public <T> T unwrap(Class<T> pIface) throws SQLException
+    {
+        return null;
+    }
+
+    public boolean isWrapperFor(Class<?> pIface) throws SQLException
+    {
+        return false;
+    }
+
+    public Clob createClob() throws SQLException
+    {
+        return null;
+    }
+
+    public Blob createBlob() throws SQLException
+    {
+        return null;
+    }
+
+    public NClob createNClob() throws SQLException
+    {
+        return null;
+    }
+
+    public SQLXML createSQLXML() throws SQLException
+    {
+        return null;
+    }
+
+    public boolean isValid(int pTimeout) throws SQLException
+    {
+        return false;
+    }
+
+    public void setClientInfo(String pName, String pValue) throws SQLClientInfoException
+    {
+    }
+
+    public void setClientInfo(Properties pProperties) throws SQLClientInfoException
+    {
+    }
+
+    public String getClientInfo(String pName) throws SQLException
+    {
+        return null;
+    }
+
+    public Properties getClientInfo() throws SQLException
+    {
+        return null;
+    }
+
+    public Array createArrayOf(String pTypeName, Object[] pElements) throws SQLException
+    {
+        return null;
+    }
+
+    public Struct createStruct(String pTypeName, Object[] pAttributes) throws SQLException
+    {
         return null;
     }
 

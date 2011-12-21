@@ -13,11 +13,6 @@
 	<name>Fwk-agent-sql</name>
 	<description>This jar allow to trace Sql accesses</description>
 
-	<properties>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
-	</properties>
-
 	<scm>
 		<connection>scm:svn:http://forge.octo.com/svn/jmonitoring/trunk/framework/extensions/agent-sql</connection>
 		<developerConnection>
@@ -29,22 +24,14 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<configuration>
-					<buildcommands>
-						<buildcommand>org.eclipse.wst.common.modulecore.ComponentStructuralBuilder</buildcommand>
-						<buildcommand>
-							org.eclipse.wst.common.modulecore.ComponentStructuralBuilderDependencyResolver
-						</buildcommand>
-					</buildcommands>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<executable>${JDK_1.5}/javac</executable>
+					<compilerVersion>1.5</compilerVersion>
 				</configuration>
 			</plugin>
 		</plugins>
