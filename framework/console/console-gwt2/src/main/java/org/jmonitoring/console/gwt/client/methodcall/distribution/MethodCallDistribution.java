@@ -2,6 +2,7 @@ package org.jmonitoring.console.gwt.client.methodcall.distribution;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -73,7 +74,7 @@ public class MethodCallDistribution extends Composite
     @UiHandler("interval")
     void onIntervalKeyPress(KeyPressEvent pEvent)
     {
-        if (pEvent.getCharCode() == 13)
+        if (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
         {
             presenter.changeInterval(interval.getText());
         }
