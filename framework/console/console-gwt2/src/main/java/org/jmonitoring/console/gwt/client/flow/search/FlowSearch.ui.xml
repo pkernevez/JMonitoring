@@ -25,7 +25,7 @@
 				<g:customCell><p1:DateBox ui:field="beginDate"></p1:DateBox></g:customCell>
 			</g:row>
 		</g:Grid>
-		<g:Image resource="{res.ok}" ui:field="buttonOk"></g:Image>
+		<g:Image resource="{res.ok}" ui:field="buttonOk" styleName="{style.button-action}"></g:Image>
 		<g:SimplePanel styleName="{style.searchresult}" ui:field="searchResult"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

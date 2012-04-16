@@ -43,7 +43,7 @@ class FlowSearchActivity extends AbstractActivity
 
     void filterData(FlowSearch pFlowSearch, KeyPressEvent pEvent)
     {
-        if (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+        if (pEvent == null || pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
         {
             place =
                 new FlowSearchPlace(pFlowSearch.thread.getText(), pFlowSearch.minDuration.getText(),

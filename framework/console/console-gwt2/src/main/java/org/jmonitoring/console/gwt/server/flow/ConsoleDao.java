@@ -364,12 +364,8 @@ public class ConsoleDao extends InsertionDao
             }
         }
 
-        List<MethodCallSearchExtractDTO> tResult = new ArrayList<MethodCallSearchExtractDTO>();
-        for (MethodCallPO curExecFlow : (List<MethodCallPO>) tCrit.list())
-        {
-            tResult.add(toDto(curExecFlow));
-        }
-        return tResult;
+        tCrit.setResultTransformer(new MethodCallSearchExtractDtoResultTransformer(this, formater));
+        return tCrit.list();
     }
 
     MethodCallSearchExtractDTO toDto(MethodCallPO pMethodCall)
@@ -397,19 +393,17 @@ public class ConsoleDao extends InsertionDao
     Criteria createMethodCallSearchCriteria(MethodCallSearchCriterion pCriterion)
     {
         Criteria tCrit = sessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
+        tCrit.setProjection(Projections.projectionList().add(Projections.property("id.position"),"position")
+                                       .add(Projections.property("flow.id"), "flowid"));
         Criteria tFlowCrit = tCrit.createAlias("flow", "flow");
         tCrit.setFetchMode("flow", FetchMode.JOIN);
         if (hasValue(pCriterion.getMethodName()))
         {
-            tCrit.add(Restrictions.like("methodName", pCriterion.getMethodName() + "%"));
+            tCrit.add(Restrictions.like("methodName", pCriterion.getMethodName()));
         }
         if (hasValue(pCriterion.getClassName()))
         {
-            tCrit.add(Restrictions.like("className", pCriterion.getClassName() + "%"));
-        }
-        if (hasValue(pCriterion.getParameters()))
-        {
-            tCrit.add(Restrictions.like("params", pCriterion.getParameters() + "%"));
+            tCrit.add(Restrictions.like("className", pCriterion.getClassName()));
         }
         if (hasValue(pCriterion.getDurationMin()))
         {
@@ -425,19 +419,19 @@ public class ConsoleDao extends InsertionDao
         }
         if (hasValue(pCriterion.getParameters()))
         {
-            tCrit.add(Restrictions.like("params", pCriterion.getParameters() + "%"));
+            tCrit.add(Restrictions.like("params", pCriterion.getParameters()));
         }
         if (hasValue(pCriterion.getReturnValue()))
         {
-            tCrit.add(Restrictions.like("returnValue", pCriterion.getReturnValue() + "%"));
+            tCrit.add(Restrictions.like("returnValue", pCriterion.getReturnValue()));
         }
         if (hasValue(pCriterion.getThrownExceptionClass()))
         {
-            tCrit.add(Restrictions.like("throwableClass", pCriterion.getThrownExceptionClass() + "%"));
+            tCrit.add(Restrictions.like("throwableClass", pCriterion.getThrownExceptionClass()));
         }
         if (hasValue(pCriterion.getThrownExceptionMessage()))
         {
-            tCrit.add(Restrictions.like("throwableMessage", pCriterion.getThrownExceptionMessage() + "%"));
+            tCrit.add(Restrictions.like("throwableMessage", pCriterion.getThrownExceptionMessage()));
         }
 
         // Parent properties
@@ -457,7 +451,7 @@ public class ConsoleDao extends InsertionDao
         }
         if (hasValue(pCriterion.getFlowServer()))
         {
-            tFlowCrit.add(Restrictions.eq("flow.jvmIdentifier", pCriterion.getFlowServer()));
+            tFlowCrit.add(Restrictions.like("flow.jvmIdentifier", pCriterion.getFlowServer()));
         }
         if (hasValue(pCriterion.getFlowThread()))
         {

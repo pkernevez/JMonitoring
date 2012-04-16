@@ -49,7 +49,7 @@ public class MethodCallSearchActivity extends AbstractActivity
 
     void filterData(MethodCallSearch pView, KeyPressEvent pEvent)
     {
-        if (pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+        if (pEvent == null || pEvent.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
         {
             MethodCallSearchCriterion tCriterion = driver.flush();
             place = new MethodCallSearchPlace(tCriterion);

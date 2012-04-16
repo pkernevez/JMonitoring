@@ -7,8 +7,14 @@
 	cursor: pointer;
 	cursor: hand;
 }
+
 .button:over {
 	font-weight: bold;
+}
+
+.button-action {
+	padding-top: 5px;
+	padding-bottom: 10px;
 }
 
 .header {
@@ -42,12 +48,16 @@
 	margin: 10px;
 }
 
-.menu {
+.left {
 	padding: 2px 4px;
 	border-right: 1px dotted #DD0000;
 	vertical-align: top;
 	height: 100%;
 	width: 100%;
+}
+
+.menu {
+	padding-top: 20px;
 }
 
 .menu a {
@@ -97,12 +107,11 @@ h1 {
 	padding: 3px 3px 3px 10px;
 }
 */
-
-.data-label{
+.data-label {
 	text-align: left;
 	padding: 3px 10px 3px 10px;
 	font-weight: bold;
-	background-color: #DDF; 
+	background-color: #DDF;
 	min-height: 1.3em;
 }
 
@@ -112,7 +121,7 @@ h1 {
 	margin: 0px 5px 0px 0px;
 }
 
-.clickable{ 
+.clickable {
 	cursor: pointer;
 }
 

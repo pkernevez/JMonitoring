@@ -7,16 +7,16 @@
 	<ui:style src="../resources/main-style.css" />
 		
 	<g:DockLayoutPanel styleName="{style.main}" unit="PX">
-		<g:north size="65">
-			<g:HorizontalPanel ui:field="header" styleName="{style.header}">
-				<g:Image resource="{res.jmonitoring}" />
-			</g:HorizontalPanel>
-		</g:north>
 		<g:west size='130'>
-			<p1:Menu ui:field="menu" styleName="{style.menu}" />
+			<g:VerticalPanel styleName="{style.left}">
+				<g:VerticalPanel>
+					<g:Image resource="{res.jmonitoring}" />
+					<p1:Menu  styleName="{style.menu}"/>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
 		</g:west>
 		<g:center>
-			<g:ScrollPanel ui:field="content" styleName="{style.main-panel}"/>
+			<g:ScrollPanel ui:field="content" styleName="{style.main-panel}" />
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

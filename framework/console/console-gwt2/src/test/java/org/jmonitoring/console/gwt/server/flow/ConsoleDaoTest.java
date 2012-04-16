@@ -365,7 +365,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
         Request tRequest = createRequestForMethodCallSearch();
         MethodCallSearchCriterion tCriterion = new MethodCallSearchCriterion();
         tCriterion.setClassName("SubClass2_3");
-        tCriterion.setMethodName("meth2");
+        tCriterion.setMethodName("meth2%");
         List<MethodCallSearchExtractDTO> tResult = dao.searchMethodCall(tRequest, tCriterion);
         assertEquals(1, tResult.size());
         MethodCallSearchExtractDTO tMeth = tResult.get(0);
@@ -394,9 +394,15 @@ public class ConsoleDaoTest extends PersistanceTestCase
         tRequest.setPageSize(40);
 
         tCriterion.setClassName("MainClass");
+        assertEquals(4, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion.setClassName("MainClass%");
         assertEquals(7, dao.searchMethodCall(tRequest, tCriterion).size());
 
         tCriterion.setMethodName("main");
+        assertEquals(3, dao.searchMethodCall(tRequest, tCriterion).size());
+
+        tCriterion.setMethodName("main%");
         assertEquals(5, dao.searchMethodCall(tRequest, tCriterion).size());
 
         tCriterion.setFlowBeginDate(new Date(1100000000L));
@@ -416,9 +422,11 @@ public class ConsoleDaoTest extends PersistanceTestCase
 
         tCriterion = new MethodCallSearchCriterion();
         tCriterion.setParameters("param");
+        assertEquals(0, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setParameters("param1");
         assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
-        tCriterion.setParameters("other");
-        assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setParameters("param%");
+        assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
 
         tCriterion = new MethodCallSearchCriterion();
         tCriterion.setClassName("SubClass2_2_1");
@@ -428,7 +436,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
 
         tCriterion = new MethodCallSearchCriterion();
-        tCriterion.setClassName("MainClass");
+        tCriterion.setClassName("MainClass%");
         tCriterion.setPosition("1");
         assertEquals(5, dao.searchMethodCall(tRequest, tCriterion).size());
         tCriterion.setPosition("2");
@@ -436,6 +444,8 @@ public class ConsoleDaoTest extends PersistanceTestCase
 
         tCriterion = new MethodCallSearchCriterion();
         tCriterion.setReturnValue("tru");
+        assertEquals(0, dao.searchMethodCall(tRequest, tCriterion).size());
+        tCriterion.setReturnValue("tru%");
         assertEquals(1, dao.searchMethodCall(tRequest, tCriterion).size());
         tCriterion.setReturnValue("false");
         assertEquals(2, dao.searchMethodCall(tRequest, tCriterion).size());
@@ -472,7 +482,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
         MethodCallSearchCriterion tCriterion = new MethodCallSearchCriterion();
         assertEquals(21, dao.countMethodCall(tCriterion));
 
-        tCriterion.setClassName("MainClass");
+        tCriterion.setClassName("MainClass%");
         assertEquals(7, dao.countMethodCall(tCriterion));
     }
 

@@ -9,53 +9,56 @@
 	<ui:style field="decorator" src="../../resources/decorator.css" />
 	<g:VerticalPanel styleName="{style.searchpanel}" ui:field="vPanel">
 		<g:HTML><h1>Method Call Search</h1></g:HTML> 
-	<g:DecoratorPanel>
-		<g:Grid styleName="{style.searchmask}" ui:field="criterion" >
-			<g:row>
-				<g:cell><div class="{style.label}">Thread</div></g:cell>
-				<g:customCell><g:TextBox ui:field="flowThread" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Server</div></g:cell>
-				<g:customCell><g:TextBox ui:field="flowServer" maxLength="50" visibleLength="40"></g:TextBox></g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
-				<g:customCell><p1:DateBox ui:field="flowBeginDate"></p1:DateBox></g:customCell>
-				<g:cell><div class="{style.label}">Minimum Flow Duration</div></g:cell>
-				<g:customCell><g:TextBox ui:field="flowMinDuration" maxLength="10"></g:TextBox></g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell><div class="{style.label}">Class Name</div></g:cell>
-				<g:customCell><g:TextBox ui:field="className" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Method Name</div></g:cell>
-				<g:customCell><g:TextBox ui:field="methodName" maxLength="80" visibleLength="40"></g:TextBox></g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell><div class="{style.label}">Duration Min.</div></g:cell>
-				<g:customCell><g:TextBox ui:field="durationMin" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Duration Max.</div></g:cell>
-				<g:customCell><g:TextBox ui:field="durationMax" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell><div class="{style.label}">Position</div></g:cell>
-				<g:customCell><g:TextBox ui:field="position" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Parent position</div></g:cell>
-				<g:customCell><g:TextBox ui:field="parentPosition" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell><div class="{style.label}">Parameters</div></g:cell>
-				<g:customCell><g:TextBox ui:field="parameters" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Return value</div></g:cell>
-				<g:customCell><g:TextBox ui:field="returnValue" maxLength="40" visibleLength="40"></g:TextBox></g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell><div class="{style.label}">Thrown exception class</div></g:cell>
-				<g:customCell><g:TextBox ui:field="thrownExceptionClass" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
-				<g:cell><div class="{style.label}">Thrown exception message</div></g:cell>
-				<g:customCell><g:TextBox ui:field="thrownExceptionMessage" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
-			</g:row>
-		</g:Grid>
-	</g:DecoratorPanel>
-		<g:Image resource="{res.ok}" ui:field="buttonOk"></g:Image>
+		<g:DecoratorPanel>
+		<g:VerticalPanel>
+			<g:Grid styleName="{style.searchmask}" ui:field="criterion" >
+				<g:row>
+					<g:cell><div class="{style.label}">Thread</div></g:cell>
+					<g:customCell><g:TextBox ui:field="flowThread" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
+					<g:cell><div class="{style.label}">Server</div></g:cell>
+					<g:customCell><g:TextBox ui:field="flowServer" maxLength="50" visibleLength="40"></g:TextBox></g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell><div class="{style.label}">Begin Date (dd/MM/yy)</div></g:cell>
+					<g:customCell><p1:DateBox ui:field="flowBeginDate"></p1:DateBox></g:customCell>
+					<g:cell><div class="{style.label}">Minimum Flow Duration</div></g:cell>
+					<g:customCell><g:TextBox ui:field="flowMinDuration" maxLength="10"></g:TextBox></g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell><div class="{style.label}">Class Name *</div></g:cell>
+					<g:customCell><g:TextBox ui:field="className" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
+					<g:cell><div class="{style.label}">Method Name *</div></g:cell>
+					<g:customCell><g:TextBox ui:field="methodName" maxLength="80" visibleLength="40"></g:TextBox></g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell><div class="{style.label}">Duration Min.</div></g:cell>
+					<g:customCell><g:TextBox ui:field="durationMin" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
+					<g:cell><div class="{style.label}">Duration Max.</div></g:cell>
+					<g:customCell><g:TextBox ui:field="durationMax" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell><div class="{style.label}">Position</div></g:cell>
+					<g:customCell><g:TextBox ui:field="position" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
+					<g:cell><div class="{style.label}">Parent position</div></g:cell>
+					<g:customCell><g:TextBox ui:field="parentPosition" maxLength="10" visibleLength="10"></g:TextBox></g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell><div class="{style.label}">Parameters *</div></g:cell>
+					<g:customCell><g:TextBox ui:field="parameters" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
+					<g:cell><div class="{style.label}">Return value *</div></g:cell>
+					<g:customCell><g:TextBox ui:field="returnValue" maxLength="40" visibleLength="40"></g:TextBox></g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell><div class="{style.label}">Thrown exception class *</div></g:cell>
+					<g:customCell><g:TextBox ui:field="thrownExceptionClass" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
+					<g:cell><div class="{style.label}">Thrown exception message *</div></g:cell>
+					<g:customCell><g:TextBox ui:field="thrownExceptionMessage" maxLength="100" visibleLength="40"></g:TextBox></g:customCell>
+				</g:row>
+			</g:Grid>
+		<g:HTML><div class="{style.label}">* Use % as wildcard</div></g:HTML>
+		</g:VerticalPanel>
+		</g:DecoratorPanel>
+	    <g:Image resource="{res.ok}" ui:field="buttonOk" styleName="{style.button-action}"></g:Image>
 		<g:SimplePanel styleName="{style.searchresult}" ui:field="searchResult"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

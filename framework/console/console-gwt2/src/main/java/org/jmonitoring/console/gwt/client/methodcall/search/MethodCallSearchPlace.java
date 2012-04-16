@@ -38,6 +38,11 @@ public class MethodCallSearchPlace extends Place implements ActivityAware
 
     }
 
+    public MethodCallSearchPlace()
+    {
+        this(new MethodCallSearchCriterion());
+    }
+
     public MethodCallSearchPlace(String pClassName, String pMethodName, String pMinDuration, String pMaxDuration)
     {
         criterion = new MethodCallSearchCriterion(pClassName, pMethodName, pMinDuration, pMaxDuration);

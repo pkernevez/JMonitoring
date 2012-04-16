@@ -1,5 +1,5 @@
 Release
-
+ 
 mvn release:prepare -DdryRun=true -DreleaseVersion=XXX -Dtag=YYY -DdevelopmentVersion=ZZZ
 
 mvn release:clean
