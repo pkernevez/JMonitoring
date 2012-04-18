@@ -3,6 +3,7 @@ package org.jmonitoring.console.gwt.client;
 import org.jmonitoring.console.gwt.client.common.message.Message;
 import org.jmonitoring.console.gwt.client.flow.delete.FlowDelete;
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetail;
+import org.jmonitoring.console.gwt.client.flow.importt.FlowImport;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearch;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace;
 import org.jmonitoring.console.gwt.client.main.Main;
@@ -131,5 +132,10 @@ public class ClientFactory
     public FlowDelete getFlowDelete()
     {
         return new FlowDelete();
+    }
+
+    public FlowImport getFlowImport()
+    {
+        return new FlowImport();
     }
 }

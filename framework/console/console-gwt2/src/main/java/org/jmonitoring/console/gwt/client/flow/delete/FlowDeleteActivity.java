@@ -29,7 +29,6 @@ public class FlowDeleteActivity extends AbstractActivity
     {
         FlowDelete tPanel = clientFactory.getFlowDelete();
         panel.setWidget(tPanel.setPresenter(this));
-
     }
 
     public void deleteAll()

@@ -12,10 +12,15 @@
   <inherits name="com.google.gwt.place.Place"/>
   <inherits name='it.pianetatecno.gwt.utility.GwtUtility'/>
   
-  <set-property name="gwt.logging.logLevel" value="FINE"/>          # To change the default logLevel
-  <set-property name="gwt.logging.enabled" value="TRUE"/>            # To disable logging
+  <!-- Include GWTUpload library -->
+  <inherits name="gwtupload.GWTUpload"/>
+  <!-- Load dinamically predefined styles in the library when the application starts -->
+  <stylesheet src="Upload.css"/>
+  
+  <set-property name="gwt.logging.logLevel" value="FINE"/>          <!--  To change the default logLevel -->
+  <set-property name="gwt.logging.enabled" value="TRUE"/>            <!--  To disable logging -->
   <set-property name="gwt.logging.firebugHandler" value="ENABLED" />
-  <set-property name="gwt.logging.consoleHandler" value="DISABLED" /> # To diþsable a default Handler
+  <set-property name="gwt.logging.consoleHandler" value="DISABLED" /> <!--  To diþsable a default Handler -->
   <set-property name="gwt.logging.popupHandler" value="DISABLED" />
   
  <set-configuration-property name="UiBinder.useSafeHtmlTemplates"

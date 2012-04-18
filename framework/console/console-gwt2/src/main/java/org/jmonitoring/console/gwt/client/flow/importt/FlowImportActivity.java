@@ -25,6 +25,8 @@ public class FlowImportActivity  extends AbstractActivity
 
         public void start(final AcceptsOneWidget panel, EventBus eventBus)
         {
+            FlowImport tPanel = clientFactory.getFlowImport();
+            panel.setWidget(tPanel.setPresenter(this));
         }
 
 //        public void deleteExecutionFlow()
