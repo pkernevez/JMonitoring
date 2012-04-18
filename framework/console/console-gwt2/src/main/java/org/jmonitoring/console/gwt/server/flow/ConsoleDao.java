@@ -19,9 +19,11 @@ import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jmonitoring.console.gwt.shared.flow.FlowExtractDTO;
 import org.jmonitoring.console.gwt.shared.flow.HibernateConstant;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
@@ -48,6 +50,9 @@ public class ConsoleDao extends InsertionDao
 
     @Resource(name = "formater")
     private FormaterBean formater;
+
+    @Resource(name = "hibernateConfiguration")
+    private Configuration configuration;
 
     public int countFlows(Request pRequest)
     {
@@ -393,7 +398,7 @@ public class ConsoleDao extends InsertionDao
     Criteria createMethodCallSearchCriteria(MethodCallSearchCriterion pCriterion)
     {
         Criteria tCrit = sessionFactory.getCurrentSession().createCriteria(MethodCallPO.class);
-        tCrit.setProjection(Projections.projectionList().add(Projections.property("id.position"),"position")
+        tCrit.setProjection(Projections.projectionList().add(Projections.property("id.position"), "position")
                                        .add(Projections.property("flow.id"), "flowid"));
         Criteria tFlowCrit = tCrit.createAlias("flow", "flow");
         tCrit.setFetchMode("flow", FetchMode.JOIN);
@@ -480,5 +485,46 @@ public class ConsoleDao extends InsertionDao
             tBuilder.addMethod(tClass + "." + tMethod, tNbOccurence.intValue());
         }
         return tBuilder.getRoot();
+    }
+
+    /**
+     * Delete all flows and linked objects. This method, drop and recreate the schema that is faster than the deletion
+     * of all instances.
+     */
+    @SuppressWarnings("deprecation")
+    public void deleteAllFlows()
+    {
+        Session tSession = mSessionFactory.getCurrentSession();
+        Connection tCon = tSession.connection();
+        try
+        {
+            SchemaExport tDdlexport = new SchemaExport(configuration, tCon);
+            tDdlexport.drop(true, true);
+            tSession.flush();
+        } finally
+        {
+            try
+            {
+                tCon.close();
+            } catch (SQLException e)
+            {
+                sLog.error("Unable to release resources", e);
+            }
+        }
+        try
+        {
+            tCon = tSession.connection();
+            SchemaExport tDdlexport = new SchemaExport(configuration, tCon);
+            tDdlexport.create(true, true);
+        } finally
+        {
+            try
+            {
+                tCon.close();
+            } catch (SQLException e)
+            {
+                sLog.error("Unable to release resources", e);
+            }
+        }
     }
 }

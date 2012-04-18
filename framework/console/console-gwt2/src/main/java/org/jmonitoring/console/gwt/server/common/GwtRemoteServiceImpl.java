@@ -341,4 +341,9 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return dao.loadMethodCallTreeSearch();
     }
 
+    public void deleteAll()
+    {
+        dao.deleteAllFlows();
+    }
+
 }

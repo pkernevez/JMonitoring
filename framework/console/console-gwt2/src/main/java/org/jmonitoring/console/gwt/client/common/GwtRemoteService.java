@@ -37,4 +37,6 @@ public interface GwtRemoteService extends RemoteService
 
     PackageDTO loadMethodCallTreeSearch();
 
+    void deleteAll();
+
 }

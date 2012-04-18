@@ -36,4 +36,6 @@ public interface GwtRemoteServiceAsync
 
     void loadMethodCallTreeSearch(AsyncCallback<PackageDTO> callback);
 
+    void deleteAll(AsyncCallback<Void> pJMonitoringAsyncCallBack);
+
 }

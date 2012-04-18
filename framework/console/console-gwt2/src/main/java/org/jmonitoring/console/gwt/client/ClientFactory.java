@@ -1,6 +1,7 @@
 package org.jmonitoring.console.gwt.client;
 
 import org.jmonitoring.console.gwt.client.common.message.Message;
+import org.jmonitoring.console.gwt.client.flow.delete.FlowDelete;
 import org.jmonitoring.console.gwt.client.flow.detail.FlowDetail;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearch;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace;
@@ -125,5 +126,10 @@ public class ClientFactory
     public MethodCallTreeSearch getMethodCallTreeSearch()
     {
         return new MethodCallTreeSearch();
+    }
+
+    public FlowDelete getFlowDelete()
+    {
+        return new FlowDelete();
     }
 }

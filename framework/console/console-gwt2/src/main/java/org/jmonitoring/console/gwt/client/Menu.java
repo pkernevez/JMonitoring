@@ -1,6 +1,6 @@
 package org.jmonitoring.console.gwt.client;
 
-import org.jmonitoring.console.gwt.client.flow.detail.FlowDetailPlace;
+import org.jmonitoring.console.gwt.client.flow.delete.FlowDeletePlace;
 import org.jmonitoring.console.gwt.client.flow.importt.FlowImportPlace;
 import org.jmonitoring.console.gwt.client.flow.search.FlowSearchPlace;
 import org.jmonitoring.console.gwt.client.methodcall.search.MethodCallSearchPlace;
@@ -19,7 +19,7 @@ public class Menu extends VerticalPanel
     public Menu()
     {
         VerticalPanel tSubMenu = new VerticalPanel();
-        tSubMenu.add(getItem("Delete Flows", ClientFactory.getToken(new FlowDetailPlace(0))));
+        tSubMenu.add(getItem("Delete Flows", ClientFactory.getToken(new FlowDeletePlace())));
         tSubMenu.add(getItem("Flows Search", ClientFactory.getToken(new FlowSearchPlace())));
         tSubMenu.add(getItem("Methods Tree", ClientFactory.getToken(new MethodCallTreeSearchPlace())));
         tSubMenu.add(getItem("Methods Search", ClientFactory.getToken(new MethodCallSearchPlace())));
