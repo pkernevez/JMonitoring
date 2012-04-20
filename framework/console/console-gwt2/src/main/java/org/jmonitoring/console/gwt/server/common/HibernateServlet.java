@@ -62,7 +62,6 @@ public abstract class HibernateServlet extends HttpServlet
             WebApplicationContextUtils.getWebApplicationContext(pConfig.getServletContext());
         sessionFactory = tSpringContext.getBean(SessionFactory.class);
         flowService = tSpringContext.getBean(GwtRemoteServiceImpl.class);
-        init(tSpringContext);
     }
 
     /**
@@ -72,10 +71,6 @@ public abstract class HibernateServlet extends HttpServlet
     public void doPost(HttpServletRequest pRequest, HttpServletResponse pResponse) throws ServletException, IOException
     {
         doGet(pRequest, pResponse);
-    }
-
-    protected void init(WebApplicationContext pSpringContext)
-    {
     }
 
     protected abstract void doGetWithSpring(HttpServletRequest pReq, HttpServletResponse pResp)

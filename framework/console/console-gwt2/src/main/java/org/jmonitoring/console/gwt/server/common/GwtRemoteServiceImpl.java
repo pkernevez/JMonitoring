@@ -3,6 +3,7 @@ package org.jmonitoring.console.gwt.server.common;
 import it.pianetatecno.gwt.utility.client.table.Request;
 import it.pianetatecno.gwt.utility.client.table.SerializableResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -138,6 +139,45 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tResult;
     }
 
+    public ExecutionFlowPO convertToPoDeeply(ExecutionFlowDTO pFlowDto)
+    {
+        ExecutionFlowPO tResult = convertToPo(pFlowDto);
+        tResult.setFirstMethodCall(convertToPoDeeply(pFlowDto.getFirstMethodCall(), null, tResult));
+        return tResult;
+    }
+
+    MethodCallPO convertToPoDeeply(MethodCallDTO pMethodCall, MethodCallPO pParent, ExecutionFlowPO pFlow)
+    {
+        MethodCallPO tResult = new MethodCallPO();
+        tResult.setFlow(pFlow);
+        tResult.setPosition(Integer.valueOf(pMethodCall.getPosition()));
+        tResult.setParentMethodCall(pParent);
+        tResult.setBeginTime(pMethodCall.getBeginMilliSeconds());
+        tResult.setEndTime(pMethodCall.getEndMilliSeconds());
+        tResult.setDuration(pMethodCall.getDuration());
+        tResult.setGroupName(pMethodCall.getGroupName());
+        tResult.setClassName(pMethodCall.getClassName());
+        tResult.setRuntimeClassName(pMethodCall.getRuntimeClassName());
+        tResult.setMethodName(pMethodCall.getMethodName());
+        tResult.setReturnValue(pMethodCall.getReturnValue());
+        tResult.setParams(pMethodCall.getParams());
+        tResult.setThrowableClass(pMethodCall.getThrowableClass());
+        tResult.setThrowableMessage(pMethodCall.getThrowableMessage());
+        List<MethodCallPO> tChildren = new ArrayList<MethodCallPO>(pMethodCall.getChildren().length);
+        for (MethodCallDTO tChild : pMethodCall.getChildren())
+        {
+            tChildren.add(convertToPoDeeply(tChild, tResult, pFlow));
+        }
+        tResult.setChildren(tChildren);
+        return tResult;
+    }
+
+    ExecutionFlowPO convertToPo(ExecutionFlowDTO pFlowDto)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     /**
      * Depth to recurse is the children tree.
      * 
@@ -145,7 +185,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
      * @param pDepth The pDepth, stop when pDepth is 0. Passe negative value to recurse without limit.
      * @return The converted value.
      */
-    private MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pDepth)
+    MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pDepth)
     {
         MethodCallDTO tResult = convertToDto(pCallPO);
         tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));

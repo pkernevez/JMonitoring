@@ -237,4 +237,69 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         assertEquals("45.98", tService.round(45.9846));
         assertEquals("45.99", tService.round(45.9876));
     }
+
+    @Test
+    public void testConvertToPoOnlyMethodCallDto()
+    {
+        MethodCallPO tRefPO = PersistanceTestCase.buildNewFullFlow().getFirstMethodCall();
+        MethodCallDTO tRefDto = service.convertToDtoDeeply(tRefPO, 0);
+        MethodCallPO tNewPo = service.convertToPoDeeply(tRefDto, 0);
+        assertEquals(tRefPO, tNewPo);
+    }
+
+    private void assertEquals(MethodCallPO tRefMeth, MethodCallPO tNewMeth)
+    {
+        assertNotNull("The flow didn't load sub calls", tNewMeth);
+        assertEquals(tRefMeth.getClassName(), tNewMeth.getClassName());
+        MethodCallPO tRefParent = tRefMeth.getParentMethodCall();
+        MethodCallPO tNewParent = tNewMeth.getParentMethodCall();
+        if (tRefParent == null)
+        {
+            assertNull("The parent is not same after conversion", tRefParent);
+        } else
+        {
+            assertEquals(tRefParent.getPosition(), tNewParent.getPosition());
+        }
+        assertEquals(tRefMeth.getClassName(), tNewMeth.getClassName());
+        assertEquals(tRefMeth.getMethodName(), tNewMeth.getMethodName());
+        assertEquals(tRefMeth.getParams(), tNewMeth.getParams());
+        assertEquals(tRefMeth.getReturnValue(), tNewMeth.getReturnValue());
+        assertEquals(tRefMeth.getThrowableClass(), tNewMeth.getThrowableClass());
+        assertEquals(tRefMeth.getThrowableMessage(), tNewMeth.getThrowableMessage());
+        assertEquals(tRefMeth.getBeginTime(), tNewMeth.getBeginTime());
+        assertEquals(tRefMeth.getEndTime(), tNewMeth.getEndTime());
+        assertEquals(tRefMeth.getGroupName(), tNewMeth.getGroupName());
+        assertEquals(tRefMeth.getChildren().size(), tNewMeth.getChildren().size());
+    }
+
+    @Test
+    public void testConvertToPoDeeply()
+    {
+        ExecutionFlowPO tReferenceFlowPO = PersistanceTestCase.buildNewFullFlow();
+        ExecutionFlowDTO tDto = service.convertToDtoDeeply(tReferenceFlowPO);
+
+        ExecutionFlowPO tConvertFlowPo = service.convertToPo(tDto);
+        assertEquals(tReferenceFlowPO.getBeginTime(), tConvertFlowPo.getBeginTime());
+        assertEquals(tReferenceFlowPO.getEndTime(), tConvertFlowPo.getEndTime());
+        assertEquals(tReferenceFlowPO.getDuration(), tConvertFlowPo.getDuration());
+        assertEquals(tReferenceFlowPO.getFirstClassName(), tConvertFlowPo.getFirstClassName());
+        assertEquals(tReferenceFlowPO.getFirstMethodName(), tConvertFlowPo.getFirstMethodName());
+        assertEquals(null, tConvertFlowPo.getFirstMethodCall());
+        assertEquals(tReferenceFlowPO.getJvmIdentifier(), tConvertFlowPo.getJvmIdentifier());
+        assertEquals(tReferenceFlowPO.getThreadName(), tConvertFlowPo.getThreadName());
+
+        // ExecutionFlowPO tFlowPO = PersistanceTestCase.buildNewFullFlow();
+        // assertEquals("We don't not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+        // ExecutionFlowDTO tDto = service.convertToDtoDeeply(tFlowPO);
+        //
+        // MethodCallDTO tRoot = service.convertToDtoDeeply(tFlowPO).getFirstMethodCall();
+        // MethodCallExtractDTO tExtract = tRoot.getChild(0);
+        // // From first children : time from Parent
+        // assertEquals("2", tExtract.getTimeFromPrevChild());
+        // tExtract = tRoot.getChild(1);
+        // // From 2nd child : time from Brother
+        // assertEquals("3", tExtract.getTimeFromPrevChild());
+        // fail();
+    }
+
 }
