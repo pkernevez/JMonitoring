@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import org.gwtrpcspring.RemoteServiceUtil;
 import org.jmonitoring.console.gwt.client.common.GwtRemoteService;
+import org.jmonitoring.console.gwt.server.common.converter.BeanConverterUtil;
+import org.jmonitoring.console.gwt.server.common.converter.ExecutionFlowDeepToDtoVisitor;
+import org.jmonitoring.console.gwt.server.common.converter.ExecutionFlowOnlyToDtoVisitor;
+import org.jmonitoring.console.gwt.server.common.converter.MethodCallLocalToDtoVisitor;
 import org.jmonitoring.console.gwt.server.flow.ConsoleDao;
 import org.jmonitoring.console.gwt.server.flow.Distribution;
 import org.jmonitoring.console.gwt.server.flow.Stats;
@@ -33,7 +37,6 @@ import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +54,9 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
 
     @Resource(name = "formater")
     FormaterBean formater;
+
+    @Autowired
+    private BeanConverterUtil converter;
 
     @Autowired
     private ColorManager color;
@@ -72,7 +78,8 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
 
     public ExecutionFlowDTO loadFull(int pFlowId) throws UnknownEntity
     {
-        return convertToDtoDeeply(dao.loadFullFlow(pFlowId));
+        ExecutionFlowPO tLoadFlow = dao.loadFullFlow(pFlowId);
+        return new ExecutionFlowDeepToDtoVisitor(converter).getConverted(tLoadFlow);
     }
 
     public ExecutionFlowDTO loadAndGenerateImage(int pFlowId) throws UnknownEntity
@@ -82,7 +89,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         generateDurationInGroupChart(tSession, "DurationInGroups&" + pFlowId, tFlowPo.getFirstMethodCall());
         generateGroupsCallsChart(tSession, "GroupsCalls&" + pFlowId, tFlowPo.getFirstMethodCall());
         String tMap = generateFlowDetailChart(tSession, "FlowDetail&" + pFlowId, tFlowPo.getFirstMethodCall()).map;
-        ExecutionFlowDTO tFlow = convertToDto(tFlowPo);
+        ExecutionFlowDTO tFlow = new ExecutionFlowOnlyToDtoVisitor(converter).getConverted(tFlowPo);
         tFlow.setDetailMap(tMap);
         return tFlow;
     }
@@ -132,13 +139,6 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return tResult;
     }
 
-    ExecutionFlowDTO convertToDtoDeeply(ExecutionFlowPO pFlowPO)
-    {
-        ExecutionFlowDTO tResult = convertToDto(pFlowPO);
-        tResult.setFirstMethodCall(convertToDtoDeeply(pFlowPO.getFirstMethodCall(), -1));
-        return tResult;
-    }
-
     public ExecutionFlowPO convertToPoDeeply(ExecutionFlowDTO pFlowDto)
     {
         ExecutionFlowPO tResult = convertToPo(pFlowDto);
@@ -164,9 +164,9 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         tResult.setThrowableClass(pMethodCall.getThrowableClass());
         tResult.setThrowableMessage(pMethodCall.getThrowableMessage());
         List<MethodCallPO> tChildren = new ArrayList<MethodCallPO>(pMethodCall.getChildren().length);
-        for (MethodCallDTO tChild : pMethodCall.getChildren())
+        for (MethodCallExtractDTO tChild : pMethodCall.getChildren())
         {
-            tChildren.add(convertToPoDeeply(tChild, tResult, pFlow));
+            // tChildren.add(convertToPoDeeply(tChild, tResult, pFlow));
         }
         tResult.setChildren(tChildren);
         return tResult;
@@ -178,105 +178,10 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
         return null;
     }
 
-    /**
-     * Depth to recurse is the children tree.
-     * 
-     * @param pCallPO The MethodCall root
-     * @param pDepth The pDepth, stop when pDepth is 0. Passe negative value to recurse without limit.
-     * @return The converted value.
-     */
-    MethodCallDTO convertToDtoDeeply(MethodCallPO pCallPO, int pDepth)
-    {
-        MethodCallDTO tResult = convertToDto(pCallPO);
-        tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
-        // MethodCallExtractDTO tRootDuplication = convertToExtract(pCallPO, 0);
-        tResult.setChildren(convertToDtoDeeply(pCallPO.getChildren(), pDepth - 1));
-        return tResult;
-    }
-
-    private MethodCallExtractDTO convertToExtract(MethodCallPO pMethodCall, int pChildPosition)
-    {
-        MethodCallExtractDTO tExtract = new MethodCallExtractDTO();
-        tExtract.setFullClassName(pMethodCall.getClassName());
-        tExtract.setMethodName(pMethodCall.getMethodName());
-        tExtract.setDuration(String.valueOf(pMethodCall.getDuration()));
-        tExtract.setGroupName(pMethodCall.getGroupName());
-        tExtract.setPosition(String.valueOf(pMethodCall.getPosition()));
-        MethodCallPO tParent = pMethodCall.getParentMethodCall();
-        if (tParent != null)
-        {
-            tExtract.setParentPosition(String.valueOf((tParent.getMethId().getPosition())));
-        }
-        long tDurationFromPrev;
-        if (tParent == null)
-        {
-            tDurationFromPrev = 0;
-        } else if (pChildPosition == 0)
-        {
-            tDurationFromPrev = pMethodCall.getBeginTime() - tParent.getBeginTime();
-        } else
-        {
-            tDurationFromPrev = pMethodCall.getBeginTime() - tParent.getChild(pChildPosition - 1).getEndTime();
-        }
-        tExtract.setTimeFromPrevChild(String.valueOf(tDurationFromPrev));
-        tExtract.setThrownException(pMethodCall.getThrowableClass() != null);
-        return tExtract;
-    }
-
-    private MethodCallExtractDTO[] convertToDtoDeeply(List<MethodCallPO> pCallPOs, int pDepth)
-    {
-        MethodCallExtractDTO[] tResult = new MethodCallExtractDTO[pCallPOs.size()];
-        int i = 0;
-        for (MethodCallPO tMethodCallPO : pCallPOs)
-        {
-            MethodCallExtractDTO tExtract = convertToExtract(tMethodCallPO, i);
-            if (pDepth != 0)
-            {
-                tExtract.setChildren(convertToDtoDeeply(tMethodCallPO.getChildren(), pDepth - 1));
-            }
-            tResult[i] = tExtract;
-            i++;
-        }
-        return tResult;
-    }
-
-    private MethodCallDTO convertToDto(MethodCallPO pCallPO)
-    {
-        MethodCallDTO tResult = new MethodCallDTO();
-        BeanUtils.copyProperties(pCallPO, tResult,
-                                 new String[] {"position", "beginTime", "endTime", "children", "flow" });
-        tResult.setGroupColor(color.getColorString(pCallPO.getGroupName()));
-        tResult.setPosition(String.valueOf(pCallPO.getMethId().getPosition()));
-        tResult.setBeginTime(formater.formatDateTime(pCallPO.getBeginTime()), pCallPO.getBeginTime());
-        tResult.setEndTime(formater.formatDateTime(pCallPO.getEndTime()), pCallPO.getEndTime());
-        tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
-        if (pCallPO.getParentMethodCall() != null)
-        {
-            tResult.setParentPosition(String.valueOf(pCallPO.getParentMethodCall().getMethId().getPosition()));
-        }
-        tResult.setPosition(String.valueOf(pCallPO.getPosition()));
-        return tResult;
-    }
-
-    private ExecutionFlowDTO convertToDto(ExecutionFlowPO pLoadFlow)
-    {
-        ExecutionFlowDTO tResult = new ExecutionFlowDTO();
-        tResult.setId(pLoadFlow.getId());
-        tResult.setThreadName(pLoadFlow.getThreadName());
-        tResult.setJvmIdentifier(pLoadFlow.getJvmIdentifier());
-        tResult.setBeginTime(formater.formatDateTime(pLoadFlow.getBeginTimeAsDate()));
-        tResult.setEndTime(formater.formatDateTime(pLoadFlow.getEndTime()));
-        tResult.setDuration(String.valueOf(pLoadFlow.getDuration()));
-        tResult.setGroupName(pLoadFlow.getFirstMethodCall().getGroupName());
-        tResult.setClassName(pLoadFlow.getFirstClassName());
-        tResult.setMethodName(pLoadFlow.getFirstMethodName());
-        return tResult;
-    }
-
     public MethodCallDTO loadMethodCall(int pFlowId, int pPosition)
     {
-        MethodCallDTO tResult = convertToDtoDeeply(dao.loadMethodCall(pFlowId, pPosition), 1);
-        return tResult;
+        MethodCallLocalToDtoVisitor tVisit = new MethodCallLocalToDtoVisitor(converter);
+        return tVisit.getConverted(dao.loadMethodCall(pFlowId, pPosition));
     }
 
     public int getMethodPositionWhenNavigate(int pFlowId, int pCurrentPosition, String pGroupName, MethodNavType pType)

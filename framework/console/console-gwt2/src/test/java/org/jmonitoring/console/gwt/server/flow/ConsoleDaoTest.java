@@ -24,6 +24,7 @@ import org.jmonitoring.console.gwt.shared.method.MethodCallSearchExtractDTO;
 import org.jmonitoring.console.gwt.shared.method.treesearch.ClassDTO;
 import org.jmonitoring.console.gwt.shared.method.treesearch.PackageDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
+import org.jmonitoring.core.domain.DomainVisitor;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.junit.Test;
@@ -138,7 +139,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
         int tOldNbFlow = dao.countFlows();
         int tOldNbMeth = countMethods();
 
-        ExecutionFlowPO tFlow = PersistanceTestCase.buildNewFullFlow();
+        ExecutionFlowPO tFlow = PersistanceTestCase.createNewFullFlow();
         dao.insertFullExecutionFlow(tFlow);
         getSession().flush();
         int tNewNbFlow = dao.countFlows();
@@ -176,7 +177,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
     @Test
     public void testGetNextInGroup()
     {
-        ExecutionFlowPO tFlow = buildNewFullFlow();
+        ExecutionFlowPO tFlow = createNewFullFlow();
         dao.insertFullExecutionFlow(tFlow);
         getSession().flush();
 
@@ -197,7 +198,7 @@ public class ConsoleDaoTest extends PersistanceTestCase
     @Test
     public void testGetPrevInGroup()
     {
-        ExecutionFlowPO tFlow = buildNewFullFlow();
+        ExecutionFlowPO tFlow = createNewFullFlow();
         dao.insertFullExecutionFlow(tFlow);
         getSession().flush();
 
@@ -511,5 +512,38 @@ public class ConsoleDaoTest extends PersistanceTestCase
         assertEquals(2, tMainClass.getMethods().size());
         assertEquals(2, tMainClass.getMethods().get(0).getNbOccurence());
         assertEquals(2, tMainClass.getMethods().get(1).getNbOccurence());
+    }
+
+    @Test
+    public void testLoadFlow() throws Exception
+    {
+        ExecutionFlowPO tFlowPO = PersistanceTestCase.createNewFullFlow();
+        int tId = dao.insertFullExecutionFlow(tFlowPO);
+        getSession().flush();
+        getSession().clear();
+        getStats().clear();
+
+        assertEquals("We don't not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+        // Now go every where in the graph
+        DomainVisitor tVisitor = new DomainVisitor()
+        {
+
+            public boolean visit(MethodCallPO pMeth)
+            { // Read a field to load proxy
+                pMeth.getClassName();
+                return true;
+            }
+
+            public boolean visit(ExecutionFlowPO pFlow)
+            {// Read a field to load proxy
+                pFlow.getDuration();
+                return true;
+            }
+        };
+        dao.loadFullFlow(tId).accept(tVisitor);
+        sessionFactory.getCurrentSession().flush();
+        getSession().flush();
+        assertEquals("We don not need to update the execution flow", 0, getStats().getEntityUpdateCount());
+
     }
 }

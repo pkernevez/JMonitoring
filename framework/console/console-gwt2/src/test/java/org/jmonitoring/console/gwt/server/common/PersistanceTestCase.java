@@ -196,17 +196,31 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
         }
     }
 
-    // TODO Remove me ?
-    public static ExecutionFlowPO buildNewFullFlow()
+    public static ExecutionFlowPO createMockDBFullFlow()
     {
-        MethodCallPO tPoint;
-        MethodCallPO tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
+        ExecutionFlowPO tResult = createNewFullFlow();
+        tResult.setId(100);
+        MethodCallPO tRoot = tResult.getFirstMethodCall();
+        tRoot.setMethId(new MethodCallPK(tResult, 1));
+        tRoot.getChild(0).setMethId(new MethodCallPK(tResult, 2));
+        MethodCallPO tChild2 = tRoot.getChild(1);
+        tChild2.setMethId(new MethodCallPK(tResult, 3));
+        tChild2.getChild(0).setMethId(new MethodCallPK(tResult, 4));
+        MethodCallPO tSubChild2 = tChild2.getChild(1);
+        tSubChild2.setMethId(new MethodCallPK(tResult, 5));
+        tSubChild2.getChild(0).setMethId(new MethodCallPK(tResult, 6));
+        return tResult;
+    }
+
+    public static ExecutionFlowPO createNewFullFlow()
+    {
+        MethodCallPO tPoint, tSubPoint, tSubPoint2, tSubPoint3, tSubPoint4, tSubPoint5;
         long tStartTime = System.currentTimeMillis();
 
         tPoint = new MethodCallPO(null, PersistanceTestCase.class.getName(), "builNewFullFlow0", "GrDefault", "[]");
-        tPoint.setBeginTime(tStartTime); // 35
+        tPoint.setBeginTime(tStartTime);
         tSubPoint = new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow2", "GrChild1", "[]");
-        tSubPoint.setBeginTime(tStartTime + 2); // 3
+        tSubPoint.setBeginTime(tStartTime + 2);
         tSubPoint.setEndTime(tStartTime + 5);
         tSubPoint.setRuntimeClassName(PersistanceTestCase.class.getName() + "iuiu");
         tSubPoint.setThrowableClass(RuntimeException.class.getName());
@@ -214,20 +228,20 @@ public abstract class PersistanceTestCase extends JMonitoringTestCase
 
         tSubPoint2 =
             new MethodCallPO(tPoint, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
-        tSubPoint2.setBeginTime(tStartTime + 8);// 21
+        tSubPoint2.setBeginTime(tStartTime + 8);
 
         tSubPoint3 =
             new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
-        tSubPoint3.setBeginTime(tStartTime + 14);// 1
+        tSubPoint3.setBeginTime(tStartTime + 14);
         tSubPoint3.setEndTime(tStartTime + 15);
 
         tSubPoint4 =
             new MethodCallPO(tSubPoint2, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
-        tSubPoint4.setBeginTime(tStartTime + 16);// 12
+        tSubPoint4.setBeginTime(tStartTime + 16);
 
         tSubPoint5 =
             new MethodCallPO(tSubPoint4, PersistanceTestCase.class.getName(), "builNewFullFlow3", "GrChild2", "[]");
-        tSubPoint5.setBeginTime(tStartTime + 26);// 1
+        tSubPoint5.setBeginTime(tStartTime + 26);
         tSubPoint5.setEndTime(tStartTime + 27);
 
         tSubPoint4.setEndTime(tStartTime + 28);

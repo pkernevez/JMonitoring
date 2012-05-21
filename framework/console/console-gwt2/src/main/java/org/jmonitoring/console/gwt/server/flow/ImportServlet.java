@@ -116,7 +116,8 @@ public class ImportServlet extends UploadAction
             if (tResult instanceof ExecutionFlowDTO)
             {
                 ExecutionFlowDTO tResult2 = (ExecutionFlowDTO) tResult;
-                ExecutionFlowPO tFlow = flowService.getDeepCopy(tResult2);
+                ExecutionFlowPO tFlow = null;
+                // TODO flowService.getDeepCopy(tResult2);
                 tFlow.setEndTime(tFlow.getBeginTime() + Long.getLong(tResult2.getDuration()));
                 return tFlow;
             } else if (tResult instanceof ExecutionFlowPO)

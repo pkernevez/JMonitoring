@@ -76,9 +76,10 @@ class FlowDetailActivity extends AbstractActivity
                                                    }-*/;
 
     /** Method use to trap clicks on the map of the flow. Used by native javascript. */
-    public static void methClick(int pFlowId, int pPosition)
+    public static boolean methClick(int pFlowId, int pPosition)
     {
         ClientFactory.goTo(new MethodCallDetailPlace(pFlowId, pPosition));
+        return false;
     }
 
     public void exportXml()

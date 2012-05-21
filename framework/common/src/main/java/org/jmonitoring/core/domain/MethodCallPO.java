@@ -494,4 +494,52 @@ public class MethodCallPO implements Serializable
             return super.toString();
         }
     }
+
+    public void accept(DomainVisitor pVisitor)
+    {
+        if (pVisitor.visit(this))
+        {
+            for (MethodCallPO pChild : mChildren)
+            {
+                pChild.accept(pVisitor);
+            }
+        }
+
+    }
+
+    public boolean isFirstChild()
+    {
+        boolean tResult;
+        if (mParent == null)
+        {
+            tResult = true;
+        } else if (mParent.getChildren().size() == 1)
+        {
+            tResult = true;
+        } else if (this.equals(mParent.getChild(0)))
+        {
+            tResult = true;
+        } else
+        {
+            tResult = false;
+        }
+        return tResult;
+    }
+
+    public int getPositionInSiblin()
+    {
+        int tResult = -1;
+        if (mParent == null)
+        {
+            tResult = 0;
+        } else
+        {
+            tResult = mParent.getChildren().indexOf(this);
+            if (tResult == -1)
+            {
+                throw new RuntimeException("The child isn't in the parent children list !");
+            }
+        }
+        return tResult;
+    }
 }

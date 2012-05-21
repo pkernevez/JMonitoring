@@ -48,6 +48,14 @@ public class ExecutionFlowPO implements Serializable
     {
     }
 
+    public void accept(DomainVisitor pVisitor)
+    {
+        if (pVisitor.visit(this))
+        {
+            mFirstMethodCall.accept(pVisitor);
+        }
+    }
+
     /**
      * Constructor.
      * 
@@ -64,7 +72,7 @@ public class ExecutionFlowPO implements Serializable
         mBeginTime = mFirstMethodCall.getBeginTime();
         mEndTime = mFirstMethodCall.getEndTime();
         mFirstMethodCall.setFlowRecusivly(this);
-        mFirstClassName =pFirstMeasure.getClassName();
+        mFirstClassName = pFirstMeasure.getClassName();
         mFirstMethodName = pFirstMeasure.getMethodName();
 
     }

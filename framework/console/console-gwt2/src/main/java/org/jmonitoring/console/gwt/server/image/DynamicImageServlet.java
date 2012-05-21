@@ -15,7 +15,6 @@ import org.jmonitoring.console.gwt.server.common.HibernateServlet;
 import org.jmonitoring.console.gwt.shared.flow.UnknownEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.WebApplicationContext;
 
 /**
  * @author pke
@@ -84,13 +83,6 @@ public class DynamicImageServlet extends HibernateServlet
         {
             pResp.setStatus(500);
         }
-    }
-
-    @Override
-    protected void init(WebApplicationContext pContext)
-    {
-        super.init(pContext);
-        // colorManager = pContext.getBean(ColorManager.class);
     }
 
 }
