@@ -1,5 +1,7 @@
 package org.jmonitoring.console.gwt.server.common.converter;
 
+import javax.annotation.Resource;
+
 import org.jmonitoring.console.gwt.server.common.ColorManager;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
@@ -8,16 +10,15 @@ import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
 import org.jmonitoring.core.domain.MethodCallPO;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BeanConverterUtil
 {
-    @Autowired
+    @Resource(name = "formater")
     protected FormaterBean formater;
 
-    @Autowired
+    @Resource(name = "color")
     protected ColorManager color;
 
     ExecutionFlowDTO convertExecFlowToDto(ExecutionFlowPO pLoadFlow)

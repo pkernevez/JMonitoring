@@ -56,7 +56,7 @@ public class GwtRemoteServiceImpl implements GwtRemoteService
     FormaterBean formater;
 
     @Autowired
-    private BeanConverterUtil converter;
+    BeanConverterUtil converter;
 
     @Autowired
     private ColorManager color;
