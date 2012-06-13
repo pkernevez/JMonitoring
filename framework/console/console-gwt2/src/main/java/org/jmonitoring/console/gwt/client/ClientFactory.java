@@ -16,6 +16,8 @@ import org.jmonitoring.console.gwt.client.resources.ConsoleImageBundle;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.Place;
@@ -55,9 +57,15 @@ public class ClientFactory
         return sEventBus;
     }
 
-    public static void goTo(Place pPlace)
+    public static void goTo(final Place pPlace)
     {
-        sPlaceController.goTo(pPlace);
+        Scheduler.get().scheduleDeferred(new ScheduledCommand()
+        { // Deffered command to be sure to finish the execution of the code that required the navigation
+            public void execute()
+            {
+                sPlaceController.goTo(pPlace);
+            }
+        });
     }
 
     public static ClientFactory init()
