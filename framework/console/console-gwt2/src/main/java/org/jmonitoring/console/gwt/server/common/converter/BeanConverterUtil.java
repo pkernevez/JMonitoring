@@ -1,5 +1,10 @@
 package org.jmonitoring.console.gwt.server.common.converter;
 
+import java.beans.XMLDecoder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.GZIPInputStream;
+
 import javax.annotation.Resource;
 
 import org.jmonitoring.console.gwt.server.common.ColorManager;
@@ -82,6 +87,43 @@ public class BeanConverterUtil
         tExtract.setTimeFromPrevChild(String.valueOf(tDurationFromPrev));
         tExtract.setThrownException(pMethodCall.getThrowableClass() != null);
         return tExtract;
+    }
+
+    /**
+     * Concert an GZip/Xml serialized ExecutionFlow as an ExecutionFLow Object.
+     * 
+     * @param pFlowAsXml The GZip bytes.
+     * @return The ExecutionFLow.
+     */
+    public ExecutionFlowPO convertFlowFromXml(InputStream pFlowAsGzipXml)
+    {
+        ExecutionFlowDTO tDto = readDtoFromXml(pFlowAsGzipXml);
+
+        // Convert with visitor
+        return null;
+    }
+
+    ExecutionFlowDTO readDtoFromXml(InputStream pFlowAsGzipXml)
+    {
+        try
+        {
+            GZIPInputStream tZipStream = new GZIPInputStream(pFlowAsGzipXml);
+            XMLDecoder tDecoder = new XMLDecoder(tZipStream);
+            Object tResult = tDecoder.readObject();
+            tDecoder.close();
+            if (tResult instanceof ExecutionFlowDTO)
+            {
+                ExecutionFlowDTO tResult2 = (ExecutionFlowDTO) tResult;
+                return tResult2;
+            } else
+            {
+                throw new RuntimeException("invalid class in gzip file: " + tResult.getClass().getName());
+            }
+
+        } catch (IOException e)
+        {
+            throw new RuntimeException("Unable to Unzip Xml ExecutionFlow", e);
+        }
     }
 
 }

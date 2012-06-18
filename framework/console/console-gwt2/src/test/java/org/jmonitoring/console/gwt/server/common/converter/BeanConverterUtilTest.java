@@ -1,5 +1,7 @@
 package org.jmonitoring.console.gwt.server.common.converter;
 
+import java.io.InputStream;
+
 import org.jmonitoring.console.gwt.server.common.PersistanceTestCase;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
@@ -74,4 +76,32 @@ public class BeanConverterUtilTest extends JMonitoringTestCase
         MethodCallExtractDTO tExtractDTO = converter.convertToExtractDto(tFirstChild);
         assertEquals("3", tExtractDTO.getTimeFromPrevChild());
     }
+
+    @Test
+    public void testReadDtoFromXml() throws Exception
+    {
+        InputStream tGZip = this.getClass().getResourceAsStream("FlowTest-newformat.gzip");
+        ExecutionFlowDTO tFlow = converter.readDtoFromXml(tGZip);
+        assertEquals("org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn Modified", tFlow.getClassName());
+        assertEquals("2642", tFlow.getDuration());
+        assertEquals(5, tFlow.getFirstMethodCall().getChildren().length);
+        assertEquals("SomeNonStatics", tFlow.getFirstMethodCall().getChild(4).getGroupName());
+        assertEquals("org.jmonitoring.sample.main.RunSample", tFlow.getFirstMethodCall().getChild(4).getFullClassName());
+        assertEquals("run", tFlow.getFirstMethodCall().getChild(4).getMethodName());
+    }
+
+    @Test
+    public void testConvertFlowFromXmlNewFormat() throws Exception
+    {
+
+    }
+
+    @Test
+    public void testConvertFlowFromXmlOldFormat() throws Exception
+    {
+        fail("NOT IMPLEMENTED");
+        // "FlowTest-oldformat.gzip"
+
+    }
+
 }
