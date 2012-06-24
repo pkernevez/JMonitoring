@@ -1,0 +1,1133 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_33" class="java.beans.XMLDecoder"> 
+ <object class="org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO"> 
+  <void property="beginTime"> 
+   <string>14/06/12 18:09:30</string> 
+  </void> 
+  <void property="className"> 
+   <string>org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn Modified</string> 
+  </void> 
+  <void property="duration"> 
+   <string>2642</string> 
+  </void> 
+  <void property="endTime"> 
+   <string>14/06/12 18:09:32</string> 
+  </void> 
+  <void property="firstMethodCall"> 
+   <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallDTO"> 
+    <void property="beginMilliSeconds"> 
+     <long>1339690170065</long> 
+    </void> 
+    <void property="beginTimeString"> 
+     <string>14/06/12 18:09:30</string> 
+    </void> 
+    <void property="children"> 
+     <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="5"> 
+      <void index="0"> 
+       <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+        <void property="children"> 
+         <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="1"> 
+          <void index="0"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="children"> 
+             <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="9"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>18</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>4</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>1142</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>5</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>5</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="2"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>6</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>503</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="3"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>7</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>0</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="4"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>1</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>8</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>22</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="5"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>9</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>38</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="6"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>8</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>10</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>57</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="7"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>1</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>11</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>1</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="8"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>19</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>3</string> 
+                </void> 
+                <void property="position"> 
+                 <string>12</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>0</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="duration"> 
+             <string>2054</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>loadContext</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>2</string> 
+            </void> 
+            <void property="position"> 
+             <string>3</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>0</string> 
+            </void> 
+           </object> 
+          </void> 
+         </array> 
+        </void> 
+        <void property="duration"> 
+         <string>2054</string> 
+        </void> 
+        <void property="fullClassName"> 
+         <string>org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>SomeStatics</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>getBean</string> 
+        </void> 
+        <void property="parentPosition"> 
+         <string>1</string> 
+        </void> 
+        <void property="position"> 
+         <string>2</string> 
+        </void> 
+        <void property="timeFromPrevChild"> 
+         <string>9</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="1"> 
+       <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+        <void property="duration"> 
+         <string>0</string> 
+        </void> 
+        <void property="fullClassName"> 
+         <string>java.sql.Statement</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>Jdbc</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>executeQuery</string> 
+        </void> 
+        <void property="parentPosition"> 
+         <string>1</string> 
+        </void> 
+        <void property="position"> 
+         <string>13</string> 
+        </void> 
+        <void property="timeFromPrevChild"> 
+         <string>94</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="2"> 
+       <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+        <void property="duration"> 
+         <string>0</string> 
+        </void> 
+        <void property="fullClassName"> 
+         <string>java.sql.ResultSet</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>JdbcCloseRS</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>close</string> 
+        </void> 
+        <void property="parentPosition"> 
+         <string>1</string> 
+        </void> 
+        <void property="position"> 
+         <string>14</string> 
+        </void> 
+        <void property="timeFromPrevChild"> 
+         <string>1</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="3"> 
+       <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+        <void property="duration"> 
+         <string>0</string> 
+        </void> 
+        <void property="fullClassName"> 
+         <string>org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>SomeStatics</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>getBean</string> 
+        </void> 
+        <void property="parentPosition"> 
+         <string>1</string> 
+        </void> 
+        <void property="position"> 
+         <string>15</string> 
+        </void> 
+        <void property="timeFromPrevChild"> 
+         <string>36</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="4"> 
+       <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+        <void property="children"> 
+         <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="10"> 
+          <void index="0"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="duration"> 
+             <string>0</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>setCounter</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>17</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>27</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="1"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="children"> 
+             <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>18</string> 
+                </void> 
+                <void property="position"> 
+                 <string>19</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>81</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>18</string> 
+                </void> 
+                <void property="position"> 
+                 <string>20</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>1</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="duration"> 
+             <string>87</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.RunSample</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>checkDataBase</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>18</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>0</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="2"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="duration"> 
+             <string>9</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.Inventory</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addItem</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>21</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>23</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="3"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="duration"> 
+             <string>6</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.Inventory</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addItem</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>22</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>4</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="4"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="duration"> 
+             <string>5</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.Inventory</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addItem</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>23</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>8</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="5"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="children"> 
+             <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>7</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>org.jmonitoring.sample.main.Inventory</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>removeItem</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>24</string> 
+                </void> 
+                <void property="position"> 
+                 <string>25</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>30</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>7</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>addItem</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>24</string> 
+                </void> 
+                <void property="position"> 
+                 <string>26</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>5</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="duration"> 
+             <string>50</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartOperator</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addShoppingCartItem</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>24</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>3</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="6"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="children"> 
+             <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>6</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>org.jmonitoring.sample.main.Inventory</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>removeItem</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>27</string> 
+                </void> 
+                <void property="position"> 
+                 <string>28</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>24</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>7</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>addItem</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>27</string> 
+                </void> 
+                <void property="position"> 
+                 <string>29</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>6</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="duration"> 
+             <string>47</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartOperator</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addShoppingCartItem</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>27</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>0</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="7"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="children"> 
+             <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="8"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>1</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>31</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>58</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>32</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>1</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="2"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>1</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>33</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>11</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="3"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>34</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>0</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="4"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>35</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>3</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="5"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>36</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>0</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="6"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>0</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>execute</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>37</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>14</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="7"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>1</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>execute</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>30</string> 
+                </void> 
+                <void property="position"> 
+                 <string>38</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>0</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="duration"> 
+             <string>90</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.persistence.SampleDao</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>save</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>30</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>5</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="8"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="duration"> 
+             <string>1</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>java.sql.Statement</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>Jdbc</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>executeBatch</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>39</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>39</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="9"> 
+           <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+            <void property="children"> 
+             <array class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>5</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>org.jmonitoring.sample.main.Inventory</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>removeItem</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>40</string> 
+                </void> 
+                <void property="position"> 
+                 <string>41</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>22</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO"> 
+                <void property="duration"> 
+                 <string>9</string> 
+                </void> 
+                <void property="fullClassName"> 
+                 <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>addItem</string> 
+                </void> 
+                <void property="parentPosition"> 
+                 <string>40</string> 
+                </void> 
+                <void property="position"> 
+                 <string>42</string> 
+                </void> 
+                <void property="timeFromPrevChild"> 
+                 <string>4</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="duration"> 
+             <string>40</string> 
+            </void> 
+            <void property="fullClassName"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartOperator</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addShoppingCartItem</string> 
+            </void> 
+            <void property="parentPosition"> 
+             <string>16</string> 
+            </void> 
+            <void property="position"> 
+             <string>40</string> 
+            </void> 
+            <void property="timeFromPrevChild"> 
+             <string>1</string> 
+            </void> 
+           </object> 
+          </void> 
+         </array> 
+        </void> 
+        <void property="duration"> 
+         <string>445</string> 
+        </void> 
+        <void property="fullClassName"> 
+         <string>org.jmonitoring.sample.main.RunSample</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>SomeNonStatics</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>run</string> 
+        </void> 
+        <void property="parentPosition"> 
+         <string>1</string> 
+        </void> 
+        <void property="position"> 
+         <string>16</string> 
+        </void> 
+        <void property="timeFromPrevChild"> 
+         <string>0</string> 
+        </void> 
+       </object> 
+      </void> 
+     </array> 
+    </void> 
+    <void property="className"> 
+     <string>org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn</string> 
+    </void> 
+    <void property="endMilliSeconds"> 
+     <long>1339690172707</long> 
+    </void> 
+    <void property="endTimeString"> 
+     <string>14/06/12 18:09:32</string> 
+    </void> 
+    <void property="flowId"> 
+     <string>538</string> 
+    </void> 
+    <void property="groupColor"> 
+     <string>#00ff00</string> 
+    </void> 
+    <void property="groupName"> 
+     <string>SomeNonStatics</string> 
+    </void> 
+    <void property="methodName"> 
+     <string>execute</string> 
+    </void> 
+    <void property="params"> 
+     <string>[ActionConfig[path=/AlreadyWeavedIn,scope=session,type=org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn, null, org.apache.catalina.connector.RequestFacade@756095fc, org.apache.catalina.connector.ResponseFacade@7a8b7250]</string> 
+    </void> 
+    <void property="position"> 
+     <string>1</string> 
+    </void> 
+    <void property="returnValue"> 
+     <string>ForwardConfig[name=success,path=ok,redirect=false,contextRelative=false,module=null]</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="groupName"> 
+   <string>SomeNonStatics</string> 
+  </void> 
+  <void property="id"> 
+   <int>538</int> 
+  </void> 
+  <void property="jvmIdentifier"> 
+   <string>TestMachine</string> 
+  </void> 
+  <void property="methodName"> 
+   <string>execute Modified</string> 
+  </void> 
+  <void property="threadName"> 
+   <string>http-8080-1</string> 
+  </void> 
+ </object> 
+</java> 

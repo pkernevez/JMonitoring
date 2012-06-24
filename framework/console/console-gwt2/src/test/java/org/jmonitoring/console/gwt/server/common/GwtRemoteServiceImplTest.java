@@ -212,16 +212,6 @@ public class GwtRemoteServiceImplTest extends PersistanceTestCase
         assertEquals("45.99", tService.round(45.9876));
     }
 
-    // @Test
-    // public void testConvertToPoOnlyMethodCallDto()
-    // {
-    // MethodCallPO tRefPO = PersistanceTestCase.buildNewFullFlow().getFirstMethodCall();
-    // MethodCallDTO tRefDto = service.convertToDtoDeeply(tRefPO, 0);
-    // fail("TODO");
-    // // MethodCallPO tNewPo = service.convertToPoDeeply(tRefDto, 0);
-    // // assertEquals(tRefPO, tNewPo);
-    // }
-
     private void assertEquals(MethodCallPO tRefMeth, MethodCallPO tNewMeth)
     {
         assertNotNull("The flow didn't load sub calls", tNewMeth);

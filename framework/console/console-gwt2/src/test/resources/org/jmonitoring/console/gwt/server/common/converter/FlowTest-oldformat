@@ -1,0 +1,2140 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_33" class="java.beans.XMLDecoder"> 
+ <object id="ExecutionFlowDTO0" class="org.jmonitoring.core.dto.ExecutionFlowDTO"> 
+  <void property="beginTime"> 
+   <string>14/06/12 18:09:30</string> 
+  </void> 
+  <void property="className"> 
+   <string>org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn Modified</string> 
+  </void> 
+  <void property="duration"> 
+   <long>2642</long> 
+  </void> 
+  <void property="endTime"> 
+   <string>14/06/12 18:09:32</string> 
+  </void> 
+  <void property="firstMethodCall"> 
+   <object id="MethodCallDTO0" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+    <void property="beginMilliSeconds"> 
+     <long>1339690170065</long> 
+    </void> 
+    <void property="beginTimeString"> 
+     <string>14/06/12 18:09:30</string> 
+    </void> 
+    <void property="children"> 
+     <array class="org.jmonitoring.core.dto.MethodCallDTO" length="5"> 
+      <void index="0"> 
+       <object id="MethodCallDTO1" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+        <void property="beginMilliSeconds"> 
+         <long>1339690170074</long> 
+        </void> 
+        <void property="beginTimeString"> 
+         <string>14/06/12 18:09:30</string> 
+        </void> 
+        <void property="children"> 
+         <array class="org.jmonitoring.core.dto.MethodCallDTO" length="1"> 
+          <void index="0"> 
+           <object id="MethodCallDTO2" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690170074</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:30</string> 
+            </void> 
+            <void property="children"> 
+             <array class="org.jmonitoring.core.dto.MethodCallDTO" length="9"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171216</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171234</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>4</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Query executed=[select 1]
+ResultSet=[rs0: columns: 1 rows: 1 pos: -1]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171239</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>1</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171239</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#c4a472</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>5</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[0]</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="2"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171742</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>2</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171742</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>6</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Query executed=[select 1]
+ResultSet=[rs1: columns: 1 rows: 1 pos: -1]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="3"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171742</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>3</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171742</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#c4a472</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>7</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[0]</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="4"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171764</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>4</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171765</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>8</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Query executed=[select sequence_name from information_schema.sequences]
+ResultSet=[rs2: columns: 1 rows: 0 pos: -1]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="5"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171803</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>5</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171803</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#c4a472</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>9</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[1]</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="6"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171860</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>6</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171868</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>10</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Execute Update=[create table ITEM (ID integer generated by default as identity, PRICE float, ITEM_ID integer, MY_POSITION integer, primary key (ID))]
+Result=[0]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="7"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171869</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>7</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171870</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>11</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Execute Update=[create table SHOPPING_CART (ID integer generated by default as identity, primary key (ID))]
+Result=[0]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="8"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690171870</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>8</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690171889</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:31</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO2"/> 
+                </void> 
+                <void property="position"> 
+                 <int>12</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Execute Update=[alter table ITEM add constraint FK227313545F8EA5 foreign key (ITEM_ID) references SHOPPING_CART]
+Result=[0]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172128</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#ff0000</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>loadContext</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO1"/> 
+            </void> 
+            <void property="position"> 
+             <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </array> 
+        </void> 
+        <void property="className"> 
+         <string>org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil</string> 
+        </void> 
+        <void property="endMilliSeconds"> 
+         <long>1339690172128</long> 
+        </void> 
+        <void property="endTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="flow"> 
+         <object idref="ExecutionFlowDTO0"/> 
+        </void> 
+        <void property="flowId"> 
+         <int>538</int> 
+        </void> 
+        <void property="groupColor"> 
+         <string>#ff0000</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>SomeStatics</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>getBean</string> 
+        </void> 
+        <void property="parent"> 
+         <object idref="MethodCallDTO0"/> 
+        </void> 
+        <void property="position"> 
+         <int>2</int> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="1"> 
+       <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+        <void property="beginMilliSeconds"> 
+         <long>1339690172222</long> 
+        </void> 
+        <void property="beginTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="childPosition"> 
+         <int>1</int> 
+        </void> 
+        <void property="className"> 
+         <string>java.sql.Statement</string> 
+        </void> 
+        <void property="endMilliSeconds"> 
+         <long>1339690172222</long> 
+        </void> 
+        <void property="endTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="flow"> 
+         <object idref="ExecutionFlowDTO0"/> 
+        </void> 
+        <void property="flowId"> 
+         <int>538</int> 
+        </void> 
+        <void property="groupColor"> 
+         <string>#787878</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>Jdbc</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>executeQuery</string> 
+        </void> 
+        <void property="parent"> 
+         <object idref="MethodCallDTO0"/> 
+        </void> 
+        <void property="position"> 
+         <int>13</int> 
+        </void> 
+        <void property="returnValue"> 
+         <string>Query executed=[select 1]
+ResultSet=[rs7: columns: 1 rows: 1 pos: -1]
+</string> 
+        </void> 
+        <void property="runtimeClassName"> 
+         <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="2"> 
+       <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+        <void property="beginMilliSeconds"> 
+         <long>1339690172223</long> 
+        </void> 
+        <void property="beginTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="childPosition"> 
+         <int>2</int> 
+        </void> 
+        <void property="className"> 
+         <string>java.sql.ResultSet</string> 
+        </void> 
+        <void property="endMilliSeconds"> 
+         <long>1339690172223</long> 
+        </void> 
+        <void property="endTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="flow"> 
+         <object idref="ExecutionFlowDTO0"/> 
+        </void> 
+        <void property="flowId"> 
+         <int>538</int> 
+        </void> 
+        <void property="groupColor"> 
+         <string>#c4a472</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>JdbcCloseRS</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>close</string> 
+        </void> 
+        <void property="parent"> 
+         <object idref="MethodCallDTO0"/> 
+        </void> 
+        <void property="position"> 
+         <int>14</int> 
+        </void> 
+        <void property="returnValue"> 
+         <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[0]</string> 
+        </void> 
+        <void property="runtimeClassName"> 
+         <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="3"> 
+       <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+        <void property="beginMilliSeconds"> 
+         <long>1339690172259</long> 
+        </void> 
+        <void property="beginTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="childPosition"> 
+         <int>3</int> 
+        </void> 
+        <void property="className"> 
+         <string>org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil</string> 
+        </void> 
+        <void property="endMilliSeconds"> 
+         <long>1339690172259</long> 
+        </void> 
+        <void property="endTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="flow"> 
+         <object idref="ExecutionFlowDTO0"/> 
+        </void> 
+        <void property="flowId"> 
+         <int>538</int> 
+        </void> 
+        <void property="groupColor"> 
+         <string>#ff0000</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>SomeStatics</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>getBean</string> 
+        </void> 
+        <void property="parent"> 
+         <object idref="MethodCallDTO0"/> 
+        </void> 
+        <void property="position"> 
+         <int>15</int> 
+        </void> 
+       </object> 
+      </void> 
+      <void index="4"> 
+       <object id="MethodCallDTO3" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+        <void property="beginMilliSeconds"> 
+         <long>1339690172259</long> 
+        </void> 
+        <void property="beginTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="childPosition"> 
+         <int>4</int> 
+        </void> 
+        <void property="children"> 
+         <array class="org.jmonitoring.core.dto.MethodCallDTO" length="10"> 
+          <void index="0"> 
+           <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172286</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172286</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#ff0000</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>setCounter</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>17</int> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="1"> 
+           <object id="MethodCallDTO4" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172286</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>1</int> 
+            </void> 
+            <void property="children"> 
+             <array class="org.jmonitoring.core.dto.MethodCallDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172367</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172367</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeQuery</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO4"/> 
+                </void> 
+                <void property="position"> 
+                 <int>19</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>PrepareStatement with Sql=[Select Count(*) as myCount From ITEM]
+Execute query
+ResultSet=[rs8: columns: 1 rows: 1 pos: -1]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringPreparedStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172368</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>1</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172368</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#c4a472</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO4"/> 
+                </void> 
+                <void property="position"> 
+                 <int>20</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[2]</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.RunSample</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172373</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#00ff00</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>checkDataBase</string> 
+            </void> 
+            <void property="params"> 
+             <string>[]</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>18</int> 
+            </void> 
+            <void property="returnValue"> 
+             <string></string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="2"> 
+           <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172396</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>2</int> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.Inventory</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172405</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#00ff00</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addItem</string> 
+            </void> 
+            <void property="params"> 
+             <string>[Item: -1]</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>21</int> 
+            </void> 
+            <void property="returnValue"> 
+             <string></string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="3"> 
+           <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172409</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>3</int> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.Inventory</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172415</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#00ff00</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addItem</string> 
+            </void> 
+            <void property="params"> 
+             <string>[Item: -1]</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>22</int> 
+            </void> 
+            <void property="returnValue"> 
+             <string></string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="4"> 
+           <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172423</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>4</int> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.Inventory</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172428</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#00ff00</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addItem</string> 
+            </void> 
+            <void property="params"> 
+             <string>[Item: -1]</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>23</int> 
+            </void> 
+            <void property="returnValue"> 
+             <string></string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="5"> 
+           <object id="MethodCallDTO5" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172431</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>5</int> 
+            </void> 
+            <void property="children"> 
+             <array class="org.jmonitoring.core.dto.MethodCallDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172461</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="className"> 
+                 <string>org.jmonitoring.sample.main.Inventory</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172468</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#00ff00</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>removeItem</string> 
+                </void> 
+                <void property="params"> 
+                 <string>[Item: -1]</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO5"/> 
+                </void> 
+                <void property="position"> 
+                 <int>25</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string></string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172473</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>1</int> 
+                </void> 
+                <void property="className"> 
+                 <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172480</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#00ff00</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>addItem</string> 
+                </void> 
+                <void property="params"> 
+                 <string>[Item: -1]</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO5"/> 
+                </void> 
+                <void property="position"> 
+                 <int>26</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string></string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartOperator</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172481</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#ff0000</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addShoppingCartItem</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>24</int> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="6"> 
+           <object id="MethodCallDTO6" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172481</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>6</int> 
+            </void> 
+            <void property="children"> 
+             <array class="org.jmonitoring.core.dto.MethodCallDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172505</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="className"> 
+                 <string>org.jmonitoring.sample.main.Inventory</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172511</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#00ff00</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>removeItem</string> 
+                </void> 
+                <void property="params"> 
+                 <string>[Item: -1]</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO6"/> 
+                </void> 
+                <void property="position"> 
+                 <int>28</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string></string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172517</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>1</int> 
+                </void> 
+                <void property="className"> 
+                 <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172524</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#00ff00</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>addItem</string> 
+                </void> 
+                <void property="params"> 
+                 <string>[Item: -1]</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO6"/> 
+                </void> 
+                <void property="position"> 
+                 <int>29</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string></string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartOperator</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172528</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#ff0000</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addShoppingCartItem</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>27</int> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="7"> 
+           <object id="MethodCallDTO7" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172533</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>7</int> 
+            </void> 
+            <void property="children"> 
+             <array class="org.jmonitoring.core.dto.MethodCallDTO" length="8"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172591</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172592</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>31</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>PrepareStatement with Sql=[insert into SHOPPING_CART (ID) values (null)]
+Execute update
+Result=[1]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringPreparedStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172593</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>1</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172593</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#c4a472</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>32</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[1]</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="2"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172604</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>2</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172605</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>33</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>PrepareStatement with Sql=[insert into ITEM (ID, PRICE) values (null, ?)]
+Add Float, pos=[1], value=[30.0]
+Execute update
+Result=[1]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringPreparedStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="3"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172605</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>3</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172605</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#c4a472</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>34</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[1]</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="4"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172608</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>4</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.PreparedStatement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172608</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>executeUpdate</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>35</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>PrepareStatement with Sql=[insert into ITEM (ID, PRICE) values (null, ?)]
+Add Float, pos=[1], value=[31.0]
+Execute update
+Result=[1]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringPreparedStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="5"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172608</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>5</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.ResultSet</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172608</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#c4a472</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>JdbcCloseRS</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>close</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>36</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Statistics of resultSet :
+Inserted=[0]
+Updated=[0]
+Delete=[0]
+Previous=[0]
+Next=[1]</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringResultSet</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="6"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172622</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>6</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172622</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>execute</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>37</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Sql=[Select count(*) from SHOPPING_CART]
+Result=[true]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="7"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172622</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>7</int> 
+                </void> 
+                <void property="className"> 
+                 <string>java.sql.Statement</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172623</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#787878</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>Jdbc</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>execute</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO7"/> 
+                </void> 
+                <void property="position"> 
+                 <int>38</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string>Sql=[Select * from SHOPPING_CART]
+Result=[true]
+</string> 
+                </void> 
+                <void property="runtimeClassName"> 
+                 <string>org.jmonitoring.agent.sql.JMonitoringStatement</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.persistence.SampleDao</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172623</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#00ff00</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeNonStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>save</string> 
+            </void> 
+            <void property="params"> 
+             <string>[org.jmonitoring.sample.main.ShoppingCartPO@271c537f]</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>30</int> 
+            </void> 
+            <void property="returnValue"> 
+             <string></string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="8"> 
+           <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172662</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>8</int> 
+            </void> 
+            <void property="className"> 
+             <string>java.sql.Statement</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172663</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#787878</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>Jdbc</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>executeBatch</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>39</int> 
+            </void> 
+            <void property="returnValue"> 
+             <string>PrepareStatement with Sql=[update ITEM set ITEM_ID=?, MY_POSITION=? where ID=?]
+Add Int, pos=[1], value=[1]
+Add Int, pos=[2], value=[0]
+Add Int, pos=[3], value=[1]
+Add PreparedBatch
+Add Int, pos=[1], value=[1]
+Add Int, pos=[2], value=[1]
+Add Int, pos=[3], value=[2]
+Add PreparedBatch
+Batch executed
+Return array size=[2]
+</string> 
+            </void> 
+            <void property="runtimeClassName"> 
+             <string>org.jmonitoring.agent.sql.JMonitoringPreparedStatement</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void index="9"> 
+           <object id="MethodCallDTO8" class="org.jmonitoring.core.dto.MethodCallDTO"> 
+            <void property="beginMilliSeconds"> 
+             <long>1339690172664</long> 
+            </void> 
+            <void property="beginTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="childPosition"> 
+             <int>9</int> 
+            </void> 
+            <void property="children"> 
+             <array class="org.jmonitoring.core.dto.MethodCallDTO" length="2"> 
+              <void index="0"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172686</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="className"> 
+                 <string>org.jmonitoring.sample.main.Inventory</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172691</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#00ff00</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>removeItem</string> 
+                </void> 
+                <void property="params"> 
+                 <string>[Item: -1]</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO8"/> 
+                </void> 
+                <void property="position"> 
+                 <int>41</int> 
+                </void> 
+                <void property="returnValue"> 
+                 <string></string> 
+                </void> 
+               </object> 
+              </void> 
+              <void index="1"> 
+               <object class="org.jmonitoring.core.dto.MethodCallDTO"> 
+                <void property="beginMilliSeconds"> 
+                 <long>1339690172695</long> 
+                </void> 
+                <void property="beginTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="childPosition"> 
+                 <int>1</int> 
+                </void> 
+                <void property="className"> 
+                 <string>org.jmonitoring.sample.main.ShoppingCartPO</string> 
+                </void> 
+                <void property="endMilliSeconds"> 
+                 <long>1339690172704</long> 
+                </void> 
+                <void property="endTimeString"> 
+                 <string>14/06/12 18:09:32</string> 
+                </void> 
+                <void property="flow"> 
+                 <object idref="ExecutionFlowDTO0"/> 
+                </void> 
+                <void property="flowId"> 
+                 <int>538</int> 
+                </void> 
+                <void property="groupColor"> 
+                 <string>#00ff00</string> 
+                </void> 
+                <void property="groupName"> 
+                 <string>SomeNonStatics</string> 
+                </void> 
+                <void property="methodName"> 
+                 <string>addItem</string> 
+                </void> 
+                <void property="params"> 
+                 <string>[Item: -1]</string> 
+                </void> 
+                <void property="parent"> 
+                 <object idref="MethodCallDTO8"/> 
+                </void> 
+                <void property="position"> 
+                 <int>42</int> 
+                </void> 
+                <void property="throwableClass"> 
+                 <string>java.lang.RuntimeException</string> 
+                </void> 
+                <void property="throwableMessage"> 
+                 <string>Pour declancher une exception sur item3</string> 
+                </void> 
+               </object> 
+              </void> 
+             </array> 
+            </void> 
+            <void property="className"> 
+             <string>org.jmonitoring.sample.main.ShoppingCartOperator</string> 
+            </void> 
+            <void property="endMilliSeconds"> 
+             <long>1339690172704</long> 
+            </void> 
+            <void property="endTimeString"> 
+             <string>14/06/12 18:09:32</string> 
+            </void> 
+            <void property="flow"> 
+             <object idref="ExecutionFlowDTO0"/> 
+            </void> 
+            <void property="flowId"> 
+             <int>538</int> 
+            </void> 
+            <void property="groupColor"> 
+             <string>#ff0000</string> 
+            </void> 
+            <void property="groupName"> 
+             <string>SomeStatics</string> 
+            </void> 
+            <void property="methodName"> 
+             <string>addShoppingCartItem</string> 
+            </void> 
+            <void property="parent"> 
+             <object idref="MethodCallDTO3"/> 
+            </void> 
+            <void property="position"> 
+             <int>40</int> 
+            </void> 
+            <void property="throwableClass"> 
+             <string>java.lang.RuntimeException</string> 
+            </void> 
+            <void property="throwableMessage"> 
+             <string>Pour declancher une exception sur item3</string> 
+            </void> 
+           </object> 
+          </void> 
+         </array> 
+        </void> 
+        <void property="className"> 
+         <string>org.jmonitoring.sample.main.RunSample</string> 
+        </void> 
+        <void property="endMilliSeconds"> 
+         <long>1339690172704</long> 
+        </void> 
+        <void property="endTimeString"> 
+         <string>14/06/12 18:09:32</string> 
+        </void> 
+        <void property="flow"> 
+         <object idref="ExecutionFlowDTO0"/> 
+        </void> 
+        <void property="flowId"> 
+         <int>538</int> 
+        </void> 
+        <void property="groupColor"> 
+         <string>#00ff00</string> 
+        </void> 
+        <void property="groupName"> 
+         <string>SomeNonStatics</string> 
+        </void> 
+        <void property="methodName"> 
+         <string>run</string> 
+        </void> 
+        <void property="params"> 
+         <string>[]</string> 
+        </void> 
+        <void property="parent"> 
+         <object idref="MethodCallDTO0"/> 
+        </void> 
+        <void property="position"> 
+         <int>16</int> 
+        </void> 
+        <void property="returnValue"> 
+         <string></string> 
+        </void> 
+       </object> 
+      </void> 
+     </array> 
+    </void> 
+    <void property="className"> 
+     <string>org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn</string> 
+    </void> 
+    <void property="endMilliSeconds"> 
+     <long>1339690172707</long> 
+    </void> 
+    <void property="endTimeString"> 
+     <string>14/06/12 18:09:32</string> 
+    </void> 
+    <void property="flow"> 
+     <object idref="ExecutionFlowDTO0"/> 
+    </void> 
+    <void property="flowId"> 
+     <int>538</int> 
+    </void> 
+    <void property="groupColor"> 
+     <string>#00ff00</string> 
+    </void> 
+    <void property="groupName"> 
+     <string>SomeNonStatics</string> 
+    </void> 
+    <void property="methodName"> 
+     <string>execute</string> 
+    </void> 
+    <void property="params"> 
+     <string>[ActionConfig[path=/AlreadyWeavedIn,scope=session,type=org.jmonitoring.sample.console.SampleAlreadyWeavedActionIn, null, org.apache.catalina.connector.RequestFacade@756095fc, org.apache.catalina.connector.ResponseFacade@7a8b7250]</string> 
+    </void> 
+    <void property="position"> 
+     <int>1</int> 
+    </void> 
+    <void property="returnValue"> 
+     <string>ForwardConfig[name=success,path=ok,redirect=false,contextRelative=false,module=null]</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="id"> 
+   <int>538</int> 
+  </void> 
+  <void property="jvmIdentifier"> 
+   <string>TestMachine</string> 
+  </void> 
+  <void property="methodName"> 
+   <string>execute Modified</string> 
+  </void> 
+  <void property="threadName"> 
+   <string>http-8080-1</string> 
+  </void> 
+ </object> 
+</java> 

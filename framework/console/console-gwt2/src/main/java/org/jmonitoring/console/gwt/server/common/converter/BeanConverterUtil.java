@@ -8,8 +8,12 @@ import java.util.zip.GZIPInputStream;
 import javax.annotation.Resource;
 
 import org.jmonitoring.console.gwt.server.common.ColorManager;
+import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowAbstractDTO;
 import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowDTO;
+import org.jmonitoring.console.gwt.shared.flow.ExecutionFlowExportDTO;
+import org.jmonitoring.console.gwt.shared.flow.MethodCallAbstractDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallDTO;
+import org.jmonitoring.console.gwt.shared.flow.MethodCallExportDTO;
 import org.jmonitoring.console.gwt.shared.flow.MethodCallExtractDTO;
 import org.jmonitoring.core.configuration.FormaterBean;
 import org.jmonitoring.core.domain.ExecutionFlowPO;
@@ -26,37 +30,54 @@ public class BeanConverterUtil
     @Resource(name = "color")
     protected ColorManager color;
 
+    ExecutionFlowExportDTO convertExecFlowToExportDto(ExecutionFlowPO pLoadFlow)
+    {
+        return copyExecFlowToDto(pLoadFlow, new ExecutionFlowExportDTO());
+    }
+
     ExecutionFlowDTO convertExecFlowToDto(ExecutionFlowPO pLoadFlow)
     {
-        ExecutionFlowDTO tResult = new ExecutionFlowDTO();
-        tResult.setId(pLoadFlow.getId());
-        tResult.setThreadName(pLoadFlow.getThreadName());
-        tResult.setJvmIdentifier(pLoadFlow.getJvmIdentifier());
-        tResult.setBeginTime(formater.formatDateTime(pLoadFlow.getBeginTimeAsDate()));
-        tResult.setEndTime(formater.formatDateTime(pLoadFlow.getEndTime()));
-        tResult.setDuration(String.valueOf(pLoadFlow.getDuration()));
-        tResult.setGroupName(pLoadFlow.getFirstMethodCall().getGroupName());
-        tResult.setClassName(pLoadFlow.getFirstClassName());
-        tResult.setMethodName(pLoadFlow.getFirstMethodName());
-        return tResult;
+        return copyExecFlowToDto(pLoadFlow, new ExecutionFlowDTO());
+    }
+
+    private <T extends ExecutionFlowAbstractDTO<?>> T copyExecFlowToDto(ExecutionFlowPO pLoadFlow, T pDest)
+    {
+        pDest.setId(pLoadFlow.getId());
+        pDest.setThreadName(pLoadFlow.getThreadName());
+        pDest.setJvmIdentifier(pLoadFlow.getJvmIdentifier());
+        pDest.setBeginTime(formater.formatDateTime(pLoadFlow.getBeginTimeAsDate()));
+        pDest.setEndTime(formater.formatDateTime(pLoadFlow.getEndTime()));
+        pDest.setDuration(String.valueOf(pLoadFlow.getDuration()));
+        pDest.setGroupName(pLoadFlow.getFirstMethodCall().getGroupName());
+        pDest.setClassName(pLoadFlow.getFirstClassName());
+        pDest.setMethodName(pLoadFlow.getFirstMethodName());
+        return pDest;
+    }
+
+    MethodCallExportDTO convertMethodCallToExportDto(MethodCallPO pCallPO)
+    {
+        return copyMethodCallToDto(pCallPO, new MethodCallExportDTO());
     }
 
     MethodCallDTO convertMethodCallToDto(MethodCallPO pCallPO)
     {
-        MethodCallDTO tResult = new MethodCallDTO();
-        BeanUtils.copyProperties(pCallPO, tResult,
-                                 new String[] {"position", "beginTime", "endTime", "children", "flow" });
-        tResult.setGroupColor(color.getColorString(pCallPO.getGroupName()));
-        tResult.setPosition(String.valueOf(pCallPO.getMethId().getPosition()));
-        tResult.setBeginTime(formater.formatDateTime(pCallPO.getBeginTime()), pCallPO.getBeginTime());
-        tResult.setEndTime(formater.formatDateTime(pCallPO.getEndTime()), pCallPO.getEndTime());
-        tResult.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
+        return copyMethodCallToDto(pCallPO, new MethodCallDTO());
+    }
+
+    private <T extends MethodCallAbstractDTO<?>> T copyMethodCallToDto(MethodCallPO pCallPO, T pDest)
+    {
+        BeanUtils.copyProperties(pCallPO, pDest, new String[] {"position", "beginTime", "endTime", "children", "flow" });
+        pDest.setGroupColor(color.getColorString(pCallPO.getGroupName()));
+        pDest.setPosition(String.valueOf(pCallPO.getMethId().getPosition()));
+        pDest.setBeginTime(formater.formatDateTime(pCallPO.getBeginTime()), pCallPO.getBeginTime());
+        pDest.setEndTime(formater.formatDateTime(pCallPO.getEndTime()), pCallPO.getEndTime());
+        pDest.setFlowId(String.valueOf(pCallPO.getFlow().getId()));
         if (pCallPO.getParentMethodCall() != null)
         {
-            tResult.setParentPosition(String.valueOf(pCallPO.getParentMethodCall().getMethId().getPosition()));
+            pDest.setParentPosition(String.valueOf(pCallPO.getParentMethodCall().getMethId().getPosition()));
         }
-        tResult.setPosition(String.valueOf(pCallPO.getPosition()));
-        return tResult;
+        pDest.setPosition(String.valueOf(pCallPO.getPosition()));
+        return pDest;
     }
 
     MethodCallExtractDTO convertToExtractDto(MethodCallPO pMethodCall)
