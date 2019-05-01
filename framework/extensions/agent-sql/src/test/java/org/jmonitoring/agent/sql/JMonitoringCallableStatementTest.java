@@ -33,7 +33,7 @@ public class JMonitoringCallableStatementTest extends SqlTestCase
         assertEquals("Bad group name", "Jdbc", MemoryWriter.getFlow(0).getFirstMethodCall().getGroupName());
         String tExpected = tBuffer.toString();
         assertEquals(tExpected, tLog.substring(0, tExpected.length()));
-        tExpected = ": columns: 10 rows: 0 pos: -1]\n";
+        tExpected = " columns: 10 rows: 0 pos: -1]\n";
         assertEquals(tExpected, tLog.substring(tLog.length() - tExpected.length()));
         assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }

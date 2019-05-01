@@ -79,12 +79,12 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
-        tBuffer.append("Parameter #1 is not set; SQL statement:\n");
-        tBuffer.append("select ?/0 from EXECUTION_FLOW where Id=? [90012-77]\n");
-        tBuffer.append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n");
-        tBuffer.append("Execute \n");
+        tBuffer.append("Parameter \"#1\" is not set; SQL statement:\n" )
+               .append("select ?/0 from EXECUTION_FLOW where Id=? [90012-199]\n")
+               .append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n")
+               .append("Execute \n");
 
-        assertEquals("org.h2.jdbc.JdbcSQLException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
+        assertEquals("org.h2.jdbc.JdbcSQLDataException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
         assertEquals(tBuffer.toString(), MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableMessage());
         assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
@@ -108,7 +108,7 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         assertEquals("Bad group name", "Jdbc", MemoryWriter.getFlow(0).getFirstMethodCall().getGroupName());
         String tExpected = tBuffer.toString();
         assertEquals(tExpected, tLog.substring(0, tExpected.length()));
-        tExpected = ": columns: 10 rows: 0 pos: -1]\n";
+        tExpected = " columns: 10 rows: 0 pos: -1]\n";
         assertEquals(tExpected, tLog.substring(tLog.length() - tExpected.length()));
         assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
@@ -127,12 +127,12 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
-        tBuffer.append("Parameter #1 is not set; SQL statement:\n");
-        tBuffer.append("select ?/0 from EXECUTION_FLOW where Id=? [90012-77]\n");
-        tBuffer.append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n");
-        tBuffer.append("Execute query\n");
+        tBuffer.append("Parameter \"#1\" is not set; SQL statement:\n" )
+               .append("select ?/0 from EXECUTION_FLOW where Id=? [90012-199]\n")
+               .append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n")
+               .append("Execute query\n");
 
-        assertEquals("org.h2.jdbc.JdbcSQLException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
+        assertEquals("org.h2.jdbc.JdbcSQLDataException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
         assertEquals(tBuffer.toString(), MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableMessage());
         assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
@@ -167,11 +167,12 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         StringBuilder tBuffer = new StringBuilder();
-        tBuffer.append("Parameter #1 is not set [90012-77]\n");
-        tBuffer.append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n");
-        tBuffer.append("Execute update\n");
+        tBuffer.append("Parameter \"#1\" is not set; SQL statement:\n")
+        .append("select ?/0 from EXECUTION_FLOW where Id=? [90012-199]\n")
+        .append("PrepareStatement with Sql=[select ?/0 from EXECUTION_FLOW where Id=?]\n")
+        .append("Execute update\n");
 
-        assertEquals("org.h2.jdbc.JdbcSQLException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
+        assertEquals("org.h2.jdbc.JdbcSQLDataException", MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableClass());
         assertEquals(tBuffer.toString(), MemoryWriter.getFlow(0).getFirstMethodCall().getThrowableMessage());
         assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }
@@ -196,7 +197,7 @@ public class JMonitoringPreparedStatementTest extends SqlTestCase
         String tLog = MemoryWriter.getFlow(1).getFirstMethodCall().getReturnValue();
         String tExpected = tBuffer.toString();
         assertEquals(tExpected, tLog.substring(0, tExpected.length()));
-        tExpected = ": columns: 10 rows: 0 pos: -1]\n";
+        tExpected = " columns: 10 rows: 0 pos: -1]\n";
         assertEquals(tExpected, tLog.substring(tLog.length() - tExpected.length()));
         assertEquals("java.sql.PreparedStatement", MemoryWriter.getFlow(0).getFirstMethodCall().getClassName());
     }

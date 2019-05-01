@@ -69,9 +69,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Column EEJRBEKJRE not found; SQL statement:\n"
-            + "select Eejrbekjre [42122-77]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Column \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "select Eejrbekjre [42122-199]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                               .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -99,9 +99,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Column EEJRBEKJRE not found; SQL statement:\n"
-            + "select Eejrbekjre [42122-77]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Column \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "select Eejrbekjre [42122-199]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                               .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -129,9 +129,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Column EEJRBEKJRE not found; SQL statement:\n"
-            + "select Eejrbekjre [42122-77]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Column \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "select Eejrbekjre [42122-199]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                               .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -159,9 +159,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Column EEJRBEKJRE not found; SQL statement:\n"
-            + "select Eejrbekjre [42122-77]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Column \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "select Eejrbekjre [42122-199]\nSql=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                               .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -190,8 +190,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("java.sql.BatchUpdateException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Add Batch=[select Eejrbekjre]\nBatch executed\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcBatchUpdateException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Column \"EEJRBEKJRE\" not found; SQL statement:\n" +
+                     "select Eejrbekjre [42122-199]\nAdd Batch=[select Eejrbekjre]\nBatch executed\n", tFlow.getFirstMethodCall()
                                                                              .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -206,7 +207,7 @@ public class JMonitoringStatementTest extends SqlTestCase
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
         String tLog = tFlow.getFirstMethodCall().getReturnValue();
         assertTrue(tLog, tLog.startsWith("Query executed=[select * from EXECUTION_FLOW]\nResultSet=[rs"));
-        assertTrue(tLog, tLog.endsWith(": columns: 10 rows: 0 pos: -1]\n"));
+        assertTrue(tLog, tLog.endsWith(" columns: 10 rows: 0 pos: -1]\n"));
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
     }
 
@@ -222,9 +223,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Column EEJRBEKJRE not found; SQL statement:\n"
-            + "select Eejrbekjre [42122-77]\nQuery executed=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Column \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "select Eejrbekjre [42122-199]\nQuery executed=[select Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                                          .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -253,9 +254,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Table EEJRBEKJRE not found; SQL statement:\n"
-            + "update Eejrbekjre [42102-77]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Table \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "update Eejrbekjre [42102-199]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                                          .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -284,9 +285,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Table EEJRBEKJRE not found; SQL statement:\n"
-            + "update Eejrbekjre [42102-77]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Table \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "update Eejrbekjre [42102-199]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                                          .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -315,9 +316,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Table EEJRBEKJRE not found; SQL statement:\n"
-            + "update Eejrbekjre [42102-77]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Table \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "update Eejrbekjre [42102-199]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                                          .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());
@@ -346,9 +347,9 @@ public class JMonitoringStatementTest extends SqlTestCase
         }
         assertEquals(1, MemoryWriter.countFlows());
         ExecutionFlowPO tFlow = MemoryWriter.getFlow(0);
-        assertEquals("org.h2.jdbc.JdbcSQLException", tFlow.getFirstMethodCall().getThrowableClass());
-        assertEquals("Table EEJRBEKJRE not found; SQL statement:\n"
-            + "update Eejrbekjre [42102-77]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
+        assertEquals("org.h2.jdbc.JdbcSQLSyntaxErrorException", tFlow.getFirstMethodCall().getThrowableClass());
+        assertEquals("Table \"EEJRBEKJRE\" not found; SQL statement:\n"
+            + "update Eejrbekjre [42102-199]\nExecute Update=[update Eejrbekjre]\n", tFlow.getFirstMethodCall()
                                                                                          .getThrowableMessage());
         assertEquals("Bad group name", "Jdbc", tFlow.getFirstMethodCall().getGroupName());
         assertEquals("java.sql.Statement", tFlow.getFirstMethodCall().getClassName());

@@ -1,14 +1,9 @@
 package org.jmonitoring.agent.sql;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Savepoint;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.Executor;
 
 import org.jmonitoring.agent.store.Filter;
 
@@ -434,4 +429,75 @@ public class GenericConnection implements Connection
         mRealConnection.setTypeMap(pMap);
     }
 
+    public Clob createClob() throws SQLException {
+        return mRealConnection.createClob();
+    }
+
+    public Blob createBlob() throws SQLException {
+        return mRealConnection.createBlob();
+    }
+
+    public NClob createNClob() throws SQLException {
+        return mRealConnection.createNClob();
+    }
+
+    public SQLXML createSQLXML() throws SQLException {
+        return mRealConnection.createSQLXML();
+    }
+
+    public boolean isValid(int timeout) throws SQLException {
+        return mRealConnection.isValid(timeout);
+    }
+
+    public void setClientInfo(String name, String value) throws SQLClientInfoException {
+        mRealConnection.setClientInfo(name, value);
+    }
+
+    public void setClientInfo(Properties properties) throws SQLClientInfoException {
+        mRealConnection.setClientInfo(properties);
+    }
+
+    public String getClientInfo(String name) throws SQLException {
+        return mRealConnection.getClientInfo(name);
+    }
+
+    public Properties getClientInfo() throws SQLException {
+        return mRealConnection.getClientInfo();
+    }
+
+    public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+        return mRealConnection.createArrayOf(typeName, elements);
+    }
+
+    public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+        return mRealConnection.createStruct(typeName, attributes);
+    }
+
+    public void setSchema(String schema) throws SQLException {
+        mRealConnection.setSchema(schema);
+    }
+
+    public String getSchema() throws SQLException {
+        return mRealConnection.getSchema();
+    }
+
+    public void abort(Executor executor) throws SQLException {
+        mRealConnection.abort(executor);
+    }
+
+    public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+        mRealConnection.setNetworkTimeout(executor, milliseconds);
+    }
+
+    public int getNetworkTimeout() throws SQLException {
+        return mRealConnection.getNetworkTimeout();
+    }
+
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return mRealConnection.unwrap(iface);
+    }
+
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return mRealConnection.isWrapperFor(iface);
+    }
 }
