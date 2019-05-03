@@ -2,19 +2,26 @@ package org.jmonitoring.console.gwt.server.flow;
 
 import gwtupload.server.UploadAction;
 import gwtupload.server.exceptions.UploadActionException;
-
-import java.util.List;
+import org.apache.commons.fileupload.FileItem;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.jmonitoring.console.gwt.server.common.converter.BeanConverterUtil;
+import org.jmonitoring.core.domain.ExecutionFlowPO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.hibernate.SessionFactory;
-import org.jmonitoring.console.gwt.server.common.converter.BeanConverterUtil;
-import org.jmonitoring.core.domain.ExecutionFlowPO;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 public class ImportServlet extends UploadAction
 {
@@ -26,6 +33,8 @@ public class ImportServlet extends UploadAction
     private ConsoleDao consoleDao;
 
     private BeanConverterUtil converter;
+
+    private static Logger sLog = LoggerFactory.getLogger(ImportServlet.class);
 
     @Override
     public void init(ServletConfig pConfig) throws ServletException
@@ -46,23 +55,50 @@ public class ImportServlet extends UploadAction
     {
         String response = "";
         int cont = 0;
-        for (FileItem item : sessionFiles)
-        {
-            if (false == item.isFormField())
-            {
-                cont++;
-                try
-                {
-                    ExecutionFlowPO tFlow = converter.convertFlowFromXml(item.getInputStream());
-                    // TODO Transaction !
-                    int tFlowId = consoleDao.insertFullExecutionFlow(tFlow);
-                    // / Send a customized message to the client.
-                    response += "Flow imported with id=" + tFlowId;
+        Session session = null;
+        Transaction tx = null;
+        try {
+            sLog.info("receive {} files", sessionFiles.size());
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+            sLog.info("Tx opened");
+            TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session));
+            for (FileItem item : sessionFiles) {
+                if (false == item.isFormField()) {
+                    cont++;
+                    try {
+                        sLog.info("Import new flow");
+//                        InputStream in = new GZIPInputStream(item.getInputStream());
+//                        int n = in.available();
+//                        byte[] bytes = new byte[n];
+//                        in.read(bytes, 0, n);
+//                        String s = new String(bytes, "UTF-8");
 
-                } catch (Exception e)
-                {
-                    throw new UploadActionException(e);
+                        ExecutionFlowPO tFlow = converter.convertFlowFromXml(item.getInputStream());
+                        // TODO Transaction !
+                        int tFlowId = consoleDao.insertFullExecutionFlow(tFlow);
+                        // / Send a customized message to the client.
+                        response += "Flow imported with id=" + tFlowId;
+                    } catch (Exception e) {
+                        sLog.warn("Fail to import this flow");
+                        throw new UploadActionException(e);
+                    }
                 }
+            }
+            tx.commit();
+        } catch (RuntimeException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw e;
+        } catch (Error e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
             }
         }
 

@@ -1,0 +1,60 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+#  db:
+#    image: mysql
+#    command: --default-authentication-plugin=mysql_native_password
+#    restart: always
+#    ports:
+#      - 3306:3306
+#    environment:
+#      MYSQL_ROOT_PASSWORD: mysql
+#
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - 8081:8080
+
+  h2:
+    image: pke/h2
+    build: h2
+    restart: always
+#    volumes:
+#      - ./volumes/h2db:/usr/lib/h2/dbjmonitoring
+    ports:
+      - 8081:8082
+      - 9092:9092
+
+  console:
+    image: tomcat:7
+    restart: always
+    volumes:
+      - ../framework/console/console-web/target/console-web-2.0-beta-4-SNAPSHOT.war:/usr/local/tomcat/webapps/console.war
+    ports:
+      - 8082:8080
+
+  consolegwt2:
+    image: tomcat:7
+    restart: always
+    environment:
+      - CATALINA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ../framework/console/console-gwt2/target/console-gwt2-2.0-beta-4-SNAPSHOT.war:/usr/local/tomcat/webapps/consolegwt2.war
+    ports:
+      - 8083:8080
+      - 5005:5005
+
+  sample:
+    image: tomcat:7
+    restart: always
+    environment:
+      - CATALINA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ../sample/sample-web/target/sample-web-2.0-beta-4-SNAPSHOT.war:/usr/local/tomcat/webapps/sample.war
+    ports:
+      - 8084:8080
+      - 5006:5005
+

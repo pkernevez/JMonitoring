@@ -139,7 +139,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.0.77</version>
         </dependency>
 
         <dependency>

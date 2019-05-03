@@ -15,7 +15,8 @@ import org.jmonitoring.agent.core.PerformanceAspect;
  */
 public aspect SomeStaticsAspect extends PerformanceAspect {
     public pointcut executionToLog() : execution( static * org.jmonitoring.sample.*.*.*(..) )
-        && !execution( static * *.main(String[]));
+        && !execution( static * *.main(String[]))
+        && !execution( static * org.jmonitoring.sample.persistence.SpringSampleConfigurationUtil.getBean(String));
 
     public SomeStaticsAspect()
     {

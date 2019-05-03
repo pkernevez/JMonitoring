@@ -12,9 +12,9 @@
         <property name="acquireRetryAttempts" value="10"></property>
         <property name="initialPoolSize" value="3"></property>
         <property name="maxPoolSize" value="10"></property>
-        <property name="preferredTestQuery" value="select 1"></property>
+<!--        <property name="preferredTestQuery" value="select 1"></property>-->
         <property name="testConnectionOnCheckin" value="false"></property>
-        <property name="testConnectionOnCheckout" value="true"></property>
+        <property name="testConnectionOnCheckout" value="false"></property>
     </bean>
 
     <!-- SessionFactory Hibernate : utilisation de la factory fournie par Spring -->
