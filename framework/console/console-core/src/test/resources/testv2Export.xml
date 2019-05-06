@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.4.2_03" class="java.beans.XMLDecoder">
+ <object class="org.jmonitoring.core.dto.ExecutionFlowDTO">
+  <void property="beginDateAsString">
+   <string>14/12/06 11:03:26</string>
+  </void>
+  <void property="beginTime">
+   <object class="java.util.Date">
+    <long>1166090606413</long>
+   </object>
+  </void>
+  <void property="className">
+   <string>org.jmonitoring.ServletCollecte</string>
+  </void>
+  <void property="endTime">
+   <object class="java.util.Date">
+    <long>1166090628273</long>
+   </object>
+  </void>
+  <void property="firstMethodCall">
+   <object id="MethodCallDTO0" class="org.jmonitoring.core.dto.MethodCallDTO">
+    <void property="beginTime">
+     <object class="java.util.Date">
+      <long>1166090606413</long>
+     </object>
+    </void>
+    <void property="children">
+     <array class="org.jmonitoring.core.dto.MethodCallDTO" length="1">
+      <void index="0">
+       <object id="MethodCallDTO1" class="org.jmonitoring.core.dto.MethodCallDTO">
+        <void property="beginTime">
+         <object class="java.util.Date">
+          <long>1166090606413</long>
+         </object>
+        </void>
+        <void property="children">
+         <array class="org.jmonitoring.core.dto.MethodCallDTO" length="2">
+          <void index="0">
+           <object class="org.jmonitoring.core.dto.MethodCallDTO">
+            <void property="beginTime">
+             <object class="java.util.Date">
+              <long>1166090606413</long>
+             </object>
+            </void>
+            <void property="className">
+             <string>org.jmonitoring.ServletCollecte</string>
+            </void>
+            <void property="endTime">
+             <object class="java.util.Date">
+              <long>1166090606413</long>
+             </object>
+            </void>
+            <void property="flowId">
+             <int>3</int>
+            </void>
+            <void property="groupName">
+             <string>Web</string>
+            </void>
+            <void property="methodName">
+             <string>getIdComposant</string>
+            </void>
+            <void property="parent">
+             <object idref="MethodCallDTO1"/>
+            </void>
+            <void property="position">
+             <int>3</int>
+            </void>
+           </object>
+          </void>
+          <void index="1">
+           <object class="org.jmonitoring.core.dto.MethodCallDTO">
+            <void property="beginTime">
+             <object class="java.util.Date">
+              <long>1166090606413</long>
+             </object>
+            </void>
+            <void property="childPosition">
+             <int>1</int>
+            </void>
+            <void property="className">
+             <string>org.jmonitoring.ServletCollecte</string>
+            </void>
+            <void property="endTime">
+             <object class="java.util.Date">
+              <long>1166090606413</long>
+             </object>
+            </void>
+            <void property="flowId">
+             <int>3</int>
+            </void>
+            <void property="groupName">
+             <string>Web</string>
+            </void>
+            <void property="methodName">
+             <string>getLibComposant</string>
+            </void>
+            <void property="parent">
+             <object idref="MethodCallDTO1"/>
+            </void>
+            <void property="position">
+             <int>4</int>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+        <void property="className">
+         <string>org.jmonitoring.ServletCollecte</string>
+        </void>
+        <void property="endTime">
+         <object class="java.util.Date">
+          <long>1166090628273</long>
+         </object>
+        </void>
+        <void property="flowId">
+         <int>3</int>
+        </void>
+        <void property="groupName">
+         <string>Web</string>
+        </void>
+        <void property="methodName">
+         <string>traiterRequete</string>
+        </void>
+        <void property="parent">
+         <object idref="MethodCallDTO0"/>
+        </void>
+        <void property="position">
+         <int>2</int>
+        </void>
+       </object>
+      </void>
+     </array>
+    </void>
+    <void property="className">
+     <string>org.jmonitoring.ServletCollecte</string>
+    </void>
+    <void property="endTime">
+     <object class="java.util.Date">
+      <long>1166090628273</long>
+     </object>
+    </void>
+    <void property="flowId">
+     <int>3</int>
+    </void>
+    <void property="groupName">
+     <string>Web</string>
+    </void>
+    <void property="methodName">
+     <string>doPost</string>
+    </void>
+    <void property="position">
+     <int>1</int>
+    </void>
+   </object>
+  </void>
+  <void property="id">
+   <int>3</int>
+  </void>
+  <void property="jvmIdentifier">
+   <string>ServerAPISDEV</string>
+  </void>
+  <void property="methodName">
+   <string>doPost</string>
+  </void>
+  <void property="threadName">
+   <string>Servlet.Engine.Transports : 3</string>
+  </void>
+ </object>
+</java>

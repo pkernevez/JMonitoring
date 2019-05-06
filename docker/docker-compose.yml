@@ -31,10 +31,13 @@ services:
   console:
     image: tomcat:7
     restart: always
+    environment:
+      - CATALINA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
     volumes:
       - ../framework/console/console-web/target/console-web-2.0-beta-4-SNAPSHOT.war:/usr/local/tomcat/webapps/console.war
     ports:
       - 8082:8080
+      - 5004:5005
 
   consolegwt2:
     image: tomcat:7
