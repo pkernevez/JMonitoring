@@ -690,6 +690,16 @@ public class MockPreparedStatement implements PreparedStatement
         return false;
     }
 
+    @Override
+    public void closeOnCompletion() throws SQLException {
+
+    }
+
+    @Override
+    public boolean isCloseOnCompletion() throws SQLException {
+        return false;
+    }
+
     public <T> T unwrap(Class<T> pIface) throws SQLException
     {
         return null;

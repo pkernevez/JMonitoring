@@ -63,6 +63,8 @@
 
     <bean name="dtoManager" class="org.jmonitoring.core.dto.DtoManager" />
 
+    <bean name="dtoManagerV2" class="org.jmonitoring.core.dto.v2.DtoManagerV2" />
+
     <bean name="dao" class="org.jmonitoring.core.dao.ConsoleDao" />
 
     <bean name="formater" class="org.jmonitoring.core.configuration.FormaterBean">

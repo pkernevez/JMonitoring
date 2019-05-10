@@ -40,7 +40,7 @@ public class JMonitoringResultSetTest extends SqlTestCase
     public void initResultSet() throws SQLException
     {
         Connection tCon = mSession.connection();
-        Statement tStatement = tCon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        Statement tStatement = tCon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
         String tSql = JMonitoringStatementTest.UPDATE_1 + sCurId++ + JMonitoringStatementTest.UPDATE_2;
         tStatement.executeUpdate(tSql);
 

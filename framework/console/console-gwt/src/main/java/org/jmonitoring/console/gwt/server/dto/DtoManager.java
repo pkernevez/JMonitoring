@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
-// TODO Rename this class after removing DtoManager
+// TODO Rename this class after removing DtoManagerV2
 public class DtoManager
 {
     @Autowired

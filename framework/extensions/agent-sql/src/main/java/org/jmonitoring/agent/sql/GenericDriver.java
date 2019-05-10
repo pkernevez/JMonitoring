@@ -1,10 +1,6 @@
 package org.jmonitoring.agent.sql;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.DriverPropertyInfo;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 import org.jmonitoring.agent.store.Filter;
@@ -79,6 +75,7 @@ public abstract class GenericDriver implements Driver
         {
             throw new RuntimeException("Invalid URL, it must start with [jmonitoring:] but was [" + pUrl + "]");
         }
+// TODO cleaning
         // int tUrlStartPosition = pUrl.indexOf(":", tDriverStartPosition);
         // if (0 < tDriverStartPosition && tDriverStartPosition < tUrlStartPosition)
         // {
@@ -191,5 +188,10 @@ public abstract class GenericDriver implements Driver
             sLog.error("Unable to register GenericDriver", sqlexception);
             throw new RuntimeException("Unable to register GenericDriver", sqlexception);
         }
+    }
+
+    @Override
+    public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        return null;
     }
 }

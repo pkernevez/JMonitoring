@@ -410,13 +410,13 @@ public class TreeTracerHelperTest extends TestCase
 
     public void testTraceCircularyTreeSet()
     {
-        Set<Child1> tSet = new HashSet<Child1>();
+        Set<Child1> tParentSet = new HashSet<>();
         Child1 tChild = new Child1();
-        tSet.add(tChild);
-        tChild.setChildren2Bis(tSet);
+        tParentSet.add(tChild);
+        tChild.setChildren2Bis(tParentSet);
         StringBuilder tBuffer = new StringBuilder();
         TreeTracerHelper tHelper = new TreeTracerHelper();
-        tHelper.traceSet("", tBuffer, tSet);
+        tHelper.traceSet("", tBuffer, tParentSet);
         String tExpectedResultL1 = Set.class.getName();
         String tExpectedResultL2 = "  |-- pos1 --> " + Child1.class.getName();
         String tExpectedResultL3 = "  |              |-- getChildren2 --> " + List.class.getName();

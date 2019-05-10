@@ -25,6 +25,16 @@ public class FormaterBean
 
     private String mTimeFormat;
 
+    public FormaterBean(){
+    }
+
+    public FormaterBean(String dateFormat, String timeFormat){
+        this.setDateFormat(dateFormat);
+        this.setTimeFormat(timeFormat);
+    }
+
+
+
     public Date parseTime(String tTime) throws ParseException
     {
         return getTimeFormatter().parse(tTime);

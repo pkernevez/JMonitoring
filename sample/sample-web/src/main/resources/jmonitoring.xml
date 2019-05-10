@@ -14,9 +14,9 @@
     <bean name="storeWriter" class="org.jmonitoring.agent.store.impl.AsynchroneWriter"></bean>
 
     <bean name="realStoreWriter" class="org.jmonitoring.agent.store.impl.HttpWriter">
-        <!-- property name="hostName" value="localhost"/-->
+        <property name="hostName" value="console"/>
         <property name="port" value="8080" />
-        <property name="uri" value="/console-web/Store.do"></property>
+        <property name="uri" value="/console/Store.do"></property>
         <!-- property name="protocole" value="http"/-->
     </bean>
 

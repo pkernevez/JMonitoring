@@ -93,7 +93,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.0.77</version>
+			<version>1.4.199</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -202,19 +202,6 @@
 				<configuration>
 					<webappDirectory>${webappDirectory}</webappDirectory>
 				</configuration>
-			</plugin>
-			<plugin>
-			  <groupId>org.zeroturnaround</groupId>
-			  <artifactId>jrebel-maven-plugin</artifactId>
-			  <executions>
-			    <execution>
-			      <id>generate-rebel-xml</id>
-			      <phase>process-resources</phase>
-			      <goals>
-			        <goal>generate</goal>
-			      </goals>
-			    </execution>
-			  </executions>
 			</plugin>
 		</plugins>
 	</build>

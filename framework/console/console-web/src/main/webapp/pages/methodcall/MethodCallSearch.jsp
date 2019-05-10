@@ -4,7 +4,7 @@
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="displaytag.tld" prefix="display" %>
 <%@page import="org.jmonitoring.console.methodcall.search.MethodCallUtil"%>
-<%@page import="org.jmonitoring.console.methodcall.search.MethodCallSearchForm;"%>
+<%@ page import="org.jmonitoring.console.methodcall.search.MethodCallSearchForm" %>
 
 <h1>Measure search</h1>
 <div id="menuDiv">

@@ -4,15 +4,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
-import java.sql.Date;
-import java.sql.Ref;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -21,7 +13,8 @@ import org.jmonitoring.agent.store.Filter;
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
  **********************************************************************************************************************/
-
+// TODO Why not a dynamic proxy ?
+    // TODO Trace parameter setter like Statement
 public class JMonitoringCallableStatement extends JMonitoringPreparedStatement implements java.sql.CallableStatement
 {
     private final CallableStatement mRealCallStat;
@@ -428,5 +421,175 @@ public class JMonitoringCallableStatement extends JMonitoringPreparedStatement i
     public boolean wasNull() throws SQLException
     {
         return mRealCallStat.wasNull();
+    }
+
+    @Override
+    public RowId getRowId(int parameterIndex) throws SQLException {
+        return mRealCallStat.getRowId(parameterIndex);
+    }
+
+    @Override
+    public RowId getRowId(String parameterName) throws SQLException {
+        return mRealCallStat.getRowId(parameterName);
+    }
+
+    @Override
+    public void setRowId(String parameterName, RowId x) throws SQLException {
+        mRealCallStat.setRowId(parameterName, x);
+    }
+
+    @Override
+    public void setNString(String parameterName, String value) throws SQLException {
+        mRealCallStat.setNString(parameterName, value);
+    }
+
+    @Override
+    public void setNCharacterStream(String parameterName, Reader value, long length) throws SQLException {
+        mRealCallStat.setNCharacterStream(parameterName, value, length);
+    }
+
+    @Override
+    public void setNClob(String parameterName, NClob value) throws SQLException {
+        mRealCallStat.setNClob(parameterName, value);
+    }
+
+    @Override
+    public void setClob(String parameterName, Reader reader, long length) throws SQLException {
+        mRealCallStat.setClob(parameterName, reader, length);
+    }
+
+    @Override
+    public void setBlob(String parameterName, InputStream inputStream, long length) throws SQLException {
+        mRealCallStat.setBlob(parameterName, inputStream, length);
+    }
+
+    @Override
+    public void setNClob(String parameterName, Reader reader, long length) throws SQLException {
+        mRealCallStat.setNClob(parameterName, reader, length);
+    }
+
+    @Override
+    public NClob getNClob(int parameterIndex) throws SQLException {
+        return mRealCallStat.getNClob(parameterIndex);
+    }
+
+    @Override
+    public NClob getNClob(String parameterName) throws SQLException {
+        return mRealCallStat.getNClob(parameterName);
+    }
+
+    @Override
+    public void setSQLXML(String parameterName, SQLXML xmlObject) throws SQLException {
+        mRealCallStat.setSQLXML(parameterName, xmlObject);
+    }
+
+    @Override
+    public SQLXML getSQLXML(int parameterIndex) throws SQLException {
+        return mRealCallStat.getSQLXML(parameterIndex);
+    }
+
+    @Override
+    public SQLXML getSQLXML(String parameterName) throws SQLException {
+        return mRealCallStat.getSQLXML(parameterName);
+    }
+
+    @Override
+    public String getNString(int parameterIndex) throws SQLException {
+        return mRealCallStat.getNString(parameterIndex);
+    }
+
+    @Override
+    public String getNString(String parameterName) throws SQLException {
+        return mRealCallStat.getNString(parameterName);
+    }
+
+    @Override
+    public Reader getNCharacterStream(int parameterIndex) throws SQLException {
+        return mRealCallStat.getNCharacterStream(parameterIndex);
+    }
+
+    @Override
+    public Reader getNCharacterStream(String parameterName) throws SQLException {
+        return mRealCallStat.getNCharacterStream(parameterName);
+    }
+
+    @Override
+    public Reader getCharacterStream(int parameterIndex) throws SQLException {
+        return mRealCallStat.getCharacterStream(parameterIndex);
+    }
+
+    @Override
+    public Reader getCharacterStream(String parameterName) throws SQLException {
+        return mRealCallStat.getCharacterStream(parameterName);
+    }
+
+    @Override
+    public void setBlob(String parameterName, Blob x) throws SQLException {
+        mRealCallStat.setBlob(parameterName, x);
+    }
+
+    @Override
+    public void setClob(String parameterName, Clob x) throws SQLException {
+        mRealCallStat.setClob(parameterName, x);
+    }
+
+    @Override
+    public void setAsciiStream(String parameterName, InputStream x, long length) throws SQLException {
+        mRealCallStat.setAsciiStream(parameterName, x, length);
+    }
+
+    @Override
+    public void setBinaryStream(String parameterName, InputStream x, long length) throws SQLException {
+        mRealCallStat.setBinaryStream(parameterName, x, length);
+    }
+
+    @Override
+    public void setCharacterStream(String parameterName, Reader reader, long length) throws SQLException {
+        mRealCallStat.setCharacterStream(parameterName, reader, length);
+    }
+
+    @Override
+    public void setAsciiStream(String parameterName, InputStream x) throws SQLException {
+        mRealCallStat.setAsciiStream(parameterName, x);
+    }
+
+    @Override
+    public void setBinaryStream(String parameterName, InputStream x) throws SQLException {
+        mRealCallStat.setBinaryStream(parameterName, x);
+    }
+
+    @Override
+    public void setCharacterStream(String parameterName, Reader reader) throws SQLException {
+        mRealCallStat.setCharacterStream(parameterName, reader);
+    }
+
+    @Override
+    public void setNCharacterStream(String parameterName, Reader value) throws SQLException {
+        mRealCallStat.setNCharacterStream(parameterName, value);
+    }
+
+    @Override
+    public void setClob(String parameterName, Reader reader) throws SQLException {
+        mRealCallStat.setClob(parameterName, reader);
+    }
+
+    @Override
+    public void setBlob(String parameterName, InputStream inputStream) throws SQLException {
+        mRealCallStat.setBlob(parameterName, inputStream);
+    }
+
+    @Override
+    public void setNClob(String parameterName, Reader reader) throws SQLException {
+        mRealCallStat.setNClob(parameterName, reader);
+    }
+
+    @Override
+    public <T> T getObject(int parameterIndex, Class<T> type) throws SQLException {
+        return mRealCallStat.getObject(parameterIndex, type);
+    }
+
+    @Override
+    public <T> T getObject(String parameterName, Class<T> type) throws SQLException {
+        return mRealCallStat.getObject(parameterName, type);
     }
 }

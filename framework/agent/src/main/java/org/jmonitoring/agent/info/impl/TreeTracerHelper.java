@@ -4,13 +4,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -215,6 +209,12 @@ public final class TreeTracerHelper
         if (tResult == null)
         {
             Method[] tMethods = pClass.getMethods();
+            Arrays.sort(tMethods, new Comparator<Method>() {
+                @Override
+                public int compare(Method m1, Method m2) {
+                    return m1.getName().compareTo(m2.getName());
+                }
+            });
             tResult = new ArrayList<Method>();
             Method curMethod;
             for (int i = 0; i < tMethods.length; i++)

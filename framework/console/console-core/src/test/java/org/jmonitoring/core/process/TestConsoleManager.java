@@ -3,6 +3,8 @@ package org.jmonitoring.core.process;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
@@ -483,8 +485,7 @@ public class TestConsoleManager extends PersistanceTestCase
     }
 
     @Test
-    public void testSerialisationConversion()
-    {
+    public void testSerialisationConversion() throws IOException {
         // First insert a flow
         ExecutionFlowPO tFlow = ConsoleDaoTest.buildNewFullFlow();
 
@@ -493,7 +494,7 @@ public class TestConsoleManager extends PersistanceTestCase
         getSession().flush();
 
         ExecutionFlowDTO tFlowDto = dtoManager.getDeepCopy(tFlow);
-        byte[] tFlowAsXml = mManager.convertFlowToXml(tFlowDto);
+        byte[] tFlowAsXml =  mManager.ungzip(mManager.convertFlowToXml(tFlowDto));
 
         ExecutionFlowDTO tNewFlow = dtoManager.getDeepCopy(mManager.convertFlowFromXml(tFlowAsXml));
         assertNotSame(tFlowDto, tNewFlow);
@@ -540,4 +541,23 @@ public class TestConsoleManager extends PersistanceTestCase
         ExecutionFlowDTO tNewFlow = mManager.insertFlowFromXml(tFlowAsBytes);
         assertTrue("The Id must be different [" + tFlowId + "]", tFlowId != tNewFlow.getId());
     }
+
+    private byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                                 + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
+    }
+
+    @Test
+    public void testUngzip() throws IOException {
+        String totoGZipHexa = "1f8b08002c41cf5c00032bc92fc9e70200bd087df805000000";
+        byte[] totoGZipByte = hexStringToByteArray(totoGZipHexa);
+        byte[] totoByte =  mManager.ungzip(totoGZipByte);
+        assertEquals("toto\n", new String(totoByte, "UTF-8"));
+    }
+
 }

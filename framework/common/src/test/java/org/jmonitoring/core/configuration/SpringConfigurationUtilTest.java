@@ -90,8 +90,9 @@ public class SpringConfigurationUtilTest extends TestCase
     {
         GetBeanInOtherThread tWorker = new GetBeanInOtherThread(pName);
         new Thread(tWorker).start();
+        //TODO revisit this test... bad thing to wait in a test
         // Can't use wait(XXX) with JUnit
-        Thread.sleep(300);
+        Thread.sleep(500);
         return tWorker.getFoundBean();
     }
 

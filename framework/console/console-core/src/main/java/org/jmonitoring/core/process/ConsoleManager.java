@@ -2,10 +2,7 @@ package org.jmonitoring.core.process;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -27,8 +24,10 @@ import org.jmonitoring.core.dto.ExecutionFlowDTO;
 import org.jmonitoring.core.dto.MethodCallDTO;
 import org.jmonitoring.core.dto.MethodCallExtractDTO;
 import org.jmonitoring.core.dto.MethodCallFullExtractDTO;
+import org.jmonitoring.core.dto.v2.DtoManagerV2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.misc.IOUtils;
 
 /***********************************************************************************************************************
  * Copyright 2005 Philippe Kernevez All rights reserved. * Please look at license.txt for more license detail. *
@@ -41,8 +40,15 @@ public class ConsoleManager
     @Resource(name = "dtoManager")
     private DtoManager dtoManager;
 
+    @Resource(name = "dtoManagerV2")
+    private DtoManagerV2 dtoManagerV2;
+
     @Resource(name = "dao")
     private ConsoleDao mDao;
+
+    enum Version {
+        V2,V3
+    }
 
     ConsoleManager()
     {
@@ -164,45 +170,73 @@ public class ConsoleManager
     /**
      * Concert an GZip/Xml serialized ExecutionFlow as an ExecutionFLow Object.
      * 
-     * @param pFlowAsXml The GZip bytes.
+     * @param pFlowAsXml The bytes.
      * @return The ExecutionFLow.
      */
     protected ExecutionFlowPO convertFlowFromXml(byte[] pFlowAsXml)
     {
-        InputStream tInput = new ByteArrayInputStream(pFlowAsXml);
-        try
-        {
-            GZIPInputStream tZipStream = new GZIPInputStream(tInput);
-            XMLDecoder tDecoder = new XMLDecoder(tZipStream);
+        Version version = Version.V3;
+        try {
+            String msg = new String(pFlowAsXml, "UTF-8");
+            if (msg.contains("<void property=\"beginDateAsString\">")){
+                version = Version.V2;
+            }
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Bad encoding !");
+        }
+
+        if (version == Version.V2) { // may be a v2 export
+            sLog.info("Try to parse v2 export");
+            return dtoManagerV2.loadV2Export(pFlowAsXml);
+        } else {
+            XMLDecoder tDecoder = new XMLDecoder(new ByteArrayInputStream(pFlowAsXml));
             Object tResult = tDecoder.readObject();
             tDecoder.close();
-            if (tResult instanceof ExecutionFlowDTO)
-            {
+            if (tResult instanceof ExecutionFlowDTO) {
                 ExecutionFlowDTO tResult2 = (ExecutionFlowDTO) tResult;
                 ExecutionFlowPO tFlow = dtoManager.getDeepCopy(tResult2);
-                tFlow.setEndTime(tFlow.getBeginTime()+tResult2.getDuration());
+                tFlow.setEndTime(tFlow.getBeginTime() + tResult2.getDuration());
                 return tFlow;
-            } else if (tResult instanceof ExecutionFlowPO)
-            {
+            } else if (tResult instanceof ExecutionFlowPO) {
                 ExecutionFlowPO tFlow = (ExecutionFlowPO) tResult;
                 tFlow.setId(-1);
                 return tFlow;
-            } else
-            {
+            } else {
                 throw new RuntimeException("invalid class in gzip file: " + tResult.getClass().getName());
             }
-
-        } catch (IOException e)
-        {
-            throw new MeasureException("Unable to Zip Xml ExecutionFlow", e);
         }
     }
 
     public ExecutionFlowDTO insertFlowFromXml(byte[] pFlowAsXml)
     {
-        ExecutionFlowPO tFlow = convertFlowFromXml(pFlowAsXml);
-        mDao.insertFullExecutionFlow(tFlow);
-        return dtoManager.getDeepCopy(tFlow);
+        try {
+            byte[] raw = ungzip(pFlowAsXml);
+
+            // V3
+            ExecutionFlowPO tFlow = convertFlowFromXml(raw);
+
+
+
+            mDao.insertFullExecutionFlow(tFlow);
+            return dtoManager.getDeepCopy(tFlow);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to unzip stream");
+        }
+
+
+    }
+
+    byte[] ungzip(byte[] pFlowAsXml) throws IOException {
+        InputStream tInput = new ByteArrayInputStream(pFlowAsXml);
+        GZIPInputStream tZipStream = new GZIPInputStream(tInput);
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        int nRead;
+        byte[] buffer = new byte[1024];
+        while ((nRead = tZipStream.read(buffer, 0, buffer.length)) != -1) {
+            result.write(buffer, 0, nRead);
+        }
+
+        return result.toByteArray();
     }
 
     public MethodCallDTO readPrevMethodCall(int pFlowId, int pPosition, String pGroupName)
